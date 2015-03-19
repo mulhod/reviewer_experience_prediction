@@ -7,6 +7,8 @@ Module for Review objects, which include attributes representing the original te
 import sys
 import os
 from collections import Counter
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.stem import SnowballStemmer
 
 
 class Review(object):
@@ -37,20 +39,19 @@ class Review(object):
         # Text-related attributes
         self.norm_text = None # str representing normalize text
         self.tok_text = None # list of tokenized sentences (lists of str)
-        #self.lem_text = None # list of lemmatized (or stemmed) sentences
-        #    # (lists of str)
+        self.stem_text = None # list of stemmed sentences (lists of str)
+        # Note: we could decide to lemmatize the text instead
         self.pos_text = None # list of POS-tagged sentences (lists of tuples
             # containing tokens (str) and POS tags (str))
         self.dep_text = None # list of syntactic parse trees
         self.tok_fdist = Counter() # frequency distribution of tokens
-        #self.lem_fdist = Counter() # frequency distribution of lemmas (or
-        #    # stems)
+        self.stem_fdist = Counter() # frequency distribution of stems
         self.suffix_tree = None # suffix tree representing text
 
         # Generate attribute values
         self.normalize_text()
         self.tokenize_text()
-        self.lemmatize_text()
+        self.stem_text()
         self.pos_tag_text()
         self.parse_text()
         self.generate_fdist()
@@ -59,10 +60,10 @@ class Review(object):
 
     def normalize_text(self):
         '''
-        Perform text preprocessing, i.e., lower-casing, etc., to generate values for the norm_text and tok_text (and possibly lem_text as well) attributes.
+        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm_text attribute.
         '''
 
-        raise NotImplementedError
+        self.norm_text = self.norm_text.lower()
 
 
     def tokenize_text(self):
@@ -70,15 +71,20 @@ class Review(object):
         Perform tokenization using NLTK's sentence/word tokenizers.
         '''
 
-        raise NotImplementedError
+        sents = sent_tokenize(self.norm_text)
+        self.tok_text = [word_tokenize(sent) for sent in sents]
 
 
-    def lemmatize_text(self):
+    def stem_text(self):
         '''
-        Perform sentence lemmatization (or stemming).
+        Perform stemming
         '''
 
-        raise NotImplementedError
+        stemmer = SnowballStemmer("english")
+        stemmed_sents = []
+        for sent in self.tok_text:
+            stemmed_sents.append([stemmer.stem(tok) for tok in sent])
+        self.stem_text = stemmed_sents
 
 
     def pos_tag_text(self):
@@ -99,10 +105,18 @@ class Review(object):
 
     def generate_fdist(self):
         '''
-        Generate frequency distributions for the tokens in the text (and possibly also for the lemmas or stems).
+        Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
         '''
 
-        raise NotImplementedError
+        [self.tok_fdist.update(sent) for sent in self.tok_text]
+
+
+    def generate_stem_fdist(self):
+        '''
+        Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
+        '''
+
+        [self.stem_fdist.update(sent) for sent in self.stem_text]
 
 
     def generate_suffix_tree(self, max_depth=5):
