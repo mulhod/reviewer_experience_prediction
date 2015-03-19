@@ -5,7 +5,7 @@
 Module for Review objects, which include attributes representing the original text, the preprocessed version of the text, processed representations of the text, time author spent playing video game, author, game, etc.
 '''
 import sys
-import os
+import re
 from collections import Counter
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import SnowballStemmer
@@ -30,9 +30,17 @@ class Review(object):
         :type game: str
         '''
 
+        # Make sure time is an int (or can be interpreted as an int, at least)
+        try:
+            int(time)
+        except ValueError:
+            sys.exit('ERROR: The \"time\" parameter that was passed in, {},'
+                     'could not be typecast as an int.\n\n'
+                     'Exiting.\n'.format(time))
+
         # Initialization attributes
         self.orig_text = text
-        self.time = time
+        self.time = int(time)
         self.author = author
         self.game = game
 
@@ -63,7 +71,11 @@ class Review(object):
         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm_text attribute.
         '''
 
-        self.norm_text = self.norm_text.lower()
+        # Collapse all sequences of one or more whitespace characters, strip
+        # whitespace off the ends of the string, and lower-case all characters
+        self.norm_text = re.sub(r'[\n\t ]+',
+                                r' ',
+                                self.orig_text.strip().lower())
 
 
     def tokenize_text(self):
