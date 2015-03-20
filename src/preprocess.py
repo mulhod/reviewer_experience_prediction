@@ -32,7 +32,7 @@ class Review(object):
 
         # Make sure time is an int (or can be interpreted as an int, at least)
         try:
-            int(time)
+            time = int(time)
         except ValueError:
             sys.exit('ERROR: The \"time\" parameter that was passed in, {},'
                      'could not be typecast as an int.\n\n'
@@ -40,7 +40,7 @@ class Review(object):
 
         # Initialization attributes
         self.orig_text = text
-        self.time = int(time)
+        self.time = time
         self.author = author
         self.game = game
 
