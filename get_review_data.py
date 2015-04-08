@@ -10,10 +10,6 @@ codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
           "cp858", "cp1140", "cp1250", "iso-8859-1", "iso8859_2",
           "iso8859_15", "iso8859_16", "mac_roman", "mac_latin2", "utf32",
           "utf16"]
-page1 = None
-page2 = None
-page3 = None
-page4 = None
 
 def get_review_data_for_game(appid, time_out=0.5, limit=0):
     '''
@@ -27,9 +23,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
     :type limit: int (default: 0, which signifies all)
     :yields: lists of tuples
     '''
-
-    global codecs
-    global page1, page2, page3, page4
 
     # Get reviews from each page that has content, starting at range_begin
     # = 0 and i = 1, yielding the list of review tuples as they're found
@@ -48,7 +41,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
                   appid)
         # Try to get the URL content
         page = None
-        time.sleep(30)
+        time.sleep(60)
         try:
             page = requests.get(url, timeout=time_out)
         except requests.exceptions.Timeout as e:
@@ -72,16 +65,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         text = UnicodeDammit(text,
                              codecs).unicode_markup.encode('ascii',
                                                            'ignore')
-        if range_begin == 0:
-            page1 = str(text)
-        elif range_begin == 1:
-            page2 = str(text)
-        elif range_begin == 3:
-            page3 = str(text)
-        elif range_begin == 4:
-            page4 = str(text)
-        else:
-            break
         # Get the parse tree from source html
         tree = html.fromstring(text.strip())
         # Get lists of review texts and values for game-hours played
@@ -112,10 +95,10 @@ if __name__ == '__main__':
 
     with open('out.tsv',
               'w') as of:
-        of.write('hours\treview\n')
+        of.write('review\thours\n')
         for review_set in get_review_data_for_game('730',
                                                    time_out=2.0,
-                                                   limit=50):
+                                                   limit=500):
             for review in review_set:
                 of.write('{0[0]}\t{0[1]}\n'.format(review))
             sys.stdout.flush()
