@@ -93,12 +93,11 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
 
 if __name__ == '__main__':
 
-    with open('out.tsv',
+    with open('reviews_CSGO_730.tsv',
               'w') as of:
         of.write('review\thours\n')
         for review_set in get_review_data_for_game('730',
-                                                   time_out=2.0,
-                                                   limit=500):
+                                                   time_out=2.0):
             for review in review_set:
                 of.write('{0[0]}\t{0[1]}\n'.format(review))
             sys.stdout.flush()
