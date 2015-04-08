@@ -61,7 +61,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
                              page.text.strip())) # Replace the string "<br>"
             # with a space and replace any sequence of carriage returns or
             # whitespace characters with a single space
-        # Convert to UTF-8
+        # Try to decode the HTML source and then re-encode it with
+        # the 'ascii' encoding
         text = UnicodeDammit(text,
                              codecs).unicode_markup.encode('ascii',
                                                            'ignore')
@@ -83,12 +84,13 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
                              w.split(' ',
                                      1)[0]))) for z, w in zip(range_reviews,
                                                               hours)]
-        # If a limit was defined and processing 10 more essays will push us
-        # over the limit, stop here
-        if limit and range_begin > limit:
-            break
+        # Increment the range_begin and i variables
         range_begin += 10
         i += 1
+        # If a limit was defined and processing 10 more essays will push us
+        # over the limit, stop here
+        if limit and range_begin + 10 > limit:
+            break
 
 
 if __name__ == '__main__':
