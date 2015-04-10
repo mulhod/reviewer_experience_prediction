@@ -28,7 +28,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
     # = 0 and i = 1, yielding the list of review tuples as they're found
     range_begin = 0
     i = 1
-    while True:
+    breaks = 0
+    while True and breaks < 100:
         # Get unique URL for values of range_begin and i
         url = 'http://steamcommunity.com/app/{2}/homecontent/?userreviews' \
               'offset={0}&p=1&itemspage={1}&screenshotspage={1}&videospag' \
@@ -41,18 +42,17 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
                   appid)
         # Try to get the URL content
         page = None
-        time.sleep(60)
         try:
             page = requests.get(url, timeout=time_out)
         except requests.exceptions.Timeout as e:
             print("There was a Timeout error...")
-            break
+            breaks += 1
         # If there's nothing at this URL, page might have no value at all,
         # in which case we should break out of the loop
         if not page:
-            break
+            breaks += 1
         elif not page.text.strip():
-            break
+            breaks += 1
         # Preprocess the HTML source a little bit
         text = re.sub(r'[\n\t\r ]+',
                       r' ',
@@ -75,6 +75,19 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         # Truncate the list of reviews by getting rid of elements that are
         # either empty or have only a single space
         range_reviews = [x.strip() for x in range_reviews if x.strip()]
+        try:
+            assert len(hours) == len(range_reviews)
+        except AssertionError:
+            sys.stderr.write('Warning: len(hours) ({}) not equal to ' \
+                             'len(range_reviews) ' \
+                             '({}).\n\n'.format(len(hours),
+                                                len(range_reviews)))
+            sys.stderr.write('{}\n\n'.format([h[:5] for h in hours]))
+            sys.stderr.write('{}\n\n\n'.format([r[:20] for r in range_reviews]))
+            range_begin += 10
+            i += 1
+            time.sleep(120)
+            continue
         # Try to decode the reviews with a number of different formats and
         # then encode all to utf-8
         # Zip the values together, processing them also
@@ -91,15 +104,16 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         # over the limit, stop here
         if limit and range_begin + 10 > limit:
             break
+        time.sleep(120)
 
 
 if __name__ == '__main__':
 
-    with open('reviews_CSGO_730.tsv',
+    with open('reviews_CSGO_7302.tsv',
               'w') as of:
-        of.write('review\thours\n')
         for review_set in get_review_data_for_game('730',
-                                                   time_out=2.0):
+                                                   time_out=60.0):
             for review in review_set:
-                of.write('{0[0]}\t{0[1]}\n'.format(review))
+                of.write('game-hours: {0[0]}\n' \
+                         'review: {0[1]}\n'.format(review))
             sys.stdout.flush()
