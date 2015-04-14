@@ -82,3 +82,45 @@ Warning: len(hours) (10) not equal to len(range_reviews) (11).
 ["Greatest game I've e", 'Just look at my hour', 'You need to buy this', "playing it! I'll rat", 'I have played too mu', 'Killed a group of Th', 'The Elder Scrolls V:', 'Skyrim is much more ', '"Like Skyrim with sw', 'On the surface, Skyr', 'Mod it till it crash']
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+['18.6 ', '157.9', '28.6 ', '73.6 ', '212.0', '138.9', '61.6 ', '587.3', '729.1', '212.4']
+
+['STORY OF MY FIRST TI', 'Saved the world as w', 'No more word need to', 'I had a life. Then I', 'Quite possibly the g', 'El K.', '+ Well designed, spa', '- Disappointing drag', "Skyrim. It's that on", 'Er.', 'Uhm. SKYRIM, LADIES ', 'ruined my life. 10/1', 'After 700 hours of m', "It's better than Mor"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+['24.6 ', '132.5', '58.6 ', '479.9', '230.2', '134.8', '224.3', '54.0 ', '194.6', '507.8']
+
+['I got erotic mods 11', '"Abandon your social', 'Immersive Plenty of ', 'Lots of Random Bugs ', 'I modded this game s', 'Gameplay: 9/10 The g', 'Let me start off by ', "It's the moment that", "If you haven't playe", 'I killed so many dra', 'Well, after 120 hour', 'Games of', 'series have some ver', 'does not tarry too f', 'integration sounds n', 'and their', 'or the', 'to handle all your m']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['349.9', '135.8', '330.7', '150.6', '184.3', '633.3', '46.1 ', '66.7 ', '109.6', '60.2 ']
+
+['If this game were a ', 'For 3 years and stil', 'Very well !', 'Game: The Elder Scro', 'Skyrim is a game tha', 'what can i say? i lo', '420/10 recomend. my ', 'The Dragonborn Comes', 'Game of the Year. Ev', "I wasn't aware just ", 'First game I ever tr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+['138.1', '72.1 ', '186.3', '183.6', '112.7', '122.2', '160.9', '5.4 h', '55.0 ', '227.1']
+
+['This game is Masterp', 'Skyrim is a great ga', 'A Quality World Map ', 'Enhanced Blood Textu', 'SkyUI', 'Conclusion on why th', 'I spent over 70 hour', "Don't do it, your li", 'Downloaded Naked Gir', '10/10 Ruined my life', 'I got Master Chief a', 'Best mod simulator o', 'There is so many way']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['242.7', '248.4', '890.9', '111.5', '1.2 h', '180.0', '214.1', '91.6 ', '20.5 ', '132.3']
+
+['fired an icicle into', 'Best game ever playe', 'After 750+ hours inv', 'its a game in big wo', "English Review I'm q", 'Best purchase I have', 'The role playing gam', 'MAKE EVERYONE NAKED ', 'JUST BUY THE GAME OK', '9.9/10 "Like Skyrim ', 'Awesome game. First ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+['277.8', '421.7', '27.0 ', '27.2 ', '212.7', '57.4 ', '3,218', '75.9 ', '85.2 ', '182.3']
+
+['Great game, especial', 'This review is in "E', 'Know this: This is t', 'Saiba disso: Este  o', 'This game is pure go', "It's inevitable--onc", '10 OUTTA 10 WOULD BA', 'S O F A N T A S T I ', 'If you love RPG type', "If you're skilled en", 'I love going around ', 'TL;DR Read Bottom Co', "I'm not much of the "]
+
+

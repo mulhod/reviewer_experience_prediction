@@ -3,8 +3,8 @@ import sys
 import os
 import re
 import argparse
-import datetime
-from os.path import realpath, abspath, dirname, splitext
+import time
+from os.path import realpath, abspath, dirname, join, basename
 from util.read_data_files import get_reviews_for_game
 
 ARFF_BASE = \
@@ -13,10 +13,10 @@ ARFF_BASE = \
 % This ARFF file for {} is for use with trying out machine learning algorithms
 % on the bag-of-words representation of the reviews only.
 @relation reviewer_experience
-@attribute experience numeric
 @attribute review string
-@data
-'''
+@attribute experience numeric
+
+@data'''
 TIMEF = '%A, %d. %B %Y %I:%M%p'
 
 def write_arff_file(review_dicts, file_path):
@@ -30,21 +30,19 @@ def write_arff_file(review_dicts, file_path):
     :returns: None
     '''
 
-    game_name = splitext(file_path)[0]
     with open(file_path,
               'w') as out:
         reviews_lines = []
         for review_dict in review_dicts:
-            # Remove single quotes from the reviews first...
-            review = re.sub(r'\'',
+            # Remove single/double quotes from the reviews first...
+            review = re.sub(r'\'|"',
                             r'',
                             review_dict['review'].lower())
-            reviews_lines.append('"{},{}"'.format(review,
+            reviews_lines.append('"{}",{}'.format(review,
                                                   review_dict['hours']))
-        arff = ARFF_BASE.format(game_name,
-                                datetime.utcnow().strftime(TIMEF))
-        out.write('{}\n{}'.format(arff,
-                                '\n'.join(reviews_lines)))
+        out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
+                                                   basename(file_path)[:-5]),
+                                  '\n'.join(reviews_lines)))
 
 
 if __name__ == '__main__':
@@ -54,7 +52,7 @@ if __name__ == '__main__':
                     'files combined, or for each game file separately.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--game_files',
-        help='comma-separated list of game-files or "all" for all of the ' \
+        help='comma-separated list of file-names or "all" for all of the ' \
              'files (the game files should reside in the "data" directory)',
         type=str,
         required=True)
@@ -77,7 +75,7 @@ if __name__ == '__main__':
     mode = args.mode
     game_files = []
     if args.game_files == "all":
-        game_files = os.listdir(data_dir)
+        game_files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
     else:
         game_files = args.game_files.split(',')
     if len(game_files) == 1:
@@ -87,10 +85,10 @@ if __name__ == '__main__':
         # file will be created
         if args.mode == 'combined':
             sys.stderr.write('WARNING: The --mode flag was used with the ' \
-                             'value "combined" even though only one game ' \
-                             'file was passed in via the --game_files ' \
-                             'flag. Only one file will be written and it ' \
-                             'will be named after the game.\n')
+                             'value "combined" (or was unspecified) even ' \
+                             'though only one game file was passed in via ' \
+                             'the --game_files flag. Only one file will be ' \
+                             'written and it will be named after the game.\n')
 
     # Make a list of dicts corresponding to each review and write .arff files
     sys.stderr.write('Reading in data from reviews files...\n')
@@ -104,8 +102,9 @@ if __name__ == '__main__':
             arff_file = join(arff_files_dir,
                              'all.arff')
         else:
+            file_names = [game[:-4] for game in game_files]
             arff_file = join(arff_files_dir,
-                             '{}.arff'.format('_'.join(game_files)))
+                             '{}.arff'.format('_'.join(file_names)))
         sys.stderr.write('Writing to {}...\n'.format(arff_file))
         write_arff_file(review_dicts_list,
                         arff_file)
@@ -114,9 +113,9 @@ if __name__ == '__main__':
         for game_file in game_files:
             sys.stderr.write('Reading data from {}...\n'.format(game_file))
             review_dicts_list = get_reviews_for_game(join(data_dir,
-                                                          game_file)))
+                                                          game_file))
             arff_file = join(arff_files_dir,
-                             '{}.arff'.format(game_file))
+                             '{}.arff'.format(game_file[:-4]))
             sys.stderr.write('Writing to {}...\n'.format(arff_file))
             write_arff_file(review_dicts_list,
                             arff_file)
