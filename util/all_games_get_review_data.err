@@ -124,3 +124,17 @@ Warning: len(hours) (10) not equal to len(range_reviews) (13).
 ['Great game, especial', 'This review is in "E', 'Know this: This is t', 'Saiba disso: Este  o', 'This game is pure go', "It's inevitable--onc", '10 OUTTA 10 WOULD BA', 'S O F A N T A S T I ', 'If you love RPG type', "If you're skilled en", 'I love going around ', 'TL;DR Read Bottom Co', "I'm not much of the "]
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['75.9 ', '85.2 ', '182.3', '106.3', '3.6 h', '426.5', '57.4 ', '25.9 ', '8.7 h', '62.3 ']
+
+["If you're skilled en", 'I love going around ', 'TL;DR Read Bottom Co', "I'm not much of the ", 'Downloaded a dress t', 'I met a friendly wom', 'Probably one of my t', 'S O F A N T A S T I ', 'I spent most of my t', 'This is so good, it ', ',        Skyrim (   ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['347.9', '184.3', '214.5', '80.0 ', '333.0', '163.9', '352.3', '263.7', '101.6', '51.6 ']
+
+['Speak of me, and I s', "It's Dragonborn? ...", 'Such magic, much dra', 'The Elder Scrolls V:', 'You will not underst', 'requested a song in ', 'This game is so addi', 'I spent so many year', 'Bought the Legendary', 'What does this game ', '-Best Game RPG <333-']
+
+
