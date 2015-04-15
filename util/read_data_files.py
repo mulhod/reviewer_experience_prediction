@@ -1,5 +1,6 @@
 import sys
 import os
+from langdetect import detect
 from os.path import dirname, realpath, join
 
 # This is just a way of getting the path to this script
@@ -26,6 +27,9 @@ def get_reviews_for_game(file_name):
         # itself
         h = float(lines[i].split()[1].strip())
         r = lines[i + 1].split(' ', 1)[1].strip()
+        if not detect(r) == 'en':
+            i += 2
+            continue
         # Now we append the 2-key dict to the end of reviews
         reviews.append(dict(hours=h,
                             review=r))
