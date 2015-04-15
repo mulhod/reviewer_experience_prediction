@@ -13,8 +13,8 @@ ARFF_BASE = \
 % This ARFF file for {} is for use with trying out machine learning algorithms
 % on the bag-of-words representation of the reviews only.
 @relation reviewer_experience
-@attribute review string
-@attribute experience numeric
+@attribute string_attribute string
+@attribute numeric_attribute numeric
 
 @data'''
 TIMEF = '%A, %d. %B %Y %I:%M%p'
@@ -38,6 +38,11 @@ def write_arff_file(review_dicts, file_path):
             review = re.sub(r'\'|"',
                             r'',
                             review_dict['review'].lower())
+            # Escape all backslashes so that they don't in turn escape
+            # some other character
+            review = re.sub(r'\',
+                            r'\\',
+                            review)
             reviews_lines.append('"{}",{}'.format(review,
                                                   review_dict['hours']))
         out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
