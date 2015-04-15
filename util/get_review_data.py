@@ -3,6 +3,7 @@ import sys
 import re
 import requests
 import time
+import argparse
 from lxml import html
 from bs4 import UnicodeDammit
 from os import listdir
@@ -96,6 +97,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
                              'len(range_reviews) ' \
                              '({}).\n\n'.format(len(hours),
                                                 len(range_reviews)))
+            sys.stderr.write('URL: {}\n'.format(url))
             sys.stderr.write('{}\n\n'.format([h[:5] for h in hours]))
             sys.stderr.write('{}\n\n\n'.format(
                 [r[:20] for r in range_reviews]))
@@ -122,10 +124,53 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         time.sleep(120)
 
 
+def parse_appids(appids):
+    '''
+    Parse the command-line argument passed in with the --appids flag, exiting if any of the resulting IDs do not map to games in APPID_DICT.
+
+    :param appids: game IDs
+    :type appids: str
+    :returns: list of game IDs
+    '''
+
+    global APPID_DICT
+    appids = appids.split(',')
+    for appid in appids:
+        if not appid in APPID_DICT.values():
+            sys.exit('ERROR: {} not found in APPID_DICT. ' \
+                     'Exiting.\n'.format(appid))
+    return appids
+
+
 if __name__ == '__main__':
-    # Iterate over all games in APPID_DICT, getting all reviews available
-    # and putting it all in the data directory
-    for game in APPID_DICT:
+
+    parser = argparse.ArgumentParser(usage='./python get_review_data.py',
+        description='Make review data files for each game in the APPID_DICT' \
+                    ', which is specified in the __init__.py module that ' \
+                    'part of the "data" directory. A specific list of game ' \
+                    'IDs (same as "appid") can also be specified instead, ' \
+                    'but they must map to games in APPID_DICT.',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--appids',
+        help='comma-separated list of game IDs for which to generate review' \
+             ' data files (all IDs should map to games to APPID_DICT)',
+        type=str,
+        required=False)
+    args = parser.parse_args()
+
+    # Make list of games for which to generate review data files
+    if args.appids:
+        appids = parse_appids(args.appids)
+        games = []
+        for appid in appids:
+            for game in APPID_DICT:
+                if APPID_DICT[game] == appid:
+                    games.append(game)
+    else:
+        games = list(APPID_DICT)
+
+    # Generate review data files
+    for game in games:
         with open(join(data_dir,
                        '{}.txt'.format(game)),
                   'w') as of:

@@ -138,3 +138,297 @@ Warning: len(hours) (10) not equal to len(range_reviews) (11).
 ['Speak of me, and I s', "It's Dragonborn? ...", 'Such magic, much dra', 'The Elder Scrolls V:', 'You will not underst', 'requested a song in ', 'This game is so addi', 'I spent so many year', 'Bought the Legendary', 'What does this game ', '-Best Game RPG <333-']
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['16.1 ', '23.5 ', '36.3 ', '9.6 h', '529.6', '78.5 ', '125.8', '146.4', '406.6', '82.6 ']
+
+['One of the best game', 'great game and yeh b', 'Greatest RPG of all ', 'A Really nice game t', 'I punched a mammoth ', 'its like fallout wit', 'Skyrim Review Story ', 'Recommended Price: $', 'Gr8 b8 m8. I rel8, s', 'Playing this game wi', 'if u lik gaem wit da']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['1,419', '152.7', '86.6 ', '235.3', '210.8', '227.9', '49.4 ', '15.3 ', '18.0 ', '154.7']
+
+['Latest game in the E', 'Killed a Dragon to s', 'Punched a dragon to ', 'I used to say i woul', 'ONE OF THE BEST ACTI', 'Many people will say', 'You build yourself a', 'and mods, mod it the', 'You can use the Slow', 'mod it, until it cra', 'If university course']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['482.4', '307.6', '125.4', '115.8', '32.0 ', '101.9', '1,196', '12.7 ', '247.2', '157.1']
+
+['I tend to be wordy i', 'Ah, Skyrim. Back in ', 'which can enhance th', 'what a game!!! At fi', 'I was about to start', 'This game is easy, y', 'I used to be a TES f', 'Skyrim with all the ', 'Somebody stole my sw', "One of the best RPG'", 'Life Ruining Simulat']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['170.1', '965.7', '684.7', '126.7', '63.6 ', '27.4 ', '263.8', '0.5 h', '74.7 ', '6.3 h']
+
+['This is pretty much ', 'Whats to say, everyo', '"The Elder Scrolls I', '(OK, OK, this is not', 'good', '"This is certainly a', 'Its like Skyrim with', 'im getting it lol', 'Players can choose t', "CAN'T SAY NO !!!!!!!", 'Fus Ro Dah!!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['1.2 h', '10.7 ', '243.8', '912.9', '37.6 ', '38.9 ', '86.1 ', '337.0', '144.5', '1,279']
+
+['GG', 'Easily the best mede', 'It`s Skyrim, I aint ', 'Forget everything yo', 'Elder Scrolls is a g', '-Loads of objectives', '-Can get boring trav', 'kill dragons without', "Shor's bones, there ", 'Great game from beth', "It's an amazing game"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+['59.6 ', '10.7 ', '171.7', '94.6 ', '193.5', '42.2 ', '8.4 h', '306.3', '40.4 ', '39.5 ']
+
+['All Good, except the', 'created a trully', 'with their fifth gam', 'and engaging then ev', 'of developing your c', 'There are bugs here ', 'Even if you get bore', '... I lose track of ', 'I used to be an adve', "Don't play it. Espec", '.', 'This is one of the l', 'Its rare when you fi', 'Beautiful Graphics: ', 'dis gaem svaed me fr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+['14.6 ', '139.6', '1,090', '775.3', '110.2', '746.3', '770.7', '171.5', '70.1 ', '10.7 ']
+
+['Skyrim is the best o', 'This game contains a', "I've only played a c", 'this game never ends', "goat's riding dragon", 'I waited what seemed', 'One of the best game', 'Basically all there ', 'created a trully', 'with their fifth gam', 'and engaging then ev', 'of developing your c', 'There are bugs here ', 'Even if you get bore']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+['447.0', '189.2', '107.2', '836.6', '477.2', '36.5 ', '204.1', '746.5', '770.7', '269.9']
+
+['My Review: ONE OF TH', 'Absolutely amazing g', 'Skyrim certainly had', 'Even though it says ', 'The Elder Scrolls V:', '- No classes, be wha', '- Game crashes after', 'THIS is how you do g', 'Aside from Battlefie', 'You can drive a warh', 'Where did my life go', "goat's riding dragon", 'I waited what seemed', 'In our current world']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['1,090', '108.1', '209.4', '203.8', '70.1 ', '1,063', '186.6', '110.2', '81.2 ', '80.7 ']
+
+["I've only played a c", 'FUS RO DAH!', 'Really cool RPG Sand', 'Do I even need to?, ', 'Basically all there ', 'gotta love this game', 'What is best in life', 'Skyrim is an amazing', '+++++']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['34.1 ', '48.2 ', '26.8 ', '67.0 ', '328.0', '99.5 ', '191.4', '569.9', '944.8', '417.0']
+
+['THIS IS OPEN WORLD', 'Skies with rims. Tho', 'Most Of The Time I J', 'Great game!', 'Why should I even wr', 'Vanilla game is only', 'Be Khajit. Have wear', 'My horse ran over a ', 'One does not simply ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['396.1', '151.6', '93.3 ', '117.1', '1,164', '104.6', '22.7 ', '63.0 ', '27.2 ', '555.1']
+
+['I used to be an adve', 'I have 8.60gb of mod', 'This game engrosses ', 'A bit old now, but a', 'Just in case all the', 'why i love skyrim. i', 'Ive spent well over ', 'ing dragons, man. Yo', 'Kannattaa ostaa! - H']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+['65.0 ', '45.0 ', '1,190', '359.6', '10.5 ', '139.0', '234.1', '1.4 h', '25.9 ', '1,005']
+
+[".   ,   WorkShop'a  ", 'this game sucks on c', 'And so, Skyrim. Skyr', 'Out of the box, Skyr', 'to download mods ins', 'is a good place to s', 'awesome!!', 'If there is one thin', 'NO SPOILERS IN THIS ', 'I am Queen Zabi Lead', 'Nude mods Simulator.', "It's okay"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+['204.9', '69.2 ', '3.8 h', '7.6 h', '49.6 ', '114.6', '2.5 h', '74.8 ', '627.0', '506.8']
+
+['This is one of the b', 'This GAME made me ej', 'I first discovered t', '- Great fighting sys', '- Weaker storyline i', 'Sorry everyone, this', 'Undisputably one the', 'the market with Skyr', 'you gotta do to your', "best sandbox of it's", 'experience!! Forage ', 'Graphics Magic!! Med', 'haters gonna hate. h', 'Dude Skyrim is the i', 'Skyrim. The game is ', 'Its Skyrim ...', "One of the best RPG'", 'Love the game.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['88.5 ', '343.6', '1,595', '115.8', '397.2', '44.9 ', '153.5', '1,081', '190.3', '571.4']
+
+['A massively epic RPG', 'One of the best sing', 'Always best game of ', 'I tried to killed a ', 'The "vanilla" aspect', '. However, even thou', 'Fus Ro dah This is a', 'i paid a cat to teac', 'I am pretty late, bu', 'Sjstrand e snygg', 'This is one of my to']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['32.6 ', '264.6', '407.7', '42.4 ', '46.6 ', '200.2', '15.6 ', '361.5', '204.0', '794.3']
+
+['das game liek tots r', 'So, Skyrim, a game g', 'Bethesda tends to ou', 'Notable features', 'I saw this game at w', 'this is a great solo', 'Beware, Skyrim will ', 'Beautiful. A masterp', 'The Elder Scrolls V ', 'Whenever you watch a', 'Its Skyrim. That alo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+['240.8', '120.5', '765.8', '69.8 ', '105.9', '94.5 ', '225.4', '114.0', '171.4', '145.8']
+
+['MANKINDS FIRST STEP ', 'Described a slightly', 'Nils brja spela nu', 'One of the best open', '+Huge open world wit', '-Though the story di', 'This is a must have ', 'I liked the quest wh', 'Join the world of Sk', 'Like Skyrim with Sky', 'The Elder Scrolls V:', 'THIS GAME IS AMAZING', 'I used to be an adve']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (16).
+
+['256.9', '233.2', '119.1', '86.4 ', '69.4 ', '257.6', '162.8', '175.7', '65.1 ', '308.3']
+
+['10/10 After countles', 'I killed countless d', 'I got skyrimmed in s', '+GOOD STORY +GREAT A', 'Skyrim is by far my ', 'I have 256 hours on ', 'I still get chills w', 'it just play this ga', 'This RPG is dangerou', 'The graphics are acc', 'Completely customiza', 'MOD THE HELL OUT OF ', '10/10 absolute maste', 'Its Dungeons and Dra', 'This game lets you g', 'Where do I start wit']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (17).
+
+['170.4', '23.5 ', '199.7', '44.9 ', '173.0', '101.8', '363.2', '38.7 ', '266.8', '118.2']
+
+["There's just so much", 'Killed a chicken, go', 'The game that had a ', 'Open-world RPG with ', 'Do I really need to ', 'My Girlfriend is Dra', 'One of the best game', "Skyrim's biggest str", 'To put the story of ', 'is what defines Skyr', 'recommend the avenue', 'I recommend the Lege', 'or', 'DLC.', 'If you have never pl', 'Amazing game truly a', 'IF you like rpg firs']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (17).
+
+['15.1 ', '24.4 ', '62.1 ', '45.2 ', '151.0', '119.4', '318.3', '354.8', '184.3', '61.7 ']
+
+['Fus Ro Dah! 11/10', 'Good Game Rate Up +', '#draugr best enemy 2', '>open world >can be ', 'Few games can compar', 'Playing Skyrim is li', "It's rare for me to ", 'Really, there is too', 'There are several ra', 'Controls can be set ', 'I feel as though the', 'The sounds of Skyrim', 'I have already repla', 'Finally, a note on m', 'I killed a kid. 10/1', 'Texture Mods, ENBs, ', 'Skyrim is defenitely']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (20).
+
+['41.8 ', '77.6 ', '70.5 ', '1,922', '219.3', '27.6 ', '59.6 ', '182.8', '284.4', '1.0 h']
+
+['5I used to be an adv', 'The Elder Scrolls ha', 'You can be Batman wi', 'I think pretty much ', 'In all seriousness, ', ', there are still so', 'Overall:', '-', 'Overall:', '-', 'Make sure you downlo', 'if you have a low-me', '. ILNPC however cont', 'powerful CPU and a h', '- True Storms - Thun', 'Skyrim is one of tho', 'wow much fus very ro', 'Immersive, hardcore,', 'HERE HAVE ALL THESE ', 'pretty good xD']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['11.5 ', '776.0', '38.9 ', '11.7 ', '156.0', '476.9', '19.9 ', '23.4 ', '628.7', '145.9']
+
+['Got killed by wolves', '"Social life", now t', 'If this game was a p', 'You know, while list', 'Best role-play video', 'chicken stew', "So good I don't even", 'Does this game reall', "If you don't have Sk"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+['4.2 h', '171.6', '38.5 ', '93.9 ', '533.7', '52.0 ', '33.4 ', '749.3', '314.1', '33.8 ']
+
+["it's like super hexa", 'Skyrim was made by o', 'The Elder Scrolls V:', 'Graphic in Skyrim is', 'Pros: - Nice customi', 'IT IS A VERY NICE GA', 'I will always love y', 'One of the best Sand', 'As someone who had n', 'cant wait for the ne', 'dis gayme sux. obvio', 'Game Review: The Eld', 'Esse TES  um dos mel']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['77.0 ', '558.8', '45.7 ', '685.6', '152.2', '12.4 ', '222.2', '69.6 ', '637.7', '22.8 ']
+
+['Far Cry without guns', 'The best video game ', "It's simply the best", 'I love the game.. De', 'Has it already been ', 'One of the best game', 'TLDR: this game is t', 'Awesome graphics, aw', 'My review for this g', 'The reason that it i', "It's one of the best"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['1,169', '71.2 ', '500.4', '490.7', '503.5', '346.6', '45.7 ', '126.7', '93.2 ', '314.1']
+
+['Amazing.', 'So dank.', 'Just epic game, game', 'An exceptional Game.', "It's very rare to fi", 'Skyrim is a very in-', 'Well. What to say? T', 'I have always been a', 'No need to introduce', 'etc.).', 'Game Review: The Eld']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['151.0', '45.2 ', '13.4 ', '426.4', '176.2', '212.1', '1.9 h', '83.5 ', '439.1', '276.3']
+
+['da best eva', 'Nude mod.', 'The Dragonborn CUMS!', 'Possibly one of the ', 'This game is good.', 'I spent the entire g', 'Best game NA', 'One of the only game', 'buy this game now it', 'The best RPG I have ', '.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+['145.3', '150.1', '38.6 ', '66.2 ', '63.7 ', '105.7', '228.6', '126.4', '405.0', '94.0 ']
+
+['Best single player r', 'LOissstavaaaa', 'it has pretty good', 'This is probably the', 'I mainly played this', 'its Skyrim... do you', 'Skyrim, the game whi', '. This game (as I la', '. Speaking of which,', 'As someone who has g', 'Three words: Buy. Th', 'Simply epic']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['346.6', '45.7 ', '126.7', '93.2 ', '104.5', '114.3', '117.7', '75.4 ', '549.7', '42.0 ']
+
+['Skyrim is a very in-', 'Well. What to say? T', 'I have always been a', 'No need to introduce', 'etc.).', 'player.placeatme 000', 'This game destroyed ', 'yes', 'Masterpiece, marvelo', 'As far as Elder Scro', "I don't even underst"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['69.6 ', '637.7', '22.8 ', '451.4', '196.1', '426.9', '243.7', '140.0', '147.6', '11.3 ']
+
+['Awesome graphics, aw', 'My review for this g', 'The reason that it i', "It's one of the best", 'BEST ING GAME EVER!!', 'Having played The El', 'The reason why I hav', 'BEST PURCHASE IVE EV', 'A friend of mine got', 'Very good game. Whil', 'Just bought this gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['3.0 h', '47.2 ', '4.4 h', '294.5', '61.1 ', '371.8', '149.9', '179.6', '1,471', '874.1']
+
+['ITS LIKE THE BEST GA', 'Great game. Hours of', 'Best RPG ever made 2', 'I can kill Nazeem an', 'FUS ROH MODS!', '1 Word ...Epic!', 'Amazing game, amazin', 'Simply the best game', 'Yeah, because Skyrim', 'needs another good r', 'mods']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['814.7', '56.4 ', '327.2', '154.0', '422.6', '18.5 ', '893.7', '267.1', '699.7', '679.0']
+
+["You'll find yourself", 'Mods are free, catch', 'when i poo i think o', '10/10', "So, I'm not much for", "It's neato", '* Killing a chicken ', 'duh', 'An excellent game wh', 'Easily one of the mo', 'Are you tired of tak']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['56.7 ', '676.3', '42.8 ', '41.0 ', '193.2', '70.5 ', '126.5', '180.0', '22.3 ', '130.3']
+
+["Best game I've ever ", 'Level 2 Walk into la', 'Probably the best ga', '11/10 Will purposely', 'I just got yelled at', 'This game is a maste', "Warning; don't buy t", 'If you are single, y', '. If you are a guy t', 'This game is great a', 'As someone who has p']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['65.0 ', '93.7 ', '27.4 ', '412.9', '62.8 ', '84.1 ', '103.6', '154.0', '422.6', '18.5 ']
+
+['No review required..', 'If you have a consol', "It's good but most o", 'Honestly, this is on', 'Be a cat and empty e', "I've put 150+ hours ", "but if you haven't p", '"its like cod with o', "So, I'm not much for", "It's neato", '* Killing a chicken ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['1,555', '307.4', '197.1', '16.6 ', '69.2 ', '293.1', '431.7', '154.7', '12.9 ', '312.0']
+
+['This game, is a game', 'Well, to be quite fr', 'I killed a chicken a', 'Downloaded bunch of ', "I do believe it's ob", 'This is the first El', 'Killing a chicken wi', 'hjuva peli', 'is good game', 'This is the best gam', '. The beauty of this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['135.3', '510.5', '55.7 ', '98.8 ', '156.5', '98.0 ', '28.7 ', '44.7 ', '27.1 ', '38.4 ']
+
+['The best naked corps', 'This game is great. ', 'Skyrim offers an en ', 'I lost myself in thi', 'Pros: Probably one o', 'simply amazing', 'As a person with att', 'A must have for ever', 'Its like FarCry with']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+['348.0', '450.1', '141.3', '4.4 h', '96.5 ', '3.0 h', '241.6', '32.4 ', '128.2', '271.8']
+
+['Incredible FPS RPG, ', 'to handle the many g', 'Thanks Boltte', 'This game is definit', 'Play this game. No, ', 'Dis some reel qualit', "It's funny. When I w", 'The best RPG game', 'like morrowind and o', 'Love it 10/10 !', 'This game is awesome', 'wow what a amazing g']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+['26.1 ', '91.4 ', '875.1', '111.4', '47.0 ', '11.0 ', '228.2', '180.3', '45.4 ', '128.4']
+
+["It's the best open w", 'So, finally, my Revi', '!', 'is an Open-World RPG', 'to everyone who is s', 'Well, what can i say', 'became chosen one be', 'YOU ARE DARGON BORN.', 'Got hit so hard by a', 'One of the bests gam', 'downloaded a "my lit', 'AMAZING!!!!!!', 'I added 50 mods and ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+['41.2 ', '120.4', '666.3', '99.8 ', '26.1 ', '91.4 ', '372.0', '28.2 ', '220.3', '553.0']
+
+['Watched free porn. G', 'Farengar secret-fire', 'Skyrim is love, Skyr', 'Vanilla Skyrim is a ', "It's the best open w", 'So, finally, my Revi', '!', 'is an Open-World RPG', 'to everyone who is s', 'Shut up and worship ', "It's a frozen nation", 'great game, love it ', 'Words cannot express', 'fun hours. 20/11, be']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (20).
+
+['521.2', '40.5 ', '6.2 h', '730.3', '66.2 ', '47.8 ', '42.4 ', '133.7', '619.7', '244.6']
+
+['Alright, I must admi', 'One of my favorite g', 'Best ing game ever! ', 'Yes', 'Im writing this reve', 'I fought a dragon wi', 'MUST HAVE !', 'this is the best ope', 'Having already 533 h', 'This review was made', '7/10. A good gamepla', '. As a mage, stunloc', 'been fixed by the co', '5/10. Ah, quite the ', '4/10. As earlier men', "Look, I'm a person w", "7/10. Skyrim's 'Worl", '8/10. No. 9/10. No. ', '41897489416/10. Skyr', '"To buy, or not to b']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+['710.5', '151.6', '297.1', '91.7 ', '185.0', '171.7', '104.9', '11.7 ', '55.5 ', '1,826']
+
+['Skyrim is arguably t', 'or', 'for more details, or', 'Skyrim is amazing on', "Best game I've seen.", 'Best game in my life', 'Nice game. You all s', 'Immersive.', 'Skyrim is an epic jo', 'Puts a bucket to a p', 'FUS RO DAHED A CHICK', 'If you like open-wor']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+['62.8 ', '84.1 ', '103.6', '1.9 h', '115.1', '205.8', '119.4', '208.7', '414.7', '609.7']
+
+['Be a cat and empty e', "I've put 150+ hours ", "but if you haven't p", '"its like cod with o', 'FUS ROH DAH YOUR , D', "It's like Skyrim!", 'You play the game th', 'One of my favorite R', 'good game needs more', 'I really liked this ', "If you haven't playe"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['0.8 h', '362.2', '120.3', '109.4', '376.2', '30.8 ', '591.4', '269.9', '476.6', '212.6']
+
+['moved from console t', 'Good game would play', 'Found two bandits fi', 'Skyrim is immersive ', 'God Damn.', 'This game is awesome', 'i harvested a potato', 'Gun mods Nude mods E', 'This game makes you ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+['57.7 ', '282.1', '0.8 h', '362.2', '120.3', '109.4', '85.6 ', '23.6 ', '435.0', '45.7 ']
+
+['Walked into cave, go', 'Only one word can de', 'moved from console t', 'Good game would play', 'Found two bandits fi', 'Like Far Cry 3 with ', 'Elder Scrolls never ', 'The game is great mu', 'Mag ich!']
+
+
