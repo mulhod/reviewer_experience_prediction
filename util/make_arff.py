@@ -1,10 +1,10 @@
-#!/usr/env python2.7
 import sys
 import os
 import re
 import argparse
 import time
 from os.path import realpath, abspath, dirname, join, basename
+#from nltk import sent_tokenize, word_tokenize
 from util.read_data_files import get_reviews_for_game
 
 ARFF_BASE = \
@@ -38,11 +38,13 @@ def write_arff_file(review_dicts, file_path):
             review = re.sub(r'\'|"',
                             r'',
                             review_dict['review'].lower())
-            # Escape all backslashes so that they don't in turn escape
-            # some other character
-            review = re.sub(r'\',
-                            r'\\',
+            # Get rid of backslashes since they only make things confusing
+            review = re.sub(r'\\',
+                            r'',
                             review)
+            #sents = join(sent_tokenize(review)
+            #review = ' '.join(' '.join([word_tokenize(sent) for sent in
+            #                            sents]))
             reviews_lines.append('"{}",{}'.format(review,
                                                   review_dict['hours']))
         out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),

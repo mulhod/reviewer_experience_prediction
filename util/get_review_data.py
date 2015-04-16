@@ -1,4 +1,3 @@
-#!/usr/env python2.7
 import sys
 import re
 import requests
