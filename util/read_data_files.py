@@ -22,11 +22,14 @@ def get_reviews_for_game(file_name):
     lines = open(join(data_dir, file_name)).readlines()
     i = 0
     while i + 1 < len(lines): # We need to get every 2-line couplet
-        # Just assume that the next two lines of code correctly extract the
-        # two pieces of info we want, the number of hours played and the review
-        # itself
-        h = float(lines[i].split()[1].strip())
-        r = lines[i + 1].split(' ', 1)[1].strip()
+        # Extract the hours value and the review text from each 2-line
+        # sequence
+        try:
+            h = float(lines[i].split()[1].strip())
+            r = lines[i + 1].split(' ', 1)[1].strip()
+        except (ValueError, IndexError) as e:
+            i += 2
+            continue
         if not detect(r) == 'en':
             i += 2
             continue
