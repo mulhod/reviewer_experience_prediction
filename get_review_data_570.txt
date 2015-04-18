@@ -1,0 +1,915 @@
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=0&p=1&itemspage=1&screenshotspage=1&videospage=1&artpage=1&allguidepage=1&webguidepage=1&integratedguidepage=1&discussionspage=1&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,430', '927.3', '2,140', '11,80', '5,300', '2,692', '1,178', '1,461', '7,502']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=20&p=1&itemspage=3&screenshotspage=3&videospage=3&artpage=3&allguidepage=3&webguidepage=3&integratedguidepage=3&discussionspage=3&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,693', '8,681', '3,196', '1,173', '849.3', '987.7', '507.6', '526.0', '1,852', '760.4']
+
+['This game sucks, you', 'i had a life before ', 'DotA 2 Will drain yo', 'become addicted. You', 'In Dota 2, Not many ', 'When Bloodseeker get', '<- Link NOTE: Origin', 'Most fun way to comm', 'Thank goodness I was', 'Dota 2, where teamwo', 'This game is such a ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=30&p=1&itemspage=4&screenshotspage=4&videospage=4&artpage=4&allguidepage=4&webguidepage=4&integratedguidepage=4&discussionspage=4&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['931.9', '1,181', '3,604', '1,483', '966.1', '629.4', '595.0', '1,973', '2,448', '682.5']
+
+['When Putin invades t', '>Open DotA2 >Start f', 'Ruined my life, and ', 'Ruined my life. Told', 'IN MOTHER RUSSIA B M', 'Soviet Simulator 201', 'Downloaded, played, ', 'I was gonna clean my', 'I recommend everyone', 'and not', 'nor', ". Don't get me wrong", 'This game bought me ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=50&p=1&itemspage=6&screenshotspage=6&videospage=6&artpage=6&allguidepage=6&webguidepage=6&integratedguidepage=6&discussionspage=6&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,542', '780.4', '12.5 ', '1,632', '1,989', '1,095', '1,755', '1,744', '681.0', '5,361']
+
+['Alright, listen up. ', 'The people who thumb', 'My parents got me th', 'i waste my life and ', 'Its the best.. if yo', 'like skyrim with rus', 'Simply the most real', 'This game helps you ', 'Dota 2 is the offici', 'Translations:', 'It took me awhile to']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=110&p=1&itemspage=12&screenshotspage=12&videospage=12&artpage=12&allguidepage=12&webguidepage=12&integratedguidepage=12&discussionspage=12&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,130', '1,265', '97.7 ', '4,008', '1,414', '634.4', '1,497', '1,096', '957.0', '2,087']
+
+['Dota 2 is a Multipla', 'I used to play LoL, ', 'hero is unlocked fro', 'as well as', '.', 'is a great map. I ma', 'Are you having a gre', 'this game is awful a', 'Thought you liked Ru', 'I learnt how to insu', 'BEST GAME FOR MY ANG', 'When I was young, I ', 'If I spent those 700', 'i have become one wi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=120&p=1&itemspage=13&screenshotspage=13&videospage=13&artpage=13&allguidepage=13&webguidepage=13&integratedguidepage=13&discussionspage=13&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,441', '549.8', '2,242', '517.3', '87.5 ', '4,417', '776.4', '444.5', '2.0 h', '3,560']
+
+['9/10. Would wait for', 'Dota 2 ranks among f', 'You: STUN NOW!!!! Te', 'Ultimate Russian Sim', 'Dota 2 - Russian Lan', '+ New friends, inter', 'Imagine, for a momen', 'Comrades, it is time', 'Learn Russian in 20 ', "If you're looking fo", ') has called Dota an']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=130&p=1&itemspage=14&screenshotspage=14&videospage=14&artpage=14&allguidepage=14&webguidepage=14&integratedguidepage=14&discussionspage=14&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['819.1', '413.8', '1,947', '1,665', '3,686', '2,104', '439.2', '4,619', '1.7 h', '577.7']
+
+['I can be a tree. Hig', "It's like having can", 'I wanna be a pro-pla', 'Very fun game! Highl', 'In-depth, competitiv', 'game. For all of tha', 'Worst coop game ever', 'Causes anxiety probl', 'Ah, my DotA. You are', 'Opened Game. Found M', "It's like crack. Whe"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (16).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=150&p=1&itemspage=16&screenshotspage=16&videospage=16&artpage=16&allguidepage=16&webguidepage=16&integratedguidepage=16&discussionspage=16&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,283', '1,252', '20.1 ', '2,060', '365.3', '1,386', '989.2', '9,119', '1,950', '1,169']
+
+['Rosetta Stone Simula', 'After wasting my +12', 'how many russians ca', ':', 'Steals 100% life.', ':', 'Become hyperactive f', ': +7 HP degeneration', 'Resistance from phys', 'Become a keyboard wa', 'Learn russian fast a', 'Causes sleep depriva', 'Blame simulator 2014', 'Just like real-time ', "It's like masturbati", 'ruined my life 11/10']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=170&p=1&itemspage=18&screenshotspage=18&videospage=18&artpage=18&allguidepage=18&webguidepage=18&integratedguidepage=18&discussionspage=18&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['9,767', '1,101', '5.4 h', '1,204', '1,729', '3,135', '3,666', '4,069', '22.2 ', '1,148']
+
+['Game is okay but I s', 'Multi-culturalism si', 'Worst community ever', 'It feels gratifying ', 'with a big diversity', 'The first time you p', 'PERFECT WAY TO LEARN', 'IF YOU WANT TO LIVE ', 'This game allows you', 'Reposting since unde', 'This brand new game ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=200&p=1&itemspage=21&screenshotspage=21&videospage=21&artpage=21&allguidepage=21&webguidepage=21&integratedguidepage=21&discussionspage=21&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,815', '2,514', '7.0 h', '708.2', '148.1', '1,428', '2,242', '5.5 h', '734.1', '2,943']
+
+['this game is full of', 'If you want to waste', 'Russian speaking sim', 'So over the years yo', 'As any starters in D', 'Source engine works ', 'Well I got no idea h', "There's the problem.", 'Dota 2 is a competit', 'Best MOBA game ever.', 'I learned how to swe', 'I really like this g', '1.5 hours in dota an', 'First time playing a', 'good']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=230&p=1&itemspage=24&screenshotspage=24&videospage=24&artpage=24&allguidepage=24&webguidepage=24&integratedguidepage=24&discussionspage=24&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,706', '1,358', '4,638', '1,616', '1,362', '3,786', '2,159', '1,573', '3,953', '218.6']
+
+['The most annoying, f', "Let's be honest this", 'One of the most addi', 'When you are done ea', 'An amazing competiti', 'degradation', 'Learn any language s', '>do presentation in ', 'Its fun till you rea']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=240&p=1&itemspage=25&screenshotspage=25&videospage=25&artpage=25&allguidepage=25&webguidepage=25&integratedguidepage=25&discussionspage=25&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,431', '927.3', '2,140', '11,80', '5,300', '2,692', '1,178', '1,461', '7,503']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=250&p=1&itemspage=26&screenshotspage=26&videospage=26&artpage=26&allguidepage=26&webguidepage=26&integratedguidepage=26&discussionspage=26&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,866', '122.7', '15,29', '3,158', '2,391', '2,083', '2,816', '1,597', '726.4', '1,598']
+
+['If you enjoy watchin', 'League of Legends ha', 'this game gets my  s', "It's a good game, a ", 'Got A+ on my Russian', 'I want to stop, but ', 'If you have any ambi', 'This game really suc', 'my favourite game of', ', lol.', "Just don't"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=260&p=1&itemspage=27&screenshotspage=27&videospage=27&artpage=27&allguidepage=27&webguidepage=27&integratedguidepage=27&discussionspage=27&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['194.3', '2,738', '3,076', '678.4', '1,036', '1,963', '2,030', '1,190', '1,854', '780.9']
+
+['game but its alright', 'bussines :3', '> Game is hard...', 'Dota > LoL', 'I love this game. No', 'My mom is a cheap  w', 'help', 'I was never racist u', 'This game made me xe', 'Best MOBA imo. If yo', "i don't think humans"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=280&p=1&itemspage=29&screenshotspage=29&videospage=29&artpage=29&allguidepage=29&webguidepage=29&integratedguidepage=29&discussionspage=29&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,755', '574.9', '3.2 h', '1,781', '802.5', '2,226', '1,513', '308.2', '2,915', '2,227']
+
+['Imbalance games in m', 'Dota 2 is a bad game', '-Team based mechanic', '-Crappy, boring tuto', 'Whenever you search ', 'Anlatmaya gerek yok ', 'Good Game, Bad Teamm', 'This game is total g', 'Russians', "Oh, you're new to th", '10/10 more addictive', 'DOTO IS THE BEST MMO']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=290&p=1&itemspage=30&screenshotspage=30&videospage=30&artpage=30&allguidepage=30&webguidepage=30&integratedguidepage=30&discussionspage=30&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['509.1', '136.8', '1,522', '1,387', '0.1 h', '1,880', '861.8', '64.1 ', '461.8', '2,009']
+
+['If you like to watch', 'This game is like in', 'Hi. I only recommend', 'builds or', 'builds. Thank you fo', 'An easy to learn, li', 'Most toxic community', 'Dota is less of a ga', '. Enjoying yourself ', 'they conduct themsel', 'becoming the transce', 'are actually the one', 'down. Just remind yo', 'DOTA helps you reali', 'A good game to play ', 'Massive learning cur', 'Better than LoL by a', "Worst game I've ever"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=360&p=1&itemspage=37&screenshotspage=37&videospage=37&artpage=37&allguidepage=37&webguidepage=37&integratedguidepage=37&discussionspage=37&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.1 h', '998.0', '872.6', '1,050', '2,421', '1,919', '1,001', '1,648', '3,741', '900.4']
+
+['A very beginner frie', '1,000 hours played: ', 'A flying donkey give', 'This Game has ruined', 'Still waiting for Vo', 'I liked the concept ', '1001 reasons not to ', 'This game is beyond ', 'Best language learni']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=420&p=1&itemspage=43&screenshotspage=43&videospage=43&artpage=43&allguidepage=43&webguidepage=43&integratedguidepage=43&discussionspage=43&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['729.7', '1,562', '2,218', '1,779', '10.2 ', '2,294', '2,651', '1,119', '327.4']
+
+['How to describe this', 'Great game for stres', 'Difficulty: Just Rig', 'Fastest way to learn', 'After $200+ dollars,', 'Liked: + Graphic + G', 'haha "DONDO" HAHHAH!', 'best game ever <3', 'IT WILL EAT YOUR SOU', 'Game was good, got t', 'I can keep this up f', "Well the game isn't "]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=470&p=1&itemspage=48&screenshotspage=48&videospage=48&artpage=48&allguidepage=48&webguidepage=48&integratedguidepage=48&discussionspage=48&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,973', '20.7 ', '2,280', '1,832', '1,308', '406.7', '123.7', '1,295', '3.1 h', '5,454']
+
+['Nothing but a ing ha', 'it sucks', "I'm okay now, bring ", 'yes', 'THE BEST LANGUAGE LE', 'There are many impor', 'This game has a lot ', 'Great MOBA game but ', 'Welcome to a game a ', 'Ahahahahahaha', 'A few things that st']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=480&p=1&itemspage=49&screenshotspage=49&videospage=49&artpage=49&allguidepage=49&webguidepage=49&integratedguidepage=49&discussionspage=49&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,132', '1,415', '94.3 ', '1.5 h', '25.2 ', '618.9', '54.4 ', '2,844', '4,484', '2,126']
+
+['Okay. After 2,000 ho', 'do not play this vid', 'RIP BRAINCELLS', 'just a pile of  game', 'Bad Rats does everyt', "IT'S LIKE HAVING CAN", 'We all had a life on', 'When I first started', 'All heroes are balan', '3000Steam2DOTALOL', 'Best game !!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=530&p=1&itemspage=54&screenshotspage=54&videospage=54&artpage=54&allguidepage=54&webguidepage=54&integratedguidepage=54&discussionspage=54&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,057', '2,376', '255.6', '1,226', '5.3 h', '748.9', '2,376', '128.0', '2,507', '10,32']
+
+['Kill me now.', 'Best MOBA out there!', 'Dota is a really fun', 'if you speak more th', 'What is even going o', 'Alright kids listen ', 'Worst game ever.', 'About as fun as.. Cl', '-Failed at my finals']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (20).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=570&p=1&itemspage=58&screenshotspage=58&videospage=58&artpage=58&allguidepage=58&webguidepage=58&integratedguidepage=58&discussionspage=58&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,772', '3,760', '362.8', '2,067', '1,190', '1,805', '546.5', '390.7', '2,888', '436.4']
+
+['A game you will both', 'Very good game. Easi', 'yes this game is awe', 'dota', 'nice and relaxing, m', '--------------------', '--------------------', 'and', 'you would definitely', ', second team is cal', 'and each team will h', ', then to win this g', ',', ', and', '. So it can be like ', 'This the common role', 'I hope you like it a', 'Picked a hero that c', 'Have an urge to revi', 'An extremely fun Str']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=620&p=1&itemspage=63&screenshotspage=63&videospage=63&artpage=63&allguidepage=63&webguidepage=63&integratedguidepage=63&discussionspage=63&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,982', '27.8 ', '1.1 h', '1,032', '102.9', '3,559', '117.1', '317.4', '2,075', '13.6 ']
+
+['like --> nice dislik', 'I recommend this gam', 'Despite the hours in', 'Makes you sympathize', 'I hate this game. I ', 'I learned how to swe', 'got abused by russia', 'I NEVER liked RTS ga', '. When Dota 2 came o', '&', 'and play them both M', 'With over 110 heroes', "I don't get it. Leag"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=660&p=1&itemspage=67&screenshotspage=67&videospage=67&artpage=67&allguidepage=67&webguidepage=67&integratedguidepage=67&discussionspage=67&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,022', '2,495', '13.5 ', '532.9', '1,857', '1,398', '2,105', '368.5', '1,068', '512.1']
+
+['One of the worst gam', 'easiest game of my l', '>insert LoL fanboy c', 'Dota 2 is a must pla', 'Best Russian learnin', 'A maelstrom of anger', 'As of now, middle of', '. 1st - 2011, total ', 'So be ready to face ', 'At this very moment,', "A game that isn't fo", 'I liked in dota 2 ar']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=670&p=1&itemspage=68&screenshotspage=68&videospage=68&artpage=68&allguidepage=68&webguidepage=68&integratedguidepage=68&discussionspage=68&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,570', '591.2', '3,881', '95.0 ', '3,830', '412.3', '4,717', '953.8', '338.3', '2,036']
+
+['its ok', 'cool game:D', 'Melhor jogo do mundo', 'I used to play this ', 'Learn English, Portu', 'in just 1 game. Very', 'I know how to abuse ', 'THIS GAME IS CANCER ', 'Heed these words, fo', 'Dota 2 is a first pe', 'If you are looking f']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=770&p=1&itemspage=78&screenshotspage=78&videospage=78&artpage=78&allguidepage=78&webguidepage=78&integratedguidepage=78&discussionspage=78&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['17.3 ', '658.9', '1,718', '69.4 ', '1,466', '7.1 h', '5.9 h', '212.4', '1,564', '0.4 h']
+
+['To be honest this is', 'im handsome', "the community's so t", 'this is an awesome g', '(THIS IS JUST MY OPI', 'Why play Dota 2 when', 'csgo has broken smok', 'This game succk, esp', 'NO']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=830&p=1&itemspage=84&screenshotspage=84&videospage=84&artpage=84&allguidepage=84&webguidepage=84&integratedguidepage=84&discussionspage=84&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,300', '2,692', '1,179', '1,461', '7,504']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=840&p=1&itemspage=85&screenshotspage=85&videospage=85&artpage=85&allguidepage=85&webguidepage=85&integratedguidepage=85&discussionspage=85&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,306', '2,480', '1,998', '6,772', '39.6 ', '2,442', '3,042', '4,170', '207.5', '33.8 ']
+
+['I came from the worl', '10/10 Because of thi', 'You learn how to pla', 'BEST GAME EVER', 'Too short.', 'Mid or feed, or feed', 'this game is full of', 'Do you want to have ', 'Just like real-time ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=850&p=1&itemspage=86&screenshotspage=86&videospage=86&artpage=86&allguidepage=86&webguidepage=86&integratedguidepage=86&discussionspage=86&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.2 h', '1,091', '3,293', '140.0', '3,042', '4,170', '3,218', '1,100', '2,493', '1,708']
+
+['league of legends is', 'Dota flippin 2, by a', 'I play DotA since it', 'Dota 2 is a fps deve', 'this game is full of', 'very addict games!', "if you're looking fo", 'Very cool, which is ', 'Dota 2 is great, 10/']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=870&p=1&itemspage=88&screenshotspage=88&videospage=88&artpage=88&allguidepage=88&webguidepage=88&integratedguidepage=88&discussionspage=88&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['892.1', '85.8 ', '1,649', '4,339', '52.2 ', '2.5 h', '1.0 h', '1,633', '731.1', '2,716']
+
+['is this the basket b', 'League of Legends bl', 'ing awesome!', 'This game just purel', "It suck that I can't", 'garbage', 'I immediately regret', 'You pick only US Eas', 'if this game suits m']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=880&p=1&itemspage=89&screenshotspage=89&videospage=89&artpage=89&allguidepage=89&webguidepage=89&integratedguidepage=89&discussionspage=89&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['7.1 h', '3,016', '355.0', '1,320', '757.6', '7,247', '255.6', '226.0', '1,307', '751.9']
+
+['The best free to pla', 'Worst game ever dont', 'This game is most su', 'What am I doing with', 'I have many things t', 'ggwp', 'This game is a Petri', "There's too much to ", 'community, a never e', 'Played Dota for 8 ye', 'GG']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=950&p=1&itemspage=96&screenshotspage=96&videospage=96&artpage=96&allguidepage=96&webguidepage=96&integratedguidepage=96&discussionspage=96&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,760', '957.7', '1,247', '0.7 h', '435.5', '0.1 h', '2,939', '1,388', '337.7']
+
+['gg', 'Friends? Hah! Family', 'This is a magnet for', 'LAAAAAAAAAME', 'One of the best MOBA', 'Item Confirmation Si', 'DotA 2. One of the f', 'i dont understand th', 'Try out this game, i', 'this is the best gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1090&p=1&itemspage=110&screenshotspage=110&videospage=110&artpage=110&allguidepage=110&webguidepage=110&integratedguidepage=110&discussionspage=110&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,458', '3,192', '1,034', '988.1', '1,705', '2,336', '947.0', '2,881', '25.7 ', '656.5']
+
+['A very nice game! :D', 'Banana usually play ', 'gg', 'What can I say? The ', 'NERVOUSA', 'It is a fun dress up', '0/10', 'I have played this g', 'me mid or feed']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1130&p=1&itemspage=114&screenshotspage=114&videospage=114&artpage=114&allguidepage=114&webguidepage=114&integratedguidepage=114&discussionspage=114&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,598', '213.3', '2,067', '3,690', '1,133', '207.2', '2,267', '1,543', '2,351', '1,963']
+
+['best game ever', 'Holy !', 'Valve eu te amo.', "It's okay....", 'Who knew a game coul', 'I once got the Jax u', 'Its fun but always r', 'I Like This Game', 'A game of wits, frie']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1150&p=1&itemspage=116&screenshotspage=116&videospage=116&artpage=116&allguidepage=116&webguidepage=116&integratedguidepage=116&discussionspage=116&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,332', '4,354', '2,198', '691.0', '275.3', '1,970', '2,398', '3,111', '1,119', '1,408']
+
+['Ruined my life! 10/1', 'I still recommend th', '10/10. By playing th', 'Nice game and graphi', 'My Grandfather smoke', '2200 hours playing t', 'nice game', 'This game is awesome', 'I can speak russian ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1170&p=1&itemspage=118&screenshotspage=118&videospage=118&artpage=118&allguidepage=118&webguidepage=118&integratedguidepage=118&discussionspage=118&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,398', '2,959', '7,388', '1,467', '932.7', '5,266', '1,160', '30.7 ', '1,275', '730.8']
+
+['2200 hours playing t', 'Every hour spent on ', 'igra syper', 'I like this game ver', '11/10 Would rate aga', 'Well Been playing th', 'First of all Dota is', '(aka Defense of The ', 'You play on a well k', 'You play as a hero o', 'Metacritics: 90/100 ', 'spend 50 minutes of ', 'same as it was in Wa']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1230&p=1&itemspage=124&screenshotspage=124&videospage=124&artpage=124&allguidepage=124&webguidepage=124&integratedguidepage=124&discussionspage=124&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,560', '1,615', '606.8', '349.8', '1,428', '2,016', '2,727', '185.0', '163.1', '1,467']
+
+['Good 1', 'the best game', 'No one wants to buy ', 'Want some of your fr', 'do it', 'A slower version of ', 'favorite Dota. Not r', 'VOLVO FIX IT PLEASE!', 'Definitive YES! No m', 'So good', 'cool']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1280&p=1&itemspage=129&screenshotspage=129&videospage=129&artpage=129&allguidepage=129&webguidepage=129&integratedguidepage=129&discussionspage=129&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,803', '2,042', '0.7 h', '1,120', '2,187', '557.6', '2,672', '319.1', '256.0', '195.9']
+
+['Run before this game', '! !   ! DOTA 2 -  ! ', 'Liked: + Boobs (try ', 'BEST LANGUAGE LEARNI', 'Terrible game. Jocke', 'This game is the abs', 'Is good', 'As you begin to play', 'This is one of the b', 'Icefrog did really w', 'I would say that thi', 'To those who want a ', 'Dota 2 is a Multipla', 'This game will eat y']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1290&p=1&itemspage=130&screenshotspage=130&videospage=130&artpage=130&allguidepage=130&webguidepage=130&integratedguidepage=130&discussionspage=130&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['681.8', '3,192', '2,769', '1,909', '892.9', '4,505', '1,412', '943.4', '2,896', '381.5']
+
+['Dota 2              ', '/10', 'I will definitely re', "It's so good.", 'Must be tried', 'This game is so awes', 'If I had spent the a', 'Probably the best MO', 'The only thing you c', 'This game will not m', 'Very Mind Involving ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1300&p=1&itemspage=131&screenshotspage=131&videospage=131&artpage=131&allguidepage=131&webguidepage=131&integratedguidepage=131&discussionspage=131&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,236', '2,140', '1,380', '3,847', '2,988', '296.1', '47.6 ', '5,547', '0.6 h', '2,428']
+
+['can draw  on map 10/', 'Teamwork, knowledge ', 'worth playing.', 'This game is enormou', ',    .', 'dos gome is proty go', ':)', 'dis gam gayyyyyyyyYY', 'Russian Simulator 20']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1310&p=1&itemspage=132&screenshotspage=132&videospage=132&artpage=132&allguidepage=132&webguidepage=132&integratedguidepage=132&discussionspage=132&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['762.5', '1,594', '2,473', '2,568', '103.5', '116.5', '2,544', '2,405', '473.4', '2,492']
+
+['pinakamahusay na lar', "Dota has it's up's a", 'Solo is the new Yolo', 'I will love you as h', 'F*ck russian servers', 'One of the best Sequ', 'Good game with even ', 'Helm Of Dominator__%', 'Give my life back!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1340&p=1&itemspage=135&screenshotspage=135&videospage=135&artpage=135&allguidepage=135&webguidepage=135&integratedguidepage=135&discussionspage=135&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['676.6', '1,721', '2,916', '5.0 h', '1,333', '519.7', '921.4', '3,640', '1,337', '8,402']
+
+['My butt hurts from a', 'DotA 2 is a game for', 'Ruined my life 10/10', 'I hate Russians.', 'ruined my marriage a', 'updates', 'This game will incre', 'Idi nahuy  blyat jeb', 'Dota is a game where', 'Take to the streets ', 'is highly competitiv']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1400&p=1&itemspage=141&screenshotspage=141&videospage=141&artpage=141&allguidepage=141&webguidepage=141&integratedguidepage=141&discussionspage=141&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['121.7', '162.7', '2,649', '1,302', '1,420', '2,235', '2,523', '2,250', '1,677', '1,212']
+
+['Very good game', 'have a nicev story', 'Teaches patience, co', 'Entertaining and hig', 'This game is great, ', "I've spent a lot of ", 'In DotA 2 very frien', "It's a awesome game ", 'Dota2 is the best ga']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1460&p=1&itemspage=147&screenshotspage=147&videospage=147&artpage=147&allguidepage=147&webguidepage=147&integratedguidepage=147&discussionspage=147&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,413', '1,305', '2,189', '2,015', '2,142', '3,579', '333.2', '52.6 ', '2,540', '2,405']
+
+['Fode minha vida soci', 'Great Game !', "Best game of it's ty", 'Yo!', 'It takes effort to l', '100% LIFESTEAL !!!!!', 'best game i have pla', 'good', 'This is a game your ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1510&p=1&itemspage=152&screenshotspage=152&videospage=152&artpage=152&allguidepage=152&webguidepage=152&integratedguidepage=152&discussionspage=152&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['59.3 ', '1,653', '2,409', '3,095', '3,535', '1,608', '803.5', '2,815', '4,605', '1,189']
+
+['Basically a really f', 'this is a cool game ', 'Amazing game. Honest', 'gg', 'Dota! Dota! Dota! Do', 'Awesome, incredible,', 'ing best game ever :', 'vsem pacanam s raena', 'no hablo engliche']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1570&p=1&itemspage=158&screenshotspage=158&videospage=158&artpage=158&allguidepage=158&webguidepage=158&integratedguidepage=158&discussionspage=158&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['368.6', '2,850', '2,479', '891.5', '0.2 h', '1.1 h', '90.1 ', '598.0', '2,235', '2,523']
+
+["It's like Rosetta St", 'Worst game I have ev', 'This game is good fo', 'This game is a waste', "Pretty boring, that'", 'LoL is a different g', 'This game got me pre', 'Just try it, if you ', "I've spent a lot of "]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1670&p=1&itemspage=168&screenshotspage=168&videospage=168&artpage=168&allguidepage=168&webguidepage=168&integratedguidepage=168&discussionspage=168&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,865', '77.9 ', '6.7 h', '2,327', '2,516', '960.3', '2,475', '161.7', '1,115', '2,898']
+
+['the perfect game to ', 'good', 'Nice game', "It's an awesome team", 'Probably the best ga', 'Best game eu, you ca', 'As i start playing d', 'I need to review a g', 'The best Game in the']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1760&p=1&itemspage=177&screenshotspage=177&videospage=177&artpage=177&allguidepage=177&webguidepage=177&integratedguidepage=177&discussionspage=177&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,765', '1,090', '1,336', '761.6', '3,782', '959.0', '0.6 h', '175.1', '1,138', '3,661']
+
+['As a heads up, this ', 'I leave it up for yo', 'lamo', 'gorilla  fencing', 'Worst Call of Duty g', 'Da best!', 'Great game. Valve is', 'Very crappy matchmak', '.', 'yes', 'this is nice']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1790&p=1&itemspage=180&screenshotspage=180&videospage=180&artpage=180&allguidepage=180&webguidepage=180&integratedguidepage=180&discussionspage=180&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.2 h', '875.4', '2,345', '4,188', '735.3', '675.5', '1,640', '2,119', '2,555', '368.0']
+
+['Also this game is a ', 'This game is crack f', 'If you have a pencha', 'no game has ever mad', 'Well for starters le', 'A few months ago I w', 'I like playing Dota', 'This game is cool, a', 'I played Dota since ', 'DoTA 2 is the premie', 'engaging top-down Mu', "Children's Online Da"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1820&p=1&itemspage=183&screenshotspage=183&videospage=183&artpage=183&allguidepage=183&webguidepage=183&integratedguidepage=183&discussionspage=183&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['805.1', '2,753', '341.6', '353.8', '3,298', '2,103', '2,883', '1,245', '584.1', '149.9']
+
+['When you buy boots f', 'The most challenging', 'know the roles of th', 'or watching videos o', 'expensive item never', 'TF2 Retirement Cente', ':y)', 'This game is a love/', 'Dota 2 is an AWESOME', 'Better than LoL.', 'i took a big sh*it a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1900&p=1&itemspage=191&screenshotspage=191&videospage=191&artpage=191&allguidepage=191&webguidepage=191&integratedguidepage=191&discussionspage=191&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['9.1 h', '1,414', '572.3', '2,694', '3,703', '486.9', '1,336', '530.8', '1,765', '2,210']
+
+['After 5 minutes I fo', 'good game', 'The Dota2 is very ni', 'Gief me mana', 'If you have over 200', 'qwerty', 'gorilla  fencing', 'Good Gama , Well Pla', 'As a heads up, this ', 'I leave it up for yo', 'Best Game ! Year Bea']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1910&p=1&itemspage=192&screenshotspage=192&videospage=192&artpage=192&allguidepage=192&webguidepage=192&integratedguidepage=192&discussionspage=192&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['451.6', '819.9', '1,241', '510.6', '2,874', '542.0', '1,347', '1,014', '1,008', '1,393']
+
+['This game requires l', 'One of the best, mos', 'try this game', 'This game is free. T', '-too many russians -', 'sight, juking, skill', 'Keep playing Dota 2 ', 'Honestly the most in', 'Note that this game ', 'DotA 2 is an amazing', 'what i dislike about']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=1940&p=1&itemspage=195&screenshotspage=195&videospage=195&artpage=195&allguidepage=195&webguidepage=195&integratedguidepage=195&discussionspage=195&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,188', '735.3', '675.5', '1,640', '2,119', '2,555', '368.5', '1,074', '954.0', '1,496']
+
+['no game has ever mad', 'Well for starters le', 'A few months ago I w', 'I like playing Dota', 'This game is cool, a', 'I played Dota since ', 'DoTA 2 is the premie', 'engaging top-down Mu', "Children's Online Da", 'A very good strategi', '<3 Good Game <3', "it's"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2000&p=1&itemspage=201&screenshotspage=201&videospage=201&artpage=201&allguidepage=201&webguidepage=201&integratedguidepage=201&discussionspage=201&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,434', '260.9', '4,378', '1,022', '1,713', '662.3', '299.4', '3,255', '1,374', '1,695']
+
+['I see the red sign a', 'Gave me cancer. 1.69', 'worst fkng game ever', 'I feel like this is ', 'Dota 2 is my passion', 'asd', 'ez', 'a', 'DotA 2 is an anger m', 'This review is long.', '. It helped me to st', "). I've discovered t", '. Their replays and ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2010&p=1&itemspage=202&screenshotspage=202&videospage=202&artpage=202&allguidepage=202&webguidepage=202&integratedguidepage=202&discussionspage=202&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['10.9 ', '1,120', '3,305', '1,822', '1,400', '2,210', '886.4', '698.9', '3,745', '2,071']
+
+['The game is good, bu', '.     .      .     .', 'In this game you ste', 'i hate this game and', 'Best game in Steam "', 'Best Game ! Year Bea', 'nice game', "Not bad, if you don'", "I didn't play any MO"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2020&p=1&itemspage=203&screenshotspage=203&videospage=203&artpage=203&allguidepage=203&webguidepage=203&integratedguidepage=203&discussionspage=203&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,171', '2,502', '805.1', '2,753', '341.6', '353.8', '3,298', '2,103', '2,883', '1,245']
+
+['I think Dota 2 need ', 'Sells your soul to G', 'When you buy boots f', 'The most challenging', 'know the roles of th', 'or watching videos o', 'expensive item never', 'TF2 Retirement Cente', ':y)', 'This game is a love/', 'Dota 2 is an AWESOME']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2030&p=1&itemspage=204&screenshotspage=204&videospage=204&artpage=204&allguidepage=204&webguidepage=204&integratedguidepage=204&discussionspage=204&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['584.1', '149.9', '944.9', '235.8', '1,499', '1,223', '1,472', '3,266', '2,865', '0.1 h']
+
+['Better than LoL.', 'i took a big sh*it a', '2 WORDS FU*KING AMAZ', 'AWESOME!!', 'This game is very aw', 'The worst game you c', '/ 10', 'ruined my life. 10 /', 'Probably the best co', 'Dis gaem ez leik bes', 'Never']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2050&p=1&itemspage=206&screenshotspage=206&videospage=206&artpage=206&allguidepage=206&webguidepage=206&integratedguidepage=206&discussionspage=206&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,903', '428.8', '2,210', '8.8 h', '1,110', '591.9', '1,826', '498.9', '6.8 h', '4,354']
+
+['League of Legends wi', 'I like the game item', 'Dota 2 is like roule', 'Much fun, very wow', 'Dota 2 has more nico', 'GOOD GAME strategic ', 'I can stop anytime I', 'I had no idea what I', 'this game will make ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2150&p=1&itemspage=216&screenshotspage=216&videospage=216&artpage=216&allguidepage=216&webguidepage=216&integratedguidepage=216&discussionspage=216&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['16.0 ', '1,701', '678.5', '848.8', '888.3', '820.7', '1,129', '1,117', '3,893', '2,929']
+
+['Really great game. I', 'taught me to hate ma', 'Very Fun and make go', 'Teamwork', 'Dota 2 is a 2013 mul', "S'alright", 'ga ada matinya....', 'to play dota 2 you w', 'Dota is a free-as-he']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (20).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2170&p=1&itemspage=218&screenshotspage=218&videospage=218&artpage=218&allguidepage=218&webguidepage=218&integratedguidepage=218&discussionspage=218&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['814.1', '1,223', '354.1', '36.6 ', '1,667', '22.5 ', '934.7', '2,922', '789.6', '1,097']
+
+['dota dla geev', 'GO HOME HAHAHAHA', 'Review by :', 'Dota 2 is the remake', 'or', 'team. Support, Offla', 'to get experience in', 'lane on both sides o', 'on the middle lane. ', 'of the game and ther', 'of them will be a bo', '- Game never gets bo', '- Russians. - Feeder', 'A good game to play ', 'This Game Honestly D', 'DoTA 2 is a game whi', 'potato', 'Sem palavras, melhor', ':D nice', 'shhhhhhhhhhhhhhhhhh']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2300&p=1&itemspage=231&screenshotspage=231&videospage=231&artpage=231&allguidepage=231&webguidepage=231&integratedguidepage=231&discussionspage=231&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['41.2 ', '2,469', '681.6', '2,185', '899.5', '40.7 ', '3,649', '2,983', '705.9', '1,031']
+
+['Bad Game.', 'This is a game where', 'Initially I more oft', 'Best MOBA ever. Sinc', 'yeah this game is in', 'Dota 2 Is literally ', 'Look at my in game h', 'I played a little bi', 'SO YOU WISH TO JOIN ', '9/10', 'Play some RTS games ', 'Serious gameplay to ', '$0 - Beta test Put i']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2400&p=1&itemspage=241&screenshotspage=241&videospage=241&artpage=241&allguidepage=241&webguidepage=241&integratedguidepage=241&discussionspage=241&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,460', '1,275', '27.1 ', '606.7', '5,090', '595.2', '1,159', '1,212', '1,291', '2,901']
+
+['This game took away ', 'good game', "enjoy ruski's compan", '100% better than goo', 'Now with ranked matc', "EPIC ! That's all !", 'Many Beandips and ot', 'Extremely fun game! ', "lol'n akmas sanrm bu"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2460&p=1&itemspage=247&screenshotspage=247&videospage=247&artpage=247&allguidepage=247&webguidepage=247&integratedguidepage=247&discussionspage=247&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,300', '2,692', '1,179', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2500&p=1&itemspage=251&screenshotspage=251&videospage=251&artpage=251&allguidepage=251&webguidepage=251&integratedguidepage=251&discussionspage=251&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.5 h', '280.9', '1,539', '2,596', '44.5 ', '1,750', '2,717', '2,424', '2,438', '184.2']
+
+['I never really liked', 'This game sux. I wan', 'Best game ever.', 'Steals your life har', "Can't play because i", 'With the diverse amo', 'it is a game', 'It ruined my life! 1', 'Free russian diction']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (24).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2630&p=1&itemspage=264&screenshotspage=264&videospage=264&artpage=264&allguidepage=264&webguidepage=264&integratedguidepage=264&discussionspage=264&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['381.5', '446.5', '5.6 h', '1.0 h', '701.6', '317.6', '11.2 ', '1,831', '1,023', '1,694']
+
+['Very good, has Lina,', "Surgeon General's Wa", 'Excessive Fun', 'Broken Friendships', 'Addiction', 'Invoker Syndrome', 'Ability to understan', 'Rage', 'Fluency in Foreign L', 'Racial hatred ()', 'Cheesecake Ingestion', 'Short Temper', 'Sudden loss of sever', 'Short Temper (So bad', 'Obsession with TP sc', 'to dota 2', 'DOTA2 HAS CONSUMED T', 'with hideous DOTA2 s', 'Awesome gameplay. Am', 'Coolest Game Ever !', "Don'tya 2", 'Matchmaking system s', "It's like caffeine..", 'Best competitive gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2670&p=1&itemspage=268&screenshotspage=268&videospage=268&artpage=268&allguidepage=268&webguidepage=268&integratedguidepage=268&discussionspage=268&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,830', '1,847', '2,239', '738.1', '4,664', '885.2', '1,314', '1,184', '535.6', '3,025']
+
+['Excellent Game That ', 'Awesome !', 'GOOD GAME !', 'f*cking alot of noob', 'The Best Free Game :', 'Best game in the wor', 'Like Play (y)', 'i just like dota 2 ,', 'DREAM COIL']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2730&p=1&itemspage=274&screenshotspage=274&videospage=274&artpage=274&allguidepage=274&webguidepage=274&integratedguidepage=274&discussionspage=274&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,701', '2,538', '3,886', '349.2', '64.5 ', '2,413', '1,577', '1.4 h', '4,622', '539.0']
+
+['bcfbf', 'The best thing about', 'dota is the best gam', 'Meet new and interes', 'if you are male and ', 'Just make a strategy', 'This is for people w', 'pudge is a bad hero', 'Stay away from Dota.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2790&p=1&itemspage=280&screenshotspage=280&videospage=280&artpage=280&allguidepage=280&webguidepage=280&integratedguidepage=280&discussionspage=280&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['853.2', '6,852', '1,359', '789.1', '647.6', '1,165', '4,041', '1,876', '34.2 ', '6.2 h']
+
+['Nice game. Develop t', 'Stay away, or be add', 'Best game to learn r', 'This game is unlike ', 'Best moba ever', 'to occupy my days ar', 'awesome game!', '<3', 'dota e muito  velho ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2800&p=1&itemspage=281&screenshotspage=281&videospage=281&artpage=281&allguidepage=281&webguidepage=281&integratedguidepage=281&discussionspage=281&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,195', '1,315', '991.8', '630.3', '1,342', '1,445', '1,643', '2,583', '4,173', '2,034']
+
+['This game is so over', 'Pretty fun. You can ', 'Dota 2 is a British ', 'Best online game i e', 'good', 'I last reviewed this', 'best game EVER', "Let's smoke weed.", 'This game has shown ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2830&p=1&itemspage=284&screenshotspage=284&videospage=284&artpage=284&allguidepage=284&webguidepage=284&integratedguidepage=284&discussionspage=284&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,464', '997.2', '2,214', '320.9', '3,878', '266.8', '1,155', '5,063', '802.4', '1,181']
+
+['best game :)', 'Ultimate MOBA for Ul', 'Best Game In The Wor', 'this is my favorite ', 'The Best RPG Game In', 'I rate this game 9/1', 'Good Game !!!', 'Boy gee williker if ', 'Best A-RTS game ever']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2840&p=1&itemspage=285&screenshotspage=285&videospage=285&artpage=285&allguidepage=285&webguidepage=285&integratedguidepage=285&discussionspage=285&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,956', '972.2', '2,811', '131.4', '1,904', '681.7', '741.8', '268.2', '1,515', '2,600']
+
+['Simply the best game', 'I highly recomend th', 'my life :P', 'A nice game.', 'gg dota 2', ':v', 'This game is not for', 'bedre en league of l', '57.4 hrs last two we']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=2860&p=1&itemspage=287&screenshotspage=287&videospage=287&artpage=287&allguidepage=287&webguidepage=287&integratedguidepage=287&discussionspage=287&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['884.1', '1,553', '1,466', '2,368', '710.8', '1,422', '1,044', '2.5 h', '0.0 h', '900.3']
+
+['You start off not kn', 'Great game!!!', 'Love Dota 2', 'asd', 'fun game definitely ', 'very addictive dont ', 'Cool :D', "I'm  at the game but", 'Simply a Must-Have .']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3070&p=1&itemspage=308&screenshotspage=308&videospage=308&artpage=308&allguidepage=308&webguidepage=308&integratedguidepage=308&discussionspage=308&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,248', '1,097', '884.7', '2,743', '890.6', '61.5 ', '801.5', '3,803', '2.1 h', '1,097']
+
+['awesome', 'DOTO 2 russian langu', 'dota 2 is like dota ', 'nice', 'awesome', 'nice game', 'Be careful that it d', 'Sure. Yes, this game', 'nice']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3100&p=1&itemspage=311&screenshotspage=311&videospage=311&artpage=311&allguidepage=311&webguidepage=311&integratedguidepage=311&discussionspage=311&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,412', '399.6', '3,791', '1,230', '4,420', '1,569', '666.1', '1,651', '2,047', '2,785']
+
+['BEST EVER', 'good game', 'good stuff', 'I find it a fun game', 'Play It!!!', 'Literally the best g', 'nice game.,, :3', 'aha', 'I love this game :)']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3250&p=1&itemspage=326&screenshotspage=326&videospage=326&artpage=326&allguidepage=326&webguidepage=326&integratedguidepage=326&discussionspage=326&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,162', '2,031', '2,226', '2,750', '486.3', '1,425', '2,949', '2,017', '3,011', '2,916']
+
+['yes', 'awesome... i luv it.', 'good game', 'The best game ever..', 'This game is not for', 'This is one of the b', 'amazing game!!!', 'Good game, recommend', 'Game yang sangat asy']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3320&p=1&itemspage=333&screenshotspage=333&videospage=333&artpage=333&allguidepage=333&webguidepage=333&integratedguidepage=333&discussionspage=333&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,605', '2,066', '2,597', '655.2', '14.2 ', '1,568', '4,316', '1,122', '2,686', '2,644']
+
+['Ah yes, Dota 2...one', 'THIS GAME 10/10 WOUL', 'Good game', 'good game ^-^d', 'the good game,...GOD', 'This', 'Ruined my life. 11/1', 'whay', 'Dota 2 is the best .']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3340&p=1&itemspage=335&screenshotspage=335&videospage=335&artpage=335&allguidepage=335&webguidepage=335&integratedguidepage=335&discussionspage=335&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,116', '166.5', '1,269', '190.0', '1,675', '1,031', '183.4', '45.8 ', '3,365', '54.4 ']
+
+['NOT FOR THE FAINT HE', 'es un muy buen juego', 'one of my nice awesu', 'Its Really Nice TO P', ':)', 'Dropped many hours i', 'Best game in da WORL', 'Este mult peste Leag', 'Nice game try once']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3350&p=1&itemspage=336&screenshotspage=336&videospage=336&artpage=336&allguidepage=336&webguidepage=336&integratedguidepage=336&discussionspage=336&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,302', '2,692', '1,179', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3380&p=1&itemspage=339&screenshotspage=339&videospage=339&artpage=339&allguidepage=339&webguidepage=339&integratedguidepage=339&discussionspage=339&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['340.9', '42.8 ', '1,465', '1,187', '66.9 ', '2,041', '2,416', '1,676', '1,103', '1,724']
+
+['good game', 'League may have stre', 'and the community fo', 'means .', 'its good and i waste', 'This is very wonderf', 'Riot Games really hi', 'MAGRO', 'good game bro!', 'gg', 'play dota. win games']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3430&p=1&itemspage=344&screenshotspage=344&videospage=344&artpage=344&allguidepage=344&webguidepage=344&integratedguidepage=344&discussionspage=344&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,869', '495.4', '607.3', '564.6', '1,642', '2,465', '2,226', '851.6', '890.2', '1,598']
+
+['WAHAHA, cool game im', 'Best MOBA game out t', 'This game has a lot ', 'Really awesome game,', '!!!!!111', 'best game ever !!!', 'Well that escalated ', 'nice game', 'This is the Best Eve']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3460&p=1&itemspage=347&screenshotspage=347&videospage=347&artpage=347&allguidepage=347&webguidepage=347&integratedguidepage=347&discussionspage=347&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,291', '1,055', '4,202', '35.7 ', '2,656', '966.7', '235.6', '2,619', '2,491', '1,043']
+
+['Dota 2 isnt for the ', 'ncgame', 'Ruined my life. Give', 'Best MOBA !!', 'S H I T game destroy', 'This game taught me ', 'best game ever', 'BEST MOBA FOREVER!', 'Best moba game ever ', 'The only ARTS worth ', '. It covers practica']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3610&p=1&itemspage=362&screenshotspage=362&videospage=362&artpage=362&allguidepage=362&webguidepage=362&integratedguidepage=362&discussionspage=362&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,740', '1,759', '1,088', '706.5', '2,328', '750.2', '101.2', '1,422', '4,254', '563.0']
+
+['nice game', 'yeah, dota 2 is the ', 'This game increased ', 'xD', 'this gme mke me exci', 'A very good game, si', 'Dota 2 is a well cra', 'The best game ever', 'Awesome']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3630&p=1&itemspage=364&screenshotspage=364&videospage=364&artpage=364&allguidepage=364&webguidepage=364&integratedguidepage=364&discussionspage=364&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['593.4', '1,328', '563.0', '1,300', '2,450', '1,993', '1,570', '3,130', '5.9 h', '24.5 ']
+
+[':D', 'If you want to learn', 'I Am ashamed in the ', 'fun.', 'the best', 'Americans>Russians>M', "Don't play this game", 'what a kak game lags', 'Too many russians']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3700&p=1&itemspage=371&screenshotspage=371&videospage=371&artpage=371&allguidepage=371&webguidepage=371&integratedguidepage=371&discussionspage=371&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['161.7', '1,191', '2,450', '1,071', '2,151', '283.5', '597.7', '112.5', '561.0', '2,674']
+
+['Dota 2 the most play', 'wow such language si', 'I think that russian', 'I love this game.. b', 'The best game ever!!', 'Good Game', 'So many hours playin', 'Lalala', 'BEST. GAME. EVER.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3870&p=1&itemspage=388&screenshotspage=388&videospage=388&artpage=388&allguidepage=388&webguidepage=388&integratedguidepage=388&discussionspage=388&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,454', '2,137', '2,875', '1.7 h', '2,722', '795.2', '1,860', '1,535', '2,759', '2,564']
+
+['Great game!!!', 'I Love It :P', 'Good game.', 'this game is for kor', 'nice', 'server good more :)', 'Basically best MOBA ', 'The "real" MOBA in t', 'indo gamers']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3880&p=1&itemspage=389&screenshotspage=389&videospage=389&artpage=389&allguidepage=389&webguidepage=389&integratedguidepage=389&discussionspage=389&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['444.8', '2,822', '2,857', '803.4', '640.3', '1,424', '1,275', '949.3', '1,233', '568.4']
+
+['Blablabla', 'whoooooaaaaa', 'best game ever!', 'GGWP', 'dota 2', 'Ruined my life.', 'I love playing Dota ', 'Best game player eve', 'Really good game if ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3930&p=1&itemspage=394&screenshotspage=394&videospage=394&artpage=394&allguidepage=394&webguidepage=394&integratedguidepage=394&discussionspage=394&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,086', '1,590', '3,311', '677.7', '1,306', '2,370', '203.0', '1,542', '618.0', '1,806']
+
+['BEST GAME EVER !!!', 'Too many heroes, too', 'imba', 'I like easy Gaming S', 'Promotes racism towa', 'BEST!', 'Dota 2, where do I s', 'I hate this game, an', 'Awesome game! Buy it']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=3970&p=1&itemspage=398&screenshotspage=398&videospage=398&artpage=398&allguidepage=398&webguidepage=398&integratedguidepage=398&discussionspage=398&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,949', '2,017', '3,013', '2,916', '2,270', '754.5', '1,937', '2,914', '1,691', '1,321']
+
+['amazing game!!!', 'Good game, recommend', 'Game yang sangat asy', 'GOODGAME', 'gh', ':)', 'WARNING THIS GAME IS', 'rq', 'Best game on the mar']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4000&p=1&itemspage=401&screenshotspage=401&videospage=401&artpage=401&allguidepage=401&webguidepage=401&integratedguidepage=401&discussionspage=401&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['666.1', '1,651', '2,047', '2,785', '1,014', '1,301', '2,973', '1,478', '729.2', '1,301']
+
+['nice game.,, :3', 'aha', 'I love this game :)', 'Do you like being ma', 'Is great yo', 'Good game to play wi', 'good good', 'Too many ing russian', '. ,']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4030&p=1&itemspage=404&screenshotspage=404&videospage=404&artpage=404&allguidepage=404&webguidepage=404&integratedguidepage=404&discussionspage=404&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,400', '2,842', '85.6 ', '1,323', '306.0', '528.0', '412.8', '2,343', '4,100', '551.5']
+
+['nice', 'nyx nyx nyx nyx nyx ', 'Fantastic', "it's really fun and ", 'very good', 'worth waiting for', 'You will leav your w', "Let's play some DotA", 'i like this game dot']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4040&p=1&itemspage=405&screenshotspage=405&videospage=405&artpage=405&allguidepage=405&webguidepage=405&integratedguidepage=405&discussionspage=405&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,451', '1,628', '521.9', '5,559', '627.4', '4,494', '927.9', '7,261', '2,189', '1,174']
+
+['good game', 'dude i kno dia gam i', '..', 'It is an awesome tea', 'dota2 the best game', 'this game is so much', 'Lets DOTA2', 'Made me a racist 10/', 'Playing this game fo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4120&p=1&itemspage=413&screenshotspage=413&videospage=413&artpage=413&allguidepage=413&webguidepage=413&integratedguidepage=413&discussionspage=413&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,445', '841.6', '1,085', '1,100', '534.3', '1,157', '850.6', '818.0', '762.9', '1,358']
+
+['Currently ruining my', 'zxccccc', 'nce gane', 'better than cancer', 'Awesome graphics and', 'An absolutely amazin', "it's alright that.", 'good game', 'You need to get this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4130&p=1&itemspage=414&screenshotspage=414&videospage=414&artpage=414&allguidepage=414&webguidepage=414&integratedguidepage=414&discussionspage=414&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['931.5', '1,177', '1,842', '1,896', '712.6', '2,458', '386.1', '1,606', '97.8 ', '2,722']
+
+['yeah', 'i love DOTA2', 'like', 'killing spreeeeeeeee', 'dfsdfg', 'The title itself is ', 'I love the game dota', 'this is the game i l']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4270&p=1&itemspage=428&screenshotspage=428&videospage=428&artpage=428&allguidepage=428&webguidepage=428&integratedguidepage=428&discussionspage=428&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['731.9', '1,324', '678.7', '2,299', '1,562', '2,596', '1,804', '2,937', '1,308', '1,509']
+
+['If you want to get i', 'This is great game, ', 'UHM', 'BEST GAME EVER! I pe', 'I used to enjoy soci', 'this is a best game ', 'It is fun, for the f', 'gruan', 'Use ur brain and bal']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4340&p=1&itemspage=435&screenshotspage=435&videospage=435&artpage=435&allguidepage=435&webguidepage=435&integratedguidepage=435&discussionspage=435&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,993', '2,858', '1,985', '2,201', '1,775', '1,863', '1,494', '1,537', '4,094', '2,423']
+
+['Epic Game, try and s', 'hgjhjhgj', 'Dota 2 is a game for', 'This delirious opere', 'Doto best gaem.', 'GG', 'Boom Panes', 'Much Peruvian, very ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4490&p=1&itemspage=450&screenshotspage=450&videospage=450&artpage=450&allguidepage=450&webguidepage=450&integratedguidepage=450&discussionspage=450&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,102', '885.0', '1,553', '1,466', '2,368', '710.8', '1,422', '1,044', '2.5 h', '0.0 h']
+
+['IF YOU ARE MOBA PLAY', 'You start off not kn', 'Great game!!!', 'Love Dota 2', 'asd', 'fun game definitely ', 'very addictive dont ', 'Cool :D', "I'm  at the game but"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4510&p=1&itemspage=452&screenshotspage=452&videospage=452&artpage=452&allguidepage=452&webguidepage=452&integratedguidepage=452&discussionspage=452&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['273.0', '764.9', '1,206', '413.6', '1,711', '678.7', '522.1', '1,194', '1,516', '1,633']
+
+["Awesome game. It's o", 'Mastin Good ~', 'Wow... i never thoug', 'Dota 2 Is The Best !', "It's not an easy gam", 'wow', 'amazing', 'Dota 2 is the greate', 'best game i ever pla']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4520&p=1&itemspage=453&screenshotspage=453&videospage=453&artpage=453&allguidepage=453&webguidepage=453&integratedguidepage=453&discussionspage=453&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,306', '2,692', '1,181', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4620&p=1&itemspage=463&screenshotspage=463&videospage=463&artpage=463&allguidepage=463&webguidepage=463&integratedguidepage=463&discussionspage=463&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['80.7 ', '1,433', '2,527', '1,477', '1,041', '2,459', '0.5 h', '840.0', '649.8', '670.5']
+
+['Recommended game', 'so much love this ga', '10/10 would bang lit', 'best game ofc. Dota ', '10/10 When I became ', 'PIECE OF ! DONUT PLA', 'Blatant rip-off of t', 'fun as long as your ', 'If you want your hea']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4650&p=1&itemspage=466&screenshotspage=466&videospage=466&artpage=466&allguidepage=466&webguidepage=466&integratedguidepage=466&discussionspage=466&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,156', '828.5', '4,460', '629.1', '0.2 h', '1,385', '866.5', '661.8', '429.2', '726.3']
+
+['Under all Clones lik', 'This best game', 'Complete waste of yo', 'This game is very fu', 'There were pandas, a', "I've been converted ", 'Perfect MOBA!', 'PERFEKT FRFAN', 'I love playing with ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4670&p=1&itemspage=468&screenshotspage=468&videospage=468&artpage=468&allguidepage=468&webguidepage=468&integratedguidepage=468&discussionspage=468&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,442', '848.8', '78.3 ', '404.0', '1,472', '3,658', '1,040', '1.6 h', '1,143', '3,140']
+
+['YES', 'gives cancer. would ', 'Its The only one gam', 'So my friends dragge', 'I can now speak flue', 'Awesome game, made m', 'I was gonna clean my', 'there is a reason wh', 'This is the only gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4680&p=1&itemspage=469&screenshotspage=469&videospage=469&artpage=469&allguidepage=469&webguidepage=469&integratedguidepage=469&discussionspage=469&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['498.5', '10.4 ', '287.1', '2,624', '283.0', '4,056', '33.5 ', '2,395', '3,412', '1,971']
+
+['the day valve decide', 'nice strategy game :', 'Fantastic tower defe', 'awesome game', 'I only played a bit ', 'Dota is a competitiv', 'Finally, i barely ma', 'Will make you hate y', "it's horrible someti"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4730&p=1&itemspage=474&screenshotspage=474&videospage=474&artpage=474&allguidepage=474&webguidepage=474&integratedguidepage=474&discussionspage=474&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,306', '2,692', '1,181', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4740&p=1&itemspage=475&screenshotspage=475&videospage=475&artpage=475&allguidepage=475&webguidepage=475&integratedguidepage=475&discussionspage=475&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,307', '2,692', '1,181', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4790&p=1&itemspage=480&screenshotspage=480&videospage=480&artpage=480&allguidepage=480&webguidepage=480&integratedguidepage=480&discussionspage=480&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.5 h', '1,066', '1,611', '1,156', '794.2', '131.5', '935.9', '3,198', '102.4', '914.8']
+
+["I'll just say no for", 'You can find your lo', 'very good game and n', 'Better than LoL (Lea', 'nice game guyzzz ...', 'Dota 2 is amazing', 'The best of the best', 'The best game ever.', 'A must have if you a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4800&p=1&itemspage=481&screenshotspage=481&videospage=481&artpage=481&allguidepage=481&webguidepage=481&integratedguidepage=481&discussionspage=481&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['190.7', '4,159', '2,717', '893.9', '2,673', '2,206', '786.6', '1,223', '1,189', '9.5 h']
+
+['yeah', 'great game', 'nice', 'awwsome', 'dota2 is ing awesome', 'I have played. This ', 'sexo.....', 'This game is perfect', 'Wrong game for Russi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4810&p=1&itemspage=482&screenshotspage=482&videospage=482&artpage=482&allguidepage=482&webguidepage=482&integratedguidepage=482&discussionspage=482&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,334', '1,219', '790.6', '942.9', '1,152', '401.3', '326.6', '1,593', '1,598', '159.7']
+
+['Dota 2 makes me rage', 'Love to play this ga', 'Great game', 'best quickscope game', 'Best game ever 100/1', 'Fun but some people ', ':D', 'Doto is a game where', 'the very good game))']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4820&p=1&itemspage=483&screenshotspage=483&videospage=483&artpage=483&allguidepage=483&webguidepage=483&integratedguidepage=483&discussionspage=483&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,867', '1,093', '254.2', '488.0', '587.0', '374.8', '1,118', '771.7', '1,379', '2,380']
+
+['Awesome game!!! Ever', 'I recommend!', 'i like this game to ', 'They say this game i', 'Every Good Moba', 'is awesome', 'good game! (y)', 'nice', 'nice']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4840&p=1&itemspage=485&screenshotspage=485&videospage=485&artpage=485&allguidepage=485&webguidepage=485&integratedguidepage=485&discussionspage=485&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,320', '990.4', '1,311', '238.0', '226.5', '29.7 ', '1,703', '3,279', '2,537', '112.5']
+
+['Get it. It is free, ', ':D', 'Dota2 is a gateway g', 'Nice game. Very inte', 'wew !', 'click people n stuff', 'Great tactical game!', 'mothering game', 'I Love Dota <3']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4910&p=1&itemspage=492&screenshotspage=492&videospage=492&artpage=492&allguidepage=492&webguidepage=492&integratedguidepage=492&discussionspage=492&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,175', '403.2', '1,668', '127.1', '28.8 ', '1,002', '1,169', '2,233', '36.4 ', '633.3']
+
+['This game awakend a ', 'it is a good game an', 'the best game ever g', 'good game', 'beautifull game nice', 'gg', 'Best game in the pas', 'nice', 'I never knew Mexico ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4930&p=1&itemspage=494&screenshotspage=494&videospage=494&artpage=494&allguidepage=494&webguidepage=494&integratedguidepage=494&discussionspage=494&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['395.1', '1,430', '840.6', '719.5', '2,340', '525.5', '1,439', '1,422', '2,905', '1,114']
+
+[':)', 'nice game of tactics', 'I been playing it fo', "i like this game 'co", 'Well Played VOLVO', 'Ah Valve. Why do you', 'GG game. GG trading.', 'This is DotA 2. It i', 'This game is a 8/10 ', 'kokokokok', 'Dota 2 make me keep ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=4980&p=1&itemspage=499&screenshotspage=499&videospage=499&artpage=499&allguidepage=499&webguidepage=499&integratedguidepage=499&discussionspage=499&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['449.0', '2,433', '927.3', '2,140', '11,80', '5,307', '2,692', '1,181', '1,461', '7,505']
+
+['This game taught me ', 'Side effects include', "It's like roulette; ", 'Causes anxiety probl', 'And you thought real', 'I only played a litt', '"THE PUB SUPPORT" "W', 'One day, a wise man ', 'Hours of fun, all yo', 'In this game you can', ')']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=5070&p=1&itemspage=508&screenshotspage=508&videospage=508&artpage=508&allguidepage=508&webguidepage=508&integratedguidepage=508&discussionspage=508&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.2 h', '1,198', '2,155', '3,043', '1,290', '2,900', '2,042', '1,089', '1,730', '958.9']
+
+['7/10 Great game when', 'truly amazing game.', 'Really fun, time con', 'I love this game..', 'Much good. Many skil', 'This game litterally', 'Really nice game', 'There are a lot of M', 'Nothing to say......']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=5090&p=1&itemspage=510&screenshotspage=510&videospage=510&artpage=510&allguidepage=510&webguidepage=510&integratedguidepage=510&discussionspage=510&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['874.6', '958.2', '826.0', '3,075', '1,383', '1,459', '635.7', '621.6', '659.5', '2,183']
+
+['^_^', 'Brilliantly addictiv', 'This is my favorite ', '\\o/', 'this game remides me', '100000/10', 'Joguem de pugna,fech', 'LOL', '..............', 'omg gais fix dis pls', "Basicly, I've been p"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/570/homecontent/?userreviewsoffset=5160&p=1&itemspage=517&screenshotspage=517&videospage=517&artpage=517&allguidepage=517&webguidepage=517&integratedguidepage=517&discussionspage=517&appid=570&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1

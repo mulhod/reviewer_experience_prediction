@@ -145,10 +145,10 @@ if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='./python get_review_data.py',
         description='Make review data files for each game in the APPID_DICT' \
-                    ', which is specified in the __init__.py module that ' \
-                    'part of the "data" directory. A specific list of game ' \
-                    'IDs (same as "appid") can also be specified instead, ' \
-                    'but they must map to games in APPID_DICT.',
+                    ', which is specified in the __init__.py module in the ' \
+                    'the "data" directory. A specific list of game IDs ' \
+                    '(same as "appid") can also be specified instead, but ' \
+                    'they must map to games in APPID_DICT.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--appids',
         help='comma-separated list of game IDs for which to generate review' \
@@ -178,3 +178,4 @@ if __name__ == '__main__':
                 for review in review_set:
                     of.write('game-hours: {0[1]}\n' \
                              'review: {0[0]}\n'.format(review))
+                of.flush()
