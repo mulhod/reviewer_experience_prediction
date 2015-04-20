@@ -681,3 +681,723 @@ URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5060&p=1&i
 Warning: len(hours) (10) not equal to len(range_reviews) (9).
 
 URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5130&p=1&itemspage=514&screenshotspage=514&videospage=514&artpage=514&allguidepage=514&webguidepage=514&integratedguidepage=514&discussionspage=514&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,374', '1,405', '1,923', '4,724', '2,504', '1,042', '978.7', '656.7', '151.4', '333.2']
+
+['its ok', 'I hate this game as ', 'SUCH A AWESOME AND A', 'A really thrilling f', 'WARNING: This review', 'i never want to stop', '10/10, best Hat Simu', 'Best hat simulator e', 'this game is a lot o']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5350&p=1&itemspage=536&screenshotspage=536&videospage=536&artpage=536&allguidepage=536&webguidepage=536&integratedguidepage=536&discussionspage=536&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,374', '1,405', '1,923', '4,724', '2,504', '1,042', '978.7', '656.7', '151.4', '333.2']
+
+['its ok', 'I hate this game as ', 'SUCH A AWESOME AND A', 'A really thrilling f', 'WARNING: This review', 'i never want to stop', '10/10, best Hat Simu', 'Best hat simulator e', 'this game is a lot o']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5440&p=1&itemspage=545&screenshotspage=545&videospage=545&artpage=545&allguidepage=545&webguidepage=545&integratedguidepage=545&discussionspage=545&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,017', '4,864', '704.1', '203.0', '1,664', '889.0', '294.6', '721.3', '128.4', '1,126']
+
+['Fun, non-serious gam', 'good game', 'I had something call', 'this game is realy f', "I'd say something li", '100/100 Perfect For ', 'In My Words I Love T', 'this is definitey a ', 'Crafted two wooden b', 'Amazing game. Whoeve', 'My oppinion of a fir']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5590&p=1&itemspage=560&screenshotspage=560&videospage=560&artpage=560&allguidepage=560&webguidepage=560&integratedguidepage=560&discussionspage=560&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['81.9 ', '3,862', '1,000', '214.1', '127.7', '1,175', '568.1', '906.5', '4.6 h', '528.7']
+
+['my favorite!', 'Great game not pay t', 'CacaPipi49', 'This game is awesome', 'Meh', 'Spent over $300 on v', 'Whether its shooting', 'hei', 'expect to invest you']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5610&p=1&itemspage=562&screenshotspage=562&videospage=562&artpage=562&allguidepage=562&webguidepage=562&integratedguidepage=562&discussionspage=562&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['556.1', '872.5', '1,121', '939.3', '601.1', '1,132', '932.1', '3,937', '990.9', '1,668']
+
+['If you quit playing,', 'When buying this gam', "Wow, I've played thi", '1337/10 would hat ag', "It's the best game o", 'Best. Game. Ever. On', "If you haven't playe", '>I was only 23 years', 'Derp', 'Well  my old review ', 'Amazing :D']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5670&p=1&itemspage=568&screenshotspage=568&videospage=568&artpage=568&allguidepage=568&webguidepage=568&integratedguidepage=568&discussionspage=568&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4.8 h', '89.3 ', '879.2', '1,212', '429.7', '136.7', '652.1', '1,359', '204.9', '219.4']
+
+['good game', 'Team Fortress 2 has ', 'Simple multiplayer o', 'Cartoon-like charact', 'Easy bots can be a l', 'Really fun. From wal', 'Play it.', 'Fun game!', 'Team Fortress 2 is a', 'Probaly the best fre', "It's aight", 'very addicting and y', 'Man this game is AWE', 'tf2 mlg 4u', 'Respawn times are gr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=5810&p=1&itemspage=582&screenshotspage=582&videospage=582&artpage=582&allguidepage=582&webguidepage=582&integratedguidepage=582&discussionspage=582&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['991.4', '477.6', '0.3 h', '1,809', '755.7', '174.1', '495.1', '2,234', '676.5', '1,240']
+
+['Medic!', 'B3st Gam3 Evr', 'for new players', 'The best damn FPS ex', 'Best game I ever pal', 'This game is one of ', 'Team Fortress 2 (TF2', 'Team Fortress 2 is a', 'Yes, it was. Team Fo', 'Its probably the gam', 'This game already go', 'This is the one of t', 'This is one of my fa']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6000&p=1&itemspage=601&screenshotspage=601&videospage=601&artpage=601&allguidepage=601&webguidepage=601&integratedguidepage=601&discussionspage=601&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['109.1', '845.5', '1,182', '330.1', '171.4', '3,664', '359.0', '966.2', '79.4 ', '1,032']
+
+['I like this game bec', "There's not a better", 'he has no style he h', 'A very good game. Yo', 'Pros: + Lots of hats', 'You sort of get bore', 'nice game !', 'I punched a little b', 'I got beat to death ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6010&p=1&itemspage=602&screenshotspage=602&videospage=602&artpage=602&allguidepage=602&webguidepage=602&integratedguidepage=602&discussionspage=602&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['972.6', '1,263', '47.1 ', '1,393', '92.2 ', '148.6', '974.6', '2,063', '459.9', '227.0']
+
+['Its an awesome game ', 'Wasted 1200+ hours o', 'Team Fortress 2 is a', 'Definently recommend', 'I really like dis ga', 'Play on a 64 player,', 'demonium', 'This game is actuall', 'There are no Sanic h', 'I love this game so ', 'A game where what is']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6080&p=1&itemspage=609&screenshotspage=609&videospage=609&artpage=609&allguidepage=609&webguidepage=609&integratedguidepage=609&discussionspage=609&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['8.2 h', '1,080', '10.9 ', '2,454', '309.9', '473.9', '164.4', '24.2 ', '533.4', '599.7']
+
+["I know I haven't pla", 'One of the game that', 'Flava Flav', 'Just a awesome carto', 'I spy with my little', 'BEST PC GAME EVER CR', 'Just flat out AMAZIN', 'Very fun', '........()() .......', 'THIS is truly the mo', 'Excellent game, the ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6100&p=1&itemspage=611&screenshotspage=611&videospage=611&artpage=611&allguidepage=611&webguidepage=611&integratedguidepage=611&discussionspage=611&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,006', '256.2', '1,115', '813.6', '1,399', '777.4', '6,717', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6130&p=1&itemspage=614&screenshotspage=614&videospage=614&artpage=614&allguidepage=614&webguidepage=614&integratedguidepage=614&discussionspage=614&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['19.6 ', '1,736', '1,098', '2,436', '7.8 h', '1,572', '1,908', '572.3', '203.9', '1,650']
+
+["It's fun to just duc", '<3', 'This game... where d', 'Dota 2 is better the', 'MUCH BETTER THAN CoD', "I've played it for a", 'My favourite First-P', 'Really awesome + rea', 'One of my favorite g']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6180&p=1&itemspage=619&screenshotspage=619&videospage=619&artpage=619&allguidepage=619&webguidepage=619&integratedguidepage=619&discussionspage=619&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['755.3', '421.6', '1,024', '1,338', '1,512', '486.1', '2,319', '252.7', '1,563', '1,098']
+
+['Dare I say this is t', 'Takes up way too muc', 'Hats! Need I say mor', 'sexy', 'Team Fortress 2 is a', 'Maybe the greatest m', '10 gigabyte hat simu', 'Nerf Heavy', "The game that I've s"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6250&p=1&itemspage=626&screenshotspage=626&videospage=626&artpage=626&allguidepage=626&webguidepage=626&integratedguidepage=626&discussionspage=626&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['368.4', '1,192', '2,218', '46.3 ', '974.0', '260.0', '718.6', '745.5', '526.6', '631.9']
+
+['Would not reccommend', 'This is probably the', 'BEST. GAME. EVER.', 'i ing hate this game', 'This makes me moist', 'its a fun game to pl', 'I wasted an importan', "I don't know how to ", "If you're going to", '*get this game', '* Please keep these ', "Don't quite know why"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6280&p=1&itemspage=629&screenshotspage=629&videospage=629&artpage=629&allguidepage=629&webguidepage=629&integratedguidepage=629&discussionspage=629&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,363', '1,053', '1,871', '1,170', '0.9 h', '1,149', '1,098', '51.8 ', '125.5', '6.1 h']
+
+['I LOVE THIS GAME SO ', 'I LOVE IT I LOVE IT ', 'is gud 10/10', 'Good game, its more ', 'awesome,breathtaking', 'The best MMOFPS the ', 'Best hat simulator e', 'HOLY  JEGAN STOP MAK', 'Banzai!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6290&p=1&itemspage=630&screenshotspage=630&videospage=630&artpage=630&allguidepage=630&webguidepage=630&integratedguidepage=630&discussionspage=630&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['5.7 h', '5.1 h', '427.5', '937.7', '78.7 ', '100.2', '87.2 ', '1,699', '176.4', '4,287']
+
+['Banzai!', 'Banzai!', 'DAYUM! THIS GAME IS ', 'This one of the best', 'The game is good, th', 'Reviewing for an ach', 'Awesome game I would', "This. If you don't h", "It's like an abusive"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6300&p=1&itemspage=631&screenshotspage=631&videospage=631&artpage=631&allguidepage=631&webguidepage=631&integratedguidepage=631&discussionspage=631&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['476.8', '1,361', '1,304', '1,304', '166.9', '927.8', '969.5', '1,440', '1,915', '711.5']
+
+['Fun', 'a amazing game, real', 'This game ing sucks ', 'The best game!', 'Team Fortress 2 is a', "Has taken 100's of o", 'Cracking good game, ', 'Hats.', 'Really fun Free FPS ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6330&p=1&itemspage=634&screenshotspage=634&videospage=634&artpage=634&allguidepage=634&webguidepage=634&integratedguidepage=634&discussionspage=634&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['723.8', '3,429', '320.0', '327.1', '2,027', '10.2 ', '734.9', '664.5', '139.9', '836.8']
+
+["I don't know I was g", ',    .', 'This is an amazing g', 'I was playing and i ', 'great free to play g', "Don't buy keys. I'm ", 'One of the best game', 'i like this game', "This is a game. It's"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6340&p=1&itemspage=635&screenshotspage=635&videospage=635&artpage=635&allguidepage=635&webguidepage=635&integratedguidepage=635&discussionspage=635&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,500', '392.4', '457.0', '1,154', '347.0', '751.5', '65.2 ', '305.6', '3,226', '77.0 ']
+
+['This game has been a', 'The best game to spe', 'I love this game!', 'cnat efen 1337 l3g1t', 'This game...is amazi', 'This is the best F2P', 'TRUST ME I HAVE 300 ', 'Most addictive class', 'TF2 ruined my life, ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6380&p=1&itemspage=639&screenshotspage=639&videospage=639&artpage=639&allguidepage=639&webguidepage=639&integratedguidepage=639&discussionspage=639&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['124.3', '964.0', '427.5', '937.7', '539.6', '517.1', '1,853', '1,460', '821.4', '3,307']
+
+['"ucking Incredible" ', 'conga/10 conga fortr', 'DAYUM! THIS GAME IS ', 'I could go on and on', 'An awesome game that', 'A great, Funn, Free ', 'Is gud.', 'im just posting this', 'This game sucks. You']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6460&p=1&itemspage=647&screenshotspage=647&videospage=647&artpage=647&allguidepage=647&webguidepage=647&integratedguidepage=647&discussionspage=647&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['196.8', '1,803', '2,459', '1,352', '1,004', '1,940', '2,588', '1,871', '1,170', '1,342']
+
+['It is very fun.', 'it needs more replay', 'Best ever would give', 'i love playing a gam', 'One of the best game', 'I somehow wound up p', 'Easily one of the gr', 'is gud 10/10', 'This game is so awes']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6480&p=1&itemspage=649&screenshotspage=649&videospage=649&artpage=649&allguidepage=649&webguidepage=649&integratedguidepage=649&discussionspage=649&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,083', '399.0', '2,596', '951.8', '23.9 ', '2,189', '599.0', '3,113', '355.9', '1,607']
+
+['TF2 is one of the wo', 'i really think tf2 i', 'hat', '10/10, would conga a', 'sup', 'This game ruined my ', 'via email and I aske', "I've never met someo", '"10/10 Like Sanicbal', 'Call someone a noob ', 'hats/10']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6670&p=1&itemspage=668&screenshotspage=668&videospage=668&artpage=668&allguidepage=668&webguidepage=668&integratedguidepage=668&discussionspage=668&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['990.0', '1,474', '1,383', '87.0 ', '1,093', '1,462', '1,829', '2,190', '50.4 ', '111.5']
+
+['I would tottaly recc', 'Contains a better ec', 'oh god, I love this ', 'Just SHUT THE HELL U', 'This game is very in', 'Best. Game. Ever. 11', 'This game is amazing', 'The game can make pe', 'Sometimes people may', 'I see a lot of my se', 'i liked gameplay']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6790&p=1&itemspage=680&screenshotspage=680&videospage=680&artpage=680&allguidepage=680&webguidepage=680&integratedguidepage=680&discussionspage=680&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['631.9', '1,546', '877.8', '2,354', '6.3 h', '546.9', '718.4', '292.2', '545.1', '2,970']
+
+['Almost as good as fi', 'Wow what great game!', 'Amazing game, totall', 'garbage', 'This Game Has Beauti', 'luv it', 'Great game 10 out of', 'Oh Boy , Wher Have y', 'A truly casual game ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6820&p=1&itemspage=683&screenshotspage=683&videospage=683&artpage=683&allguidepage=683&webguidepage=683&integratedguidepage=683&discussionspage=683&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['482.1', '145.5', '1,333', '53.3 ', '405.9', '7.0 h', '3,997', '2,356', '96.1 ', '640.1']
+
+['this game is fun', "Great game I'm the b", 'Best', 'trading simulator. B', "I really don't see h", 'This Game Is Great B', 'I like Potatoes more', 'Yes I would recommen', 'If you like a FPS wi', 'it is quite fun, sti', "I can't stop. Please"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (21).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6840&p=1&itemspage=685&screenshotspage=685&videospage=685&artpage=685&allguidepage=685&webguidepage=685&integratedguidepage=685&discussionspage=685&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,785', '92.0 ', '2,299', '1,009', '1,048', '914.6', '1,006', '1,054', '1,501', '1,601']
+
+['Choose to play a fri', 'Derhangst under Flau', 'I click on this game', 'Best Game Ever , Get', 'its da best and its ', 'Scout FTW', 'Totally addictive, e', 'Good. Wasted money o', 'Are you one of those', 'Unique: Unique items', 'Note:There are more ', 'Strange: Strange qua', 'I was unable to find', 'List Of Items That C', 'Haunted: Haunted ite', "Collector's: Collect", "List Of Collector's ", 'Community: The date ', 'Self-Made: Self-Made', "I know that wasn't h", 'I LOVE this game!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6850&p=1&itemspage=686&screenshotspage=686&videospage=686&artpage=686&allguidepage=686&webguidepage=686&integratedguidepage=686&discussionspage=686&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['300.1', '787.7', '1,165', '2,299', '5,459', '2,308', '199.3', '3,491', '1,728', '265.4']
+
+['Team Fortress 2 je t', 'Hat and Conga simula', '10/10 best war theme', '(who am I kidding) g', 'server for that', 'I click on this game', 'sooooo stoned  man a', 'Hat are the best wea', 'game is for greedy s', 'Quando um jogo s com', 'This game is a great', "So you're looking fo"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6860&p=1&itemspage=687&screenshotspage=687&videospage=687&artpage=687&allguidepage=687&webguidepage=687&integratedguidepage=687&discussionspage=687&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,924', '2,356', '96.1 ', '1,328', '1,596', '1,439', '83.3 ', '1,165', '300.1', '787.7']
+
+['(   )', 'If you like a FPS wi', 'it is quite fun, sti', 'Eu odeio essa . Tipo', 'essa .', "It's Ok", 'The best Hat and Tau', 'PYRO IS SPY!', '10/10 best war theme', '(who am I kidding) g', 'server for that', 'Team Fortress 2 je t', 'Hat and Conga simula']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6880&p=1&itemspage=689&screenshotspage=689&videospage=689&artpage=689&allguidepage=689&webguidepage=689&integratedguidepage=689&discussionspage=689&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,961', '388.3', '1,358', '9.7 h', '1,056', '1,174', '89.6 ', '207.7', '1,564', '3,648']
+
+['Tf2 is all about tra', "It's Team Fortress 2", 'Simply the best Firs', 'You can become a mil', 'szar', '6:19 PM - PackSOMEpu', 'One word... Sandvich', 'Hat simulator 2014 -', 'team fortress2 is my']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=6950&p=1&itemspage=696&screenshotspage=696&videospage=696&artpage=696&allguidepage=696&webguidepage=696&integratedguidepage=696&discussionspage=696&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,329', '2,703', '179.9', '5.1 h', '153.3', '1,725', '557.6', '1,287', '121.0', '4,018']
+
+['A really unique twis', 'wwwwwwwwwwwwwwwwwwww', 'Hat Simulator with 8', 'One of the worst tit', 'This is a hat collec', 'Oh man, this game is', 'Before I start, THIS', 'Its a black hole con', 'I hate everybody tha', 'TL;DR, will rustle y', 'MVM campaign with HO', ', and then the serve']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7140&p=1&itemspage=715&screenshotspage=715&videospage=715&artpage=715&allguidepage=715&webguidepage=715&integratedguidepage=715&discussionspage=715&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['61.6 ', '585.7', '301.2', '1,350', '337.1', '356.0', '559.3', '75.1 ', '993.4', '149.6']
+
+["I'll keep this one n", 'Get back to your STA', 'Possibly the best FP', 'Well yeah....I like ', 'Lots of gun, lots of', 'Fun', 'good game not bad', 'Conga Fortress 2', 'This game is worse t']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7170&p=1&itemspage=718&screenshotspage=718&videospage=718&artpage=718&allguidepage=718&webguidepage=718&integratedguidepage=718&discussionspage=718&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,446', '27.7 ', '3.0 h', '194.2', '1,320', '138.2', '901.5', '1,027', '2,296', '1,292']
+
+['What can be said tha', 'Fun game', 'Great game to play w', 'Fun is too little to', 'This game basically ', 'who doesnt have this', 'Team Fortress 2 is a', 'Hats', 'Hats That is all. Th', 'I may have lost half', 'A monster of an FPS.', 'This game is incredi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7190&p=1&itemspage=720&screenshotspage=720&videospage=720&artpage=720&allguidepage=720&webguidepage=720&integratedguidepage=720&discussionspage=720&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['493.4', '341.9', '230.2', '7,156', '500.6', '753.4', '1,636', '386.6', '1,407', '146.4']
+
+['This game is the bes', 'yes. just yes. the 9', 'Brutaln hra Deck gra', 'Honestly, if you hav', '"This game... this g', 'I use Giant metal gu', 'Best.Game.Ever. 100/', 'i love tf2 and every', 'This game is the BES']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7280&p=1&itemspage=729&screenshotspage=729&videospage=729&artpage=729&allguidepage=729&webguidepage=729&integratedguidepage=729&discussionspage=729&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['149.0', '1,380', '1,178', '1,062', '421.7', '742.8', '70.9 ', '84.0 ', '1,079', '185.1']
+
+['This game is pretty ', 'Awesome game!', '10/10 Best hat simul', 'the best things in l', 'Great game reccommen', 'TF2 is a great game ', 'crazy fun', 'Pure ing awesome. No', 'asdad']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7320&p=1&itemspage=733&screenshotspage=733&videospage=733&artpage=733&allguidepage=733&webguidepage=733&integratedguidepage=733&discussionspage=733&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['806.8', '300.5', '82.4 ', '1,302', '661.1', '6.5 h', '416.1', '140.5', '1.2 h', '346.1']
+
+['This Fast Paced FPS ', 'i can not trade', 'i love the game and ', 'Fun is quite frankly', "It's a good game. yo", 'Awesome game! Great ', 'Good FPS game. You s', 'nice free to play ga', 'its a fun game to pl']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7330&p=1&itemspage=734&screenshotspage=734&videospage=734&artpage=734&allguidepage=734&webguidepage=734&integratedguidepage=734&discussionspage=734&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['108.4', '11.6 ', '606.6', '308.9', '36.3 ', '273.7', '1,340', '0.9 h', '1,037', '615.3']
+
+['I think this is a ga', 'Emilio is a  and the', 'Great game, has kept', 'Threw urine at a fat', 'fun and enjoyable 8/', 'Have only recently s', 'OH MY GAWD IT THE BE', "It's free, it's awes", 'a good game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7370&p=1&itemspage=738&screenshotspage=738&videospage=738&artpage=738&allguidepage=738&webguidepage=738&integratedguidepage=738&discussionspage=738&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['37.3 ', '5,640', '393.1', '2,461', '1,050', '21.0 ', '2,107', '131.1', '647.3', '2,203']
+
+['best game', 'I recomend this to p', 'It is a free cartoon', 'this is the type of ', 'hats', 'A very fun 1st perso', 'Best free game to pl', 'BJ4', 'Just spent my entire']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7410&p=1&itemspage=742&screenshotspage=742&videospage=742&artpage=742&allguidepage=742&webguidepage=742&integratedguidepage=742&discussionspage=742&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['258.4', '38.3 ', '26.8 ', '28.3 ', '114.1', '3,955', '58.7 ', '2,560', '8.9 h', '190.3']
+
+['Awesome free game. C', 'Grate game, love thi', 'Free, loads of fun, ', 'TL;DR: 10/10 this ga', 'ja', 'Community is harshly', 'the game is...alrigh', 'I hate this communit', 'This game is all abo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7420&p=1&itemspage=743&screenshotspage=743&videospage=743&artpage=743&allguidepage=743&webguidepage=743&integratedguidepage=743&discussionspage=743&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['96.6 ', '1,607', '376.9', '4,431', '348.7', '833.5', '193.7', '672.9', '1,446', '8.9 h']
+
+['A review in one word', 'Great game for anyon', 'Really good and fun ', "It's a nice fast pac", 'play tf2, trade for ', 'pootis', 'Great FPS, hours of ', 'in my apinion this i', 'it is THE MOST derpy']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7470&p=1&itemspage=748&screenshotspage=748&videospage=748&artpage=748&allguidepage=748&webguidepage=748&integratedguidepage=748&discussionspage=748&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,086', '408.5', '2,996', '237.0', '25.7 ', '2.3 h', '1,201', '961.3', '412.3', '17.4 ']
+
+['Ruined my life. 11/G', 'Have really been enj', 'It was a great game ', 'Good !', "It's free ... Buy it", 'Need a dispenser her', 'Your Tf2 to do list:', "I don't have any mon"]
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7630&p=1&itemspage=764&screenshotspage=764&videospage=764&artpage=764&allguidepage=764&webguidepage=764&integratedguidepage=764&discussionspage=764&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,447', '2,724', '222.5', '326.2', '947.3', '229.3', '1,601', '2,833', '102.0']
+
+['Absolutely amazing..', 'Hat Game 2 is the be', 'I like this game -lo', "I hate that you're m", 'Love this game. Very', 'this game is #1 of m', 'This is easily, by f', 'ROLL NEWSPAPERS IN T', 'A very fun FPS for p', 'By far the gayest ga']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7760&p=1&itemspage=777&screenshotspage=777&videospage=777&artpage=777&allguidepage=777&webguidepage=777&integratedguidepage=777&discussionspage=777&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['258.4', '38.3 ', '26.8 ', '28.3 ', '114.1', '3,955', '58.7 ', '2,560', '8.9 h', '190.3']
+
+['Awesome free game. C', 'Grate game, love thi', 'Free, loads of fun, ', 'TL;DR: 10/10 this ga', 'ja', 'Community is harshly', 'the game is...alrigh', 'I hate this communit', 'This game is all abo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7770&p=1&itemspage=778&screenshotspage=778&videospage=778&artpage=778&allguidepage=778&webguidepage=778&integratedguidepage=778&discussionspage=778&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['96.6 ', '1,607', '376.9', '4,431', '348.7', '833.5', '193.7', '672.9', '1,446', '8.9 h']
+
+['A review in one word', 'Great game for anyon', 'Really good and fun ', "It's a nice fast pac", 'play tf2, trade for ', 'pootis', 'Great FPS, hours of ', 'in my apinion this i', 'it is THE MOST derpy']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7920&p=1&itemspage=793&screenshotspage=793&videospage=793&artpage=793&allguidepage=793&webguidepage=793&integratedguidepage=793&discussionspage=793&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['511.0', '1,100', '413.0', '17.9 ', '298.3', '294.3', '1,027', '652.2', '235.2', '1,894']
+
+['This game was especi', 'Best game Ever', 'EXCUSE ME DID IT REA', 'AWSOME!!! IF YOUR TH', 'Best hat collector s', 'Better then COD', 'This is probably one', 'awsome!!!!!!!!!!!!!', 'unofficially a hat s']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=7970&p=1&itemspage=798&screenshotspage=798&videospage=798&artpage=798&allguidepage=798&webguidepage=798&integratedguidepage=798&discussionspage=798&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['8.4 h', '349.3', '348.8', '3,795', '313.3', '96.3 ', '455.9', '2,816', '246.8', '288.6']
+
+['Amazing Game my firs', 'it has hats', 'Team Fortress 2 is b', 'i fap to tf2 daily 1', 'Fps with lots of ite', 'TF2 is a great game ', 'I reccomend to play ', 'i really reccomend t', 'Typical teamwork gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8390&p=1&itemspage=840&screenshotspage=840&videospage=840&artpage=840&allguidepage=840&webguidepage=840&integratedguidepage=840&discussionspage=840&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['504.8', '103.5', '3,301', '35.7 ', '1,464', '167.5', '1.7 h', '169.8', '21.6 ', '1,197']
+
+['This is a fun fast p', 'this game is a good ', 'Play it. Now.', 'An 8/8 Mate', 'Best F2P game ever. ', 'i think i like this ', 'Dobra igra xD', "It's a very fun game", "It's like Skyrim wit"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8580&p=1&itemspage=859&screenshotspage=859&videospage=859&artpage=859&allguidepage=859&webguidepage=859&integratedguidepage=859&discussionspage=859&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['423.4', '374.6', '0.9 h', '49.0 ', '321.8', '360.0', '939.3', '526.8', '290.7', '1,394']
+
+['Best Game Ever.', 'Its a best game of t', 'hahayz', 'One of the best game', 'Fun game. That is al', 'YES i recommend you ', 'Great game. I give i', 'Fun fun fun fun fun ', 'You can spent your w']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8700&p=1&itemspage=871&screenshotspage=871&videospage=871&artpage=871&allguidepage=871&webguidepage=871&integratedguidepage=871&discussionspage=871&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['101.8', '459.5', '3,132', '1,537', '156.3', '2.3 h', '928.2', '348.0', '101.4', '259.2']
+
+['very fun game and i ', 'this game is fantast', "It's a very fun game", 'Fun Game. EVERYONE S', 'Amazing all kinds of', 'This game is realy f', 'As I write this, I h', 'Team Fortrss 2 is on', 'this gaem... 1 of te']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8800&p=1&itemspage=881&screenshotspage=881&videospage=881&artpage=881&allguidepage=881&webguidepage=881&integratedguidepage=881&discussionspage=881&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,292', '22.6 ', '1,114', '327.9', '869.6', '613.4', '116.3', '8.0 h', '0.2 h', '794.3']
+
+['Best Cartoon Game Ev', 'good games', 'If you played this g', 'Made me come to PC a', '10/10 would conga ag', 'h', 'This is an excellent', 'Must have game for e', 'Great gameplay. Ther']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8960&p=1&itemspage=897&screenshotspage=897&videospage=897&artpage=897&allguidepage=897&webguidepage=897&integratedguidepage=897&discussionspage=897&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['402.0', '617.6', '57.7 ', '495.0', '37.3 ', '402.4', '17.0 ', '317.0', '501.5', '412.6']
+
+['Best', 'hat simulator out th', 'Hats make you a bett', 'Day 1: What the hell', 'Good game for gamers', 'LIke running around ', "If there's any Valve", 'I LOVE this game! It', 'This Game is awesome', "There's no reason to", 'i can wear hats 10/1']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=8980&p=1&itemspage=899&screenshotspage=899&videospage=899&artpage=899&allguidepage=899&webguidepage=899&integratedguidepage=899&discussionspage=899&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,891', '1,226', '5.7 h', '132.4', '316.5', '733.2', '265.2', '120.5', '629.5', '95.2 ']
+
+['Best game EU', 'This is the most ama', 'oh God i love this g', 'Hat simulator 2014 V', 'Try out Hat Fortress', 'Most fun you can get', "It's free! It's fun!", 'A great game that I ', 'hat. I have roughly ', ', is also a very nic', 'gubba gubba wub wub', 'i freaking love this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=9080&p=1&itemspage=909&screenshotspage=909&videospage=909&artpage=909&allguidepage=909&webguidepage=909&integratedguidepage=909&discussionspage=909&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['43.8 ', '1,655', '1,750', '748.0', '6.9 h', '2,002', '46.5 ', '265.0', '230.7', '792.9']
+
+['Superrr chill game. ', 'After 1,000 plus hou', 'really good game and', ')', "Aren't you glad Team", 'In a world where tel', 'raging battle. The h', '(currently dead) bro', ', putting the mercen', ", they're always...i", "Great game. 'Nuff sa", '!!!!', 'The most funniest ga', 'Words cannot describ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=9410&p=1&itemspage=942&screenshotspage=942&videospage=942&artpage=942&allguidepage=942&webguidepage=942&integratedguidepage=942&discussionspage=942&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,849', '2,092', '1,036', '1,126', '1,255', '18.1 ', '683.0', '1,716', '98.5 ', '2,847']
+
+['Really good Game, li', 'Perfect for fun. Per', 'Team fortress 2 is a', 'Started playing this', 'I am 100% certain th', 'played Trade Fortres', 'The best multiplayer', 'geat', 'is good game', 'worst game ever!!!!!', "Eh, it's okay."]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=9670&p=1&itemspage=968&screenshotspage=968&videospage=968&artpage=968&allguidepage=968&webguidepage=968&integratedguidepage=968&discussionspage=968&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['22.9 ', '302.9', '7.8 h', '136.2', '461.2', '634.4', '288.3', '748.3', '1,011', '447.3']
+
+['BOOM BOOM BOOM YOU W', 'Best conga simulator', 'TF2 free to play.', 'Really good. 8/8 wil', 'its one of the best ', 'Possibly the best ga', 'Team Fortress 2 is a', 'one of the best fps ', 'The best free to pla']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=9780&p=1&itemspage=979&screenshotspage=979&videospage=979&artpage=979&allguidepage=979&webguidepage=979&integratedguidepage=979&discussionspage=979&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,779', '2,440', '605.6', '94.6 ', '404.6', '425.3', '671.2', '897.8', '1,072', '574.8']
+
+['Hats have ruined my ', 'Absolutely the most ', 'One of the best ,if ', 'THIS GAME IS: 10% LU', 'Care to blow up your', 'good game', 'Nice game Tf2', 'nice and funny game', 'Open Steam, pick you']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=9890&p=1&itemspage=990&screenshotspage=990&videospage=990&artpage=990&allguidepage=990&webguidepage=990&integratedguidepage=990&discussionspage=990&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['669.4', '829.1', '4,034', '1,105', '16.6 ', '430.0', '488.1', '2,010', '226.8', '1,259']
+
+['So much fun 10/10', 'This game is great, ', 'So, I thought long a', 'Conga conga', 'fgh', 'This game, needs to ', 'Excellent game. Fun.', "''Yuss''; Yes, only ", 'is the only problem ', 'Team Fortress 2 is m', 'Delicious']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10080&p=1&itemspage=1009&screenshotspage=1009&videospage=1009&artpage=1009&allguidepage=1009&webguidepage=1009&integratedguidepage=1009&discussionspage=1009&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['392.6', '143.4', '825.5', '237.9', '1.1 h', '181.7', '19.9 ', '1,214', '0.6 h', '5,531']
+
+['Constantly a go-to g', 'Good game to pass ti', 'Tons of fun and pret', 'This is an awesome g', 'This game is fun no ', 'This is good game.', 'this game gave me cr', 'Why is this game 50%', "Love this game can't", "I've never spent so ", '10/10']
+
+
+Warning: len(hours) (8) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10420&p=1&itemspage=1043&screenshotspage=1043&videospage=1043&artpage=1043&allguidepage=1043&webguidepage=1043&integratedguidepage=1043&discussionspage=1043&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['52.5 ', '182.2', '484.0', '84.7 ', '11.8 ', '1,452', '719.2', '4,453']
+
+['so awseme', 'graet gam.', 'Just simply one word', 'played TF2 For a lon', 'This is the best fre', 'Great game!', 'Great game played fo', 'most fun i have ever', 'Amazing game, so man', 'Team Fortress 2 is a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10650&p=1&itemspage=1066&screenshotspage=1066&videospage=1066&artpage=1066&allguidepage=1066&webguidepage=1066&integratedguidepage=1066&discussionspage=1066&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['905.7', '82.5 ', '601.3', '208.0', '36.4 ', '863.8', '183.1', '1,171', '1,466', '57.6 ']
+
+['Team Fortress 2 is a', 'V good', 'Everything. Even the', "Who doesn't like gun", 'Amazing :D funnest f', "I've racked up a goo", '12/10 Best hat simul', 'Team Forstress 2, it', ". Eny ways it's a gr", 'Do i even need to ex', 'Best game with EPIC ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10720&p=1&itemspage=1073&screenshotspage=1073&videospage=1073&artpage=1073&allguidepage=1073&webguidepage=1073&integratedguidepage=1073&discussionspage=1073&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['529.2', '424.5', '7.3 h', '25.4 ', '776.8', '0.7 h', '480.9', '58.5 ', '1,606', '607.8']
+
+['I love this game! If', 'GET THIS GAME IT IS ', 'good game', 'Must have for fans o', 'BEST GAME EVER.. thi', 'nais game', 'Team Fortress 2 is a', 'fun -_-', 'This game is awesome']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10740&p=1&itemspage=1075&screenshotspage=1075&videospage=1075&artpage=1075&allguidepage=1075&webguidepage=1075&integratedguidepage=1075&discussionspage=1075&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['96.5 ', '202.7', '16.0 ', '1,180', '455.7', '75.4 ', '374.0', '1,261', '147.1', '424.1']
+
+['GO!GO!GO!Go and play', 'This game is a lovab', 'Ok', 'TF2 is a very fun ga', 'This Game is to good', 'Great game, buy hats', 'Good game!!', 'AWESOME!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10770&p=1&itemspage=1078&screenshotspage=1078&videospage=1078&artpage=1078&allguidepage=1078&webguidepage=1078&integratedguidepage=1078&discussionspage=1078&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['169.0', '41.8 ', '36.3 ', '28.3 ', '660.8', '2,788', '150.2', '291.1', '1,588', '583.8']
+
+['Online FPS fun!', 'Medic shouting simul', 'very fun game i agre', 'Love this game. Grea', 'how do i shoot arrow', '!!', 'best game xD', 'hats', 'This game is freakin']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10790&p=1&itemspage=1080&screenshotspage=1080&videospage=1080&artpage=1080&allguidepage=1080&webguidepage=1080&integratedguidepage=1080&discussionspage=1080&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['125.1', '4,143', '6.5 h', '193.9', '93.1 ', '885.1', '855.7', '2,543', '327.3', '100.5']
+
+['This game reminds me', 'this is a good game ', 'awesome! This is a f', 'Much skill, very fun', 'TF2 is a excellent F', 'Amazing amazing amaz', "I'd recommend downlo", 'is a great place to ', 'The best shooter you', 'When I first downloa', 'Very fun and competi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=10990&p=1&itemspage=1100&screenshotspage=1100&videospage=1100&artpage=1100&allguidepage=1100&webguidepage=1100&integratedguidepage=1100&discussionspage=1100&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['262.9', '391.3', '411.7', '625.3', '195.7', '5.8 h', '76.7 ', '1,336', '947.2', '191.8']
+
+['The Game Make Me Hap', 'HEll yea TF2 FAV', 'The games amazing ev', 'best game dood', 'It is an old, cool g', 'you get an achieveme', 'Teamfortress is free', 'Melhor Jogo Ever *-*', 'TF #2 is one of the ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11000&p=1&itemspage=1101&screenshotspage=1101&videospage=1101&artpage=1101&allguidepage=1101&webguidepage=1101&integratedguidepage=1101&discussionspage=1101&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['467.3', '42.6 ', '14.8 ', '489.5', '234.9', '10.7 ', '468.7', '297.0', '377.8', '1,864']
+
+['It is fun', 'I would recommend th', 'Im bad at it. People', 'Most fun I have ever', 'This game is the bes', 'Team fortress 2 is a', 'Its the best hat gma', 'Highly recommended, ', 'I recommend this gam', 'This game is good fo', ") There's cosmetics,", 'Over all, this game ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11200&p=1&itemspage=1121&screenshotspage=1121&videospage=1121&artpage=1121&allguidepage=1121&webguidepage=1121&integratedguidepage=1121&discussionspage=1121&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['150.5', '594.4', '2.3 h', '40.3 ', '9.7 h', '199.5', '229.7', '1,047', '52.3 ', '2,351']
+
+["Can't have enough fu", 'This game is fun, co', 'Best game ever. Now ', 'nice game', "Not that I've played", 'THIS FREAKEN GAME IS', 'Um dos melhores jogo', 'AMAZING', 'Un jeu de tir  la pr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11390&p=1&itemspage=1140&screenshotspage=1140&videospage=1140&artpage=1140&allguidepage=1140&webguidepage=1140&integratedguidepage=1140&discussionspage=1140&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11490&p=1&itemspage=1150&screenshotspage=1150&videospage=1150&artpage=1150&allguidepage=1150&webguidepage=1150&integratedguidepage=1150&discussionspage=1150&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,217', '10.0 ', '1,394', '203.2', '46.8 ', '755.4', '1,939', '234.8', '1,263', '2,139']
+
+['Nice Game, Fun, Exci', 'Team Fortress two is', 'Definitly not your a', '10/10 Awesome game.', 'Two types of Game. O', 'It truly is THE MOST', 'Excellent fun gamepl', "frdfgfugjil;'lkjhyrd", 'I Aprove this Game! ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11560&p=1&itemspage=1157&screenshotspage=1157&videospage=1157&artpage=1157&allguidepage=1157&webguidepage=1157&integratedguidepage=1157&discussionspage=1157&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11630&p=1&itemspage=1164&screenshotspage=1164&videospage=1164&artpage=1164&allguidepage=1164&webguidepage=1164&integratedguidepage=1164&discussionspage=1164&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['409.3', '1,401', '1,518', '104.9', '179.9', '1,440', '1,094', '541.3', '109.6', '43.9 ']
+
+['too awesome to miss ', 'this game is a big p', "It's ok I suppose", "It's AWSOME!", 'dis be da best game ', 'Very fun. 1v1 me kid', 'Burning Scout Can Ru', 'One of the best free', 'This game has it all']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11640&p=1&itemspage=1165&screenshotspage=1165&videospage=1165&artpage=1165&allguidepage=1165&webguidepage=1165&integratedguidepage=1165&discussionspage=1165&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['370.0', '257.2', '265.7', '822.5', '126.1', '682.2', '1,428', '156.6', '690.6', '58.9 ']
+
+['Very fun first perso', 'Best game ever!', 'best  game in the mu', 'A Fun And Addicting ', 'Such fun game', 'This is an awesome g', 'Awesome best free ga', 'THis is so fun', 'I only got this game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11730&p=1&itemspage=1174&screenshotspage=1174&videospage=1174&artpage=1174&allguidepage=1174&webguidepage=1174&integratedguidepage=1174&discussionspage=1174&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,027', '307.1', '575.8', '1,216', '436.7', '16.2 ', '1,248', '227.2', '120.6', '206.7']
+
+['In this game, You ar', 'Most of you play thi', 'Awesome game, balanc', 'Destroyed my life an', 'Its very funny!!', 'pretty chill to play', 'Best War Themed Hat ', 'Brilliant well worth', 'why do u not have th']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11940&p=1&itemspage=1195&screenshotspage=1195&videospage=1195&artpage=1195&allguidepage=1195&webguidepage=1195&integratedguidepage=1195&discussionspage=1195&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['64.7 ', '0.1 h', '113.0', '207.1', '92.5 ', '186.7', '167.1', '30.5 ', '1,653', '772.8']
+
+["It's Awesome.", 'Best free to play ga', "Anyone who doesn't o", 'neat', 'Good game!', 'Such a good game!!!!', 'Oh yeah! one of the ', 'Awesome just awesome', 'nice']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=11960&p=1&itemspage=1197&screenshotspage=1197&videospage=1197&artpage=1197&allguidepage=1197&webguidepage=1197&integratedguidepage=1197&discussionspage=1197&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['98.3 ', '0.7 h', '495.2', '431.2', '396.5', '62.1 ', '126.2', '252.7', '2,341', '877.1']
+
+['best fps ever', 'best f2p game :)', "It's alright", 'i dont really know', 'TF2 is a great game,', "j'adore", 'It is one of the bes', 'one of the best mp-s', 'How the hell do you ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12250&p=1&itemspage=1226&screenshotspage=1226&videospage=1226&artpage=1226&allguidepage=1226&webguidepage=1226&integratedguidepage=1226&discussionspage=1226&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['210.3', '69.7 ', '63.0 ', '25.6 ', '641.3', '51.7 ', '311.5', '609.8', '2,131', '59.9 ']
+
+['TAKE ALL OF MY MONEY', 'Always fun to play w', 'Get it now, seriousl', 'Do You Like Building', 'Great Game Best F2P ', 'Guns, friends, medic', "You really can't get", 'Listen, first, This ', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12260&p=1&itemspage=1227&screenshotspage=1227&videospage=1227&artpage=1227&allguidepage=1227&webguidepage=1227&integratedguidepage=1227&discussionspage=1227&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12340&p=1&itemspage=1235&screenshotspage=1235&videospage=1235&artpage=1235&allguidepage=1235&webguidepage=1235&integratedguidepage=1235&discussionspage=1235&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12470&p=1&itemspage=1248&screenshotspage=1248&videospage=1248&artpage=1248&allguidepage=1248&webguidepage=1248&integratedguidepage=1248&discussionspage=1248&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['588.1', '525.3', '119.0', '34.1 ', '422.8', '1.1 h', '660.0', '462.6', '188.6', '383.6']
+
+['the hat-based meta g', 'This. game. is. frig', 'Jogo ,super iper', 'graficos bonitos par', 'cara vc  fera no jog', 'Tf2 is a very amazin', 'cool', 'wow much fortress ve', 'If you want a free f', 'I own a Gibus 9/11', 'EPIC!!!!!!!!!!!!!!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12520&p=1&itemspage=1253&screenshotspage=1253&videospage=1253&artpage=1253&allguidepage=1253&webguidepage=1253&integratedguidepage=1253&discussionspage=1253&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['50.4 ', '197.4', '357.7', '478.4', '492.8', '478.8', '10.0 ', '108.4', '2,758', '418.1']
+
+['Team Fortress 2 is o', 'because hats', 'must play', 'This is a game for t', "It's often said that", 'seems to win out ove', 'Awesome game', 'Came in, saw hats, w', 'This is a very addic', 'good  son', '10/10 Fantastical Ga']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12720&p=1&itemspage=1273&screenshotspage=1273&videospage=1273&artpage=1273&allguidepage=1273&webguidepage=1273&integratedguidepage=1273&discussionspage=1273&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=12860&p=1&itemspage=1287&screenshotspage=1287&videospage=1287&artpage=1287&allguidepage=1287&webguidepage=1287&integratedguidepage=1287&discussionspage=1287&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,922', '207.9', '421.4', '22.8 ', '0.8 h', '154.4', '229.9', '326.6', '295.7']
+
+['By far the gayest ga', "69/10 Don't even thi", 'this game is awesome', 'Free, fun, probably ', 'I was a little iffy ', 'Sure,But My Good Fre', 'I would highly recom', 'Dis game is good! Hu', 'love it', 'A new game will come']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13010&p=1&itemspage=1302&screenshotspage=1302&videospage=1302&artpage=1302&allguidepage=1302&webguidepage=1302&integratedguidepage=1302&discussionspage=1302&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['5,640', '393.1', '2,461', '1,050', '21.0 ', '2,107', '131.1', '647.3', '2,207', '479.6']
+
+['I recomend this to p', 'It is a free cartoon', 'this is the type of ', 'hats', 'A very fun 1st perso', 'Best free game to pl', 'BJ4', 'Just spent my entire', 'MARVELLOUS best free']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13040&p=1&itemspage=1305&screenshotspage=1305&videospage=1305&artpage=1305&allguidepage=1305&webguidepage=1305&integratedguidepage=1305&discussionspage=1305&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,037', '139.1', '1,333', '635.5', '1,865', '177.6', '2,815', '3,415', '405.8', '915.4']
+
+['The first game to su', "I love it! It's mois", 'Purgatory: The Game.', 'It is a good game', 'After 1,227 hours in', "If you're the type t", 'i like hats', 'Pew pew pew, hats ha', 'Team Fortress 2 is a', 'Rating: 10.0 -------', 'First off, this has ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13070&p=1&itemspage=1308&screenshotspage=1308&videospage=1308&artpage=1308&allguidepage=1308&webguidepage=1308&integratedguidepage=1308&discussionspage=1308&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13080&p=1&itemspage=1309&screenshotspage=1309&videospage=1309&artpage=1309&allguidepage=1309&webguidepage=1309&integratedguidepage=1309&discussionspage=1309&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12,43', '475.9', '3,008', '256.2', '1,115', '813.6', '1,399', '777.4', '6,718', '4,163']
+
+['My hours. help. I wr', 'If you bind forward ', 'Can you name any oth', 'Team Fortress 2. Bei', 'on Steam, Team Fortr', 'Be sure to check out', 'for more reviews!', 'How to play Team For', '> I was only 10 year', 'Ruined my life and c', 'Team Fortress 2 is t', 'I spent over 6.1 tho', 'Its ok']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13320&p=1&itemspage=1333&screenshotspage=1333&videospage=1333&artpage=1333&allguidepage=1333&webguidepage=1333&integratedguidepage=1333&discussionspage=1333&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,098', '973.5', '91.2 ', '870.2', '1,074', '1,864', '2,301', '0.9 h', '47.6 ', '307.4']
+
+['this game is fully a', 'Wonderfull action-pa', 'Love it!', 'Hats.', 'TO BUY OR NOT TO BUY', '"I love this Doctor!', 'This has to be my fa', 'Team Fortress 2 Is O', 'its fun']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13400&p=1&itemspage=1341&screenshotspage=1341&videospage=1341&artpage=1341&allguidepage=1341&webguidepage=1341&integratedguidepage=1341&discussionspage=1341&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['159.6', '364.4', '867.2', '1,701', '1,720', '23.8 ', '115.8', '73.2 ', '731.0', '618.7']
+
+['This game has a lot ', 'What can I say. Real', 'its fast paste, fun ', 'This game is OP', 'Good game.', 'Oh TF2, TF2, TF2... ', 'Great game for peopl', 'Ruined my life and c', 'Absolutely love this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13410&p=1&itemspage=1342&screenshotspage=1342&videospage=1342&artpage=1342&allguidepage=1342&webguidepage=1342&integratedguidepage=1342&discussionspage=1342&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['73.3 ', '468.5', '20.7 ', '170.3', '852.9', '430.1', '617.0', '627.2', '719.9', '2,671']
+
+['best game out there', 'This is a very good ', "Haven't played much,", 'Best ing game ever i', 'Team Fortress 2. Thi', 'This game is really ', 'Simply awesome, very', 'This game, even with', "they're definitely w", 'This was my first pc', 'Bacon.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13770&p=1&itemspage=1378&screenshotspage=1378&videospage=1378&artpage=1378&allguidepage=1378&webguidepage=1378&integratedguidepage=1378&discussionspage=1378&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4,001', '582.7', '15.9 ', '65.2 ', '34.4 ', '307.1', '25.2 ', '150.9', '84.5 ', '791.9']
+
+['Tons of fun m8 tons ', 'mare smecherie', 'Yeah you want epic r', '.   :. .     . *.. .', '-   .   . :. .    . ', '- *      . * .  . ..', '-   . ..  . *   . :.', 'wow, this game is no', 'Its K.', 'Great game played it', 'This is one of those', 'Good variety of hats']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13850&p=1&itemspage=1386&screenshotspage=1386&videospage=1386&artpage=1386&allguidepage=1386&webguidepage=1386&integratedguidepage=1386&discussionspage=1386&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.0 h', '525.0', '1,587', '562.3', '162.8', '325.2', '1,201', '796.3', '1,008', '44.4 ']
+
+['This game is awesome', 'That is a nice game,', 'Pretty Solid game if', 'Team Fortress 2 is o', 'hat fortress 2 - scr', 'I Love It', 'This game helped mol', "There's enough diffe", 'Really fun, Way to p']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/440/homecontent/?userreviewsoffset=13910&p=1&itemspage=1392&screenshotspage=1392&videospage=1392&artpage=1392&allguidepage=1392&webguidepage=1392&integratedguidepage=1392&discussionspage=1392&appid=440&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1

@@ -672,3 +672,689 @@ URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=4970&p=1
 
 Warning: len(hours) (10) not equal to len(range_reviews) (8).
 
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5080&p=1&itemspage=509&screenshotspage=509&videospage=509&artpage=509&allguidepage=509&webguidepage=509&integratedguidepage=509&discussionspage=509&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['166.3', '107.4', '148.9', '111.0', '28.3 ', '403.7', '491.2', '121.2', '222.0', '307.7']
+
+['No doubt one of the ', 'YOU CAN BE A CAT! WE', 'Fun game, with an op', 'I have been playing ', 'I have no social lif', "Flippin' awesome, mo", 'From fighting skeeve', 'Brilliant game, but ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5280&p=1&itemspage=529&screenshotspage=529&videospage=529&artpage=529&allguidepage=529&webguidepage=529&integratedguidepage=529&discussionspage=529&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['502.6', '429.7', '160.5', '290.5', '289.5', '60.8 ', '174.3', '281.9', '103.3', '73.9 ']
+
+["I can't say enough a", 'Like most of you I m', 'CONS', '10/10', 'I woke up naked in a', 'The amount of freedo', 'By far one of my abs', 'I am Eiys, cured vam', 'No matter what, this', 'This is simply the b', 'Very fun and immersi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5440&p=1&itemspage=545&screenshotspage=545&videospage=545&artpage=545&allguidepage=545&webguidepage=545&integratedguidepage=545&discussionspage=545&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['16.8 ', '20.7 ', '1,006', '87.5 ', '215.3', '159.1', '137.5', '188.6', '50.1 ', '125.1']
+
+['Life ruined. Thanks ', 'Epic game (', 'modding capabilities', 'So good 10/10 would ', 'Great game!', 'HOLY CRAP THIS GAME ', 'This game is not bad', 'what can i say about', 'In my Opinion a grea', 'sex mod', 'What can I say about']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5450&p=1&itemspage=546&screenshotspage=546&videospage=546&artpage=546&allguidepage=546&webguidepage=546&integratedguidepage=546&discussionspage=546&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['206.7', '106.7', '44.4 ', '158.4', '48.5 ', '193.0', '110.4', '85.4 ', '366.5', '345.8']
+
+['This game is a maste', 'I love all of series', 'Bad  vikings,dragons', "It's Skyrim. Don't o", 'Gelungenes Spiel ! b', 'I recommend this gam', 'hgoyl  tshis game is', 'Really.. what needs ', 'Best Game I Have Eve']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5510&p=1&itemspage=552&screenshotspage=552&videospage=552&artpage=552&allguidepage=552&webguidepage=552&integratedguidepage=552&discussionspage=552&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['293.4', '135.8', '141.6', '243.9', '5.0 h', '102.1', '67.6 ', '369.2', '153.5', '81.9 ']
+
+['AMAZEBALLS.', 'The Elder Scrolls V.', 'There was a point in', "I don't have to tell", 'Epic game!', 'amazing game, the me', 'Jeden z nejlepch "op', 'Why are you reading ', 'Best game ever']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=5840&p=1&itemspage=585&screenshotspage=585&videospage=585&artpage=585&allguidepage=585&webguidepage=585&integratedguidepage=585&discussionspage=585&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['112.4', '60.7 ', '108.9', '467.6', '6.0 h', '302.4', '97.2 ', '159.3', '118.3', '520.4']
+
+['This game is amazing', 'Fun :D bandits are h', 'good game', 'DRAGONS !!!!!!!!!', 'Just playing this ga', "It's skyrim? What is", 'My favourite game so', 'Out of all the video', '"Take up the sword a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6110&p=1&itemspage=612&screenshotspage=612&videospage=612&artpage=612&allguidepage=612&webguidepage=612&integratedguidepage=612&discussionspage=612&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['309.1', '384.3', '235.5', '96.2 ', '173.5', '44.0 ', '418.3', '159.7', '99.6 ', '241.3']
+
+['Skyrim is very like ', 'Some of the things I', 'The greatest additio', 'Vanilla Skyrim is a ', 'FUS RO DAH! Nuff sai', 'Where to even start?', 'Loads of long lastin', "Best game i've ever ", 'So I started off thi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6390&p=1&itemspage=640&screenshotspage=640&videospage=640&artpage=640&allguidepage=640&webguidepage=640&integratedguidepage=640&discussionspage=640&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['105.2', '19.3 ', '68.0 ', '138.8', '147.4', '329.5', '63.5 ', '161.7', '43.6 ', '58.0 ']
+
+["It's an Elder Scroll", 'You need this game i', 'Fun for the first 60', 'BUY IT. Seriously do', 'Amazing! The TES Ser', 'Goodbye uni degree..', 'GET. THIS. GAME.', 'Great game. Played i', 'Please, this needs n']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6520&p=1&itemspage=653&screenshotspage=653&videospage=653&artpage=653&allguidepage=653&webguidepage=653&integratedguidepage=653&discussionspage=653&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['52.0 ', '41.4 ', '19.7 ', '1,045', '84.6 ', '137.0', '138.8', '4.3 h', '194.0']
+
+['Skyrim, that game is', 'Do your really need ', 'Beautiful and amazin', 'I used to be noobie ', 'One of the most beau', 'I highly reccommend ', 'With the exception o', '10/10 I would write ', 'One of the BEST! gam', 'TES: Skyrim Is a gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6600&p=1&itemspage=661&screenshotspage=661&videospage=661&artpage=661&allguidepage=661&webguidepage=661&integratedguidepage=661&discussionspage=661&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['341.7', '173.4', '108.7', '249.3', '28.7 ', '123.4', '5.0 h', '37.5 ', '46.0 ', '36.9 ']
+
+['Brilliant Game and G', 'Fun.', 'Solid game, the DLC ', 'Not much to say abou', "Also, here's a look ", 'Love RPGs? You came ', 'Quite possibly one o', 'Great game! Very fun', 'gnarly', 'an endless life suck', "it's fun guys, c'mon"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6670&p=1&itemspage=668&screenshotspage=668&videospage=668&artpage=668&allguidepage=668&webguidepage=668&integratedguidepage=668&discussionspage=668&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['21.8 ', '98.8 ', '60.0 ', '521.1', '254.1', '160.6', '34.1 ', '158.1', '588.7', '131.5']
+
+['Flawless', 'This is easily one o', 'An absolute must hav', 'When The Elder Scrol', 'A complete campaign ', 'Basically an expansi', 'Wow. With a sinister', 'The Elder Scrolls V:', 'This is one of the b', 'Jesus Christ Bethesd', 'Much bugs. Many fun.', 'Epic! Ive clocked al', 'The Elder Scrolls V:']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=6970&p=1&itemspage=698&screenshotspage=698&videospage=698&artpage=698&allguidepage=698&webguidepage=698&integratedguidepage=698&discussionspage=698&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['104.4', '208.7', '46.1 ', '163.0', '57.4 ', '231.3', '66.4 ', '38.8 ', '880.5', '150.9']
+
+['This game..... If yo', 'The great story writ', 'This happens to be a', 'I REALLY like Skyrim', 'I give it 5 outta 5.', 'Why did I missed the', 'One of my favorite A', 'Skyrim is a good, en', 'such good. many mod.', "It's pretty good.", 'This is by far the b']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7060&p=1&itemspage=707&screenshotspage=707&videospage=707&artpage=707&allguidepage=707&webguidepage=707&integratedguidepage=707&discussionspage=707&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3.0 h', '107.3', '29.4 ', '66.5 ', '3.9 h', '37.4 ', '147.7', '57.5 ', '82.8 ', '25.4 ']
+
+['9/10 for a game in g', 'I love how free and ', 'Get ready to lose yo', '10/10 Best "Open wor', 'yes great game, rpg,', 'You will end up thro', 'No need for mods... ', 'This game is Assy Ap', "Ehhh, I don't really"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7110&p=1&itemspage=712&screenshotspage=712&videospage=712&artpage=712&allguidepage=712&webguidepage=712&integratedguidepage=712&discussionspage=712&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['124.9', '165.1', '4,178', '142.2', '178.7', '92.2 ', '15.1 ', '81.9 ', '17.9 ', '298.1']
+
+['When you spend half ', 'this game is very go', 'Maybe on of the best', 'I love this game! Th', 'one of the best game', 'Amazing fun 10/10', 'holy crapballs at th', 'awsome game!!!!', 'This game is so ing ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7130&p=1&itemspage=714&screenshotspage=714&videospage=714&artpage=714&allguidepage=714&webguidepage=714&integratedguidepage=714&discussionspage=714&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['53.0 ', '573.4', '413.8', '482.2', '310.1', '11.1 ', '106.0', '495.6', '16.8 ', '20.7 ']
+
+['Great fun, happy to ', 'This game is an incr', 'If you like a long m', 'Probably the best si', 'This game is the bes', 'yell at people', 'Already great game w', 'Awesome game! Great ', 'Life ruined. Thanks ', 'Epic game (', 'modding capabilities']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7610&p=1&itemspage=762&screenshotspage=762&videospage=762&artpage=762&allguidepage=762&webguidepage=762&integratedguidepage=762&discussionspage=762&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['23.1 ', '59.6 ', '33.5 ', '63.0 ', '7.7 h', '163.8', '215.2', '283.8', '41.3 ', '119.9']
+
+['got to see boobs 10/', 'Big fan of the conso', 'great game much buy ', 'IT WAS REAL GOOD', 'Amazing game, My fav', 'A must Have! ;)', 'Shouting Sim', 'this is without a do', 'And the civil war - ', 'and those for the DL', 'and the', ', both of which are ', ',', 'and', '. then there is', '. it gets mixed revi', 'I believe there is n', 'This game is addicit']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7780&p=1&itemspage=779&screenshotspage=779&videospage=779&artpage=779&allguidepage=779&webguidepage=779&integratedguidepage=779&discussionspage=779&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['28.7 ', '346.4', '71.4 ', '606.5', '1.1 h', '141.2', '318.5', '18.9 ', '131.0', '84.0 ']
+
+['great game', 'Where do I start on ', 'Quite honestly, I th', "I've been playing th", 'You can make yoursel', '100 + hours of gamep', 'Beautiful and very b', 'I have spent countle', '. Seriously, GET THI', 'Hands down best open', 'Buy it!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7790&p=1&itemspage=780&screenshotspage=780&videospage=780&artpage=780&allguidepage=780&webguidepage=780&integratedguidepage=780&discussionspage=780&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['175.3', '38.0 ', '414.1', '189.9', '396.6', '465.2', '84.0 ', '34.9 ', '65.3 ', '192.2']
+
+['First of all , this ', "Hasn't everybody had", 'Good game.', 'Date of review : 25/', '- Where to start? Th', 'You can also just in', ']', 'This basically gives', 'that shows you the p', '- There are still bu', "If it weren't for th", '- Score is based on ', 'Be prepared to spend', 'KEEP CALM AND PLAY S', 'A MUST HAVE GAME!!! ', 'Tried to pet mammoth', 'why is there no soun', 'Do not buy this on P']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=7830&p=1&itemspage=784&screenshotspage=784&videospage=784&artpage=784&allguidepage=784&webguidepage=784&integratedguidepage=784&discussionspage=784&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['114.6', '53.1 ', '3.5 h', '94.2 ', '88.5 ', '85.0 ', '42.4 ', '97.0 ', '101.9', '267.6']
+
+['Game good.', '.  ,    oO', 'The elder scrolls V:', 'is gut', 'Best game ever creat', 'On the internet nobo', 'Does anyone play thi', 'This is a game 11119', 'I am writing this re']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8000&p=1&itemspage=801&screenshotspage=801&videospage=801&artpage=801&allguidepage=801&webguidepage=801&integratedguidepage=801&discussionspage=801&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['144.5', '147.4', '247.7', '775.2', '146.7', '65.3 ', '458.8', '174.7', '31.2 ', '209.2']
+
+['Not much of an RPG p', 'After 130 hours of g', 'This game takes plac', 'Skyrim: The game tha', 'Really Enjoyed this ', 'FUS RO DAH!!!', 'Take a deep breath. ', 'Awesome, 9.5 out of ', 'What a "dangerous" g', 'Hands down one of th', 'Seriously, if you do']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8310&p=1&itemspage=832&screenshotspage=832&videospage=832&artpage=832&allguidepage=832&webguidepage=832&integratedguidepage=832&discussionspage=832&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['296.1', '341.7', '173.4', '108.7', '249.3', '28.7 ', '123.4', '5.0 h', '37.5 ', '46.0 ']
+
+['Play this game, or t', 'Brilliant Game and G', 'Fun.', 'Solid game, the DLC ', 'Not much to say abou', "Also, here's a look ", 'Love RPGs? You came ', 'Quite possibly one o', 'Great game! Very fun', 'gnarly', 'an endless life suck']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8370&p=1&itemspage=838&screenshotspage=838&videospage=838&artpage=838&allguidepage=838&webguidepage=838&integratedguidepage=838&discussionspage=838&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['64.2 ', '140.6', '189.9', '155.8', '387.1', '73.6 ', '134.7', '335.8', '161.7', '10.2 ']
+
+['While the graphics m', "So good, that it's m", '"Is', '- Borat', 'Wer Rollenspiele mag', 'Like open world RPG ', 'best game ever!', 'endless hours of sla', "I've played this lon", 'Huzzah!!', 'This is a great game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8400&p=1&itemspage=841&screenshotspage=841&videospage=841&artpage=841&allguidepage=841&webguidepage=841&integratedguidepage=841&discussionspage=841&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['270.5', '44.2 ', '29.1 ', '55.1 ', '445.7', '78.6 ', '131.9', '328.4', '562.4', '484.1']
+
+['I absoloutely hate t', 'Awesome game', 'Its amazing game!', 'FTW', '10/10 a must buy, mo', 'One of my favorite g', 'Get it.', 'goudgame can nly rek', 'Made by Bethesda, sp']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8500&p=1&itemspage=851&screenshotspage=851&videospage=851&artpage=851&allguidepage=851&webguidepage=851&integratedguidepage=851&discussionspage=851&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['208.1', '266.9', '84.1 ', '158.6', '32.1 ', '502.6', '429.7', '158.0', '95.6 ', '26.5 ']
+
+['Skyrim is an experie', "What can I say... I'", 'Best game ive ever p', 'Skyrim is the best o', 'Great game, totally ', "I can't say enough a", 'Like most of you I m', 'CONS', 'Looking back at Skyr', 'i like this game', 'The best RPG ever!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8580&p=1&itemspage=859&screenshotspage=859&videospage=859&artpage=859&allguidepage=859&webguidepage=859&integratedguidepage=859&discussionspage=859&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['36.6 ', '137.1', '43.7 ', '16.9 ', '66.6 ', '1,026', '108.5', '320.0', '159.7', '194.4']
+
+['After a rather.. tim', 'Beautiful...', 'I can ride dragon ki', 'This game was pretty', 'FUS RO DHA!!!!!!!!!!', 'The most incredible ', 'This is totally the ', 'world of beautiful c', '10/10, would Mod aga', 'how do i kill', 'I had the X-Box vers']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8590&p=1&itemspage=860&screenshotspage=860&videospage=860&artpage=860&allguidepage=860&webguidepage=860&integratedguidepage=860&discussionspage=860&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['19.6 ', '213.2', '660.9', '2,005', '219.0', '11.5 ', '375.9', '274.1', '299.8', '12.5 ']
+
+["fus ro don't even re", 'This game consists, ', 'Almost endless quest', 'Bored with life, is ', 'PLAY IT', 'This is the best RPG', 'Well, i bought this ', '.', 'This Game Is Amazing']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8620&p=1&itemspage=863&screenshotspage=863&videospage=863&artpage=863&allguidepage=863&webguidepage=863&integratedguidepage=863&discussionspage=863&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['365.3', '24.9 ', '34.1 ', '28.6 ', '37.7 ', '179.0', '294.7', '24.1 ', '569.4', '172.2']
+
+['Skyrim is a great ga', 'Killed a saber cat a', 'Do I even need to ta', '100/10 shouted drago', "I know it's an older", 'What am I doing with', 'i have well over 400', "It's okay I guess", 'This game brought me']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8650&p=1&itemspage=866&screenshotspage=866&videospage=866&artpage=866&allguidepage=866&webguidepage=866&integratedguidepage=866&discussionspage=866&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['414.4', '92.2 ', '647.3', '148.1', '496.8', '122.3', '87.1 ', '168.0', '98.0 ', '215.3']
+
+['I would highly recom', 'The most fun you cou', 'As of writing, I hav', '(according to any wo', 'square miles. I unde', ". That's just a litt", 'I live near. Skyrim ', 'Played this game for', 'One of the best sing', "I haven't been outsi", 'this game will never', '10/10 would mod agai', 'it is the best game ', 'Hugely recomend this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=8970&p=1&itemspage=898&screenshotspage=898&videospage=898&artpage=898&allguidepage=898&webguidepage=898&integratedguidepage=898&discussionspage=898&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['85.9 ', '107.2', '224.3', '58.5 ', '36.3 ', '125.5', '74.2 ', '1,740', '542.6', '38.7 ']
+
+['First time i got thi', "It's an awesome addi", 'Probably the best th', 'I love the lore of S', 'Killed a chicken. Th', 'of course skyrim has', 'is awsome great grap', 'Gotta love it :) It ', '] it will get you pl', 'Skyrim pc > console,', 'I killed a chicken a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9030&p=1&itemspage=904&screenshotspage=904&videospage=904&artpage=904&allguidepage=904&webguidepage=904&integratedguidepage=904&discussionspage=904&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.7 h', '225.4', '417.2', '672.3', '67.3 ', '1.2 h', '103.5', '157.5', '391.7', '14.9 ']
+
+['cool game to get', '5 stars You wont reg', 'You know what? I hav', '-This section is a M', '- The story is simpl', 'The game is heavily ', '-Not much to say, he', 'Overall, I would rec', 'One of the best inve', 'srsly ? reading revi', "STOP! YOU'VE VIOLATE", 'Amazing storyline mi', 'Best RPG there is! :', "It's Skyrim. You kno", 'You can get naked gi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9100&p=1&itemspage=911&screenshotspage=911&videospage=911&artpage=911&allguidepage=911&webguidepage=911&integratedguidepage=911&discussionspage=911&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['135.9', '105.4', '242.7', '171.3', '90.6 ', '130.9', '28.1 ', '16.8 ', '169.5', '156.6']
+
+['Skyrim for PC was on', 'Everything from the ', 'and the fullfilling ', "I've had this game f", 'What he modding can ', 'This game is absolut', 'yolo', 'The Elder Scrolls  :', 'This game is one of ', "Bro, if you don't bu", 'veri fancy dragons, ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (16).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9320&p=1&itemspage=933&screenshotspage=933&videospage=933&artpage=933&allguidepage=933&webguidepage=933&integratedguidepage=933&discussionspage=933&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['989.8', '81.7 ', '75.1 ', '304.1', '387.4', '305.2', '102.6', '73.8 ', '382.6', '20.5 ']
+
+['Talking about Skyrim', 'To enjoy food the go', 'If you enjoy steak r', 'Immersion is an impo', 'to be realistic, onl', 'And for the big one;', "Notice I didn't talk", '60 hours played tota', 'srtbadfbzdfbzdfbzdfb', 'Music, gameplay, and', '11/10.... no word to', 'An amazing RPG! Beth', "I've played on plays", 'Little girls bully l', '10/10 - Would kill a', 'Tried to pick pocket']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9340&p=1&itemspage=935&screenshotspage=935&videospage=935&artpage=935&allguidepage=935&webguidepage=935&integratedguidepage=935&discussionspage=935&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['318.1', '56.9 ', '562.3', '116.5', '171.4', '0.6 h', '134.3', '154.6', '164.2', '682.0']
+
+['An unrelentingly, un', 'Skyrim is one the be', 'Good game, but screw', 'Great RPG. I have no', ". And don't get stea", 'ERMEHGERD DREHGENS', 'A+! Very Cool!', 'A very fun corridor ', '* This review is len', 'Definitive edition o', 'Just get it. Why are']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9450&p=1&itemspage=946&screenshotspage=946&videospage=946&artpage=946&allguidepage=946&webguidepage=946&integratedguidepage=946&discussionspage=946&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['56.7 ', '151.0', '19.3 ', '949.6', '342.6', '55.7 ', '66.9 ', '40.6 ', '541.0', '4.2 h']
+
+['BEST GAME EVER', 'DOVAHKIN! ...Just ge', 'Open World, detailed', 'Oh Skyrim... how sha', "First off; I've avoi", '[Edits made to fix g', 'An excellent game fo', 'A unique RPG, a very', 'Flat out one of the ', 'Great game just a fe', 'Possibly the greates', 'GREAT GAME! so reali']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9470&p=1&itemspage=948&screenshotspage=948&videospage=948&artpage=948&allguidepage=948&webguidepage=948&integratedguidepage=948&discussionspage=948&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['729.2', '1.6 h', '255.2', '28.9 ', '210.8', '54.1 ', '331.1', '300.0', '569.1', '118.1']
+
+['SKSE + ENB + Mod Org', '+ SkyRe/PerMa = unli', 'Brand new to steam a', "I've never been into", 'If dreams were inter', 'The best rpg game EV', 'moding and this game', 'OH MY GOD, BEST GAME', 'skyrim is amazing', 'This is a great game', '=    =    =         ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9490&p=1&itemspage=950&screenshotspage=950&videospage=950&artpage=950&allguidepage=950&webguidepage=950&integratedguidepage=950&discussionspage=950&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['146.9', '387.8', '54.5 ', '336.1', '735.3', '564.8', '14.8 ', '53.1 ', '112.1', '58.6 ']
+
+['Walked into Riverwoo', 'The game is a master', 'I threw an iron ingo', 'I would recommend th', 'Just amazing, especi', '! I have over 200 ho', 'Skyrim is quite simp', 'Easily the best game', 'Excellent game, epic', 'The best, from the b', 'This game is Epic BU']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9670&p=1&itemspage=968&screenshotspage=968&videospage=968&artpage=968&allguidepage=968&webguidepage=968&integratedguidepage=968&discussionspage=968&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['554.7', '58.2 ', '55.3 ', '5.1 h', '143.7', '10.1 ', '70.2 ', '175.4', '19.8 ', '52.2 ']
+
+["Didn't play it much ", 'mod and crash simula', 'naudin seda mngu', 'Its Skyrim.....Enoug', 'Like Skyrim with gun', 'best rpg game', 'In the famous words ', '10/10 Best game ever', 'Killed a chicken and']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=9940&p=1&itemspage=995&screenshotspage=995&videospage=995&artpage=995&allguidepage=995&webguidepage=995&integratedguidepage=995&discussionspage=995&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['87.3 ', '54.5 ', '80.1 ', '99.7 ', '143.1', '465.8', '100.1', '112.4', '198.1', '112.1']
+
+['giants', 'DAT ING AWESOME.', "Seriously why're you", 'I wonder if it will ', 'My first thoughts wh', '. I did not realize ', 'I cannot type into w', 'Fus-Roh-Meh.', 'Adventure Euphoria. ', 'I became a lizard an', 'FOOSH DARAH!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10070&p=1&itemspage=1008&screenshotspage=1008&videospage=1008&artpage=1008&allguidepage=1008&webguidepage=1008&integratedguidepage=1008&discussionspage=1008&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['151.0', '19.3 ', '949.6', '342.6', '55.7 ', '226.9', '78.4 ', '32.8 ', '10.3 ', '531.4']
+
+['DOVAHKIN! ...Just ge', 'Open World, detailed', 'Oh Skyrim... how sha', "First off; I've avoi", '[Edits made to fix g', 'An excellent game fo', 'A unique RPG, a very', 'This is still the be', 'This game helped me ', 'I love this game! Yo', 'I had been playing t', 'Sick as game. Recomm']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10360&p=1&itemspage=1037&screenshotspage=1037&videospage=1037&artpage=1037&allguidepage=1037&webguidepage=1037&integratedguidepage=1037&discussionspage=1037&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['126.3', '75.7 ', '59.4 ', '67.6 ', '136.6', '4.8 h', '198.8', '1,029', '126.5', '275.8']
+
+['Skyrim, skyrim, skyr', 'Are you kidding me? ', 'The world of Skyrim ', 'Now with the flaws o', 'Atmosphere: 10/10 ( ', 'One of the best game', 'Yes.', 'Modding Simulator. "', 'GOODBYE REAL LIFE!', 'Hands Down Best Damn', 'One of the best game', 'There are few games ', 'Dragons trying to sp', 'its a goo game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10440&p=1&itemspage=1045&screenshotspage=1045&videospage=1045&artpage=1045&allguidepage=1045&webguidepage=1045&integratedguidepage=1045&discussionspage=1045&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['54.5 ', '336.1', '738.1', '565.7', '14.8 ', '53.1 ', '112.1', '58.6 ', '497.5', '424.3']
+
+['I threw an iron ingo', 'I would recommend th', 'Just amazing, especi', '! I have over 200 ho', 'Skyrim is quite simp', 'Easily the best game', 'Excellent game, epic', 'The best, from the b', 'This game is Epic BU', 'This is the best gam', 'Better than Oblivion']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10510&p=1&itemspage=1052&screenshotspage=1052&videospage=1052&artpage=1052&allguidepage=1052&webguidepage=1052&integratedguidepage=1052&discussionspage=1052&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['669.2', '75.8 ', '0.1 h', '71.7 ', '256.1', '110.6', '176.0', '280.3', '133.0', '141.7']
+
+['The finest Cabbage M', 'I love skyrim and ev', 'From the', "long time that I've ", 'If you like the game', 'Follower door blocki', 'Mod it!', 'Had a life, oops now', 'Such Swag', 'This game is amazing', 'This game is good an', 'Great game. Second m', 'Arguably one of the ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10560&p=1&itemspage=1057&screenshotspage=1057&videospage=1057&artpage=1057&allguidepage=1057&webguidepage=1057&integratedguidepage=1057&discussionspage=1057&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['26.8 ', '6.5 h', '534.1', '43.8 ', '71.6 ', '138.2', '26.5 ', '62.6 ', '104.4', '133.5']
+
+['Skyrim Is A Fun Open', 'Why cant i stop play', 'Finally getting arou', 'The Elder Scrolls V:', 'Woow that game is AW', 'To be honest, this g', 'anything! Just follo', "don't. - Enjoy the b", 'Simulator 2011-prese', 'Amazing game 10/10, ', 'SUPER LEGIT BUY IT T', 'Perfect game. 11/10!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10590&p=1&itemspage=1060&screenshotspage=1060&videospage=1060&artpage=1060&allguidepage=1060&webguidepage=1060&integratedguidepage=1060&discussionspage=1060&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['523.7', '42.4 ', '9.0 h', '2,491', '134.8', '327.3', '68.8 ', '61.3 ', '301.8', '1,236']
+
+["I've Played This Gam", 'I love skyrim it is ', 'It may not seem like', 'submission of extra,', 'I only beat the game', 'BEST GAME FROM 2011 ', 'gggggggggggg', 'Turned every dragon ', 'AMAZING 10/10 ! This', 'its an rpg', 'UI Sucks, game is gr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (17).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10630&p=1&itemspage=1064&screenshotspage=1064&videospage=1064&artpage=1064&allguidepage=1064&webguidepage=1064&integratedguidepage=1064&discussionspage=1064&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['111.1', '4.9 h', '698.3', '471.3', '170.8', '75.3 ', '118.8', '152.8', '17.5 ', '98.7 ']
+
+['Great Game!', 'Dragons and Asses.', 'Dragons, Assassins, ', 'My rating of the gam', '"What is better - to', '"You do not even spe', 'VANILLA - 4 - Averag', '2 - Excellent Pretty', 'hell of a twist), th', 'VANILLA - 3 - Good M', 'VANILLA - 8/10 MODDE', 'Skyrim... Need I say', 'uhhh yea yea its ok', 'I could write alot a', 'Hours and hours of f', 'You can punch a gian', 'Fun free roaming gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10780&p=1&itemspage=1079&screenshotspage=1079&videospage=1079&artpage=1079&allguidepage=1079&webguidepage=1079&integratedguidepage=1079&discussionspage=1079&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['72.0 ', '268.1', '251.1', '156.6', '324.2', '444.1', '385.4', '93.7 ', '440.8', '314.4']
+
+['Hiton hyv :D', 'Amazing game, but ev', 'Would prefer HD rele', 'Skyrim was a hit and', 'Though Skyrim is a r', 'still playing it in ', 'I would recommend th', 'made shouting at dra', 'The Elder Scrolls V:', 'The Story is fairly ', 'The Elder Scrolls V:', "Best game i've ever "]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10790&p=1&itemspage=1080&screenshotspage=1080&videospage=1080&artpage=1080&allguidepage=1080&webguidepage=1080&integratedguidepage=1080&discussionspage=1080&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['8.2 h', '3,317', '7.0 h', '82.9 ', '228.6', '40.1 ', '446.0', '88.8 ', '58.5 ', '233.7']
+
+['it was fine game i l', 'Je ne connais pas de', 'One of the most cult', 'With a story penned ', 'Good.', 'Its skyrim, if you d', 'I am a thief. I see ', '"Mod it until it cra', 'A most excellent RPG']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10810&p=1&itemspage=1082&screenshotspage=1082&videospage=1082&artpage=1082&allguidepage=1082&webguidepage=1082&integratedguidepage=1082&discussionspage=1082&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['747.5', '191.6', '240.9', '8.6 h', '39.4 ', '366.7', '156.2', '71.0 ', '7.2 h', '116.8']
+
+['I was incredibly lat', 'After playing The El', 'TES: Skyrim is amazi', 'EVERYTHING. I LIKE E', 'Why are you reading ', 'you buy now!', 'Why do you not own t', 'This gaem dusnt suk', 'Excellent game, and ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10830&p=1&itemspage=1084&screenshotspage=1084&videospage=1084&artpage=1084&allguidepage=1084&webguidepage=1084&integratedguidepage=1084&discussionspage=1084&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['170.0', '97.9 ', '171.4', '98.6 ', '56.2 ', '58.8 ', '30.6 ', '26.5 ', '857.5', '134.9']
+
+['hell yeh', 'Skyrim, Skyrim, Skyr', "Don't let my hours f", "Meh game on it's but", 'sweetness', 'This game is amazing', 'Will not say anythin', 'Skyrim is fun :D', 'Simply put one of th', 'PC" not "To PC', 'Console".', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10910&p=1&itemspage=1092&screenshotspage=1092&videospage=1092&artpage=1092&allguidepage=1092&webguidepage=1092&integratedguidepage=1092&discussionspage=1092&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['32.2 ', '125.3', '58.5 ', '257.3', '18.4 ', '1.4 h', '130.3', '36.3 ', '189.6', '62.6 ']
+
+['I came into this gam', 'To me this is the be', 'This game rocks, the', 'The best game and RP', 'in my top 10 all tim', "Can't describe how m", 'Dragons, mead, amazi', 'This game has been m', 'Gabe Newell approves']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=10920&p=1&itemspage=1093&screenshotspage=1093&videospage=1093&artpage=1093&allguidepage=1093&webguidepage=1093&integratedguidepage=1093&discussionspage=1093&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['26.8 ', '6.5 h', '534.1', '43.8 ', '71.6 ', '138.2', '26.5 ', '62.6 ', '104.4', '133.5']
+
+['Skyrim Is A Fun Open', 'Why cant i stop play', 'Finally getting arou', 'The Elder Scrolls V:', 'Woow that game is AW', 'To be honest, this g', 'anything! Just follo', "don't. - Enjoy the b", 'Simulator 2011-prese', 'Amazing game 10/10, ', 'SUPER LEGIT BUY IT T', 'Perfect game. 11/10!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11170&p=1&itemspage=1118&screenshotspage=1118&videospage=1118&artpage=1118&allguidepage=1118&webguidepage=1118&integratedguidepage=1118&discussionspage=1118&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['260.7', '36.9 ', '56.1 ', '92.8 ', '332.6', '252.2', '114.0', '85.8 ', '77.9 ', '41.7 ']
+
+['A great open world f', '10/10 would buy agai', "It's awesome and the", 'This is probably the', 'This is definately i', "Best Medieval RPG I'", 'Skyrim is one of the', "of what I'm talking ", 'The writing in this ', 'Combat in Skyrim is ', 'There are 18 skills ', 'Skyrim is a pretty g', 'Just like in Morrowi', 'I highly recommend t', 'outweighed by the go', 'awesome game!!', 'Buy it, mod it, play', 'THE BEST OF ALL TIME']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11420&p=1&itemspage=1143&screenshotspage=1143&videospage=1143&artpage=1143&allguidepage=1143&webguidepage=1143&integratedguidepage=1143&discussionspage=1143&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['444.1', '385.4', '93.7 ', '440.8', '14.9 ', '41.7 ', '103.8', '56.7 ', '50.9 ', '622.9']
+
+['still playing it in ', 'I would recommend th', 'made shouting at dra', 'The Elder Scrolls V:', 'The Story is fairly ', 'The Elder Scrolls V:', 'i have played alots ', 'This game is incredi', 'If you havent played', 'One of the Best RPGs', '100000 out of 10', 'The real question is']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11440&p=1&itemspage=1145&screenshotspage=1145&videospage=1145&artpage=1145&allguidepage=1145&webguidepage=1145&integratedguidepage=1145&discussionspage=1145&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['121.9', '143.2', '110.6', '160.2', '309.3', '61.5 ', '86.5 ', '123.5', '64.1 ', '856.2']
+
+['Better than GTA!!!', 'this game is better ', 'this game is amazing', 'The Elder Scrolls V:', '-big open world -gre', '-basic combat animat', 'One of the best, and', '!', 'I recommend buying t', 'Awesome Game for eve', 'Well..... IT`S SKYRI', 'If you havnt already', 'What can I say about', "Don't buy this game "]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11460&p=1&itemspage=1147&screenshotspage=1147&videospage=1147&artpage=1147&allguidepage=1147&webguidepage=1147&integratedguidepage=1147&discussionspage=1147&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['307.1', '130.5', '514.8', '22.8 ', '502.5', '331.9', '88.6 ', '13.7 ', '205.9', '1,021']
+
+['"Dragons were never ', 'THIS GAME IS: 10% lu', 'My Children were jum', 'The best Elder Scrol', 'This game is a must ', 'Pardon my english', 'Vanilla graphics are', 'Gameplay is just the', 'Skyrim is truly an i', 'This game is simply ', 'This game is so awes', '1.Killed Chicken 2.o', 'This game is amazing', 'By far one of the be']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11630&p=1&itemspage=1164&screenshotspage=1164&videospage=1164&artpage=1164&allguidepage=1164&webguidepage=1164&integratedguidepage=1164&discussionspage=1164&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['55.0 ', '162.8', '9.5 h', '42.6 ', '770.7', '169.5', '272.1', '104.0', '424.0', '68.2 ']
+
+['You are most likely ', 'if you call yourself', 'One Of The Best Game', "It's f***ing Skyrim,", 'Dohvakiin! Dohvakiin', 'Night of Tears best ', 'Holy cow. Not enough', 'Buy it. Love it. Los', 'Simply A Very Good G']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11660&p=1&itemspage=1167&screenshotspage=1167&videospage=1167&artpage=1167&allguidepage=1167&webguidepage=1167&integratedguidepage=1167&discussionspage=1167&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['126.3', '75.7 ', '59.4 ', '67.6 ', '322.8', '427.6', '146.4', '88.0 ', '354.8', '2.1 h']
+
+['Skyrim, skyrim, skyr', 'Are you kidding me? ', 'The world of Skyrim ', 'Now with the flaws o', 'Atmosphere: 10/10 ( ', 'One of the best game', 'Yes.', 'Modding Simulator. "', "GUESS WHAT, IT'S ING", 'the dickgirl mods ar', '[SPOILER ELERT CODE ', 'absoloutly brilliant', 'I recommend this gam', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11770&p=1&itemspage=1178&screenshotspage=1178&videospage=1178&artpage=1178&allguidepage=1178&webguidepage=1178&integratedguidepage=1178&discussionspage=1178&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['149.6', '32.0 ', '280.6', '109.3', '1,060', '147.2', '75.8 ', '17.6 ', '66.0 ', '1.4 h']
+
+['By now all of you ar', 'Logged 150 or so hou', 'Their seems to be a ', 'A true RPG, although', '7400 hours tracked o', 'I used to play a pir', 'Most Epic mistake of', '10/10 cat girl simul', 'Its skyrim god damni', 'Who could say no to ', 'game yang bagus deng']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11790&p=1&itemspage=1180&screenshotspage=1180&videospage=1180&artpage=1180&allguidepage=1180&webguidepage=1180&integratedguidepage=1180&discussionspage=1180&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['94.5 ', '54.0 ', '82.9 ', '156.8', '5.4 h', '56.3 ', '56.8 ', '201.0', '130.7', '52.8 ']
+
+['This game has so man', 'Best game I have eve', '- Unchained - Went w', "Why haven't you play", 'This is what i did i', 'Great Game. Great Gr', "yeah it's alright", 'By the Nine is this ', 'simply awesome']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11830&p=1&itemspage=1184&screenshotspage=1184&videospage=1184&artpage=1184&allguidepage=1184&webguidepage=1184&integratedguidepage=1184&discussionspage=1184&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['500.4', '23.2 ', '1,209', '11.3 ', '306.1', '196.3', '459.9', '559.7', '90.0 ', '30.4 ']
+
+['Unbelievable depth a', 'clutch game!', 'Excelently crafted. ', 'Made Ronald McDonald', "It's okay.", 'The game itself is O', '*15 april 2015, 95%.', 'where they have real', 'of the game:console ', '/ It is more concise', 'Skyrim is probably o', 'BEST GAME EVER', 'Can hunt a flying lo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11880&p=1&itemspage=1189&screenshotspage=1189&videospage=1189&artpage=1189&allguidepage=1189&webguidepage=1189&integratedguidepage=1189&discussionspage=1189&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['119.4', '262.5', '59.9 ', '491.5', '13.6 ', '220.6', '1,266', '9.9 h', '166.3', '38.3 ']
+
+['player.additem f 100', 'Very nice game! Plot', 'level 20 killing ald', 'It is one of my favo', '10/10, would punch d', 'Great game, great dl', 'Probably the greates', 'that game made me ge', 'Get This Now this is']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11900&p=1&itemspage=1191&screenshotspage=1191&videospage=1191&artpage=1191&allguidepage=1191&webguidepage=1191&integratedguidepage=1191&discussionspage=1191&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['54.8 ', '20.5 ', '150.7', '316.9', '95.3 ', '2,699', '363.0', '37.8 ', '36.8 ', '1,907']
+
+['Brilliant game so mu', 'This game is amazing', 'What in the name of ', 'Get this game. Done.', '. {LINK REMOVED}', 'Great story backed b', 'Superior in some way', 'What can i say about', 'This makes call of d', 'Like Skyrim but with', 'I have no life xD 19']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=11970&p=1&itemspage=1198&screenshotspage=1198&videospage=1198&artpage=1198&allguidepage=1198&webguidepage=1198&integratedguidepage=1198&discussionspage=1198&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['48.9 ', '132.1', '1,322', '225.4', '80.2 ', '67.6 ', '9.5 h', '4.5 h', '214.4', '125.3']
+
+['Best Game Ever', 'This game is simply ', "You don't spend this", 'The Elder Scrolls V:', "(Interesting NPC's),", 'an unforgetable adve', 'This game is really ', ':', 'Best on PC! Sandbox,', 'Great game to mod, p', "It's like Skyrim wit"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12190&p=1&itemspage=1220&screenshotspage=1220&videospage=1220&artpage=1220&allguidepage=1220&webguidepage=1220&integratedguidepage=1220&discussionspage=1220&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['32.4 ', '45.8 ', '188.8', '59.2 ', '356.0', '209.0', '158.4', '1,154', '95.8 ', '272.8']
+
+['awesome game 10/10', 'great game', 'I am about 30 hours ', 'I have many unpopula', 'Great RPG game When ', 'The best RPG this ge', 'Skyrim is a fairly s', 'with its own special', 'Best Game Ever <3', 'The best RPG of all ', "Pretty well if you'r", '. If you are coming ', ', The Unofficial Pat']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12200&p=1&itemspage=1221&screenshotspage=1221&videospage=1221&artpage=1221&allguidepage=1221&webguidepage=1221&integratedguidepage=1221&discussionspage=1221&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['104.7', '203.5', '660.4', '45.8 ', '3,026', '134.9', '64.6 ', '210.9', '64.7 ', '786.9']
+
+["Let's all stop and a", '.', 'Welcome to Skyrim, w', 'Just look at the hou', 'One of the best RPGs', 'you can literally li', "Until you've modded ", '10/10 Wow. Talk abou', 'great', 'The Elder Scrolls. D', 'Downloaded some nigh']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12240&p=1&itemspage=1225&screenshotspage=1225&videospage=1225&artpage=1225&allguidepage=1225&webguidepage=1225&integratedguidepage=1225&discussionspage=1225&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,322', '225.4', '122.5', '5.1 h', '95.1 ', '8.3 h', '1,718', '10.3 ', '2.3 h', '78.0 ']
+
+["You don't spend this", 'The Elder Scrolls V:', "(Interesting NPC's),", 'Love this game. Buy ', 'bought it for r18 mo', 'mods.', 'gr8 gaem m8 i r8 8/8', "its good but doesn't", "It's like fallout, b", 'Its like Skyrim with', 'Absolutely stunning!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12410&p=1&itemspage=1242&screenshotspage=1242&videospage=1242&artpage=1242&allguidepage=1242&webguidepage=1242&integratedguidepage=1242&discussionspage=1242&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['64.9 ', '169.9', '44.7 ', '57.6 ', '76.2 ', '35.2 ', '21.1 ', '209.5', '30.1 ', '41.9 ']
+
+["I've left 11 women a", 'Best Scavenger hunt ', 'dis gem haz lots ov ', 'Such game Many RPG M', 'This game is the bes', '9/10 What I would ca', 'Best thing : YOU WOR', 'This game is really ', 'Mods! Glorious MODS!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12590&p=1&itemspage=1260&screenshotspage=1260&videospage=1260&artpage=1260&allguidepage=1260&webguidepage=1260&integratedguidepage=1260&discussionspage=1260&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['100.1', '254.6', '10.1 ', '279.7', '175.5', '27.1 ', '18.0 ', '170.9', '76.5 ', '325.8']
+
+['BEST RPG EVER!!!! ES', 'Dragons, Dragons eve', 'The best open world ', 'Live life, live Skyr', 'This game is a trium', 'moo', 'Such a great game. i', 'One of my favorite g', 'gets old, ever. 10/1', 'This game is awesome', 'This game is by far ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12760&p=1&itemspage=1277&screenshotspage=1277&videospage=1277&artpage=1277&allguidepage=1277&webguidepage=1277&integratedguidepage=1277&discussionspage=1277&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['14.5 ', '9.0 h', '341.0', '132.4', '30.5 ', '35.5 ', '260.8', '68.1 ', '640.2', '82.8 ']
+
+['10/10 IGN', 'wow after playing th', 'This is my favorite ', 'Beatiful GAME!', 'Oh Skyrim, I keep co', 'Every time I try to ', 'This is one of my fa', "I'll have to admit t", 'you buy nao']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12790&p=1&itemspage=1280&screenshotspage=1280&videospage=1280&artpage=1280&allguidepage=1280&webguidepage=1280&integratedguidepage=1280&discussionspage=1280&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['8.1 h', '29.8 ', '283.9', '152.2', '311.7', '305.1', '400.9', '58.2 ', '67.5 ', '140.1']
+
+['wow', "I don't even have wo", 'Man, I love this gam', 'are just making the ', 'AMAZING', 'This game was nothin', '*whispers* I love it', 'i in hate this game ', '10/10', 'Still one of the Gre', 'Very very good game.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12840&p=1&itemspage=1285&screenshotspage=1285&videospage=1285&artpage=1285&allguidepage=1285&webguidepage=1285&integratedguidepage=1285&discussionspage=1285&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['386.6', '298.1', '277.5', '332.2', '55.5 ', '50.3 ', '186.0', '385.4', '150.8', '79.0 ']
+
+["Skyrim is bethesda's", 'Cool beans. Amazing ', 'For the Combat of me', 'best game 10/10', 'Ace approves this.', 'Occasionally its goo', 'By now you probably ', 'An amazingly fun gam', 'jesus this game took']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12870&p=1&itemspage=1288&screenshotspage=1288&videospage=1288&artpage=1288&allguidepage=1288&webguidepage=1288&integratedguidepage=1288&discussionspage=1288&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4.0 h', '81.0 ', '143.7', '127.0', '80.5 ', '230.7', '79.0 ', '495.9', '63.2 ', '1.0 h']
+
+['10/10 flawless', 'yes i defnintly reco', 'I am ashamed that I ', 'meh', 'amazing game highly ', 'If you like RPG game', 'Gra na dugie godziny', "Since I'm playing Sk", 'Get it now ! Or else', 'After playing this g', 'Great game, it has e']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12900&p=1&itemspage=1291&screenshotspage=1291&videospage=1291&artpage=1291&allguidepage=1291&webguidepage=1291&integratedguidepage=1291&discussionspage=1291&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['38.9 ', '210.4', '444.3', '490.4', '61.9 ', '123.3', '111.4', '653.5', '35.5 ', '260.8']
+
+['BEST GAME EVAR, YOU ', ') 4. MAGIC (though I', '19.Get Drunk (JK)] 2', 'Wife is always in th', "Why can't I stop pla", 'The Elder Scrolls is', 'Oh yeah, I should ha', 'Deep story telling a', 'If you try to soul t', 'This is THE LEGEND. ', 'Every time I try to ', 'This is one of my fa']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12910&p=1&itemspage=1292&screenshotspage=1292&videospage=1292&artpage=1292&allguidepage=1292&webguidepage=1292&integratedguidepage=1292&discussionspage=1292&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['68.1 ', '640.2', '345.3', '13.9 ', '186.2', '114.0', '532.0', '147.6', '13.6 ', '49.2 ']
+
+["I'll have to admit t", 'The most fun time sp', 'So swag. Much fun. y', 'I love this game and', 'Why the  are you her', 'BEST GAME EVER !!!', 'This IS an amazing g', 'Like FarCry 3 withou', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (42).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=12920&p=1&itemspage=1293&screenshotspage=1293&videospage=1293&artpage=1293&allguidepage=1293&webguidepage=1293&integratedguidepage=1293&discussionspage=1293&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['92.9 ', '28.5 ', '245.6', '103.3', '97.8 ', '79.5 ', '134.4', '19.6 ', '74.3 ', '729.0']
+
+['the game is amaizing', 'One of the best game', 'This game is simply ', 'This game, with mods', 'I love this game', 'This game is truly a', "It's already clearly", 'and SkyUI', 'are required to run ', '-83Willows 101BugsHD', '-Monster Mod, by Dog', '-Audio Overhaul for ', '-Realistic Water Two', '-Extended Encounters', '-Immersive Patrols, ', '-OBIS - Organized Ba', 'Visuals: -Enhanced N', '-Skyrim HD - 2K Text', '-Realistic Lighting ', 'Combat: -Deadly Muti', '-Enhanced Blood Text', 'Magic and Echanting:', '-Apocalypse Magic of', '-Midas Magic Spells ', 'Armor and Weapons: -', '-Daedric Armor and w', '-Medusa Drakul armor', '-JaySuS Swords, by J', '-Elemental Arrows, b', '-Wearable Lanterns, ', '-Bandolier Bags and ', 'Dawnguard DLC esclus', '-Bloodmoon Rising Da', '-Grimoas Vampire Lor', '-Raven witch armor a', 'Fun/Funny: -Singing ', '-Realistic Ragdolls ', 'Thanks for getting t', '+ Big location + So ', 'Some noble came up t', 'The Best Game EVER!', 'I am deceive! This g']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13050&p=1&itemspage=1306&screenshotspage=1306&videospage=1306&artpage=1306&allguidepage=1306&webguidepage=1306&integratedguidepage=1306&discussionspage=1306&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['221.2', '308.1', '108.1', '10.1 ', '279.7', '175.5', '179.8', '134.2', '8.0 h', '90.6 ']
+
+["There's only two rea", 'the expansion packs.', 'and', 'to use thanks to the', 'Very fun game, also ', "If you don't get thi", 'The best open world ', 'Live life, live Skyr', 'This game is a trium', 'Always worth it, buy', 'I know my steam play', "It's like Far Cry 3 ", 'I love this game, ma']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13140&p=1&itemspage=1315&screenshotspage=1315&videospage=1315&artpage=1315&allguidepage=1315&webguidepage=1315&integratedguidepage=1315&discussionspage=1315&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['134.2', '220.9', '135.1', '82.4 ', '501.4', '176.3', '40.4 ', '14.0 ', '183.6', '96.0 ']
+
+['I played. Alot. Like', 'Best game ever. Nuff', 'Reasons Why You Shou', 'Rate 11/10', 'Took an arrow to the', 'wtf happened. The la', "It doesn't matter: h", 'da best game i have ', 'this game gets all t', 'Just began the game,', 'This game is amazing']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13220&p=1&itemspage=1323&screenshotspage=1323&videospage=1323&artpage=1323&allguidepage=1323&webguidepage=1323&integratedguidepage=1323&discussionspage=1323&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['197.2', '18.7 ', '235.0', '88.1 ', '117.8', '252.1', '58.0 ', '79.5 ', '32.0 ', '991.6']
+
+['The Elder Scrolls ar', 'One of the best game', 'Possibly my favorite', '"FUS RO .."', 'An excellent display', 'having even more the', 'mods', 'HUGE JEWGANCHI!!!!', 'With all the  games ', 'one of the best rpg ', 'Legendery game garph']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13280&p=1&itemspage=1329&screenshotspage=1329&videospage=1329&artpage=1329&allguidepage=1329&webguidepage=1329&integratedguidepage=1329&discussionspage=1329&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3.8 h', '61.2 ', '119.4', '156.1', '1.9 h', '117.8', '252.1', '58.0 ', '79.5 ', '75.9 ']
+
+['Bro,Do you even fetc', 'Good with mods and a', 'The Best Game i have', 'Good thing someone g', 'its ok', 'An excellent display', 'having even more the', 'mods', 'HUGE JEWGANCHI!!!!', 'With all the  games ', "You know you've fall"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13320&p=1&itemspage=1333&screenshotspage=1333&videospage=1333&artpage=1333&allguidepage=1333&webguidepage=1333&integratedguidepage=1333&discussionspage=1333&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['112.6', '253.5', '114.4', '31.6 ', '24.6 ', '13.8 ', '34.1 ', '383.5', '4.4 h', '318.0']
+
+['Like skyrim with sky', 'its a damn good game', '69 Ducks out of 5 to', 'Stop reading and buy', 'this game is not fun', 'I have a dream.... o', 'social life.', 'Morrowind masterrace', 'Absolutely amazing g', 'stole a chicken and ', 'dank']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13330&p=1&itemspage=1334&screenshotspage=1334&videospage=1334&artpage=1334&allguidepage=1334&webguidepage=1334&integratedguidepage=1334&discussionspage=1334&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4.3 h', '621.9', '100.1', '254.6', '27.1 ', '75.8 ', '3,257', '170.9', '76.5 ', '325.8']
+
+['well probably the be', 'the game itself is g', 'BEST RPG EVER!!!! ES', 'Dragons, Dragons eve', 'moo', 'So much awesomeness.', 'The elder scrolls ga', 'One of my favorite g', 'gets old, ever. 10/1', 'This game is awesome', 'This game is by far ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13420&p=1&itemspage=1343&screenshotspage=1343&videospage=1343&artpage=1343&allguidepage=1343&webguidepage=1343&integratedguidepage=1343&discussionspage=1343&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.8 h', '24.7 ', '61.6 ', '396.7', '28.0 ', '548.3', '39.2 ', '173.3', '98.5 ', '116.0']
+
+['Good game. Get it.', 'This game is so, so,', 'This review may say ', 'A good game that can', 'gets mods, crash evr', '9.5/10 - Only if you', 'Nord: Sticks and sto', 'Challenging, Glitchy', 'Mods Combat Game len', 'Chickens', 'If you dont buy this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13440&p=1&itemspage=1345&screenshotspage=1345&videospage=1345&artpage=1345&allguidepage=1345&webguidepage=1345&integratedguidepage=1345&discussionspage=1345&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['44.7 ', '63.2 ', '349.5', '26.3 ', '46.6 ', '455.0', '796.1', '108.0', '36.6 ', '71.8 ']
+
+['Modded the sh*t out ', "It's like farcry wit", 'some may call this j', 'Best game ever.', 'da skyrim :d require', 'to be fun imo', 'One of the best sing', 'This is by far the b', 'Best game OCE', '0/420 cant quikscop ', 'Do i recommend this ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13460&p=1&itemspage=1347&screenshotspage=1347&videospage=1347&artpage=1347&allguidepage=1347&webguidepage=1347&integratedguidepage=1347&discussionspage=1347&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['257.9', '247.7', '166.9', '13.1 ', '40.4 ', '165.5', '107.0', '232.2', '524.1', '133.0']
+
+['I love this game <3', 'FRICKING AWESOME', 'Awsome game love it.', 'Like RuneScape but w', 'nice game, sometimes', 'The Elder Scrolls V:', 'YUP!', '10/10 Like Skyrim bu', 'The Elder Scrolls V ', "I've always been ama", 'Pretty cool game hou']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13610&p=1&itemspage=1362&screenshotspage=1362&videospage=1362&artpage=1362&allguidepage=1362&webguidepage=1362&integratedguidepage=1362&discussionspage=1362&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['70.0 ', '56.1 ', '3.5 h', '98.6 ', '276.9', '5.7 h', '676.6', '239.1', '18.1 ', '21.6 ']
+
+["Who doesn't love thi", 'Minecraft best game ', '11/10 ~IGN "It\'s oka', 'Amazing game! It is ', 'good game', 'This is still the be', 'Tried playing Elder ', 'get it', 'The Dragonman goes t']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/72850/homecontent/?userreviewsoffset=13620&p=1&itemspage=1363&screenshotspage=1363&videospage=1363&artpage=1363&allguidepage=1363&webguidepage=1363&integratedguidepage=1363&discussionspage=1363&appid=72850&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['244.9', '29.0 ', '204.9', '53.7 ', '125.9', '75.4 ', '37.0 ', '23.0 ', '86.7 ', '479.7']
+
+['LOVE this game, woul', 'The Elder Scrolls V:', 'Huge map to explore:', 'I have a family in t', 'Very realistic world', "It's Like Skyrim, wi", 'killed someone infro', 'Good. Not big surpri', 'Wow.. why do you eve']
+
+

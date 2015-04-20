@@ -678,3 +678,811 @@ URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=4830&p=
 ['I like it.', 'great game!!!', 'Fun, fast pased, bad', 'I RECOMEND THIS GAME', '16/10 stars, would p', 'i just got in my min', 'i really like warfra', 'This  be off the fra', 'The only game in ear']
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=4940&p=1&itemspage=495&screenshotspage=495&videospage=495&artpage=495&allguidepage=495&webguidepage=495&integratedguidepage=495&discussionspage=495&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,008', '29.2 ', '29.7 ', '148.2', '1,858', '5.1 h', '1,014', '166.5', '533.0', '117.1']
+
+['WOOW', 'this game is good it', 'this game looks and ', 'ONE OF THE BEST GAME', 'good game!!!', 'This game is probabl', 'DID YOU REALLY BELIE', 'Great leveling syste', 'The purpose of this ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5080&p=1&itemspage=509&screenshotspage=509&videospage=509&artpage=509&allguidepage=509&webguidepage=509&integratedguidepage=509&discussionspage=509&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['514.2', '1,779', '655.1', '2.3 h', '393.2', '21.1 ', '321.0', '9.0 h', '835.2', '136.8']
+
+['This game is really ', 'Through an amazing c', '), and in the end, y', 'One of the best free', "It's free and fun. G", 'So far logged at lea', 'Really fun and graph', 'Amazingly fun, consi', 'this game is not fre', 'Seriously the best f', 'robo ninjas are a ni']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5130&p=1&itemspage=514&screenshotspage=514&videospage=514&artpage=514&allguidepage=514&webguidepage=514&integratedguidepage=514&discussionspage=514&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['508.8', '9.4 h', '20.1 ', '462.5', '139.3', '20.3 ', '12.9 ', '128.6', '8.0 h', '563.6']
+
+['Brainless battles an', 'grindframe (epic jok', '.', 'Nejlep coop stleka. ', 'very unique game, wo', "It's free, you can c", 'This game is fun. It', 'Fun free to play gam', '16/10 stars, would p']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5160&p=1&itemspage=517&screenshotspage=517&videospage=517&artpage=517&allguidepage=517&webguidepage=517&integratedguidepage=517&discussionspage=517&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['37.8 ', '7.2 h', '16.5 ', '32.9 ', '1.3 h', '30.0 ', '261.9', '18.1 ', '18.6 ', '492.3']
+
+['So I had a choice to', 'this game is very fu', 'I love this game Thi', 'its a really good id', 'Its Awesome, You jus', 'Its a great game, es', 'love this game', "I don't play very ma", 'Fun Free to play gam']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5210&p=1&itemspage=522&screenshotspage=522&videospage=522&artpage=522&allguidepage=522&webguidepage=522&integratedguidepage=522&discussionspage=522&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['375.4', '165.9', '0.8 h', '357.0', '311.5', '125.0', '218.7', '11.2 ', '126.2', '14.7 ']
+
+['Kill  with badass we', 'Probably the best fr', '10/10 no intro movie', 'Started this game a ', '"Extremely fun and a', 'veri gud, space ninj', ',         ,    MMO.', "Basically it's a fas", 'Totes mlg. Much wow.']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5270&p=1&itemspage=528&screenshotspage=528&videospage=528&artpage=528&allguidepage=528&webguidepage=528&integratedguidepage=528&discussionspage=528&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['5.1 h', '242.7', '797.3', '850.1', '379.4', '24.4 ', '172.1', '372.8', '76.7 ']
+
+['SPECTACULAR !!!', "It's okay.", '.', 'Very fun and great g', 'A great sci-fi TPS c', 'The new updates are ', "I've been a member o", 'When I first started', "Adorei '-'", 'Fast paced, third pe']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5300&p=1&itemspage=531&screenshotspage=531&videospage=531&artpage=531&allguidepage=531&webguidepage=531&integratedguidepage=531&discussionspage=531&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3.9 h', '755.2', '13.4 ', '12.9 ', '749.7', '2.8 h', '160.0', '514.9', '244.0', '179.1']
+
+[':WARNING: GETS BORIN', 'One of the best game', 'Amazing game. Great ', 'I saw a dragon', 'Great Game', "It's a really good 3", 'From Weapons to Warf', 'This game is REALLY ', 'but not', ':', '! This game is extre', ", but yes, that's so", 'for getting me hooke', 'I LOVE THIS GAME!!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5330&p=1&itemspage=534&screenshotspage=534&videospage=534&artpage=534&allguidepage=534&webguidepage=534&integratedguidepage=534&discussionspage=534&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['320.7', '422.8', '122.6', '27.2 ', '808.3', '1.5 h', '295.4', '311.9', '601.0', '1.0 h']
+
+['Warframe is a very g', 'Kabloom! Slash! Rata', 'This is one of the b', 'if you are a fan of ', 'Warframe is a free t', 'No survey, no . Just', 'Warframe was a surpr', '7 hours per day, im ', 'Really good gamge fu', 'Space ninjas.', '11/10 graphics card ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5440&p=1&itemspage=545&screenshotspage=545&videospage=545&artpage=545&allguidepage=545&webguidepage=545&integratedguidepage=545&discussionspage=545&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['26.1 ', '31.1 ', '218.5', '27.0 ', '897.3', '31.8 ', '12.0 ', '495.4', '5.7 h', '708.3']
+
+['Pretty much you are ', "So....I see you've f", '*I slip out of your ', 'Overwatch + Destiny', 'Space Ninja Grinding', 'A good Game', 'I love this game!', 'Spouting profanity o', 'Freakin Ninja Gaiden', 'i like this game bit', 'You grind for items,']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5510&p=1&itemspage=552&screenshotspage=552&videospage=552&artpage=552&allguidepage=552&webguidepage=552&integratedguidepage=552&discussionspage=552&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.9 h', '11.2 ', '0.8 h', '357.0', '166.6', '138.4', '7.2 h', '0.8 h', '7.9 h', '192.6']
+
+['Game is just like de', ',         ,    MMO.', '10/10 no intro movie', "It's free, it's amaz", 'Oh God. Great game. ', 'Hell i love this gam', 'Hmm what to say. Pla', 'Space Ninjas VS Inbr', 'i Love This Game i s']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5550&p=1&itemspage=556&screenshotspage=556&videospage=556&artpage=556&allguidepage=556&webguidepage=556&integratedguidepage=556&discussionspage=556&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['284.7', '32.0 ', '364.5', '255.4', '117.7', '37.4 ', '265.5', '282.3', '729.0', '722.7']
+
+["Space ninjas! They'r", 'Interesting game, I ', 'Have you ever played', 'this game is rad as ', 'Space Ninjas not mor', 'Fantastic game. Opti', 'I really like this g', 'Warframe (aka imho "', '- Gore (Slash proc, ', "It's okay. I played ", 'Very fun TPS']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5650&p=1&itemspage=566&screenshotspage=566&videospage=566&artpage=566&allguidepage=566&webguidepage=566&integratedguidepage=566&discussionspage=566&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.5 h', '501.6', '477.1', '614.5', '320.7', '422.8', '122.6', '27.2 ', '808.3', '1.5 h']
+
+['Its fun and stuff', 'warframe is so amazi', 'Space war Great on g', 'Game is horribly bro', 'Warframe is a very g', 'Kabloom! Slash! Rata', 'This is one of the b', 'if you are a fan of ', 'Warframe is a free t', 'No survey, no . Just', 'Warframe was a surpr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5660&p=1&itemspage=567&screenshotspage=567&videospage=567&artpage=567&allguidepage=567&webguidepage=567&integratedguidepage=567&discussionspage=567&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.8 h', '527.0', '31.8 ', '14.5 ', '1,328', '13.4 ', '250.6', '1,587', '1.3 h', '719.9']
+
+['Hmm what to say. Pla', 'I would like to pref', ') each with their ow', "It's like Skyrim wit", 'Damn good!!!!!! 5 st', 'best ftp ever', 'Like It Kinda Sort O', 'i dont like warframe', 'Good stuff', 'So Far Way Better Th', '700 hours and I stil']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5680&p=1&itemspage=569&screenshotspage=569&videospage=569&artpage=569&allguidepage=569&webguidepage=569&integratedguidepage=569&discussionspage=569&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.8 h', '912.1', '9.9 h', '173.0', '571.6', '83.5 ', '4.8 h', '3.0 h', '5.0 h', '487.6']
+
+['I got a pet and it d', 'awesome game', 'I started playing an', 'This is a fun game, ', 'Run on walls slash t', '(  ).     (        ,', 'Ninja Space Ninjas i', 'My friends Demetri, ', 'WARFRAME is the best']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5750&p=1&itemspage=576&screenshotspage=576&videospage=576&artpage=576&allguidepage=576&webguidepage=576&integratedguidepage=576&discussionspage=576&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['250.1', '202.4', '10.2 ', '8.7 h', '5.3 h', '1,813', '490.9', '2.9 h', '518.4', '18.3 ']
+
+['Volt is a terrible w', 'If you hate grindfes', '1 word... 1 fkn word', 'Pretty good game but', 'A Pay-to-Rush game- ', "Don't do it. You're ", 'The game has potenti', 'I know this is beta ', 'When i first started']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5790&p=1&itemspage=580&screenshotspage=580&videospage=580&artpage=580&allguidepage=580&webguidepage=580&integratedguidepage=580&discussionspage=580&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['6.0 h', '156.9', '868.0', '3.1 h', '686.6', '2,072', '886.7', '405.9', '351.5', '5.5 h']
+
+['Games actual cost = ', 'k', 'If you could change ', 'very nice game updat', 'Space ninjas, whats ', 'WORTH IT! It is free', 'Totally recommend it', 'Great game for peopl', 'This game is only fu']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5820&p=1&itemspage=583&screenshotspage=583&videospage=583&artpage=583&allguidepage=583&webguidepage=583&integratedguidepage=583&discussionspage=583&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['170.8', '462.0', '636.6', '8.0 h', '934.0', '585.5', '874.7', '439.0', '5.6 h', '78.1 ']
+
+["I've read a bunch of", 'Overall, this is a g', 'The game is incredib', 'play the entire game', 'The parkour is enter', 'Play this game!', 'This game preserved ', 'this game is awesome', "So you're in space, ", 'I have been playing ', 'they want you to pay', 'Its great game, real', 'you can dropkick peo', 'Guud game M8 Mlg Rev']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5840&p=1&itemspage=585&screenshotspage=585&videospage=585&artpage=585&allguidepage=585&webguidepage=585&integratedguidepage=585&discussionspage=585&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['57.6 ', '21.0 ', '389.3', '3.1 h', '254.4', '342.6', '132.7', '1,093', '2.1 h', '283.0']
+
+['Its a very unique 3r', 'I squashed my friend', 'Pretty amazing. Crap', 'A great game, crafte', 'One of the best game', 'First things first -', 'I play dis game all ', 'Fk this m9', '11/10, Would search ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5890&p=1&itemspage=590&screenshotspage=590&videospage=590&artpage=590&allguidepage=590&webguidepage=590&integratedguidepage=590&discussionspage=590&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.8 h', '2.1 h', '104.7', '470.7', '181.1', '422.3', '596.2', '47.4 ', '3.1 h', '43.5 ']
+
+['This game is freakin', 'My personal Warframe', 'A game about Space N', 'Alternate title; Spa', 'Love your game. Hate', 'Best game evar!!! Ha', '! If you are one of ', '(in game exclusive c', 'Nice Game!', 'It was fun for a whi', '2awe3some4me', 'Epic game. Many ways']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=5970&p=1&itemspage=598&screenshotspage=598&videospage=598&artpage=598&allguidepage=598&webguidepage=598&integratedguidepage=598&discussionspage=598&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['415.4', '54.8 ', '1,205', '229.6', '612.7', '174.0', '11.1 ', '40.8 ', '919.9', '11.2 ']
+
+["Y'know, I'm gonna be", ". It's a Free to Pla", 'giving the game deve', '," but now that I pl', 'Or something like th', 'for them. Even the C', 'WORST PIECE OF  EVER', 'Despite the amount o', 'WHAT DO I HAVE TO DO', 'boring formulaic gen', 'Wanna pay to win? Th', 'pay to win trash....', 'Amazing game, graphi', 'The best losing conn', 'cannot make a accoun']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (17).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6080&p=1&itemspage=609&screenshotspage=609&videospage=609&artpage=609&allguidepage=609&webguidepage=609&integratedguidepage=609&discussionspage=609&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['52.8 ', '312.7', '3.8 h', '265.1', '37.0 ', '39.3 ', '45.4 ', '56.0 ', '35.6 ', '2.7 h']
+
+['This game SUCKS as m', 'mindset of a space n', '. Add couple samurai', 'and some enemies who', 'It is horrible after', "It's okay, we get ho", ': - you notice that ', "now and that's why y", 'Swords + guns = win', 'I like League of Leg', 'For a free to play g', 'One of the best free', 'diablo space ninjas.', 'Abit repetetive at t', 'Superb game! Lots of', 'I reccomend it. With', 'This game is just aw']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6210&p=1&itemspage=622&screenshotspage=622&videospage=622&artpage=622&allguidepage=622&webguidepage=622&integratedguidepage=622&discussionspage=622&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['76.5 ', '71.4 ', '2.3 h', '34.0 ', '242.3', '0.4 h', '3.3 h', '8.3 h', '6.6 h', '4.6 h']
+
+['This game started ou', 'It is fun for a litt', 'pay2win pay2havefun', 'Warframe: F2Grind Wa', '! Well there is not ', '- The revives in mis', 'I tried this game fo', 'I really, really enj', 'Congratulations on t', 'One of the worst eco', 'Difficult to underst']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6270&p=1&itemspage=628&screenshotspage=628&videospage=628&artpage=628&allguidepage=628&webguidepage=628&integratedguidepage=628&discussionspage=628&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,180', '3.7 h', '22.6 ', '4.7 h', '33.1 ', '0.6 h', '12.0 ', '9.2 h', '6.7 h', '1.6 h']
+
+['I honestly expected ', 'have to buy colors w', 'im a pickle :)', 'This game is suprisi', 'updates to much', 'its the worst game e', 'Bugframe :v dat jueg', 'This is a awesome ga', 'This is a very good ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6360&p=1&itemspage=637&screenshotspage=637&videospage=637&artpage=637&allguidepage=637&webguidepage=637&integratedguidepage=637&discussionspage=637&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['18.2 ', '10.9 ', '452.8', '27.2 ', '281.2', '3.2 h', '158.1', '30.2 ', '0.2 h', '1,154']
+
+['-Warframe was all-ar', 'I recommmended this ', 'best ninja game 10/1', 'SPACE NINJAS!!!!!!! ', 'Warframe is a great ', 'This is so epic.', 'good but when youve ', 'One of the best free']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6370&p=1&itemspage=638&screenshotspage=638&videospage=638&artpage=638&allguidepage=638&webguidepage=638&integratedguidepage=638&discussionspage=638&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['8.3 h', '2.8 h', '200.3', '30.7 ', '218.6', '6.0 h', '10.6 ', '455.9', '5.0 h', '106.1']
+
+['This game is for the', 'it is the mosth awso', 'Warframe is a free-t', "I didn't like this g", 'Very expensive, but ', 'Blood. Everywhere.', 'This game is one of ', 'Awsome Alien Game !', 'Looking for awesome ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6380&p=1&itemspage=639&screenshotspage=639&videospage=639&artpage=639&allguidepage=639&webguidepage=639&integratedguidepage=639&discussionspage=639&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['15.4 ', '1,214', '1,026', '243.1', '993.5', '428.8', '5.4 h', '79.5 ', '172.1', '900.0']
+
+['This is THE greatest', "It's okay", 'Join me, Tenno !!', 'Its fun at first and', 'Would I recommend th', 'Now I have played ga', 'The most badass game', 'Grind grind grind...', 'First of all my hour']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (18).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6400&p=1&itemspage=641&screenshotspage=641&videospage=641&artpage=641&allguidepage=641&webguidepage=641&integratedguidepage=641&discussionspage=641&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['757.9', '507.8', '158.8', '8.0 h', '24.1 ', '771.8', '29.7 ', '1,322', '2,231', '577.8']
+
+['BEST GAME EVER', 'Awsome Game played i', 'Awesome game if you ', 'A strange mix of hal', 'You like', '?! They have', '! You like', '?! They have', '! You like', '?! They have', '! You like', '!? THEY HAVE', '! Warframe is a grea', 'a++ recommended', 'every  is fine well ', 'goodgoodgoodgood', 'A lovely game, still', '5 stars.']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6470&p=1&itemspage=648&screenshotspage=648&videospage=648&artpage=648&allguidepage=648&webguidepage=648&integratedguidepage=648&discussionspage=648&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['28.8 ', '94.0 ', '35.8 ', '144.0', '219.9', '1.2 h', '10.6 ', '628.3', '17.9 ']
+
+['Keeps you on your to', "SPACE NINJA'S! Think", 'Nice game. Free runn', "Space ninja's ... ne", 'Simple, and verry ha', 'Wow, Where to begin ', 'Dis gam hav spes nin', 'Great game and stunn', 'very beautiful and f', 'Get this game, its w']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6480&p=1&itemspage=649&screenshotspage=649&videospage=649&artpage=649&allguidepage=649&webguidepage=649&integratedguidepage=649&discussionspage=649&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['431.4', '42.0 ', '2.7 h', '539.4', '18.7 ', '21.6 ', '61.2 ', '32.6 ', '7.0 h']
+
+['This is a very fun g', 'Great Free Game', 'One of the best game', 'Fantastic Game, Even', 'just awesome!', ':P', 'not bad~ got me on t', 'nice', 'wooooooooooooooooooo', 'good .-.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6500&p=1&itemspage=651&screenshotspage=651&videospage=651&artpage=651&allguidepage=651&webguidepage=651&integratedguidepage=651&discussionspage=651&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['32.8 ', '864.1', '1,152', '3.1 h', '181.7', '9.5 h', '565.3', '10.2 ', '65.3 ', '566.4']
+
+['Very well made f2p g', 'When you are looking', ': The game is rather', 'Then again, getting ', 'I would definitely r', 'Awesomeee', 'This game lets you p', 'A fun level-up rpg f', "It's like Farming Si", 'Space Ninjas with Gu', 'Really great game fo', 'Warframe is a very i']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6560&p=1&itemspage=657&screenshotspage=657&videospage=657&artpage=657&allguidepage=657&webguidepage=657&integratedguidepage=657&discussionspage=657&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,550', '11.3 ', '28.4 ', '5.8 h', '4.9 h', '21.2 ', '240.4', '438.1', '1,997', '25.3 ']
+
+['I love this game, it', 'Best, Wrhythm', 'this game is very aw', 'This game is great f', 'this game is kinda c', 'LOVE IT. Idk why but', 'Meow!', 'This game is very ad', 'this game is freakin', "It'll take a day or ", 'it is vry good 8|']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6600&p=1&itemspage=661&screenshotspage=661&videospage=661&artpage=661&allguidepage=661&webguidepage=661&integratedguidepage=661&discussionspage=661&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['317.0', '68.0 ', '61.1 ', '528.5', '36.8 ', '4.8 h', '383.4', '97.2 ', '453.0', '48.6 ']
+
+['Warframe is a higly ', "One of the best FTP'", 'Love this game', 'Great game! Possibly', 'Ahhh Kick  Best free', 'Its a nice game :)', 'Its fun game!', 'its cool', 'Shocked by Captain V']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6620&p=1&itemspage=663&screenshotspage=663&videospage=663&artpage=663&allguidepage=663&webguidepage=663&integratedguidepage=663&discussionspage=663&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['62.9 ', '1.2 h', '21.6 ', '158.1', '30.2 ', '0.2 h', '1,155', '2.7 h', '1.1 h', '433.3']
+
+['When I first played ', '!!!', 'you should try this ', 'good but when youve ', 'One of the best free', 'A great game, but la', 'The game has really ', ':)']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6810&p=1&itemspage=682&screenshotspage=682&videospage=682&artpage=682&allguidepage=682&webguidepage=682&integratedguidepage=682&discussionspage=682&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['4.0 h', '185.7', '5.5 h', '25.7 ', '0.3 h', '6.3 h', '1,120', '29.4 ', '224.2', '265.6']
+
+['i was charge this du', 'i like this game', 'Trash', 'I love spending my m', 'The pay to win-ness ', '"The most addictive ', 'AwesomeXD', 'Great Game', 'Hi , I still cant fi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6890&p=1&itemspage=690&screenshotspage=690&videospage=690&artpage=690&allguidepage=690&webguidepage=690&integratedguidepage=690&discussionspage=690&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,184', '33.4 ', '5.9 h', '142.0', '418.9', '761.3', '39.6 ', '293.7', '452.9', '1.8 h']
+
+["It's a fun and fast ", 'one of the few compu', "I've only played thi", 'game! At first it wa', '.', 'Warframe is a bit of', 'best free to play i ', 'FUn Game', 'Guns and ninjas... w', 'This is one of my fa', 'it makes me poop rea']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6910&p=1&itemspage=692&screenshotspage=692&videospage=692&artpage=692&allguidepage=692&webguidepage=692&integratedguidepage=692&discussionspage=692&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,554', '278.6', '43.3 ', '47.5 ', '64.4 ', '7.3 h', '510.0', '723.0', '537.8', '15.9 ']
+
+['Still the best game ', 'Seems like another g', 'This game was very c', 'I recommend this for', 'Its working now to m', 'I love it, except fo', "If you're looking fo", "Although it's a huge", 'I Recommend the game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=6990&p=1&itemspage=700&screenshotspage=700&videospage=700&artpage=700&allguidepage=700&webguidepage=700&integratedguidepage=700&discussionspage=700&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['18.6 ', '302.1', '83.8 ', '803.2', '11.4 ', '7.1 h', '274.0', '0.1 h', '15.0 ', '5.3 h']
+
+['Pro: Fun Con: Repeti', 'Is good.', 'Best game EVER!!!', 'Its fun', 'Really fun game, esp', 'AAA quality game and', 'honestly this game i', 'good', 'The easiest and most']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7020&p=1&itemspage=703&screenshotspage=703&videospage=703&artpage=703&allguidepage=703&webguidepage=703&integratedguidepage=703&discussionspage=703&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['241.2', '286.8', '33.6 ', '1.7 h', '199.1', '9.1 h', '22.2 ', '5.9 h', '47.8 ', '226.3']
+
+['>Beginning of Game >', 'Its alright', 'i didnt play this ga', 'Free to play farming', 'A great game, Graphi', ':)', 'meh', 'You can Play as Alie', 'When you hear the wo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7130&p=1&itemspage=714&screenshotspage=714&videospage=714&artpage=714&allguidepage=714&webguidepage=714&integratedguidepage=714&discussionspage=714&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.3 h', '3.4 h', '296.1', '1,214', '507.7', '2.8 h', '58.6 ', '34.9 ', '23.2 ', '136.4']
+
+['The pay to win-ness ', 'Good', "Spam kill. It'll hap", 'See how many hours i', 'Space? Ninjas? Parko', 'Besides TF2, this is', 'This game The best F', 'Great game but linea', 'Very fun game!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7200&p=1&itemspage=721&screenshotspage=721&videospage=721&artpage=721&allguidepage=721&webguidepage=721&integratedguidepage=721&discussionspage=721&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['43.7 ', '1.8 h', '6.0 h', '10.6 ', '455.9', '916.2', '124.5', '5.7 h', '1,051', '481.0']
+
+['Good Game', 'This game is so good', 'Blood. Everywhere.', 'This game is one of ', 'a fun game to play b', 'i mean its ok, i gue', 'This is a great game', 'Warframe won MMOBomb', 'its like destiny exc']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7210&p=1&itemspage=722&screenshotspage=722&videospage=722&artpage=722&allguidepage=722&webguidepage=722&integratedguidepage=722&discussionspage=722&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['11.3 ', '2.2 h', '441.6', '339.7', '24.3 ', '0.6 h', '218.6', '156.0', '3.3 h', '23.5 ']
+
+['My score? 4.5/5.0 I ', 'This game is like ro', 'AWESOME 10\\10', 'I loved this game, r', 'Never played this ga', 'This game is FUN and', 'Love it, Love it, Lo', 'AWESOME', 'Gum Gum']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7250&p=1&itemspage=726&screenshotspage=726&videospage=726&artpage=726&allguidepage=726&webguidepage=726&integratedguidepage=726&discussionspage=726&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['30.7 ', '218.6', '785.5', '13.8 ', '70.8 ', '1,806', '5.0 h', '106.1', '15.4 ', '10.8 ']
+
+["I didn't like this g", 'Very expensive, but ', 'Warframe is indefini', "So i wasn't going to", 'Best f2p ever', 'A game genuinely lik', 'Awsome Alien Game !', 'Looking for awesome ', 'Like the gameplay an']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7260&p=1&itemspage=727&screenshotspage=727&videospage=727&artpage=727&allguidepage=727&webguidepage=727&integratedguidepage=727&discussionspage=727&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['15.0 ', '179.7', '429.7', '26.5 ', '1,554', '261.5', '82.4 ', '314.0', '10.1 ', '16.7 ']
+
+['This is a really fun', 'Yes i recommend this', 'Warframe is amazing.', 'Not bad at all actua', 'good game', 'Best third there is ', 'This game is awesome', '!!!', 'Very good game. Exce']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7270&p=1&itemspage=728&screenshotspage=728&videospage=728&artpage=728&allguidepage=728&webguidepage=728&integratedguidepage=728&discussionspage=728&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['18.8 ', '6.6 h', '785.5', '2,312', '33.6 ', '80.4 ', '0.2 h', '177.9', '146.2', '58.6 ']
+
+['its fun 8/10', 'Warframe is indefini', 'I love this game,at ', 'Its alright', 'games not bad but no', 'I love the game', 'Absolute hours of fu', 'yes', 'Besides TF2, this is']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (8).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7310&p=1&itemspage=732&screenshotspage=732&videospage=732&artpage=732&allguidepage=732&webguidepage=732&integratedguidepage=732&discussionspage=732&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['428.8', '5.4 h', '405.9', '21.1 ', '1,979', '2.8 h', '322.6', '4.2 h', '6.3 h', '1,120']
+
+['Would I recommend th', 'Now I have played ga', 'Space ninjas using b', 'Nice game!!!!', 'I didnt liked it. Th', 'This is in my opinio', 'Amazing game, downlo', '"The most addictive ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7360&p=1&itemspage=737&screenshotspage=737&videospage=737&artpage=737&allguidepage=737&webguidepage=737&integratedguidepage=737&discussionspage=737&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['701.8', '412.6', '394.0', '160.8', '11.9 ', '1,140', '210.8', '666.0', '60.5 ', '239.9']
+
+['Has a Destiny feel a', 'It gets boring after', 'Only after putting a', 'This game lags like ', 'This game may run on', 'The non liner missio', 'Warframe amazing gam', 'awesome!', 'Good.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7400&p=1&itemspage=741&screenshotspage=741&videospage=741&artpage=741&allguidepage=741&webguidepage=741&integratedguidepage=741&discussionspage=741&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['302.9', '1,229', '681.2', '2.6 h', '554.9', '2.0 h', '29.0 ', '764.2', '35.3 ', '5.8 h']
+
+['70% of the my playti', 'a very good game to ', 'Good game needs more', 'this game is fun but', 'for ninja players', 'Po is now living his', 'great game, that is', "A FTP game that's no", 'Really awesome game ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7630&p=1&itemspage=764&screenshotspage=764&videospage=764&artpage=764&allguidepage=764&webguidepage=764&integratedguidepage=764&discussionspage=764&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['273.8', '457.1', '35.7 ', '10.1 ', '0.5 h', '668.3', '13.5 ', '3.2 h', '6.6 h', '1.1 h']
+
+['Fun game but suck at', 'It is incredibly rep', 'EHHHHHHHHHHHHHHHHHHH', 'how to uninstall thi', 'Honestly? When I sta', 'Game was very fun at', 'As much as it is a f', 'this game suck', 'its good for some ti']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7790&p=1&itemspage=780&screenshotspage=780&videospage=780&artpage=780&allguidepage=780&webguidepage=780&integratedguidepage=780&discussionspage=780&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['6.7 h', '0.5 h', '11.8 ', '7.0 h', '6.8 h', '4.0 h', '0.9 h', '2,524', '625.3', '3.0 h']
+
+['i want to play the g', 'my pc cannot handle ', 'it sucks so much it ', 'Fun game , beautiful', 'A bunch of my cowork', 't', 'This is a  dont down', 'For some initial boo', '. That will give you', 'Game had potential, ', 'Greats game , but a ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=7840&p=1&itemspage=785&screenshotspage=785&videospage=785&artpage=785&allguidepage=785&webguidepage=785&integratedguidepage=785&discussionspage=785&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['11.8 ', '7.0 h', '6.8 h', '4.0 h', '0.9 h', '2,524', '625.3', '3.0 h', '88.8 ', '420.3']
+
+['it sucks so much it ', 'Fun game , beautiful', 'A bunch of my cowork', 't', 'This is a  dont down', 'For some initial boo', '. That will give you', 'Game had potential, ', 'Greats game , but a ', 'When playing it for ', 'I feel reluctant to ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8030&p=1&itemspage=804&screenshotspage=804&videospage=804&artpage=804&allguidepage=804&webguidepage=804&integratedguidepage=804&discussionspage=804&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['252.4', '575.0', '5.6 h', '327.1', '10.6 ', '124.9', '330.4', '8.3 h', '3.0 h', '1.0 h']
+
+['Fun at first but get', 'You play as Super Ma', 'its a great game but', 'Awesome game, combin', 'Only 10 hours and al', 'space ninjas. nuf sa', 'The concept of the g', "Valkyr's butt kept m", 'Warframe, whether be']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8110&p=1&itemspage=812&screenshotspage=812&videospage=812&artpage=812&allguidepage=812&webguidepage=812&integratedguidepage=812&discussionspage=812&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['155.3', '302.6', '488.4', '422.9', '27.4 ', '28.6 ', '2.3 h', '299.7', '2.4 h', '1.5 h']
+
+['Warframe.. Teached y', 'New in this game i l', 'One of the best game', 'pretty cool', '1 Word.... AWESOME', 'Eh, it alright 10/10', 'So awesome', 'it crashed please fi', 'Hell Yeah!!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8120&p=1&itemspage=813&screenshotspage=813&videospage=813&artpage=813&allguidepage=813&webguidepage=813&integratedguidepage=813&discussionspage=813&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['7.3 h', '41.4 ', '10.9 ', '43.1 ', '7.0 h', '27.6 ', '2.4 h', '12.1 ', '74.9 ', '45.9 ']
+
+['So uhhhh... Warframe', 'Start game, look at ', 'yes', 'AMAZEBALLZ', 'good', 'I have given up on t', 'kk', 'Definitely worth pla', 'This game is one of ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8240&p=1&itemspage=825&screenshotspage=825&videospage=825&artpage=825&allguidepage=825&webguidepage=825&integratedguidepage=825&discussionspage=825&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['84.5 ', '2.1 h', '37.4 ', '154.2', '166.2', '7.9 h', '115.0', '545.8', '104.7', '157.6']
+
+['as of U10 this game ', 'Welp, all my friends', 'Imagine doing someth', 'After playing 100 ho', 'The game is pretty f', 'Positives: It looks ', 'Fun for a while, the', 'Warbros #1. DE a . G', '. The sucker of all ', 'embarrased about it ', 'Warbros #1']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8450&p=1&itemspage=846&screenshotspage=846&videospage=846&artpage=846&allguidepage=846&webguidepage=846&integratedguidepage=846&discussionspage=846&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.0 h', '9.1 h', '0.5 h', '12.7 ', '8.4 h', '0.6 h', '7.1 h', '11.4 ', '23.0 ', '0.3 h']
+
+['Sorry to the fans of', 'what i felt about th', 'its suckz', 'Terrible microtransa', 'To me honestly, ther', 'THIS GAME IS FOR', 'utter', 'It takes three real-', 'Not fun.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8520&p=1&itemspage=853&screenshotspage=853&videospage=853&artpage=853&allguidepage=853&webguidepage=853&integratedguidepage=853&discussionspage=853&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.1 h', '27.5 ', '80.1 ', '22.9 ', '11.5 ', '0.3 h', '125.5', '36.9 ', '3.1 h', '506.6']
+
+["It's like Borderland", 'this game i cant log', 'I was getting all re', 'This game is pretent', 'this is a free game?', 'Me no likey', 'This game it sucks n', 'I have tried to like', 'upgrade for you, you', 'i hate games like th', 'Read this before jum']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8610&p=1&itemspage=862&screenshotspage=862&videospage=862&artpage=862&allguidepage=862&webguidepage=862&integratedguidepage=862&discussionspage=862&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['47.7 ', '453.5', '71.6 ', '125.2', '475.6', '390.7', '3.0 h', '402.2', '0.2 h', '148.1']
+
+['BEST non-valve free ', 'This game is amazing', 'One of the most bada', 'Warframe is a game 1', 'is rly good', 'Lots of bugs. Good g', 'Is like everything i', 'this i a good game i', "Haven't play this ga", '.', 'You will never me sa']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8630&p=1&itemspage=864&screenshotspage=864&videospage=864&artpage=864&allguidepage=864&webguidepage=864&integratedguidepage=864&discussionspage=864&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['402.2', '311.6', '44.8 ', '307.3', '115.6', '50.9 ', '0.2 h', '71.6 ', '148.1', '1.9 h']
+
+['this i a good game i', "Space Ninjas. That's", 'shoot the guns slash', "It's like awesome an", 'it is a okay game bu', 'fun but ver yrepetat', "Haven't play this ga", '.', 'One of the most bada', 'You will never me sa', 'Great third person s']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8670&p=1&itemspage=868&screenshotspage=868&videospage=868&artpage=868&allguidepage=868&webguidepage=868&integratedguidepage=868&discussionspage=868&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['57.4 ', '612.3', '2.1 h', '46.9 ', '8.8 h', '2,784', '141.9', '0.2 h', '877.2', '50.3 ']
+
+['Imagine destiny, but', 'Like Skyrim with gun', 'it dosint work', 'his game', 'Good game , i guess', 'I think warframe is ', 'This game is really ', 'i just download it b', 'I had a hard time de']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8700&p=1&itemspage=871&screenshotspage=871&videospage=871&artpage=871&allguidepage=871&webguidepage=871&integratedguidepage=871&discussionspage=871&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['30.1 ', '23.0 ', '22.7 ', '3.5 h', '470.6', '44.7 ', '131.0', '340.5', '1.5 h', '1.1 h']
+
+['its a good game 9/10', 'Goodgame .', 'nice', 'warfarm, ninjas play', "Warframe. It's fun, ", 'very good game so ad', 'hey', 'Its pretty much dest', 'Generic/10']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8740&p=1&itemspage=875&screenshotspage=875&videospage=875&artpage=875&allguidepage=875&webguidepage=875&integratedguidepage=875&discussionspage=875&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.3 h', '21.5 ', '41.5 ', '21.8 ', '3.9 h', '6.1 h', '111.3', '19.3 ', '12.3 ', '0.2 h']
+
+['i cant get past the ', 'we hacked then accou', 'No plot, bad gamepla', 'meh', "Here's my considered", 'I have tried to play', 'Floaty, laggy and ju', "I've done everything", "it's fun but it gets"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8870&p=1&itemspage=888&screenshotspage=888&videospage=888&artpage=888&allguidepage=888&webguidepage=888&integratedguidepage=888&discussionspage=888&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,208', '7.1 h', '0.9 h', '2.6 h', '0.8 h', '2.0 h', '931.0', '206.8', '1.6 h', '1.1 h']
+
+["In a all the time I'", 'bad would give it a ', 'I got Warframe a whi', 'Kinda meh, dont rly ', '2 hours unskipable t', 'Crashes. A lot. Hard', 'updated; This game s', 'Non so neanche da co', 'Long same story :) F']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=8950&p=1&itemspage=896&screenshotspage=896&videospage=896&artpage=896&allguidepage=896&webguidepage=896&integratedguidepage=896&discussionspage=896&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['21.5 ', '41.5 ', '21.8 ', '3.9 h', '6.1 h', '111.3', '19.3 ', '12.3 ', '0.2 h', '0.5 h']
+
+['we hacked then accou', 'No plot, bad gamepla', 'meh', "Here's my considered", 'I have tried to play', 'Floaty, laggy and ju', "I've done everything", "it's fun but it gets", 'terrible game, super']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9080&p=1&itemspage=909&screenshotspage=909&videospage=909&artpage=909&allguidepage=909&webguidepage=909&integratedguidepage=909&discussionspage=909&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.7 h', '440.0', '2.0 h', '2.7 h', '6.2 h', '281.9', '649.7', '6.0 h', '210.4', '2.2 h']
+
+['Just watch South Par', 'Cuntframe is game in', 'its', 'Crap... Got bored af', 'The game is too busy', 'very bad game, why, ', '@#@#!#!@#!@#!@#!@#!@', 'Look, if you want to', 'why u no put on mac', 'more like MoreMoneyF', 'I played it amd is q']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9340&p=1&itemspage=935&screenshotspage=935&videospage=935&artpage=935&allguidepage=935&webguidepage=935&integratedguidepage=935&discussionspage=935&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3.4 h', '0.7 h', '3.8 h', '115.7', '0.6 h', '1.7 h', '5.0 h', '3.1 h', '0.2 h', '227.0']
+
+['Tried this and found', 'this game is bad my ', 'I finally found the ', 'I would never recomm', 'You can only play th', 'warLAME', 'NO just no, I only h', 'ing  I hate it', 'hello i am uncoolpum']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9390&p=1&itemspage=940&screenshotspage=940&videospage=940&artpage=940&allguidepage=940&webguidepage=940&integratedguidepage=940&discussionspage=940&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2.9 h', '419.3', '0.8 h', '8.9 h', '0.2 h', '6.0 h', '409.4', '1.3 h', '30.6 ', '4.1 h']
+
+['meh... freaky lookin', 'NOTE: This game is i', 'A good fps,but the n', 'Cool game, but it ge', 'THE UPDATE KEEPS FAI', 'Boring cash shop.', 'I HAT Warframe AND I', "this is freakin' hal", 'i like it there is j']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9460&p=1&itemspage=947&screenshotspage=947&videospage=947&artpage=947&allguidepage=947&webguidepage=947&integratedguidepage=947&discussionspage=947&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['152.0', '4.2 h', '502.4', '5.7 h', '7.9 h', '1.0 h', '8.5 h', '0.3 h', '15.9 ', '13.7 ']
+
+['Not remotely worthwh', 'Too much farming. It', 'They give you: Bluep', 'Pay2Grind', 'gaaaaaaaaaaaaaaaaaaa', 'this game was amazin', 'Boring enemies, bori', ',    !', "Don't install this m"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9510&p=1&itemspage=952&screenshotspage=952&videospage=952&artpage=952&allguidepage=952&webguidepage=952&integratedguidepage=952&discussionspage=952&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.0 h', '764.9', '1.9 h', '338.5', '30.2 ', '7.4 h', '0.1 h', '0.3 h', '3.1 h', '0.5 h']
+
+['Pay to win, enough s', '170 PLATINUM PREMIUM', 'This promotion is on', 'Warframe Serial: 16E', 'fome la wea,lo desca', 'When the update star', 'The tps action gamep', 'community  missions ', 'Worst game', 'Boring, generic, rep', 'First of all, I have']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (16).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9530&p=1&itemspage=954&screenshotspage=954&videospage=954&artpage=954&allguidepage=954&webguidepage=954&integratedguidepage=954&discussionspage=954&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.5 h', '10.0 ', '10.1 ', '2.0 h', '17.4 ', '6.7 h', '81.0 ', '66.1 ', '201.2', '294.5']
+
+['bad', 'Josip On Deck - Hell', 'via @YouTube Josip O', 'Josip On Deck - All ', '23 October 2014 18:4', 'Josip On Deck - Pink', '14 November 2014 14:', 'Josip On Deck ft. Fe', 'alright at first but', 'Perfect straight lin', 'This is just mass ef', 'the game is GREAT...', 'No.', 'Jewframe', 'worst', "It's a mediocre game"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9540&p=1&itemspage=955&screenshotspage=955&videospage=955&artpage=955&allguidepage=955&webguidepage=955&integratedguidepage=955&discussionspage=955&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['653.7', '10.2 ', '567.2', '0.3 h', '81.9 ', '60.0 ', '225.2', '58.8 ', '710.9', '33.1 ']
+
+['if you have ever enj', 'If you want to get b', 'as a game, This is t', 'is you have friends ', 'on the first 4 categ', 'and you have to play', 'rage, tell them to m', 'Everyone says that w', "It's baaaaaaaaaaaaaa", 'Very fun game, amazi', 'Fast paced, agile co', 'This is a great game', 'This game is very go', 'Best thang eva', 'best game ever']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=9970&p=1&itemspage=998&screenshotspage=998&videospage=998&artpage=998&allguidepage=998&webguidepage=998&integratedguidepage=998&discussionspage=998&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['164.4', '24.9 ', '18.1 ', '1,252', '5.3 h', '3.0 h', '376.0', '175.8', '44.5 ', '1.5 h']
+
+['Really nice game and', 'Nice game, try it :D', 'its a very nic game', 'Pretty Cool Space Ni', 'IGN: Kuroyuki_Hime', 'They paid me to say ', 'It is an amaing game', 'One of the best game', 'Intense fire fights ', "Haven't stop playing", 'game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10010&p=1&itemspage=1002&screenshotspage=1002&videospage=1002&artpage=1002&allguidepage=1002&webguidepage=1002&integratedguidepage=1002&discussionspage=1002&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['189.4', '12.2 ', '102.3', '1,241', '66.7 ', '41.5 ', '541.0', '20.3 ', '13.7 ', '214.9']
+
+['There is so much con', "Space Ninja's, Steal", 'this is the game!', 'Seriously, this is t', 'I joined a game and ', 'DE please give me ba', 'Great graphic! Fluid', 'Good game, no real g', 'Get a friend to play']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10030&p=1&itemspage=1004&screenshotspage=1004&videospage=1004&artpage=1004&allguidepage=1004&webguidepage=1004&integratedguidepage=1004&discussionspage=1004&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['865.0', '299.7', '10.1 ', '46.6 ', '663.3', '0.1 h', '10.8 ', '19.3 ', '11.4 ', '1.9 h']
+
+["So, I've already pla", 'BABABBABEST GAME IN ', 'super fun free game', 'I have played WarFra', 'Warframe is awesome.', 'it is a genial game ', 'it amazing', 'BEST THIRD PERSON SH', 'Its free! And worth ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10050&p=1&itemspage=1006&screenshotspage=1006&videospage=1006&artpage=1006&allguidepage=1006&webguidepage=1006&integratedguidepage=1006&discussionspage=1006&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['297.6', '668.0', '1,411', '352.0', '76.4 ', '19.3 ', '31.8 ', '312.1', '27.4 ', '4.0 h']
+
+['Amazing game, Love i', 'is k', 'is super fun 10 out ', 'Bradzo fajna gra jak', 'this is a game about', "I'm suprised a game ", 'Fun game for free', 'An epic sci-fi actio', 'Its a 3rd Person Sho']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10150&p=1&itemspage=1016&screenshotspage=1016&videospage=1016&artpage=1016&allguidepage=1016&webguidepage=1016&integratedguidepage=1016&discussionspage=1016&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['446.0', '20.0 ', '1,562', '8.0 h', '30.2 ', '549.9', '435.6', '109.5', '118.6']
+
+['A little grindy but ', 'this game is the bes', 'Play this game with ', 'Impressive graphics', 'After the first Plan', 'Twas Fary Grit!', "For a game that's st", 'Farming Simulator 20', 'This game is good to', 'left click + E = War']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10320&p=1&itemspage=1033&screenshotspage=1033&videospage=1033&artpage=1033&allguidepage=1033&webguidepage=1033&integratedguidepage=1033&discussionspage=1033&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['189.5', '2.7 h', '576.6', '2.1 h', '109.7', '66.1 ', '15.3 ', '4.6 h', '384.9', '225.2']
+
+['It was good when I p', 'While I have only pl', 'Is good.', 'ninjas in space - wh', 'This came is quite f', 'this game is awesome', ', !!', 'An absolutely stunni', 'Been playing this ga']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10350&p=1&itemspage=1036&screenshotspage=1036&videospage=1036&artpage=1036&allguidepage=1036&webguidepage=1036&integratedguidepage=1036&discussionspage=1036&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['790.5', '481.1', '15.2 ', '124.8', '25.3 ', '5.8 h', '3.4 h', '137.4', '173.2']
+
+['Space Ninja Cowboy M', 'This game... cannot ', 'This game is uber fu', 'This game is awesome', 'magic space ninjas, ', 'Fast paced, intellig', 'Great game and even ', 'amazing game', 'The most awesome gam', 'I love the game but ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (17).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10370&p=1&itemspage=1038&screenshotspage=1038&videospage=1038&artpage=1038&allguidepage=1038&webguidepage=1038&integratedguidepage=1038&discussionspage=1038&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['12.6 ', '186.0', '179.4', '2.2 h', '60.3 ', '1.7 h', '9.9 h', '2.5 h', '79.5 ', '32.7 ']
+
+['best game i ever pla', 'rilly rilly rillllll', 'Review for: Update 1', 'Players will begin i', 'where they must figh', 'Once they do, they a', 'The prologue quest e', '-Closing thoughts: A', '. The quest system i', '. Overall, however, ', 'Started the game, pi', 'Best Game.', 'you will like it guy', 'this game is a fun t', 'Bit on the laggy sid', 'i played for 37h its', 'This game is really ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10430&p=1&itemspage=1044&screenshotspage=1044&videospage=1044&artpage=1044&allguidepage=1044&webguidepage=1044&integratedguidepage=1044&discussionspage=1044&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['28.8 ', '525.9', '366.2', '525.2', '408.1', '171.9', '28.0 ', '56.3 ', '18.4 ', '385.5']
+
+['My god this is a fun', 'This game is awesome', 'This game is looking', 'Oh, where to begin? ', 'One of my favorite g', 'If you like running ', 'Pretty fun', 'this game is an abso', 'everything about thi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10460&p=1&itemspage=1047&screenshotspage=1047&videospage=1047&artpage=1047&allguidepage=1047&webguidepage=1047&integratedguidepage=1047&discussionspage=1047&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['190.0', '8.0 h', '288.9', '1,067', '2,123', '6.8 h', '19.8 ', '371.5', '352.9', '297.6']
+
+['When i first stumble', '- You are "forced" t', '- There are very few', "it's a greeeeeaaaaaa", 'Joined a clan They p', 'While this game play', 'BEST GAME EVER :-D .', 'yes', 'Very fun and easy to', 'REMOVE BEGGARS remov', 'Amazing graphics ove', 'Warframe is a third-']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10490&p=1&itemspage=1050&screenshotspage=1050&videospage=1050&artpage=1050&allguidepage=1050&webguidepage=1050&integratedguidepage=1050&discussionspage=1050&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['74.8 ', '1,490', '523.9', '31.3 ', '9.8 h', '556.5', '5.4 h', '37.6 ', '105.8', '125.2']
+
+['Love this game playe', 'Would recommend, it ', 'It is a good game th', 'great game', 'Two word review: Spa', 'well its cool ca col', 'dont pass this game ', 'This game is great i', 'LOVE THIS GAME. If y']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10660&p=1&itemspage=1067&screenshotspage=1067&videospage=1067&artpage=1067&allguidepage=1067&webguidepage=1067&integratedguidepage=1067&discussionspage=1067&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['224.9', '34.3 ', '234.5', '1,359', '23.8 ', '1.4 h', '7.6 h', '531.6', '302.2', '380.1']
+
+['Fun addicting but ki', 'EPIC EXCALIBUR GAMEP', "Get it. It's free - ", 'If you like co-op sh', 'cool', 'very good game loved', 'It has a completely ', 'Great game', 'It appeals to my col']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10700&p=1&itemspage=1071&screenshotspage=1071&videospage=1071&artpage=1071&allguidepage=1071&webguidepage=1071&integratedguidepage=1071&discussionspage=1071&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['626.2', '141.2', '10.2 ', '220.2', '851.4', '15.3 ', '5.0 h', '206.0', '95.8 ', '1.0 h']
+
+['Ruined my life. 10/1', 'This game is one of ', 'Warframe is a good f', 'Game is great, the o', 'You get Space Sifi, ', 'Make it happen, Capt', 'This game is amazing', 'Fun game, when I und', 'unlimited sprint', '10 outta 10 would pl', 'THIS GAME IS AWESOME']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (16).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10820&p=1&itemspage=1083&screenshotspage=1083&videospage=1083&artpage=1083&allguidepage=1083&webguidepage=1083&integratedguidepage=1083&discussionspage=1083&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['14.3 ', '56.0 ', '1.4 h', '221.8', '5.6 h', '176.1', '353.4', '7.9 h', '289.2']
+
+['jarre', 'Great game to enjoy ', 'Its a good game and ', 'nice game nice weapo', 'I have no girlfriend', 'I have a member on m', 'Good Game. Good Grap', 'this is sorta stupid', 'Absolutely awesome g', 'Warframe is a great ', 'Ill be flat out hone', 'The control and game', 'The game looks great', 'The sound effects an', 'My friends and I spe', 'Overall, I really li']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10850&p=1&itemspage=1086&screenshotspage=1086&videospage=1086&artpage=1086&allguidepage=1086&webguidepage=1086&integratedguidepage=1086&discussionspage=1086&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.1 h', '12.5 ', '656.4', '9.8 h', '57.2 ', '489.6', '105.5', '38.6 ', '427.9']
+
+['Go Gmaers', 'Good game but the re', 'This is a free to pl', 'Two words can descri', 'One of the funner ga', 'Warframe is a game a', 'Awesome game, great ', 'good', 'You can be a magic a', 'Ninjas. In space. Wi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10880&p=1&itemspage=1089&screenshotspage=1089&videospage=1089&artpage=1089&allguidepage=1089&webguidepage=1089&integratedguidepage=1089&discussionspage=1089&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['27.1 ', '1.6 h', '342.8', '16.4 ', '2.1 h', '569.0', '10.3 ', '137.7', '5.5 h', '61.8 ']
+
+['10/10 because its FR', 'Guys try this game o', 'This game is good,I ', '.', 'I initially gave War', 'Very fun multiplayer', 'cool game i really r', 'i like this game', 'dude dont put too mu']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=10890&p=1&itemspage=1090&screenshotspage=1090&videospage=1090&artpage=1090&allguidepage=1090&webguidepage=1090&integratedguidepage=1090&discussionspage=1090&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.1 h', '1,729', '1,120', '926.9', '291.4', '985.1', '342.8', '1,390', '152.1']
+
+['should put on mac', 'Amazing game!', 'This game is a 3rd P', 'Awesome game. Alread', 'Highly addictive, lo', 'try it or before reg', 'Awesome!', 'in warframe you can ', 'This game is stupidl', 'Epic']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11330&p=1&itemspage=1134&screenshotspage=1134&videospage=1134&artpage=1134&allguidepage=1134&webguidepage=1134&integratedguidepage=1134&discussionspage=1134&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['172.1', '430.7', '759.6', '188.9', '845.6', '64.9 ', '1,130', '766.7', '110.0', '1.8 h']
+
+['You play as a magica', 'Very VERY fun, wonde', 'epic...the only word', 'genuinely fun to pla', 'Awesome', "Thus far, I'm not ve", ') at', '(I basically still n', 'of assistance from m', ') game... even if I ', 'The Best Game Ever !', 'Great game. It may b', 'wow this is super fu', 'Good game i love it']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11410&p=1&itemspage=1142&screenshotspage=1142&videospage=1142&artpage=1142&allguidepage=1142&webguidepage=1142&integratedguidepage=1142&discussionspage=1142&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['418.2', '31.6 ', '191.4', '165.0', '251.0', '1,092', '9.8 h', '523.2', '30.7 ', '81.4 ']
+
+['Space Ninjas, grindi', 'BEST GAME EVER', 'This game used to be', 'Great free MMO Shoot', 'Good game in a long ', 'A really good fast p', 'Great game all in al', 'good co-op game but ', 'Its Free. No wait le']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11430&p=1&itemspage=1144&screenshotspage=1144&videospage=1144&artpage=1144&allguidepage=1144&webguidepage=1144&integratedguidepage=1144&discussionspage=1144&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['967.2', '4.9 h', '2.5 h', '1,153', '20.8 ', '730.1', '9.6 h', '582.1', '6.4 h', '65.7 ']
+
+['Warframe has a wonde', "I've got to say, thi", ':)', 'Probably one of the ', "You're a ninya. GG", "I wouldn't recommend", 'Great game, I love t', 'Love this game! :D I', 'to get a XP booster ', 'super ninjas in spac', 'cool game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11700&p=1&itemspage=1171&screenshotspage=1171&videospage=1171&artpage=1171&allguidepage=1171&webguidepage=1171&integratedguidepage=1171&discussionspage=1171&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['601.7', '21.1 ', '864.8', '7.6 h', '215.4', '1.0 h', '2.3 h', '435.9', '32.6 ', '1.1 h']
+
+['Great game! Very ent', 'Great third person s', 'i really enjoy this ', "I haven't played muc", 'at first this game i', 'awesome lol', 'THIS GAME IS GOOD IF', '-Twitter', 'Le double barrel est', 'Good Game', "Can't play, don't kn"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11780&p=1&itemspage=1179&screenshotspage=1179&videospage=1179&artpage=1179&allguidepage=1179&webguidepage=1179&integratedguidepage=1179&discussionspage=1179&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['88.7 ', '471.2', '454.5', '163.2', '894.3', '1.2 h', '93.5 ', '134.4', '257.3', '80.3 ']
+
+['Ability to run aroun', 'Farming frames for d', 'great game', 'Need people to play ', 'Great FtP. Very litt', 'Really good game, bu', 'Just play it... you ', 'Awesome', 'Just wow']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11900&p=1&itemspage=1191&screenshotspage=1191&videospage=1191&artpage=1191&allguidepage=1191&webguidepage=1191&integratedguidepage=1191&discussionspage=1191&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['391.9', '1,461', '335.2', '5.5 h', '841.2', '0.3 h', '363.0', '38.0 ', '35.1 ']
+
+['great game and vary ', 'An amazing game. Has', 'For a gamer who has ', 'bad 0/10 would never', 'And now for somethin', '+1 free to install ?', 'Fun!', 'Pros : Parcour. Spac', 'Fun game. Fast paced', 'Love the game. If yo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=11950&p=1&itemspage=1196&screenshotspage=1196&videospage=1196&artpage=1196&allguidepage=1196&webguidepage=1196&integratedguidepage=1196&discussionspage=1196&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['132.8', '1,071', '3.9 h', '126.6', '69.2 ', '220.1', '120.1', '5.9 h', '35.6 ', '829.7']
+
+['gr8, 8/8 m8', 'Life well spent.', 'Hyi mit ripulia.', '.', 'Probably the best fr', 'potato!!!1', 'this game is so epic', 'I seriously tried to', 'Fantastic game every']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=12110&p=1&itemspage=1212&screenshotspage=1212&videospage=1212&artpage=1212&allguidepage=1212&webguidepage=1212&integratedguidepage=1212&discussionspage=1212&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3.9 h', '126.6', '69.2 ', '220.1', '120.1', '5.9 h', '35.6 ', '830.0', '2.8 h', '16.3 ']
+
+['Hyi mit ripulia.', '.', 'Probably the best fr', 'potato!!!1', 'this game is so epic', 'I seriously tried to', 'Fantastic game every', 'NINJAS IN F***ING SP', ':D']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=12220&p=1&itemspage=1223&screenshotspage=1223&videospage=1223&artpage=1223&allguidepage=1223&webguidepage=1223&integratedguidepage=1223&discussionspage=1223&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['29.4 ', '513.8', '700.8', '118.8', '16.5 ', '171.9', '431.1', '588.4', '859.1', '805.2']
+
+['Exelent... Just that', 'Very fun but time co', 'If you have a relati', "NINJA'S PLAY FREE!!!", 'this game is awsome', 'For a free to play, ', 'Seriously...stop rea', 'Even with some other', 'Fun for awhile. Usua']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=12320&p=1&itemspage=1233&screenshotspage=1233&videospage=1233&artpage=1233&allguidepage=1233&webguidepage=1233&integratedguidepage=1233&discussionspage=1233&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['589.1', '952.5', '659.1', '170.4', '753.0', '283.8', '575.6', '7.4 h', '1.7 h', '151.5']
+
+['Best Game Free2Play ', "I've already done a ", 'but the main thing t', 'Very pro style game ', 'you want to be a bad', 'good game, they chan', 'Yes.', 'Definitely a good ga', 'NInja ninja ninja ni', 'play so epic you can', 'kool']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=12710&p=1&itemspage=1272&screenshotspage=1272&videospage=1272&artpage=1272&allguidepage=1272&webguidepage=1272&integratedguidepage=1272&discussionspage=1272&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['441.1', '869.9', '1,022', '5.3 h', '70.4 ', '14.7 ', '399.3', '1.5 h', '1.6 h', '369.9']
+
+['A good 3rd person sh', 'fk ya. thats all', 'Jako free to play st', 'AT FIRST, I LIKED TH', 'Best Game I EVER PLA', "It's great!! keep ad", 'It lags really badly', 'its really good', 'Good game. nice grap']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=13000&p=1&itemspage=1301&screenshotspage=1301&videospage=1301&artpage=1301&allguidepage=1301&webguidepage=1301&integratedguidepage=1301&discussionspage=1301&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['181.5', '487.7', '165.2', '410.6', '355.7', '13.3 ', '9.4 h', '14.4 ', '168.5', '22.5 ']
+
+['Pure awesomenes and ', 'Pretty fun and aweso', 'Best F2P game on STE', 'I highly recommend t', 'It is a great game: ', '(When your referred ', 'Goog Game', 'A great game but a b', "Don't play it!! You'", 'Takes a while to get', 'Free to play games h']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=13080&p=1&itemspage=1309&screenshotspage=1309&videospage=1309&artpage=1309&allguidepage=1309&webguidepage=1309&integratedguidepage=1309&discussionspage=1309&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['373.4', '6.1 h', '170.2', '679.2', '970.9', '7.6 h', '34.2 ', '6.1 h', '287.5', '3,663']
+
+['At first glance it s', 'warframe is a really', 'best game ever', 'I love this game. It', 'Solid game been play', 'Bestest Game Ever (N', 'Space ninjas, my fri', 'Amazing game, Its fu', 'This is an awsome 3r']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/230410/homecontent/?userreviewsoffset=13230&p=1&itemspage=1324&screenshotspage=1324&videospage=1324&artpage=1324&allguidepage=1324&webguidepage=1324&integratedguidepage=1324&discussionspage=1324&appid=230410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['483.9', '380.2', '65.0 ', '1,609', '19.8 ', '266.7', '49.8 ', '66.7 ', '1,943', '61.3 ']
+
+['Space Ninjas With Sp', 'Space ninjas with gu', 'I would definitely r', 'This game is great, ', 'pay to win The unins', 'I have played Warfra', 'its kinda nice game ', 'Been playing this ga', "I didn't play much o"]
+
+
