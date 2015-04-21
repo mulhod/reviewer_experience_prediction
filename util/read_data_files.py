@@ -33,6 +33,27 @@ def get_reviews_for_game(file_name):
         if not detect(r) == 'en':
             i += 2
             continue
+        # Skip reviews that don't have at least 50 characters
+        if len(r) <= 50:
+            i += 2
+            continue
+        # Skip reviews with more than 1000 characters (?)
+        # Insert code here
+        # Skip if number of hours is greater than 5000
+        if h > 5000:
+            i += 2
+            continue
+        # Contraction rules
+        # wont ==> won't
+        r = re.sub(r"\bwont\b", r"won't", r, re.IGNORECASE)
+        # dont ==> don't
+        r = re.sub(r"\bdont\b", r"don't", r, re.IGNORECASE)
+        # wasnt ==> wasn't
+        r = re.sub(r"\bwasnt\b", r"wasn't", r, re.IGNORECASE)
+        # werent ==> weren't
+        r = re.sub(r"\bwerent\b", r"weren't", r, re.IGNORECASE)
+        # Get the hang of it now?
+        # Insert more contraction code here
         # Now we append the 2-key dict to the end of reviews
         reviews.append(dict(hours=h,
                             review=r))
