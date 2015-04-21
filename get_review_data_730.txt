@@ -1153,3 +1153,547 @@ URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=12970&p=1&
 Warning: len(hours) (10) not equal to len(range_reviews) (9).
 
 URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=12990&p=1&itemspage=1300&screenshotspage=1300&videospage=1300&artpage=1300&allguidepage=1300&webguidepage=1300&integratedguidepage=1300&discussionspage=1300&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['479.6', '652.3', '1,460', '1,077', '549.4', '279.3', '463.8', '319.5', '173.1', '183.2']
+
+['Good', 'Best continue to a f', 'its ok', 'BEST GAME EVER - You', 'Un joc de nota 10 !', 'Very nice game.Quali', "90%-hacker's 10%-nor", "I've got a 7-day com", ',  .        .     .']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=13240&p=1&itemspage=1325&screenshotspage=1325&videospage=1325&artpage=1325&allguidepage=1325&webguidepage=1325&integratedguidepage=1325&discussionspage=1325&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['480.3', '585.8', '172.9', '109.8', '0.3 h', '844.1', '154.8', '577.0', '1,132', '48.7 ']
+
+['*Buys game* Oh this ', 'Never really played ', 'When I came about CS', 'Been playing CS ever', 'total ing', 'The best a man can g', 'current game in cs f', 'VERY GOOD GAME', 'I quit smoking, but ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=13260&p=1&itemspage=1327&screenshotspage=1327&videospage=1327&artpage=1327&allguidepage=1327&webguidepage=1327&integratedguidepage=1327&discussionspage=1327&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['464.5', '853.8', '880.4', '38.2 ', '106.3', '753.2', '6.1 h', '300.8', '340.5', '434.6']
+
+['sv_cheats 1, Love th', '+ Gameplay is relati', '- sometimes Server a', 'If there will be som', 'Global offensive is ', 'Bingo-bango-bongo, b', 'wow!', 'This is such a good ', 'super hood', 'i am bad at this and', 'Best game EU', 'nice........not.....']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=13440&p=1&itemspage=1345&screenshotspage=1345&videospage=1345&artpage=1345&allguidepage=1345&webguidepage=1345&integratedguidepage=1345&discussionspage=1345&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['906.9', '145.6', '643.0', '1,012', '1,511', '810.3', '144.8', '562.8', '173.8', '1,092']
+
+['Good.', 'Pretty good game, ju', 'I had a family, a so', 'Counter Sniping Glob', 'The best game in the', 'great game 8.5/10', 'worst Hitbox of all ', 'Good game. Fun to pl', 'Not only have I been']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (26).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=13750&p=1&itemspage=1376&screenshotspage=1376&videospage=1376&artpage=1376&allguidepage=1376&webguidepage=1376&integratedguidepage=1376&discussionspage=1376&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['680.5', '559.2', '61.3 ', '189.4', '875.4', '2,002', '1,067', '896.1', '90.6 ', '980.8']
+
+['I played Call of Dut', 'Best GAME !!!', 'gode game 8/8', 'super fun super addi', 'Pretty good game, up', 'I really love this g', 'Since i started to p', ', you know chasing c', 'were trying to scare', ', i must admit i got', 'i ate them, when CS:', 'had', 'on them, wow man you', 'again... So been lon', 'and i was so happy t', 'and it just got revi', ', like a', 'and then i  my pants', 'any more, i cried i ', 'There WAS NO', '. I was scared alot,', 'were chasing', 'and we were happy:)', 'REALLY GOOD GAME! i ', 'enemy team: sniper s', '9/10']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=13950&p=1&itemspage=1396&screenshotspage=1396&videospage=1396&artpage=1396&allguidepage=1396&webguidepage=1396&integratedguidepage=1396&discussionspage=1396&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['306.7', '966.5', '8.4 h', '528.0', '481.5', '333.0', '70.6 ', '456.6', '824.8', '15.2 ']
+
+['I needed my FPS fix.', 'The amount of practi', "time you're playing ", 'more than you realiz', 'This game has it all', 'I started playing CS', 'great fun', 'Gets banned for kick', 'This is the best gam', 'est game ever', 'Absolutely Incredibl', "If you don't already"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14020&p=1&itemspage=1403&screenshotspage=1403&videospage=1403&artpage=1403&allguidepage=1403&webguidepage=1403&integratedguidepage=1403&discussionspage=1403&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['507.2', '87.4 ', '1,488', '593.2', '196.5', '170.8', '366.8', '343.6', '510.3', '290.0']
+
+['would not reccomend ', 'Karambit knife in re', 'Boy oh boy, if you l', 'yes', 'This game is fun and', 'bOUGHT THIS GAME NOT', 'Counter Strike has b', 'to ever hit the game', 'That 1 purchase will', 'Thanks for reading m', 'Any reference or men', 'Awesome gameplay!', 'Great Game i would d', 'gaben c y k a gibe k']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14060&p=1&itemspage=1407&screenshotspage=1407&videospage=1407&artpage=1407&allguidepage=1407&webguidepage=1407&integratedguidepage=1407&discussionspage=1407&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['872.6', '828.7', '27.5 ', '655.9', '998.1', '377.5', '846.5', '625.9', '608.3', '814.1']
+
+['bought dis gam playd', 'Sit down and let me ', 'Im reviewing this to', 'Amazing game! Good s', 'CSGO > CSS', 'really heart poundin', 'PROS: - Skins (you l', 'games. - You miss th', 'poutsoh', 'I really enjoyed pla', 'Too many hackers, in']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14070&p=1&itemspage=1408&screenshotspage=1408&videospage=1408&artpage=1408&allguidepage=1408&webguidepage=1408&integratedguidepage=1408&discussionspage=1408&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['177.6', '328.1', '1,029', '9.5 h', '1,358', '452.0', '1,147', '185.1', '821.5', '554.0']
+
+['I like this game bes', "Don't stop when you'", "Yes it's a great gam", 'This game is all tha', 'quite an interesting', 'Best game ever.', 'Very good game with ', 'Counter-Strike: Russ', 'Hope you have 4 othe']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14140&p=1&itemspage=1415&screenshotspage=1415&videospage=1415&artpage=1415&allguidepage=1415&webguidepage=1415&integratedguidepage=1415&discussionspage=1415&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,508', '342.3', '405.6', '189.4', '136.4', '1,275', '436.5', '326.8', '615.4', '166.5']
+
+['Cool game', "Great game, Didn't l", 'Very nice shooter.Aw', 'Whatever version In ', 'Best game1', 'Counter-Strike: Glob', '"You miss 100% of th', 'This game is asm to ', 'Got kicked for not c']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14330&p=1&itemspage=1434&screenshotspage=1434&videospage=1434&artpage=1434&allguidepage=1434&webguidepage=1434&integratedguidepage=1434&discussionspage=1434&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,774', '259.4', '414.9', '124.4', '61.9 ', '286.6', '192.9', '1,025', '623.9', '83.9 ']
+
+['s', 'bretty gud game took', 'Legendary FPS game', '+ Good gameplay + Ve', '- Too many', '(seriously please Va', '-', 'Just buy it', 'Played it for 1 week', '...', 'Really intressing. Y', 'This is my only game', 'Best game ever!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14390&p=1&itemspage=1440&screenshotspage=1440&videospage=1440&artpage=1440&allguidepage=1440&webguidepage=1440&integratedguidepage=1440&discussionspage=1440&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['260.3', '231.0', '204.7', '1,677', '456.5', '422.3', '702.5', '75.1 ', '56.7 ', '452.3']
+
+['Knife in real life $', 'I rate this game 10/', 'pew pew pew pew', 'In a world where fir', "10/10 I'm bout that ", 'J jtk el lehet vele ', 'its ok', 'Graphics are like %1', 'There are these thin', "It's pretty much lik", 'There are a bunch of', 'because of the ridic', 'Great Game ( As Alwa', '.    .']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14600&p=1&itemspage=1461&screenshotspage=1461&videospage=1461&artpage=1461&allguidepage=1461&webguidepage=1461&integratedguidepage=1461&discussionspage=1461&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['334.0', '200.7', '185.6', '663.1', '82.5 ', '285.6', '846.8', '683.4', '743.1', '491.3']
+
+['I used to be a good ', "Game's positives: fu", '10/10', "Awesome game if you'", 'cluster of fat ameri', 'this game is very fu', 'Started playing. 1) ', ':)', 'This game may seam d', 'Nice Game.', "I love this game. I'"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14730&p=1&itemspage=1474&screenshotspage=1474&videospage=1474&artpage=1474&allguidepage=1474&webguidepage=1474&integratedguidepage=1474&discussionspage=1474&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['670.7', '521.4', '826.7', '187.4', '439.0', '159.2', '126.9', '202.0', '293.8', '347.7']
+
+["When you're still si", '"hes hacking" "omg n', 'awesome', 'yes its one the best', 'BEst russian simulta', '10/10 gr8 game', 'This game made me ej', 'Good game for people', 'This is a really fun']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14760&p=1&itemspage=1477&screenshotspage=1477&videospage=1477&artpage=1477&allguidepage=1477&webguidepage=1477&integratedguidepage=1477&discussionspage=1477&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['241.9', '1,703', '1,508', '342.3', '405.6', '189.4', '136.4', '1,275', '436.5', '326.8']
+
+['10/10 would bang', 'It used to be my fav', 'Cool game', "Great game, Didn't l", 'Very nice shooter.Aw', 'Whatever version In ', 'Best game1', 'Counter-Strike: Glob', '"You miss 100% of th']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=14890&p=1&itemspage=1490&screenshotspage=1490&videospage=1490&artpage=1490&allguidepage=1490&webguidepage=1490&integratedguidepage=1490&discussionspage=1490&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['872.6', '828.7', '27.5 ', '655.9', '998.7', '377.5', '847.8', '625.9', '610.1', '814.1']
+
+['bought dis gam playd', 'Sit down and let me ', 'Im reviewing this to', 'Amazing game! Good s', 'CSGO > CSS', 'really heart poundin', 'PROS: - Skins (you l', 'games. - You miss th', 'poutsoh', 'I really enjoyed pla', 'Too many hackers, in']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15070&p=1&itemspage=1508&screenshotspage=1508&videospage=1508&artpage=1508&allguidepage=1508&webguidepage=1508&integratedguidepage=1508&discussionspage=1508&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['883.1', '556.7', '1,633', '611.5', '1,141', '119.0', '316.6', '595.8', '903.4', '766.2']
+
+['horrible it said tap', 'Fun game to play wit', 'for game enhancers.', 'destroyed my social ', "Come on, it's Counte", 'Nearly 900 hours on ', 'mmmmmmmm Chicken....', 'Either love it or ab', 'kdnaskjdnasjkd', 'Pretty good game,com', 'eh']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15170&p=1&itemspage=1518&screenshotspage=1518&videospage=1518&artpage=1518&allguidepage=1518&webguidepage=1518&integratedguidepage=1518&discussionspage=1518&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['493.6', '666.6', '231.1', '63.7 ', '331.2', '102.2', '213.0', '242.3', '646.6', '447.2']
+
+['I see you later... ;', 'Awesome', 'gg m8', 'This game makes me w', 'mi kuk is so hard', 'K', 'This game has single', 'only play this game ', 'Very fun but there i']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15180&p=1&itemspage=1519&screenshotspage=1519&videospage=1519&artpage=1519&allguidepage=1519&webguidepage=1519&integratedguidepage=1519&discussionspage=1519&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['802.9', '702.8', '357.7', '417.1', '233.3', '944.0', '2,023', '328.7', '436.1', '273.8']
+
+['I tell myself before', 'Sper Bir Oyun Herkes', 'After playing Counte', '*Game is cheap, only', '*Throughout all my y', 'CSGO is a great game', '#1 source for virtua', "I didn't know what t", 'Best Comepetive skil', 'get ak, pray to whom', 'good', 'Amazing, excpet for ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15230&p=1&itemspage=1524&screenshotspage=1524&videospage=1524&artpage=1524&allguidepage=1524&webguidepage=1524&integratedguidepage=1524&discussionspage=1524&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['7.8 h', '442.1', '679.5', '249.4', '527.0', '569.1', '1,150', '1,446', '931.0', '403.9']
+
+['my globe is offended', "I'm an Counter-Strik", '4.7598194/5 noic tre', 'If you like gambling', 'aaaaaaaaaaaaaaaaaaaa', 'Amazing game, gets s', 'Best game ever. I LO', '!!!', 'dis game is so tite', "Well, it's a good da", 'Syn: WHY!!!!!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15300&p=1&itemspage=1531&screenshotspage=1531&videospage=1531&artpage=1531&allguidepage=1531&webguidepage=1531&integratedguidepage=1531&discussionspage=1531&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['595.8', '352.9', '766.2', '217.7', '781.3', '903.4', '440.9', '607.3', '414.2', '222.5']
+
+['kdnaskjdnasjkd', 'eh', 'really good game, ju', 'Best game :))', 'Pretty good game,com', '. 64 ,    ,   ,   ..', 'Your team has died, ', 'Best game ever <33', 'Totally ruined my so']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15320&p=1&itemspage=1533&screenshotspage=1533&videospage=1533&artpage=1533&allguidepage=1533&webguidepage=1533&integratedguidepage=1533&discussionspage=1533&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['196.8', '2,652', '753.6', '397.9', '249.4', '851.9', '661.2', '492.3', '890.2', '344.6']
+
+['Awesome Game Just Li', '2300 hours. Why do I', 'VERY GOOD GAME YES I', 'Pretty good dude sho', 'This Game is The', '10/10', 'awesome game', '+ Matchmaking + Bett', 'I made it out of sil', 'Best Game NA', 'Great game! Recommen']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15350&p=1&itemspage=1536&screenshotspage=1536&videospage=1536&artpage=1536&allguidepage=1536&webguidepage=1536&integratedguidepage=1536&discussionspage=1536&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['252.6', '33.9 ', '257.4', '343.3', '224.6', '1,121', '168.2', '699.7', '181.1', '261.5']
+
+['Amazing', 'weapon skins easy mo', 'nice game :)', 'gr8 gem m8', 'its alright, i guess', '9/10 would bang.', 'good', 'I love it >:O Funnnn', 'besst game ever']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15410&p=1&itemspage=1542&screenshotspage=1542&videospage=1542&artpage=1542&allguidepage=1542&webguidepage=1542&integratedguidepage=1542&discussionspage=1542&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['855.2', '605.7', '13.2 ', '699.7', '168.2', '492.3', '661.2', '27.0 ', '627.8', '257.4']
+
+['5/5', '(Y) yeaboi', 'Gabe newell did it a', 'good', '9/10 would bang.', 'I made it out of sil', '+ Matchmaking + Bett', '*dust 2* *terorist* ', 'Keep calm and go pr0']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15540&p=1&itemspage=1555&screenshotspage=1555&videospage=1555&artpage=1555&allguidepage=1555&webguidepage=1555&integratedguidepage=1555&discussionspage=1555&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['394.0', '284.1', '43.0 ', '266.2', '392.5', '1,544', '775.9', '302.6', '331.2', '156.8']
+
+['Good', "I don't even have wo", 'Good luck out there!', 'full of russians wit', 'Pretty much a super ', 'JUST BUY ITT PLZ!!!', 'This game is full of', 'Graphics are much be', 'Best game', 'ohhhhhhhhhhhhhh ywea', 'Love the game. Have ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15620&p=1&itemspage=1563&screenshotspage=1563&videospage=1563&artpage=1563&allguidepage=1563&webguidepage=1563&integratedguidepage=1563&discussionspage=1563&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['193.5', '297.2', '1,267', '235.6', '395.4', '454.3', '258.6', '64.6 ', '50.1 ', '245.9']
+
+['love it', 'AMAZING GAME!!!!!!!!', 'Dis gaem is juan uv ', 'very good', 'this game sucks so b', '- Best game for gamb', 'BEST GAME ON EARTH!', "It's good. If you ca", 'Best game of all tim']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15690&p=1&itemspage=1570&screenshotspage=1570&videospage=1570&artpage=1570&allguidepage=1570&webguidepage=1570&integratedguidepage=1570&discussionspage=1570&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['221.9', '492.3', '1,110', '53.2 ', '664.8', '89.3 ', '575.1', '217.3', '264.7', '668.6']
+
+['you better hid your ', 'classic, best, alway', 'veri gud', 'The best FPS out the', 'I hack in this game', "I've given up water ", 'good', 'Rage Simulator 2011', 'What I like: In CS:G']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (20).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15700&p=1&itemspage=1571&screenshotspage=1571&videospage=1571&artpage=1571&allguidepage=1571&webguidepage=1571&integratedguidepage=1571&discussionspage=1571&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['536.2', '864.9', '510.2', '164.0', '88.7 ', '581.2', '42.8 ', '502.6', '691.7', '827.7']
+
+['Volvo sent me a VACa', 'Lost my social lyfe ', 'I have been putting ', 'if you drained the o', "Honestly didn't thin", 'At first I had the m', 'BEST GAME EVER I CAN', "I don't have CS GOD,", 'Best FPS game on the', 'Since the first game', 'It is just annoying.', 'Because it could be ', 'Simply terrible. Dis', 'Atrocious. Even thou', 'It could be much, mu', 'Self-explanatory.', ', which shifts the f', '(4 maps in Arms Race', 'Yes. Yes. And yes. I', 'Counter Strike Globa']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=15930&p=1&itemspage=1594&screenshotspage=1594&videospage=1594&artpage=1594&allguidepage=1594&webguidepage=1594&integratedguidepage=1594&discussionspage=1594&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['605.2', '1,668', '929.0', '1,149', '584.9', '796.5', '3,103', '584.7', '519.5', '890.9']
+
+['When I was a small c', 'Please subscribe. Al', 'Buy knife yes good g', 'Very N1ce and good g', 'Never get bored of t', 'Best FPS i every pla', 'I am potato then sud', 'best game evahr!', 'Best game on steam', "You'll find a couple", 'yeah!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16010&p=1&itemspage=1602&screenshotspage=1602&videospage=1602&artpage=1602&allguidepage=1602&webguidepage=1602&integratedguidepage=1602&discussionspage=1602&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['198.4', '1,804', '1,556', '835.6', '764.9', '849.0', '605.2', '538.6', '600.2', '362.8']
+
+["Best shooter i've pl", 'Good game', 'Best game in my life', "I've spent approxima", 'gibe de skins b0ss', 'You play game and pe', 'When I was a small c', 'Please subscribe. Al', 'kill the same person', 'If your not global e', 'wow is best so gut 2']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16170&p=1&itemspage=1618&screenshotspage=1618&videospage=1618&artpage=1618&allguidepage=1618&webguidepage=1618&integratedguidepage=1618&discussionspage=1618&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['774.3', '28.4 ', '994.3', '168.1', '1,226', '1,882', '679.5', '385.8', '856.0', '300.6']
+
+['basically the number', 'Lots of fun worth to', "It's a great game. I", 'Cute game ^^', 'Hours of fun, It mak', 'mad dope mad fun', 'Pretty darn fun', 'Good game', 'Currently my favouri']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16380&p=1&itemspage=1639&screenshotspage=1639&videospage=1639&artpage=1639&allguidepage=1639&webguidepage=1639&integratedguidepage=1639&discussionspage=1639&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['827.9', '1,677', '1,585', '1,364', '405.7', '1,165', '425.1', '471.9', '532.8', '1,657']
+
+[',        ,   )', 'Best CS Ever Made, 8', 'kewl game keds', 'asdasd', 'Very well designed a', 'cheap version of cod', "it's like minecraft ", 'RIP CS GO. in mm che', 'perfect']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16400&p=1&itemspage=1641&screenshotspage=1641&videospage=1641&artpage=1641&allguidepage=1641&webguidepage=1641&integratedguidepage=1641&discussionspage=1641&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['633.4', '1,756', '38.0 ', '8.3 h', '451.5', '42.9 ', '135.8', '1,991', '1,080', '491.9']
+
+['Great upgrate to the', "10/10 i can't stop p", 'Watered down Counter', 'I hate this for the ', 'you can shoot people', 'Yeah, first rewiew, ', 'Nice Game !', '10/10 Best game i pl', 'Greates competitive ', '( a betting site, wh', 'CS:GO is the single ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16410&p=1&itemspage=1642&screenshotspage=1642&videospage=1642&artpage=1642&allguidepage=1642&webguidepage=1642&integratedguidepage=1642&discussionspage=1642&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,615', '366.2', '460.7', '807.0', '192.6', '492.6', '680.8', '401.6', '143.5', '1,252']
+
+['I love counter strik', 'The more skins you h', 'My all most played g', "It's Counter-Strike ", 'this game makes my  ', 'Smoke', 'mid every day!', 'this game is nice', 'A great fps with an ', 'Its simple, Thats wh', 'very fuuuuuuuuuuuuuu']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16420&p=1&itemspage=1643&screenshotspage=1643&videospage=1643&artpage=1643&allguidepage=1643&webguidepage=1643&integratedguidepage=1643&discussionspage=1643&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['441.9', '386.4', '361.8', '330.2', '694.6', '440.8', '253.7', '535.3', '500.8', '569.8']
+
+['Got banned twice for', 'If you want a tough ', 'damn good', 'In Short: Awesome ga', 'Pretty good killed a', 'PLUSES: + Better gra', 'How to Win DeathMatc', 'de_dust2: the game', 'It tickles my balls ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16450&p=1&itemspage=1646&screenshotspage=1646&videospage=1646&artpage=1646&allguidepage=1646&webguidepage=1646&integratedguidepage=1646&discussionspage=1646&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['711.7', '764.8', '16.9 ', '751.1', '572.5', '196.6', '552.9', '137.8', '2,109', '547.4']
+
+['I like this', 'Fix the ******* mm', 'bad game', 'DOLLA DOLLA BILLS YA', 'broken matchmaking 1', 'Dust life', 'Excellent game. Requ', 'Ruined my life. 10/1', 'This is a awesome ga']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16500&p=1&itemspage=1651&screenshotspage=1651&videospage=1651&artpage=1651&allguidepage=1651&webguidepage=1651&integratedguidepage=1651&discussionspage=1651&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['199.7', '267.9', '441.9', '386.4', '361.8', '330.2', '694.6', '440.8', '253.7', '535.3']
+
+['This game is fun and', 'This is so true Kill', 'Got banned twice for', 'If you want a tough ', 'damn good', 'In Short: Awesome ga', 'Pretty good killed a', 'PLUSES: + Better gra', 'How to Win DeathMatc']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16770&p=1&itemspage=1678&screenshotspage=1678&videospage=1678&artpage=1678&allguidepage=1678&webguidepage=1678&integratedguidepage=1678&discussionspage=1678&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['253.5', '496.3', '883.9', '547.5', '1,427', '4.1 h', '386.3', '57.5 ', '16.4 ', '1,039']
+
+['only bad thing is th', 'rankup pls', 'In my opinon the bes', 'EZ PZ', 'This game is one of ', 'AMAZING GAME! ADDICT', 'CS:GO is undoubtedly', 'The other side of th', 'Dat recoil 8/10.', 'u can get headshooot', 'just ing buy it.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16890&p=1&itemspage=1690&screenshotspage=1690&videospage=1690&artpage=1690&allguidepage=1690&webguidepage=1690&integratedguidepage=1690&discussionspage=1690&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['46.6 ', '494.3', '1,660', '614.8', '42.1 ', '232.7', '1,153', '653.1', '960.0', '1,148']
+
+['waste of time **** r', 'This game works no, ', 'Bad netcode. Kappa', 'this game is sexy', 'i must say no', 'this game is a Globa', 'this game takes plac', 'Be a smurf or get sm', 'Ostin. OStin lis kiv']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16950&p=1&itemspage=1696&screenshotspage=1696&videospage=1696&artpage=1696&allguidepage=1696&webguidepage=1696&integratedguidepage=1696&discussionspage=1696&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['16.1 ', '9.3 h', '351.7', '1,887', '750.2', '1,445', '455.9', '835.1', '118.9', '373.3']
+
+['EDIT: this was a goo', 'bad update :( Good g', 'IN POSITION IN POSIT', 'A Fun And Good Game ', 'great game', 'This game makes me p', '"It\'s like Skyrim wi', 'Great game.It has ni', 'good game if u lik c', "If you're a CoD, BF ", 'Terrible game , adva']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=16960&p=1&itemspage=1697&screenshotspage=1697&videospage=1697&artpage=1697&allguidepage=1697&webguidepage=1697&integratedguidepage=1697&discussionspage=1697&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,290', '274.1', '1,727', '9.3 h', '16.1 ', '122.4', '351.7', '0.4 h', '581.5', '1,445']
+
+['rip my life 11/9', 'No matter how good y', 'this a a video game', 'IN POSITION IN POSIT', 'EDIT: this was a goo', 'bad update :( Good g', 'shud be free2play al', 'A Fun And Good Game ', 'good game! I have ne', 'Hello Valve coporati', '"It\'s like Skyrim wi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17160&p=1&itemspage=1717&screenshotspage=1717&videospage=1717&artpage=1717&allguidepage=1717&webguidepage=1717&integratedguidepage=1717&discussionspage=1717&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['546.0', '589.3', '291.5', '1,533', '689.0', '983.1', '290.1', '3.0 h', '379.6', '0.6 h']
+
+["I'm Da Bes", 'its gud', '1/2 the price of Cal', 'Best fps game out th', 'Best CS Game', 'got banned for a wee', 'Best game ever ;D', 'As a terrible Counte', 'The best Counter Str']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17400&p=1&itemspage=1741&screenshotspage=1741&videospage=1741&artpage=1741&allguidepage=1741&webguidepage=1741&integratedguidepage=1741&discussionspage=1741&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['964.0', '498.8', '228.2', '720.4', '74.2 ', '989.9', '529.1', '405.8', '848.5', '1,079']
+
+['nice game', 'Great game, highly d', "If you're after an F", 'a really good fps ga', 'This game is good ha', 'if you say now OMG N', 'CSGO NICE', 'Counter-Strike: Glob', 'amazing game', 'BEAST AND CHEAP', 'Destroyed my social ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17520&p=1&itemspage=1753&screenshotspage=1753&videospage=1753&artpage=1753&allguidepage=1753&webguidepage=1753&integratedguidepage=1753&discussionspage=1753&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,175', '962.6', '583.5', '602.0', '1,437', '128.2', '1,026', '536.2', '663.9', '860.7']
+
+['ing awesome', 'Good game bad rego', 'This is an amazing g', 'nice game;)', 'AWESOME!', 'awesome game', 'Great game.You can e', 'This game is amaizin', 'Hmm where to begin..']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17530&p=1&itemspage=1754&screenshotspage=1754&videospage=1754&artpage=1754&allguidepage=1754&webguidepage=1754&integratedguidepage=1754&discussionspage=1754&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['28.9 ', '900.2', '18.4 ', '1,082', '390.8', '148.2', '900.4', '402.3', '468.2', '411.2']
+
+["Ah CS, good ol' CS b", 'shot a guy in the to', 'It may lack some of ', 'Not usually a fan of', 'Fun game', 'this game is great i', 'long time to serch t', 'i recommend this TO ', 'Its like drugs excep']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17600&p=1&itemspage=1761&screenshotspage=1761&videospage=1761&artpage=1761&allguidepage=1761&webguidepage=1761&integratedguidepage=1761&discussionspage=1761&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['634.1', '904.1', '718.6', '606.3', '202.3', '437.4', '98.5 ', '208.4', '1,150', '594.5']
+
+['____,^==,,____/|_ )_', ':)', 'Lovvee IT !!!!', 'Best CS in the serie', '+Better grapchics +N', 'Like Skyrim, except ', 'One of the best fps ', 'AIM!', 'perfect game.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=17850&p=1&itemspage=1786&screenshotspage=1786&videospage=1786&artpage=1786&allguidepage=1786&webguidepage=1786&integratedguidepage=1786&discussionspage=1786&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['2,165', '618.5', '329.9', '948.3', '595.5', '698.5', '836.1', '949.1', '355.5', '1,206']
+
+['+1', 'gud game', 'An excellent game.', "Yo it's a fun and ad", 'Reccomend this to al', 'AWESOME!!!', 'Very entertaining li', 'Love the game :)', 'hackers lane']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18010&p=1&itemspage=1802&screenshotspage=1802&videospage=1802&artpage=1802&allguidepage=1802&webguidepage=1802&integratedguidepage=1802&discussionspage=1802&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['434.5', '1,447', '867.9', '109.8', '410.0', '680.2', '162.5', '879.9', '574.9', '183.7']
+
+['Sick game...', 'bra spel osv', '10/10', 'First of all what ba', 'So you like gun skin', 'the best fps iive ev', 'Without a doubt wort', 'Very addictive and f', 'my first time playin']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18080&p=1&itemspage=1809&screenshotspage=1809&videospage=1809&artpage=1809&allguidepage=1809&webguidepage=1809&integratedguidepage=1809&discussionspage=1809&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['191.8', '312.2', '1,983', '269.9', '748.8', '378.9', '81.4 ', '22.6 ', '3,246', '740.3']
+
+['this game is bugged ', "mother ing splodin' ", 'Classic action shoot', '10/10 best fps on pc', 'gsicht', 'This game is serious', '! PLAY IT', 'It is an awesome gam', "YOU'VE PLAYED IT, DO", '64 tick servers :(', 'ODLINAAAA :D']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18340&p=1&itemspage=1835&screenshotspage=1835&videospage=1835&artpage=1835&allguidepage=1835&webguidepage=1835&integratedguidepage=1835&discussionspage=1835&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['214.0', '556.4', '8.0 h', '253.2', '865.0', '919.6', '4,114', '110.4', '1,016', '364.1']
+
+['This game is so fun ', 'game is', 'spent fift33n mcchic', 'At first the game is', 'Nice FPS game ^_^', 'This game is awesome', 'Best game ever. :D', 'every cs lovers must', 'Some of the OPTIMAL ', 'In spite of this, it', 'of the server.', 'If you come from ano', '. There are some thi', 'You guys definitely ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18370&p=1&itemspage=1838&screenshotspage=1838&videospage=1838&artpage=1838&allguidepage=1838&webguidepage=1838&integratedguidepage=1838&discussionspage=1838&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['132.4', '148.5', '66.4 ', '1,035', '680.9', '916.7', '647.6', '1,461', '1,469', '1,067']
+
+['good game for shoote', 'good game 10/10', 'Yes', 'Rating: 5/5 Note: Th', 'Grandad just got a n', 'Awesome game, someti', 'love this game so mu', 'gr8 game, need to pr', 'BEST GAME EVER!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18610&p=1&itemspage=1862&screenshotspage=1862&videospage=1862&artpage=1862&allguidepage=1862&webguidepage=1862&integratedguidepage=1862&discussionspage=1862&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['28.0 ', '213.2', '2,112', '8.9 h', '661.3', '1,062', '2.0 h', '1,874', '2,205', '615.7']
+
+['Zajabys', 'Most fun i have had ', 'yes', 'This game is an exce', 'AHAHAHAHAHAHHAHAHAHA', 'Amazing Comp Game!', '6/10 Game is fun, bu', 'this game is hacked ', 'awesome game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18650&p=1&itemspage=1866&screenshotspage=1866&videospage=1866&artpage=1866&allguidepage=1866&webguidepage=1866&integratedguidepage=1866&discussionspage=1866&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['17.8 ', '251.2', '51.5 ', '69.2 ', '511.4', '164.1', '11.7 ', '4.2 h', '1,417', '398.8']
+
+['very good', 'best game ever', 'really fun if you ha', 'good competitive gam', 'This is the best Gam', 'I feel its a pay-to-', 'Good as always.', 'You know that one ga', 'Dont spray in this g']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=18940&p=1&itemspage=1895&screenshotspage=1895&videospage=1895&artpage=1895&allguidepage=1895&webguidepage=1895&integratedguidepage=1895&discussionspage=1895&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,116', '474.6', '323.6', '1,102', '914.6', '851.3', '150.4', '1,487', '14.8 ', '37.8 ']
+
+["I'm wasting my life ", 'Isokay.', 'eh...8/10', 'This game ruined my ', ':)', 'If you are a Counter', "It's so good", 'More like CS1.6 than', 'Hardest game in the ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19250&p=1&itemspage=1926&screenshotspage=1926&videospage=1926&artpage=1926&allguidepage=1926&webguidepage=1926&integratedguidepage=1926&discussionspage=1926&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['324.8', '25.9 ', '563.5', '584.3', '830.0', '1,061', '121.6', '195.2', '97.7 ', '24.1 ']
+
+['this is realy fun', 'Nice game. Found som', 'this game is really ', 'Brilliant game 10/10', 'this a good game. on', 'This game is an amaz', 'macht spa wenn man n', 'Not quite as good as', 'Not as good as Count']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19270&p=1&itemspage=1928&screenshotspage=1928&videospage=1928&artpage=1928&allguidepage=1928&webguidepage=1928&integratedguidepage=1928&discussionspage=1928&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['267.1', '1,838', '2,421', '1,507', '502.6', '736.2', '896.0', '20.2 ', '818.4', '207.1']
+
+['great game, you can ', 'Too hard.', 'Best game ever!', 'i have a big  wilson', '2guud Axtully this g', 'yo', "It's fun and all, bu", 'Very Fun Game! Great', 'Fantastic and fun, s']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19330&p=1&itemspage=1934&screenshotspage=1934&videospage=1934&artpage=1934&allguidepage=1934&webguidepage=1934&integratedguidepage=1934&discussionspage=1934&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['138.8', '389.5', '654.6', '363.1', '296.4', '520.7', '2,518', '17.6 ', '336.5', '4.8 h']
+
+['Bsm. 11 years of bes', 'Have alot of rages b', 'ya boleh', 'I begin my harsh cri', ') be communicating w', 'random headshats 50/', 'Very good game to ki', 'nice game', 'Amazing.', 'Nice', 'hope you enjoy getti']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19550&p=1&itemspage=1956&screenshotspage=1956&videospage=1956&artpage=1956&allguidepage=1956&webguidepage=1956&integratedguidepage=1956&discussionspage=1956&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['568.0', '29.3 ', '271.6', '2,450', '131.1', '1,585', '180.6', '1,320', '35.7 ', '414.5']
+
+['gra jest pokurwiona ', 'This game is so diff', 'hardcore  maaaaaaaan', 'good game )) a legen', 'I know this probably', 'iz good gam 69/420 I', 'Great game, requires', 'Approve', 'bezt bro']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19760&p=1&itemspage=1977&screenshotspage=1977&videospage=1977&artpage=1977&allguidepage=1977&webguidepage=1977&integratedguidepage=1977&discussionspage=1977&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,929', '161.9', '435.4', '681.5', '621.4', '518.5', '725.6', '93.4 ', '1,097', '730.6']
+
+['Really good game 10/', 'best', 'Best competitive FPS', 'Awesome game, Great ', 'lul 420 outta 69', 'Best !', 'Excellente!!!!', 'BEST FPS! Really goo', 'The big return of ou']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=19820&p=1&itemspage=1983&screenshotspage=1983&videospage=1983&artpage=1983&allguidepage=1983&webguidepage=1983&integratedguidepage=1983&discussionspage=1983&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['373.5', '595.8', '1,460', '367.8', '1,011', '206.2', '460.9', '891.0', '913.6', '452.2']
+
+['I think this game is', 'My favorite GAME....', 'Best game ever.', 'Global Offensive is ', 'hue', 'The Counter-Strike S', "Kha' la` kho'!", 'my  got stuck in a d', 'You should watch me ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20360&p=1&itemspage=2037&screenshotspage=2037&videospage=2037&artpage=2037&allguidepage=2037&webguidepage=2037&integratedguidepage=2037&discussionspage=2037&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['135.1', '566.9', '927.3', '1,110', '1,091', '17.8 ', '553.8', '115.3', '1,663', '436.5']
+
+['If you want a TF2 CS', 'Counter Strike: Glob', 'nice game', 'great game.', 'A*', 'This game is the big', 'Enjoyable Fps game, ', 'I recommend this gam', 'Best Game since C0D4']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20420&p=1&itemspage=2043&screenshotspage=2043&videospage=2043&artpage=2043&allguidepage=2043&webguidepage=2043&integratedguidepage=2043&discussionspage=2043&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['34.8 ', '475.5', '587.4', '44.2 ', '37.3 ', '1,370', '1,156', '309.7', '609.5', '556.1']
+
+["it's an awsome game ", 'Definitely the best ', 'Cs:Go is the best ga', 'Best', 'Pretty cool upgrade ', 'best ever multiplaye', 'Killing people is al', 'amazing game :)', 'Awesome game !']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20620&p=1&itemspage=2063&screenshotspage=2063&videospage=2063&artpage=2063&allguidepage=2063&webguidepage=2063&integratedguidepage=2063&discussionspage=2063&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['857.7', '606.2', '160.8', '243.2', '276.9', '640.2', '95.9 ', '657.4', '727.2', '464.7']
+
+['Me Gusta', 'Great game worth buy', 'Dat game good of pas', '0/420  gaym wtf cant', 'Yeahh!!!CS:GOOOOO', 'Najlepsia hra odporu', 'Amazing game', 'dobar dobar', '*Opens case* Gets cr']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20650&p=1&itemspage=2066&screenshotspage=2066&videospage=2066&artpage=2066&allguidepage=2066&webguidepage=2066&integratedguidepage=2066&discussionspage=2066&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['791.4', '283.6', '84.5 ', '24.4 ', '933.6', '84.2 ', '266.3', '415.1', '97.7 ', '375.5']
+
+['Sick game yao', 'I break my steelseri', 'BEst version of CS s', 'This is a very well ', 'best game evar', 'game is so fun', 'Amazing FPS Game (y)', 'Yes.', 'Counter Strike at it']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20690&p=1&itemspage=2070&screenshotspage=2070&videospage=2070&artpage=2070&allguidepage=2070&webguidepage=2070&integratedguidepage=2070&discussionspage=2070&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['237.1', '654.7', '102.0', '21.7 ', '949.9', '969.7', '1,192', '231.8', '95.8 ', '199.0']
+
+['nice', 'fun game', 'I havent even played', 'Really awesome game', 'really good game', 'This game is awesome', 'Very good', 'great FPS game', 'Nice game! luvs it']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=20740&p=1&itemspage=2075&screenshotspage=2075&videospage=2075&artpage=2075&allguidepage=2075&webguidepage=2075&integratedguidepage=2075&discussionspage=2075&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['483.2', '27.6 ', '1,742', '958.7', '327.7', '362.2', '58.9 ', '29.6 ', '510.8', '245.3']
+
+['cool', 'A fun and addictive ', 'When I started playi', '11/10 - Fun, excitin', 'SUCH GREAT GAME! PLS', 'After more than 300 ', 'Meh. Same old  peopl', '"I like but I don\'t ', 'ing sweet']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=21120&p=1&itemspage=2113&screenshotspage=2113&videospage=2113&artpage=2113&allguidepage=2113&webguidepage=2113&integratedguidepage=2113&discussionspage=2113&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['363.3', '1,780', '682.5', '52.7 ', '334.6', '1,433', '2,129', '578.7', '947.1', '953.1']
+
+['League of Legends...', 'good game', 'Great game. As an ol', 'Played since beta5..', 'You learn new words ', 'This game is terrifi', 'Counter Strike: Glob', 'Many people seem to ', 'Anyway, I highly sug', 'Stole my life, 10/10', 'Recommended to anybo', 'Best fps out there a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=21180&p=1&itemspage=2119&screenshotspage=2119&videospage=2119&artpage=2119&allguidepage=2119&webguidepage=2119&integratedguidepage=2119&discussionspage=2119&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['173.5', '267.9', '1,189', '195.5', '208.6', '1,021', '975.3', '169.8', '12.2 ', '812.3']
+
+['This game is so funn', 'love it, woot', 'My Main Game! If you', "It was good. Don't g", 'good game', 'Basically you enter ', 'Offensive. A minigam', 'Awesome execpt the h', 'Memes.', 'Intense', 'Best Game ever.. Jus']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/730/homecontent/?userreviewsoffset=21220&p=1&itemspage=2123&screenshotspage=2123&videospage=2123&artpage=2123&allguidepage=2123&webguidepage=2123&integratedguidepage=2123&discussionspage=2123&appid=730&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1

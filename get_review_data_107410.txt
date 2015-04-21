@@ -1398,3 +1398,403 @@ URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13060&p
 ['10/10 there are dogs', 'good game !! Yes Yes', 'This game has possib', 'Love it long tine.', 'This game rustles my', 'I sat in a bush for ', '?', 'nice game, overpoch ', 'very game much wow']
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13190&p=1&itemspage=1320&screenshotspage=1320&videospage=1320&artpage=1320&allguidepage=1320&webguidepage=1320&integratedguidepage=1320&discussionspage=1320&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['11.5 ', '542.7', '525.4', '67.8 ', '150.8', '314.3', '148.5', '81.6 ', '527.1', '4.4 h']
+
+['Absolutely terrible ', 'This game is the bes', 'Best Game ever - Joi', 'is game shoot', 'Parfait.', 'The best war simulat', 'its good', 'The ArmA series an i', 'Nice :D ... u want t']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13230&p=1&itemspage=1324&screenshotspage=1324&videospage=1324&artpage=1324&allguidepage=1324&webguidepage=1324&integratedguidepage=1324&discussionspage=1324&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['403.8', '8.0 h', '121.4', '57.5 ', '224.2', '200.5', '66.4 ', '11.0 ', '84.0 ', '466.2']
+
+['Deffinatly recomende', 'It seems that bohemi', 'Played some Battle R', 'ArmA 3 is a superior', ". Don't", 'it to be like Call o', '-- The game is very ', "-- There isn't much ", 'Great game worth eve', 'I spent $60 and this', 'Game runs like crap,', 'Would be nice if the', 'Still has a ton of b', 'I want to enjoy this']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13490&p=1&itemspage=1350&screenshotspage=1350&videospage=1350&artpage=1350&allguidepage=1350&webguidepage=1350&integratedguidepage=1350&discussionspage=1350&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['181.1', '204.9', '914.4', '250.0', '56.3 ', '4.4 h', '77.6 ', '440.7', '949.0', '104.5']
+
+['game n1!!!', 'This is one of the b', "What can I say? I've", 'hello i have a clan ', 'or teamspeak - 86.13', 'Realism? Above all e', 'want it for free', 'Very very very very ', 'really good game, Ha', 'Thank goodness for m', "It's ok."]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13670&p=1&itemspage=1368&screenshotspage=1368&videospage=1368&artpage=1368&allguidepage=1368&webguidepage=1368&integratedguidepage=1368&discussionspage=1368&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,631', '84.1 ', '1.9 h', '369.8', '667.8', '165.8', '113.8', '448.0', '12.6 ', '139.0']
+
+["It's A Decent Game", 'Freaking awesome gam', 'Epic but wont load s', 'IGN gave this game a', 'Great Game', 'So much to do. Great', 'HIGH QUALITY!', "It's pretty awsome. ", 'what can i say excep']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13720&p=1&itemspage=1373&screenshotspage=1373&videospage=1373&artpage=1373&allguidepage=1373&webguidepage=1373&integratedguidepage=1373&discussionspage=1373&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['16.5 ', '1.8 h', '64.4 ', '0.3 h', '82.1 ', '253.8', '0.8 h', '319.5', '101.1', '31.6 ']
+
+['If you want some thr', 'Amazing Graphics Don', 'Always Nice To Play ', 'I LOVE THIS GAME', 'yesh much better tha', 'got shouted at for n', 'good game worth play', 'dis gaem mak me hppy', 'Great military simul']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=13960&p=1&itemspage=1397&screenshotspage=1397&videospage=1397&artpage=1397&allguidepage=1397&webguidepage=1397&integratedguidepage=1397&discussionspage=1397&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.8 h', '193.2', '12.5 ', '69.7 ', '8.6 h', '302.9', '181.8', '6.9 h', '8.3 h', '4.5 h']
+
+['Is amazing', 'Great game! 10/10 Th', 'i like this game ver', 'best RPG ever !!!!!!', 'Great game lots of f', 'I like Arma 3 a lot.', 'A really good and fu', 'very great game. tri', 'It is really good, b']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14010&p=1&itemspage=1402&screenshotspage=1402&videospage=1402&artpage=1402&allguidepage=1402&webguidepage=1402&integratedguidepage=1402&discussionspage=1402&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['37.1 ', '0.2 h', '224.7', '183.8', '120.1', '96.7 ', '249.7', '4.5 h', '1,397', '0.5 h']
+
+['mack it free to play', 'is cool', 'Graphically amazing ', 'It is insteresting..', 'This is the most fun', 'Great game!', 'Good game to play!', '14 years of arma gam', 'I guess it is not to']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14100&p=1&itemspage=1411&screenshotspage=1411&videospage=1411&artpage=1411&allguidepage=1411&webguidepage=1411&integratedguidepage=1411&discussionspage=1411&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['23.1 ', '47.9 ', '3.7 h', '65.4 ', '42.6 ', '162.5', '41.9 ', '7.9 h', '77.1 ', '1,389']
+
+['The game itself is v', 'This is a must buy f', 'Its like skyrim but ', 'a must have game for', 'The simulation is to', 'What should I say? A', 'Okay First Off, I lo', 'Just buy a tank and ', 'amazing game mods ar']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14160&p=1&itemspage=1417&screenshotspage=1417&videospage=1417&artpage=1417&allguidepage=1417&webguidepage=1417&integratedguidepage=1417&discussionspage=1417&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['559.4', '499.4', '33.6 ', '133.4', '363.2', '88.1 ', '442.9', '33.1 ', '276.6', '541.4']
+
+['Arma 3. What can you', 'run lay down, shoot ', 'googoo', '11/10. One of the be', 'The thing that makes', 'Where to start... If', 'community with excel', 'great game ;)', 'this is most realist', 'Arma 3 is a great ga', 'its okay']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14220&p=1&itemspage=1423&screenshotspage=1423&videospage=1423&artpage=1423&allguidepage=1423&webguidepage=1423&integratedguidepage=1423&discussionspage=1423&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['430.0', '65.7 ', '198.2', '48.2 ', '274.2', '316.4', '0.5 h', '198.5', '59.6 ', '350.7']
+
+["It's okay", 'This is going to be ', 'Amazing Game, Jaw Dr', 'A well-thought out t', 'Best Military Simula', "It's a fantastic gam", 'Good buy, a lot of b', 'To make a quick summ', 'BEST GAME FOR FUN VE']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14480&p=1&itemspage=1449&screenshotspage=1449&videospage=1449&artpage=1449&allguidepage=1449&webguidepage=1449&integratedguidepage=1449&discussionspage=1449&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['149.7', '39.1 ', '0.5 h', '1,476', '103.9', '363.5', '31.4 ', '4.6 h', '121.1', '977.3']
+
+['spent a lot of time ', '2spooky4casuals', 'love this game but i', '10 out of 10. Best o', '}><{{{*>', 'URRRRMAGUUURRRD! i l', 'Arma 3 is a tactical', 'Awesome game really ', 'love it, very real!', 'Great game too be ho', 'Hands down the best ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14510&p=1&itemspage=1452&screenshotspage=1452&videospage=1452&artpage=1452&allguidepage=1452&webguidepage=1452&integratedguidepage=1452&discussionspage=1452&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['153.9', '165.1', '9.1 h', '168.2', '166.7', '29.4 ', '259.5', '10.9 ', '387.5', '21.4 ']
+
+['Swaggy game', 'Winner Winner Chicke', 'If you have a beefy ', 'The best.', 'Ye yeyeyeyeyeeyeyeye', 'best arma yet', 'Modern weapons and w', 'i paid 60$ for this ', 'Great']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14620&p=1&itemspage=1463&screenshotspage=1463&videospage=1463&artpage=1463&allguidepage=1463&webguidepage=1463&integratedguidepage=1463&discussionspage=1463&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['180.9', '679.6', '1,009', '421.8', '350.5', '28.3 ', '49.0 ', '63.0 ', '91.0 ', '16.9 ']
+
+['Best fps military si', '...they have thier o', 'epic', 'SO REAL', 'Finally a game thats', 'Amazing Game and an ', 'This game has to be ', 'A truly astonishing ', 'Altis life  5555', 'I was playing Altis ', 'lol']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14680&p=1&itemspage=1469&screenshotspage=1469&videospage=1469&artpage=1469&allguidepage=1469&webguidepage=1469&integratedguidepage=1469&discussionspage=1469&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['94.7 ', '233.2', '140.1', '51.4 ', '13.0 ', '32.2 ', '15.6 ', '0.7 h', '307.5', '3.9 h']
+
+['Good', 'Great game overall. ', 'This is not somethin', 'ultra-realistic WAR ', 'So I got Global Bann', 'I love this game, wa', 'Great game, But the ', 'Awesome game!', 'fun']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14720&p=1&itemspage=1473&screenshotspage=1473&videospage=1473&artpage=1473&allguidepage=1473&webguidepage=1473&integratedguidepage=1473&discussionspage=1473&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['70.7 ', '1.8 h', '34.2 ', '222.0', '1.9 h', '112.5', '0.2 h', '15.6 ', '13.4 ', '44.6 ']
+
+['I dont review many g', 'its boring, its extr', 'Love it', 'Arma 3 is a great ga', 'the laggiest game iv', 'Its a Great game', 'BEST GAME EVER!', 'While 5 Years of Upg', 'very good game. Has ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14780&p=1&itemspage=1479&screenshotspage=1479&videospage=1479&artpage=1479&allguidepage=1479&webguidepage=1479&integratedguidepage=1479&discussionspage=1479&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['57.5 ', '258.6', '28.3 ', '516.9', '437.2', '28.3 ', '2.9 h', '139.6', '173.4', '112.6']
+
+["I don't ever write r", 'i just got arma like', 'Just like any other ', 'awsome game has mods', 'Best Military Simula', 'If you play call of ', 'great game, and so m', '#1 Who the  is shoot', 'Many hours of fun. E']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14810&p=1&itemspage=1482&screenshotspage=1482&videospage=1482&artpage=1482&allguidepage=1482&webguidepage=1482&integratedguidepage=1482&discussionspage=1482&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['843.8', '29.4 ', '43.8 ', '48.8 ', '552.2', '108.8', '623.3', '65.1 ', '13.2 ', '114.2']
+
+['this game is good bu', 'Acquired taste that ', 'Great Game, Amazing ', 'ARMA 3 was listed as', 'Remember folks, supp', 'This game doh! Is by', 'allows mods to be ad', "I've put in numerous", 'There are many custo', 'awesome game but kin', 'Great game, got it l']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14930&p=1&itemspage=1494&screenshotspage=1494&videospage=1494&artpage=1494&allguidepage=1494&webguidepage=1494&integratedguidepage=1494&discussionspage=1494&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['113.2', '34.3 ', '536.5', '163.1', '196.7', '16.4 ', '81.7 ', '10.0 ', '1,412', '0.9 h']
+
+['This game is by far ', '+Solid game, etremle', 'Ive played maybe too', 'excellent millitary ', 'Its one of the best ', 'muito bom', 'This is a REALLY GRE', 'Arma 3 might be a mi', 'guys i got this game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=14960&p=1&itemspage=1497&screenshotspage=1497&videospage=1497&artpage=1497&allguidepage=1497&webguidepage=1497&integratedguidepage=1497&discussionspage=1497&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['62.2 ', '31.1 ', '384.2', '2.2 h', '88.0 ', '5.5 h', '363.2', '88.1 ', '442.9', '33.1 ']
+
+["I know it's expensiv", 'Hi my name is Dennis', 'The best military si', 'just yes', 'bought this to play ', 'lol this game is sic', 'The thing that makes', 'Where to start... If', 'community with excel', 'great game ;)', 'this is most realist']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15210&p=1&itemspage=1522&screenshotspage=1522&videospage=1522&artpage=1522&allguidepage=1522&webguidepage=1522&integratedguidepage=1522&discussionspage=1522&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['180.0', '57.6 ', '1,001', '373.6', '118.7', '131.6', '92.9 ', '86.7 ', '209.2', '97.5 ']
+
+['If u dont like fast ', '- Great graphics - f', '- only and the bigge', 'AWSOME! I usualy pla', 'Really good game, I ', 'This game is great o', 'The game is awsome i', 'physics in this game', 'cant launch 10/10', 'like this game got a', 'Great game highly re', 'its good but its jes']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15460&p=1&itemspage=1547&screenshotspage=1547&videospage=1547&artpage=1547&allguidepage=1547&webguidepage=1547&integratedguidepage=1547&discussionspage=1547&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['3,923', '13.5 ', '524.4', '141.0', '4.0 h', '6.1 h', '71.9 ', '96.7 ', '83.0 ', '493.2']
+
+['Awsome game. Realist', 'really fun game i lo', 'Great game!! Militar', 'Best i played so far', 'Story time! Was wand', 'Rating 8/10 The good', 'for more reviews and', 'Realy good game', 'The year is 2035, bu', 'one of the best shot', 'The majority of the ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15480&p=1&itemspage=1549&screenshotspage=1549&videospage=1549&artpage=1549&allguidepage=1549&webguidepage=1549&integratedguidepage=1549&discussionspage=1549&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['103.2', '180.3', '166.6', '70.5 ', '148.0', '101.0', '346.9', '114.0', '472.7', '157.3']
+
+['Arma 3 is gr8 holp t', 'This game is realist', 'This is a great game', 'Dont buy this game, ', 'most unplayable game', 'GOD ARMA3', 'not a bad game campa', 'this is a f**king aw', 'Total war simulation']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15550&p=1&itemspage=1556&screenshotspage=1556&videospage=1556&artpage=1556&allguidepage=1556&webguidepage=1556&integratedguidepage=1556&discussionspage=1556&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['109.4', '31.1 ', '320.6', '66.2 ', '697.4', '92.1 ', '223.7', '14.7 ', '1.9 h', '89.3 ']
+
+['The only way to play', ". Or, if you're not ", 'Best military shoote', 'Tres bon jeu', 'This game is just ge', 'best game ever!', 'i love the campain..', 'Arma 3 is pretty nic', "it doesn't suck.....", 'To much to big and t', '*** UPDATE *** After']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15620&p=1&itemspage=1563&screenshotspage=1563&videospage=1563&artpage=1563&allguidepage=1563&webguidepage=1563&integratedguidepage=1563&discussionspage=1563&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['85.7 ', '215.3', '270.6', '140.4', '12.2 ', '538.5', '255.7', '210.8', '393.0', '57.2 ']
+
+['Love <3', 'I r8 8/8 m8.', "It's a awsome game i", 'I really enjoy playi', 'A combat simulator t', 'The Game is so Creat', 'awsome sandbox fps m', '<<<-', 'If you like to play ', 'One of the best tati', "Oh this game. It's a"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15780&p=1&itemspage=1579&screenshotspage=1579&videospage=1579&artpage=1579&allguidepage=1579&webguidepage=1579&integratedguidepage=1579&discussionspage=1579&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['463.7', '920.8', '2.6 h', '76.0 ', '971.6', '137.9', '295.5', '1,619', '165.4', '229.5']
+
+['10/10 and with BR it', 'took almost 900 hour', "Russian don't have A", 'This game has a lear', 'Best game ever enjoy', 'Absolutely great, yo', 'This extremely reali', 'Arma3 is a game that', 'I am having some pro']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15860&p=1&itemspage=1587&screenshotspage=1587&videospage=1587&artpage=1587&allguidepage=1587&webguidepage=1587&integratedguidepage=1587&discussionspage=1587&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['262.0', '87.7 ', '84.0 ', '89.9 ', '93.9 ', '10.3 ', '211.9', '32.5 ', '614.4', '173.8']
+
+['My father was in the', 'This game is complet', 'Very realistic game ', 'Epic', 'Simply perfection.', '101/10 -ed amazing -', 'Though I have not pa', 'good realistic game', 'The best and most re']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15870&p=1&itemspage=1588&screenshotspage=1588&videospage=1588&artpage=1588&allguidepage=1588&webguidepage=1588&integratedguidepage=1588&discussionspage=1588&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['475.6', '1,155', '168.0', '128.1', '240.3', '42.3 ', '21.0 ', '191.4', '112.2', '177.2']
+
+['Great game', 'whyyyy are u so bad ', 'I got this for $20 w', "Doesn't get better t", 'Wow !', 'The game is awesome ', 'Best Game Eva!', 'You thinking about g', '9.8/10', 'Tried time and time ', 'Awesome']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15970&p=1&itemspage=1598&screenshotspage=1598&videospage=1598&artpage=1598&allguidepage=1598&webguidepage=1598&integratedguidepage=1598&discussionspage=1598&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['975.2', '525.9', '195.6', '0.9 h', '156.9', '62.7 ', '95.9 ', '659.9', '80.4 ', '50.4 ']
+
+["It's okay", 'Curb jump simulator ', 'As much as I loved t', 'asdsad', 'Not the game for eve', 'If you like ai that ', 'Unbelievable Jeff!!!', 'Pretty Good Game. Ca', 'You know its a great', "I've been playing th", "Now I'm not a hardco"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=15980&p=1&itemspage=1599&screenshotspage=1599&videospage=1599&artpage=1599&allguidepage=1599&webguidepage=1599&integratedguidepage=1599&discussionspage=1599&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['247.0', '121.2', '1,321', '144.8', '420.7', '49.1 ', '109.6', '237.5', '91.3 ', '13.0 ']
+
+['horrible refuses to ', 'A Great Game, tons t', 'est game ever but so', 'I bought this game t', 'Brilliant game. plen', 'the editor is powerf', 'A very goog game.Thx', 'Been playing this ga', 'Buy it or die', 'Best game evar', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16020&p=1&itemspage=1603&screenshotspage=1603&videospage=1603&artpage=1603&allguidepage=1603&webguidepage=1603&integratedguidepage=1603&discussionspage=1603&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['14.8 ', '54.1 ', '335.6', '128.5', '228.2', '27.7 ', '4.8 h', '59.3 ', '552.3', '25.0 ']
+
+['very fun and relisti', 'kick  game', '10/10 !!!', 'Drove a tank into a ', 'MODS - 2016', '10/10', 'SOMEONE PLEZ BUY ME ', 'Cause ARMA is better', "All right, it's time"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16110&p=1&itemspage=1612&screenshotspage=1612&videospage=1612&artpage=1612&allguidepage=1612&webguidepage=1612&integratedguidepage=1612&discussionspage=1612&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['511.0', '395.8', '79.7 ', '183.1', '184.4', '462.0', '1.5 h', '467.7', '94.4 ', '54.9 ']
+
+['This is a good game ', 'Put your hands up or', 'To samo co ArmA2 jak', 'I bought ArmA 3 just', 'BP=Breaking point KO', 'My friend and I were', 'Once Broken, cannot ', 'Guys Seriously, This', 'such good very much ', 'Do you like giant ma', 'where do i start Arm']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16120&p=1&itemspage=1613&screenshotspage=1613&videospage=1613&artpage=1613&allguidepage=1613&webguidepage=1613&integratedguidepage=1613&discussionspage=1613&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['36.5 ', '555.2', '42.3 ', '228.7', '52.2 ', '75.5 ', '60.2 ', '255.1', '445.9', '257.3']
+
+['I love the game and ', 'Love it', 'If you want a respon', 'Badass game.', 'Two simple words....', 'anyone who is lookin', 'Very awesome game, g', 'This game is so awes', 'The features in this', 'Over all this is one', 'Simply, awesome..', 'THIS  ROCKS']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16140&p=1&itemspage=1615&screenshotspage=1615&videospage=1615&artpage=1615&allguidepage=1615&webguidepage=1615&integratedguidepage=1615&discussionspage=1615&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['90.6 ', '24.5 ', '227.4', '5.5 h', '973.0', '4.9 h', '359.6', '154.2', '735.2', '284.6']
+
+['Horrible controls, e', 'this game is amazing', 'If you like fast-pac', 'DO NOT BUY THIS! Oka', '" wether I could run', 'Sjukt grymt spel! +1', 'Majnkraft je lepsi', 'Arma 3 is a awesome ', '-Me and friend make ', 'Best military simula', 'One of the greatest ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16190&p=1&itemspage=1620&screenshotspage=1620&videospage=1620&artpage=1620&allguidepage=1620&webguidepage=1620&integratedguidepage=1620&discussionspage=1620&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.7 h', '66.0 ', '15.0 ', '2,378', '72.0 ', '43.9 ', '1,192', '570.4', '1,690', '31.8 ']
+
+['sux', 'This is such a big g', ',', 'Well theres always r', 'I bought this game w', 'An awesome tactical ', 'This is a very good ', 'awesome!!!!!!!! the ', 'A Very realistic Mod', 'I would recommend th', 'well....its ok at be', 'its glitching and no', 'A fun game, however ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16340&p=1&itemspage=1635&screenshotspage=1635&videospage=1635&artpage=1635&allguidepage=1635&webguidepage=1635&integratedguidepage=1635&discussionspage=1635&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['183.1', '184.4', '462.0', '1.5 h', '467.7', '94.4 ', '54.9 ', '7.0 h', '237.0', '534.4']
+
+['I bought ArmA 3 just', 'BP=Breaking point KO', 'My friend and I were', 'Once Broken, cannot ', 'Guys Seriously, This', 'such good very much ', 'Do you like giant ma', 'where do i start Arm', 'love arma its a good', 'yes it the best', 'It it good that I pl']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16470&p=1&itemspage=1648&screenshotspage=1648&videospage=1648&artpage=1648&allguidepage=1648&webguidepage=1648&integratedguidepage=1648&discussionspage=1648&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['343.3', '949.9', '357.9', '382.0', '628.7', '248.1', '1.1 h', '82.7 ', '55.6 ', '123.6']
+
+['Great game, when pla', 'Action packed game. ', 'TS:', 'This review will con', '- "33 things about A', 'Great game , Every s', 'Just <3 it. Will sti', 'the best war sim out', 'best game ever made!', 'if ya reading dis, y', 'This game tought me ', 'The best thing in PC']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16670&p=1&itemspage=1668&screenshotspage=1668&videospage=1668&artpage=1668&allguidepage=1668&webguidepage=1668&integratedguidepage=1668&discussionspage=1668&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['165.4', '229.5', '87.9 ', '17.1 ', '21.5 ', '39.9 ', '791.4', '23.7 ', '249.8', '28.2 ']
+
+['I am having some pro', 'great game beautiful', 'personaly i envy thi', "Awesome game, can't ", 'Have patience with t', 'This is a wonderful ', 'Pretty much the best', 'Great game if you li', 'Epic War simulator.M']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16890&p=1&itemspage=1690&screenshotspage=1690&videospage=1690&artpage=1690&allguidepage=1690&webguidepage=1690&integratedguidepage=1690&discussionspage=1690&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['56.9 ', '105.1', '118.1', '8.3 h', '423.3', '266.5', '269.5', '142.2', '34.9 ', '460.8']
+
+['Good military simula', 'To keep it short, th', 'despite some servers', 'Great game, but if y', 'Love this game to bi', 'YOU ARE NOT GUCCI IF', 'Arma3 where to begin', 'Super detailed, supe', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=16920&p=1&itemspage=1693&screenshotspage=1693&videospage=1693&artpage=1693&allguidepage=1693&webguidepage=1693&integratedguidepage=1693&discussionspage=1693&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.1 h', '142.9', '200.9', '190.8', '216.4', '75.0 ', '419.6', '1.2 h', '200.2', '29.7 ']
+
+['i have never played ', 'its the perfect mil-', 'So far, so good -- r', 'Just one game. I...I', 'The Game is a Great ', 'This game is probabl', 'very nice', 'I LOVE IT', 'I just think this ga']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17090&p=1&itemspage=1710&screenshotspage=1710&videospage=1710&artpage=1710&allguidepage=1710&webguidepage=1710&integratedguidepage=1710&discussionspage=1710&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['115.6', '1,068', '343.3', '949.9', '357.9', '382.0', '629.2', '248.1', '1.1 h', '82.7 ']
+
+['Pretty good game, on', 'This game is pretty ', 'Great game, when pla', 'Action packed game. ', 'TS:', 'This review will con', '- "33 things about A', 'Great game , Every s', 'Just <3 it. Will sti', 'the best war sim out', 'best game ever made!', 'if ya reading dis, y']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17120&p=1&itemspage=1713&screenshotspage=1713&videospage=1713&artpage=1713&allguidepage=1713&webguidepage=1713&integratedguidepage=1713&discussionspage=1713&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['475.3', '2.3 h', '23.7 ', '249.8', '28.2 ', '45.7 ', '159.1', '173.6', '119.6', '22.9 ']
+
+['Great game! Lots of ', 'Arma is the very fir', 'Pretty much the best', 'Great game if you li', 'Epic War simulator.M', 'best tatical FPS TPS', 'its the best combat ', 'Uav helicopter such ', 'would be very nice', 'All i do is fly heli', '= 5/5', '=', 'Great game, mods for']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17150&p=1&itemspage=1716&screenshotspage=1716&videospage=1716&artpage=1716&allguidepage=1716&webguidepage=1716&integratedguidepage=1716&discussionspage=1716&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['77.9 ', '2.7 h', '3,923', '13.5 ', '524.4', '141.0', '4.0 h', '6.1 h', '71.9 ', '96.7 ']
+
+['almanac 3 is the bes', 'awesome ijust need t', 'Awsome game. Realist', 'really fun game i lo', 'Great game!! Militar', 'Best i played so far', 'Story time! Was wand', 'Rating 8/10 The good', 'for more reviews and', 'Realy good game', 'The year is 2035, bu']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17160&p=1&itemspage=1717&screenshotspage=1717&videospage=1717&artpage=1717&allguidepage=1717&webguidepage=1717&integratedguidepage=1717&discussionspage=1717&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['83.0 ', '39.2 ', '1.8 h', '98.6 ', '79.6 ', '232.5', '214.1', '313.1', '32.8 ', '25.8 ']
+
+['one of the best shot', 'I might not have hun', 'Its just amazing, a ', 'arma3 rocks and is f', "You can't trickshot ", 'This game is just en', 'This game is AMAZING', 'gr8 game', 'Simulation with all ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17220&p=1&itemspage=1723&screenshotspage=1723&videospage=1723&artpage=1723&allguidepage=1723&webguidepage=1723&integratedguidepage=1723&discussionspage=1723&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['131.7', '18.9 ', '167.2', '149.4', '130.1', '92.8 ', '45.6 ', '264.6', '21.6 ', '27.8 ']
+
+['this game has the mo', 'Its hard on noobs. I', 'Fatique Simulator 20', "I'm sitting here, wi", '+Realistic +Fun +Hug', "So It's built on the", 'fun af', 'Arma 3 is an improve', '!!!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17260&p=1&itemspage=1727&screenshotspage=1727&videospage=1727&artpage=1727&allguidepage=1727&webguidepage=1727&integratedguidepage=1727&discussionspage=1727&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['118.0', '46.7 ', '12.8 ', '178.4', '265.7', '467.6', '4.7 h', '41.5 ', '441.8', '143.8']
+
+['Iz gud', '>Playing Arma 3 when', 'Ever since operation', 'have: - Invisible wa', 'Gameplay 1/10 Grafic', "It's ok...", 'What am I supposed t', 'Not co-op, very diss', 'I must say the game ', 'The best combat simu', 'Very Bad hitreg, Man']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17480&p=1&itemspage=1749&screenshotspage=1749&videospage=1749&artpage=1749&allguidepage=1749&webguidepage=1749&integratedguidepage=1749&discussionspage=1749&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['29.3 ', '36.3 ', '235.0', '6.9 h', '18.3 ', '485.9', '59.2 ', '420.0', '134.2', '29.2 ']
+
+['Jihad Life Rules. +1', 'Join us on our serve', 'Teamspeak:', 'This game has stolen', 'Goodbye fps.', 'This Game is EBOLA, ', 'Fantastic Mil-Sim wi', "it's", 'This is a good game', 'You know how Arma 2 ', 'One of the best game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17590&p=1&itemspage=1760&screenshotspage=1760&videospage=1760&artpage=1760&allguidepage=1760&webguidepage=1760&integratedguidepage=1760&discussionspage=1760&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['94.0 ', '0.2 h', '384.0', '24.9 ', '1,114', '1,149', '18.7 ', '326.5', '461.4', '407.6']
+
+['I really enjoyed thi', ',', '10/10 Best No Clothe', 'ign rates 11/10', 'See man in building ', 'Poor FPS but awesome', 'This game is incredi', '(Other sites are use', 'and buy it for $30 :', '10/10 DGN', 'Is a very good game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17600&p=1&itemspage=1761&screenshotspage=1761&videospage=1761&artpage=1761&allguidepage=1761&webguidepage=1761&integratedguidepage=1761&discussionspage=1761&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['5.0 h', '57.1 ', '367.3', '74.9 ', '1,377', '148.9', '459.3', '292.7', '40.0 ', '170.2']
+
+['Good game', 'Wish it was modern. ', 'After playing this g', 'Top!', 'This game is absolut', 'Arma 3 can and will ', 'This will give you a', 'great game', 'Awesome Awesome game', 'Best Warfur Simulati', 'I was promised dinos']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17620&p=1&itemspage=1763&screenshotspage=1763&videospage=1763&artpage=1763&allguidepage=1763&webguidepage=1763&integratedguidepage=1763&discussionspage=1763&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['462.8', '455.7', '52.7 ', '0.6 h', '68.9 ', '24.0 ', '151.6', '94.1 ', '2,624', '101.1']
+
+["I'm going to need a ", 'good game but the de', 'after playing this g', 'i love this game its', '{LINK REMOVED}', 'This is one of the g', 'The greatest life ki', 'This game is good as', 'Well Arma3 looks goo', 'One of the best game', "Only buy if you're r"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/107410/homecontent/?userreviewsoffset=17630&p=1&itemspage=1764&screenshotspage=1764&videospage=1764&artpage=1764&allguidepage=1764&webguidepage=1764&integratedguidepage=1764&discussionspage=1764&appid=107410&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['20.4 ', '86.0 ', '62.5 ', '4.6 h', '1,801', '165.3', '129.4', '263.2', '1,435', '302.8']
+
+['I wonder when Bohemi', 'With all the easy ad', 'ahhh we have come a ', 'top :D', 'I have been playing ', "It's a grown up vers", 'I deeply reccomend t', 'its fun its awesome ', 'to help me fix it pl', 'highly reccamend', 'Arma 3 is more than ']
+
+
