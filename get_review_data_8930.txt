@@ -1422,3 +1422,453 @@ URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20290&p=1
 ['Massive ing time-vam', 'Another great instal', 'Looking for a way to', 'The series just gets', 'Good resource hoggin', 'Just One More Turn', 'pretty much the stan', 'Civilization V was i', 'Worth every penny! W']
 
 
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20490&p=1&itemspage=2050&screenshotspage=2050&videospage=2050&artpage=2050&allguidepage=2050&webguidepage=2050&integratedguidepage=2050&discussionspage=2050&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['436.0', '112.1', '11.1 ', '30.1 ', '520.7', '183.1', '101.0', '675.9', '151.5', '167.2']
+
+['Very much enjoy play', 'This game is really ', 'Ghandi(Furious)', 'Why the  did I buy t', 'A great empire build', 'Look, do I even need', 'Good game for about ', 'Civilization has alw', 'Epic. Just plain epi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20710&p=1&itemspage=2072&screenshotspage=2072&videospage=2072&artpage=2072&allguidepage=2072&webguidepage=2072&integratedguidepage=2072&discussionspage=2072&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['665.9', '231.5', '76.7 ', '39.4 ', '300.5', '588.5', '37.0 ', '23.8 ', '30.4 ', '48.4 ']
+
+['Over All... I LOVE t', 'was China, and built', 'Well... Civilization', 'Just.....one......mo', "If you don't have, g", 'Civ 5 Is a very fun ', 'Civ 4 was more fun. ', 'Pretty. Not really t', 'Its a great game for']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20770&p=1&itemspage=2078&screenshotspage=2078&videospage=2078&artpage=2078&allguidepage=2078&webguidepage=2078&integratedguidepage=2078&discussionspage=2078&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['0.3 h', '142.5', '59.9 ', '137.0', '68.4 ', '114.4', '106.8', '91.5 ', '78.9 ', '118.6']
+
+['A musr have, in anyo', 'Probably the best in', 'Amazing game, everyo', "Fantastic game! I've", 'really fun takes a l', 'Probably the best st', 'Overall, Civ 5 is a ', '100% yes', 'Amazing game']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20820&p=1&itemspage=2083&screenshotspage=2083&videospage=2083&artpage=2083&allguidepage=2083&webguidepage=2083&integratedguidepage=2083&discussionspage=2083&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['39.7 ', '659.1', '18.6 ', '89.9 ', '298.9', '171.5', '108.8', '569.4', '150.9', '1,226']
+
+['Ladies and gentlemen', 'Words can only begin', "I've enjoyed playing", 'played civ III when ', '10/10 best game ever', 'Highly addictive. Ho', 'Got nuked by Gandhi ', 'Best Game Ever!', 'While dropping much ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=20880&p=1&itemspage=2089&screenshotspage=2089&videospage=2089&artpage=2089&allguidepage=2089&webguidepage=2089&integratedguidepage=2089&discussionspage=2089&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['611.2', '264.6', '26.4 ', '32.8 ', '133.3', '667.7', '452.9', '843.1', '102.3', '146.7']
+
+['Fantastic strategy g', 'This is one off the ', ".... I'm addicted.", 'If you never want to', 'This game is amazing', 'Get it and everysing', 'A fantastically engr', 'Great game but all m', 'Civ is the funnest t']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21000&p=1&itemspage=2101&screenshotspage=2101&videospage=2101&artpage=2101&allguidepage=2101&webguidepage=2101&integratedguidepage=2101&discussionspage=2101&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['197.2', '136.0', '231.5', '641.6', '18.5 ', '55.6 ', '169.5', '139.7', '178.0', '24.2 ']
+
+['Dont read, just buy ', 'Would not be wrong t', 'Endless hours of tur', 'If you or someone yo', 'Too easy. AI is dumb', "Holy cow it's 4am? J", 'Good fun. Lasts a lo', 'Bloody great game, t', 'Takes time and is di']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21010&p=1&itemspage=2102&screenshotspage=2102&videospage=2102&artpage=2102&allguidepage=2102&webguidepage=2102&integratedguidepage=2102&discussionspage=2102&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['271.9', '75.8 ', '68.5 ', '137.3', '214.5', '3,524', '323.6', '205.8', '625.2', '114.6']
+
+["Can't beat a good st", 'Its a fun game, assu', 'Excellent strategy g', "There's a lot to lea", 'Just buy, down load ', 'Great game to buy no', 'This game is absolut', 'Awesome in depth gam', "If it didn't crash s"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21050&p=1&itemspage=2106&screenshotspage=2106&videospage=2106&artpage=2106&allguidepage=2106&webguidepage=2106&integratedguidepage=2106&discussionspage=2106&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['388.0', '127.6', '90.7 ', '48.2 ', '258.7', '21.2 ', '4,154', '1,074', '191.5', '448.0']
+
+['civ 5 is better than', "I've sunk so much ti", 'I', '! I normally dislike', ', but this was an ex', 'Too easy to beat, ev', 'with 206 hours of ga', 'The whole point of C', 'Played it a wee bit.', 'Oh, Civilization V. ', 'I may not have nearl', 'If turn based strate']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21190&p=1&itemspage=2120&screenshotspage=2120&videospage=2120&artpage=2120&allguidepage=2120&webguidepage=2120&integratedguidepage=2120&discussionspage=2120&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['140.0', '22.1 ', '25.3 ', '679.1', '108.4', '163.9', '213.2', '238.1', '236.5', '63.4 ']
+
+['Great game , all the', 'Super adictive!', 'One of the greatest ', 'buy it i guess its p', 'Best game... =D', "it's is awesome game", 'Brillant game, I can', 'The best turn based ', 'Civilization 5 is pe']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21410&p=1&itemspage=2142&screenshotspage=2142&videospage=2142&artpage=2142&allguidepage=2142&webguidepage=2142&integratedguidepage=2142&discussionspage=2142&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['428.3', '735.7', '289.3', '56.5 ', '184.2', '322.0', '185.1', '191.5', '121.7', '1,894']
+
+['<3333333333333', 'Great game, addictiv', 'FREAKING AWESOME!!!!', 'The best mindless cl', 'Endlessly addicting,', 'This is literally th', 'Live forever in your', 'Gods and Kunts expan', 'Fantastic game for a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21460&p=1&itemspage=2147&screenshotspage=2147&videospage=2147&artpage=2147&allguidepage=2147&webguidepage=2147&integratedguidepage=2147&discussionspage=2147&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['137.6', '130.3', '120.8', '78.3 ', '303.7', '35.5 ', '728.6', '559.5', '157.9', '362.1']
+
+['awesome game that ha', 'Fantastic strategy g', 'The addictive nature', '(valid till... oh, t', 'A very good game', 'Do you like DLC? how', 'I have seriously onl', "Chad Nezzar's a good", 'Just... one... more.', "Gandhi's still an . ", 'Highly addictive and']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (13).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=21920&p=1&itemspage=2193&screenshotspage=2193&videospage=2193&artpage=2193&allguidepage=2193&webguidepage=2193&integratedguidepage=2193&discussionspage=2193&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['48.1 ', '390.6', '1,576', '71.4 ', '306.6', '906.6', '26.2 ', '429.5', '517.8', '259.3']
+
+["I'm conviced it's im", 'If you liked Civiliz', 'Every game can be di', 'The best strategy ga', 'Very great game. How', 'A great strategy gam', 'Egyptians in space', 'Greatest turn based ', "Sid Meier's Civiliza", 'The gold edition wil', 'Multiplayer is a hoo', 'If you like tactics,', 'Best slow paced stat']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22090&p=1&itemspage=2210&screenshotspage=2210&videospage=2210&artpage=2210&allguidepage=2210&webguidepage=2210&integratedguidepage=2210&discussionspage=2210&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1.8 h', '197.9', '34.8 ', '230.4', '551.3', '262.3', '290.6', '2.1 h', '307.1', '138.7']
+
+['xDDDDDDDDD', 'AMAZING Strategy gam', '...', 'thumps up', 'Civ RULES!', 'Very addicting!', 'This game , like eve', 'With the Gods and Ki', 'The best turn-based ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22170&p=1&itemspage=2218&screenshotspage=2218&videospage=2218&artpage=2218&allguidepage=2218&webguidepage=2218&integratedguidepage=2218&discussionspage=2218&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['202.3', '99.6 ', '423.4', '165.0', '227.2', '240.5', '156.8', '74.0 ', '480.9', '59.3 ']
+
+['Great game. Well wor', 'games take bare time', 'obviously', 'Yes much good', "Sid Meier's Civiliza", 'Civ5 is a great game', '.', 'In my opinion, Sid M', 'Time Sink. Makes you', 'good', 'Such a great game. P']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (14).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22210&p=1&itemspage=2222&screenshotspage=2222&videospage=2222&artpage=2222&allguidepage=2222&webguidepage=2222&integratedguidepage=2222&discussionspage=2222&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['212.5', '259.0', '76.6 ', '1,288', '505.5', '8.4 h', '121.0', '39.9 ', '60.0 ', '4.3 h']
+
+['Settler difficulty i', 'Played this before w', 'ruined my grades 10/', 'Been playing since 1', 'You would know if yo', 'Getting dem romans b', "It's a", 'different game from ', 'game than before, bu', 'game. It irked me at', 'obsolete Civ IV and ', '#togud4disshit', 'Wonders.', 'Love the graphics an']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22300&p=1&itemspage=2231&screenshotspage=2231&videospage=2231&artpage=2231&allguidepage=2231&webguidepage=2231&integratedguidepage=2231&discussionspage=2231&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['603.3', '79.1 ', '257.6', '57.6 ', '197.9', '44.8 ', '87.8 ', '201.0', '132.6', '500.8']
+
+['Gandhi is an . P.S. ', 'Though the AI is a b', 'Civilization: should', 'Are you searching fo', 'Just...one more turn', 'Super addictive, my ', 'This game is the mos', 'One of my best games', 'fun. but long.... I ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22340&p=1&itemspage=2235&screenshotspage=2235&videospage=2235&artpage=2235&allguidepage=2235&webguidepage=2235&integratedguidepage=2235&discussionspage=2235&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['561.4', '1,107', '117.5', '229.6', '293.1', '399.4', '122.8', '448.6', '33.6 ', '26.0 ']
+
+['A very addictive gam', 'After 1000 hours I d', 'for help, tips and o', 'An extremely addicti', 'Too addicting!', 'my game always crash', 'This game is a great', 'tons of fun. multipl', 'best game ever. peri', "It's a good game.", 'Das beste Civ das je']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22570&p=1&itemspage=2258&screenshotspage=2258&videospage=2258&artpage=2258&allguidepage=2258&webguidepage=2258&integratedguidepage=2258&discussionspage=2258&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['35.0 ', '63.8 ', '35.7 ', '84.2 ', '31.2 ', '31.0 ', '301.9', '481.5', '1,748', '86.6 ']
+
+['This is one of the o', 'A+ mazing', 'Loads of fun, you ca', 'I have played Civ ga', 'YES', 'Overall a fun, if ti', 'Very fun, lots of re', 'One of the best', "Haven't played it mu"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22700&p=1&itemspage=2271&screenshotspage=2271&videospage=2271&artpage=2271&allguidepage=2271&webguidepage=2271&integratedguidepage=2271&discussionspage=2271&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['252.0', '6.6 h', '62.4 ', '80.2 ', '69.0 ', '517.5', '27.3 ', '147.2', '374.2', '68.0 ']
+
+['I just beat the  out', "I'm not usually into", 'MEGA GAME!!!!!!!!!!!', 'its awesome', 'Bought the base game', 'Civilization is and ', 'Highly rated game, q', 'This game is amazing', 'Love this game!']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22740&p=1&itemspage=2275&screenshotspage=2275&videospage=2275&artpage=2275&allguidepage=2275&webguidepage=2275&integratedguidepage=2275&discussionspage=2275&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['18.7 ', '88.0 ', '256.4', '41.0 ', '585.9', '818.1', '127.1', '8.1 h', '71.6 ', '137.7']
+
+['Civilization V is pa', 'Brilliant. I still c', 'why doesnt the gold ', 'AMAZING!', 'For those looking fo', 'Great game', 'WHAT YEAR IS IT?', 'Prepare to surrender', 'Need I say anything?']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22890&p=1&itemspage=2290&screenshotspage=2290&videospage=2290&artpage=2290&allguidepage=2290&webguidepage=2290&integratedguidepage=2290&discussionspage=2290&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['713.0', '164.1', '11.0 ', '109.8', '118.9', '11.6 ', '167.1', '573.7', '155.9', '101.1']
+
+["I've been a fan of t", 'One of the Best', 'One of the greatest ', 'Love this game me an', 'This game is amazing', "I've played Civ sinc", 'The "lag" is caused ', 'One of the best game', 'Best what you can bu', 'Civilization V is mo', 'BUY']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=22940&p=1&itemspage=2295&screenshotspage=2295&videospage=2295&artpage=2295&allguidepage=2295&webguidepage=2295&integratedguidepage=2295&discussionspage=2295&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['206.7', '5.9 h', '68.4 ', '10.8 ', '547.3', '81.1 ', '242.8', '329.4', '148.7', '72.5 ']
+
+['this game use a lot ', 'Just. One. More. Tur', 'This is freaking aws', 'good strategy game', 'Definately a worthwh', 'Great strategy game ', 'Awesome game! If you', 'Basically the crack ', 'Every wanted to rule']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23030&p=1&itemspage=2304&screenshotspage=2304&videospage=2304&artpage=2304&allguidepage=2304&webguidepage=2304&integratedguidepage=2304&discussionspage=2304&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['190.2', '894.0', '178.0', '183.5', '348.0', '76.2 ', '333.2', '38.3 ', '29.0 ', '182.8']
+
+['Yes', "I've spent many a da", 'One of the best stra', "Steam won't let me p", 'This game generates ', 'This game is probabl', "It's turn based stra", 'Just one more turn..', "Sid Meier's Civiliza"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23040&p=1&itemspage=2305&screenshotspage=2305&videospage=2305&artpage=2305&allguidepage=2305&webguidepage=2305&integratedguidepage=2305&discussionspage=2305&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['154.1', '226.7', '74.6 ', '50.8 ', '523.5', '531.1', '109.4', '326.8', '158.3', '65.4 ']
+
+['For casuals, by casu', 'What can I say about', 'its a really good ga', 'Keeps my mind thinki', 'Great gameee', 'Most addictive game.', 'Brave New World has ', 'Get this or its a si', 'cockmaister 6000']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23100&p=1&itemspage=2311&screenshotspage=2311&videospage=2311&artpage=2311&allguidepage=2311&webguidepage=2311&integratedguidepage=2311&discussionspage=2311&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['476.0', '87.3 ', '115.7', '173.7', '55.1 ', '207.3', '60.8 ', '41.2 ', '61.3 ', '1,065']
+
+['fun.', 'No one is kidding wh', 'So much fun very ste', 'a must have.', 'Is awesome', 'Yeah this game is am', 'One of the best stra', 'REally fun once you ', 'Amazing game that on']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23260&p=1&itemspage=2327&screenshotspage=2327&videospage=2327&artpage=2327&allguidepage=2327&webguidepage=2327&integratedguidepage=2327&discussionspage=2327&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['187.8', '735.9', '255.6', '82.5 ', '280.3', '60.6 ', '57.3 ', '743.7', '2,256', '133.8']
+
+['Very long but very f', "On it's own, Civ V i", 'Best. Game. Ever.', 'Epic, best ever Civi', 'Worth every penny, r', 'With different game ', 'Very good game! Enjo', 'GotY and the best Ci', ':^]']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23490&p=1&itemspage=2350&screenshotspage=2350&videospage=2350&artpage=2350&allguidepage=2350&webguidepage=2350&integratedguidepage=2350&discussionspage=2350&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['14.1 ', '219.5', '9.9 h', '15.9 ', '212.7', '146.8', '369.3', '595.5', '53.0 ', '55.0 ']
+
+['Be careful, this gam', 'One more turn can le', 'I would highly recom', 'This is my', 'game, I went straigh', 'This might possibly ', 'The good old Civ exp', 'Excellent game. It i', 'Yes I do. It is a fu', 'Civ V before the exp', 'Super fun and addict']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23510&p=1&itemspage=2352&screenshotspage=2352&videospage=2352&artpage=2352&allguidepage=2352&webguidepage=2352&integratedguidepage=2352&discussionspage=2352&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['96.8 ', '48.6 ', '204.1', '85.6 ', '36.8 ', '37.2 ', '221.1', '155.0', '39.1 ', '198.0']
+
+['Good game overall, b', 'AMAZING GAME GET IT!', 'All around one of th', 'a really awesome tur', 'Hell of a time kille', 'Lack dexterity, but ', 'This game is simply ', 'I need to leave my r', 'Stupidly addicting']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=23660&p=1&itemspage=2367&screenshotspage=2367&videospage=2367&artpage=2367&allguidepage=2367&webguidepage=2367&integratedguidepage=2367&discussionspage=2367&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['164.0', '304.1', '211.4', '101.1', '114.2', '30.4 ', '81.8 ', '33.9 ', '14.0 ', '223.7']
+
+['ermagerd gersbermps', 'This game is a beaut', 'For those of you loo', 'This game comes free', 'This game is a aswom', 'Civ 5 on Mac needs t', 'YEAH! CIV 5 OP!', 'Bloody super duper g', 'I know that a lot of']
+
+
+Warning: len(hours) (9) not equal to len(range_reviews) (10).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=24210&p=1&itemspage=2422&screenshotspage=2422&videospage=2422&artpage=2422&allguidepage=2422&webguidepage=2422&integratedguidepage=2422&discussionspage=2422&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['305.4', '291.6', '83.4 ', '60.1 ', '329.0', '151.9', '236.9', '132.6', '194.9']
+
+['This has entertained', 'Buy this already!', 'Civilization 5 is a ', 'Once upon a time, a ', 'Vastly improved over', "They've done some gr", 'The king of all stra', '10/10 game,one of th', 'Just... one... more.', 'Very addictive game.']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=24380&p=1&itemspage=2439&screenshotspage=2439&videospage=2439&artpage=2439&allguidepage=2439&webguidepage=2439&integratedguidepage=2439&discussionspage=2439&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['342.0', '24.1 ', '231.2', '805.5', '70.1 ', '520.4', '235.1', '28.6 ', '14.7 ', '92.1 ']
+
+['Game is amazing, tho', 'Game i a blast and i', 'Other than the In-Ga', 'this game will blow ', 'Great game. requires', "I can't recommend th", 'Addictive and Ghandi', 'best game to lose yo', 'Bought the GOLD Edit']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=24460&p=1&itemspage=2447&screenshotspage=2447&videospage=2447&artpage=2447&allguidepage=2447&webguidepage=2447&integratedguidepage=2447&discussionspage=2447&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['154.1', '226.7', '74.6 ', '50.8 ', '523.5', '531.1', '109.4', '326.8', '158.3', '65.4 ']
+
+['For casuals, by casu', 'What can I say about', 'its a really good ga', 'Keeps my mind thinki', 'Great gameee', 'Most addictive game.', 'Brave New World has ', 'Get this or its a si', 'cockmaister 6000']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=24600&p=1&itemspage=2461&screenshotspage=2461&videospage=2461&artpage=2461&allguidepage=2461&webguidepage=2461&integratedguidepage=2461&discussionspage=2461&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['635.6', '182.4', '76.2 ', '115.2', '94.7 ', '45.5 ', '293.3', '877.0', '3.6 h', '59.0 ']
+
+['An entertaining stra', 'best strategy game e', 'This game is insanel', 'Classic turn-by-turn', 'Very fun, but takes ', 'This games visiual e', 'So gripped. Much add', 'Awesome game! Makes ', "Sid Meier's Civiliza"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=24990&p=1&itemspage=2500&screenshotspage=2500&videospage=2500&artpage=2500&allguidepage=2500&webguidepage=2500&integratedguidepage=2500&discussionspage=2500&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['61.0 ', '146.2', '204.9', '160.3', '59.2 ', '21.7 ', '107.6', '284.5', '377.2', '243.5']
+
+[':D', 'Best Civilization of', 'The best turn based ', 'A very great strateg', 'simply awesome', 'Excellent tactical b', 'Another great Civili', 'My absolute favorite', "Don't play this, it'"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25190&p=1&itemspage=2520&screenshotspage=2520&videospage=2520&artpage=2520&allguidepage=2520&webguidepage=2520&integratedguidepage=2520&discussionspage=2520&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['238.6', '111.0', '256.4', '117.7', '783.5', '152.9', '265.5', '354.5', '24.8 ', '84.1 ']
+
+["You still don't own ", ', and can leave hard', 'good as boobs', 'Awesome, addictive a', 'how do you turn the ', 'One of the best TBS ', 'With the new expansi', '10/10 would bang', 'Great strategy game ', 'Bye bye life.', 'Good game to play wi']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25240&p=1&itemspage=2525&screenshotspage=2525&videospage=2525&artpage=2525&allguidepage=2525&webguidepage=2525&integratedguidepage=2525&discussionspage=2525&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['434.1', '84.2 ', '12.2 ', '179.9', '40.0 ', '70.8 ', '121.0', '48.1 ', '293.2', '241.8']
+
+['Start playing and be', 'Very good game and a', 'Amazing strategy gam', 'Fantastic game and t', 'Great game, very add', 'you can play this ga', 'My all time favorite', 'Fukn peice of  m8, 1', 'I love this game! I ', 'A strategy game that', 'is an constantly ent']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25280&p=1&itemspage=2529&screenshotspage=2529&videospage=2529&artpage=2529&allguidepage=2529&webguidepage=2529&integratedguidepage=2529&discussionspage=2529&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['85.3 ', '912.3', '328.1', '326.8', '402.1', '37.5 ', '125.0', '402.3', '224.0', '4.6 h']
+
+["I've never been more", 'CIv V is a great gam', '1 Turn Away from fin', "I've put more hours ", 'The best Turned-Base', 'One of the most addi', 'Best One Yet!', 'The definitve archet', "I've been playing Ci"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25320&p=1&itemspage=2533&screenshotspage=2533&videospage=2533&artpage=2533&allguidepage=2533&webguidepage=2533&integratedguidepage=2533&discussionspage=2533&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['538.5', '15.0 ', '69.7 ', '44.1 ', '85.8 ', '166.9', '98.6 ', '3.4 h', '653.6', '64.1 ']
+
+['Ever dreamed of ruli', 'Story: Civilization ', 'The crashes with no ', 'This game is super f', 'After hours of gamep', 'Do you value your sp', 'the indian guy.', 'if your fine with ne', 'A good game but alwa', 'This game from the S', 'I have severely unde']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25430&p=1&itemspage=2544&screenshotspage=2544&videospage=2544&artpage=2544&allguidepage=2544&webguidepage=2544&integratedguidepage=2544&discussionspage=2544&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['355.5', '39.2 ', '327.4', '124.4', '182.3', '380.8', '198.4', '549.2', '81.0 ', '427.5']
+
+['This is possibly the', ', but even this cann', 'I have had this game', 'This is an amazing g', 'A Must Buy', 'I can play as brazil', 'this is a good time', 'An absolutely mind b', 'Highly recomend this', 'Its a great strategy', 'Civ 5 is amazing, yo']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25610&p=1&itemspage=2562&screenshotspage=2562&videospage=2562&artpage=2562&allguidepage=2562&webguidepage=2562&integratedguidepage=2562&discussionspage=2562&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['400.4', '304.0', '99.7 ', '146.6', '418.9', '322.7', '185.5', '660.0', '64.2 ', '8.9 h']
+
+['Buy it. Play it. Liv', 'Man you could play t', 'Excelente jogo de es', 'Gods and Kings expan', 'better than total wa', "Be 'Merica...... and", 'Not only have I been', 'Amazing Turn Based S', 'Best strategy game o']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25770&p=1&itemspage=2578&screenshotspage=2578&videospage=2578&artpage=2578&allguidepage=2578&webguidepage=2578&integratedguidepage=2578&discussionspage=2578&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['140.6', '244.0', '70.3 ', '269.9', '727.6', '84.4 ', '58.1 ', '7.0 h', '130.3', '339.3']
+
+['Great game, highly r', 'Maybe the most addic', 'Great strategy game.', 'its a rearly good an', '"12/10 would nuke ag', 'amazing game', 'Sid Meier is a demon', 'EVERY TIME I WANT TO', 'AND LET ME NO WHATS ', 'I have played over 6', 'I accidentally nuked']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25810&p=1&itemspage=2582&screenshotspage=2582&videospage=2582&artpage=2582&allguidepage=2582&webguidepage=2582&integratedguidepage=2582&discussionspage=2582&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['20.9 ', '30.6 ', '482.2', '94.6 ', '9.1 h', '95.0 ', '387.5', '12.1 ', '38.5 ', '47.3 ']
+
+['very fun game', 'wumbo', 'Very fun game. Lots ', 'Sooo addictive :O by', 'Awesome. New to this', 'i like this game alo', 'I played this for 16', 'Buy this game. So mu', 'Everyone should buy ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25820&p=1&itemspage=2583&screenshotspage=2583&videospage=2583&artpage=2583&allguidepage=2583&webguidepage=2583&integratedguidepage=2583&discussionspage=2583&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['156.0', '181.3', '88.8 ', '547.0', '48.2 ', '446.8', '166.9', '37.3 ', '85.8 ', '530.8']
+
+['Great game but if yo', 'Just One another Tur', 'Quite possibly one o', 'Embellishment such a', 'Relaxing game, be pr', 'What a great game! I', 'Multiple ways to win', 'Prepare to sink HOUR', 'Great game its HIGHL', 'When I first got thi', 'There is so much dep']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (15).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=25970&p=1&itemspage=2598&screenshotspage=2598&videospage=2598&artpage=2598&allguidepage=2598&webguidepage=2598&integratedguidepage=2598&discussionspage=2598&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['132.2', '172.9', '65.9 ', '210.4', '409.9', '599.7', '54.6 ', '80.2 ', '45.5 ', '8.0 h']
+
+['Civilization V is a ', '10/10 simply because', 'next turn!', 'Why you do this to m', 'EPIC', 'JUST ONE MORE TURN, ', 'Love, love, love thi', 'You can reinact all ', 'you ghandi', '+Fun game: One of th', 'What you choose real', 'Not only is it very ', 'Great concept where ', 'Like many strategy g', 'While it is pretty e']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26060&p=1&itemspage=2607&screenshotspage=2607&videospage=2607&artpage=2607&allguidepage=2607&webguidepage=2607&integratedguidepage=2607&discussionspage=2607&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['265.0', '19.5 ', '292.5', '50.6 ', '129.8', '101.0', '627.5', '178.0', '707.3', '130.9']
+
+["It's a very great ga", 'Very impressive game', 'gg!!!', 'A great game to play', '.', 'YES ITS AWESOME FOR ', 'This game never gets', 'Short version and ar', '10/10 would fail uni', 'One of the best turn', 'Use Gandhi, kill eve']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26090&p=1&itemspage=2610&screenshotspage=2610&videospage=2610&artpage=2610&allguidepage=2610&webguidepage=2610&integratedguidepage=2610&discussionspage=2610&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['96.5 ', '56.2 ', '67.5 ', '47.1 ', '80.3 ', '130.8', '192.9', '193.9', '132.0', '914.8']
+
+['Great Strategic Game', 'Fantastic game. 10/1', 'Great game with an i', "Just don't even thin", 'Hours will be spent ', 'This game is going t', 'Never gets old.', 'Wonderful strategy g', 'in that it', 'ruin friendships Pri', 'I play this game som', 'There is no better w']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26310&p=1&itemspage=2632&screenshotspage=2632&videospage=2632&artpage=2632&allguidepage=2632&webguidepage=2632&integratedguidepage=2632&discussionspage=2632&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['1,737', '28.2 ', '133.2', '535.5', '32.7 ', '43.8 ', '408.6', '47.5 ', '190.2', '220.4']
+
+['Amazing. Just amazin', 'One.... more.... tur', 'Civ 5 is absolutely ', "This is the world's ", 'Bezva strategie', 'Love this game! Civ ', 'Just one more turn..', 'Very solid. One of t', 'The best turn based ']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26440&p=1&itemspage=2645&screenshotspage=2645&videospage=2645&artpage=2645&allguidepage=2645&webguidepage=2645&integratedguidepage=2645&discussionspage=2645&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['104.9', '79.1 ', '1,106', '185.7', '366.0', '96.5 ', '162.7', '61.6 ', '152.6', '558.8']
+
+['What Can I say about', 'BEST GAME EVER .. ho', 'Judging by my playti', 'Amazing game, Absolu', 'best game', 'Civ V is the first c', 'As someone who enjoy', 'Fun game, plenty of ', 'This game is the bes']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26500&p=1&itemspage=2651&screenshotspage=2651&videospage=2651&artpage=2651&allguidepage=2651&webguidepage=2651&integratedguidepage=2651&discussionspage=2651&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['133.5', '688.1', '428.9', '59.1 ', '591.2', '5.6 h', '261.5', '15.5 ', '233.0', '719.2']
+
+['just one more turn', 'Excellent game will ', 'lost my job, my girl', "I'm really enjoying ", 'This game is crazy f', 'More Reviews at', 'A Great Turn-Based S', 'I enjoy the game. St', 'huehue ghandi numero', 'This is a masterwork', '400 hours+ really fu']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26700&p=1&itemspage=2671&screenshotspage=2671&videospage=2671&artpage=2671&allguidepage=2671&webguidepage=2671&integratedguidepage=2671&discussionspage=2671&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['72.3 ', '388.1', '192.9', '281.7', '1.3 h', '133.3', '48.8 ', '107.3', '80.0 ', '49.7 ']
+
+['"I will play just on', 'hours of fun...', 'I started the game. ', 'Great Linux support ', 'Really can bring out', 'Civilization V is Lo', 'This game is very ti', 'As a long time Civ f', 'Best strategy game o']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=26980&p=1&itemspage=2699&screenshotspage=2699&videospage=2699&artpage=2699&allguidepage=2699&webguidepage=2699&integratedguidepage=2699&discussionspage=2699&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['110.5', '661.8', '1,565', '100.8', '158.1', '1,023', '66.0 ', '122.7', '244.9', '13.2 ']
+
+["It's Civ, you go int", 'love this games easy', 'My playtime says it ', 'Amazing Turn-Based s', 'so epic game!', 'Best Game Ever.', 'Hands down the best ', 'One of the nicer str', 'With a second expans']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=27040&p=1&itemspage=2705&screenshotspage=2705&videospage=2705&artpage=2705&allguidepage=2705&webguidepage=2705&integratedguidepage=2705&discussionspage=2705&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['250.6', '57.2 ', '106.2', '268.1', '78.7 ', '136.9', '144.7', '221.4', '104.3', '126.8']
+
+['Great for long perio', 'All i can say is....', 'love this game it is', 'Buy it, and you will', 'Fun.', 'Civilization 5 is on', 'Great turn based str', 'Highly addictive gam', "It's ok"]
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (12).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=27220&p=1&itemspage=2723&screenshotspage=2723&videospage=2723&artpage=2723&allguidepage=2723&webguidepage=2723&integratedguidepage=2723&discussionspage=2723&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['120.4', '298.2', '204.1', '74.1 ', '147.5', '1,685', '1,141', '1,661', '30.8 ', '54.5 ']
+
+['Amazing turn based s', 'Probably one of the ', '...one more turn... ', 'I destroyed China af', 'Highest Scoring: 5/5', 'STEAM:', 'WEBSITE:', 'I am hopeing the DLC', "Sid meirs's Civiliza", 'Incredibly replayabl', 'A great strategy gam', 'Another great instal']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (11).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=27290&p=1&itemspage=2730&screenshotspage=2730&videospage=2730&artpage=2730&allguidepage=2730&webguidepage=2730&integratedguidepage=2730&discussionspage=2730&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['654.4', '24.4 ', '293.6', '573.1', '493.9', '256.0', '344.0', '38.7 ', '56.6 ', '84.5 ']
+
+['If you want fast pac', "Sid Meier's Civiliza", 'When you have a game', 'fun to play alone , ', 'Civilization has alw', 'The game starts you ', 'Ghandi...', 'Awesome game :-D', 'Two words: time sink', 'Great game always fu', 'if you like games th']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=27500&p=1&itemspage=2751&screenshotspage=2751&videospage=2751&artpage=2751&allguidepage=2751&webguidepage=2751&integratedguidepage=2751&discussionspage=2751&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['36.3 ', '49.9 ', '130.6', '143.0', '70.9 ', '169.2', '27.5 ', '121.2', '668.5', '20.4 ']
+
+['Bi i was in playin c', 'Really good, I suck ', 'This is a time sink.', "I don't like that th", 'When you first get i', 'I end up playing thi', 'This Game is the bes', 'But yeees my units a', 'Fun...and great to p']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
+URL: http://steamcommunity.com/app/8930/homecontent/?userreviewsoffset=27560&p=1&itemspage=2757&screenshotspage=2757&videospage=2757&artpage=2757&allguidepage=2757&webguidepage=2757&integratedguidepage=2757&discussionspage=2757&appid=8930&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1
+['183.5', '143.3', '217.7', '8.2 h', '15.1 ', '85.6 ', '252.5', '273.7', '328.4', '124.7']
+
+['Time flies by with t', 'Something to keep in', 'a must have game!!', '"its 4AM, just one m', 'A really great game ', 'My first turn based ', 'i cannot think of a ', 'I would reccomend th', 'get the game it is a']
+
+
+Warning: len(hours) (10) not equal to len(range_reviews) (9).
+
