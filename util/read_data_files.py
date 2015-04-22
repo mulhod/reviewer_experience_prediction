@@ -39,7 +39,9 @@ def get_reviews_for_game(file_name):
             continue
         # Skip reviews with more than 1000 characters (?)
         # Insert code here
-        # Skip if number of hours is greater than 5000
+        # Skip if number of hours is less than 5 or greater than 5000
+        if h < 10:
+            i += 2
         if h > 5000:
             i += 2
             continue
@@ -52,6 +54,23 @@ def get_reviews_for_game(file_name):
         r = re.sub(r"\bwasnt\b", r"wasn't", r, re.IGNORECASE)
         # werent ==> weren't
         r = re.sub(r"\bwerent\b", r"weren't", r, re.IGNORECASE)
+        #aint ==> am not
+        r = re.sub(r"\aint\b", r"am not", r, re.IGNORECASE)
+        #arent ==> are not
+        r = re.sub(r"\arent\b", r"are not", r, re.IGNORECASE)
+        #cant ==> can not
+        r = re.sub(r"\cant\b", r"can not", r, re.IGNORECASE)
+          #didnt ==> does not
+        r = re.sub(r"\didnt\b", r"does not", r, re.IGNORECASE)
+          #havent ==> have not
+        r = re.sub(r"\havent\b", r"have not", r, re.IGNORECASE)
+          #hows ==> how is
+        r = re.sub(r"\hows\b", r"how is", r, re.IGNORECASE)
+          #theres ==> there is
+        r = re.sub(r"\theres\b", r"there is", r, re.IGNORECASE)
+          #theyll ==> they will
+        r = re.sub(r"\theyll\b", r"they will", r, re.IGNORECASE)
+        
         # Get the hang of it now?
         # Insert more contraction code here
         # Now we append the 2-key dict to the end of reviews
