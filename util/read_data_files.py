@@ -60,33 +60,33 @@ def get_reviews_for_game(file_name):
         # werent ==> weren't
         r = re.sub(r"\bwerent\b", r"weren't", r, re.IGNORECASE)
         #aint ==> am not
-        r = re.sub(r"\aint\b", r"am not", r, re.IGNORECASE)
+        r = re.sub(r"\baint\b", r"am not", r, re.IGNORECASE)
         #arent ==> are not
-        r = re.sub(r"\arent\b", r"are not", r, re.IGNORECASE)
+        r = re.sub(r"\barent\b", r"are not", r, re.IGNORECASE)
         #cant ==> can not
-        r = re.sub(r"\cant\b", r"can not", r, re.IGNORECASE)
-          #didnt ==> does not
-        r = re.sub(r"\didnt\b", r"did not", r, re.IGNORECASE)
-          #havent ==> have not
-        r = re.sub(r"\havent\b", r"have not", r, re.IGNORECASE)
-          #ive ==> I have
-        r = re.sub(r"\ive\b", r"I have", r, re.IGNORECASE)
-          #isnt ==> is not
-        r = re.sub(r"\isnt\b", r"is not", r, re.IGNORECASE)
-          #theyll ==> they will
-        r = re.sub(r"\theyll\b", r"they will", r, re.IGNORECASE)
-           #thats ==> that's
-        r = re.sub(r"\thatsl\b", r"that's", r, re.IGNORECASE)
-           #whats ==> what's
-        r = re.sub(r"\whats\b", r"what's", r, re.IGNORECASE)
-           #wouldnt ==> would not
-        r = re.sub(r"\wouldnt\b", r"would not", r, re.IGNORECASE)
-           #im ==> I am
-        r = re.sub(r"\im\b", r"I am", r, re.IGNORECASE)
-           #youre ==> you are
-        r = re.sub(r"\youre\b", r"you are", r, re.IGNORECASE)
-            #youve ==> you have
-        r = re.sub(r"\youve\b", r"you have", r, re.IGNORECASE)
+        r = re.sub(r"\bcant\b", r"can not", r, re.IGNORECASE)
+        #didnt ==> does not
+        r = re.sub(r"\bdidnt\b", r"did not", r, re.IGNORECASE)
+        #havent ==> have not
+        r = re.sub(r"\bhavent\b", r"have not", r, re.IGNORECASE)
+        #ive ==> I have
+        r = re.sub(r"\bive\b", r"I have", r, re.IGNORECASE)
+        #isnt ==> is not
+        r = re.sub(r"\bisnt\b", r"is not", r, re.IGNORECASE)
+        #theyll ==> they will
+        r = re.sub(r"\btheyll\b", r"they will", r, re.IGNORECASE)
+        #thats ==> that's
+        r = re.sub(r"\bthatsl\b", r"that's", r, re.IGNORECASE)
+        #whats ==> what's
+        r = re.sub(r"\bwhats\b", r"what's", r, re.IGNORECASE)
+        #wouldnt ==> would not
+        r = re.sub(r"\bwouldnt\b", r"would not", r, re.IGNORECASE)
+        #im ==> I am
+        r = re.sub(r"\bim\b", r"I am", r, re.IGNORECASE)
+        #youre ==> you are
+        r = re.sub(r"\byoure\b", r"you are", r, re.IGNORECASE)
+        #youve ==> you have
+        r = re.sub(r"\byouve\b", r"you have", r, re.IGNORECASE)
         
         #cases which I'm not sure we should change - ill, it, and  lets
         
