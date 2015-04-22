@@ -37,11 +37,15 @@ def get_reviews_for_game(file_name):
         if len(r) <= 50:
             i += 2
             continue
+        if len(r) > 1000:
+            i +=2
+            continue
         # Skip reviews with more than 1000 characters (?)
         # Insert code here
         # Skip if number of hours is less than 5 or greater than 5000
         if h < 10:
             i += 2
+            continue
         if h > 5000:
             i += 2
             continue
