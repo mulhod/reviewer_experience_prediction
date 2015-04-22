@@ -50,6 +50,7 @@ def get_reviews_for_game(file_name):
             i += 2
             continue
         # Contraction rules
+        # these were the ones grepped in the current data files Matt obtained
         # wont ==> won't
         r = re.sub(r"\bwont\b", r"won't", r, re.IGNORECASE)
         # dont ==> don't
@@ -65,15 +66,29 @@ def get_reviews_for_game(file_name):
         #cant ==> can not
         r = re.sub(r"\cant\b", r"can not", r, re.IGNORECASE)
           #didnt ==> does not
-        r = re.sub(r"\didnt\b", r"does not", r, re.IGNORECASE)
+        r = re.sub(r"\didnt\b", r"did not", r, re.IGNORECASE)
           #havent ==> have not
         r = re.sub(r"\havent\b", r"have not", r, re.IGNORECASE)
-          #hows ==> how is
-        r = re.sub(r"\hows\b", r"how is", r, re.IGNORECASE)
-          #theres ==> there is
-        r = re.sub(r"\theres\b", r"there is", r, re.IGNORECASE)
+          #ive ==> I have
+        r = re.sub(r"\ive\b", r"I have", r, re.IGNORECASE)
+          #isnt ==> is not
+        r = re.sub(r"\isnt\b", r"is not", r, re.IGNORECASE)
           #theyll ==> they will
         r = re.sub(r"\theyll\b", r"they will", r, re.IGNORECASE)
+           #thats ==> that's
+        r = re.sub(r"\thatsl\b", r"that's", r, re.IGNORECASE)
+           #whats ==> what's
+        r = re.sub(r"\whats\b", r"what's", r, re.IGNORECASE)
+           #wouldnt ==> would not
+        r = re.sub(r"\wouldnt\b", r"would not", r, re.IGNORECASE)
+           #im ==> I am
+        r = re.sub(r"\im\b", r"I am", r, re.IGNORECASE)
+           #youre ==> you are
+        r = re.sub(r"\youre\b", r"you are", r, re.IGNORECASE)
+            #youve ==> you have
+        r = re.sub(r"\youve\b", r"you have", r, re.IGNORECASE)
+        
+        #cases which I'm not sure we should change - ill, it, and  lets
         
         # Get the hang of it now?
         # Insert more contraction code here
