@@ -174,7 +174,7 @@ if __name__ == '__main__':
                        '{}.txt'.format(game)),
                   'w') as of:
             for review_set in get_review_data_for_game(APPID_DICT[game],
-                                                       time_out=120.0):
+                                                       time_out=60.0):
                 for review in review_set:
                     of.write('game-hours: {0[1]}\n' \
                              'review: {0[0]}\n'.format(review))
