@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 from langdetect import detect
 from os.path import dirname, realpath, join
 
@@ -30,9 +31,6 @@ def get_reviews_for_game(file_name):
         except (ValueError, IndexError) as e:
             i += 2
             continue
-        if not detect(r) == 'en':
-            i += 2
-            continue
         # Skip reviews that don't have at least 50 characters
         if len(r) <= 50:
             i += 2
@@ -47,6 +45,14 @@ def get_reviews_for_game(file_name):
             i += 2
             continue
         if h > 5000:
+            i += 2
+            continue
+        # Skip reviews if they cannot be recognized as English
+        try:
+            if not detect(r) == 'en':
+                i += 2
+                continue
+        except LangDetectError:
             i += 2
             continue
         # Contraction rules
