@@ -4,7 +4,6 @@ import re
 import argparse
 import time
 from os.path import realpath, abspath, dirname, join, basename
-#from nltk import sent_tokenize, word_tokenize
 from util.read_data_files import get_reviews_for_game
 
 ARFF_BASE = \
