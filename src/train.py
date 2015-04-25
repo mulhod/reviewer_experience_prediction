@@ -1,11 +1,13 @@
 '''
-@author: Matt Mulholland
+@author: Matt Mulholland, Janette Martinez, Emily Olshefski
 @date: 3/18/15
 
-Module for Review objects, which include attributes representing the original text, the preprocessed version of the text, processed representations of the text, time author spent playing video game, author, game, etc.
+Script used to train a model on a given data-set (or multiple data-sets combined).
 '''
 import sys
 import re
+import pymongo
+import argparse
 from collections import Counter
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import SnowballStemmer
@@ -70,10 +72,10 @@ class Review(object):
         self.pos_sents = pos_tag()
         self.parsed_sents = parse()
 
-        # Features
-        self.ngrams = 
-        self.char_ngrams = 
-        self.dep = 
+        # Feature frequency distributions
+        self.ngrams = Counter()
+        self.char_ngrams = Counter()
+        self.dep = Counter()
 
 
     @staticmethod
@@ -170,50 +172,70 @@ class Review(object):
         raise NotImplementedError
 
 
-    @staticmethod
-    def generate_ngram_fdist(sents, _min=1, _max=5, lower=True):
-        '''
-        Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
+def generate_ngram_fdist(sents, _min=1, _max=3, lower=True):
+    '''
+    Generate frequency distribution for the tokens in the text.
 
-        :param sents: list of sentence-corresponding lists (of characters, tokens, etc.) that can be chopped up into n-grams.
-        :type sents: list of lists/strs
-        :param _min: minimum value of n for n-gram extraction
-        :type _min: int
-        :param _max: maximum value of n for n-gram extraction
-        :type _max: int
-        :param lower: whether or not to lower-case the text (True by default)
-        :type lower: boolean
-        :returns: Counter
-        '''
+    :param sents: list of sentence-corresponding lists of tokens that can be chopped up into n-grams.
+    :type sents: list of lists/strs
+    :param _min: minimum value of n for n-gram extraction
+    :type _min: int
+    :param _max: maximum value of n for n-gram extraction
+    :type _max: int
+    :param lower: whether or not to lower-case the text (True by default)
+    :type lower: boolean
+    :returns: Counter
+    '''
 
-        raise NotImplementedError
+    raise NotImplementedError
+
+
+def generate_cngram_fdist(sents, _min=2, _max=5, lower=False):
+    '''
+    Generate frequency distribution for the characters in the text.
+
+    :param sents: list of sentence-corresponding lists of characters that can be chopped up into n-grams.
+    :type sents: list of lists/strs
+    :param _min: minimum value of n for n-gram extraction
+    :type _min: int
+    :param _max: maximum value of n for n-gram extraction
+    :type _max: int
+    :param lower: whether or not to lower-case the text (False by default)
+    :type lower: boolean
+    :returns: Counter
+    '''
+
+    raise NotImplementedError
+
+
+def generate_suffix_tree(self, max_depth=5):
+    '''
+    Generate suffix tree of a specified maximum depth (defaults to 5).
+
+    :param max_depth: 
+    :type max_depth: int
+    '''
+
+    raise NotImplementedError
+
+
+if __name__ == '__main__':
+
+    parser = argparse.ArgumentParser(usage='python train.py',
+        description='Build a machine learning model based on the ' \
+                    'features that are extracted from a set of reviews ' \
+                    'relating to a specific game or a set of games.',
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+    parser.add_argument('--game_files',
+        help='comma-separated list of file-names or "all" for all of the ' \
+             'files (the game files should reside in the "data" directory)',
+        type=str,
+        required=True)
+    args = parser.parse_args()
+
+    # Establish connection to MongoDB database
+    connection = pymongo.MongoClient('mongodb://localhost:27017')
+    db = connection['reviews_project']
+    reviewdb = db['reviews']
+
     
-    
-    @staticmethod
-    def generate_cngram_fdist(sents, _min=1, _max=5, lower=False):
-        '''
-        Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
-
-        :param sents: list of sentence-corresponding lists (of characters, tokens, etc.) that can be chopped up into n-grams.
-        :type sents: list of lists/strs
-        :param _min: minimum value of n for n-gram extraction
-        :type _min: int
-        :param _max: maximum value of n for n-gram extraction
-        :type _max: int
-        :param lower: whether or not to lower-case the text (True by default)
-        :type lower: boolean
-        :returns: Counter
-        '''
-
-        raise NotImplementedError
-
-
-    def generate_suffix_tree(self, max_depth=5):
-        '''
-        Generate suffix tree of a specified maximum depth (defaults to 5).
-
-        :param max_depth: 
-        :type max_depth: int
-        '''
-
-        raise NotImplementedError
