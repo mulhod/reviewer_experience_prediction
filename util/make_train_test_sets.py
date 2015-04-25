@@ -3,8 +3,9 @@ import sys
 import argparse
 import pymongo
 from os import listdir
-from os.path import join, basename, abspath
+from os.path import join, basename, abspath, dirname, realpath
 from math import ceil
+from random import randint
 from random import shuffle
 from util.read_data_files import get_reviews_for_game
 
@@ -30,18 +31,25 @@ def insert_reviews(file_path):
     MINLEN = FILTER_DICT[game]['MINLEN']
     MAXHOURS = FILTER_DICT[game]['MAXHOURS']
     MINHOURS = FILTER_DICT[game]['MINHOURS']
+    sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
+                     'hours: {}\nMin. # of hours: {}\n\n'.format(MAXLEN,
+                                                                 MINLEN, 
+                                                                 MAXHOURS,
+                                                                 MINHOURS))
     
     sys.stderr.write('Inserting reviews from {}...\n'.format(game))
 
     # Get list of all reviews represented as dictionaries with 'review' and
     # 'hours' keys
     reviews = get_reviews_for_game(file_path)
+    sys.stderr.write('Number of original, English language reviews ' \
+                     'collected: {}\n'.format(len(reviews)))
 
     # Here we refer to the game-specific values for filtering out outliers
-    reviews = [r for r in reviews if len(r) <= MAXLEN
-                                  and if len(r) >= MINLEN
-                                  and if r['hours'] <= MAXHOURS
-                                  and if r['hours'] >= MINHOURS]
+    reviews = [r for r in reviews if len(r['review']) <= MAXLEN
+                                  and len(r['review']) >= MINLEN
+                                  and r['hours'] <= MAXHOURS
+                                  and r['hours'] >= MINHOURS]
 
     # Shuffle the list of reviews so that we randomize it
     shuffle(reviews)
@@ -56,11 +64,11 @@ def insert_reviews(file_path):
     # making the training/test sets
     training_set_size = ceil((len(reviews)/3)*2)
     training_reviews = reviews[:training_set_size + 1]
-    test_reviews = reviews[training_set_size:]
+    test_reviews = reviews[training_set_size + 1:]
     sys.stderr.write('Number of training set reviews: {}\n'.format(len(
-        training_reviews))
+        training_reviews)))
     sys.stderr.write('Number of test set reviews: {}\n'.format(len(
-        test_reviews))
+        test_reviews)))
 
     # Insert training set reviews into MongoDB collection
     for r in training_reviews:
@@ -69,6 +77,11 @@ def insert_reviews(file_path):
         r['game'] = game
         r['appid'] = appid
         r['partition'] = 'training'
+        # If a review that is exactly like the one we're inserting now
+        # already exists, then change this one's _id key manually and then
+        # try to insert
+        if reviewdb.find_one(r):
+            r['_id'] = randint(0,1000000)
         reviewdb.insert(r)
     # Insert test set reviews into MongoDB collection
     for r in test_reviews:
@@ -77,6 +90,11 @@ def insert_reviews(file_path):
         r['game'] = game
         r['appid'] = appid
         r['partition'] = 'test'
+        # If a review that is exactly like the one we're inserting now
+        # already exists, then change this one's _id key manually and then
+        # try to insert
+        if reviewdb.find_one(r):
+            r['_id'] = randint(0,1000000)
         reviewdb.insert(r)
 
 
@@ -111,6 +129,6 @@ if __name__ == '__main__':
     # For each game in our list of games, we will read in the reviews from
     # the data file and then put entries in our MongoDB collection with a
     # key that identifies each review as either training or test
-    for game in games:
+    for game_file in game_files:
         insert_reviews(abspath(join(data_dir,
-                                    game)))
+                                    game_file)))
