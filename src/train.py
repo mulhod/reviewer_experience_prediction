@@ -6,11 +6,14 @@ Script used to train a model on a given data-set (or multiple data-sets combined
 '''
 import sys
 import re
+import skll
 import pymongo
 import argparse
 from collections import Counter
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import SnowballStemmer
+from os import listdir
+from os.path import join, dirname, realpath, abspath
 
 
 class Review(object):
@@ -219,6 +222,17 @@ def generate_suffix_tree(self, max_depth=5):
     raise NotImplementedError
 
 
+# Establish connection to MongoDB database
+connection_string = 'mongodb://localhost:27017'
+try:
+    connection = pymongo.MongoClient(connection_string)
+except pymongo.errors.ConnectionFailure as e:
+    sys.exit('ERROR: Unable to connecto to Mongo server at ' \
+             '{}'.format(connection_string))
+db = connection['reviews_project']
+reviewdb = db['reviews']
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python train.py',
@@ -233,9 +247,18 @@ if __name__ == '__main__':
         required=True)
     args = parser.parse_args()
 
-    # Establish connection to MongoDB database
-    connection = pymongo.MongoClient('mongodb://localhost:27017')
-    db = connection['reviews_project']
-    reviewdb = db['reviews']
+    global reviewdb
+
+    # Get paths to the project and data directories
+    project_dir = dirname(dirname(abspath(realpath(__file__))))
+    data_dir = join(project_dir,
+                    'data')
+
+    # Get list of games
+    game_files = []
+    if args.game_files == "all":
+        game_files = [f for f in listdir(data_dir) if f.endswith('.txt')]
+    else:
+        game_files = args.game_files.split(',')
 
     

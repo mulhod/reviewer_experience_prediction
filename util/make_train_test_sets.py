@@ -183,7 +183,7 @@ if __name__ == '__main__':
         default=(2.0/3.0)*100.0)
     args = parser.parse_args()
 
-    # Get paths to the data and arff_files directories
+    # Get paths to the project and data directories
     project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
