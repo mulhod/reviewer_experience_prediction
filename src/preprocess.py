@@ -69,25 +69,64 @@ class Review(object):
         self.stem_sents = stem()
         self.pos_sents = pos_tag()
         self.parsed_sents = parse()
-        #self.dep = 
-        #self.ngrams = 
-        #self.lc_ngrams = 
-        #self.char_ngrams = 
-        #self.lc_char_ngrams = 
-        #self.stem_ngrams = 
-        #self.generate_suffix_tree()
+
+        # Features
+        self.ngrams = 
+        self.char_ngrams = 
+        self.dep = 
+
 
     @staticmethod
     def normalize():
         '''
-        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm_text attribute.
+        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
         '''
 
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
-        return re.sub(r'[\n\t ]+',
-                      r' ',
-                      self.orig.strip().lower())
+        r = re.sub(r'[\n\t ]+',
+                   r' ',
+                   self.orig.strip().lower())
+        # Hand-crafted contraction-fixing rules
+        # wont ==> won't
+        r = re.sub(r"\bwont\b", r"won't", r, re.IGNORECASE)
+        # dont ==> don't
+        r = re.sub(r"\bdont\b", r"don't", r, re.IGNORECASE)
+        # wasnt ==> wasn't
+        r = re.sub(r"\bwasnt\b", r"wasn't", r, re.IGNORECASE)
+        # werent ==> weren't
+        r = re.sub(r"\bwerent\b", r"weren't", r, re.IGNORECASE)
+        # aint ==> am not
+        r = re.sub(r"\baint\b", r"am not", r, re.IGNORECASE)
+        # arent ==> are not
+        r = re.sub(r"\barent\b", r"are not", r, re.IGNORECASE)
+        # cant ==> can not
+        r = re.sub(r"\bcant\b", r"can not", r, re.IGNORECASE)
+        # didnt ==> does not
+        r = re.sub(r"\bdidnt\b", r"did not", r, re.IGNORECASE)
+        # havent ==> have not
+        r = re.sub(r"\bhavent\b", r"have not", r, re.IGNORECASE)
+        # ive ==> I have
+        r = re.sub(r"\bive\b", r"I have", r, re.IGNORECASE)
+        # isnt ==> is not
+        r = re.sub(r"\bisnt\b", r"is not", r, re.IGNORECASE)
+        # theyll ==> they will
+        r = re.sub(r"\btheyll\b", r"they will", r, re.IGNORECASE)
+        # thats ==> that's
+        r = re.sub(r"\bthatsl\b", r"that's", r, re.IGNORECASE)
+        # whats ==> what's
+        r = re.sub(r"\bwhats\b", r"what's", r, re.IGNORECASE)
+        # wouldnt ==> would not
+        r = re.sub(r"\bwouldnt\b", r"would not", r, re.IGNORECASE)
+        # im ==> I am
+        r = re.sub(r"\bim\b", r"I am", r, re.IGNORECASE)
+        # youre ==> you are
+        r = re.sub(r"\byoure\b", r"you are", r, re.IGNORECASE)
+        # youve ==> you have
+        r = re.sub(r"\byouve\b", r"you have", r, re.IGNORECASE)
+        # ill ==> i will
+        r = re.sub(r"\bill\b", r"i will", r, re.IGNORECASE)
+        return r
 
 
     @staticmethod
@@ -132,16 +171,37 @@ class Review(object):
 
 
     @staticmethod
-    def generate_ngram_fdist(sents, min=1, max=5):
+    def generate_ngram_fdist(sents, _min=1, _max=5, lower=True):
         '''
         Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
 
         :param sents: list of sentence-corresponding lists (of characters, tokens, etc.) that can be chopped up into n-grams.
         :type sents: list of lists/strs
-        :param min: minimum value of n for n-gram extraction
-        :type min: int
-        :param max: maximum value of n for n-gram extraction
-        :type max: int
+        :param _min: minimum value of n for n-gram extraction
+        :type _min: int
+        :param _max: maximum value of n for n-gram extraction
+        :type _max: int
+        :param lower: whether or not to lower-case the text (True by default)
+        :type lower: boolean
+        :returns: Counter
+        '''
+
+        raise NotImplementedError
+    
+    
+    @staticmethod
+    def generate_cngram_fdist(sents, _min=1, _max=5, lower=False):
+        '''
+        Generate frequency distribution for the tokens in the text (and possibly also for the lemmas or stems).
+
+        :param sents: list of sentence-corresponding lists (of characters, tokens, etc.) that can be chopped up into n-grams.
+        :type sents: list of lists/strs
+        :param _min: minimum value of n for n-gram extraction
+        :type _min: int
+        :param _max: maximum value of n for n-gram extraction
+        :type _max: int
+        :param lower: whether or not to lower-case the text (True by default)
+        :type lower: boolean
         :returns: Counter
         '''
 
