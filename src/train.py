@@ -6,14 +6,16 @@ Script used to train a model on a given data-set (or multiple data-sets combined
 '''
 import sys
 import re
-import skll
 import pymongo
 import argparse
-from collections import Counter
-from nltk.tokenize import sent_tokenize, word_tokenize
-from nltk.stem import SnowballStemmer
 from os import listdir
+from numpy import log2
+from data import APPID_DICT
+from collections import Counter
+from skll import run_configuration
+from nltk.stem import SnowballStemmer
 from os.path import join, dirname, realpath, abspath
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class Review(object):
@@ -21,30 +23,7 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    # Attributes
-    orig = None # original text
-    hours_played = None # length of time played
-    game_id = None # game ID (corresponds to Steam's 'appid')
-    norm = None # str representing normalized review text
-    tok_sents = None # list of tokenized sentences (lists of str)
-    stem_sents = None # list of stemmed sentences (lists of str)
-    # Note: we could decide to lemmatize the text instead
-    pos_sents = None # list of POS-tagged sentences (lists of
-        # tuples containing tokens (str) and POS tags (str))
-    parsed_sents = None # list of parsed sentences
-    ngrams = Counter() # frequency distribution of token n-grams
-    lc_ngrams = Counter() # frequency distribution of lower-cased
-        # token n-grams
-    char_ngrams = Counter() # frequency distribution of character
-        # n-grams
-    lc_char_ngrams = Counter # frequency distribution of lower-cased
-        # character n-grams
-    stem_ngrams = Counter() # frequency distribution of stemmed
-        # token n-grams
-    dep = None # frequency distribution of syntactic dependencies
-    #suffix_tree = None # suffix tree representing text
-
-    def __init__(self, review_text, hours_played, game_id):
+    def __init__(self, review_text, hours_played, game, appid):
         '''
         Initialization method.
 
@@ -52,8 +31,10 @@ class Review(object):
         :type review_text: str
         :param hours_played: length of time author spent playing game
         :type hours_played: int
-        :param game_id: game ID
-        :type game_id: str
+        :param game: name of game
+        :type game: str
+        :param appid: game ID
+        :type appid: str
         '''
 
         # Make sure time is a float (or can be interpreted as an int, at least)
@@ -66,19 +47,14 @@ class Review(object):
 
         self.orig = review_text
         self.hours_played = hours_played
-        self.game_id = game_id
+        self.appid = appid
 
         # Generate attribute values
+        self.length = log2(len(review_text))
         self.norm = normalize()
         self.tok_sents = tokenize()
-        self.stem_sents = stem()
-        self.pos_sents = pos_tag()
-        self.parsed_sents = parse()
-
-        # Feature frequency distributions
-        self.ngrams = Counter()
-        self.char_ngrams = Counter()
-        self.dep = Counter()
+        #self.pos_sents = pos_tag()
+        #self.parsed_sents = parse()
 
 
     @staticmethod
@@ -245,6 +221,14 @@ if __name__ == '__main__':
              'files (the game files should reside in the "data" directory)',
         type=str,
         required=True)
+    parser.add_argument('--combine',
+        help='combine all game files together to make one big model',
+        action='store_true',
+        required=False)
+    parser.add_argument('--combined_model_prefix',
+        help='prefix to use when naming the combined model',
+        type=str,
+        required=False)
     args = parser.parse_args()
 
     global reviewdb
@@ -254,6 +238,12 @@ if __name__ == '__main__':
     data_dir = join(project_dir,
                     'data')
 
+    if args.combine and not args.combined_model_prefix:
+        sys.exit('ERROR: When using the --combine flag, you must also ' \
+                 'specify a model prefix, which can be passed in via ' \
+                 'the --combined_model_prefix option argument. ' \
+                 'Exiting.\n')
+
     # Get list of games
     game_files = []
     if args.game_files == "all":
@@ -261,4 +251,39 @@ if __name__ == '__main__':
     else:
         game_files = args.game_files.split(',')
 
-    
+    if args.combine:
+        # Initialize empty list for holding all of the feature dictionaries
+        # from each review in each game
+        feature_dicts = []
+        for game_file in game_files:
+            # Get the training reviews for this game from the Mongo
+            # database
+            game = game_file[:-4]
+            appid = APPID_DICT[game]
+            game_docs = list(reviewdb.find({'game': game,
+                                            'partition': 'training'}))
+            for game_doc in game_docs:
+                _id = str(game_doc['_id'])
+                hours = game_doc['hours']
+                _Review = Review(game_doc['review'],
+                                 hours,
+                                 game,
+                                 appid)
+                # Extract features from the review text
+                game_features = Counter()
+                ngrams_counter = generate_ngram_fdist(_Review.tok_sents)
+                cngrams_counter = generate_cngram_fdist(_Review.norm)
+                length_feature = {'length##{}'.format(_Review.length): 1}
+                game_features.update(ngrams_counter)
+                game_features.update(cngrams_counter)
+                game_features.update(length_feature)
+                feature_dicts.append({'id': _id,
+                                      'y': hours,
+                                      'x': game_features})
+                # Optional: update Mongo database with a new key, which will
+                # be mapped to feature_dicts
+        # Write .jsonlines file, create the config file, and then run the
+        # configuration, producing a model file
+    else:
+        for game_file in game_files:
+            
