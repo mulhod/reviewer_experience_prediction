@@ -2,7 +2,7 @@
 @author: Matt Mulholland, Janette Martinez, Emily Olshefski
 @date: 3/18/15
 
-Script used to train a model on a given data-set (or multiple data-sets combined).
+Script used to train models on datasets (or multiple datasets combined).
 '''
 import sys
 import re
@@ -24,7 +24,8 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp, lower=True):
+    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp,
+                 lower=True):
         '''
         Initialization method.
 
@@ -46,23 +47,24 @@ class Review(object):
         try:
             hours_played = float(hours_played)
         except ValueError:
-            sys.exit('ERROR: The \"hours_played\" parameter that was passed in, {},'
-                     'could not be typecast as a float.\n\n'
+            sys.exit('ERROR: The \"hours_played\" parameter that was passed' \
+                     ' in, {}, could not be typecast as a float.\n\n' \
                      'Exiting.\n'.format(hours_played))
 
         self.orig = review_text
         try:
             self.hours_played = hours_played
         except ValueError:
-            sys.exit('ERROR: hours_played value not castable to type float: {}' \
-                     '\nExiting.\n'.format(hours_played))
+            sys.exit('ERROR: hours_played value not castable to type float:' \
+                     ' {}\nExiting.\n'.format(hours_played))
         self.appid = appid
         # Attribute representing the normalized text (str)
         self.norm = None
-        # Attributes representing the word- and sentence-tokenized representations
-        # of self.norm, consisting of a list of elements corresponding to the
-        # identified sentences, which in turn consist of a list of elements
-        # corresponding to the identified tokens, tags, lemmas, respectively
+        # Attributes representing the word- and sentence-tokenized
+        # representations of self.norm, consisting of a list of elements
+        # corresponding to the identified sentences, which in turn consist of
+        # a list of elements corresponding to the identified tokens, tags,
+        # lemmas, respectively
         self.tokens = []
         self.tags = []
         self.lemmas = []
@@ -76,20 +78,22 @@ class Review(object):
         # Attribute representing the syntactic heads of each token
         self.heads = []
 
-        # Attribute representing the syntactic child(ren) of each token (if any),
-        # which will be represented as a Counter mapping a token and its children
-        # to frequencies
+        # Attribute representing the syntactic child(ren) of each token (if
+        # any), which will be represented as a Counter mapping a token and its
+        # children to frequencies
         self.children = Counter()
 
-        # Cluster IDs and repvec (representation vectors) corresponding to tokens
-        # Maybe it would be a good idea to make a frequency distribution of the
-        # cluster IDs...
+        # Cluster IDs and repvec (representation vectors) corresponding to
+        # tokens
+        # Maybe it would be a good idea to make a frequency distribution of
+        # the cluster IDs...
         # self.cluster_ids = []
         # self.repvecs = []
 
         # Generate attribute values
-        self.length = log2(len(review_text)) # Get base-2 log of the length of the
-            # original version of the review text, not the normalized version
+        self.length = log2(len(review_text)) # Get base-2 log of the length of
+            # the original version of the review text, not the normalized
+            # version
         self.normalize(lower=lower)
         # Use spaCy to analyze the normalized version of the review text
         spaCy_annotations = self.spaCy_nlp(self.norm,
@@ -179,8 +183,8 @@ class Review(object):
                 #        self.children.update(c)
                 if t.n_lefts + t.n_rights:
                     fstring = "children##{0.orth_}:{1.orth_}"
-                    [self.children.update({"fstring".format(t, c): 1}) for c in
-                     t.children]
+                    [self.children.update({"fstring".format(t, c): 1}) for c
+                     in t.children]
 
 
     def get_entities_from_spaCy(self):
@@ -214,7 +218,8 @@ def generate_ngram_fdist(sents, _min=1, _max=3):
     # feature and assign the restructured key-value mapping and delete the old
     # key
     for ngram in ngram_counter:
-        ngram_counter['ngrams##{}'.format(' '.join(ngram))] = ngram_counter[ngram]
+        ngram_counter['ngrams##{}'.format(' '.join(ngram))] = \
+            ngram_counter[ngram]
         del ngram_counter[ngram]
     return ngram_counter
 
@@ -253,9 +258,9 @@ def generate_cngram_fdist(text, _min=2, _max=5, lower=False):
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python train.py',
-        description='Build a machine learning model based on the ' \
-                    'features that are extracted from a set of reviews ' \
-                    'relating to a specific game or a set of games.',
+        description='Build a machine learning model based on the features ' \
+                    'that are extracted from a set of reviews relating to a' \
+                    'specific game or set of games.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--game_files',
         help='comma-separated list of file-names or "all" for all of the ' \
@@ -276,8 +281,8 @@ if __name__ == '__main__':
         action='store_true',
         default=True)
     parser.add_argument('--lowercase_cngrams',
-        help='lower-case the review text before extracting character n-gram ' \
-             'features (defaults to False)',
+        help='lower-case the review text before extracting character n-gram' \
+             ' features (defaults to False)',
         action='store_true',
         default=False)
     args = parser.parse_args()
@@ -287,14 +292,12 @@ if __name__ == '__main__':
     data_dir = join(project_dir,
                     'data')
 
-    # Make sure that, if --combine is being used, there is also a file
-    # prefix being passed in via --combined_model_prefix for the combined
-    # model
+    # Make sure that, if --combine is being used, there is also a file prefix
+    # being passed in via --combined_model_prefix for the combined model
     if args.combine and not args.combined_model_prefix:
         sys.exit('ERROR: When using the --combine flag, you must also ' \
-                 'specify a model prefix, which can be passed in via ' \
-                 'the --combined_model_prefix option argument. ' \
-                 'Exiting.\n')
+                 'specify a model prefix, which can be passed in via the ' \
+                 '--combined_model_prefix option argument. Exiting.\n')
 
     # Establish connection to MongoDB database
     connection_string = 'mongodb://localhost:27017'
@@ -341,7 +344,8 @@ if __name__ == '__main__':
                 ngrams_counter = generate_ngram_fdist(_Review.tokens)
                 game_features.update(ngrams_counter)
                 if args.lowercase_cngrams:
-                    cngrams_counter = generate_cngram_fdist(_Review.orig.lower())
+                    cngrams_counter = \
+                        generate_cngram_fdist(_Review.orig.lower())
                 else:
                     cngrams_counter = generate_cngram_fdist(_Review.orig)
                 game_features.update(cngrams_counter)
