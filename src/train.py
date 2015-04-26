@@ -11,11 +11,11 @@ import argparse
 from os import listdir
 from numpy import log2
 from data import APPID_DICT
+from spacy.en import English
 from collections import Counter
 from skll import run_configuration
 from nltk.stem import SnowballStemmer
 from os.path import join, dirname, realpath, abspath
-from nltk.tokenize import sent_tokenize, word_tokenize
 
 
 class Review(object):
@@ -23,18 +23,20 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    def __init__(self, review_text, hours_played, game, appid):
+    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp):
         '''
         Initialization method.
 
         :param review_text: review text
         :type review_text: str
         :param hours_played: length of time author spent playing game
-        :type hours_played: int
+        :type hours_played: float
         :param game: name of game
         :type game: str
-        :param appid: game ID
+        :param appid: appid string (usually a number of up to 6-7 digits)
         :type appid: str
+        :param spaCy_nlp: spaCy English analyzer
+        :type spaCy_nlp: spaCy.en.English
         '''
 
         # Make sure time is a float (or can be interpreted as an int, at least)
@@ -46,28 +48,70 @@ class Review(object):
                      'Exiting.\n'.format(hours_played))
 
         self.orig = review_text
-        self.hours_played = hours_played
+        try:
+            self.hours_played = hours_played
+        except ValueError:
+            sys.exit('ERROR: hours_played value not castable to type float: {}' \
+                     '\nExiting.\n'.format(hours_played))
         self.appid = appid
+        # Attribute representing the normalized text (str)
+        self.norm = None
+        # Attributes representing the word- and sentence-tokenized representations
+        # of self.norm, both consisting of a list of elements corresponding to the
+        # identified sentences, which in turn consist of list of elements
+        # corresponding to the identified tokens, tags, lemmas, etc.
+        self.tokens = []
+        self.tags = []
+        self.lemmas = []
+
+        # Atrribute representing the named entities in the review
+        self.entities = []
+
+        # Attribute representing the dependency labels for each token
+        self.dep = []
+
+        # Attribute representing the syntactic heads of each token
+        self.heads = []
+
+        # Attribute representing the syntactic child(ren) of each token (if any),
+        # which will be represented as a Counter mapping a token and its children
+        # to frequencies
+        self.children = Counter()
+
+        # Cluster IDs and repvec (representation vectors) corresponding to tokens
+        # Maybe it would be a good idea to make a frequency distribution of the
+        # cluster IDs...
+        # self.cluster_ids = []
+        # self.repvecs = []
 
         # Generate attribute values
-        self.length = log2(len(review_text))
-        self.norm = normalize()
-        self.tok_sents = tokenize()
-        #self.pos_sents = pos_tag()
-        #self.parsed_sents = parse()
+        self.length = log2(len(review_text)) # Get base-2 log of the length of the
+            # original version of the review text, not the normalized version
+        self.normalize()
+        # Use spaCy to analyze the normalized version of the review text
+        spaCy_annotations = self.spaCy_nlp(self.norm,
+                                           tag=True,
+                                           parse=True)
+        self.get_tokens_from_spaCy()
+        self.get_entities_from_spaCy()
 
 
     @staticmethod
-    def normalize():
+    def normalize(self, lower=True):
         '''
         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
         '''
 
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
-        r = re.sub(r'[\n\t ]+',
-                   r' ',
-                   self.orig.strip().lower())
+        if lower:
+            r = re.sub(r'[\n\t ]+',
+                       r' ',
+                       self.orig.strip().lower())
+        else:
+            r = re.sub(r'[\n\t ]+',
+                       r' ',
+                       self.orig.strip())
         # Hand-crafted contraction-fixing rules
         # wont ==> won't
         r = re.sub(r"\bwont\b", r"won't", r, re.IGNORECASE)
@@ -107,48 +151,44 @@ class Review(object):
         r = re.sub(r"\byouve\b", r"you have", r, re.IGNORECASE)
         # ill ==> i will
         r = re.sub(r"\bill\b", r"i will", r, re.IGNORECASE)
-        return r
+        self.norm = str(r)
 
 
-    @staticmethod
-    def tokenize():
+    def get_tokens_from_spaCy(self):
         '''
-        Perform tokenization using NLTK's sentence/word tokenizers.
-        '''
-
-        sents = sent_tokenize(self.norm)
-        return [word_tokenize(sent) for sent in sents]
-
-
-    @staticmethod
-    def stem():
-        '''
-        Perform stemming
+        Get tokens/tags from spaCy's text annotations.
         '''
 
-        sb = SnowballStemmer("english")
-        stemmed_sents = []
-        for sent in self.tok_sents:
-            stemmed_sents.append([sb.stem(tok) for tok in sent])
-        return stemmed_sents
+        for sent in self.spaCy_annotations.sents:
+            # Get tokens
+            self.tokens.append([t.orth_ for t in sent])
+            # Get tags
+            self.tags.append([t.tag_ for t in sent])
+            # Get lemmas
+            self.lemmas.append([t.lemma_ for t in sent])
+            # Get syntactic heads
+            self.heads.append([t.head.orth_ for t in sent])
+            # Get syntactic children
+            for t in sent:
+                #children = [c for c in t.children]
+                #if children:
+                #    for c in children:
+                #        c = {"children##{0.orth_}:{1.orth_}".format(t, c): 1}
+                #        self.children.update(c)
+                if t.n_lefts + t.n_rights:
+                    fstring = "children##{0.orth_}:{1.orth_}"
+                    [self.children.update({"fstring".format(t, c): 1}) for c in
+                     t.children]
 
 
-    @staticmethod
-    def pos_tag():
+    def get_entities_from_spaCy(self):
         '''
-        Run NLTK POS-tagger on text.
+        Get named entities from spaCy's text annotations.
         '''
 
-        raise NotImplementedError
-
-
-    @staticmethod
-    def parse():
-        '''
-        Parse sentences.
-        '''
-
-        raise NotImplementedError
+        for entity in self.spaCy_annotations.ents:
+            self.entities.append(dict(entity=entity.orth_,
+                                      label=entity.label_))
 
 
 def generate_ngram_fdist(sents, _min=1, _max=3, lower=True):
@@ -198,17 +238,6 @@ def generate_suffix_tree(self, max_depth=5):
     raise NotImplementedError
 
 
-# Establish connection to MongoDB database
-connection_string = 'mongodb://localhost:27017'
-try:
-    connection = pymongo.MongoClient(connection_string)
-except pymongo.errors.ConnectionFailure as e:
-    sys.exit('ERROR: Unable to connecto to Mongo server at ' \
-             '{}'.format(connection_string))
-db = connection['reviews_project']
-reviewdb = db['reviews']
-
-
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python train.py',
@@ -231,18 +260,32 @@ if __name__ == '__main__':
         required=False)
     args = parser.parse_args()
 
-    global reviewdb
-
     # Get paths to the project and data directories
     project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
 
+    # Make sure that, if --combine is being used, there is also a file
+    # prefix being passed in via --combined_model_prefix for the combined
+    # model
     if args.combine and not args.combined_model_prefix:
         sys.exit('ERROR: When using the --combine flag, you must also ' \
                  'specify a model prefix, which can be passed in via ' \
                  'the --combined_model_prefix option argument. ' \
                  'Exiting.\n')
+
+    # Establish connection to MongoDB database
+    connection_string = 'mongodb://localhost:27017'
+    try:
+        connection = pymongo.MongoClient(connection_string)
+    except pymongo.errors.ConnectionFailure as e:
+        sys.exit('ERROR: Unable to connecto to Mongo server at ' \
+                 '{}'.format(connection_string))
+    db = connection['reviews_project']
+    reviewdb = db['reviews']
+
+    # Initialize an English-language NLP spaCy analyzer
+    spaCy_nlp = English()
 
     # Get list of games
     game_files = []
@@ -268,7 +311,8 @@ if __name__ == '__main__':
                 _Review = Review(game_doc['review'],
                                  hours,
                                  game,
-                                 appid)
+                                 appid,
+                                 spaCy_nlp)
                 # Extract features from the review text
                 game_features = Counter()
                 ngrams_counter = generate_ngram_fdist(_Review.tok_sents)
