@@ -12,6 +12,7 @@ from os import listdir
 from numpy import log2
 from data import APPID_DICT
 from spacy.en import English
+from nltk.util import ngrams
 from collections import Counter
 from skll import run_configuration
 from nltk.stem import SnowballStemmer
@@ -23,7 +24,7 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp):
+    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp, lower=True):
         '''
         Initialization method.
 
@@ -37,6 +38,8 @@ class Review(object):
         :type appid: str
         :param spaCy_nlp: spaCy English analyzer
         :type spaCy_nlp: spaCy.en.English
+        :param lower: include lower-casing as part of the review text normalization
+        :type lower: boolean
         '''
 
         # Make sure time is a float (or can be interpreted as an int, at least)
@@ -57,9 +60,9 @@ class Review(object):
         # Attribute representing the normalized text (str)
         self.norm = None
         # Attributes representing the word- and sentence-tokenized representations
-        # of self.norm, both consisting of a list of elements corresponding to the
-        # identified sentences, which in turn consist of list of elements
-        # corresponding to the identified tokens, tags, lemmas, etc.
+        # of self.norm, consisting of a list of elements corresponding to the
+        # identified sentences, which in turn consist of a list of elements
+        # corresponding to the identified tokens, tags, lemmas, respectively
         self.tokens = []
         self.tags = []
         self.lemmas = []
@@ -87,16 +90,15 @@ class Review(object):
         # Generate attribute values
         self.length = log2(len(review_text)) # Get base-2 log of the length of the
             # original version of the review text, not the normalized version
-        self.normalize()
+        self.normalize(lower=lower)
         # Use spaCy to analyze the normalized version of the review text
         spaCy_annotations = self.spaCy_nlp(self.norm,
                                            tag=True,
                                            parse=True)
-        self.get_tokens_from_spaCy()
+        self.get_token_features_from_spaCy()
         self.get_entities_from_spaCy()
 
 
-    @staticmethod
     def normalize(self, lower=True):
         '''
         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
@@ -151,12 +153,12 @@ class Review(object):
         r = re.sub(r"\byouve\b", r"you have", r, re.IGNORECASE)
         # ill ==> i will
         r = re.sub(r"\bill\b", r"i will", r, re.IGNORECASE)
-        self.norm = str(r)
+        self.norm = r
 
 
-    def get_tokens_from_spaCy(self):
+    def get_token_features_from_spaCy(self):
         '''
-        Get tokens/tags from spaCy's text annotations.
+        Get tokens-related features from spaCy's text annotations.
         '''
 
         for sent in self.spaCy_annotations.sents:
@@ -191,51 +193,61 @@ class Review(object):
                                       label=entity.label_))
 
 
-def generate_ngram_fdist(sents, _min=1, _max=3, lower=True):
+def generate_ngram_fdist(sents, _min=1, _max=3):
     '''
     Generate frequency distribution for the tokens in the text.
 
-    :param sents: list of sentence-corresponding lists of tokens that can be chopped up into n-grams.
+    :param sents: list of lists of tokens that can be chopped up into n-grams.
     :type sents: list of lists/strs
     :param _min: minimum value of n for n-gram extraction
     :type _min: int
     :param _max: maximum value of n for n-gram extraction
     :type _max: int
-    :param lower: whether or not to lower-case the text (True by default)
-    :type lower: boolean
     :returns: Counter
     '''
 
-    raise NotImplementedError
+    ngram_counter = Counter()
+    for sent in sents:
+        for i in range(_min, _max + 1):
+            ngram_counter.update(list(ngrams(sent, i)))
+    # For each n-gram, restructure the key as a string representation of the
+    # feature and assign the restructured key-value mapping and delete the old
+    # key
+    for ngram in ngram_counter:
+        ngram_counter['ngrams##{}'.format(' '.join(ngram))] = ngram_counter[ngram]
+        del ngram_counter[ngram]
+    return ngram_counter
 
 
-def generate_cngram_fdist(sents, _min=2, _max=5, lower=False):
+def generate_cngram_fdist(text, _min=2, _max=5, lower=False):
     '''
     Generate frequency distribution for the characters in the text.
 
-    :param sents: list of sentence-corresponding lists of characters that can be chopped up into n-grams.
-    :type sents: list of lists/strs
-    :param _min: minimum value of n for n-gram extraction
+    :param text: review text
+    :type text: str
+    :param _min: minimum value of n for character n-gram extraction
     :type _min: int
-    :param _max: maximum value of n for n-gram extraction
+    :param _max: maximum value of n for character n-gram extraction
     :type _max: int
     :param lower: whether or not to lower-case the text (False by default)
     :type lower: boolean
     :returns: Counter
     '''
 
-    raise NotImplementedError
-
-
-def generate_suffix_tree(self, max_depth=5):
-    '''
-    Generate suffix tree of a specified maximum depth (defaults to 5).
-
-    :param max_depth: 
-    :type max_depth: int
-    '''
-
-    raise NotImplementedError
+    cngram_counter = Counter()
+    for i in range(_min, _max + 1):
+        if lower:
+            cngram_counter.update(list(ngrams(text.lower(), i)))
+        else:
+            cngram_counter.update(list(ngrams(text, i)))
+    # For each character n-gram, restructure the key as a string
+    # representation of the feature and assign the restructured key-value
+    # mapping and delete the old key
+    for ngram in cngram_counter:
+        cngram_counter['cngrams##{}'.format(' '.join(ngram))] = \
+            cngram_counter[ngram]
+        del cngram_counter[ngram]
+    return cngram_counter
 
 
 if __name__ == '__main__':
@@ -258,6 +270,16 @@ if __name__ == '__main__':
         help='prefix to use when naming the combined model',
         type=str,
         required=False)
+    parser.add_argument('--lowercase_text',
+        help='make lower-casing part of the review text normalization step,' \
+             ' which affects word n-gram-related features (defaults to True)',
+        action='store_true',
+        default=True)
+    parser.add_argument('--lowercase_cngrams',
+        help='lower-case the review text before extracting character n-gram ' \
+             'features (defaults to False)',
+        action='store_true',
+        default=False)
     args = parser.parse_args()
 
     # Get paths to the project and data directories
@@ -312,14 +334,18 @@ if __name__ == '__main__':
                                  hours,
                                  game,
                                  appid,
-                                 spaCy_nlp)
+                                 spaCy_nlp,
+                                 lower=args.lowercase_text)
                 # Extract features from the review text
                 game_features = Counter()
-                ngrams_counter = generate_ngram_fdist(_Review.tok_sents)
-                cngrams_counter = generate_cngram_fdist(_Review.norm)
-                length_feature = {'length##{}'.format(_Review.length): 1}
+                ngrams_counter = generate_ngram_fdist(_Review.tokens)
                 game_features.update(ngrams_counter)
+                if args.lowercase_cngrams:
+                    cngrams_counter = generate_cngram_fdist(_Review.orig.lower())
+                else:
+                    cngrams_counter = generate_cngram_fdist(_Review.orig)
                 game_features.update(cngrams_counter)
+                length_feature = {'length##{}'.format(_Review.length): 1}
                 game_features.update(length_feature)
                 feature_dicts.append({'id': _id,
                                       'y': hours,
