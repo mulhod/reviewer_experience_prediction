@@ -8,11 +8,13 @@ import sys
 import re
 import pymongo
 import argparse
+from json import dump
 from os import listdir
 from numpy import log2
 from data import APPID_DICT
 from spacy.en import English
 from nltk.util import ngrams
+from string import punctuation
 from collections import Counter
 from skll import run_configuration
 from nltk.stem import SnowballStemmer
@@ -23,6 +25,45 @@ class Review(object):
     '''
     Class for objects representing Reviews.
     '''
+
+    # Original review text
+    orig = None
+    # Normalized review text
+    norm = None
+    # Number of hours the reviewer has played the game (float)
+    hours_played = None
+    # appid of the game (string ID code that Steam uses to represent the
+    # game
+    appid = None
+    # Length of the original text (base-2 log)
+    length = None
+    # Attributes representing the word- and sentence-tokenized
+    # representations of self.norm, consisting of a list of elements
+    # corresponding to the identified sentences, which in turn consist of
+    # a list of elements corresponding to the identified tokens, tags,
+    # lemmas, respectively
+    tokens = []
+    tags = []
+    #lemmas = []
+    # Attribute representing the spaCy text annotations
+    spaCy_annotations = []
+    # Atrribute representing the named entities in the review
+    #entities = []
+    # Attribute representing the dependency labels features
+    dep = Counter()
+    # Attribute representing the syntactic heads of each token
+    #heads = []
+    # Attribute representing the syntactic child(ren) of each token (if
+    # any), which will be represented as a Counter mapping a token and its
+    # children to frequencies
+    #children = Counter()
+    # Attributes representing the cluster IDs and repvecs (representation
+    # vectors) corresponding to tokens
+    # Maybe it would be a good idea to make a frequency distribution of
+    # the cluster IDs...
+    #cluster_ids = []
+    #repvecs = []
+    
 
     def __init__(self, review_text, hours_played, game, appid, spaCy_nlp,
                  lower=True):
@@ -43,60 +84,17 @@ class Review(object):
         :type lower: boolean
         '''
 
-        # Make sure time is a float (or can be interpreted as an int, at least)
-        try:
-            hours_played = float(hours_played)
-        except ValueError:
-            sys.exit('ERROR: The \"hours_played\" parameter that was passed' \
-                     ' in, {}, could not be typecast as a float.\n\n' \
-                     'Exiting.\n'.format(hours_played))
-
         self.orig = review_text
-        try:
-            self.hours_played = hours_played
-        except ValueError:
-            sys.exit('ERROR: hours_played value not castable to type float:' \
-                     ' {}\nExiting.\n'.format(hours_played))
+        self.hours_played = hours_played
         self.appid = appid
-        # Attribute representing the normalized text (str)
-        self.norm = None
-        # Attributes representing the word- and sentence-tokenized
-        # representations of self.norm, consisting of a list of elements
-        # corresponding to the identified sentences, which in turn consist of
-        # a list of elements corresponding to the identified tokens, tags,
-        # lemmas, respectively
-        self.tokens = []
-        self.tags = []
-        self.lemmas = []
-
-        # Atrribute representing the named entities in the review
-        self.entities = []
-
-        # Attribute representing the dependency labels for each token
-        self.dep = []
-
-        # Attribute representing the syntactic heads of each token
-        self.heads = []
-
-        # Attribute representing the syntactic child(ren) of each token (if
-        # any), which will be represented as a Counter mapping a token and its
-        # children to frequencies
-        self.children = Counter()
-
-        # Cluster IDs and repvec (representation vectors) corresponding to
-        # tokens
-        # Maybe it would be a good idea to make a frequency distribution of
-        # the cluster IDs...
-        # self.cluster_ids = []
-        # self.repvecs = []
 
         # Generate attribute values
-        self.length = log2(len(review_text)) # Get base-2 log of the length of
+        self.length = log2(len(self.orig)) # Get base-2 log of the length of
             # the original version of the review text, not the normalized
             # version
         self.normalize(lower=lower)
         # Use spaCy to analyze the normalized version of the review text
-        spaCy_annotations = self.spaCy_nlp(self.norm,
+        self.spaCy_annotations = spaCy_nlp(self.norm,
                                            tag=True,
                                            parse=True)
         self.get_token_features_from_spaCy()
@@ -171,20 +169,20 @@ class Review(object):
             # Get tags
             self.tags.append([t.tag_ for t in sent])
             # Get lemmas
-            self.lemmas.append([t.lemma_ for t in sent])
+            #self.lemmas.append([t.lemma_ for t in sent])
             # Get syntactic heads
-            self.heads.append([t.head.orth_ for t in sent])
-            # Get syntactic children
+            #self.heads.append([t.head.orth_ for t in sent])
+            # Get dependency features
             for t in sent:
                 #children = [c for c in t.children]
                 #if children:
                 #    for c in children:
-                #        c = {"children##{0.orth_}:{1.orth_}".format(t, c): 1}
+                #        c = {"dep##{0.orth_}:{1.orth_}".format(t, c): 1}
                 #        self.children.update(c)
                 if t.n_lefts + t.n_rights:
-                    fstring = "children##{0.orth_}:{1.orth_}"
-                    [self.children.update({"fstring".format(t, c): 1}) for c
-                     in t.children]
+                    fstring = "dep##{0.orth_}:{1.orth_}"
+                    [self.dep.update({fstring.format(t, c): 1}) for c in
+                     t.children if not c.tag_ in punctuation]
 
 
     def get_entities_from_spaCy(self):
@@ -287,10 +285,23 @@ if __name__ == '__main__':
         default=False)
     args = parser.parse_args()
 
-    # Get paths to the project and data directories
+    # Get paths to the project, data, working, and models directories
     project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
+    working_dir = join(project_dir,
+                      'working')
+    models_dir = join(project_dir,
+                      'models')
+    cfg_dir = join(project_dir,
+                   'config')
+    sys.stderr.write('project directory: {}\ndata directory: {}\nworking ' \
+                     'directory: {}\nmodels directory: {}\nconfiguration ' \
+                     'directory: {}\n'.format(project_dir,
+                                              data_dir,
+                                              working_dir,
+                                              models_dir,
+                                              cfg_dir))
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
@@ -309,7 +320,7 @@ if __name__ == '__main__':
     db = connection['reviews_project']
     reviewdb = db['reviews']
 
-    # Initialize an English-language NLP spaCy analyzer
+    # Initialize an English-language spaCy NLP analyzer instance
     spaCy_nlp = English()
 
     # Get list of games
@@ -320,12 +331,18 @@ if __name__ == '__main__':
         game_files = args.game_files.split(',')
 
     if args.combine:
+        sys.stderr.write('Training a combined model with training data from ' \
+                         'the following games: {}\n'.format(
+                                                         ', '.join(game_files)))
         # Initialize empty list for holding all of the feature dictionaries
         # from each review in each game
         feature_dicts = []
+        # Extract features from each game's training data
         for game_file in game_files:
             # Get the training reviews for this game from the Mongo
             # database
+            sys.stderr.write('Extracting features from the training data for' \
+                             ' {}...\n'.format(game_file[:-4]))
             game = game_file[:-4]
             appid = APPID_DICT[game]
             game_docs = list(reviewdb.find({'game': game,
@@ -351,13 +368,34 @@ if __name__ == '__main__':
                 game_features.update(cngrams_counter)
                 length_feature = {'length##{}'.format(_Review.length): 1}
                 game_features.update(length_feature)
+                game_features.update(_Review.dep)
                 feature_dicts.append({'id': _id,
                                       'y': hours,
                                       'x': game_features})
                 # Optional: update Mongo database with a new key, which will
                 # be mapped to feature_dicts
-        # Write .jsonlines file, create the config file, and then run the
-        # configuration, producing a model file
+        # Write .jsonlines file, create the config file
+        jsonlines_filename = '{}.jsonlines'.format(combined_model_prefix)
+        jsonlines_filepath = join(working_dir,
+                                  jsonlines_filename)
+        sys.stderr.write('Writing {} to working directory...'.format(
+                                                            jsonlines_filename))
+        with open(jsonlines_filepath, 'w') as jsonlines_file:
+            json.dump(feature_dicts, jsonlines_file)
+        # Make configuration file
+        cfg_filename = '{}.cfg'.format(combined_model_prefix)
+        cfg_filepath = join(cfg_dir,
+                            cfg_filename)
+        sys.stderr.write('Generating configuration file...')
+        # Make configuration file...
+        cfg_template = ?
+        with open(cfg_filepath, 'w') as cfg_file:
+            cfg_file.write(cfg)
+        # Run the SKLL configuration, producing a model file
+        run_configuration(cfg_file)
     else:
         for game_file in game_files:
+            sys.stderr.write('Training a model with training data from {}...' \
+                             '\n'.format(game_file[:-4]))
             
+    sys.stderr.write('Model training complete.\n')
