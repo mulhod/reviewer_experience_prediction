@@ -50,8 +50,6 @@ class Review(object):
     spaCy_annotations = []
     # Atrribute representing the named entities in the review
     #entities = []
-    # Attribute representing the dependency labels features
-    dep = Counter()
     # Attribute representing the syntactic heads of each token
     #heads = []
     # Attribute representing the syntactic child(ren) of each token (if
@@ -173,17 +171,6 @@ class Review(object):
             #self.lemmas.append([t.lemma_ for t in sent])
             # Get syntactic heads
             #self.heads.append([t.head.orth_ for t in sent])
-            # Get dependency features
-            for t in sent:
-                #children = [c for c in t.children]
-                #if children:
-                #    for c in children:
-                #        c = {"dep##{0.orth_}:{1.orth_}".format(t, c): 1}
-                #        self.children.update(c)
-                if t.n_lefts + t.n_rights:
-                    fstring = "dep##{0.orth_}:{1.orth_}"
-                    [self.dep.update({fstring.format(t, c): 1}) for c in
-                     t.children if not c.tag_ in punctuation]
 
 
     def get_entities_from_spaCy(self):
@@ -252,6 +239,25 @@ def generate_cngram_fdist(text, _min=2, _max=5, lower=False):
             cngram_counter[ngram]
         del cngram_counter[ngram]
     return cngram_counter
+
+
+def generate_dep_features(spaCy_annotations):
+    '''
+    Generate syntactic dependency features from spaCy text annotations.
+
+    :param spaCy_annotations: spaCy English text analysis object
+    :type spaCy_annotations: spacy.en.English instance
+    :returns: Counter object representing a frequency distribution of syntactic dependency features
+    '''
+
+    dep = Counter()
+    for s in spaCy_annotations.sents:
+        for t in s:
+            if t.n_lefts + t.n_rights:
+                fstring = "dep##{0.orth_}:{1.orth_}"
+                [dep.update({fstring.format(t, c): 1}) for c in t.children if
+                 not c.tag_ in punctuation]
+    return dep
 
 
 def write_config_file(config_dict, path):
@@ -409,8 +415,9 @@ if __name__ == '__main__':
                 length_feature = {'length##{}'.format(_Review.length): 1}
                 game_features.update(length_feature)
 
-                # Get the syntactic dependency features
-                game_features.update(_Review.dep)
+                # Generate the syntactic dependency features
+                game_features.update(generate_dep_features(
+                                                   _Review.spaCy_annotations))
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
@@ -530,8 +537,9 @@ if __name__ == '__main__':
                 length_feature = {'length##{}'.format(_Review.length): 1}
                 game_features.update(length_feature)
 
-                # Get the syntactic dependency features
-                game_features.update(_Review.dep)
+                # Generate the syntactic dependency features
+                game_features.update(generate_dep_features(
+                                                   _Review.spaCy_annotations))
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
