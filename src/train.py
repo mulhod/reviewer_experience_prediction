@@ -8,7 +8,7 @@ import sys
 import re
 import pymongo
 import argparse
-from json import dump
+from json import dumps
 from os import listdir
 from numpy import log2
 from data import APPID_DICT
@@ -18,6 +18,7 @@ from string import punctuation
 from collections import Counter
 from skll import run_configuration
 from nltk.stem import SnowballStemmer
+from configparser import ConfigParser
 from os.path import join, dirname, realpath, abspath
 
 
@@ -253,6 +254,26 @@ def generate_cngram_fdist(text, _min=2, _max=5, lower=False):
     return cngram_counter
 
 
+def write_config_file(config_dict, path):
+    '''
+    This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should maps keys for the SKLL config sections to dictionaries of key-value pairs for each section.
+
+    :param config_dict: configuration dictionary
+    :type config_dict: dict
+    :param path: destination path to configuration file
+    :type path: str
+    :returns: None
+    '''
+
+    cfg = ConfigParser()
+    for section_name, section_dict in config_dict.items():
+        cfg.add_section(section_name)
+        for key, val in section_dict.items():
+            cfg.set(section_name, key, val)
+    with open(path, 'w') as config_file:
+        cfg.write(config_file)
+
+
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python train.py',
@@ -295,13 +316,16 @@ if __name__ == '__main__':
                       'models')
     cfg_dir = join(project_dir,
                    'config')
+    logs_dir = join(project_dir,
+                   'logs')
     sys.stderr.write('project directory: {}\ndata directory: {}\nworking ' \
                      'directory: {}\nmodels directory: {}\nconfiguration ' \
-                     'directory: {}\n'.format(project_dir,
-                                              data_dir,
-                                              working_dir,
-                                              models_dir,
-                                              cfg_dir))
+                     'directory: {}\nlogs directory: {}\n'.format(project_dir,
+                                                                  data_dir,
+                                                                  working_dir,
+                                                                  models_dir,
+                                                                  cfg_dir,
+                                                                  logs_dir))
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
@@ -331,71 +355,245 @@ if __name__ == '__main__':
         game_files = args.game_files.split(',')
 
     if args.combine:
-        sys.stderr.write('Training a combined model with training data from ' \
-                         'the following games: {}\n'.format(
-                                                         ', '.join(game_files)))
+        sys.stderr.write('Training a combined model with training data from' \
+                         ' the following games: {}\n'.format(
+                                                       ', '.join(game_files)))
+
         # Initialize empty list for holding all of the feature dictionaries
-        # from each review in each game
+        # from each review in each game and then extract features from each
+        # game's training data
         feature_dicts = []
-        # Extract features from each game's training data
         for game_file in game_files:
             # Get the training reviews for this game from the Mongo
             # database
-            sys.stderr.write('Extracting features from the training data for' \
-                             ' {}...\n'.format(game_file[:-4]))
             game = game_file[:-4]
+            sys.stderr.write('Extracting features from the training data ' \
+                             'for {}...\n'.format(game))
             appid = APPID_DICT[game]
             game_docs = list(reviewdb.find({'game': game,
                                             'partition': 'training'}))
+
+            # Iterate over all training documents for the given game
             for game_doc in game_docs:
+
+                # Get the game_doc ID, the hours played value, and the
+                # original review text from the game_doc
                 _id = str(game_doc['_id'])
-                hours = game_doc['hours']
-                _Review = Review(game_doc['review'],
+                hours = str(game_doc['hours'])
+                review_text = game_doc['review']
+
+                # Instantiate a Review object
+                _Review = Review(review_text,
                                  hours,
                                  game,
                                  appid,
                                  spaCy_nlp,
                                  lower=args.lowercase_text)
+
                 # Extract features from the review text
                 game_features = Counter()
+
+                # Extract n-gram features
                 ngrams_counter = generate_ngram_fdist(_Review.tokens)
                 game_features.update(ngrams_counter)
+
+                # Extract character n-gram features
                 if args.lowercase_cngrams:
                     cngrams_counter = \
                         generate_cngram_fdist(_Review.orig.lower())
                 else:
                     cngrams_counter = generate_cngram_fdist(_Review.orig)
                 game_features.update(cngrams_counter)
+
+                # Get the length feature
                 length_feature = {'length##{}'.format(_Review.length): 1}
                 game_features.update(length_feature)
+
+                # Get the syntactic dependency features
                 game_features.update(_Review.dep)
+
+                # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
                                       'y': hours,
                                       'x': game_features})
-                # Optional: update Mongo database with a new key, which will
-                # be mapped to feature_dicts
-        # Write .jsonlines file, create the config file
+
+                # Update Mongo database game doc with new key "features",
+                # which will be mapped to game_features
+                reviewdb.update_one({'_id': _id}, {'features': game_features})
+
+        # Write .jsonlines file
         jsonlines_filename = '{}.jsonlines'.format(combined_model_prefix)
         jsonlines_filepath = join(working_dir,
                                   jsonlines_filename)
         sys.stderr.write('Writing {} to working directory...'.format(
-                                                            jsonlines_filename))
+                                                          jsonlines_filename))
         with open(jsonlines_filepath, 'w') as jsonlines_file:
-            json.dump(feature_dicts, jsonlines_file)
-        # Make configuration file
+            [jsonlines_file.write('{}\n'.format(json.dumps(fd)).encode(
+             'utf-8')) for fd in feature_dicts]
+
+        # Set up SKLL job arguments
+        learner_name = 'RescaledSVR'
+        param_grid_list = [{'C': [10.0 ** x for x in range(-3, 4)]}]
+        grid_objective = 'quadratic_weighted_kappa'
+
+        # Create a template for the SKLL config file
+        # Note that all values must be strings
+        cfg_dict_base = {"General": {},
+                         "Input": {"train_location": working_dir,
+                                   "ids_to_floats": "False",
+                                   "label_col": "y",
+                                   "featuresets": json.dumps(
+                                                   [[combined_model_prefix]]),
+                                   "suffix": '.jsonlines',
+                                   "learners": json.dumps([learner_name])
+                                   },
+                         "Tuning": {"feature_scaling": "none",
+                                    "grid_search": "True",
+                                    "min_feature_count": "1",
+                                    "objective": grid_objective,
+                                    "param_grids": json.dumps(
+                                                           [param_grid_list]),
+                                    },
+                         "Output": {"probability": "False",
+                                    "log": join(logs_dir,
+                                                '{}.log'.format(
+                                                       combined_model_prefix))
+                                    }
+                         }
+
+        # Set up the job for training the model
+        sys.stderr.write('Generating configuration file...')
         cfg_filename = '{}.cfg'.format(combined_model_prefix)
         cfg_filepath = join(cfg_dir,
                             cfg_filename)
-        sys.stderr.write('Generating configuration file...')
-        # Make configuration file...
-        cfg_template = ?
-        with open(cfg_filepath, 'w') as cfg_file:
-            cfg_file.write(cfg)
+        cfg_dict_base["General"]["task"] = "train"
+        cfg_dict_base["General"]["experiment_name"] = combined_model_prefix
+        cfg_dict_base["Output"]["models"] = models_dir
+        write_config_file(cfg_dict_base,
+                          cfg_filepath)
+
         # Run the SKLL configuration, producing a model file
+        sys.stderr.write('Training combined model...\n')
         run_configuration(cfg_file)
     else:
         for game_file in game_files:
-            sys.stderr.write('Training a model with training data from {}...' \
-                             '\n'.format(game_file[:-4]))
-            
+            game = game_file[:-4]
+            sys.stderr.write('Training a model with training data from {}' \
+                             '...\n'.format(game))
+
+            # Initialize empty list for holding all of the feature
+            # dictionaries from each review and then extract features from all
+            # reviews
+            feature_dicts = []
+
+            # Get the training reviews for this game from the Mongo
+            # database
+            sys.stderr.write('Extracting features from the training data ' \
+                             'for {}...\n'.format(game))
+            appid = APPID_DICT[game]
+            game_docs = list(reviewdb.find({'game': game,
+                                            'partition': 'training'}))
+
+            # Iterate over all training documents for the given game
+            for game_doc in game_docs:
+
+                # Get the game_doc ID, the hours played value, and the
+                # original review text from the game_doc
+                _id = str(game_doc['_id'])
+                hours = str(game_doc['hours'])
+                review_text = game_doc['review']
+
+                # Instantiate a Review object
+                _Review = Review(review_text,
+                                 hours,
+                                 game,
+                                 appid,
+                                 spaCy_nlp,
+                                 lower=args.lowercase_text)
+
+                # Extract features from the review text
+                game_features = Counter()
+
+                # Extract n-gram features
+                ngrams_counter = generate_ngram_fdist(_Review.tokens)
+                game_features.update(ngrams_counter)
+
+                # Extract character n-gram features
+                if args.lowercase_cngrams:
+                    cngrams_counter = \
+                        generate_cngram_fdist(_Review.orig.lower())
+                else:
+                    cngrams_counter = generate_cngram_fdist(_Review.orig)
+                game_features.update(cngrams_counter)
+
+                # Get the length feature
+                length_feature = {'length##{}'.format(_Review.length): 1}
+                game_features.update(length_feature)
+
+                # Get the syntactic dependency features
+                game_features.update(_Review.dep)
+
+                # Append a feature dictionary for the review to feature_dicts
+                feature_dicts.append({'id': _id,
+                                      'y': hours,
+                                      'x': game_features})
+
+                # Update Mongo database game doc with new key "features",
+                # which will be mapped to game_features
+                reviewdb.update_one({'_id': _id}, {'features': game_features})
+
+            # Write .jsonlines file
+            jsonlines_filename = '{}.jsonlines'.format(game)
+            jsonlines_filepath = join(working_dir,
+                                      jsonlines_filename)
+            sys.stderr.write('Writing {} to working directory...'.format(
+                                                          jsonlines_filename))
+            with open(jsonlines_filepath, 'w') as jsonlines_file:
+                [jsonlines_file.write('{}\n'.format(json.dumps(fd)).encode(
+                 'utf-8')) for fd in feature_dicts]
+
+            # Set up SKLL job arguments
+            learner_name = 'RescaledSVR'
+            param_grid_list = [{'C': [10.0 ** x for x in range(-3, 4)]}]
+            grid_objective = 'quadratic_weighted_kappa'
+
+            # Create a template for the SKLL config file
+            # Note that all values must be strings
+            cfg_dict_base = {"General": {},
+                             "Input": {"train_location": working_dir,
+                                       "ids_to_floats": "False",
+                                       "label_col": "y",
+                                       "featuresets": json.dumps([[game]]),
+                                       "suffix": '.jsonlines',
+                                       "learners": json.dumps([learner_name])
+                                       },
+                             "Tuning": {"feature_scaling": "none",
+                                        "grid_search": "True",
+                                        "min_feature_count": "1",
+                                        "objective": grid_objective,
+                                        "param_grids": json.dumps(
+                                                           [param_grid_list]),
+                                        },
+                             "Output": {"probability": "False",
+                                        "log": join(logs_dir,
+                                                    '{}.log'.format(game))
+                                        }
+                             }
+
+            # Set up the job for training the model
+            sys.stderr.write('Generating configuration file...')
+            cfg_filename = '{}.cfg'.format(combined_model_prefix)
+            cfg_filepath = join(cfg_dir,
+                                cfg_filename)
+            cfg_dict_base["General"]["task"] = "train"
+            cfg_dict_base["General"]["experiment_name"] = \
+                combined_model_prefix
+            cfg_dict_base["Output"]["models"] = models_dir
+            write_config_file(cfg_dict_base,
+                              cfg_filepath)
+
+            # Run the SKLL configuration, producing a model file
+            sys.stderr.write('Training model for {}...\n'.format(game))
+            run_configuration(cfg_file)
+
     sys.stderr.write('Model training complete.\n')
