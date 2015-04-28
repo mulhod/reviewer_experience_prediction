@@ -2,12 +2,13 @@
 import sys
 import argparse
 import pymongo
-from os import listdir
-from os.path import join, basename, abspath, dirname, realpath
 from math import ceil
+from os import listdir
 from random import randint
 from random import shuffle
+from data import APPID_DICT, FILTER_DICT
 from util.read_data_files import get_reviews_for_game
+from os.path import join, basename, abspath, dirname, realpath
 
 # Establish connection to MongoDB database
 connection = pymongo.MongoClient('mongodb://localhost:27017')
@@ -24,7 +25,6 @@ def insert_reviews(file_path, max_size, percent_train):
     '''
 
     global reviewdb
-    from data import APPID_DICT, FILTER_DICT
     game = basename(file_path)[:-4]
     appid = APPID_DICT[game]
     MAXLEN = FILTER_DICT[game]['MAXLEN']
