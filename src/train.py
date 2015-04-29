@@ -379,6 +379,11 @@ if __name__ == '__main__':
              'False)',
         action='store_true',
         default='False')
+    parser.add_argument('--try_to_reuse_extracted_features',
+        help='try to make use of previously-extracted features that reside ' \
+             'in the MongoDB database (defaults to False)',
+        action='store_true',
+        default=False)
     parser.add_argument('--do_not_binarize_features',
         help='do not make all non-zero feature frequencies equal to 1 ' \
              '(defaults to False)',
@@ -406,6 +411,9 @@ if __name__ == '__main__':
                                                                   models_dir,
                                                                   cfg_dir,
                                                                   logs_dir))
+
+    binarize = not args.do_not_binarize_features
+    sys.stderr.write('Binarize features? {}\n'.format(binarize))
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
@@ -447,6 +455,7 @@ if __name__ == '__main__':
         # game's training data
         feature_dicts = []
         for game_file in game_files:
+
             # Get the training reviews for this game from the Mongo
             # database
             game = game_file[:-4]
@@ -474,14 +483,29 @@ if __name__ == '__main__':
                                  lower=args.lowercase_text)
 
                 # Extract features from the review text
-                features = \
-                    extract_features_from_review(_Review,
-                        lowercase_cngrams=args.lowercase_cngrams,
-                        binarize=(not args.do_not_binarize_features))
+                found_features = False
+                if args.try_to_reuse_extracted_features:
+                    features = game_doc.get('features')
+                    if features and game_doc.get('binarized') == binarized:
+                        features = None
+                    else:
+                        found_features = True
+
+                if not features:
+                    features = \
+                        extract_features_from_review(_Review,
+                            lowercase_cngrams=args.lowercase_cngrams,
+                            binarize=binarize)
 
                 # Update Mongo database game doc with new key "features",
-                # which will be mapped to game_features
-                reviewdb.update_one({'_id': _id}, {'features': features})
+                # which will be mapped to game_features, and a new key
+                # "binarized", which will be set to True if features were
+                # extracted with the --do_not_binarize_features flag or False
+                # otherwise
+                if not found_features:
+                    reviewdb.update_one({'_id': _id},
+                                        {'features': features,
+                                         'binarized': binarize})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
@@ -582,14 +606,29 @@ if __name__ == '__main__':
                                  lower=args.lowercase_text)
 
                 # Extract features from the review text
-                features = \
-                    extract_features_from_review(_Review,
-                        lowercase_cngrams=args.lowercase_cngrams,
-                        binarize=(not args.do_not_binarize_features))
+                found_features = False
+                if args.try_to_reuse_extracted_features:
+                    features = game_doc.get('features')
+                    if features and game_doc.get('binarized') == binarized:
+                        features = None
+                    else:
+                        found_features = True
+
+                if not features:
+                    features = \
+                        extract_features_from_review(_Review,
+                            lowercase_cngrams=args.lowercase_cngrams,
+                            binarize=binarize)
 
                 # Update Mongo database game doc with new key "features",
-                # which will be mapped to game_features
-                reviewdb.update_one({'_id': _id}, {'features': features})
+                # which will be mapped to game_features, and a new key
+                # "binarized", which will be set to True if features were
+                # extracted with the --do_not_binarize_features flag or False
+                # otherwise
+                if not found_features:
+                    reviewdb.update_one({'_id': _id},
+                                        {'features': features,
+                                         'binarized': binarize})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
