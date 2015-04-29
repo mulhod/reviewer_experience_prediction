@@ -5,7 +5,6 @@
 Script used to train models on datasets (or multiple datasets combined).
 '''
 import sys
-import re
 import pymongo
 import argparse
 from math import ceil
@@ -16,9 +15,9 @@ from data import APPID_DICT
 from spacy.en import English
 from nltk.util import ngrams
 from string import punctuation
+from re import sub, IGNORECASE
 from collections import Counter
 from skll import run_configuration
-from nltk.stem import SnowballStemmer
 from configparser import ConfigParser
 from os.path import join, dirname, realpath, abspath
 
@@ -37,6 +36,9 @@ class Review(object):
     # appid of the game (string ID code that Steam uses to represent the
     # game
     appid = None
+    # Attribute whose value determines whether or not the review text will
+    # be lower-cased as part of the normalization step
+    lower = None
     # Length of the original text (base-2 log)
     length = None
     # Attributes representing the word- and sentence-tokenized
@@ -47,8 +49,10 @@ class Review(object):
     tokens = []
     tags = []
     #lemmas = []
-    # Attribute representing the spaCy text annotations
-    spaCy_annotations = []
+    # Attributes representing the spaCy text annotations
+    spaCy_annotations = None
+    spaCy_sents = None
+    #spaCy_ents = None
     # Atrribute representing the named entities in the review
     #entities = []
     # Attribute representing the syntactic heads of each token
@@ -63,7 +67,7 @@ class Review(object):
     # the cluster IDs...
     #cluster_ids = []
     #repvecs = []
-    
+
 
     def __init__(self, review_text, hours_played, game, appid, spaCy_nlp,
                  lower=True):
@@ -80,81 +84,86 @@ class Review(object):
         :type appid: str
         :param spaCy_nlp: spaCy English analyzer
         :type spaCy_nlp: spaCy.en.English
-        :param lower: include lower-casing as part of the review text normalization
+        :param lower: include lower-casing as part of the review text normalization step
         :type lower: boolean
         '''
 
         self.orig = review_text
         self.hours_played = hours_played
         self.appid = appid
+        self.lower = lower
 
         # Generate attribute values
         self.length = ceil(log2(len(self.orig))) # Get base-2 log of th
             # length of the original version of the review text, not the
             # normalized version
-        self.normalize(lower=lower)
+        self.normalize()
         # Use spaCy to analyze the normalized version of the review text
         self.spaCy_annotations = spaCy_nlp(self.norm,
                                            tag=True,
                                            parse=True)
+        self.spaCy_sents = [list(sent) for sent in
+                            self.spaCy_annotations.sents]
+        #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
         self.get_token_features_from_spaCy()
-        self.get_entities_from_spaCy()
+        #self.get_entities_from_spaCy()
 
 
-    def normalize(self, lower=True):
+    def normalize(self):
         '''
         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
         '''
 
+        # Lower-case text if self.lower is Trues
+        if self.lower:
+            r = self.orig.lower()
+        else:
+            r = self.orig
+
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
-        if lower:
-            r = re.sub(r'[\n\t ]+',
-                       r' ',
-                       self.orig.strip().lower())
-        else:
-            r = re.sub(r'[\n\t ]+',
-                       r' ',
-                       self.orig.strip())
+        r = sub(r'[\n\t ]+',
+                r' ',
+                r.strip())
         # Hand-crafted contraction-fixing rules
         # wont ==> won't
-        r = re.sub(r"\bwont\b", r"won't", r, re.IGNORECASE)
+        r = sub(r"\bwont\b", r"won't", r, IGNORECASE)
         # dont ==> don't
-        r = re.sub(r"\bdont\b", r"don't", r, re.IGNORECASE)
+        r = sub(r"\bdont\b", r"don't", r, IGNORECASE)
         # wasnt ==> wasn't
-        r = re.sub(r"\bwasnt\b", r"wasn't", r, re.IGNORECASE)
+        r = sub(r"\bwasnt\b", r"wasn't", r, IGNORECASE)
         # werent ==> weren't
-        r = re.sub(r"\bwerent\b", r"weren't", r, re.IGNORECASE)
+        r = sub(r"\bwerent\b", r"weren't", r, IGNORECASE)
         # aint ==> am not
-        r = re.sub(r"\baint\b", r"am not", r, re.IGNORECASE)
+        r = sub(r"\baint\b", r"am not", r, IGNORECASE)
         # arent ==> are not
-        r = re.sub(r"\barent\b", r"are not", r, re.IGNORECASE)
+        r = sub(r"\barent\b", r"are not", r, IGNORECASE)
         # cant ==> can not
-        r = re.sub(r"\bcant\b", r"can not", r, re.IGNORECASE)
+        r = sub(r"\bcant\b", r"can not", r, IGNORECASE)
         # didnt ==> does not
-        r = re.sub(r"\bdidnt\b", r"did not", r, re.IGNORECASE)
+        r = sub(r"\bdidnt\b", r"did not", r, IGNORECASE)
         # havent ==> have not
-        r = re.sub(r"\bhavent\b", r"have not", r, re.IGNORECASE)
+        r = sub(r"\bhavent\b", r"have not", r, IGNORECASE)
         # ive ==> I have
-        r = re.sub(r"\bive\b", r"I have", r, re.IGNORECASE)
+        r = sub(r"\bive\b", r"I have", r, IGNORECASE)
         # isnt ==> is not
-        r = re.sub(r"\bisnt\b", r"is not", r, re.IGNORECASE)
+        r = sub(r"\bisnt\b", r"is not", r, IGNORECASE)
         # theyll ==> they will
-        r = re.sub(r"\btheyll\b", r"they will", r, re.IGNORECASE)
+        r = sub(r"\btheyll\b", r"they will", r, IGNORECASE)
         # thats ==> that's
-        r = re.sub(r"\bthatsl\b", r"that's", r, re.IGNORECASE)
+        r = sub(r"\bthatsl\b", r"that's", r, IGNORECASE)
         # whats ==> what's
-        r = re.sub(r"\bwhats\b", r"what's", r, re.IGNORECASE)
+        r = sub(r"\bwhats\b", r"what's", r, IGNORECASE)
         # wouldnt ==> would not
-        r = re.sub(r"\bwouldnt\b", r"would not", r, re.IGNORECASE)
+        r = sub(r"\bwouldnt\b", r"would not", r, IGNORECASE)
         # im ==> I am
-        r = re.sub(r"\bim\b", r"I am", r, re.IGNORECASE)
+        r = sub(r"\bim\b", r"I am", r, IGNORECASE)
         # youre ==> you are
-        r = re.sub(r"\byoure\b", r"you are", r, re.IGNORECASE)
+        r = sub(r"\byoure\b", r"you are", r, IGNORECASE)
         # youve ==> you have
-        r = re.sub(r"\byouve\b", r"you have", r, re.IGNORECASE)
+        r = sub(r"\byouve\b", r"you have", r, IGNORECASE)
         # ill ==> i will
-        r = re.sub(r"\bill\b", r"i will", r, re.IGNORECASE)
+        r = sub(r"\bill\b", r"i will", r, IGNORECASE)
         self.norm = r
 
 
@@ -163,7 +172,7 @@ class Review(object):
         Get tokens-related features from spaCy's text annotations.
         '''
 
-        for sent in self.spaCy_annotations.sents:
+        for sent in self.spaCy_sents:
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
             # Get tags
@@ -179,7 +188,7 @@ class Review(object):
         Get named entities from spaCy's text annotations.
         '''
 
-        for entity in self.spaCy_annotations.ents:
+        for entity in self.spaCy_ents:
             self.entities.append(dict(entity=entity.orth_,
                                       label=entity.label_))
 
@@ -300,7 +309,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
 
     # Extract features
     features = Counter()
-    
+
     # Get the length feature
     # Note: This feature will always be mapped to a frequency of 1 since
     # it exists for every single review and, thus, a review of this length
@@ -360,14 +369,16 @@ if __name__ == '__main__':
         action='store_true',
         required=False)
     parser.add_argument('--combined_model_prefix',
-        help='prefix to use when naming the combined model',
+        help='prefix to use when naming the combined model (required if ' \
+             'the --combine flag is used)',
         type=str,
         required=False)
-    parser.add_argument('--lowercase_text',
-        help='make lower-casing part of the review text normalization step,' \
-             ' which affects word n-gram-related features (defaults to True)',
+    parser.add_argument('--do_not_lowercase_text',
+        help='do not make lower-casing part of the review text ' \
+             'normalization step, which affects word n-gram-related ' \
+             'features (defaults to False)',
         action='store_true',
-        default=True)
+        default=False)
     parser.add_argument('--lowercase_cngrams',
         help='lower-case the review text before extracting character n-gram' \
              ' features (defaults to False)',
@@ -414,6 +425,9 @@ if __name__ == '__main__':
 
     binarize = not args.do_not_binarize_features
     sys.stderr.write('Binarize features? {}\n'.format(binarize))
+    lowercase_text = not args.do_not_lowercase_text
+    sys.stderr.write('Lower-case text as part of the normalization step? ' \
+                     '{}\n'.format(lowercase_text))
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
@@ -471,7 +485,7 @@ if __name__ == '__main__':
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
                 _id = str(game_doc['_id'])
-                hours = str(game_doc['hours'])
+                hours = game_doc['hours']
                 review_text = game_doc['review']
 
                 # Instantiate a Review object
@@ -480,7 +494,7 @@ if __name__ == '__main__':
                                  game,
                                  appid,
                                  spaCy_nlp,
-                                 lower=args.lowercase_text)
+                                 lower=lowercase_text)
 
                 # Extract features from the review text
                 found_features = False
@@ -491,7 +505,7 @@ if __name__ == '__main__':
                     else:
                         found_features = True
 
-                if not features:
+                if not found_features:
                     features = \
                         extract_features_from_review(_Review,
                             lowercase_cngrams=args.lowercase_cngrams,
@@ -594,7 +608,7 @@ if __name__ == '__main__':
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
                 _id = str(game_doc['_id'])
-                hours = str(game_doc['hours'])
+                hours = game_doc['hours']
                 review_text = game_doc['review']
 
                 # Instantiate a Review object
@@ -603,7 +617,7 @@ if __name__ == '__main__':
                                  game,
                                  appid,
                                  spaCy_nlp,
-                                 lower=args.lowercase_text)
+                                 lower=lowercase_text)
 
                 # Extract features from the review text
                 found_features = False
@@ -614,7 +628,7 @@ if __name__ == '__main__':
                     else:
                         found_features = True
 
-                if not features:
+                if not found_features:
                     features = \
                         extract_features_from_review(_Review,
                             lowercase_cngrams=args.lowercase_cngrams,
@@ -685,7 +699,7 @@ if __name__ == '__main__':
             write_config_file(cfg_dict_base,
                               cfg_filepath)
 
-            if not args.just_extract_features
+            if not args.just_extract_features:
                 # Run the SKLL configuration, producing a model file
                 sys.stderr.write('Training model for {}...\n'.format(game))
                 run_configuration(cfg_file)
