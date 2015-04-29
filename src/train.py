@@ -8,6 +8,7 @@ import sys
 import re
 import pymongo
 import argparse
+from math import ceil
 from json import dumps
 from os import listdir
 from numpy import log2
@@ -88,9 +89,9 @@ class Review(object):
         self.appid = appid
 
         # Generate attribute values
-        self.length = log2(len(self.orig)) # Get base-2 log of the length of
-            # the original version of the review text, not the normalized
-            # version
+        self.length = ceil(log2(len(self.orig))) # Get base-2 log of th
+            # length of the original version of the review text, not the
+            # normalized version
         self.normalize(lower=lower)
         # Use spaCy to analyze the normalized version of the review text
         self.spaCy_annotations = spaCy_nlp(self.norm,
@@ -183,81 +184,143 @@ class Review(object):
                                       label=entity.label_))
 
 
-def generate_ngram_fdist(sents, _min=1, _max=3):
+def extract_features_from_review(_review, lowercase_cngrams=False,
+                                 binarize=True):
     '''
-    Generate frequency distribution for the tokens in the text.
+    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hyphens and then the string representation of the feature and the value is the frequency with which that feature occurred in the review.
 
-    :param sents: list of lists of tokens that can be chopped up into n-grams.
-    :type sents: list of lists/strs
-    :param _min: minimum value of n for n-gram extraction
-    :type _min: int
-    :param _max: maximum value of n for n-gram extraction
-    :type _max: int
+    :param _review: object representing the review
+    :type _review: Review object
+    :param lowercase_cngrams: whether or not to lower-case the review text before extracting character n-grams
+    :type lowercase_cngrams: boolean (False by default)
+    :param binarize: binarize feature frequency values
+    :type binarize: boolean (True by default)
     :returns: Counter
     '''
 
-    ngram_counter = Counter()
-    for sent in sents:
+    def generate_ngram_fdist(sents, _min=1, _max=2):
+        '''
+        Generate frequency distribution for the tokens in the text.
+
+        :param sents: list of lists of tokens that can be chopped up into n-grams.
+        :type sents: list of lists/strs
+        :param _min: minimum value of n for n-gram extraction
+        :type _min: int
+        :param _max: maximum value of n for n-gram extraction
+        :type _max: int
+        :returns: Counter
+        '''
+
+        # Make emtpy Counter
+        ngram_counter = Counter()
+
+        # Count up all n-grams
+        for sent in sents:
+            for i in range(_min, _max + 1):
+                ngram_counter.update(list(ngrams(sent, i)))
+
+        # Re-represent keys as string representations of specific features
+        # of the feature class "ngrams"
+        for ngram in ngram_counter:
+            ngram_counter['ngrams##{}'.format(' '.join(ngram))] = \
+                ngram_counter[ngram]
+            del ngram_counter[ngram]
+
+        # If binarize is True, make all values 1
+        if binarize:
+            ngram_counter = Counter(list(ngram_counter))
+
+        return ngram_counter
+
+
+    def generate_cngram_fdist(text, _min=2, _max=5):
+        '''
+        Generate frequency distribution for the characters in the text.
+
+        :param text: review text
+        :type text: str
+        :param _min: minimum value of n for character n-gram extraction
+        :type _min: int
+        :param _max: maximum value of n for character n-gram extraction
+        :type _max: int
+        :returns: Counter
+        '''
+
+        # Make emtpy Counter
+        cngram_counter = Counter()
+
+        # Count up all character n-grams
         for i in range(_min, _max + 1):
-            ngram_counter.update(list(ngrams(sent, i)))
-    # For each n-gram, restructure the key as a string representation of the
-    # feature and assign the restructured key-value mapping and delete the old
-    # key
-    for ngram in ngram_counter:
-        ngram_counter['ngrams##{}'.format(' '.join(ngram))] = \
-            ngram_counter[ngram]
-        del ngram_counter[ngram]
-    return ngram_counter
-
-
-def generate_cngram_fdist(text, _min=2, _max=5, lower=False):
-    '''
-    Generate frequency distribution for the characters in the text.
-
-    :param text: review text
-    :type text: str
-    :param _min: minimum value of n for character n-gram extraction
-    :type _min: int
-    :param _max: maximum value of n for character n-gram extraction
-    :type _max: int
-    :param lower: whether or not to lower-case the text (False by default)
-    :type lower: boolean
-    :returns: Counter
-    '''
-
-    cngram_counter = Counter()
-    for i in range(_min, _max + 1):
-        if lower:
-            cngram_counter.update(list(ngrams(text.lower(), i)))
-        else:
             cngram_counter.update(list(ngrams(text, i)))
-    # For each character n-gram, restructure the key as a string
-    # representation of the feature and assign the restructured key-value
-    # mapping and delete the old key
-    for ngram in cngram_counter:
-        cngram_counter['cngrams##{}'.format(' '.join(ngram))] = \
-            cngram_counter[ngram]
-        del cngram_counter[ngram]
-    return cngram_counter
+
+        # Re-represent keys as string representations of specific features
+        # of the feature class "cngrams" (and set all values to 1 if binarize
+        # is True)
+        for cngram in cngram_counter:
+            cngram_counter['cngrams##{}'.format(' '.join(cngram))] = \
+                cngram_counter[cngram]
+            del cngram_counter[cngram]
+
+        # If binarize is True, make all values 1
+        if binarize:
+            cngram_counter = Counter(list(cngram_counter))
+
+        return cngram_counter
 
 
-def generate_dep_features(spaCy_annotations):
-    '''
-    Generate syntactic dependency features from spaCy text annotations.
+    def generate_dep_features(spaCy_annotations):
+        '''
+        Generate syntactic dependency features from spaCy text annotations.
 
-    :param spaCy_annotations: spaCy English text analysis object
-    :type spaCy_annotations: spacy.en.English instance
-    :returns: Counter object representing a frequency distribution of syntactic dependency features
-    '''
+        :param spaCy_annotations: spaCy English text analysis object
+        :type spaCy_annotations: spacy.en.English instance
+        :returns: Counter object representing a frequency distribution of syntactic dependency features
+        '''
 
-    dep = Counter()
-    for s in spaCy_annotations.sents:
-        for t in s:
-            if t.n_lefts + t.n_rights:
-                fstring = "dep##{0.orth_}:{1.orth_}"
-                [dep.update({fstring.format(t, c): 1}) for c in t.children if
-                 not c.tag_ in punctuation]
-    return dep
+        # Make emtpy Counter
+        dep = Counter()
+
+        # Iterate through spaCy annotations for each sentence and then for
+        # each token
+        for s in spaCy_annotations.sents:
+            for t in s:
+                # If the number of children to the left and to the right
+                # of the token add up to a value that is not zero, then
+                # get the children and make dependency features with
+                # them
+                if t.n_lefts + t.n_rights:
+                    [dep.update({"dep##{0.orth_}:{1.orth_}".format(t, c): 1})
+                     for c in t.children if not c.tag_ in punctuation]
+
+        # If binarize is True, make all values 1
+        if binarize:
+            dep = Counter(list(dep))
+
+        return dep
+
+    # Extract features
+    features = Counter()
+    
+    # Get the length feature
+    # Note: This feature will always be mapped to a frequency of 1 since
+    # it exists for every single review and, thus, a review of this length
+    # being mapped to the hours played value that it is mapped to has
+    # occurred once.
+    features.update({'length##{}'.format(_review.length): 1})
+
+    # Extract n-gram features
+    features.update(generate_ngram_fdist(_review.tokens))
+
+    # Extract character n-gram features
+    if lowercase_cngrams:
+        features.update(generate_cngram_fdist(_review.orig.lower()))
+    else:
+        features.update(generate_cngram_fdist(_review.orig))
+
+    # Generate the syntactic dependency features
+    features.update(generate_dep_features(_review.spaCy_annotations))
+
+    return features
 
 
 def write_config_file(config_dict, path):
@@ -310,6 +373,17 @@ if __name__ == '__main__':
              ' features (defaults to False)',
         action='store_true',
         default=False)
+    parser.add_argument('--just_extract_features',
+        help='exract features from all of the reviews, generate .jsonlines ' \
+             'files, etc., but quit before training any models (defaults to' \
+             'False)',
+        action='store_true',
+        default='False')
+    parser.add_argument('--do_not_binarize_features',
+        help='do not make all non-zero feature frequencies equal to 1 ' \
+             '(defaults to False)',
+        action='store_true',
+        default=False)
     args = parser.parse_args()
 
     # Get paths to the project, data, working, and models directories
@@ -360,10 +434,13 @@ if __name__ == '__main__':
     else:
         game_files = args.game_files.split(',')
 
+    # Train a combined model with all of the games or train models for each
+    # individual game dataset
     if args.combine:
-        sys.stderr.write('Training a combined model with training data from' \
-                         ' the following games: {}\n'.format(
-                                                       ', '.join(game_files)))
+
+        sys.stderr.write('Extracting features to train a combined model ' \
+                         'with training data from the following games: {}' \
+                         '\n'.format(', '.join(game_files)))
 
         # Initialize empty list for holding all of the feature dictionaries
         # from each review in each game and then extract features from each
@@ -397,36 +474,19 @@ if __name__ == '__main__':
                                  lower=args.lowercase_text)
 
                 # Extract features from the review text
-                game_features = Counter()
+                features = \
+                    extract_features_from_review(_Review,
+                        lowercase_cngrams=args.lowercase_cngrams,
+                        binarize=(not args.do_not_binarize_features))
 
-                # Extract n-gram features
-                ngrams_counter = generate_ngram_fdist(_Review.tokens)
-                game_features.update(ngrams_counter)
-
-                # Extract character n-gram features
-                if args.lowercase_cngrams:
-                    cngrams_counter = \
-                        generate_cngram_fdist(_Review.orig.lower())
-                else:
-                    cngrams_counter = generate_cngram_fdist(_Review.orig)
-                game_features.update(cngrams_counter)
-
-                # Get the length feature
-                length_feature = {'length##{}'.format(_Review.length): 1}
-                game_features.update(length_feature)
-
-                # Generate the syntactic dependency features
-                game_features.update(generate_dep_features(
-                                                   _Review.spaCy_annotations))
+                # Update Mongo database game doc with new key "features",
+                # which will be mapped to game_features
+                reviewdb.update_one({'_id': _id}, {'features': features})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
                                       'y': hours,
-                                      'x': game_features})
-
-                # Update Mongo database game doc with new key "features",
-                # which will be mapped to game_features
-                reviewdb.update_one({'_id': _id}, {'features': game_features})
+                                      'x': features})
 
         # Write .jsonlines file
         jsonlines_filename = '{}.jsonlines'.format(combined_model_prefix)
@@ -479,14 +539,17 @@ if __name__ == '__main__':
         write_config_file(cfg_dict_base,
                           cfg_filepath)
 
-        # Run the SKLL configuration, producing a model file
-        sys.stderr.write('Training combined model...\n')
-        run_configuration(cfg_file)
+        if not args.just_extract_features:
+            # Run the SKLL configuration, producing a model file
+            sys.stderr.write('Training combined model...\n')
+            run_configuration(cfg_file)
     else:
         for game_file in game_files:
+
             game = game_file[:-4]
-            sys.stderr.write('Training a model with training data from {}' \
-                             '...\n'.format(game))
+
+            sys.stderr.write('Extracting features to train a model with ' \
+                             'training data from {}...\n'.format(game))
 
             # Initialize empty list for holding all of the feature
             # dictionaries from each review and then extract features from all
@@ -519,36 +582,19 @@ if __name__ == '__main__':
                                  lower=args.lowercase_text)
 
                 # Extract features from the review text
-                game_features = Counter()
+                features = \
+                    extract_features_from_review(_Review,
+                        lowercase_cngrams=args.lowercase_cngrams,
+                        binarize=(not args.do_not_binarize_features))
 
-                # Extract n-gram features
-                ngrams_counter = generate_ngram_fdist(_Review.tokens)
-                game_features.update(ngrams_counter)
-
-                # Extract character n-gram features
-                if args.lowercase_cngrams:
-                    cngrams_counter = \
-                        generate_cngram_fdist(_Review.orig.lower())
-                else:
-                    cngrams_counter = generate_cngram_fdist(_Review.orig)
-                game_features.update(cngrams_counter)
-
-                # Get the length feature
-                length_feature = {'length##{}'.format(_Review.length): 1}
-                game_features.update(length_feature)
-
-                # Generate the syntactic dependency features
-                game_features.update(generate_dep_features(
-                                                   _Review.spaCy_annotations))
+                # Update Mongo database game doc with new key "features",
+                # which will be mapped to game_features
+                reviewdb.update_one({'_id': _id}, {'features': features})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': _id,
                                       'y': hours,
-                                      'x': game_features})
-
-                # Update Mongo database game doc with new key "features",
-                # which will be mapped to game_features
-                reviewdb.update_one({'_id': _id}, {'features': game_features})
+                                      'x': features})
 
             # Write .jsonlines file
             jsonlines_filename = '{}.jsonlines'.format(game)
@@ -600,8 +646,9 @@ if __name__ == '__main__':
             write_config_file(cfg_dict_base,
                               cfg_filepath)
 
-            # Run the SKLL configuration, producing a model file
-            sys.stderr.write('Training model for {}...\n'.format(game))
-            run_configuration(cfg_file)
+            if not args.just_extract_features
+                # Run the SKLL configuration, producing a model file
+                sys.stderr.write('Training model for {}...\n'.format(game))
+                run_configuration(cfg_file)
 
-    sys.stderr.write('Model training complete.\n')
+    sys.stderr.write('Complete.\n')
