@@ -193,18 +193,15 @@ class Review(object):
                                       label=entity.label_))
 
 
-def extract_features_from_review(_review, lowercase_cngrams=False,
-                                 binarize=True):
+def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hyphens and then the string representation of the feature and the value is the frequency with which that feature occurred in the review.
+    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hashes and then the string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
     :param lowercase_cngrams: whether or not to lower-case the review text before extracting character n-grams
     :type lowercase_cngrams: boolean (False by default)
-    :param binarize: binarize feature frequency values
-    :type binarize: boolean (True by default)
-    :returns: Counter
+    :returns: dict
     '''
 
     def generate_ngram_fdist(sents, _min=1, _max=2):
@@ -230,14 +227,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
 
         # Re-represent keys as string representations of specific features
         # of the feature class "ngrams"
-        for ngram in ngram_counter:
+        for ngram in list(ngram_counter):
             ngram_counter['ngrams##{}'.format(' '.join(ngram))] = \
                 ngram_counter[ngram]
             del ngram_counter[ngram]
-
-        # If binarize is True, make all values 1
-        if binarize:
-            ngram_counter = Counter(list(ngram_counter))
 
         return ngram_counter
 
@@ -265,14 +258,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
         # Re-represent keys as string representations of specific features
         # of the feature class "cngrams" (and set all values to 1 if binarize
         # is True)
-        for cngram in cngram_counter:
+        for cngram in list(cngram_counter):
             cngram_counter['cngrams##{}'.format(' '.join(cngram))] = \
                 cngram_counter[cngram]
             del cngram_counter[cngram]
-
-        # If binarize is True, make all values 1
-        if binarize:
-            cngram_counter = Counter(list(cngram_counter))
 
         return cngram_counter
 
@@ -287,7 +276,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
         '''
 
         # Make emtpy Counter
-        dep = Counter()
+        dep_counter = Counter()
 
         # Iterate through spaCy annotations for each sentence and then for
         # each token
@@ -298,12 +287,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
                 # get the children and make dependency features with
                 # them
                 if t.n_lefts + t.n_rights:
-                    [dep.update({"dep##{0.orth_}:{1.orth_}".format(t, c): 1})
+                    fstr = "dep##{0.orth_}:{1.orth_}"
+                    [dep_counter.update({fstr.format(t, c): 1})
                      for c in t.children if not c.tag_ in punctuation]
-
-        # If binarize is True, make all values 1
-        if binarize:
-            dep = Counter(list(dep))
 
         return dep
 
@@ -321,15 +307,13 @@ def extract_features_from_review(_review, lowercase_cngrams=False,
     features.update(generate_ngram_fdist(_review.tokens))
 
     # Extract character n-gram features
-    if lowercase_cngrams:
-        features.update(generate_cngram_fdist(_review.orig.lower()))
-    else:
-        features.update(generate_cngram_fdist(_review.orig))
+    orig = _review.orig.lower() if lowercase_ngrams else _review.orig
+    features.update(generate_cngram_fdist(orig))
 
     # Generate the syntactic dependency features
     features.update(generate_dep_features(_review.spaCy_annotations))
 
-    return features
+    return dict(features)
 
 
 def write_config_file(config_dict, path):
@@ -508,8 +492,11 @@ if __name__ == '__main__':
                 if not found_features:
                     features = \
                         extract_features_from_review(_Review,
-                            lowercase_cngrams=args.lowercase_cngrams,
-                            binarize=binarize)
+                            lowercase_cngrams=args.lowercase_cngrams)
+
+                # If binarize is True, make all values 1
+                if binarize:
+                    features = dict(Counter(list(features)))
 
                 # Update Mongo database game doc with new key "features",
                 # which will be mapped to game_features, and a new key
@@ -631,8 +618,11 @@ if __name__ == '__main__':
                 if not found_features:
                     features = \
                         extract_features_from_review(_Review,
-                            lowercase_cngrams=args.lowercase_cngrams,
-                            binarize=binarize)
+                            lowercase_cngrams=args.lowercase_cngrams)
+
+                # If binarize is True, make all values 1
+                if binarize:
+                    features = dict(Counter(list(features)))
 
                 # Update Mongo database game doc with new key "features",
                 # which will be mapped to game_features, and a new key
