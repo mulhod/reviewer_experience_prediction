@@ -1,3 +1,4 @@
+#!/usr/env python3.4
 '''
 @author: Matt Mulholland, Janette Martinez, Emily Olshefski
 @date: 3/18/15
@@ -8,7 +9,6 @@ import sys
 import pymongo
 import argparse
 from math import ceil
-from json import dumps
 from os import listdir
 from numpy import log2
 from data import APPID_DICT
@@ -19,6 +19,7 @@ from re import sub, IGNORECASE
 from collections import Counter
 from skll import run_configuration
 from configparser import ConfigParser
+from json import dumps, JSONEncoder, JSONDecoder
 from os.path import join, dirname, realpath, abspath
 
 
@@ -291,7 +292,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                     [dep_counter.update({fstr.format(t, c): 1})
                      for c in t.children if not c.tag_ in punctuation]
 
-        return dep
+        return dep_counter
 
     # Extract features
     features = Counter()
@@ -433,6 +434,12 @@ if __name__ == '__main__':
     # Initialize an English-language spaCy NLP analyzer instance
     spaCy_nlp = English()
 
+    # Initialize JSONEncoder, JSONDecoder objects
+    if args.just_extract_features:
+        json_encoder = JSONEncoder()
+    if args.try_to_reuse_extracted_features:
+        json_decoder = JSONDecoder()
+
     # Get list of games
     game_files = []
     if args.game_files == "all":
@@ -460,15 +467,20 @@ if __name__ == '__main__':
             sys.stderr.write('Extracting features from the training data ' \
                              'for {}...\n'.format(game))
             appid = APPID_DICT[game]
-            game_docs = list(reviewdb.find({'game': game,
-                                            'partition': 'training'}))
+            game_docs_cursor = reviewdb.find({'game': game,
+                                              'partition': 'training'})
+            if game_docs_cursor.count() == 0:
+                sys.exit('ERROR: No matching documents were found in the ' \
+                         'MongoDB collection in the training partition ' \
+                         'for game {}. Exiting.\n'.format(game))
+            game_docs = list(game_docs_cursor)
 
             # Iterate over all training documents for the given game
             for game_doc in game_docs:
 
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
-                _id = str(game_doc['_id'])
+                _id = game_doc['_id']
                 hours = game_doc['hours']
                 review_text = game_doc['review']
 
@@ -483,7 +495,7 @@ if __name__ == '__main__':
                 # Extract features from the review text
                 found_features = False
                 if args.try_to_reuse_extracted_features:
-                    features = game_doc.get('features')
+                    features = json_decoder.decode(game_doc.get('features'))
                     if features and game_doc.get('binarized') == binarized:
                         features = None
                     else:
@@ -504,12 +516,12 @@ if __name__ == '__main__':
                 # extracted with the --do_not_binarize_features flag or False
                 # otherwise
                 if not found_features:
-                    reviewdb.update_one({'_id': _id},
-                                        {'features': features,
-                                         'binarized': binarize})
+                    reviewdb.update({'_id': _id},
+                                    {'features': json_encoder.encode(features),
+                                     'binarized': binarize})
 
                 # Append a feature dictionary for the review to feature_dicts
-                feature_dicts.append({'id': _id,
+                feature_dicts.append({'id': str(_id),
                                       'y': hours,
                                       'x': features})
 
@@ -586,15 +598,20 @@ if __name__ == '__main__':
             sys.stderr.write('Extracting features from the training data ' \
                              'for {}...\n'.format(game))
             appid = APPID_DICT[game]
-            game_docs = list(reviewdb.find({'game': game,
-                                            'partition': 'training'}))
+            game_docs_cursor = reviewdb.find({'game': game,
+                                              'partition': 'training'})
+            if game_docs_cursor.count() == 0:
+                sys.exit('ERROR: No matching documents were found in the ' \
+                         'MongoDB collection in the training partition ' \
+                         'for game {}. Exiting.\n'.format(game))
+            game_docs = list(game_docs_cursor)
 
             # Iterate over all training documents for the given game
             for game_doc in game_docs:
 
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
-                _id = str(game_doc['_id'])
+                _id = game_doc['_id']
                 hours = game_doc['hours']
                 review_text = game_doc['review']
 
@@ -609,7 +626,7 @@ if __name__ == '__main__':
                 # Extract features from the review text
                 found_features = False
                 if args.try_to_reuse_extracted_features:
-                    features = game_doc.get('features')
+                    features = json_decoder.decode(game_doc.get('features'))
                     if features and game_doc.get('binarized') == binarized:
                         features = None
                     else:
@@ -630,12 +647,12 @@ if __name__ == '__main__':
                 # extracted with the --do_not_binarize_features flag or False
                 # otherwise
                 if not found_features:
-                    reviewdb.update_one({'_id': _id},
-                                        {'features': features,
-                                         'binarized': binarize})
+                    reviewdb.update({'_id': _id},
+                                    {'features': json_encoder.encode(features),
+                                     'binarized': binarize})
 
                 # Append a feature dictionary for the review to feature_dicts
-                feature_dicts.append({'id': _id,
+                feature_dicts.append({'id': str(_id),
                                       'y': hours,
                                       'x': features})
 
