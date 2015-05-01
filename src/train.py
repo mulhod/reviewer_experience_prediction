@@ -307,7 +307,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features.update(generate_ngram_fdist(_review.tokens))
 
     # Extract character n-gram features
-    orig = _review.orig.lower() if lowercase_ngrams else _review.orig
+    orig = _review.orig.lower() if lowercase_cngrams else _review.orig
     features.update(generate_cngram_fdist(orig))
 
     # Generate the syntactic dependency features
