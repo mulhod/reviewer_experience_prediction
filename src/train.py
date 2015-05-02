@@ -260,7 +260,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         # of the feature class "cngrams" (and set all values to 1 if binarize
         # is True)
         for cngram in list(cngram_counter):
-            cngram_counter['cngrams##{}'.format(' '.join(cngram))] = \
+            cngram_counter['cngrams##{}'.format(''.join(cngram))] = \
                 cngram_counter[cngram]
             del cngram_counter[cngram]
 
