@@ -532,8 +532,8 @@ if __name__ == '__main__':
         sys.stderr.write('Writing {} to working directory...'.format(
                                                           jsonlines_filename))
         with open(jsonlines_filepath, 'w') as jsonlines_file:
-            [jsonlines_file.write('{}\n'.format(json.dumps(fd)).encode(
-             'utf-8')) for fd in feature_dicts]
+            [jsonlines_file.write('{}\n'.format(dumps(fd)).encode('utf-8')) for
+             fd in feature_dicts]
 
         # Set up SKLL job arguments
         learner_name = 'RescaledSVR'
@@ -546,17 +546,16 @@ if __name__ == '__main__':
                          "Input": {"train_location": working_dir,
                                    "ids_to_floats": "False",
                                    "label_col": "y",
-                                   "featuresets": json.dumps(
-                                                   [[combined_model_prefix]]),
+                                   "featuresets": \
+                                       dumps([[combined_model_prefix]]),
                                    "suffix": '.jsonlines',
-                                   "learners": json.dumps([learner_name])
+                                   "learners": dumps([learner_name])
                                    },
                          "Tuning": {"feature_scaling": "none",
                                     "grid_search": "True",
                                     "min_feature_count": "1",
                                     "objective": grid_objective,
-                                    "param_grids": json.dumps(
-                                                           [param_grid_list]),
+                                    "param_grids": dumps([param_grid_list]),
                                     },
                          "Output": {"probability": "False",
                                     "log": join(logs_dir,
@@ -663,8 +662,8 @@ if __name__ == '__main__':
             sys.stderr.write('Writing {} to working directory...'.format(
                                                           jsonlines_filename))
             with open(jsonlines_filepath, 'w') as jsonlines_file:
-                [jsonlines_file.write('{}\n'.format(json.dumps(fd)).encode(
-                 'utf-8')) for fd in feature_dicts]
+                [jsonlines_file.write('{}\n'.format(dumps(fd)).encode('utf-8'))
+                 for fd in feature_dicts]
 
             # Set up SKLL job arguments
             learner_name = 'RescaledSVR'
@@ -677,16 +676,15 @@ if __name__ == '__main__':
                              "Input": {"train_location": working_dir,
                                        "ids_to_floats": "False",
                                        "label_col": "y",
-                                       "featuresets": json.dumps([[game]]),
+                                       "featuresets": dumps([[game]]),
                                        "suffix": '.jsonlines',
-                                       "learners": json.dumps([learner_name])
+                                       "learners": dumps([learner_name])
                                        },
                              "Tuning": {"feature_scaling": "none",
                                         "grid_search": "True",
                                         "min_feature_count": "1",
                                         "objective": grid_objective,
-                                        "param_grids": json.dumps(
-                                                           [param_grid_list]),
+                                        "param_grids": dumps([param_grid_list]),
                                         },
                              "Output": {"probability": "False",
                                         "log": join(logs_dir,
