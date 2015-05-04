@@ -385,6 +385,10 @@ if __name__ == '__main__':
              '(defaults to False)',
         action='store_true',
         default=False)
+    parser.add_argument('--mongodb_port', '-dbport',
+        help='port that the MongoDB server is running (defaults to 27017',
+        type=int,
+        default=27017)
     args = parser.parse_args()
 
     # Get paths to the project, data, working, and models directories
@@ -422,7 +426,7 @@ if __name__ == '__main__':
                  '--combined_model_prefix option argument. Exiting.\n')
 
     # Establish connection to MongoDB database
-    connection_string = 'mongodb://localhost:27017'
+    connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
     try:
         connection = pymongo.MongoClient(connection_string)
     except pymongo.errors.ConnectionFailure as e:

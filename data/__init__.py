@@ -10,7 +10,7 @@ APPID_DICT = dict(Dota_2='570',
                   Warframe='230410',
                   Counter_Strike='10')
 
-FILTER_DICT = dict(Dota_2=dict(MAXLEN=None,
+FILTER_DICT = dict(Dota_2=dict(MAXLEN=926.9714147380057,
                                MINLEN=50,
                                MAXHOURS=None,
                                MINHOURS=0),

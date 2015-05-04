@@ -1,0 +1,26 @@
+Descriptive Report for Grand Theft Auto V
+===============================================================================
+
+Number of English-language reviews: 8526
+
+Review Lengths Distribution
+
+Average review length: 267.2030260380014
+Minimum review length = 4
+Maximum review length = 7958
+Standard deviation = 481.6795983467796
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 39.153295801079054
+Minimum experience = 0.1
+Maximum experience = 235.0
+Standard deviation = 27.735372233034756
+
+
+Filter Values
+MINLEN = 50
+MAXLEN = 1230.5622227315605
+MINHOURS = 0
+MAXHOURS = 94.62404026714856

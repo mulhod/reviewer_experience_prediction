@@ -5,7 +5,7 @@ import argparse
 from re import sub
 import numpy as np
 import pandas as pd
-import seaborn as sns
+#import seaborn as sns
 from math import ceil
 from os import listdir
 from data import APPID_DICT
@@ -21,8 +21,8 @@ db = connection['reviews_project']
 reviewdb = db['reviews']
 
 # Seaborn-related configuration
-sns.set_palette("deep", desat=.6)
-sns.set_context(rc={"figure.figsize": (8, 4)})
+#sns.set_palette("deep", desat=.6)
+#sns.set_context(rc={"figure.figsize": (8, 4)})
 
 # Seed the random number generator (hopefully ensuring that repeated
 # iterations will result in the same behavior from random.randint and
@@ -84,7 +84,7 @@ def get_and_describe_dataset(file_path, report=True):
 
     if report:
         # Get path to reports directory and open report file
-        reports_dir = join(dirname(realpath(__file__)),
+        reports_dir = join(dirname(dirname(realpath(__file__))),
                            'reports')
         game = basename(file_path)[:-4]
         output_path = join(reports_dir,
@@ -110,10 +110,10 @@ def get_and_describe_dataset(file_path, report=True):
     std = lengths.std()
     if report:
         output.write('Review Lengths Distribution\n\n')
-        output.write('Average review length: {}\n'.format(avg_len))
+        output.write('Average review length: {}\n'.format(mean))
         output.write('Minimum review length = {}\n'.format(min(lengths)))
         output.write('Maximum review length = {}\n'.format(max(lengths)))
-        output.write('Standard deviation = {}\n\n'.format(std))
+        output.write('Standard deviation = {}\n\n\n'.format(std))
     
     # Use the standard deviation to define the range of acceptable reviews
     # (in terms of the length only) as within 2 standard deviations of the
@@ -126,8 +126,8 @@ def get_and_describe_dataset(file_path, report=True):
         # Generate length histogram
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        ax.hist(pd.Series(lengths),
-                label=game)
+        ax.hist(pd.Series(lengths))
+        ax.set_label(game)
         ax.set_xlabel('Review length (in characters)')
         ax.set_ylabel('Total reviews')
         fig.savefig(join(reports_dir,
@@ -136,27 +136,35 @@ def get_and_describe_dataset(file_path, report=True):
     # Look at hours played values in the same way as above for length
     hours = np.array([review['hours'] for review in reviews])
     mean = hours.mean()
-    std = lengths.std()
+    std = hours.std()
     if report:
         output.write('Review Experience Distribution\n\n')
         output.write('Average game experience (in hours played): {}' \
                      '\n'.format(mean))
         output.write('Minimum experience = {}\n'.format(min(hours)))
-        output.write('Maximum expeience = {}\n'.format(max(hours)))
-        output.write('Standard deviation = {}\n\n'.format(std))
+        output.write('Maximum experience = {}\n'.format(max(hours)))
+        output.write('Standard deviation = {}\n\n\n'.format(std))
 
     # Use the standard deviation to define the range of acceptable reviews
     # (in terms of experience) as within 2 standard deviations of the mean
     # (starting from zero, actually)
     MINHOURS = 0
     MAXHOURS = mean + 2.0*std
+    
+    # Write MAXLEN, MINLEN, etc. values to report
+    if report:
+        output.write('Filter Values\nMINLEN = {}\nMAXLEN = {}\nMINHOURS ' \
+                     '= {}\nMAXHOURS = {}'.format(MINLEN,
+                                                  MAXLEN,
+                                                  MINHOURS,
+                                                  MAXHOURS))
 
     # Generate experience histogram
     if report:
         fig = plt.figure()
         ax = fig.add_subplot(111)
-        ax.hist(pd.Series(hours),
-                label=game)
+        ax.hist(pd.Series(hours))
+        ax.set_label(game)
         ax.set_xlabel('Game experience (in hours played)')
         ax.set_ylabel('Total reviews')
         fig.savefig(join(reports_dir,
@@ -201,7 +209,7 @@ def insert_reviews(file_path, max_size, percent_train):
     reviews = dataset['reviews']
     sys.stderr.write('Number of original, English language reviews ' \
                      'collected: {}\n'.format(
-                                         dataset['original_total_reviews']))
+                                         dataset['orig_total_reviews']))
     MAXLEN = dataset['MAXLEN']
     MINLEN = dataset['MINLEN']
     MAXHOURS = dataset['MAXHOURS']
@@ -304,7 +312,7 @@ def insert_reviews(file_path, max_size, percent_train):
 
     # Print out some information about how many reviews were added
     train_inserts = reviewdb.find({'appid': appid,
-                                   'partition': 'train'}).count()
+                                   'partition': 'training'}).count()
     test_inserts = reviewdb.find({'appid': appid,
                                   'partition': 'test'}).count()
     extra_inserts = reviewdb.find({'appid': appid,
@@ -383,6 +391,8 @@ if __name__ == '__main__':
     # the data file and then put entries in our MongoDB collection with a
     # key that identifies each review as either training or test
     for game_file in game_files:
+        sys.stderr.write('Getting/inserting reviews for {}...\n' \
+                         '\n'.format(basename(game_file)[:-4]))
         insert_reviews(abspath(join(data_dir,
                                     game_file)),
                        args.max_size,
