@@ -5,7 +5,7 @@ import time
 import pymongo
 import argparse
 from re import sub
-from util.read_data_files import get_reviews_for_game
+from util.make_train_test_sets import get_and_describe_dataset
 from os.path import realpath, abspath, dirname, join, basename
 
 # ARFF file template
@@ -208,9 +208,10 @@ if __name__ == '__main__':
                 sys.stderr.write('Getting review data from {}...' \
                                  '\n'.format(game_file))
 
-                review_dicts_list.extend(get_reviews_for_game(
-                                             join(data_dir,
-                                                  game_file)))
+                dataset = get_and_describe_dataset(join(data_dir,
+                                                        game_file),
+                                                   report=False)
+                review_dicts_list.extend(dataset['reviews'])
 
         file_names = [game[:-4] for game in game_files]
         arff_file = join(arff_files_dir,
@@ -240,9 +241,11 @@ if __name__ == '__main__':
             sys.stderr.write('Getting review data from {}...' \
                              '\n'.format(game_file))
 
-            if args.make_train_test_sets:
-                review_dicts_list = get_reviews_for_game(join(data_dir,
-                                                              game_file))
+            if not args.make_train_test_sets:
+                dataset = get_and_describe_dataset(join(data_dir,
+                                                        game_file),
+                                                   report=False)
+                review_dicts_list.extend(dataset['reviews'])
 
             arff_file = join(arff_files_dir,
                              '{}.arff'.format(game_file[:-4]))
