@@ -1,12 +1,17 @@
 #!/usr/env python3.4
 import sys
-import argparse
 import pymongo
+import argparse
+from re import sub
+import numpy as np
+import pandas as pd
+import seaborn as sns
 from math import ceil
 from os import listdir
 from random import randint
 from random import shuffle
-from data import APPID_DICT, FILTER_DICT
+import matplotlib.pyplot as plt
+from data import APPID_DICT
 from util.read_data_files import get_reviews_for_game
 from os.path import join, basename, abspath, dirname, realpath
 
@@ -15,35 +20,135 @@ connection = pymongo.MongoClient('mongodb://localhost:27017')
 db = connection['reviews_project']
 reviewdb = db['reviews']
 
+# Seaborn-related configuration
+sns.set_palette("deep", desat=.6)
+sns.set_context(rc={"figure.figsize": (8, 4)})
+
+
+def get_and_describe_dataset(file_path):
+    '''
+    Return suggested values for the maximum/minimum review length and hours played values for a given game; also produce a report with some descriptive statistics and graphs.
+
+    :param file_path: path to game reviews file
+    :type file_path: str
+    :returns: dict containing a 'reviews' key mapped to the list of read-in review dictionaries and int values mapped to keys for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
+    '''
+
+    # Get path to reports directory and open report file
+    reports_dir = join(dirname(realpath(__file__)),
+                       'reports')
+    game = basename(file_path)[:-4]
+    output_path = join(reports_dir,
+                       '{}_report.txt'.format(game))
+    output = open(output_path,
+                  'w')
+
+    # Get list of review dictionaries
+    reviews = get_reviews_for_game(file_path)
+
+    output.write('Descriptive Report for {}\n==========================' \
+                 '=====================================================' \
+                 '\n\n'.format(re.sub(r'_',
+                                      ' ',
+                                      game)))
+    output.write('Number of English-language reviews: {}\n' \
+                 '\n'.format(len(reviews)))
+
+    # Look at review lengths to figure out what should be filtered out
+    output.write('Review Lengths Distribution\n\n')
+    lengths = np.array([len(review['review']) for review in reviews])
+    mean = lengths.mean()
+    output.write('Average review length: {}\n'.format(avg_len))
+    output.write('Minimum review length = {}\n'.format(min(lengths)))
+    output.write('Maximum review length = {}\n'.format(max(lengths)))
+    std = lengths.std()
+    output.write('Standard deviation = {}\n\n'.format(std))
+    
+    # Use the standard deviation to define the range of acceptable reviews
+    # (in terms of the length only) as within 2 standard deviations of the
+    # mean (but with the added caveat that the reviews be at least 50
+    # characters
+    MINLEN = 50 if (mean - 2.0*std) < 50 else (mean - 2.0*std)
+    MAXLEN = mean + 2.0*std
+    
+    # Generate length histogram
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.hist(pd.Series(lengths), label=game)
+    ax.set_xlabel('Review length (in characters)')
+    ax.set_ylabel('Total reviews')
+    fig.savefig(join(reports_dir,
+                     '{}_length_histogram'.format(game)))
+    
+    # Look at hours played values in the same way as above for length
+    output.write('Review Experience Distribution\n\n')
+    hours = np.array([review['hours'] for review in reviews])
+    mean = hours.mean()
+    output.write('Average game experience (in hours played): {}' \
+                 '\n'.format(mean))
+    output.write('Minimum experience = {}\n'.format(min(hours)))
+    output.write('Maximum expeience = {}\n'.format(max(hours)))
+    std = lengths.std()
+    output.write('Standard deviation = {}\n\n'.format(std))
+
+    # Use the standard deviation to define the range of acceptable reviews
+    # (in terms of experience) as within 2 standard deviations of the mean
+    # (starting from zero, actually)
+    MINHOURS = 0
+    MAXHOURS = mean + 2.0*std
+
+    # Generate experience histogram
+    fig = plt.figure()
+    ax = fig.add_subplot(111)
+    ax.hist(pd.Series(hours),
+            label=game)
+    ax.set_xlabel('Game experience (in hours played)')
+    ax.set_ylabel('Total reviews')
+    fig.savefig(join(reports_dir,
+                     '{}_experience_histogram'.format(game)))
+
+    return dict(reviews=reviews,
+                MINLEN=MINLEN
+                MAXLEN=MAXLEN,
+                MINHOURS=MINHOURS,
+                MAXHOURS=MAXHOURS)
+    
+
+
 def insert_reviews(file_path, max_size, percent_train):
     '''
     Insert training/test set reviews into the MongoDB database.
 
     :param file_path: path to game reviews file
     :type file_path: str
-    :returns: NoneType
+    :param max_size: maximum size of training/test set combination (in number of reviews)
+    :type max_size: int
+    :param percent_train: percent of training/test combination that should be reserved for the training set
+    :type percent_train: float/int
+    :returns: None
     '''
 
     global reviewdb
     game = basename(file_path)[:-4]
     appid = APPID_DICT[game]
-    MAXLEN = FILTER_DICT[game]['MAXLEN']
-    MINLEN = FILTER_DICT[game]['MINLEN']
-    MAXHOURS = FILTER_DICT[game]['MAXHOURS']
-    MINHOURS = FILTER_DICT[game]['MINHOURS']
+    
+    sys.stderr.write('Inserting reviews from {}...\n'.format(game))
+
+    # Get list of all reviews represented as dictionaries with 'review' and
+    # 'hours' keys and get the filter values
+    dataset = get_and_describe_dataset(file_path)
+    reviews = dataset['reviews']
+    sys.stderr.write('Number of original, English language reviews ' \
+                     'collected: {}\n'.format(len(reviews)))
+    MAXLEN = dataset['MAXLEN']
+    MINLEN = dataset['MINLEN']
+    MAXHOURS = dataset['MAXHOURS']
+    MINHOURS = dataset['MINHOURS']
     sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
                      'hours: {}\nMin. # of hours: {}\n\n'.format(MAXLEN,
                                                                  MINLEN, 
                                                                  MAXHOURS,
                                                                  MINHOURS))
-    
-    sys.stderr.write('Inserting reviews from {}...\n'.format(game))
-
-    # Get list of all reviews represented as dictionaries with 'review' and
-    # 'hours' keys
-    reviews = get_reviews_for_game(file_path)
-    sys.stderr.write('Number of original, English language reviews ' \
-                     'collected: {}\n'.format(len(reviews)))
 
     # Here we refer to the game-specific values for filtering out outliers
     reviews = [r for r in reviews if len(r['review']) <= MAXLEN

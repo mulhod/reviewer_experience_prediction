@@ -467,13 +467,12 @@ if __name__ == '__main__':
             sys.stderr.write('Extracting features from the training data ' \
                              'for {}...\n'.format(game))
             appid = APPID_DICT[game]
-            game_docs_cursor = reviewdb.find({'game': game,
-                                              'partition': 'training'})
-            if game_docs_cursor.count() == 0:
+            game_docs = list(reviewdb.find({'game': game,
+                                            'partition': 'training'}))
+            if len(game_docs) == 0:
                 sys.exit('ERROR: No matching documents were found in the ' \
                          'MongoDB collection in the training partition ' \
                          'for game {}. Exiting.\n'.format(game))
-            game_docs = list(game_docs_cursor)
 
             # Iterate over all training documents for the given game
             for game_doc in game_docs:
@@ -516,9 +515,10 @@ if __name__ == '__main__':
                 # extracted with the --do_not_binarize_features flag or False
                 # otherwise
                 if not found_features:
-                    reviewdb.update({'_id': _id},
-                                    {'features': json_encoder.encode(features),
-                                     'binarized': binarize})
+                    reviewdb.update(
+                        {'_id': _id},
+                        {'$set': {'features': json_encoder.encode(features),
+                                  'binarized': binarize}})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': str(_id),
@@ -526,7 +526,7 @@ if __name__ == '__main__':
                                       'x': features})
 
         # Write .jsonlines file
-        jsonlines_filename = '{}.jsonlines'.format(combined_model_prefix)
+        jsonlines_filename = '{}.jsonlines'.format(args.combined_model_prefix)
         jsonlines_filepath = join(working_dir,
                                   jsonlines_filename)
         sys.stderr.write('Writing {} to working directory...'.format(
@@ -547,7 +547,7 @@ if __name__ == '__main__':
                                    "ids_to_floats": "False",
                                    "label_col": "y",
                                    "featuresets": \
-                                       dumps([[combined_model_prefix]]),
+                                         dumps([[args.combined_model_prefix]]),
                                    "suffix": '.jsonlines',
                                    "learners": dumps([learner_name])
                                    },
@@ -560,17 +560,18 @@ if __name__ == '__main__':
                          "Output": {"probability": "False",
                                     "log": join(logs_dir,
                                                 '{}.log'.format(
-                                                       combined_model_prefix))
+                                                   args.combined_model_prefix))
                                     }
                          }
 
         # Set up the job for training the model
         sys.stderr.write('Generating configuration file...')
-        cfg_filename = '{}.cfg'.format(combined_model_prefix)
+        cfg_filename = '{}.cfg'.format(args.combined_model_prefix)
         cfg_filepath = join(cfg_dir,
                             cfg_filename)
         cfg_dict_base["General"]["task"] = "train"
-        cfg_dict_base["General"]["experiment_name"] = combined_model_prefix
+        cfg_dict_base["General"]["experiment_name"] = \
+            args.combined_model_prefix
         cfg_dict_base["Output"]["models"] = models_dir
         write_config_file(cfg_dict_base,
                           cfg_filepath)
@@ -597,13 +598,12 @@ if __name__ == '__main__':
             sys.stderr.write('Extracting features from the training data ' \
                              'for {}...\n'.format(game))
             appid = APPID_DICT[game]
-            game_docs_cursor = reviewdb.find({'game': game,
-                                              'partition': 'training'})
-            if game_docs_cursor.count() == 0:
+            game_docs = list(reviewdb.find({'game': game,
+                                            'partition': 'training'}))
+            if len(game_docs) == 0:
                 sys.exit('ERROR: No matching documents were found in the ' \
                          'MongoDB collection in the training partition ' \
                          'for game {}. Exiting.\n'.format(game))
-            game_docs = list(game_docs_cursor)
 
             # Iterate over all training documents for the given game
             for game_doc in game_docs:
@@ -646,9 +646,10 @@ if __name__ == '__main__':
                 # extracted with the --do_not_binarize_features flag or False
                 # otherwise
                 if not found_features:
-                    reviewdb.update({'_id': _id},
-                                    {'features': json_encoder.encode(features),
-                                     'binarized': binarize})
+                    reviewdb.update(
+                        {'_id': _id},
+                        {'$set': {'features': json_encoder.encode(features),
+                                  'binarized': binarize}})
 
                 # Append a feature dictionary for the review to feature_dicts
                 feature_dicts.append({'id': str(_id),
@@ -694,12 +695,12 @@ if __name__ == '__main__':
 
             # Set up the job for training the model
             sys.stderr.write('Generating configuration file...')
-            cfg_filename = '{}.cfg'.format(combined_model_prefix)
+            cfg_filename = '{}.train.cfg'.format(game)
             cfg_filepath = join(cfg_dir,
                                 cfg_filename)
             cfg_dict_base["General"]["task"] = "train"
             cfg_dict_base["General"]["experiment_name"] = \
-                combined_model_prefix
+                '{}.train'.format(game)
             cfg_dict_base["Output"]["models"] = models_dir
             write_config_file(cfg_dict_base,
                               cfg_filepath)
