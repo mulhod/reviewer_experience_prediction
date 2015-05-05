@@ -8,20 +8,13 @@ Script used to train models on datasets (or multiple datasets combined).
 import sys
 import pymongo
 import argparse
-#from math import ceil
 from os import listdir
-#from numpy import log2
 from data import APPID_DICT
 from spacy.en import English
-#from nltk.util import ngrams
-#from string import punctuation
-#from re import sub, IGNORECASE
 from collections import Counter
 from skll import run_configuration
-#from configparser import ConfigParser
 from json import dumps, JSONEncoder, JSONDecoder
 from os.path import join, dirname, realpath, abspath
-from src import feature_extraction
 from src.feature_extraction import (Review, extract_features_from_review,
                                     write_config_file)
 
@@ -31,7 +24,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(usage='python train.py',
         description='Build a machine learning model based on the features ' \
                     'that are extracted from a set of reviews relating to a' \
-                    'specific game or set of games.',
+                    ' specific game or set of games.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--game_files',
         help='comma-separated list of file-names or "all" for all of the ' \
@@ -63,7 +56,7 @@ if __name__ == '__main__':
              'files, etc., but quit before training any models (defaults to' \
              'False)',
         action='store_true',
-        default='False')
+        default=False)
     parser.add_argument('--try_to_reuse_extracted_features',
         help='try to make use of previously-extracted features that reside ' \
              'in the MongoDB database (defaults to False)',
@@ -187,10 +180,9 @@ if __name__ == '__main__':
                 # Extract features from the review text
                 found_features = False
                 if args.try_to_reuse_extracted_features:
-                    features = json_decoder.decode(game_doc.get('features'))
-                    if features and game_doc.get('binarized') == binarized:
-                        features = None
-                    else:
+                    features = game_doc.get('features')
+                    if features and game_doc.get('binarized') == binarize:
+                        features = json_decoder.decode(features)
                         found_features = True
 
                 if not found_features:
@@ -199,7 +191,8 @@ if __name__ == '__main__':
                             lowercase_cngrams=args.lowercase_cngrams)
 
                 # If binarize is True, make all values 1
-                if binarize:
+                if binarize and not (found_features
+                                     and game_doc.get('binarized')):
                     features = dict(Counter(list(features)))
 
                 # Update Mongo database game doc with new key "features",
@@ -225,8 +218,9 @@ if __name__ == '__main__':
         sys.stderr.write('Writing {} to working directory...'.format(
                                                           jsonlines_filename))
         with open(jsonlines_filepath, 'w') as jsonlines_file:
-            [jsonlines_file.write('{}\n'.format(dumps(fd)).encode('utf-8')) for
-             fd in feature_dicts]
+            [jsonlines_file.write('{}\n'.format(
+                                   dumps(fd).encode('utf-8').decode('utf-8')))
+             for fd in feature_dicts]
 
         # Set up SKLL job arguments
         learner_name = 'RescaledSVR'
@@ -240,7 +234,7 @@ if __name__ == '__main__':
                                    "ids_to_floats": "False",
                                    "label_col": "y",
                                    "featuresets": \
-                                         dumps([[args.combined_model_prefix]]),
+                                        dumps([[args.combined_model_prefix]]),
                                    "suffix": '.jsonlines',
                                    "learners": dumps([learner_name])
                                    },
@@ -253,7 +247,7 @@ if __name__ == '__main__':
                          "Output": {"probability": "False",
                                     "log": join(logs_dir,
                                                 '{}.log'.format(
-                                                   args.combined_model_prefix))
+                                                  args.combined_model_prefix))
                                     }
                          }
 
@@ -272,7 +266,7 @@ if __name__ == '__main__':
         if not args.just_extract_features:
             # Run the SKLL configuration, producing a model file
             sys.stderr.write('Training combined model...\n')
-            run_configuration(cfg_file)
+            run_configuration(cfg_filepath)
     else:
         for game_file in game_files:
 
@@ -318,10 +312,9 @@ if __name__ == '__main__':
                 # Extract features from the review text
                 found_features = False
                 if args.try_to_reuse_extracted_features:
-                    features = json_decoder.decode(game_doc.get('features'))
-                    if features and game_doc.get('binarized') == binarized:
-                        features = None
-                    else:
+                    features = game_doc.get('features')
+                    if features and game_doc.get('binarized') == binarize:
+                        features = json_decoder.decode(features)
                         found_features = True
 
                 if not found_features:
@@ -330,7 +323,8 @@ if __name__ == '__main__':
                             lowercase_cngrams=args.lowercase_cngrams)
 
                 # If binarize is True, make all values 1
-                if binarize:
+                if binarize and not (found_features
+                                     and game_doc.get('binarized')):
                     features = dict(Counter(list(features)))
 
                 # Update Mongo database game doc with new key "features",
@@ -356,7 +350,8 @@ if __name__ == '__main__':
             sys.stderr.write('Writing {} to working directory...'.format(
                                                           jsonlines_filename))
             with open(jsonlines_filepath, 'w') as jsonlines_file:
-                [jsonlines_file.write('{}\n'.format(dumps(fd)).encode('utf-8'))
+                [jsonlines_file.write('{}\n'.format(
+                                   dumps(fd).encode('utf-8').decode('utf-8')))
                  for fd in feature_dicts]
 
             # Set up SKLL job arguments
@@ -378,7 +373,8 @@ if __name__ == '__main__':
                                         "grid_search": "True",
                                         "min_feature_count": "1",
                                         "objective": grid_objective,
-                                        "param_grids": dumps([param_grid_list]),
+                                        "param_grids": dumps(
+                                                           [param_grid_list]),
                                         },
                              "Output": {"probability": "False",
                                         "log": join(logs_dir,
@@ -401,6 +397,6 @@ if __name__ == '__main__':
             if not args.just_extract_features:
                 # Run the SKLL configuration, producing a model file
                 sys.stderr.write('Training model for {}...\n'.format(game))
-                run_configuration(cfg_file)
+                run_configuration(cfg_filepath)
 
     sys.stderr.write('Complete.\n')
