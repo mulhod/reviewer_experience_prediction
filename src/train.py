@@ -193,7 +193,7 @@ class Review(object):
             self.entities.append(dict(entity=entity.orth_,
                                       label=entity.label_))
 
-
+'''
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
     Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hashes and then the string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
@@ -315,8 +315,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features.update(generate_dep_features(_review.spaCy_annotations))
 
     return dict(features)
-
-
+'''
+'''
 def write_config_file(config_dict, path):
     '''
     This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should maps keys for the SKLL config sections to dictionaries of key-value pairs for each section.
@@ -335,7 +335,7 @@ def write_config_file(config_dict, path):
             cfg.set(section_name, key, val)
     with open(path, 'w') as config_file:
         cfg.write(config_file)
-
+'''
 
 if __name__ == '__main__':
 
