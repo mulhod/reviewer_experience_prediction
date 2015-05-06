@@ -39,7 +39,7 @@ if __name__ == '__main__':
         action='store_true',
         default=False)
     parser.add_argument('--mongodb_port', '-dbport',
-        help='port that the MongoDB server is running (defaults to 27017',
+        help='port that the MongoDB server is running',
         type=int,
         default=27017)
     args = parser.parse_args()
@@ -51,7 +51,7 @@ if __name__ == '__main__':
     arff_files_dir = join(project_dir,
                           'arff_files')
     sys.stderr.write('data directory: {}\n'.format(data_dir))
-    sys.stderr.write('arff_files directory: {}\n'.format(arff_files_dir))
+    sys.stderr.write('arff files directory: {}\n'.format(arff_files_dir))
 
     # Make sure there is a combined output file prefix if "combine" is the
     # value passed in via --mode
@@ -64,13 +64,14 @@ if __name__ == '__main__':
     # See if the --make_train_test_sets flag was used, in which case we have
     # to make a connection to the MongoDB collection
     # And, if it wasn't used, then print out warning if the --mongodb_port
-    # flag was used (since it will be ignored)
+    # flag was used (since it will be ignored) unless the value is equal to
+    # the default value (since it probably wasn't specified in that case)
     if args.make_train_test_sets:
         connection = pymongo.MongoClient('mongodb://localhost:' \
                                          '{}'.format(args.mongodb_port))
         db = connection['reviews_project']
         reviewdb = db['reviews']
-    elif args.mongodb_port:
+    elif args.mongodb_port and not args.mongodb_port == 27017:
         sys.stderr.write('WARNING: Ignoring argument passed in via the ' \
                          '--mongodb_port option flag since the ' \
                          '--make_train_test_sets flag was not also used, ' \
@@ -133,8 +134,6 @@ if __name__ == '__main__':
             write_arff_file(arff_file,
                             file_names,
                             reviews=review_dicts_list)
-        sys.stderr.write('Generated ARFF file(s) for {}...' \
-                         '\n'.format(arff_file))
     else:
         for game_file in game_files:
 
@@ -142,30 +141,26 @@ if __name__ == '__main__':
                              '\n'.format(game_file))
 
             if not args.make_train_test_sets:
+                review_dicts_list = []
                 dataset = get_and_describe_dataset(join(data_dir,
                                                         game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
 
+            game = game_file[:-4]
             arff_file = join(arff_files_dir,
-                             '{}.arff'.format(game_file[:-4]))
+                             '{}.arff'.format(game))
 
             if args.make_train_test_sets:
-                sys.stderr.write('Generating ARFF files for the training ' \
-                                 'and test sets for each of the following' \
-                                 ' games:\n\n{}\n'.format(
-                                     ', '.join([sub(r'_',
-                                                    r' ',
-                                                    fname) for fname in
-                                                file_names])))
+                sys.stderr.write('Generating ARFF file for the training ' \
+                                 'and test sets for {}...\n'.format(game))
                 write_arff_file(arff_file,
-                                file_names,
+                                [game],
                                 reviewdb=reviewdb,
                                 make_train_test=True)
             else:
                 sys.stderr.write('Generating {}...\n'.format(arff_file))
                 write_arff_file(arff_file,
-                                file_names,
+                                [game],
                                 reviews=review_dicts_list)
-            sys.stderr.write('Generated ARFF file(s) for {}...' \
-                             '\n'.format(arff_file))
+    sys.stderr.write('Complete.\n')

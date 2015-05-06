@@ -45,7 +45,7 @@ if __name__ == '__main__':
         action='store_true',
         default=False)
     parser.add_argument('--mongodb_port', '-dbport',
-        help='port that the MongoDB server is running (defaults to 27017',
+        help='port that the MongoDB server is running',
         type=int,
         default=27017)
     args = parser.parse_args()

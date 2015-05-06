@@ -331,7 +331,7 @@ def write_config_file(config_dict, path):
 def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     make_train_test=False):
     '''
-    Write .arff file either for a list of reviews read in from a file or for both the training and test partitions in the MongoDB database.
+    Write .arff file either for a list of reviews read in from a file or list of files or for both the training and test partitions in the MongoDB database.
 
     :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)
     :type reviews: list of dict
@@ -352,15 +352,19 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                  'True and either the reviewdb keyword was left unspecified' \
                  ' or the reviews keyword was specified (or both). If the ' \
                  'make_train_test keyword is used, it is expected that ' \
-                 'training/test reviews will be gotten from the MongoDB ' \
+                 'training/test reviews will be retrieved from the MongoDB ' \
                  'database rather than a list of reviews passed in via the ' \
                  'reviews keyword. Exiting.\n')
-    elif reviews or not reviewdb:
-        sys.stderr.write('WARNING: Ignoring passed-in reviewdb keyword ' \
-                         'value. Reason: If a list of reviews is passed in ' \
-                         'via the reviews keyword argument, then the ' \
-                         'reviewdb keyword argument should not be used at ' \
-                         'all since it will not be used.\n')
+    if not make_train_test and reviewdb:
+        if reviews:
+            sys.stderr.write('WARNING: Ignoring passed-in reviewdb keyword ' \
+                             'value. Reason: If a list of reviews is passed' \
+                             ' in via the reviews keyword argument, then ' \
+                             'the reviewdb keyword argument should not be ' \
+                             'used at all since it will not be needed.\n')
+        else:
+            sys.exit('ERROR: A list of review dictionaries was not ' \
+                     'specified. Exiting.\n')
 
     # ARFF file template
     ARFF_BASE = '''% Generated on {}
@@ -375,7 +379,7 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 @data'''
     TIMEF = '%A, %d. %B %Y %I:%M%p'
 
-    # Replace underscores with spaces in the game names
+    # Replace underscores with spaces in game names
     _file_names = [sub(r'_',
                        r' ',
                        f) for f in file_names]
@@ -393,14 +397,13 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             # Modify file-path by adding partition suffix
             suffix = 'train' if partition.startswith('train') else 'test'
             replacement = '.{}.arff'.format(suffix)
-            _file_path = sub(r'\.arff$',
+            _dest_path = sub(r'\.arff$',
                              replacement,
                              dest_path)
 
             # Get reviews for the given partition from all of the games
-            game_docs_cursor = \
-                reviewdb.find({'partition': partition,
-                               'game': {'$in': file_names}})
+            game_docs_cursor = reviewdb.find({'partition': partition,
+                                              'game': {'$in': file_names}})
             if game_docs_cursor.count() == 0:
                 sys.exit('ERROR: No matching documents were found in the ' \
                          'MongoDB collection for the {} partition and the' \
@@ -421,11 +424,15 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                              review)
                 reviews_lines.append('"{}",{}'.format(review,
                                                       game_doc['hours']))
-            with open(_file_path,
+            with open(_dest_path,
                       'w') as out:
-                out.write('{}\n{}'.format(ARFF_BASE.format(
-                                                         time.strftime(TIMEF),
-                                              ' ,'.join(file_names)),
+                if len(_file_names) > 1:
+                    _file_names = ' ,'.join(_file_names)
+                else:
+                    _file_names = _file_names[0]
+                t = time.strftime(TIMEF)
+                out.write('{}\n{}'.format(ARFF_BASE.format(t,
+                                                           _file_names),
                                           '\n'.join(reviews_lines)))
     else:
 
@@ -450,6 +457,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                                                   review_dict['hours']))
         with open(dest_path,
                       'w') as out:
-            out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
-                                                       ' ,'.join(file_names)),
+            if len(file_names) > 1:
+                file_names = ' ,'.join(file_names)
+            else:
+                file_names = file_names[0]
+            t = time.strftime(TIMEF)
+            out.write('{}\n{}'.format(ARFF_BASE.format(t,
+                                                       file_names),
                                       '\n'.join(reviews_lines)))
