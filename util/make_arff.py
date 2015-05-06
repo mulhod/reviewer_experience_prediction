@@ -1,126 +1,12 @@
 #!/usr/env python3.4
 import os
 import sys
-import time
 import pymongo
 import argparse
 from re import sub
-from util.make_train_test_sets import get_and_describe_dataset
+from src.feature_extraction import write_arff_file
+from util.datasets import get_and_describe_dataset
 from os.path import realpath, abspath, dirname, join, basename
-
-# ARFF file template
-ARFF_BASE = '''
-% Generated on {}
-% This ARFF file was generated with review data from the following game(s):
-%     {}
-% It is useful only for trying out machine learning algorithms on the
-% bag-of-words representation of the reviews only.
-@relation reviewer_experience
-@attribute string_attribute string
-@attribute numeric_attribute numeric
-
-@data'''
-TIMEF = '%A, %d. %B %Y %I:%M%p'
-
-# Global variable used for MongoDB collection, if making training/test sets
-reviewdb = None
-
-def write_arff_file(reviews=None, file_path, file_names,
-                    make_train_test=False):
-    '''
-    Write .arff file.
-
-    :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)
-    :type reviews: list of dict
-    :param file_path: path to output .arff file
-    :type file_path: str
-    :param file_names: list of extension-less game file-names
-    :type file_names: list of str
-    :param make_train_test: if True, use MongoDB collection to find reviews that are from the training and test partitions and make files for them instead of making one big file (defaults to False)
-    :type make_train_test: boolean
-    :returns: None
-    '''
-
-    global reviewdb
-
-    # Replace underscores with spaces in the game names
-    _file_names = [sub(r'_',
-                       r' ',
-                       f) for f in file_names]
-
-    # Write ARFF file(s)
-    if make_train_test:
-
-        # Make an ARFF file for each partition
-        for partition in ['training', 'test']:
-
-            # Make empty list of lines to populate with ARFF-style lines,
-            # one per review
-            reviews_lines = []
-
-            # Modify file-path by adding partition suffix
-            suffix = 'train' if partition.startswith('train') else 'test'
-            replacement = '.{}.arff'.format(suffix)
-            _file_path = sub(r'\.arff$',
-                             replacement,
-                             file_path)
-
-            # Get reviews for the given partition from all of the games
-            game_docs_cursor = \
-                reviewdb.find({'partition': partition,
-                               'game': {'$in': file_names}})
-            if game_docs_cursor.count() == 0:
-                sys.exit('ERROR: No matching documents were found in the ' \
-                         'MongoDB collection for the {} partition and the' \
-                         ' following games:\n\n{}\nExiting.' \
-                         '\n'.format(partition,
-                                     file_names))
-            
-            game_docs = list(game_docs_cursor)
-            for game_doc in game_docs:
-                # Remove single/double quotes from the reviews first...
-                review = sub(r'\'|"',
-                             r'',
-                             game_doc['review'].lower())
-                # Get rid of backslashes since they only make things
-                # confusing
-                review = sub(r'\\',
-                             r'',
-                             review)
-                reviews_lines.append('"{}",{}'.format(review,
-                                                      game_doc['hours']))
-            with open(_file_path,
-                      'w') as out:
-                out.write('{}\n{}'.format(ARFF_BASE.format(
-                                              time.strftime(TIMEF),
-                                              ' ,'.join(file_names)),
-                              '\n'.join(reviews_lines)))
-    else:
-
-        if not reviews:
-            sys.exit('ERROR: Empty list of reviews passed in to the ' \
-                     'write_arff_file method. Exiting.\n')
-
-        # Make empty list of lines to populate with ARFF-style lines,
-        # one per review
-        reviews_lines = []
-
-        for review_dict in reviews:
-            # Remove single/double quotes from the reviews first...
-            review = sub(r'\'|"',
-                         r'',
-                         review_dict['review'].lower())
-            # Get rid of backslashes since they only make things confusing
-            review = sub(r'\\',
-                         r'',
-                         review)
-            reviews_lines.append('"{}",{}'.format(review,
-                                                  review_dict['hours']))
-        with open(file_path,
-                      'w') as out:
-            out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
-                                                       ' ,'.join(file_names)),
-                                      '\n'.join(reviews_lines)))
 
 
 if __name__ == '__main__':
@@ -227,12 +113,13 @@ if __name__ == '__main__':
                                                       in file_names])))
             write_arff_file(arff_file,
                             file_names,
+                            reviewdb=reviewdb,
                             make_train_test=True)
         else:
             sys.stderr.write('Generating {}...\n'.format(arff_file))
-            write_arff_file(reviews=review_dicts_list,
-                            arff_file,
-                            file_names)
+            write_arff_file(arff_file,
+                            file_names,
+                            reviews=review_dicts_list)
         sys.stderr.write('Generated ARFF file(s) for {}...' \
                          '\n'.format(arff_file))
     else:
@@ -260,11 +147,12 @@ if __name__ == '__main__':
                                                 file_names])))
                 write_arff_file(arff_file,
                                 file_names,
+                                reviewdb=reviewdb,
                                 make_train_test=True)
             else:
                 sys.stderr.write('Generating {}...\n'.format(arff_file))
-                write_arff_file(reviews=review_dicts_list,
-                                arff_file,
-                                file_names)
+                write_arff_file(arff_file,
+                                file_names,
+                                reviews=review_dicts_list)
             sys.stderr.write('Generated ARFF file(s) for {}...' \
                              '\n'.format(arff_file))

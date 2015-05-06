@@ -1,3 +1,11 @@
+'''
+@author Matt Mulholland
+@date 05/05/2015
+
+Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
+'''
+import sys
+import time
 from math import ceil
 from numpy import log2
 from nltk.util import ngrams
@@ -303,6 +311,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 def write_config_file(config_dict, path):
     '''
     This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should map keys for the SKLL config sections to dictionaries of key-value pairs for each section.
+
     :param config_dict: configuration dictionary
     :type config_dict: dict
     :param path: destination path to configuration file
@@ -317,3 +326,130 @@ def write_config_file(config_dict, path):
             cfg.set(section_name, key, val)
     with open(path, 'w') as config_file:
         cfg.write(config_file)
+
+
+def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
+                    make_train_test=False):
+    '''
+    Write .arff file either for a list of reviews read in from a file or for both the training and test partitions in the MongoDB database.
+
+    :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)
+    :type reviews: list of dict
+    :param reviewdb: MongoDB reviews collection
+    :type reviewdb: pymongo.MongoClient object (None by default)
+    :param dest_path: path for .arff output file
+    :type dest_path: str
+    :param file_names: list of extension-less game file-names
+    :type file_names: list of str
+    :param make_train_test: if True, use MongoDB collection to find reviews that are from the training and test partitions and make files for them instead of making one big file (defaults to False)
+    :type make_train_test: boolean
+    :returns: None
+    '''
+
+    # Make sure that the passed-in keyword arguments make sense
+    if make_train_test and (reviews or not reviewdb):
+        sys.exit('ERROR: The make_train_test keyword argument was set to ' \
+                 'True and either the reviewdb keyword was left unspecified' \
+                 ' or the reviews keyword was specified (or both). If the ' \
+                 'make_train_test keyword is used, it is expected that ' \
+                 'training/test reviews will be gotten from the MongoDB ' \
+                 'database rather than a list of reviews passed in via the ' \
+                 'reviews keyword. Exiting.\n')
+    elif reviews or not reviewdb:
+        sys.stderr.write('WARNING: Ignoring passed-in reviewdb keyword ' \
+                         'value. Reason: If a list of reviews is passed in ' \
+                         'via the reviews keyword argument, then the ' \
+                         'reviewdb keyword argument should not be used at ' \
+                         'all since it will not be used.\n')
+
+    # ARFF file template
+    ARFF_BASE = '''% Generated on {}
+% This ARFF file was generated with review data from the following game(s):
+%     {}
+% It is useful only for trying out machine learning algorithms on the
+% bag-of-words representation of the reviews only.
+@relation reviewer_experience
+@attribute string_attribute string
+@attribute numeric_attribute numeric
+
+@data'''
+    TIMEF = '%A, %d. %B %Y %I:%M%p'
+
+    # Replace underscores with spaces in the game names
+    _file_names = [sub(r'_',
+                       r' ',
+                       f) for f in file_names]
+
+    # Write ARFF file(s)
+    if make_train_test:
+
+        # Make an ARFF file for each partition
+        for partition in ['training', 'test']:
+
+            # Make empty list of lines to populate with ARFF-style lines,
+            # one per review
+            reviews_lines = []
+
+            # Modify file-path by adding partition suffix
+            suffix = 'train' if partition.startswith('train') else 'test'
+            replacement = '.{}.arff'.format(suffix)
+            _file_path = sub(r'\.arff$',
+                             replacement,
+                             dest_path)
+
+            # Get reviews for the given partition from all of the games
+            game_docs_cursor = \
+                reviewdb.find({'partition': partition,
+                               'game': {'$in': file_names}})
+            if game_docs_cursor.count() == 0:
+                sys.exit('ERROR: No matching documents were found in the ' \
+                         'MongoDB collection for the {} partition and the' \
+                         ' following games:\n\n{}\nExiting.' \
+                         '\n'.format(partition,
+                                     file_names))
+
+            game_docs = list(game_docs_cursor)
+            for game_doc in game_docs:
+                # Remove single/double quotes from the reviews first...
+                review = sub(r'\'|"',
+                             r'',
+                             game_doc['review'].lower())
+                # Get rid of backslashes since they only make things
+                # confusing
+                review = sub(r'\\',
+                             r'',
+                             review)
+                reviews_lines.append('"{}",{}'.format(review,
+                                                      game_doc['hours']))
+            with open(_file_path,
+                      'w') as out:
+                out.write('{}\n{}'.format(ARFF_BASE.format(
+                                                         time.strftime(TIMEF),
+                                              ' ,'.join(file_names)),
+                                          '\n'.join(reviews_lines)))
+    else:
+
+        if not reviews:
+            sys.exit('ERROR: Empty list of reviews passed in to the ' \
+                     'write_arff_file method. Exiting.\n')
+
+        # Make empty list of lines to populate with ARFF-style lines,
+        # one per review
+        reviews_lines = []
+
+        for review_dict in reviews:
+            # Remove single/double quotes from the reviews first...
+            review = sub(r'\'|"',
+                         r'',
+                         review_dict['review'].lower())
+            # Get rid of backslashes since they only make things confusing
+            review = sub(r'\\',
+                         r'',
+                         review)
+            reviews_lines.append('"{}",{}'.format(review,
+                                                  review_dict['hours']))
+        with open(dest_path,
+                      'w') as out:
+            out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
+                                                       ' ,'.join(file_names)),
+                                      '\n'.join(reviews_lines)))
