@@ -16,7 +16,7 @@ from util.datasets import get_and_describe_dataset
 
 
 def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
-                              describe=False):
+                              describe=False, just_describe=False):
     '''
     Insert training/test set reviews into the MongoDB database.
 
@@ -30,6 +30,8 @@ def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
     :type percent_train: float/int
     :param describe: describe data-set, outputting a report with some descriptive statistics and histograms representing review length and hours played distributions
     :type describe: boolean
+    :param just_describe: only get the reviews and generate the statistical report
+    :type just_describe: boolean
     :returns: None
     '''
 
@@ -43,10 +45,17 @@ def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
 
     sys.stderr.write('Inserting reviews from {}...\n'.format(game))
 
+    # Make sense of arguments
+    if describe and just_describe:
+        sys.stderr.write('WARNING: If the just_describe and describe ' \
+                         'keyword arguments are set to True, just_describe ' \
+                         'wins out, i.e., the report will be generated, but' \
+                         ' no reviews will be inserted.\n')
+
     # Get list of all reviews represented as dictionaries with 'review' and
     # 'hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
-                                       report=describe)
+                                       report=(describe or just_describe))
     reviews = dataset['reviews']
     sys.stderr.write('Number of original, English language reviews ' \
                      'collected: {}\n'.format(
@@ -98,7 +107,10 @@ def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
         r['appid'] = appid
         r['partition'] = 'training'
         try:
-            reviewdb.insert(r)
+            # Actually, to really mimic the real situation, we'd have to
+            # insert and then remove...
+            if not just_describe:
+                reviewdb.insert(r)
         except DuplicateKeyError as e:
             if remaining_reviews:
                 sys.stderr.write('WARNING: Encountered ' \
@@ -121,7 +133,8 @@ def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
         r['appid'] = appid
         r['partition'] = 'test'
         try:
-            reviewdb.insert(r)
+            if not just_describe:
+                reviewdb.insert(r)
         except DuplicateKeyError as e:
             if remaining_reviews:
                 sys.stderr.write('WARNING: Encountered ' \
@@ -145,21 +158,23 @@ def insert_train_test_reviews(reviewdb, file_path, max_size, percent_train,
         r['appid'] = appid
         r['partition'] = 'extra'
         try:
-            reviewdb.insert(r)
+            if not just_describe:
+                reviewdb.insert(r)
         except DuplicateKeyError as e:
             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
                              'Throwing out following ' \
                              'review:\n\n{}\n\n'.format(r))
 
     # Print out some information about how many reviews were added
-    train_inserts = reviewdb.find({'appid': appid,
-                                   'partition': 'training'}).count()
-    test_inserts = reviewdb.find({'appid': appid,
-                                  'partition': 'test'}).count()
-    extra_inserts = reviewdb.find({'appid': appid,
-                                   'partition': 'extra'}).count()
-    sys.stderr.write('Inserted {} training set reviews, {} test set ' \
-                     'reviews, and {} extra reviews...\n\n' \
-                     '\n'.format(train_inserts,
-                                 test_inserts,
-                                 extra_inserts))
+    if not just_describe:
+        train_inserts = reviewdb.find({'appid': appid,
+                                       'partition': 'training'}).count()
+        test_inserts = reviewdb.find({'appid': appid,
+                                      'partition': 'test'}).count()
+        extra_inserts = reviewdb.find({'appid': appid,
+                                       'partition': 'extra'}).count()
+        sys.stderr.write('Inserted {} training set reviews, {} test set ' \
+                         'reviews, and {} extra reviews...\n\n' \
+                         '\n'.format(train_inserts,
+                                     test_inserts,
+                                     extra_inserts))

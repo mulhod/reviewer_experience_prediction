@@ -38,6 +38,10 @@ if __name__ == '__main__':
              'name to distinguish the different files)',
         action='store_true',
         default=False)
+    parser.add_argument('--mongodb_port', '-dbport',
+        help='port that the MongoDB server is running (defaults to 27017',
+        type=int,
+        default=27017)
     args = parser.parse_args()
 
     # Get paths to the data and arff_files directories
@@ -59,10 +63,19 @@ if __name__ == '__main__':
 
     # See if the --make_train_test_sets flag was used, in which case we have
     # to make a connection to the MongoDB collection
+    # And, if it wasn't used, then print out warning if the --mongodb_port
+    # flag was used (since it will be ignored)
     if args.make_train_test_sets:
-        connection = pymongo.MongoClient('mongodb://localhost:27017')
+        connection = pymongo.MongoClient('mongodb://localhost:' \
+                                         '{}'.format(args.mongodb_port))
         db = connection['reviews_project']
         reviewdb = db['reviews']
+    elif args.mongodb_port:
+        sys.stderr.write('WARNING: Ignoring argument passed in via the ' \
+                         '--mongodb_port option flag since the ' \
+                         '--make_train_test_sets flag was not also used, ' \
+                         'which means that the MongoDB database is not ' \
+                         'going to be used for this task.\n')
 
     mode = args.mode
     game_files = []

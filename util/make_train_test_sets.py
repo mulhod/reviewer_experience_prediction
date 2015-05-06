@@ -9,14 +9,14 @@ from os.path import join, basename, abspath, dirname, realpath
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python make_train_test_sets.py',
-        description='Build train/test sets for each game. Take up to ' +
-                    '21k reviews and split it 66.67/33.33 training/ ' +
-                    'test, respectively, by default. Both the maximum ' +
-                    'size and the percentage split can be altered via ' +
-                    'command-line flags. All selected reviews will be ' +
-                    'put into the MongoDB "reviews_project" database\'s ' +
-                    ' "reviews" collection (which is being hosted on the' +
-                    ' Montclair University server on port 27017).',
+        description='Build train/test sets for each game. Take up to ' \
+                    '21k reviews and split it 66.67/33.33 training/test, ' \
+                    'respectively, by default. Both the maximum size and ' \
+                    'the percentage split can be altered via command-line ' \
+                    'flags. All selected reviews will be put into the ' \
+                    'MongoDB "reviews_project" database\'s  "reviews" ' \
+                    'collection (which is being hosted on the Montclair ' \
+                    'University server on port 27017).',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
     parser.add_argument('--game_files',
         help='comma-separated list of file-names or "all" for all of the ' \
@@ -38,10 +38,21 @@ if __name__ == '__main__':
              'filtering procedure',
         action='store_true',
         default=False)
+    parser.add_argument('--just_describe',
+        help='generate reports and histograms describing the data ' \
+             'filtering procedure, but then do NOT insert the reviews into ' \
+             'the DB',
+        action='store_true',
+        default=False)
+    parser.add_argument('--mongodb_port', '-dbport',
+        help='port that the MongoDB server is running (defaults to 27017',
+        type=int,
+        default=27017)
     args = parser.parse_args()
 
     # Establish connection to MongoDB database
-    connection = pymongo.MongoClient('mongodb://localhost:27017')
+    connection = pymongo.MongoClient('mongodb://localhost:' \
+                                     '{}'.format(args.mongodb_port))
     db = connection['reviews_project']
     reviewdb = db['reviews']
 
@@ -61,6 +72,14 @@ if __name__ == '__main__':
                  'reviews that will be devoted to the training set? That' +
                  'is not going to be enough training samples... ' +
                  'Exiting.\n')
+
+    # Make sense of arguments
+    if args.make_reports and args.just_describe:
+        sys.stderr.write('WARNING: If the --just_describe and -describe/' \
+                         '--make_reports option flags are used, ' \
+                         '--just_describe wins out, i.e., reports will be ' \
+                         'generated, but no reviews will be inserted into ' \
+                         'the DB.\n')
 
     # Get list of games
     game_files = []
@@ -85,10 +104,12 @@ if __name__ == '__main__':
     for game_file in game_files:
         sys.stderr.write('Getting/inserting reviews for {}...\n' \
                          '\n'.format(basename(game_file)[:-4]))
-        insert_train_test_reviews(abspath(join(data_dir,
+        insert_train_test_reviews(reviewdb,
+                                  abspath(join(data_dir,
                                                game_file)),
                                   args.max_size,
                                   args.percent_train,
-                                  describe=args.make_reports)
+                                  describe=args.make_reports,
+                                  just_describe=args.just_describe)
 
     sys.stderr.write('\nComplete.\n')

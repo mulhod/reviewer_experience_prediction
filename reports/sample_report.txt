@@ -1,0 +1,26 @@
+Descriptive Report for sample
+===============================================================================
+
+Number of English-language reviews: 50
+
+Review Lengths Distribution
+
+Average review length: 1185.16
+Minimum review length = 38
+Maximum review length = 4072
+Standard deviation = 995.6424731800066
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 318.842
+Minimum experience = 18.1
+Maximum experience = 1218.2
+Standard deviation = 283.18625255474535
+
+
+Filter Values
+MINLEN = 50
+MAXLEN = 3176.444946360013
+MINHOURS = 0
+MAXHOURS = 885.2145051094907

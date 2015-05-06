@@ -8,4 +8,5 @@ APPID_DICT = dict(Dota_2='570',
                   Arma_3='107410',
                   The_Elder_Scrolls_V='72850',
                   Warframe='230410',
-                  Counter_Strike='10')
+                  Counter_Strike='10',
+                  sample='sample_id')
