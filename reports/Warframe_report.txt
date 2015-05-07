@@ -1,26 +1,26 @@
 Descriptive Report for Warframe
 ===============================================================================
 
-Number of English-language reviews: 20576
+Number of English-language reviews: 20572
 
 Review Lengths Distribution
 
-Average review length: 298.5143370917574
+Average review length: 298.79418627260355
 Minimum review length = 3
 Maximum review length = 7966
-Standard deviation = 605.058997490119
+Standard deviation = 606.1140778385753
 
 
 Review Experience Distribution
 
-Average game experience (in hours played): 312.9690221617418
+Average game experience (in hours played): 312.55397627843666
 Minimum experience = 0.0
 Maximum experience = 8616.4
-Standard deviation = 502.26718033243077
+Standard deviation = 501.34150024122584
 
 
 Filter Values
 MINLEN = 50
-MAXLEN = 1508.6323320719955
+MAXLEN = 1511.0223419497543
 MINHOURS = 0
-MAXHOURS = 1317.5033828266032
+MAXHOURS = 1315.2369767608884

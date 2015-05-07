@@ -1,0 +1,1098 @@
+% Generated on Thursday, 07. May 2015 12:06AM
+% This ARFF file was generated with review data from the following game(s): ['Counter Strike']
+% It is useful only for trying out machine learning algorithms on the bag-of-words representation of the reviews.
+@relation reviewer_experience
+@attribute string_attribute string
+@attribute numeric_attribute numeric
+
+@data
+"awsome game too old :d it have nice settings :d and more players who loved this game :d 10+",56.4
+"play the original that started it all. complete with no skin no crates no keys and a whole lot of nostalgia!",0.6
+"only skill important in this game. i liked this game :>",27.2
+"i love this game since 2006 when i played it first time. im playing it still and its 2014! this game rocks!",906.2
+"a very nice original game to come back to. id say the rise of fps games.",926.8
+"best fps game ive ever played. highly addictive..",239.9
+"i cant get the game to work it starts but i dont se the load screen i just see black",1.5
+"legendary game but the sad thing is there are so much cheaters.. =/",2119.3
+"arguably the best competitive fps so far, the skill ceiling is very high; however getting started is easy.",37.8
+"do i need to say why do i recommend this? because this is freakin awesome! thats why...!",39.5
+"first game i played competetive, enjoyed, good watching the professionals play",82.2
+"i really recommend this for people who want to play an old school, simple shooter. a lot of user created modes automaticly downloading in server joining. really fun even though its old.",1366.6
+"the only way to get subjected to terrorism that isnt the news. or living in the middle east,ukraine, and most of africa.",1.5
+"if you liked one point six of counter-strike you might have enjoyed coldplay. also, youre a ing hipster who needs to get off the gameboy and ing play a game that isnt older then my mother. bbqhtc - my mother is a saint...",10.1
+"possibly one of the greatest first person shooting games ever made. try it out and see how you like it. too bad that numerous number of hackers are around these days, but not a probem if server admins are present. you can try maps like dust/dust2, assault, or even fy maps like snow and iceworld. awp maps are also great if you like scoping and killing opponents with one shot. maybe even go for some of the fun surfing maps that are still around. lastly, fyi it does take some time to find the optimal sensitivity setting that you play the best with.",218.4
+"classical game, all the people must play this game.",0.7
+"with this new cs 1.6 you cant play.lag as f*ck.got an awesome pc but this cs dont mind that,just keep lagging. my internet con. its great too but this cs aint giving sh*t.just keep on lagging!",4.3
+"steam, wtf... cd update screw my fps ... really? why? al least an answer...",935.0
+"this game prove that graphic dosent matter!!! game play matter!!!!",142.4
+"well, this is the one that basically started it all... an entertaining game that despite being old, its gold! cheap and a whole lot of fun.",15.5
+"one of the best fps game that is recognized around the world. a must have.",77.4
+"man, ive never been called a moth******** so many times, a p****, a h*m*, and stuff. after i started playing this game, i started wondering also, how do all those people know about me f******* their mother, in her p**** even though they thought i was h*m*. lel",7.4
+"one of the best games, not to even mention first person shooter games, of all time. after 16 years or so since its release its still got an avid active following. speaks volumes for its addictiveness and replayability.",268.0
+"amazing game, i dont care about the quality of the game, its still amazing.",64.5
+"the best game ever!!! the freaking best game evaaaa brooo!!",939.7
+"first fps game i have ever played since 2003 and still enjoy the game to this day.",24.8
+"best tactical fps shooter in the world and the best game valve has ever released i think most people will agree with me and if u dont agree that means you havnt played it yet :) 11/10",307.9
+"great classic. i prefer it over cs:s. ten out of ten easily no matter how dated it is.",26.0
+"you can shoot people with guns and knifes and grenades and shields, but no flamethrowers.",7.2
+"simply the best fps game ever! --- played since 2001 ---",251.4
+"one of the best games of all time. a staple in competitive and casual gaming. it pretty much paved the way for competitive team esports.",1012.9
+"this game was unusual of its kind. now its has its era gone, dont know why. its an awsum game, i am quite unhappy for it as its been officially removed from e-sports gaming. its a must play online game.",85.4
+"i love playing this game it is the best fps ever.10/10 5 stars whatever it is amazing. counter strike is a team based objective game. without a team you can not win. this game is also realistic enough its not too realistic but its not nonrealistc. anyways just buy the game its $10 and you will not have any regrets.",1.3
+"what is there left to say about this great game,its simply classics and part of any kid born past 1990 childhood :d i really love the fact it is so wide spread around the world,and just keep it up like this !",454.6
+"one and only the best game ever played... those who agree please like this.... xd..... -get_right",167.4
+"the original fps shooter game. you should also look into counter-strike: source if you like a more modern version.",2.3
+"this is quite an enjoyable game and one of my fav ,,,",961.9
+"for lose time, its a really nice and exciting game :d",168.2
+"this a good game i like the maps and the community in the game",79.0
+"this game really proves that graphic does not matter but gameplay does...cs 1.6 <3",1583.4
+"where there is cs der are gamers i would blindly buy this game withoput any hesitation",130.6
+"i can shoot people and jump while doing it 10/10 masterpiece",136.7
+"most favorite game of all time , most played game , never gets old , at least for me :) ....",60.6
+"counter-strike 1.6. not one of the best, nor one of the worst.  good gameplay   bad graphics, as it was launched in 1999  if youre going to buy this game at this time, i suggest buy counter-strike: global offensive. (7/10)",194.8
+"counter strike 1.6 is a good game. it used to be sooooo much better, but now there are hardly any servers running, and even less vanilla counter strike servers(servers without mods). unless your a hardcore counter strike player, id reccomend you just get cs:go. the gameplay is better in the first place, there is workshop, and billions of hours of content. back in the day 9.8/10 now...6/10 dont be hatin",82.1
+"playing all counter strike from the date it was released. still one of the best games ever made.",252.5
+"i grow up on cs 1.6, but now it is unplayable. a lot of garbage on servers a lot of music and useless things. low download speed, and everybody hack everywhere. please make something with this game, just need some patch, for disable downloadable contetn, and useless things...",29.5
+"the game is very fun and i recommend it to everyone",1665.7
+"this game is the best shooter game and the game that i liked the most! but there is nothing for non steam players that hack in the servers!",351.9
+"great game. a lot of people still playing, full/modded servers. its easy to get into, and its cheap",53.3
+"the predecessor of all fps games! try it out today!",635.9
+"the greatest multiplayer shooter experience ive had since quake 1. the e-sport scene also helped it alot, its the only computer game ive really followed when it comes to e-sports (back when i followed the cpl etc). the design of the game was simple but very effective and delivered a multiplayer experience that few other games can match. the call of duty and battlefield titles, although good in their own right, never drew me in like counter-strike.",477.4
+"the only extremely good counter-strike game, unforunately they updated it and things got a bink wonky, but its still more impressive than cs:go.",0.2
+"probably would be better if the playerbase was actually ing english",2.0
+"best online gungame...no words to describe how gud it is ....i wil simply say do play it once in a life time...:)",860.7
+"cool game make fun to play with friends you should try it !",546.2
+"alongside unreal tournament 1999, quake 2/3 and natural selection as the greatest shooters of all time 10/10 i got one clicked through a wall",43.8
+"i recommend this game because is the besssssst game evaaaaa|",277.4
+"the start of it all if you dont already have it dont even try because you are not a pro like me :)",9.9
+"awesome game, played for years, i recommend it for new players to improve their skills ;)",2493.2
+"learnt russian because of this game 999999/10 -ign",3.4
+"same old cs... good game, one of the best shooters of all time. nowadays its graphics seems a little outdated. but hl engine still works pretty nice. still better and less robotic than cs:go.",71.3
+"classic & awesome. still too many cheaters but pay attention to play vac secured servers.",5.1
+"this game is old as , but its better than cs:s but csgo.",1.2
+"still the best cs out there... if valve would add matchmaking like cs:go got it i would pay for it again",742.6
+"excellent game, thoroughly enjoyed it back in the day.",0.5
+"best game of all time ! had my best years with this game",251.0
+"stabbed in the back while jumping and trying to quickscope the police 10/10",193.1
+"a very good game indeed..... proves that graphics dont matter, gameplay does",8.1
+"probably my favorite to play . yes we get lots of hacks but... its too much fun to play . cs ftw.",2312.9
+"i used to play this game with my friends when we had to do military service; it was a lot of fun pretending that we were fighting russians while putting to use what we would learn during training. however, it seems that the only people who play now are turkish children who hack and have bad ping so, i would not recommend this game any more.",131.9
+"best ever shooting game played in my life i <3 with this game.....",1016.7
+"its a great game first version of counterstrike and the best of them all, 1,6 ftw pro game",80.7
+"why did i got vac ban for not having cs: go ? u baned me for cheating in cs: go + i dont haw cs:go!!! that lame steam ... just taking money from kids, and thats all .",38.9
+"ah, the beauty of old gaming remains. this game is more than just alive and kicking, even though its old by now. its a nice game which focus more on skill and reflexes than cute graphics and advanced functions. if you like fast-paced shooter youll probably like this one too. theres lots of mods, addons and maps out there... since this is an older game which allow people to create their own through 3rd-party software. in my opinion, that alone make this game awesome.",273.9
+"play the worlds number 1 online action game. engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. ally with teammates to complete strategic missions. take out enemy sites. rescue hostages. your role affects your teams success. your teams success affects your role.",93.4
+"from my personal experience i think is the best multiplayer game ever created the one and only",13.3
+"fy_iceworld, cs_bloodstrike, de_rats, fy_poolday, awp_map, wc3mod, surf, dodgeball, ahh the memories",24.3
+"best game evaaahh! buut, cs:go can be the same enjoyable and fun! :d",129.8
+"if you cant get counter-strike: global offensive, this is great replacement for it. its not as popular, but it still has a big amount of players. some servers may be in languages you cant understand, but the game is still very fun and requires a great amount of skill. one of the best first person shooters, that still holds to this day from 1999. although the games graphics...arent really the best. even then, you can get skins, map textures, etc. to spice the graphics up a little bit. though to me, graphics dont really matter. highly recommend this game. 9.5/10",11.3
+"fellas i have long been playing this game and i would recommend to you to try it because it is very intresting game for those who like shooters :)",128.2
+"it was my favorite game, but since steam tried so much to screw this game with all that useless updates that ruied it...and it dosent work on windows 8, plus they got out d3d the only option that you had if you have windows 8, now...its a piece of crap, if we are talking about cs 1.6 when steam gived a **** about it, then its a 10/10 but now its just a 5/10 or 4/10 rip cs 1.6 thanks a lot steam! :(",216.7
+"they should make a counter strike remake of deleyed scenes and the old school one .",121.0
+"this game is a huge reminder of why pc gaming is a beautiful thing.",112.7
+"im really bad at it, but its an amazing classic game. yes. i definately do reccomend it.",226.8
+"what can i say ? most played fps ever with a reason",41.5
+"counter strike    first person shooter game(fps)   mods : public , deathrun , jailbreak , furien , zombie , hidenseek , hidenseek blocks.        .     .     steam      server gather         non steam      48.     gather(servers grnet)      mirc. all rights reserved.",1210.9
+"its really a one of the fabulous game i have ever played",16.6
+"there nothing but to say, its counter strike 1.6 best mlg game that ever lived! jk its not the most, but you know its really good! 8/8",7.8
+"awesome game for years and years and still years to come.",2034.8
+"the best game ever!!! the freaking best game evaaaa brooo!!",939.7
+"1 of my favorite games and the first game i bought on steam.its worth buy u will never get bored of playing on the servers.",191.8
+"timeless classic! counter-strike(1.6)is one of the greatest esport fps games(if not the greatest) in the gaming history and is still worth buying today. graphics doesnt matter for a good gamer, gameplay does...",430.4
+"de_dust is still a blast after all these years. the game runs well even on laptops!",2.7
+"omg this cases skol shotings b& it plz nvm it cool game play it dont shot ppl in the irl tho guns r bad mkay",1.6
+"gotta play. may seem old, but classic. highly recommend.",9.2
+"the simple fact that this 10+ years old game still shows up in the top played games on steam clearly says something about its quality. i feel like i shouldnt even recommend it, as its name speaks for itself. easy to pick up, difficult to master, counter-strike is one, if not the best multiplayer fps out there, and itll probably remain that way for many years to come. the fact that this game rivals it sequels in number of players worldwide only shows how great this game is. so, do yourself a favour and get it.",11.4
+"absolute classic, for only ten bucks why the hell not!",14.3
+"this game will always be my favorite counter-strike and its a game from my younger years that i enjoyed. not alot of people play it anymore but its still good. id just get a bunch of friends to buy it and have a 5v5 lan. c: :3 <3",97.9
+"cant play game counter strike plzzz help fatal error :(",954.4
+"one of my first fps game shame that now is somewhat filled with mod and hackers this game is still fun and double sin mind i spent with that crap out of call of duty on this game people spent years of their lives becoming stronger but even if you dont and the height of certain people youre still awesome",5.9
+"absolutely, this is the classic shooter game everyone should try it .",109.2
+"this game is unlike the other counter strike games. this game requires a different type of skill. you have to become used to the recoil each weapon has. you also have to become familiar with the different advantage points of each map. i personally think this is the best counter-strike game.",65.7
+"recommended 10/10. everything , i really mean everything in this game is great. (except for the graphics , but if im not wrong this game is from 1999 ,sooooo... yeah , just buy it)",79.3
+"counter-strike is defiantly dated, so i recommend getting the newer ones, but you are not going wrong with this one if you decide to pick it up. 7/10",0.1
+"the original and possibily still the best (minus the riot shields). if you love nostalgia as much as i do, and you dont own this game but used to play it at lan cafes maybe? get it already!",1.2
+"counter-strike is the best first-person online shooting game. because it depends only in your own skills. there are no advantages like in call of duty series, you will need to aim correctly, know the recoil of your gun and shoot your enemies to death.",556.7
+"<3 best games ever seen <3 cs is love , cs is life #cs4ever :d",147.3
+"oldest shooter game. were in 2014 and this game is very played.",1678.8
+"it reminds me on my good old childhood - still love it! :)",27.1
+"theres a reason why over 15,000 people still play it after 15 years.",9.1
+"i have deleted the game after theat i installed it and then it become dont work",835.9
+"one of the best, if not the best oldschool games out there!",512.1
+"must buy, if u havent played cs, den u have played nothing (y)",965.8
+"its not the hours of games that the player ! : p my first fps of 2004..... i gets it wrong with this new account! best game !! 10/10",94.5
+"probably the greatest team fps that there ever was, was way ahead of its time in all departments. still to this day has full servers full of dedicated players 24-7. to think that it was originally just a half life mod shows that you dont need to spend a fortune to make a great game",518.5
+"cs 1.6, gameplay is good, good fps shooter game, enjoy it. buy it",118.1
+"one of the first games i played, brings back so much memories. and its ing fun.",14.3
+"no bots if you suck at online or have crappy wifi connection tho",59.8
+"after reinstalling steam all servers are lost!!!!! sometimes cant find servers...",299.3
+"was disappointed with the low graphics technology. i made the mistake of purchasing the whole cs game pack. only decent cs game is cs go",0.1
+"this old beauty i still play today. history is in your hands. thank you for this amazing compettitive fps valve <3 gabe bless you all!",6.6
+"classic superb multyplayer game, but till steam the hot air is out. is it the servers? the players? the stupid fan-mods? i dont know....",7.1
+"i dont currently have much hours on the game but from a beginers standpoint its a really solid game. just has a pretty steep learning curve and i still die more than i kill but when you do kill someone its pretty cool that guy has to wait like 3 minutes before he can play again. 8/10",4.0
+"in the beginning, there was counter-strike. classic tactical team-based shooter.",19.0
+"what a nice game,real oldschool,beats newest games,these kills and stuff gets people crazy.clan wars is just wonderful in here,but the game has few bugs,with which i am ok with.",126.0
+"ive been playing this game for 10 years, and its still my favorite. 10/10 stars!",20.1
+"classic superb multyplayer game, but till steam the hot air is out. is it the servers? the players? the stupid fan-mods? i dont know....",7.1
+"in my opinion 1.6 has less hacker than counter-strike:global offensive. then again 1.6 is made up of a few servers with small coumminty base and more than likely has an admin in game. best physics in any counter-strike game. probably not top notch graphics.. just get your friends and have a piss",126.0
+"did anyone not play this game at some point or another. as elusive to me as football and stock car racing in its ability to transfix the lives and minds of some shall we say, unenlightened gamers out there.",5.4
+"this is the best game ever like ever come on this darn planet!",1245.5
+"i got flashed four hours ago and i still cant see anything. 10/10",487.9
+"a classic in the genre. still a lot of players playing it. not the best looking multiplayer fps out there, but very fun to play.",21.0
+"mother off all first person shooters. you have to buy this game to show respect to valve and shooters. it`s order!!!!!",354.9
+"even though it has the worst graphics, its still very strategic and fun!",38.0
+"one of the best shooters ever made. no levels, no accessories for your guns, no cheat guns... just you and your skill. lots of hours spent in this game and so much fun i have had with it. 8.5/10 ----------------------------------------------------------------------------------------------------- uno de los mejores shooters de la historia. no hay niveles, ni accesorios, ni armas chetadas... solo t y tu habilidad. muchas horas jugadas en este juego y me he divertido mucho con l. 8.5/10",284.3
+"you just must play this game if youre fan of fps games.",1884.1
+"you kill someone they die. you get killed you die. heart breaking story",1479.8
+"this came out 14 years ago, and it still has better graphics than your average call of duty game.",54.9
+"write a review for counter-strike please describe what you liked or disliked about this game and whether you recommend it to others. please remember to be polite and follow the rules and guidelines.",0.1
+"i love this oldsql game - my brother plays i more then myself, but it wouldnt be boring :p:p",819.7
+"a game that was released when i was a couple of months old, i dont play it that offend that means i will give it a big -, buy counterstirke global offensive.",0.7
+"one of the best fps in the early 2000s. this game just brings back nostalgia and memories. a must have game for all players.",247.4
+"the original where so many people destroyed their computers over this game from being sniped. ahh.",0.7
+"after not playing this game for almost a decade, honestly can say it is just as fun!",3.8
+"hell yeaah :) i love this game :) you all should get this :p it is one of mah favourite games in da whole wide world :3",486.3
+"best fps game youll find. its a must buy. you learn new skills, step up your game, meet new friends and have fun.",1255.8
+"awesome game ! really addicting ! a classic game that should never be put down !",842.2
+"im gonna let you finish but. cs 1.6 is still the #1 played fps of all time!!",9.7
+"~|^kn!ghtm@re^|~ auto-mix server 103.2.238.234:27015 all the cs fans are welcomed..!",790.5
+"a classic in fps! great game i spent hours in! but since cs:go i recommend everyone to step into the next generation",15.3
+"looking for online gaming.. this is the best solution.. :) .... i have csgo still prefer to play this..",714.7
+"when it boils down to competitive long lasting first person shooters, counterstrike 1.6 is king. the unique money system on a two team map design is what puts counterstrike apart from other run and gun fpss. many custom maps and mods are available, while still boasting a steady player base even 15 years after release.",1359.5
+"endless fun i could end up with over 1000000 hours on this game xd. everyone sucks at first because with this game its all about practice and trying things out, seeing what weapons you are good with etc etc. anyone can be good at this game its all about how much time you put into it as long as you have some very basic fps know-how you could master it for sure.",24.5
+"basically the best competitive fps of all time if you dont already have 10,000 hours invested then its probably not worth playing",0.0
+"still one of the best games ive played on the computer",4.0
+"cs was the very first fps game i was introduced to (over 10 years ago omg), and ive been in love with it ever since. makes me a lil giddy sometimes, and compared to the graphics and simulation of todays shooters the quality is pretty  (im prepared for some flak), but really, its like that bottle of wine that has aged and mellowed on the beloved alcohol shelf *hic*...nothing can beat the classics. a bottle of the finest chardonnay for this veritable *hic* shooter! and another just for me. *collapses in drunken stupor*",8.4
+"this game was my childhood this was litteraly the best fps ever. you should get it on sale its wourth it.",5.5
+"best game in series till date. none can beat this. 15 years. still more players than cs:go. friendly community. fun mods. no fancy and unnecessary graphics.",1826.1
+"+this game still have appeal - runs slightly higher cpu then tf2 does (edit: v-sync on can reduce load by half)",41.9
+"best game ever..... so many fun times, great fps, worth way more than it costs! its just great!",507.0
+"the classic which is counter-strike. a game that has been a platform for many competitive fps games. also a platform to e-sports becoming prevalent in popular culture. buy this game and reminisce of what cs once was. it is perfect and it works every time.",2.7
+"hello there i need help. i got a cs complete gift which i used on my account which was already having a cs 1.6 copy but after i used my gift (in my library) my 1 cs 1.6 copy is gone kindly help",780.2
+"counter strike changed the landscape of multiplayer first person shooter. ruthless gameplay, perfect balance contributed towards the creation of a very competitive scene. years later it still stands as one the giants among games. loved and still played by thousands, it has shaped lives and destinies.",32.0
+"it is one of the best fps games ever made. graphics does not matter, it is all about the gameplay :)",25.0
+"steam, wtf... cd update screw my fps ... really? why? al least an answer...",935.0
+"hii , why do not i see the publication of the counter i play .. and i see the table several killed up no picture .. why ? ndirr this game .. and someone could help me please?",1164.5
+"this game is the best shooter game and the game that i liked the most! but there is nothing for non steam players that hack in the servers!",351.9
+"grew up with cs. highly recommended as a parental figure replacement.",172.7
+"cool game. i like it because of bhop, knife, and zombie mod on modded servers",377.0
+"im a player fps games i cant find anouther game fps like counter-strike 1.6 or globale offansive i think this is my best game i play it in my life i wish can find anouther game bcz the cheaters are stuped when he use that  stop using cheat plz and thank you",223.8
+"ing terrible. waste of 10 bucks. csgo is much better",0.9
+"its funny games now this game is not serious games like in 2006 since now cs:go more better than other cs but, this game is have one special for me",19.0
+"its cs1.6 and your on steam, if you dont have this then please follow these steps: 1. uninstall steam. 2. kill yourself.",78.9
+"have been playing since 6.5 and there are still 12 year olds flaming me in voicechat 10/10 for tryhard authenticity",51.7
+"best game ever. the joy it gives when playing with friends is unbelievable .",472.7
+"a beacon of online gaming, that despite being a dated title, so many players come back to it because of the well defined game mechanic. theres no great depth of content, just a simple yet enjoyable platform for team deathmatch with map objectives thrown in. years ago i spent atleast 1,000 enjoyable hours playing it.",46.9
+"although i dont have nearly as many hours on this as go, its my favorite cs (besides 1.5 and below). the game is more tap-based. i feel like its more strategic than go. i wish the pro scene had not died out for this game.",9.7
+"classic. i and much of the community moved on to source or cs:go, but this game will always be fun. back when this game wasnt on steam, a couple of friends and i played this on lans. i still revisit this game from time to time, half of it for the fun, and half of it for the nostalgia. there is still a very active multiplayer community so youll definitely get your moneys worth. get some mods, make some friends, have a blast!",141.9
+"it seems i am now a legend after playing this game...",119.3
+"counter-strike is a good game for the most part, adding characters and stuff to the half life franchise and universe... there are several canon discrepencies, but they can be ignored for the gameplay and overall storyline (and even how that fits into the orignal half life game :d) overall its worth paying for and playing...",85.1
+"you should play this because i made a lot of maps for it. if you would like a copy i will buy it for you.",1.3
+"this game teaches people why graphics dont matter.",808.1
+"one of the best fps multi-player games out there, a must buy",10.2
+"get this game if you love repeatedly hearing sounds of fire in the hole!, not respawning after you die and having to deal with players hundreds of times better than you when you first begin playing. if you enjoy a game of frustration with a terrible community who will look down on you for not having reflexes like a cyborg, this is the right game for you. also, if you dont already have this game, you are a . please either buy it or leave steam immediately.",1325.1
+"the steam is not working and ate my nerve with kumping out of the server no reason after you just entered the game, when you tried to buy something from menu b it just changes map automatically and kepps going until you stuck in some little map with few poeple. change this problem faster or refund me or pay my loss !!!",5.1
+"its the original cs. what could be wrong with it?",3.3
+"this is a classic, would recommend. its okay 10/10",15.8
+"if i could find out how to play this game it would be awesome i click on cs and then i see a black screen and then steam main menu is there ?",127.2
+"pew pew hip fire headshot best competitive fps ever made bar none 11/10",11.9
+"a great fps game that doesnt need much requirements .",109.8
+"if youre on steam and you havent played, or own this game, just kill yourself.",346.8
+"the point of counter-strike is... to be the best. this is not a game, this is the game!",105.0
+"almost 15 years old, 11th most played steam game in 2015. should already tell something.",0.8
+"the best fps gameplay you can play, playing it since 2008",30.3
+"best fps game on steam the game is old but still classic 999/100",2178.6
+"i put probably 5,000+ hours into this game between the ages of 12 and 14.",121.9
+"counter-strike...a game which is a true fps and is one of my favourite shooters",26.2
+"i recommend this game because is the besssssst game evaaaaa|",277.4
+"counter-strike is a first-person shooter in which players join either the terrorist team, the counter-terrorist team, or become spectators. each team attempts to complete their mission objective and/or eliminate the opposing team. each round starts with the two teams spawning simultaneously.",162.4
+"excellent game one never gets bored of it addicted xd b|",61.2
+"i just cant stop playing that game it controls my mind",9.3
+"my very first fps, been playing for 8 yrs now and i still love this game! imo this is one of the best games ever. various mods make this game really addictive, so you just cant get bored.",1.2
+"best classical first-person shooter game of all time.",433.4
+"original game will always be number 1 !! before cod and after cod ! 100/100",2.5
+"this is one of the best acion games i have ever seen til date and is famous than any other game . you ll be a good gamer if get this one.",825.1
+"how to be cs:go pro 1. buy c-s 2. launch it up and leave it on for 2 weeks straight 3. get over 100 hours of c-s and then brag about it on your next cs:go comp game how you played with the best pros back in the day 10/10 still best game and s better than cs:go",228.3
+"if your on steam, and over 18, get this game. it is where online fps games really started.",36.4
+"awesome old schoooool game :) i hop on to this when im sick on cs:go",354.6
+"cradle of all fps multiplayer games for sure!!! played approximately 8 years, spent over 10 000 hours (non steam) during my lifetime, & worth every single minute of playgame !!!! shame, nowadays there arent many good players, so kinda makes it boring !",205.8
+"good game. figure out the camera for me. looking around doesnt work.",0.2
+"one of the best time wasting games! all about ping, fps, and exp.. especially here: classic: 95.172.92.152:27015 auto-mix: 95.172.92.152:27016 do we even have time for this s***?",1299.2
+"ive been playing this game for almost 9 years and i recommend this game to everyone. there is alot of differnt things you can do on this game. you can surf,climb,hide,dance or you can play regular for fun or even try to get extremely good at the game and their is tournaments you can join for huge prizes",805.3
+"i bought this in a sale but i shouldnt have bothered. the only gameplay is multiplayer and all the servers are prettymuch empty. also when i got into a server it was all glitchy. dont bother buying this game",0.1
+"this is a fun game if you are an older cs player. im stuck in csgo though!",222.5
+"this game is probably the best game ever. even it is old, it is still the best shooter game.",1396.7
+"my first game ever purchased, it will be in my life forever :)))))",438.1
+"that moment of pure passion when your enemys lifeless body slumps to the ground, and to the top-right of the screen you see your name and feel your score increase. you might have played this game for 50 hours, or you might have played it for 5,000; but it doesnt matter how experienced you are, because its all about that moment.",120.7
+"better than cs:s but the community is much more spread out through servers so its rare to see a full server. in cs:s theres a lot of dead servers but also a lot of full servers. pretty kick  game.",985.3
+"if your reading this, that means you have a steam account. which means theres no reason you shouldnt have this game in your library already. btw dont waste your time with cs zero",6.7
+"this game i got from my brother its fun to play and it has plenty of lag free servers.i recommend it!",100.2
+"gurl i just got ma nailz done n dis  be like dayum gurl dem nailz holy  dem nailz *hyperventilating intensifies*",0.3
+"spent so many hours on this game during high school! now that go is out, im playig counter strike more.",3.7
+"awesome! this is a game that i had played just for the sake of play with friends but now i makes friends while playing . the game is solid , enjoyable , and yes.. a must have :d",297.1
+"best call of duty community simulator with old outdated graphics so far.",3.2
+"the most important fps in competitive gaming history. respect.",3.5
+"very good game still, this game is still fantastic, undead <3",1963.4
+"i have to say not the best graphics, but the game is quite fun. also dont tell me the game is old of course its bad graphics, just my opion.",1.1
+"the classic counter-strike! very fun and a nice game, i enjoy playing this and it is a great fps with friends!!",2.9
+"its ing counter-strike. what are you reading this for? buy it already.",0.7
+"this game has been around for a long time it has never gotten old for me if your looking for a game you can just keep playing and keep from getting bored this game is for you ^_^",67.1
+"i have played this game for 10 years straight, from the top to bottom. 10/10",19.0
+"ive played this game since i was around 6 years old back in 2002 and it still makes me laugh and have fun whenever i launch it to this very day. over 12 years of endless entertainment. no other game on this planet has given me more entertainment and enjoyment than counter-strike 1.6 has and i doubt no game ever will. reason ive only got 38 hours here is because i no longer use the account i originally played cs 1.6 on. func_vehicle is what makes this counter strike game the best out of all the others in the franchise.",1287.3
+"an old cs 1.6 game that almost every gamer played.",1442.8
+"this is the worst star wars game i have ever played. theres no force powers, lightsabers, clones, droids, nothing. its like they took out every element that would be in a star wars games. this would only be the best game if they later renamed it to counter strike or something along those lines.",93.8
+"memories... you cant call yourself a gamer if you didnt play this game.",741.5
+"best game ever and this game proves graphics doesnt matter!<3",301.7
+"oh yes this is the best game to play with friends!!",253.6
+"one of the best game in my chil hood till now ! :) #ilovethisgame ! :)",411.9
+"played this for like 7 years before steam was even created. great game.",190.9
+"a classic that everyone needs to have played at least once.",12.6
+"the years have mold this game very nicely for the past 14 years this game has gone down as the fps that started the series off with bang this game has everything from tatical game play to zombie infection modes. the game is made for all the fps junkies out there its 14 yrs old but still puts smiles on all the gamers faces as they play this forever great series of games from the gaben overlord all hail the valve group for giving us this amazing game!!!!!!!!!!!!!!!!!!!!",36.9
+"went on a server and i was overwhelmed by brazilian piraters. makes me think why i bought it. 10/10 move to brazil to pirate the game.",11.1
+"pain in the  for new players like me but still hell of alot of fun ::d::d:d",13.2
+"i cant imagine my day without playing atleast for an hour !! :p",209.9
+"best first person game ever....^_^ do u love first person game..dont have graphic card....this is the game meant for u.......^_^",333.9
+"old game but still the best and favourite fps shooting games to all the gamers :)",1376.3
+"it used to be a superb game. now its just too old to stand, simple as that. when i was young i had tons of fun with it though. 8/10",0.2
+"hit game,valve should delete it to get more source and go players....!!!!!!!!!",24.9
+"1 of my favorite games and the first game i bought on steam.its worth buy u will never get bored of playing on the servers.",191.8
+"a game that helps you to develop a good teamplay spirit",1250.3
+"counter strike could not load in the libary pls help.",657.0
+"you are a pro gamer? want to play against other pro players? this is for you!!!!!!!!!!!!! this game deserve a golden medal!!!!!!!!!!!!!!!!!!!!! masterpiece!!!!!!!!!!!!!!!!!!!!!! 10 out of 10 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",68.9
+"the biggest game changer of all time in the online fps genre. respect it.",1.1
+"counter strike one of the best multiplayer first person shooters out there even though it came out 14 years ago it still has outstanding graphics a good level design and alright player models i would recomend this game to anyone with a spirit to play oldschool shooters",3.9
+"a game in which you can always come back too. with cs go and source also being great games, counter-strike 1.6 is always a classic in my book",1777.3
+"[10/10] the most popular online first-person shooter, in counter strike is played by millions of people in spite of its horrendous graphics and bad physics ...",436.3
+"a very fast-paced shooter with great gameolay at the time when it came out, today occupied by a small pack of hardcore counter strikers that will not forgive a single move of the mouse that is slower than theirs.",0.5
+"a classic that everyone needs to have played at least once.",12.6
+"this is the one of the best game ever i am playing from 2000.",53.1
+"a must-have. this is the granddaddy of online shooters. get it.",63.2
+"my cs is not working properly as it shows a black screen on opening",71.9
+"17-04-14 new update. game doesnt even open. error: fatal error- cannot load library. please fix. unbale to open cs 1.6",279.1
+"waltz out of spawn in full kevlar and a helmet. sniopeh. shoot at sniopeh, get snioped. derp",2.4
+"better than the latest and greatest cod. would play any day.",2.7
+"so many girlfriends lost cause of this (back in the good old days...) + everything on this game is abso-f*cking-lutely great - well maybe a bunch of players behave like 8-years old spoiled kids sometimes...but killing them (in game, dont get me wrong) is the purest satisfaction",938.8
+"this game may seem stupid to some people, becasue of the graphis. this game is exactly like csgo and the only difference is the graphics. otherwise, everything is the same thing (excluding camos).",10.0
+"great game, still many people play it and is very good. 8.5/10",15.3
+"cs 1.6 and gta sa are the best games in the games history.",4.0
+"i remember being a younger kid, i had a brother take me out and walk for about 30 minutes to a gaming cafe where they have this game being played 90% of all computers. playing this for the first time as a kid, i felt it was so realistic lol. it was like being in a new world, basically. we came back to gaming cafe every once a while whenever we can afford it. one time, my dad came home early and we were not home, lol. somehow, he figured out where we were at! good times good times! this is one of few games that made my childhood memories.",0.5
+"ok, this is an internet classic; its been the butt of many meme jokes, but you just cant help getting past the fact that it became an internet classic. with terrorist versus ct matches, weapons that would make your head spin and a variety of game modes and community based maps, cs is just one of those games you cant pass up.",24.2
+"best game ever, the graphics may not be the best, but who cares, i still love it as hell!",33.5
+"this is no1 fps game in the world, king of esport game.",47.7
+"cs 1,6 is not dead! revive the tournaments or riot!",1742.7
+"very good game if you like to be a non stop killing machine",155.2
+"ive spent so many hours playing this game, meeting new people. i youve never played this game... whats wrong with you?",586.5
+"counter strike is a game that teaches you how to use your eyes to there full potential. you must be a fast thinker and good at stratigic thought. i have never enjoyed a game as much as i do with cs",1917.5
+"very good game still, this game is still fantastic, undead <3",1963.4
+"i recommend it!!! i like to play this game 10/10 :d",180.0
+"if you want to play an fps that will slaughter your butt and make you rage so hard you can punch a tiger in the face, this game is for you. only the best can survive this game, youll be playing against people whos reflexes are faster than bruce lee hyped up on red bull. if you are a person who thinks he/she is good at fpss and want a challenge, buy this game. your self esteem will drop further than an emo in prison after dropping the soap. i highly recommend this game!",5.0
+"my first game on steam, and after all these years since 2004, cs is still my favorite game. its interesting, fun and nice fps game. 10/10",1523.8
+"best game you can get on steam, but it was better on won.",5.3
+"fun classic game involiving alot of strategy and team tactics. hard to get used to.",11.7
+"its old and the graphics are outdated... but screw that! this is really fun to play, even though there are tons of pros",7.2
+"i recommend this game because the great gift pile asked me to. also because its still the best ing shooter out there. thats right,  call of duty,  battlefied,  halo. 1.6 peoples.",5.9
+"counter-strike(1.0 - 1.6 not source) is one of the greatest esport fps games(if not the greatest) in the gaming history and is still worth buying today. graphics doesnt matter for a good gamer, gameplay does...:d",1039.7
+"must buy, if u havent played cs, den u have played nothing (y)",965.8
+"hey guys whats good i made a cs server on the 19th looking for more people since im the admin/owner im welcome 2 suggestions for the server here is the amx plugins i have sofar quakesounds.amxx admin_allinone.amxx admin_check.amxx goldenak.amxx if theres anymore i should know of let me know thanks:) 8.6.193.10:27025",41.5
+"i am not a pro but yea 10 years ago i bought it and i <3 d it so much , i still do",486.1
+"a very good game you get a lot of cookies and potatoes",42.3
+"one of the most important interactive medias to get yourself better than before in themes of thinking, hand-eye-coordination, reflexes, individuality and so on. it is like a million little games in one game and you can play it with enough real humans to experience for yourself.",4.3
+"this is an all-time favorite of mine. counter-strike has changed my life forever. it has instilled keen sense of awareness. cs helped train my reaction timing as well as my accuracy overall. i would recommend this to anyone who enjoys a fps. finally fast, finally! word of advice for any first person shooter : -always keep your crosshair(if you use one) at head level. -when exploring, keep in mind the layout of the area & always try to place your crosshair where you think the enemy is going to be. (being ready is key)",273.0
+"over a decade later and this game is still the most-played game on steam and for good reason; solid gameplay, controls, user-generated maps and mods; the list goes on. this fps personally serves as a model of comparison whenever i play any other first-person games.",107.7
+"honestly i prefer cs:go, but in this game you can have a lot of fun playing with friends in surf or zombiemod servers!",82.6
+"15 years on and this is still the best first person shooter (fps) game in the history of gaming which formed the base for all the new fps games developed so far!",774.1
+"whether you are a hardcore pc gamer, or if you have just bought your first pc, counter-strike 1.6 should be the first game you buy. graphics dont matter, this game can produce hours uopn hours of entertainment. 10/10 highly recommended.",2.0
+"good game, strat and inv skills is a must to dev in game.",48.5
+"how to end your life step 1 - download this game done .",1494.2
+"its just counter-strike, i dont know what to say...",12.2
+"this game is byfar one of the best fps game i have ever played! i remember when i used to play this on the original xbox and had so much fun playing it. i was really sad when my controller broke and i couldnt play it anymore but soon after that i got the xbox 360 and started to play cod and gta. then, i started playing on pc and all i played was minecraft until i downloaded steam and i found counter strike. i had no idea it would come with cs:cz so i decided to play it and it was more fun than cs. i enjoy to play this game and im sure that i will continue to love this game!",18.8
+"i was pro on this game, really.. + community,mods - cheaters, kids",288.6
+"it is the still worlds no1 best multiplayer game! love it!",194.6
+"in my opinion, cs is the single greatest first-person shooter ever created. complex, addictive, challenging, intense, precise, and infinitely replayable, cs was the defining game for an entire generation of gamers. but be warned, this game is absolutely brutal if you are new to shooters.",606.9
+"get on my level.... one of the best fps games, the 1.6 version will stay always in our hearts. i recommend it for everyone who wants a tactical/action shooter games!! :)",1175.9
+"i dont like this game i love it n nothing can match cs 1.6 :d",2434.8
+"awesome game, but is dead. every pro player migrated to cs:go, which is a cs 1.6 with upgrades and nice graphics!",1641.6
+"play the worlds number 1 online action game. engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. ally with teammates to complete strategic missions. take out enemy sites. rescue hostages. your role affects your teams success. your teams success affects your role.",1336.2
+"one of the best online multiplayers game to enjoy and only the name is enough.",431.9
+"this game is a real classic and its still in the top of the best first person shooters this day, the graphics arent the best but they are still good. the community is nice and still active. this game is in the top10 for most played games. its a really good game for a cheap price.",966.9
+"for a classic valve game, this game is very addicting! comprehensive multiplayer.",743.9
+"i dont know why im reccomending this, since this is probably the reason you have steam in the first place.",13.7
+"its a very good game for relaxation and even for joy... the best part of it is defending others!",69.4
+"i think pie is good i think.... you cant sue in case this is wrong... :d this is a good game...",13.7
+"for some reason running counter strike source and exiting makes the computer think its playing cs but other than that good game although i probably only played for 533 seconds rather than 533 hours",533.5
+"that is an awsome game, i have played it for five years and i enjoyed every moment!!! highly recommended.",2177.8
+"almost 7 years of playing this game and still goin on! i hope it will not die because of global offensive. it will be a good idea to introduce steam achievements/trading cards for it, because its a very played game",227.8
+"it got at least 10 times better love story than twilight and counter-strike: global offensive.",10.6
+"bought and played a generation too late. it makes me sad to stare at the empty servers.... those ones actually have good maps... all i have are the 24/7 dust 2 maps.... oh well, still, this game is one of the best.",117.0
+"just the best game ever, im glad i spended thousand and thousand of hours playing this game <3",363.0
+"this game really proves that graphic does not matter but gameplay does...cs 1.6 <3",1583.4
+"counter-strike has always been the best fps. global offensive goes back to the roots and is a great game for anyone.",500.7
+"one of the alltime classics. the only reason we have steam. still a damn fine game. looks like  nowadays but still hella fun. recommended.",7.2
+"where it all started :) a true classic to the counter-strike series that will never get old.",132.2
+"check out the real one! not the ones, where they increased movement speed. the hardcore-game.",13.9
+"counter strike is one of the best first person shooter in the whole world, its so funny to play hns and other gamemodes! yes i recommend this awesome game! 10/10 little cats!",44.4
+"the wonderful classic that sparked a legendary fps series. 10/10",5.0
+"probably one of the best games that i have played in my entire life and i think it will always hold a place in my heart no matter how many other games come out and try to replace it. won what what?",324.1
+"ive never have met so many brazilians in my life! 10/10",16.9
+"since 2002,since it appeard in romania,its the greatest and the funnest game ive ever played.",440.8
+"very boring, played it a few times, and never played it again. waste of money.",3.1
+"my mouse is stuck while playing counter strike i can use the arrows button only to turn left or right its only with this game , there is no problems with counter strike source or other games .. please help thanks .",43.3
+"one of the best fps games out there, tho the graphics arent as good as the current gen games but this is a worth to try game. playing this game for like 4 years or so absolutely incredible game period.. :)",419.2
+"played this game for the first time in 2008. since then i have clocked more than 5000 hours, thats how addictive its multiplayer is. father of all fps in mp. plus has several mods deathmatch, hns, kz, gungame, scrim, zombiemod and paintball. its been 14 years and the game is still going strong atleast in the indian scene.",1941.2
+"a game which will never bore anyone.. i never tire of playing this game..been 8 years and still counting..life as a cs player rocks..",568.4
+"classic game. very innovative at its time and its fun to play. you should get its second remake counter-strike: global offensive though which is improved in almost every aspect of the game. only get this if youre a nostalgic freak :-)",13.4
+"classic, functional fps multiplayer shooter that everyone can enjoy. although its showing its age now that modern fpses have the aim down sight function.",15.4
+"this game has its ups and downs but i cant stand playing it because of this damn resolution. damn. i suggest getting cs:s or cs:go. counter strike original is good but there are no active servers. if youre buying this game you should also go get a subscribtion for esea as well.",0.3
+"buy valve complete pack 71.99euro i buy or counter strike global offenzive",4.5
+"after 14 years still a great game. forget the console games computer rules....",0.3
+"on my imac cs 1.6 the mouse glitches, lags whatever... lost 7 quids ... :( cs:go way better despite of its usage, my imac can play the game perfect with lags!!!",3.0
+"i dont think that a reveiw could ever possibly do this game justice. regardless of wether youve played any game in the counter strike series before, everyone will find something they love in this well populated multiplayer fps. be warned: people are good at this game!",3.3
+"you have this game to thank for modes like call of dutys search and destroy. cs is arguably the most widely-played online shooter of all time, and its still got a thriving community going on 12 years later. its got simple, easy-to-pick-up gameplay thats spawned a massive competitive community. unfortunately, its extremely stale thanks to the fact that there are 3 game modes. luckily, there are tons of customization options available online. still, worth checking out for the sake of history.",0.3
+"one of the best fps games out there, tho the graphics arent as good as the current gen games but this is a worth to try game. playing this game for like 4 years or so absolutely incredible game period.. :)",419.2
+"this game , is the best you can get. lets us to make friends , and makes brotherhood between us <3 but the recent  hackers which have joined has made it hard and annoying. but this game will live forever. <3",406.7
+"still addictive to play and very fun! with lots of servers to still play in.",767.0
+"and there you have it...the best fps game next to cod4",101.9
+"my first fps game onlinr, awesome experience,best maps, overall really loved it",165.3
+"you know buddy i played the game, it was so confusing i dident have a clue what to do, i had a gun in my hand for some reason and others too. i just ran for some minutes and was too afraid my pc was gonna die of overheat of how hard it had to work for those graphics so i quit the game. this was a 15 min of playtime with half of the time loading. 0/10 would never play again. it all was a joke sorry. xd",0.3
+"what if you couldnt even move more than one step from spawn without getting one shotted? what if you got kicked for no apparent reason from a server?? what if you wouldnt even bother to buy this bullcrap, since its exactley like other cs games??????!???! this game sucks harder than monkeyballs getting sucked into a vacuum cleaner or not. i just dont like it.",0.1
+"extremely fun game. most people speak spanish. prepare to rage. pros-------------------------------- 1 vast variety of game modes and plenty of dedicated servers to play on. 2 extremely fun gameplay 3 good game to play with friends 4 good to play solo 5 zombies....nuff said cons--------------- 1 no campaign 2 mostly spanish players 3 they swear at you 4 cant aim in unless you have a scope",6.4
+"when-ever i want to have a break off counter strike : global offensive, i play this game! ^_^",2.7
+"wow this game is amazing its addicting,oldschool,ragers and more! well this game tough me something... rage and play i mean i play oldschool games and i like them but this one is the best",47.5
+"the best game ever. buy this legendary game and play the worlds number 1 online action game. engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. ally with teammates to complete strategic missions. take out enemy sites. rescue hostages. your role affects your teams success. your teams success affects your role. dont think twice buy it . you will not regread.",256.0
+"best game ever made... domination of movemenet, shooting mechanics - recoil... exaclty what a fps game need... when developers of this game genre learn that this 2 things are the most inportant for good fps, they will make a game as good as cs 1.6 is... cs:go does not have these major aspects, and doesnt deserve name of counter-strike (imo). as a third very important thing for fps game, i would say the animations... the animations of player models such as runnig, walking, crouching, gun holding/fireing/reloading etc... graphics isnt so important, doesnt need to be sooo good, but decent due to visibility...",789.7
+"this game is fun. it have got bad graphic but that is ok . i recommend it.",1.8
+"this was my first game that i bought on steam , this is a clasic piece , a counter strike that you can mod all you want . god old times , ehh :)",312.3
+"best classic game that ive been playing for years, if it wasnt for cal falling apart, the release of other verisons of counter-strike such as condition zero, source, and global offense. i would still be playing competitivly",1204.2
+"great game, 10/10 ign ++ edit: no,  ign this game is worth",13.1
+"every server is spanish or french. i can now fluently swear in both languages 9/10",86.8
+"worst game ever, bad graphics and only mexicans play it.",400.6
+"i really love this game. its one of my favourites. the game mode, those oldish graphics, the fun you can have with it... i met a lot of nice people because of this game, and its sad that most of the servers are full of cheaters now, but you will always find out some good servers even if theres no admins around. one of the best fps ever. 10/10",1215.9
+"i highly recommend this game if you are into fps games. this is the legendary game that started it all. trust me, if you buy this game you wont regret it. its graphics for 17 or more year old game, are pretty good. it has good servers and alot fun mini-games to them. ;)",39.0
+"this game started the fps franchise. well technically it didnt, but it started it for me dammit.",41.7
+"this is my latest account so i dont have many hours on this, but this game genuinely is one of the best games ever made and its the source of many beautiful games.",11.3
+"epicness! ummm, you might get addicted xd this game is just awesome.. ~falx",394.4
+"its the first counter strike game. of course its amazing.",0.6
+"this is still the ultimate fps in terms of skill and balance. i have yet to find another game that has come close to the level of skill required to become a professional.",277.5
+"this is good. it reminds me of quake but more realistic.",412.8
+"awesome game. first fps i ever got good at and still to this day i can load it up and have fun playing this game. this game has a lot of history behind it and it probably the foundation for a lot of the new fps most notably cod(call of duty). thanks to this game i learned how to play an fps properly and will alway enjoy playing this game no matter how old it is!",13.3
+"the best fps created. it is because of this game that the fps was revolutionized, be it in the competitive scene and the casual scene. nothing can compare to the greatness of this game.",435.7
+"due to its special gameplay back in the time 10/10 . now its just 2/10.",8.5
+"great game so fun get it if u love cs and want to see what the first is like",16.4
+"i think it`s the best of the counter-strike. graphics aren`t good but it`s not most important part of this game.",1501.3
+"i cant believe this game is not free-to-play yet. i mean, its been like, what? 15 years? and people can simply just download the non-steam version. should really be free-to-play to encourage non-steamers to play it on steam.",2280.5
+"sweet game, i only play oe x box, pc way better, recommened by me",81.7
+"its a very cool game. not old, just a good classic!",539.2
+"old but gold.... one of my favorite games! love it..",592.6
+"fun fps but there is a high learning curve. suprisingly fun after 15 years.",57.6
+"its bit old now , but it was the best game i played as a kid ...i loved it and i have my copy",121.5
+"the reason why steam is alive. the reason why valve is what it is today. still cs 1.6 is the best our there.",2.8
+"simply the best fps game ever! --- played since 2001 ---",251.4
+"dont buy this game .... download .... anyway this game is ok . :d",36.9
+"i dont have to tell you what counter strike is right? the steam version is better then a pirated one since the servers work perfectly and it got most bugs out since the days of won. net",14.8
+"classic counterstrike you havent experienced any cs until you have played this",227.5
+"a real classic. one of the best first person shooters of all time and my favorite game of all time. this game is so good that it will for sure never die! :d 10/10",148.1
+"it seems i am now a legend after playing this game...",119.3
+"youll never accomplish anything if you dont believe that you can do it.",2378.8
+"i just bought counter-strike and i cant play it because the mouse aiming doesnt work. i really want my money back.",0.5
+"very cool and balanced game. superb gameplay and unbelievably good for tournaments. once youve played it youll never regret it. the only bad thing about this game is the community. its full of scrubs, lamers, scammers, spammers and hackers. its very hard to find a good and clean from all those dudes server, but when you do find it, you will forget all about them and will enjoy all your hours of play.",155.7
+"best online fps ever. the simplicity of this game makes it one of the most fun to play, with a match never the same to another. the steam version has no changes or bonuses whatsoever.",0.5
+"so, the original cs, where it all begun. great game which made a great series!",0.4
+"its an awesome game. have been playing it for years and still not fed up with it. counter-strike 1.6 will never die! :)",147.2
+"3 words: fun and classic..! recommned for that people who like to play classic games :3 (dam its more then 3 words xd)",1.8
+"polecam bardzo wam to. super sie szczylo w te terorysty.",150.5
+"really a gold game, we will mis u <3 best game ever :)",245.4
+"simply the best game ive ever played (and possibly will ever)",277.2
+"my fav. game. i havent got bored playing this game and also became a skilled player :).",360.2
+"thank goodness this game came out before steam did. the number of hours i spent playing this during high school would make me cringe. great classic.",0.9
+"very old game, but is still one of the best fps games ever. this is accepted as the best counter strike ever and i can agree. the mechanics feel great and the weapons are all very fun to use. rating 10/10 chris",0.2
+"many people in this game have been playing since 1999+, and certainly have the skill to prove it. this game changed the gaming industry greatly, and is of very high quality, though ages like anything but a fine wine. only get it if you have someone you know that can teach you how to play it. otherwise stick with cs:go.",3.5
+"one of the, if not the biggest essential to the online fps genre. seriously, any of the cs games are brilliant, but 1.6 will always be my favorite. buy this one if you want to get into the series, for its suprisingly thriving community, and the basic, yet addicting gameplay.",2.0
+"this game is a classic. i lost many hours of sleep and spent a lot of time playing this game from the 1.1-1.6 clients of this game. 1.3 will always have a place as my favorite time i played the game. still love to pub with friends.",26.0
+"repeatedly blew myself up all on my own. 9/10 would be forever alone again",0.3
+"this is a great game and i personally love it <333",1113.7
+"yes a good game if played in a good computers, awesome experience at 100 fps. will suggest a gaming mouse and a pad for best aiming",618.5
+"oh yes this is the best game to play with friends!!",253.6
+"one of my first fps game shame that now is somewhat filled with mod and hackers this game is still fun and double sin mind i spent with that crap out of call of duty on this game people spent years of their lives becoming stronger but even if you dont and the height of certain people youre still awesome",5.9
+"its like cs:go....but losing isnt even that bad in this one. which makes it better. no ranks which is also nice",0.4
+"i spent 10 years playing this game. what more can be said?",53.5
+"my first game ever......:`( good memories.... it helps you to play csgo! 100000/100",1486.1
+"old,but awesome game.i play hns.hide n seek.i recommend it you can try to buy it.",38.1
+"this is a great game, i have no problems with this game and it is fun and addictive. also this is my favourite game and even tho it may be hard at first it is still constanlty fun :d",1716.5
+"new into cs?? counter-strike is in!!.. well actually, counter-strike is a good game incase youre starting new carrier of gaming. counter-strike is the best in my opinion. before playing counter-strike: globle offensive, i chose to go in line.. counter-strike > counter-strike: source > counter-strike:globle offensive. ive been playing cs:go from a pretty long time but, i loved counter-strike. this counter strike is counter strike 1.6.. so, id like to recommend this game:)",34.4
+"i have a lot hours on non-steam version. counter strike forever!",83.6
+"i found that once i lowered my resolution to 640 x 480 i became 70% better at the game. makes heads bigger and easier to aim at so its pretty similar to cs:s. gg ez noobs get rekt fgts easily 9/10 go buy it",23.1
+"good, old counter strike! one of the must play games.",103.1
+"best call of duty community simulator with old outdated graphics so far.",3.2
+"if cs:go never came out, id probably be playing this all the time instead. still fun to jump into once and a while, even for nostalgias sake.",21.1
+"absolute classic, for only ten bucks why the hell not!",14.3
+"i buy the awp and i win. i recommend this game whole heartedly. 10/10",110.6
+"i do recommend this game heartily! great feel of the gameplay and classic maps that makes it for an unforgivable experience!",1413.3
+"mexicans ... holy  mexicans... oh my god mexicans ! everywhere ! the game is broken ! wtf? did he just throw a boulder at me !? i ing love this broken stuff ! 10/10 would get hit with a boulder and die while t-pose man dances over my dead body and screams stuff at me in spanish",165.1
+"this was one of the best first person shooter and fps games. after steam updated the fpsengine and made other changes to the game after more than 10 years of good gameplay, i would rather say that this is a now a rip-off. the game doesnt work properly and the developers isnt listening to the players when theyre updating the game. if steam would roll back the game to before they update i would recommend this game because of the good gameplay. at the moment because of the update i just want my money back!",2254.8
+"ive been played this game all versions since i was a kid. this game will always be in my heart forever. ive played more than 330 + hours before even steam came out. played always this after school when i was a kid and i always wanted to go home earlier to play this. it feel like now when the new generation has come ive grown away from cs 1.6. ive tested global and the newer cs and i dont like them. its not like before. i recommend this game hardly + loads of fun in all ages +hours of replay +all kind of maps + still graphic looks cool + nice gore +you feel overpowered when you have warmed up",330.5
+"classic counterstrike you havent experienced any cs until you have played this",227.5
+"awesome game! excellent variety of weapons and maps. great feel. not like any other fps i have ever played. 100/10!",740.4
+"its so boring itll put you to sleep! a must have gay game!.....not! do you love spawning every 5 seconds and then dieing instantly? then this games for you! do you love hackers? then this games for you! do you love outdated graphics? then this games for you! zzzzzz....",0.5
+"killed everyone of enemy team in a round died in 5 sec in the next 10/10 would do it again.",41.2
+"fun and highly addictive game. if you like fpss, then this game is for you.",3.1
+"by far the best first person shooter ive ever played.",568.4
+"i play dis game for about what? 6 years? well yes i do, and i absoltely love it. its amazing, it doenst have singleplayer but the multiplayer is what keeps me here. i can play the same map over and over again, but it will be still fun because ur playing with friends or playing with different guns or strategis, thats what makes it amazing",196.3
+"soo much great memories with this, but who is telling this is not getting old is a liar cause today its realy cumbersome and hard to take.",14.7
+"the graphics are awfull! looks like it was made in 1999 or something like that!",48.7
+"cs:go is good. cs is great. i keep on playing, and school i will be late.",4.7
+"its a world filled with racists, 12 year olds, drug addicts and mexicans. they call it - cs 1.6",3.7
+"i can think back to the days when i had this game on cd, it was amazing. this game is still amazing. the game is refreshing to play and is jam packed filled with fun! it is my favourite game from the series due to the fact that this game relates back to the times when i first started computer gaming and is a classic which everyone will enjoy! pick this game up now!",569.3
+"after all these years this shooter remains to be a classic that cant be ignored. this game was a major turning point in the history of fps, and this game is what made online multiplayer competitive gaming so popular.",546.2
+"whenever i play this game i have the urge to go back to high school then smoke some dank buds and tell my mom to go to hell. linkin park 4 ever.",3.9
+"no classes, bad level design, no fish ai. its horrible. 11/10, srsly buy it, its better than call of  money stealing s modern season pass. its the father of todays fps(grandfather being the quake and doom games) and its still fun.",11.0
+"best ever in the century. no matter graphics, this game takes your gaming upto a higher level and brings you a better gaming sense. <3",76.7
+"this game sucks so much it makes cod look beast. screw you gaben you fat piece of sh*t",0.1
+"oh...its only the best team based first person shooter of all time.",1520.7
+"the one, the original: call of duty. do you suffer from irregularity? borderlands will fix that for you. this game, called garrys mode, will blow your  through your mouth and make you suck it. if youre already not good, itll turn you into a in dinosaur. the possibilities are limitless. now youre thinking with portals, jerk.",30.8
+"a very goob game that lasts for years and years. keep on the good work.",1400.2
+"highly recommend, the hardest cs to play due to a unique way of aiming which was new when the game came out, and the dodgy rego.",293.7
+"sweet game, i only play oe x box, pc way better, recommened by me",81.7
+"this is cs. nuff said. no review needed. if you have steam and dont know cs, there is something wrong",22.1
+"on steam i have played cs 1.6 2 hours only .... i think almost every gamer have played this game lan ! when i say lan i mean with friends ! cs 1.6 its a proof the graphics dont make a good game , there are thousands of people still playing it at 2014 , if you are young play this one first ( not cs go ) . nowdays kids might not being impressed with the graphics but back in my days it was the best and the most popular fps we had !",1.6
+"a classic in the genre. still a lot of players playing it. not the best looking multiplayer fps out there, but very fun to play.",21.0
+"counter-strike is one of those games that i can play for only 2 minutes. seriously, the graphics suck big chicken nuggets. the thumbnail for this game makes it seem like its graphically in tents, but it is not. id say wait for sale then buy because this game sucks.",13.4
+"atleast you dont die from getting shot in the foot instantly",2.1
+"it is counterstrike...of course its the best game...ever",6.5
+"my mouse sucks with this game it keeps teleporting",0.3
+"the best shooting game you will play in your entire life.",1660.6
+"i got killed by a team of mexicans, russians, 40 year olds, and one asian. 10/10",20.6
+"this is the best game ever made. everything about the game is awesome. too bad its dying.",299.1
+"this game is very old,but it is still one of the most enjoyable and played games.i red in a comment that,for gamers,the graphics arent important,but the gameplay is.when we talk about counter-strike 1.6,it is very true.",72.4
+"most awesome game ever. i play it since betas in 1999. keep on rockin!",253.6
+"counter-strike is a good fps and you should totally check it out if you dont have!",407.2
+"this game is simply great and skill based the problem though is that most people who still play it are super experts litterly shooting through walls and kiling you when you spawn also the population is not to high but still there for the price i think its worth a buy",5.0
+"counter-strike(1.0 - 1.6 ) is one of the greatest esport fps games(if not the greatest) in the gaming history and is still worth buying today. graphics doesnt matter for a gamer, gameplay does...",64.6
+"maybe the graphics are not the best, but this is a great game!",11.8
+"its a classic fps, and given its reputation among other first person shooters it could be considered the grand daddy of them all",1191.2
+"all i see when i play this game is bots. i never liked counter strike very much, because i wasnt into the way the game was played, and also the money system kind of confused me. it seemed to me like if one team won two or three matches in a row, they were able to have complete domination over the other team and that just isnt fun. and maybe its because i wasnt there for this games glory days, but source and global offensive just seem so much more superior. so im gonna say pass on this game in favor of the two newer versions that have all of the same content but with more.",12.9
+"an old timing classic. but gets quite bored in the end...",177.2
+"i started playing this in 2002. this is completely addictive. even at this age i like to play it when ever i have some free time.",53.0
+"the popularity of this game had suprised me yeasterday i were watching a finnish document, which shows a normal life of poor peoples, one episode told about nenetsi tribes who lives in northen siberia. there were also a episode that showed deleted scenes of this document show. this episode showed that there were a small power generator in one of the nenetsi tents and there were one nenetsi guy who had get  laptop from someone. even this guy played counter strike. and in norther siberia!!!!. if you have a computer whith internet connection you must have cs it is so populargame. and good game also",717.9
+"youll never accomplish anything if you dont believe that you can do it.",2378.8
+"very nice, people may disagreee because of its graphics but come on! it doesnt matter. :d",36.0
+"the best game i have play,it is very free in the game,it not only a fps game,we can add mod in it and we can drive.jumping kreedz do everything on this game: )nice old gold,but now a lot of people play csgo,that is nice too!",881.4
+"i spent 1200 hours on testing plugins i made. 10/10",1769.2
+"a classic game, still good and played to this day, though im not pro enough to use the awp",26.9
+"just buy this  masterpiece and love every second of it.",8.2
+"i like this game very much because it sounds good to play and helps us in making a duel in any other game which belongs to fighting/action",206.4
+"one of the best games i ever played since teenage years, and i still loved it.",1.4
+"oh maaaaaan this game.. what can i say for this master piece for only 8euros ? if you didnt triyed yet i dont know in what universe are you living",542.5
+"go csgo, i own cs 1.6, go is better the css, and 1.6, cs 1.6 can help alot understanding the 2 other main valve games, css, csgo.",789.5
+"this game changed gaming as a whole. one of the best fps of all time, if not the best. but its all about the gameplay. its how cs plays that will get you. huge online community, thousands of mods, nostalgic graphics, excellent gameplay, nice sound effects even if they r outdated. cs 1.6 is my favorite fps and is much better than source and global offensive in almost all aspects. i played this game so much before i got steam, this game is just spetacular. even in non-steam gaming, lan houses,competitive play, cs 1.6 is still incredibly popular. 10/10, congratulations to the developers.",29.5
+"somehow i still find myself coming back to this game...damnit.",2012.1
+"it is so classic and so balanced that you just cant go wrong with counter strike. 5/5",33.1
+"i love this game! just chill out with friends but still an awesome fps game.",626.5
+"a game for all professional counter-strike players!!",397.6
+"after many years of being out. by far one of my favorite games. ive purchased it many times for myself and friends. even tho the graphics are shakey. with a decent modern computer and recent hd features this game looks remarkable. the physics in this game are remarkable, relastic and complicated. its a hard game to get a grasp off, but now that you cannot just spray at ones head and get head shots. this game alongside dota, and starcraft. were pioneers in online competitive play and this game should recieve high acolades for its contribution to esports.",169.8
+"counter strike 1.6.... the game that set the standards of shooters and paved the way for new video games. on my old steam account, i racked at least 1000 hours on counter strike and counter strike condition zero, and all for a good reason, because it is probably one of the best team shooters in the world. 10/10",2.6
+"i ing love this game!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",2.8
+"probably the most played game in the old days. epic gameplay, not so epic graphics, but tons of fun and joy for hours. 10/10",703.3
+"this is the first game i grew up with and i had awesome experience since now so i higly recomend it to everyone so try it out",79.5
+"its an 15 years old game and sill one of my favorites! highly recommended.",968.9
+"one of the greatest games ever made. not active now, but in its prime this game was amazing.",3.9
+"basically this game was released back in the year 2000 and still is one of the most played games on steam. so clearly it must be good because so many are still playing it. i definitely recommend this game and if you dont like to shoot terrorist or counter terrorists you can always try different game modes like zombie modes. 10/10",80.9
+"a must have,i love it,it has a lot of tactics. childhood memories playing this on my old windows 98 computer. come on its only $9.99. it is worth it you know.",61.4
+"classic is always a classic, i smell this one will never die. counter-strike 4 life.",6.1
+"game is good for any lower spec pcs, but may have a little lag. overall a decent game.",5.9
+"ahhh, the old faithful. work of art, timeless classic, masterpiece, timless work masterpiece of classic art. they say several things will survive a global nuclear meltdown... cockroaches, the sun, and counter-strike. !!!cockroach five man, coming to a tournament near you!!! cockroach/10... (8/10)",6.0
+"one of the first pc shooters ive every played and died constantly",0.7
+"amazing game play this game i garantie u that u will fail life :s",539.5
+"of course, very good game, only writing this to increase amount of positive reviews.",898.6
+"i would definitely recommend this game for counter-strike or fps players.",8.1
+"how do u play this game more than 15min ? i still confused how people playing it such a old and bore game. cs go bit better than cs.",10.2
+"this game remembers me my childhood :) best fps ever :)",40.0
+"absolutely fabulous. just buy it, if you like true fps games, that require practice bur never get boring, here is one excellent for you.",673.9
+"not really know what to say...but still the best online fps game :d",1651.3
+"the stripped-down fps that delivers raw competition and insane replayability. my childhood wouldnt be the same without this game. too bad im old now. i should have kept up.",0.5
+"old. dont play it unless you want to get stuck in a door and let it sing the song of its ing people!!!!",181.5
+"amazing game play this game i garantie u that u will fail life :s",539.5
+"as of 2015 i get a resolution problem loading any goldsource games i cant see any of the menu buttons. i have tried every fix i could find nothing works.",30.4
+"i love this game.....this game having best performence in online.....cant stop playing when i start it........:)",667.5
+"the best fps games i have ever played. it has over 15 years old but even that it still keeps the level of gameplay. a lot of modes and free dlcs made by players makes this game even more amazing. i dont regret hours spend on playing this one.",1730.3
+"awesome game i ever played! <3 counter-strike is life :* !",111.4
+"the good old shooter that was one of the biggest things that started nowadays fps ..... great game if you know how to play it",23.9
+"its as outdated as the nintendo entertainment system but it will always have a special place in my spleen.",0.1
+"great fps for someone who is just looking for some fighting action. graphics are still great for such an old game and servers still get filled!",412.2
+"ok, this is an internet classic; its been the butt of many meme jokes, but you just cant help getting past the fact that it became an internet classic. with terrorist versus ct matches, weapons that would make your head spin and a variety of game modes and community based maps, cs is just one of those games you cant pass up.",24.2
+"i have wasted my life on this game, they might as well call it cocaine-strike with how addictive it is. i would strongly recommend getting this game",505.0
+"do not buy this game, if you do, youll never see the sunlight again !",1121.8
+"better than the entire cod, bf, and any other team based fps franchise.",632.6
+"classic, functional fps multiplayer shooter that everyone can enjoy. although its showing its age now that modern fpses have the aim down sight function.",15.4
+"screen problems.. it is sucking up.. cant put back the screen in original way after it gotten wider.. no opption at all.",1.2
+"back in high school i used to live and die by this game -- then got a girlfriend and my gaming time diminished to an almost non-existent level for a couple of years and i just fell away from cs. still, it was great fun. ran a clan, competed in ogl team matches, etc. great game especially if you get a group of friends together to run with.",6.8
+"i played this for 2 hours back when i was 15 or something. i sucked at it and people yelled at me. i think if i had spoke on the in-game vent thing they would have treated me differently, but im no .",2.5
+"time proven classic that will always be most fun us born in 80 last century !!!",307.3
+"i lost years (im really not exaggerating here) to this game. there are better games out there now but for its day this was a trailblazer. still a lot of fun now.",1.8
+"this is the best game ever like ever come on this darn planet!",1245.5
+"it truly was one of the best first person shooter games at the time. i still play it to me graphics dont matter, the playing of the game matters.",5.4
+"in my opinion, cs is the single greatest first-person shooter ever created. complex, addictive, challenging, intense, precise, and infinitely replayable, cs was the defining game for an entire generation of gamers. but be warned, this game is absolutely brutal if you are new to shooters.",606.9
+"awesome game! never had so much fun with any other game!",112.0
+"hello. i play this game for more than 14 years and still happy and would be grateful for your gift to me in the new year game counter-strike 1.6 thanks :)",27.0
+"it is a game that has been played before, is still played now and it will be played in the future !",183.2
+"for like 10 years the no. 1 ego-shooter in the e-sport scene, best mod of half-life and (sadly) scapegoat for many killing frenzys. was one of the most innovative games that time.",47.5
+"upgraded to mac os x 10.9 and it broke it.. the mouse dsnt work anymore. ive tried uninstalling and reinstalling :(",21.4
+"its the original cs. what could be wrong with it?",3.3
+"best online played game no one can beat this game :d",113.0
+"cannot emphasise on how great this game is. its ridiculously fun with friends, mods and such. a tad old, but its still functional. 9/10.",234.3
+"best oldschool fps shooting game ever, we never forget you :)",2251.3
+"just awesome ^ every part of it + modes + every single map of guns, deathrun, knife, bhoping, climbing etc. 100 % fun + addiction xd thumbs up ^",366.8
+"counter-strike is an almost perfectly balanced mix of teamwork and individual skill with enough depth and nuance to inspire countless esports competitions.",118.2
+"a must buy game for old school fps gamers. its tons of fun when you get into it. like people say - old, but gold.",441.9
+"a very fun, addictive, awesome game, and its still have a lot of player about 14 years!!",169.4
+"can any one help me please, i download the counter strike when i start it , it will give me a black screen and it is not working",0.8
+"awesome just awesome released in 2000 good since 2000 :d graphics dont matter!",2.3
+"counter-strike(1.0 - 1.6 not source) is one of the greatest esport fps games(if not the greatest) in the gaming history and is still worth buying today. graphics doesnt matter for a good gamer, gameplay does",12.5
+"best game ever..... so many fun times, great fps, worth way more than it costs! its just great!",507.0
+"one of the best online games since last 13 years i guess or 10 i have been playing it for now for past 2 years continuously",13.4
+"first game i played competetive, enjoyed, good watching the professionals play",82.2
+"i played this since 15 years, i still playing it. totally reccomended",0.5
+"anyone who had a pc in 2000 played this game. best fps ever made. (here come the cod ....)",5.4
+"great shooting game, of course like any game it has its flaws but this is a personal favorite of mine. much better graphich then counter-strike 1.6. game from 2006. but with excelent graphich. 10/10.",1922.4
+"best game of all times. hope it will have match making system like cs:go with a bit better graphics.",63.7
+"i just bought a macbook air and for some reason when u get into a game the mouse goes funky on me and wont let me move around properly. its not the mouse either because it works fine until im in a game and it does the same thing with the touch pad on my mac... any suggestions?",15.1
+"this is the only pc game which i play till to date from the time it was released. i am playing this game for past twelve or thirteen years and i am still very much addicted to it. the game play is phenomenal, highly challenging and had a very realistic feeling during then. the recoils are amazing and very realistic. this was the only game of its period to have gun recoil. the whole game playing skills revolved around the ability to control the guns recoil which was its best feature. great game of all times !!! cheers!",697.7
+"played from february 2000 - september 2004. the one that started it all. the original. g.o.a.t.",1242.9
+"after all these years this shooter remains to be a classic that cant be ignored. this game was a major turning point in the history of fps, and this game is what made online multiplayer competitive gaming so popular.",546.2
+"just a good first person shooter. nothing great but for its time its good",53.3
+"you should know this... it is the game to change all games of its type. it will be a part of my gaming forever!",24.8
+"the best fps game i have ever played. many people are leaving this version of game saying that it is not upto the mark, but this is best base for all fps games for which i respect this game and will play it forever.",219.3
+"it was the best game ever made before valve  it up!!!and yes i still hardly recommend this hardcore shooter!",414.2
+"the game is pretty realistic but valve isnt updating it like it used to do !",61.6
+"this game is good man. if you are going to cry about ranks, then this game isnt for you. enjoy the game, its good.",1111.4
+"this game never gets old. the only thing you can improve is your skill 10/10.",105.5
+"laggy, unoptimized, no online solutions work. absolutely shocked such an old game is so  its not even optimized to be played. waste of money. do not recommend.",2.8
+"tactical and strategic game and a lot of team work :) nice game...... i love to play cs 1.6 every time i open steam. n1 :d",453.3
+"why would anyone stop playing the greatest multiplayer game ever?",221.1
+"hello.... here i m scorpion .... i m owner of gs......",692.3
+"a great fps its a classic, valve makes great games and this is one of their finest works",52.2
+"this is a fun but old game will still make you amd like any other fps (this is alt account so i know what im saying)",0.3
+"it got at least 10 times better love story than twilight and counter-strike: global offensive.",10.6
+"the best realism half-life mod as its the one everyone remembers. causing incalculable rage in dialup users for years and years. if youre bad youre a nub, if youre good youre a hacker, if youre just mediocre then youre just right.",3.3
+"a classic. if youre here because its on sale, grab it.",1.4
+"one of the best online games since last 13 years i guess or 10 i have been playing it for now for past 2 years continuously",13.4
+"legendary game, wont recommend playing it in 2015 tho.",1298.5
+"counter-strike is everything forever =) play with your friends,win,and have fun!",735.5
+"cs is awesome, its a game that only requieres skill and not ranks and that crap.",574.9
+"it is a fantastic fps game. i am just in love with this game, the graphics may be not the best but for my opinion is the best fps game.",1400.0
+"i play this game since i was like 14 years old . teamwork game in most of the times . solo game if you are pro .",933.2
+"this is the most legendary game ever, i have played this for many many years. i wish i had my old account with all the hours i put in this game when i was younger. gl hf (>  -  )> boom headshot!!!!",59.8
+"that game is suck amazing. its.. counter strike, thats all i gotta say :)",1581.8
+"playing all counter strike from the date it was released. still one of the best games ever made.",252.5
+"well-known game physics and graphics. based on famous half-life 1998, not hardware damanding, linux and legacy windows friendly (even win98). very consecutive like a chess or math, great game for competitions! best fps shooter imo.",2643.0
+"went on a spanish server and 10 minutes later my bank account was wiped.",1.9
+"i played this game at school and the teacher game me an a",10.4
+"the game may be old, but it still gives hours of fun.",673.7
+"one of the best games, ive ever played. i will recommend it to everybody, who wants experience some oldschool gameplay. <3 have played it about 2000+ hours together including all my accounts. sadly, there are not that much lans and tournaments anymore. if you have any questions, than make sure to add me on steam. ;)",67.3
+"pretty much the best fps made. hands down better than the sequels.",193.5
+"if you were a fan of this game back in the day youll feel nostalgic and want to buy it but dont, it doesnt hold up if youve done any gaming of any sort since then.",1.3
+"fire in the hole. fire in the hole. fire in the hole. fire in the hole. stick together team. stick together team. stick together team. team, fall back! fire in the hole.",38.1
+"this game is byfar one of the best fps game i have ever played! i remember when i used to play this on the original xbox and had so much fun playing it. i was really sad when my controller broke and i couldnt play it anymore but soon after that i got the xbox 360 and started to play cod and gta. then, i started playing on pc and all i played was minecraft until i downloaded steam and i found counter strike. i had no idea it would come with cs:cz so i decided to play it and it was more fun than cs. i enjoy to play this game and im sure that i will continue to love this game!",18.8
+"this is an old game. but its good and have some multimod servers and its funny game and i also play it , any 1 rich in steam can buy this game soo easly because its cheap",986.4
+"this is a great game, made in 2000 and still has a reasonably high amount of players. definitely recommend buying.",10.6
+"best multiplayer game...(csgo is the 2nd best multiplayer game)",6.9
+"!!! its the best online game i played, it can make joy for you and your friends, also you can play with your friends. when all the players die, you are lonely, you have to fight for another enemies, all the teammate put the hopes on yourself, and you will never forget that feels!",1385.9
+"i havent played counter strike in years. this game is still a classic and there are plenty of players to play with. if youve played a counter strike game.. this one is always a good one to get into now and then. havent had any problems with it, people complained a lot in bad reviews about hackers and such... that is bound to happen but not nearly as much people seem to portray. great game check it out.",306.2
+"there is a huge lump in my throat as i edit this review. if you own this game and reading reviews for fun, keep scrolling. so this game is only mp without mods and its dying atleast here in my country(india) and its $10 which is way too expensive in terms of our currency. get the physical copy of counter-strike anthology from a local/online retailer which will have half the price of this game alone without any sale! rip counter-strike 1.6 :(",306.0
+"cs 1.6 one of the best and addictive fps games ever made",241.0
+"why cant i run counter strike 1.6? its running half-life and gives me some kind of error message, and then i press ok on that, and it closes down...what the hell?!",1278.9
+"great game. you should pay up to $25 for this game.",49.2
+"its the most ultimate game a person can ever play !!! love everything about it !!!",14.2
+"this is a must if you want to get better at cs go! cs series has improved so much over the years now :)",49.1
+"an amazing classic! it excels from killing zombies with a violin to flying around a knife map using a pidgeot!",2279.5
+"better than source, better than go. but for some reason, people always prefer graphics over actual balanced gameplay.",57.4
+"we all know one thing. this games kicks call of dutys !",9.8
+"counter-strike can join in with golden eye in taking credit for defining the comman fps game as we know it today. its servers are still active over a decade of entertainment. you customize your gear then choose to either use tactics to disarm the bomb, or you can just rush in like an insane person, grip the hostages by the arm as you say follow me now!!!, and get them to safety. it is pure greatness. and the system requirements are not demanding, so virtualy any computer nowadays can run it.",7.0
+"one of the most groundbreaking and legendary multiplayer games in the history of video games. all created by 1 guy in his college dorm, in this spare time. it doesnt get any more awesome than that.",41.1
+"best fps team shooter . a lot of weapons to buy and very many gamemodes to play",217.3
+"i recommend you this game if youre 12 years old who just discovered weed.",9.2
+"counter strike is the most popular fps game we played in windows pc.",0.4
+"really good tactical game, balanced and very fun to play, an old but gold. get it free by reediming half-life 1 retail versions code.",5.6
+"you cant strike a counter, but you can strike other players with a knife. or just constantly get one hit killed by enemies with deagles, aks, and awps.",1.6
+"i really like the game, but i couldnt find the stupid cake.",1206.3
+"no final killcam, killstreaks or akimbo weapons. the auto-sniper is great though, so i give it 10/10 //faze pamaj",1477.1
+"fun, classic, well executed even though its old! definite recommend!",38.6
+"best shooter of all times!! been playing it since v. 1.4",118.5
+"somehow i still find myself coming back to this game...damnit.",2012.1
+"this is great game... graphics is no good but its great multiplayer.",208.1
+"please help me i failed when i was making my graphics in my counter strike 1.6 i cany see anything and i cant make it right i reinstalled it again but it didint work so please gove me choise i had such fail at past and when i changed windoows afterwards there wasnt such problem so please give me choise about it :)",20.2
+"so many years with us, but still the best game ever. :)",1061.2
+"doesnt matter how old it is .. still a very good n entertaining game...",9.3
+"tactical and strategic game and a lot of team work :) nice game...... i love to play cs 1.6 every time i open steam. n1 :d",453.3
+"i play this game for fun. my 1st favorite game on steam! oldschool fun boy :) ^^",36.1
+"the game that started it all! cs 1.6 will always be my favourite multiplayer game. this game has been played by millions of gamers and it still holds a special place in our hearts!",105.3
+"this is the beggining of what we call modern fps. this game is pure skill. if u are a cod aim down the sight fanboy, dont try it, youre wasting your time. this game is for skilled players only. no aim. no help. just your and your target.",3.5
+"there are more people playing on this 1.6 than source",13.4
+"best game i ever played. put so many hours in to this. the clan games climbing the ranks. ah the memories!",1.1
+"counter - strike 1.6 is the most original first person shooter i played in my life. counter - strike is an absolute fun game with action - packed maps full of different varieties to choose from. there are tons of weapons from automatic to semi - automatic, shotguns, handguns, and etc. it will definitely give you a blast of fun memories and its a good game to enjoy for a long time. check it out !",588.8
+"if youre looking for fast-paced action, this game is for you.",192.9
+"great game!! nice graphics!! online servers are good... sometimes non-steam cheaters appears but if the server has admin, should be fine... nice game for people who got low graphics in the computer",305.6
+"i do recommend this game heartily! great feel of the gameplay and classic maps that makes it for an unforgivable experience!",1413.3
+"best game i ever played in my life! recommend this game!!!",697.7
+"this is the original counter-strike that continued into a wonderul series of games. i played this every chance i could get while in high school before steam was ever around. check it out to see how it all started!",0.1
+"first game i ever played online and worked hard at becoming a pro at. <3 cs. my last id was ari1911386. #oldmemories #loveforthegame #respectplayers #donotcheat #playhardgopro #rusher #onlyheadshots #nostalgic",39.4
+"so good 10/10. played this game when i was ten. ist magnificently!!!!!!",0.8
+"really fun, fast paced, and competitive shooter with a hardcore community. i preferr css, but this is a close second.",15.7
+"you know buddy i played the game, it was so confusing i dident have a clue what to do, i had a gun in my hand for some reason and others too. i just ran for some minutes and was too afraid my pc was gonna die of overheat of how hard it had to work for those graphics so i quit the game. this was a 15 min of playtime with half of the time loading. 0/10 would never play again. it all was a joke sorry. xd",0.3
+"old but still a nice game... i miss the old days when you could wallbang :p",102.0
+"old but still gold! amazing how people keep playing this! still a fun game c: happy to be able to play it again ^^",6.7
+"everybody get up, its time to slam now we got a real jam goin down welcome to the space jam heres your chance, do your dance at the space jam, alright",9.6
+"one of the best oldest pc fps shooters of all times, i play this game til this day, been playing since 2000 back when cal league was popular. og account with 7 digits",1132.3
+"play the original that started it all. complete with no skin no crates no keys and a whole lot of nostalgia!",0.6
+"im getting addicted to this game and so will you if you buy it.",301.9
+"nu imi mai merge counter strike cs 1.6 intru in joc si imi apare half live ma poate ajuta cineva?",2574.8
+"not really know what to say...but still the best online fps game :d",1652.7
+"one of the best first person shooters ever the thing that makes this game so awesome is that you will always have competition and theres no excuse for losing or winning because the only thing that can make you good in it is experience there are no in-game purchases and its really hard to get pro or even decent as it doesnt have auto-recovery as many fps nowdays highly recommended",448.2
+"use to be a good game but full of hackers and  servers 10/10 ign",4.5
+"11 gabe newells out of 10 gabe newlls would buy sequel",92.2
+"this is my favorite game on steam. even though its pretty old its more fun than tf2 and garrys mod.999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999,999/10",2.0
+"the one and only. back when games had simple mechanics and very little nonsense. remember when a bullet would go where you actually fired it? remember when recoil patterns were easy to understand? remember when it was possible to take a game seriously and become ridiculously good at it? the counter-strike franchise is very much like super smash bros -- they had brawl, we had cs:source and cs:go. lets hope valve decides to play a proper homage to this game in the future much like nintendo did with the new smash bros.",223.4
+"15 years and it still has a somewhat strong multiplayer community. thats just enough reason to buy it. 10/10",8.1
+"pro: - very fun and competitive game - works well on every platform (linux included) cons: - none now buy it !!!",58.7
+"the best game in the world, the jipiroca is going pew pew.",1451.7
+"just one thing i would like to say is that i can live without my girl friend but not without counter strike. :) ;)",176.5
+"oh, you are a bloody hacker and i cannot shoot you through your heart. 10/10",102.1
+"+ competetive. easy to play. can include ai for training. tons of servers/server plugins/custom maps/even custom guns. fun to play, always. - little repeating. in overall, i recommend it to everyone, please do not judge this game for graphics and/or lack of military actions, goldsrc engine is not real virtuality 3 ( arma 2 engine ), and this game is old school, typical classic so graphics are what they are.",460.8
+"i play dis game for about what? 6 years? well yes i do, and i absoltely love it. its amazing, it doenst have singleplayer but the multiplayer is what keeps me here. i can play the same map over and over again, but it will be still fun because ur playing with friends or playing with different guns or strategis, thats what makes it amazing",196.3
+"the original recipe of counter strike. play it or die!",167.3
+"hello i have purchased cs anthology ,but when i am trying to install to update steam it always shows fatal error ,there is no internet connection ,how can i resolve this issue because if i do not update it ,i can not lo gin to play .pls help me.",380.9
+"please enable counter strike 1.6 mode d3d , i cant run with opengl mode, i only use intel(r) hd graphic....",123.5
+"this will always be one of my favorite shooters, great fun game.",22.5
+"one of the best fpss ever made. simply put it like that makes it seem super epic and awesome. well if you want fast pased action this is not youre slice of cake but its definantly worth buying anyway. if you want more modern graphics i would reccomend cs:go.",115.0
+"great game, old but gold. i dont get bored at all",0.3
+"only game thats i play!!! you can keep all the fancy graphc games _ nothing compares to the original 1.6",803.5
+"the classic counter strike , this is the old shiet!",143.9
+"the best game there was and there will be! great balance and impressive legendary games.",918.3
+"cs1.6 so much good remembering and still better then bf4 and cod ghost",18.1
+"best game ever after 1.5, which is best game after 1.3",1301.4
+"even though it has the worst graphics, its still very strategic and fun!",38.0
+"this game is the best action shooter ever made, its gameplay is very well balanced and you have many options and tactics to do. actually, if you play cs:go, then this game is exactly the same except that the graphics are from 2000. but this does not matter. gameplay is far more enjoyable then graphics! and if steam was built aound this game, well, then it must be some good stuff.",16.8
+"best game on the pc, game 13 years ! the audience of players still be numbered in the millions. the perfect game engine provides unlimited possibilities, a large number of modes (zombi, biohazard, surf, gungame, jump etc) make the game varied and exciting. only here you can with one clip to put entire opposing team, then plays the role of your skills playing shooters. the only game in which you can play for years and still have fun.",422.8
+"love it. controls are so solid and the maps are good. new one coming out in 2011 i heard.",79.8
+"one of the best multiplayer games out there right now. fun, strategic gameplay. best played with a couple friends or a full team of people that you can communicate with.",63.6
+"although a bit old, this game requires a lot of skill and strategy. once you learn how to play it youll get to enjoy it.",460.5
+"when youre a counter terrorist you shoot those bad terrorist and stop them from planting evil bombs in america,",39.6
+"just coz its old doesnt mean its good. pros skillfull addictive good maps easy to learn cons need more players losing players hard on noobies you know what they say a game that looks good is impressive for a few months.... but a game that plays well is impressive forever. 10/10",234.7
+"only skill important in this game. i liked this game :>",27.2
+"one of the best fps game that is recognized around the world. a must have.",77.4
+"a friend of mine just gave me his xbox, with a copy of this game. i was happy!",0.4
+"i could play this game forever! *_* ...and not get bored.",311.7
+"this is cs. nuff said. no review needed. if you have steam and dont know cs, there is something wrong",22.1
+"this is the game that ruined my childhood ! i literally was playing it all day long ( previously was playing on non steam) it was one of the best games back then, but now cs:go has taken its lead, so i recommend you buying global offensive.",381.3
+"badass game of the year 1999. 9/10 + weapons + mods (ctf, dm...) - community (cheaters, cheaters everywhere)",21.8
+"best game of counter strike by far nothing ever compares to it",205.3
+"counter strike rocks! its the only game i can hop on and jump right into action in 5 minutes.",762.1
+"this is the best counter-strike ever, ruined my life. 5 stars <3",2005.5
+"much goodness. as of sould any valve game be. simple easy to pick up and play but very hard to master. this game and its other similar sequel condition zero have both many mods ranging from football right down to the godly great fureion mod.",98.3
+"no. never. i hate this game and nothing is going to change that fact. if you want to start now just prepare for those who have 10,000+ hours of experiance in the game. you join a game. you instantly die. you then have to wait minutes till the next round. then you die again and wait even more. if i wanted to play a doctor room simulator this would be it. nothing says fun like sitting in spectator mode. let the downvotes begin!",0.7
+"oh maaaaaan this game.. what can i say for this master piece for only 8euros ? if you didnt triyed yet i dont know in what universe are you living",542.5
+"the game that started it all! cs 1.6 will always be my favourite multiplayer game. this game has been played by millions of gamers and it still holds a special place in our hearts!",105.3
+"in my opinion, this is quite simply the best multiplayer fps shooter of all-time",1345.1
+"yes i have only played ten minutes. ten minutes is enough! case closed",0.2
+"the start of it all if you dont already have it dont even try because you are not a pro like me :)",9.9
+"one of my all time favorite games... this is a classic. i will never forget the fast paced action this game encompasses due to my youth. i played countless hours of this and loved every second of it.",52.3
+"this game is a genuine classic. grew up with it. got over 600 hours on it. loved almost every moment of it (except when i got killed by aim-bot and wallers) but oterwise a great buy. it has its perks and like a trillion mods of which id say 25% are running at any given time from servers worldwide. definitely recommend it to players who like oldschool games.",774.8
+"counter strike was the first fps game i fell in love with. game play is superb.",474.6
+"i was told this was like a mlg call of duty black ops, but its nothing like that. 4/360n0sc0pes add me if you wanna play [mlg]xxxxle420milkxxxxn0s0ur",16.0
+"oldschool, nice mechanic, pro game phisics. forget about nice graphic, drop out cool free to play systems with donations for hats. this game is really for ninja maniacs.",499.6
+"there is absolutely no need to review this game....!!! brilliant, fantastic..!!! well best online multiplayer game ever...!!!",223.5
+"one of the best games in history of fps games. i know this game is old but i still prefer this game than other shooters out there.",107.8
+"this is where history was written. the son of the big daddy half-life. since the game was released, even with newer versions like source and go, it is still very popular. example of a masterpiece.",5.3
+"epic and clasic game . i recommend this to everyone with a bad pc and to fps game lovers. cs never die.",253.7
+"hands down. its counter-strike the god damn sexy half-life mod. no other-mods that makes hl into an awesome multiplayer fps game. introducing bomb and defuse , hostage , etc. pros : - gameplay is fun! - a hell lot of server - large community ( did i said large. i mean ing huge ) cons : - the steam version doesnt have bots ( except cs:cz )",1.9
+"cs is fast paced, intense, and satisfying--this game will not disappoint. this is truly one of the best mods for one of the all time greatest first person shooters ever. :)",255.3
+"play better than admin and you will be banned because you are hacking. 10/10 will rekt admin again.",6.6
+"the greatest multiplayer shooter experience ive had since quake 1. the e-sport scene also helped it alot, its the only computer game ive really followed when it comes to e-sports (back when i followed the cpl etc). the design of the game was simple but very effective and delivered a multiplayer experience that few other games can match. the call of duty and battlefield titles, although good in their own right, never drew me in like counter-strike.",477.4
+"the biggest competitive first person shooter there ever was and ever will be. extremely skillful and team based tactic. amazing, 10/10 1.6 forever -buy this over cs:go",77.2
+"this is such a great game, even though this is the first game of the counter-strike series.",2.5
+"even if this game is old, its pretty amazing and fun. some mods kinda suck, but classic remains the best.",1323.8
+"what can i say? my teenage years were in a large part defined by this game (pity about those hundreds of hours disappearing from record). this game is the reason i made a steam account to begin with. this game made me love online gaming (even if its a tough, one-way love). one of the first breakout e-sports (alongside starcraft) and a significant influence on the fps genre. a piece of gaming history. play it if only for that, and see for yourself.",59.6
+"one of the best multiplayer games out there :d 10/10",3.2
+"throwing grenade in doors will open em 10/10 for realistic experiance",23.3
+"one of the games ive played the most since year 2006.",60.1
+"i cant believe this game is not free-to-play yet. i mean, its been like, what? 15 years? and people can simply just download the non-steam version. should really be free-to-play to encourage non-steamers to play it on steam.",2280.5
+"nice game, playing this game sometimes too feel nostalgia.",34.5
+"old school fps. the one that started it all when it comes to modern shooters. still fun, fluid game play. i cut my teeth playing cs, my first fps game i played. takes a bit more skill. many, many good times!",5.4
+"even if this game was released in 1999, its still one of the worlds most played games! i really recommand this game, to any person who like shooter games! ;)",864.8
+"the best fps gameplay you can play, playing it since 2008",30.3
+"this is a good game for kids as its not real life graficts. and servers with mods are sometimes good.",49.4
+"this game is a must buy. if you dont care about graphics and such, this game is a gem. the community is pretty.. died. atleast the competitive community. anyways, this game is a must buy!",33.8
+"the point of counter-strike is... to be the best. this is not a game, this is the game!",105.0
+"one of the legendary games which is still fun to play after 15 years of making . proves even without graphics and mechanincs what a game can achive. those who love multiplayer and have not bought this game ( totally worth it !! ) i recomend you try it out :) .. gamplay centered game. if you have friends to play along this game is totally worth spending time on . extremely addictive ...",11.6
+"during my computer class in school after playing cs on steam i got this vac ban about 9 yrs ago...so...still cant play it after 9 damn yrs...really steam?",20.9
+"wait... you dont own this game already!? whats wrong with you!? how have you not owned this since its release!? for shame! you might as well just wait for counter-strike: global offensive to come out, since you waited this long to even get counter-strike. im ashamed of you.",0.1
+"blame this game for the rise of the online multiplayer modern military shooter. good game, great custom maps, terrible community. not much has really changed since 2000, has it? i dont think anyone still plays this particular version of cs though. edit: wait, there are over 8,000 people in-game right now. wow... guess i have to give this a yes then because it isnt dead.",153.7
+"it was fun for the little that i played it, is this game active anymore?",1.1
+"this is a classic and better first person shooting game the history.",6.0
+"this game is okay but it feels really clunky. if you want to get a better feel of counter strike just get counter strike: source its cs with a better physics.",6.6
+"the worlds most playable fps game...ruined my life...5 stars :d",1687.9
+"un des piliers du jeu vido... one of the pillars of gaming...",923.3
+"what better way to play an fps than the original? this game paved the way for all modern day fps with out this we wouldnt have things like call of duty. i have been playing this since i was a child and still love it 100/10",433.9
+"this game just changed my life :) playing since 2002.",839.5
+"7/10 +no microtransactions +simple great for its time",0.4
+"whenever i start the game there is a black screen...i can hear the noise but the screen remains black! why is thin happening tell me asap",2.6
+"classic fps after quake and half-life. this was the game that brought pc gaming to mainstream light (behind starcraft). professional tournaments sponsored by large tech companies was the tip of the iceberg. strong community-ran servers proved to be invaluable when considering how easy it was to find a place to play without hackers. purest first person shooter game i have ever played.",181.1
+"the best of its kind , i just cant get enough of it :d",140.5
+"best game you can get on steam, but it was better on won.",5.3
+"hey steam community... this is pawan, im facing some problem to play cs, could u help me out ? when i go to start playing cs online, the vac anti cheat is not leaving me to play, and do no why, the vac anti cheat has bean banned me, now i couldnt enter into cs. plz help me out of this... w8ing fr yr replay.!!",317.8
+"this is one of the best first person shooters ever created because of its tactical team-based gameplay and a feel that old-school fps will love.",10.9
+"15 year old game @ $9.99 really how gready can you get valve.",29.7
+"9/10 great game, worth having in your steam account!",315.2
+"wasted almost all of my free time on it when growing up.. 11/10 would play again",670.5
+"best game on the pc, game 13 years ! the audience of players still be numbered in the millions. the perfect game engine provides unlimited possibilities, a large number of modes (zombi, biohazard, surf, gungame, jump etc) make the game varied and exciting. only here you can with one clip to put entire opposing team, then plays the role of your skills playing shooters. the only game in which you can play for years and still have fun.",422.8
+"counter-strike- ,        .    ,    free2play c   .  , ,  ,    *   counter-strike",59.5
+"standard run and gun game that says it tries to stop cheaters and hackers out of the game, instead all it does is ban people who are having internet trouble trying to blame them for lag switching. it does not hitting those who you can obviously watch and see they are using aim bots by spectating after death and always aiming at people through walls at their heads ready to shoot the moment they turn corners.",0.6
+"love it!!! <3 brings back so many good times with mates! :)",3.6
+"game from my childhood. 10/10 fun. 10/10 mods cs 1.6 is not dead!",417.1
+"a game for all professional counter-strike players!!",397.6
+"it is one of the best fps game available online. even today its craze has not ended. from a navi player i heard that steam version provides very low lag due to which i purchased the game and for sure i was 100% satisfied. you would not believe my ping dropped to 19~21 from 200~1500.",16.9
+"classic! one of the most fun older games that i own. the community is still large and thriving! give it a try!!!! :)",80.6
+"do i need to say why do i recommend this? because this is freakin awesome! thats why...!",39.5
+"grenades flies like piece of , but game still cool for tactical multiplayer shooter.",6.0
+"good, old counter strike! one of the must play games.",103.1
+"you can shoot someone point blank wtih a high powered shot gun 13 times wtih out them dying, but they can shoot you with a assult rifle over 300 feet away and kill you in 2 shots.",6.5
+"game is great(as ypu know it) but valve isnt working on it at all now cares about counter-strike:global offensive, there is too many servers with players downloaded it from some other site for free r.i.p. cs (1999-2012)",148.9
+"i am a very old cs player but this one is a beast i am just ing loving this game great one",7.7
+"este es sin duda el mejor juego online del mundo para mi, lo juego desde hace muchos aos e incluso es lo unico que juego todas las semanas le dedico aunque sea 2 horas",945.7
+"probably would be better if the playerbase was actually ing english",2.0
+"the wise counter-strike 1.6 veteran said.. if you dont like 1.6. you dont deserve to live.",1.1
+"best fps ever.the best counter strike game(following go on 2nd place).the hardest tactical fps out there where the guns have actual recoil and you need real teamplay and cooperation to win",257.6
+"what to say ? the game is amazing ! this game is my past ! :)",73.5
+"great game, tho graphics are not nowadays quality because its been made in 1999.",0.4
+"most favorite game of all time , most played game , never gets old , at least for me :) ....",60.6
+"i would strike the counter hard if i could return this bad game",31.1
+"counter-strike 1.6 is much more difficult to get used to over css, but it is much more satisfying to succeed in. recommended!",60.0
+"the best competitive multiplayer fps experience for low end computers. even an old laptop can run this probably. bit of a learning curve with weapons. condition zero expansion has half-life style campaign though not as groundbreaking, but also additional mp maps and a singleplayer bot mode that is goal oriented and challenging.",173.5
+"really weird game but its fun its probably better to buy a different cs game. t.t!",0.1
+"the world will never forget this game! i am really proud of it!",52.0
+"the mother of fpss!? csgo is better now imo tho. but loads of great memories! <3",1221.0
+"funnest game ever, still has competetive pug servers. lots of fun. =)",7.8
+"this is quite an enjoyable game and one of my fav ,,,",961.9
+"here we are 14 years after the game relase.... and tull this very they i still pick up the game and play hours a day. for 9 dollers this games is a great buy.",5.3
+"one of the best fps games out there. playing it since 2 years love this game",82.4
+"counter-strike set the foundation for online competitive team-play fps. and its still a viable game over 10 years later.",181.5
+"if you want to learn spanish,russian,swedish language play this game.",166.3
+"best game ever made :) highly recommended game if you are searching for a online game with so much popularity",1279.6
+"people have been playing this since, like, 1992. theres got to be something appealing if its been around that long.",39.0
+"this is a classic, i must say if you want a good old shoot em up this is a great game for you",7.9
+"it does not work! you have to ing do a lot of things in order for it to work! absolutely !",2.2
+"unlike cs:go, with getting expensive knives and later after you finally figure out how to use it you get shot by a noob. this game offers true russian language speaking lessons, i have now learned fluent russian and somehow learned german along the way. it works like a true russian language speaking (and german) simulator should, 8/8 m8.",5.7
+"precision fps. you are rarely rewarded for spraying your weapon, its all about controlled firing for headshots; somthing that is unique to this release.",111.7
+"you can also play ping only at the beginning of a great",390.5
+"i gave it a shot, played few hours. pretty funny game with a lot of mods.",1520.8
+"there nothing but to say, its counter strike 1.6 best mlg game that ever lived! jk its not the most, but you know its really good! 8/8",7.8
+"old but gold. way better than source and maybe better than cs go too...",82.4
+"come play then rage quit because of mexicans and hackers",951.6
+"this is a really awesome classic game! if anyone ever played it, she/he will never forget about it! deservers the 8 euros, and also you will get condition zero!",78.5
+"still the best counter-strike together with condition zero, good times :)",9.6
+"this is the game that started it all...quite literally. this games popularity spawned the very system you are reading this on. steam would not exist if not for counter strike, and quite frankly the world would not be as good a place without it. if you dont have this...you should be questioning why you even have steam. (although its acceptable if you are younger and have a newer version like source or go).",0.2
+"great game. you should pay up to $25 for this game.",49.2
+"cs was the very first fps game i was introduced to (over 10 years ago omg), and ive been in love with it ever since. makes me a lil giddy sometimes, and compared to the graphics and simulation of todays shooters the quality is pretty  (im prepared for some flak), but really, its like that bottle of wine that has aged and mellowed on the beloved alcohol shelf *hic*...nothing can beat the classics. a bottle of the finest chardonnay for this veritable *hic* shooter! and another just for me. *collapses in drunken stupor*",8.4
+"not enough 1v1 qs servers. 2/10 would not buy again.",6.4
+"in 1999, this was one of the games you played on internet cafes with friends, and it still is fun to play with friends, as long as they dont screen look.",7.8
+"no good quality servers, and most people are hackers or get a cracked version of the game and threaten to ddos you. get cs:cz, cs:s, or cs:go because they have bots to play with if you cant even find a server. might have been good 15 years ago but now it has been left to rot.",2.9
+"it has 13 years since it came out and a lot of people still play it. as you can see, gameplay is more important than graphics.",642.2
+"after so many years the game is still playable and enjoyable, its one of the first most competitive fps game that i known and it still have pretty good player base.",161.2
+"cs 1.6 is the best fps ever made. i call it the the game that started it all but you kids with your damn, new graphics and your call of duties....go to hell!!! buy this game and play you bunch of pansies!",166.3
+"by far the best fps i played. to many hours lost to this game as a kid.",144.3
+"epic game better than all other fps games exept csgo but if you dont care about graphics and love the competitive scene then play this game :)",4.3
+"if you join the army or some special force, you have to buy your own gear. the heck?",139.8
+"ok, ill be honest when i first got this game i was a little uneasy but i just played it today and this game is astoundingly great for either nostalga or somebody who want a fun experiance when not haveing such a good pc so id buy it. have fun",0.9
+"i recommend this game if you play with your friends or at least on only steam servers.",15.0
+"played this game since i was in hight school till now (cs 1.3). 1.6 is by far one of the best online fps competitive game of all time and wont disappoint.",1298.0
+"very nice game. most addicted multiplayer game of all time!!",0.9
+"this game is still popular ! i recommend it to everyone!",118.3
+"classic and a must have game!!! i highly recommend this game to everyone who enjoys killing games! it a rather simple game with simple onjectives either to deactivate the bomb, kill the other players, or rescue hostages. in my opinion its worth every dollar! :d",0.9
+"best fps game ever. played it for 13 years & still playing it, this game is just epic.",48.2
+"hi >> where the d3d mode??? i dont have it ?? only open gl and sofrware???",5.0
+"this game is basically just cod with bad graphics. i rate it 10/10",54.9
+"best game ever, too bad there many cheaters on it.. r.i.p.",2162.2
+"gg...but i cant play paintballl because of some errors :(",353.7
+"best game in my opinon. i played a lot counter-strike , steam and non steam. i will play a lot of counter-strike in the future. i recommend the game but who doesnt know counter-strike right?",303.9
+"it only but kinda good for its time but maybe then why on keep it the steem stoar jessa rhodes?",0.7
+"greatest game ever made. fast paced action . choose between counter-terrorists and terrorists. plenty of guns and maps.",1146.3
+"yes...i have done it...and at last i wana say this game is like a drug addiction.many ways to play in this game clan,pub,gungame,base bulding abd all kind of zombie games...simply i like clan play...its not enough to give your 100% in game..you have to do more better...this game is really awsm...i have no words to describe the game cs 1.6 specially",2330.8
+"i always find myself coming back to play this game. a true classic",101.6
+"yes, long live counter strike 1.6 - the best game ever.",1.1
+"well known fps shooter game counter-strike will change your life! dont be lazy to pay 9 for such good game. i recommend you to try this game! seeya ingame :)",1780.2
+"i can still make headshots so i still recommend this game to people out there! :d",7.1
+"4th world graphics with a free spririted romp through illustrious landscapes makes this game a thumb thats shaking around and about to fall off after being shot with a glock so its still there but it hurts so good",74.0
+"first a mod. then a game. then a series. now, a legend.",60.1
+"my favorite fps shooter, i think i will never stop zooming because aim is not for me at all =] p.s im awper...",254.3
+"the game whos have not so strong hardware overall this game rocks gots many server, many mods like - team death match, zombie mod, surf mod or just stay calm and play public servers.",1145.8
+"if you are looking for a straight-forward shooter with confusing controls, this is it.",2.0
+"a classic that never gets old. perfect action, tons of game modes and hours of fun fun fun fun fun fun. buy. just buy.",98.7
+"the best online game.........it never gets old!!!!",39.4
+"its ing counter-strike. what are you reading this for? buy it already.",0.7
+"3d    .      (old school).     ,       counter-strike   ,      !   ,    ,    (  no steam). ,        .             public(),     .  !",23.1
+"bes gaym evar mlgquickscopsmokeweederryday420doritosmountaindew2014m8",32.1
+"this is my fav game and i like it so much .. its so good .. u should try it",1101.7
+"hands down the best counter-strike ever made. it have the fun in it that no other game have. the feeling when u play for a example a warcraft server. the time you put in and playing that game for so long. dont buy cs:go. but this sh*t 10/10",85.3
+"a simple 3d shooter game. needs a lot of skill, some strategy and some brain of course.",448.4
+"the one of my favourite games of all time i played it since 2000 so it was a lot of fun for me to play if u dont have it buy it now!! ruined my social life too 11/10",193.1
+"multikill, ultrakill, monster kill, godlike, h0ly  and unstoppable.",376.8
+"call of duty is back again with another smashing hit, but its not called call of duty. you can shoot guns in this one too, and thats swell.",113.4
+"swat is upset about the de_forge update because hes never played that map before :(",328.0
+"best first person shooter to ever surface on to a pc or console. counter strike 1.6 is an old game but still very popular amongst pc gamers everywhere in the world. there are many clans and communities that still support this game, so its not hard to find a group of friends that enjoy playing. you can find various moded servers that include warcarft 3, call of duty moder warfare 3, zombies, american football, prop hunt, paint ball and many more!",935.9
+"possibly one of the greatest first person shooting games ever made. try it out and see how you like it. too bad that numerous number of hackers are around these days, but not a probem if server admins are present. you can try maps like dust/dust2, assault, or even fy maps like snow and iceworld. awp maps are also great if you like scoping and killing opponents with one shot. maybe even go for some of the fun surfing maps that are still around. lastly, fyi it does take some time to find the optimal sensitivity setting that you play the best with.",218.4
+"if you liked one point six of counter-strike you might have enjoyed coldplay. also, youre a ing hipster who needs to get off the gameboy and ing play a game that isnt older then my mother. bbqhtc - my mother is a saint...",10.1
+"excellent action packed dynamic game, where you get to test your reflexes and meet and play online with your friends!",1443.3
+"what can i say? my teenage years were in a large part defined by this game (pity about those hundreds of hours disappearing from record). this game is the reason i made a steam account to begin with. this game made me love online gaming (even if its a tough, one-way love). one of the first breakout e-sports (alongside starcraft) and a significant influence on the fps genre. a piece of gaming history. play it if only for that, and see for yourself.",59.6
+"one of the most played and known games in the world. you cant get bored of this game. really recommand it.",649.8
+"unlike cs:go, with getting expensive knives and later after you finally figure out how to use it you get shot by a noob. this game offers true russian language speaking lessons, i have now learned fluent russian and somehow learned german along the way. it works like a true russian language speaking (and german) simulator should, 8/8 m8.",5.7
+"the best fps game ever made. lots of modes. lots of players. great fun!",32.2
+"best fps competitive shooter on steam. better than cs source and cs global offensive. a lot of cool mods to. idk if they have leagues still but make a team with friends and have fun, or meet new people in public servers.",1521.9
+"if u are bored and dont know what to do with your life play this. good mp.. alot of cheaters.. and can be downloaded for free. overall 3/10",37.8
+"its a great game, but i dont recommend because nowadays there is a map rotativity of just two or three maps",9.4
+"love this game to be honest, great game which has its ups and downs, base of my pc gaming career, best game franchise based off of half-life what can i say.",850.4
+"finally i buy that game! awesome! :d (i`m not a valve`r now) >:)",515.9
+"its really a one of the fabulous game i have ever played",16.6
+"great game. you should pay up to $25 for this game.",49.2
+"yes a good game if played in a good computers, awesome experience at 100 fps. will suggest a gaming mouse and a pad for best aiming",618.5
+"counter strike is a game that teaches you how to use your eyes to there full potential. you must be a fast thinker and good at stratigic thought.",73.4
+"screen problems.. it is sucking up.. cant put back the screen in original way after it gotten wider.. no opption at all.",1.2
+"great game! this game shows you how fps has evolved into one of the most popular game genres. this game is old, has not many multiplayer servers and has graphics that arent the best, but i assure you that you will have some fun with it. if yoiu are getting this game because yiu are looking for a good fps, buy counter strike: global offensive or even better counter strike: complete.",1.7
+"fun and highly addictive game. if you like fpss, then this game is for you.",3.1
+"this game can show this think: a good game dont need good graphics",574.2
+"this game is awesome. shoot face and impress the girls.",491.2
+"although this game was made 100 years ago, it still retains its core value being a great fps shooter that requires team work and not just 360 no scoping. this game wouldnt mean anything to a 13 year old because the graphics arent great but to a person my age this game holds many hours in my heart. 8.5/10",534.9
+"the most awesome counter-strike game ive ever played",46.4
+"a classic and always will be! must get for classic game lovers!",4.3
+"the classic. outstanding gameplay. best community.",218.0
+"2nd best game from valve games after half-life 1, even with new valve games but this one is still amazing, played it for ages and still!",182.4
+"what is there left to say when a game which is over a decade old is in top 10 of steams most played games list? timeless masterpiece. graphics are temporary, gameplay is forever (c)",24.7
+"best online fps ever. the simplicity of this game makes it one of the most fun to play, with a match never the same to another. the steam version has no changes or bonuses whatsoever.",0.5
+"best game ever. the joy it gives when playing with friends is unbelievable .",472.7
+"probably the first game on my account ever (well the whole goldsrc pack but ya know)",0.6
+"the original counter-strike, valve made a multiplayer masterpiece here; it is almost faultless, apart from its old graphics. 14/15 - perfect bar graphics",3.9
+"not quite addicted about this game like others but i must praise it for its realistic like recoil of the weapons and the sounds but overall the game must rest some day an 8 out of 10 this game is not my style but still playng it with some friends when we try to prove who is better at giving head shots. :)",147.9
+"best game of all times. hope it will have match making system like cs:go with a bit better graphics.",63.7
+"amazing. although many pro players play it, and nobody speaks english.",14.5
+"best ever in the century. no matter graphics, this game takes your gaming upto a higher level and brings you a better gaming sense. <3",76.7
+"amazing game, will never get old. probably better than both cs:s and go because of the price and theyre all basically the exact same thing.",1.9
+"it was one the best fps games back in a days.. would go back in time when this game was still popular 10/10",24.7
+"this game... is great. no, seriously, this is an awesome game. however, it isnt quie worth 10 bucks, maybe 7.50, so either wait for a sale, or buy a retail copy and use the cd key. pros: -extremely fun -balanced weapons (except for the awp) -lots of servers & players -its classic -its not that big, its only about 400 mb. cons: -learning curve is a cliff. thats on fire. -not the best graphics (can be fixed with a texture pack) -no bots overall, i give this game an 8/10. now buy it, now!",23.7
+"i really liked this game because its very good, many many servers and players you can play with i have some experience,but more memories when i first started to play this game. so i recommend it!!!!! to all its not some strong game that you will be in lag or your computer is weak and you cant on this game,so this game is very small and everyone can play it!",52.6
+"a classic in the genre. still a lot of players playing it. not the best looking multiplayer fps out there, but very fun to play.",152.9
+"the chat was overfilled with people blaming for hacks. i like it that way.",8.6
+"nothing like the good old days with the classic of the classics, counter strike has been such a huge game for me, and also for the world as one of the most played multiplayer games on the internet, i remember like if it was yesterday the old days when i was a children playing lan games on the computer class with my classmates, and not forgetting when i learned to play it with the help of my older brother, it is such a nostalgic game and one of the best ive owned in my life. totally recommended to get back to the old days",11.1
+"truely the evergreen game of all fps games. worth playing over and over again.",1.8
+"doesnt need no intro.. i mean come on, this is cs1.6. the godfather of all competetive tactical shooters! best fps to date. _o_",74.3
+"the granddad of all shooters! this game is the definition of excellent. this game may be old, but its still a great game to play. also, its really cheap!",219.3
+"some of the best and worst nights of my life were spent on this game. long live long a.",14.8
+"cs 1.6 one of the best and addictive fps games ever made",241.0
+"oh! the classic counter-strike... the first and best fps ive played. it just brings sooo many memories playing with friends, so many laughs, etc.. if youve never played cs, please, just quit life!",27.8
+"one of the best cs games, brings so many good memories :)",49.6
+"just like warcraft iii, diablo ii, this is the game ill never forget. heaton is my favorite pro player, and microsoft intellimouse explorer 3.0 is my favorite mouse. ah!!! good old days.",1.1
+"you have a choice of either curling up into a ball or falling on your face when you die. 10/10",0.4
+"its counter-strike you point gun and shoot terrorists (or counter-terrorists if you prefer the ak) just dont cross the streams",10.9
+"if you love walking on invisible blocks, this game is for you.",0.6
+"really, this game requires skill. not for the casual gamer.",3.0
+"this is best game in all world on-line games lalalala",286.1
+"so much fun to play the origional to the game i like",25.9
+"all-time classic game. will always be my number one counter strike version.",39.4
+"this game teaches people why graphics dont matter.",808.1
+"a cult classic of culminating counter-terror camaraderie",2.3
+"no other game can match the simplicity of this game. easy to play; hard to master. just love it from the age of 8. best game ever for me.",1749.9
+"so this game was released when i was still a sperm and still it has a huge popularity wich is insane no other game can do this ever. counter-strike ha totally changed all gamers lifes amazing.",14.4
+"i really love this game. its one of my favourites. the game mode, those oldish graphics, the fun you can have with it... i met a lot of nice people because of this game, and its sad that most of the servers are full of cheaters now, but you will always find out some good servers even if theres no admins around. one of the best fps ever. 10/10",1216.5
+"youve never played counter-strike, you dont deserve your computer.",22.0
+"the 1st and best game i ever played in my entire life! <3 i ing love cs! <3 :d",2114.3
+"warning : do not buy this game, if you do, youll never see the sunlight again !",915.2
+"counter-strike is #1 game is world))))))))))))))))))))",977.0
+"this game gave me a serious addiction until recently. its like a drug. dont play it :d!",1043.6
+"counter strike: source is better... but i like the cover for this one better.....",2.3
+"dis is an excellent game mindblowing cant leave without dis game",737.9
+"this game will never be bested, my first game i played. growing up playing this game was amazing :d best game ever",395.1
+"old school 10/10 shooter, good mods, goods maps, good fun, runs on all pc specs.",167.0
+"played first time 13 years ago and got totally hooked up, awesum game.",1272.5
+"just go for it.. u gonna love it! best lan/online multiplayer game.",54.9
+"a classic multiplayer fps with many different servers for gamemodes, such as casual (hostage and defuse), deathmatch, and more. the community still lives after 10 years because it is such a great game.",91.9
+"i played this for 6 years and still have to say that it is the best fps game ever made. it dosent need pretty graphics to be thrilling and entertaining at the same time. okay it has a very high learning curve but when your done with that its way to awesome :d",369.2
+"awsomest and the most successful game created by valve....got addicted to it never mind...dont read dis ...dis was jst to complete steam task :3",235.4
+"ok im not amazing at this game but it the best out of all of them. i think it takes a lot pratice to get decent lol well to me im not great but if you got a couple of friends, hey might as well play this game",67.8
+"is an excelent game very addictive and entertaining!",142.5
+"this is the best first person shooter ever. period.",105.9
+"addictive multiplayer game for me from years. till date the only game i like to play online with friends. love it!",1122.0
+"great game. a lot of people still playing, full/modded servers. its easy to get into, and its cheap",53.3
+"old school game )) i really used to liked it but now i prefer counter strike global offensive",10.9
+"its really nice game i know its old but its really still batter than call of duty",8.7
+"best game ever !!!! cs 1.6 > all other cs`s !!!!!!!!!!!!!",433.7
+"this game is great, but you can not put the gun target. i think that is the only downside the game is well thought otherwise.",1142.6
+"counter strike is the best game!!!!!! i love counter-strike thx ---> minh le (gooseman) and jess cliffe (cliffe) !!!!!!! birthday: 19 june 1999",1469.1
+"so, the original cs, where it all begun. great game which made a great series!",0.4
+"the best game valve made after cs:go but the updates made the game very poor :( wish it could be like in the past",172.2
+"the game is very fun for its age and i have had a lot of fun playing this. this game means a lot to me and to some of my friends. this game was my first ever multiplayer game when i started playing it in 2007, when i didnt have steam and had to pirate it, sadly. im fairly sad that it is dying, but it had a good run. 10/10",183.5
+"this has been one of the best and most competitive fps for the past 17 years. its slowly dying, but still has an active community of 30,000 players daily.",1443.2
+"awesome! this is a game that i had played just for the sake of play with friends but now i makes friends while playing . the game is solid , enjoyable , and yes.. a must have :d",297.1
+"pfff.... nothing much too say the games old odseivly i dont reccomend it anymore but for the time this game was realised it truly shined.",4.8
+"best game ever after 1.5, which is best game after 1.3",1301.4
+"counter strike game 1.6 is a great game played by the company when the valve had the idea of launching on steam platform is one of my favorite games. note: the game deserves note 10, the structure and gameplay. features: a great game played in recent years by many players",728.6
+"counter-strike its really amazing, but today really its bad we cant play good, just before are good. server are sh~# ppl are sh%$ really its bad people play free, play clean, play to your mode, and off hack, off cheating , off scripting, off all play fun :)",420.0
+"klubpenguin1234abc: put the awp down you nuuub u suck uninstall the game trolliee341: i can keep this awp you 2 year old. klubpenguin1234abc: i will hack your webkinz account!!!!!",11.9
+"cs is a awesome game with a friendly and mature online community. its one of the best games out there, and its a classic!!",10.6
+"this game is just a classic. if you think you are a gamer you should know",7.5
+"when i was 17 years old, i escaped 34 days from school to play this with my friends and i didnt pass in school that year . now its 11 years later and i still consider that year the best in my life . 11/10 would escape from school again .",48.6
+"thats pefect to pro players with steam you can make screenshots and upload it on steam account and facebook too. thats got very good 3d settings that settings helps to low videocards . if you download it you can play original and good game with official files i like steam",257.5
+"cs 1.5 or 1.6 was the birth place for me, to be a pc gamer - 10/10 !!",44.9
+"i love this game. that was the first game where i was start and i love it forever <3",947.6
+"i wouldnt recommend cs to anyone, not even my worst enemy.",0.5
+"really good game.. its old but it is still good and funny.. mostly i enjoy playing modes like jailbreak/furien mode. i recomend this game.",1577.5
+"one of the best games of all time. a staple in competitive and casual gaming. it pretty much paved the way for competitive team esports.",1012.9
+"play the worlds number 1 online action game. engage in an incredibly realistic brand of terrorist warfare in this wildly popular team-based game. ally with teammates to complete strategic missions. take out enemy sites. rescue hostages. your role affects your teams success. your teams success affects your role.",1336.2
+"i love counter strike, i should end it here. but ill be honest and say i grew up with source, wasnt old enough to experince 1.6 sadly. but giving it a try, its very different, having to buy ammo, see what the original maps looked like before being changed in source. and dealing with pros that somehow can deal with the game choppyness and inaccuracy. ill stick with source, but great game! 9/10",1.2
+"this game ruined my life. its an awesome title! i never knew a game 14 years old would be so good and still, its active in the community! thats really nice! this game is a huge hit in the market and still there are lots of buyers. it is a little thought for a guy like me who just plays non fps games. but still, it is really interesting and amazing to play with friends and online too!",7.5
+"this game is awesome, thanks valve for making it. i know its very old tho =d",529.6
+"the game that started it all (well, almost)... simply a classic",89.9
+"the predecessor of all fps games! try it out today!",635.9
+"probably the best shooter ever made (and it will probably stay that way). this game literally changed the way how shooter games are today. well done valve, well done !",53.7
+"an old cs 1.6 game that almost every gamer played.",1442.8
+"i must have put 200 hours in this game, oh man those were the days. i miss you 1.3, lmao.",0.1
+"cant call yourself a counter-strike player without trying this one out at least once. people are still playing it after about 15 years. just imagine how much support this game got from the community and how popular it became within the hearts of many players.",15.7
+"dymau vse znaut ny razve 4to-to ly4we est` 4em counter strike 1.6",2115.2
+"best 1st person shooter of all time. even all these years after its release, its still the game i end up playing. ive been playing cs off and on since 2005 and i still love it just as much. the gameplay is perfect and flows perfectly.",182.9
+"best mulitplayer game ever made still god of multiplayer game",832.9
+"great game, proving graphics arent everything. recommend buying the game and enjoying the pro experience!",476.6
+"ahhh, the old faithful. work of art, timeless classic, masterpiece, timless work masterpiece of classic art. they say several things will survive a global nuclear meltdown... cockroaches, the sun, and counter-strike. !!!cockroach five man, coming to a tournament near you!!! cockroach/10... (8/10)",6.0
+"best fps out there, no doubt. with so many different mods, maps and time it takes to get bored with this game, i just cant think of a better fps game. best of all, its all fun usually - except when you get kicked from a lithuanian/polish server for speaking english or asking to ban a wallhacker. 9/10 ...because server list is so big and many of the servers are full of bots, only serving purpose to redirect players to join someone elses server. it can be hard to find a real server.",71.2
+"this is a good game i recommended to you. this game is old bath a good game for nolifers. if you play this i recommend a server ladie.lt this is a good server. this server is of lithuianian country.",234.7
+"awesome game,i use to play cz before but now i realized cs 1.6 is by far the best game i ever played",154.0
+"the counter strike 1.6 game cant be quit. easy to get used to the people so that he is unable to switch to cs: s, or cs: go. maybe the reason i think my favorite fps game.",1070.7
+"play this game, is very good and playble, i recommend",2036.2
+"a hell of a game :d (y) .. this game proves that graphics does not matter . 10/10",41.4
+"best game ever...spent more than 10 happy years playing it. beware of cheaters tho. gl & hf",828.7
+"i think its fun. havent aged very well, but still runs on modern computers without any problem. worth picking up if you find a good price for it. was also my first steam game, so what can i say? this game gets 7/10. still better than cs:go",43.4
+"well i played my first game got in a lobby full of cheaters every single server a cheater. other then cheaters its a fine- !! game",20.9
+"this is my fav game and i like it so much .. its so good .. u should try it",1101.7
+"for more than 10 years this game still has billions of players playing it including me. possibility to create and customize your own game arena. the textures may not seem the best, but the gameplay and strategy really sucks you in. my first shooter game ive bought, only because of respect to developers.",938.3
+"its not just a simple game! - this awesome game will never die  - cs 1.6 forever in our hearts! - cs 1.6 please stay alive! players united!  sea of emotions.. thx you, counter-strike 1.6. forever in my heart!",388.7
+"i love cs 1.6 .. it is best game ever .................................... easy to play ..",1132.9
+"best game ever, all the mods make the game worth buying and playing even in 2015!",968.9
+"a hell of a game :d (y) .. this game proves that graphics does not matter . 10/10",41.4
+"counter-strike can join in with golden eye in taking credit for defining the comman fps game as we know it today. its servers are still active over a decade of entertainment. you customize your gear then choose to either use tactics to disarm the bomb, or you can just rush in like an insane person, grip the hostages by the arm as you say follow me now!!!, and get them to safety. it is pure greatness. and the system requirements are not demanding, so virtualy any computer nowadays can run it.",7.0
+"cs.16 its a good strategy onling game and i suggest you to buy it ! beacause cs.16 have a lot of skills and mods too,like (deathrun,jailbreak)etc.!!!!!!!!!!! maybe have not good graphics cause cs1.6 since 1999 but its the most popular game in the world..! so thank you to read my review!",294.2
+"the multiplayer fps that started it all. might be a old game, but its better than cod, also, even though the graphics are , that doesnt mean the game is. instead of picking your loadout, you get in-game money to buy weapons from a menu. there are no attachments to the weapons. there isnt that much to say, but its still very good. final verdict 10/10 classic.",7.8
+"launched the game, joined a random server , laughed about 43 minutes because of the graphics and animations, got rekt by some fgts , insulted them and their families , closed the game and laughed again because i acted ridiclous , opened the game again, rejoined the server, insulted them again , closed the game another time and laughed enough to cry a bit. one of the best gaming experiences i ever had. 9.9999999999999999999999999999999999999999999999/10 would get eye cancer because of the graphics again. its not a full 10 because there are no 499 knifes.",0.7
+"awesome game ! really addicting ! a classic game that should never be put down !",842.2
+"best fps of its time. really fun and great community.",10.8
+"even though it came out over 10 years ago it is still a great game to play and the servers are filled with lots of players and the community lives on. i would recomend this game to anyone.",2.9
+"this was my time (this is a legendary game of all time ...",7.2
+"can enter only original, new mode surf ski server manages a unique mode who publishes a candidate for admin ielhhh join now =] 84.94.214.173:20889 $$$$$$ cs 1.6 $$$$$$",1703.0
+"the best shooter,period.no game will ever come close to this one.love it!",1421.0
+"very nice shooter game many things you can play:)) buy it!",234.2
+"just one thing i would like to say is that i can live without my girl friend but not without counter strike. :) ;)",176.5
+"great game with an active community! just dont expect to be playing any normal missions any time soon, i also enjoy the smoke in this installment, you can see through it if you walk right through it, also it is suprisingly difficult for the first installment, maybe im just bad, i dont know, so anyways get this game if you like team based fps if you dont like that genre, i reccomend you skip this one, 7/10",3.6
+"the mother of all fpss around. definitely recommended.",1135.4
+"highly addictive 3d oldschool fps game. everyone should know this game.",23.1
+"theres nothing about counter-strike 1.6 that hasnt be said already, the game will always remain flawless in many gamers eyes throughout the world. tactiacl shooter at its finest, cs 1.6 offers not only perfectly balanced matches and good maps but intense sneaking, real quick scoping, amazing weaponry, strategies and so much more! it is the easiest game to just pick up and play, and it would totaly fit in things any human beings should try atleast once. list.",1121.1
+"umm i guess this game is good? what to expect is trolls tryhards and bads and umm..nope that sums up all the people who play this 11 + year old game.",2609.9
+"nice game, great gameplay, graphics is poor as hell",13.8
+"one of the most played steam games, even now it still is. great game to pick up if you own csgo, to see where it all started.",3.6
+"i play this game since 2001 and i still cant stop coming back:) its the best game ever!",19.3
+"if you pick up this game now, you will most probably get wrecked by people who have mastered the game. just a warning. bloody good game though.",4.8
+"what can i say ? most played fps ever with a reason",41.5
+"best game 10/10 . if you have time you should play it :) worth its money,even for an old game,still rocking the shooters market.",1600.9
+"the game is too lagy i got rip off. i going to play mega man 6, bros.",0.8
+"best game ever made... domination of movemenet, shooting mechanics - recoil... exaclty what a fps game need... when developers of this game genre learn that this 2 things are the most inportant for good fps, they will make a game as good as cs 1.6 is... cs:go does not have these major aspects, and doesnt deserve name of counter-strike (imo). as a third very important thing for fps game, i would say the animations... the animations of player models such as runnig, walking, crouching, gun holding/fireing/reloading etc... graphics isnt so important, doesnt need to be sooo good, but decent due to visibility...",789.7
+"the great classic. this is my favorite fps of all time next to team fortress.",111.5
+"i spent 1200 hours on testing plugins i made. 10/10",1769.2
+"i played a lot of games.i tried games with advanced mechanics,fancy graphics.i tried mods and all guides.still,i never catch the feeling i get with counter strike.it is plain and fair.i love the purity of it.its also absolutely fair.no skillpoints,no classes,no glamour-only gloss.it is the ultimate first person shooter.simply the best ever.",64.6
+"best online played game no one can beat this game :d",113.0
+"listen, this game may be old, but it still has its charms, i mean sure, the quality was low but the game was still awesome just like its sequels (including global offensive).",1.3
+"revolutionary new game for 2012, better graphics than cod",0.6
+"simply the legendary mulitiplayer first person shooter. it has now become reduced to thousands of servers full of tens of thousands of counter-terrorist and terrorist bots in a perpetual endless war spamming their radio commands killing each other mainly on de_dust2 the only full servers are ing br spamming the chats u gib me monies or i repot u huhuhuehue hue hue hue jajajajjajajajajja jaja ja ja",219.3
+"i grew up with this game,best children memories , new friend , adventures. this game will stay on my heart.",90.9
+"when you crouch, you lift your feet in the air and fall to the ground. 10/10",59.4
+"really good game.. its old but it is still good and funny.. mostly i enjoy playing modes like jailbreak/furien mode. i recomend this game.",1577.5
+"this game although old still is very good game and it takes actrually some skill in it to",32.2
+"best game ever !! i would recomand this game to everyone.",1137.1
+"obviously the best game ever made. was, is, and will be the best.",55.2
+"this is the og game. #classic. #oldschool. the godfather of fps shooters. theres a reason why it still has a strong playerbase, even stronger than its successor cs:source. even with cs:go out, it still has a healthy number of players. the gameplay and balance is still unrivaled. this was the platform valve used to become the powerhouse it is today. highly recommend even in 2014.",1178.7
+"this is a good game for kids as its not real life graficts. and servers with mods are sometimes good.",49.4
+"this game is old as , but its better than cs:s but csgo.",1.2
+"heres my story, i went over to my friends house one day, he was playing cs. i tried it for myself, i was instantly hooked and have been for over 10 years with the counter strike franchise. best online action franchise ever for the pc in my opinion. counter strike is like a drug that you will never be cured from, trust me.",0.6
+"all-time classic game. will always be my number one counter strike version.",39.4
+"it was better before 2010 when there were not so many hackers. now is full of hackers... in cs:go are like 30%-50% of hackers but in cs 1.6 there are over 60% hackers. poor game now.",19.5
+"the game is good, but not a lot of people play the original anymore. if you dont have any friends who play this one, stick to cs source, because the few servers in the original that are populated are not exactly your standard modes usually. but a good competitive shooter none-the-less",1.2
+"this is where i started with. this never gets old.",37.1
+"this game is dosent good when i play on server dosent work and say : time out ",34.8
+"awesome game. best fps game ever... you are gonna need some serious skills for this game.",686.5
+"a very good game indeed..... proves that graphics dont matter, gameplay does",8.1
+"this game is awsume ,graphics dosent matter for a gamer ;)",310.5
+"yeap. its the game that covered all my life. ive it when i was 6 and it makes me much more relaxed than everything.",530.1
+"very nice game! if you wanna be good cs:go players you must start from this game!",14.9
+"cs for life, 10 years playin cant find a replacement.",599.3
+"simply the best game ive ever played (and possibly will ever)",277.2
+"best fps game ever made and works great on mini laptops! :d",8.0
+"best game ever !!!! cs 1.6 > all other cs`s !!!!!!!!!!!!!",433.7
+"this is still the best fps out there. it has not undergone significant changes and therefore remains good and competitive, but only on esea coz apparently the valves support for the vac on public servers no longer works since cs:go has taken place over the professional scene. you know, its a dirty strategy for old school players to buy and enter in the cs:go world. so if you want enjoy this game atm, you must spend money and raise your level, coz if you plan to play on public servers youll only see lots of cheaters and id lans lol. valve should update vac for cs 1.6",1314.4
+"good old game.. stil alive! gathers, or other servers.. mixes, irc chaneels... good memories :)",10.5
+"ive been playing the original cs for years, and its still one of my favorite multiplayergames.",27.2
+"a classic from the heyday of quake, warcraft 3, and brood wars. the game that gave e-sports a face and a true legend in its own right. still rocking 13 years later with one of the biggest communities on steam. the one, the only, counnnnnnterrr-strikkkkkkkeeeeee!",294.5
+"counter strike is a great game. even though it has outdated graphics it still has great gameplay. there are different game modes. 1 is where you have to defuse a bomb or plant a bomb and the other you have to rescue hostages and thats just to name a few. you will definetley enjoy playing this game.",4.3
+"what to say ? the game is amazing ! this game is my past ! :)",73.5
+"a game which will never bore anyone.. i never tire of playing this game..been 8 years and still counting..life as a cs player rocks..",568.4
+"probably the first game on my account ever (well the whole goldsrc pack but ya know)",0.6
+"i love counter strike. i have played it since my cousin nickname: mafia al capone showed me. i now have played counter strike off and on for about 8 years now. keep it going valve and steam.",386.1
+"this game is the best action shooter ever made, its gameplay is very well balanced and you have many options and tactics to do. actually, if you play cs:go, then this game is exactly the same except that the graphics are from 2000. but this does not matter. gameplay is far more enjoyable then graphics! and if steam was built aound this game, well, then it must be some good stuff.",16.8
+"this game took me away from csgo....this game is amazing.. i really recommend this game even if it isnt good looking all that matters is the gameplay and by far i really liked the gameplay of the original cs",3.5
+"the quentissential competitve fps. get it you wont regret it, unless you suck balls.",6.5
+"i will never stop playing this  game...i love it!!!!!! ^_*",455.2
+"it was the lol of fps during quakes heyday, funny how its considered hardcore now the sounds of any west coast us server is like going to a working class latino neighborhood eyy foo they all goin b wtf  fucc u chu wana fite holmes??",231.4
+"best ever shooting game played in my life i <3 with this game.....",1016.7
+"instead of writing a long, drawn out, tl;dr review, ill just give a summary of what that review would be: best game ever.",1015.4
+"still a lot of people playing 1.6, lots of fun with a good community.",72.4
+"same old cs... good game, one of the best shooters of all time. nowadays its graphics seems a little outdated. but hl engine still works pretty nice. still better and less robotic than cs:go.",71.3
+"this game has a odd aiming system compared to csgo and css so this is a true classic and it is still fun today but it does show its age a little. 8.9/10",4.5
+"i grew up playing cs 1.6, this is one of the best games late 90s !",84.7
+"cs:go is good. cs is great. i keep on playing, and school i will be late.",4.7
+"one does not simply waste 600+ hours on this game.be sure to buy/play it.besides its classic game.",677.0
+"best fps game ever in the history ,present and future of pc gaming",568.3
+"i bought the whole cs 1 anthology.great time-terrible decision. lets get to the point-when you start,you..well get blasted in the face.honsetly when i started on the scoreboard it was 1:15 so yeah. glock,usp,deagle,mp5,famas,galil,cv-47,m4 and awp that is going to kill ye most of the time. have fun buying and playing :)",139.5
+"this game has eaten half of my life, dont know how to review this.",143.7
+"this game is really awesome. this made my childhood awesome!",769.6
+"this game is legendary!!! any online fps fan should play it.",141.9
+"this game is awsome and will be for sure in next 50 yrs :)",318.6
+"if you want to learn spanish,russian,swedish language play this game.",166.3
+"if you didnt play this but play cs:go, you probably like to pretend you did.",22.8
+"i grow up on cs 1.6, but now it is unplayable. a lot of garbage on servers a lot of music and useless things. low download speed, and everybody hack everywhere. please make something with this game, just need some patch, for disable downloadable contetn, and useless things...",29.5
+"i have a crush on this game. please add workshop or something to make it be better.",178.0
+"the best fps created. it is because of this game that the fps was revolutionized, be it in the competitive scene and the casual scene. nothing can compare to the greatness of this game.",435.7
+"probably my most favorite game ever. the original is still so amazing, great servers, mods and tons of activity still!",950.2
+"this is a old classic and i love it and its all around funn",1.3
+"a classic shooter that everyone still play and enjoy, a game that almost any male person in my country has played.",13.0
+"this game is just as good as it was 10 years ago. its the tetris of fps. you will still find tons of people to play with (half of them annoying kids, just like 10 years ago) and find yourself neglecting your modern games...",25.1
+"the most intoxicating, the most classic cs ever. best for oldschool players! ;)",596.5
+"the first counter strike that started it all. which was an amazing mod for half life and my first pc game :)",0.3
+"i cant get the game to work it starts but i dont se the load screen i just see black",1.5
+"what can you say? the best fps game out there, even to this day.",21.7
+"the classic genre-defining fps. counter-strike may be 16 years old but there are thousands of servers with an overflowing amount of players. the difficulty curve is no joke. but once you get used to it, you never get tired of tea-bagging dead players after a headshot. since it is only multiplayer, you get practically infinite replayability. 8/10 - a big heavy dose of fun",1.0
+"this is one of my favourite games. it is simply classic game. i really enjoy playing this game",725.3
+"great game and classic fps game! should play if you like shooting and..shooting :d",1252.8
+"uh.. probably the best game i have ever played. must have, go and buy it, now!",159.9
+"legendary! counter strike 1.6 - as it should be. the game has stood the test of time, an yet still out does counter strike source, as one of the most remembered, well designed, fun multiplayer shooters of the last decade. 9/10",15.3
+"the first time ive played counter-strike, i remember i was just 11 years old, back in 2001! since then it had me nailed, its just so awesome, you come home, turn on your teamspeak / ventrilo, form a party, play 5v5 just for fun, train and become better, step by step. for anyone new to action-shooter genre i highly recommend playing counter-strike, its just a must-have!",3.8
+"the original mod from half life 2, i grabbed this when it was free way back, been playing ever since, with tons of user made content, a large community to play with this game is still a great buy. wheter your camping or lobbing nades, skill and teamwork are a must to succeed, mics are even better, this game can be as serious as you want it to be, just dont get mad bro, lol.",0.8
+"its bit old now , but it was the best game i played as a kid ...i loved it and i have my copy",121.5
+"you must be legally required to own this game to apply for citizenship in mexico.",2.7
+"one of the most revolutionary fps online games ever. its an superb fps team tactical shooter game that has few different game modes with lots of great maps! highly recommend it to others out there that is looking for great competive challenging online gaming.",281.0
+"so much fun. cant explain. thats why i`ll stop the review here. ty",820.1
+"played first time 13 years ago and got totally hooked up, awesum game.",1272.5
+"best fps for valve. i love this game. you should really buy this epic game and its franchise.",23.3
+"all time classic. 11/10 would wallbang again and again.",247.8
+"after you play counter-strike:global offensive you cannot play this game any more.is garbage beside counter-strike:global offensive.dont buy this game.it was great game at is time but now is too old.buy counter-strike:global offensive.",101.6
+"brilliant gameplay, lots of options, graphics are very good for a game thats old and made 1st november 2000. one of the best first-person shooter games aroung its time 10 years after half-life.",0.2
+"i really like the game, but i couldnt find the stupid cake.",691.6
+"classic and yet still the one of the most entertaining fps-style shooters that has ever set foot on earth. gameplay mechanics are fun and yet challenging. game provides many different gamemodes from regular deathmatch-bomb plant mission to platformer style of gamemodes. overall an awesome game and i recommend it to anyone who has any cs experience or has any interest in fps-shooters :)",5.7
+"having only played csgo for the past year or so, it is really nice to see what that game was rooted off of. i now know playing 1.6 what all the hype about counter strike is and the history behind it. 1.6 for its time period was such a benchmark game. really awesome!",1.3
+"counter-strike is one of those games that still has people playing on servers 15 years later and probably still will due to its addictive and competitive gameplay. strongly recommend it. 10/10",12.7
+"the best game in the world , and the best server 193.192.59.233:27062",517.8
+"this will always be the best counter-strike ever, but i can no longer recommend it. 90% of servers are hosted by mexicans so if you dont know spanish.....2bad... try cs:go or cs: source.",76.6
+"using an awp is cheaper than ing my mother and no one wants to see either. go play cod.",6.8
+"the most repetitive and yet the most addictive game i ever played. its a must have! :)",4.8
+"this game is a proof that games do not need to have good graphics for it to be fun & addictive. its one of the games which gives you the oppurtunity to go online & have fun with your friends :d",2182.4
+"this is still the best fps out there. it has not undergone significant changes and therefore remains good and competitive, but only on esea coz apparently the valves support for the vac on public servers no longer works since cs:go has taken place over the professional scene. you know, its a dirty strategy for old school players to buy and enter in the cs:go world. so if you want enjoy this game atm, you must spend money and raise your level, coz if you plan to play on public servers youll only see lots of cheaters and id lans lol. valve should update vac for cs 1.6",1314.4

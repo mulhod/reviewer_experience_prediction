@@ -368,10 +368,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 
     # ARFF file template
     ARFF_BASE = '''% Generated on {}
-% This ARFF file was generated with review data from the following game(s):
-%     {}
-% It is useful only for trying out machine learning algorithms on the
-% bag-of-words representation of the reviews only.
+% This ARFF file was generated with review data from the following game(s): {}
+% It is useful only for trying out machine learning algorithms on the bag-of-words representation of the reviews.
 @relation reviewer_experience
 @attribute string_attribute string
 @attribute numeric_attribute numeric
@@ -379,10 +377,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 @data'''
     TIMEF = '%A, %d. %B %Y %I:%M%p'
 
-    # Replace underscores with spaces in game names
-    _file_names = [sub(r'_',
-                       r' ',
-                       f) for f in file_names]
+    # Replace underscores with spaces in game names and make
+    # comma-separated list of games
+    _file_names = str([sub(r'_',
+                           r' ',
+                           f) for f in file_names])
 
     # Write ARFF file(s)
     if make_train_test:
@@ -426,10 +425,6 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                                                       game_doc['hours']))
             with open(_dest_path,
                       'w') as out:
-                if len(_file_names) > 1:
-                    _file_names = ' ,'.join(_file_names)
-                else:
-                    _file_names = _file_names[0]
                 t = time.strftime(TIMEF)
                 out.write('{}\n{}'.format(ARFF_BASE.format(t,
                                                            _file_names),
@@ -457,11 +452,7 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                                                   review_dict['hours']))
         with open(dest_path,
                       'w') as out:
-            if len(file_names) > 1:
-                file_names = ' ,'.join(file_names)
-            else:
-                file_names = file_names[0]
             t = time.strftime(TIMEF)
             out.write('{}\n{}'.format(ARFF_BASE.format(t,
-                                                       file_names),
+                                                       _file_names),
                                       '\n'.join(reviews_lines)))

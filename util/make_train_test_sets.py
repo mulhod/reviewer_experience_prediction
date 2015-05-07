@@ -27,7 +27,7 @@ if __name__ == '__main__':
         help='maximum number of reviews to get for training/testing (if' \
              ' possible)',
         type=int,
-        default=21000)
+        default=10000)
     parser.add_argument('--percent_train', '-%',
         help='percent of selected reviews for which to use for the ' \
              'training set, the rest going to the test set',
