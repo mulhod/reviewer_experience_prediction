@@ -33,6 +33,14 @@ if __name__ == '__main__':
              'training set, the rest going to the test set',
         type=float,
         default=(2.0/3.0)*100.0)
+    parser.add_argument('--convert_to_bins', '-bins',
+        help='number of equal sub-divisions of the hours-played values, ' \
+             'e.g. if 10 and the hours values range from 0 up to 1000, ' \
+             'then hours values 0-99 will become 1, 100-199 will become 2, ' \
+             'etc. (will probably be necessay to train a model that ' \
+             'actually is predictive to an acceptable degree)',
+        type=int,
+        required=False)
     parser.add_argument('-describe', '--make_reports',
         help='generate reports and histograms describing the data ' \
              'filtering procedure',
@@ -49,6 +57,18 @@ if __name__ == '__main__':
         type=int,
         default=27017)
     args = parser.parse_args()
+
+    # Make sure value passed in via the --convert_to_bins/-bins option flag
+    # makes sense and, if so, assign value to variable bins (if not, set bins
+    # equal to 0)
+    if args.convert_to_bins and args.convert_to_bins < 2:
+        sys.exit('ERROR: The value passed in via --convert_to_bins/-bins ' \
+                 'must be greater than 1 since there must be multiple bins ' \
+                 'to divide the hours played values. Exiting.\n')
+    elif args.convert_to_bins:
+        bins = args.convert_to_bins
+    else:
+        bins = 0
 
     # Establish connection to MongoDB database
     connection = pymongo.MongoClient('mongodb://localhost:' \
@@ -97,6 +117,9 @@ if __name__ == '__main__':
                      '\n'.format(args.max_size,
                                  args.percent_train,
                                  100.0 - args.percent_train))
+    if bins:
+        sys.stderr.write('Converting hours played values to {} bins.' \
+                         '\n'.format(bins))
 
     # For each game in our list of games, we will read in the reviews from
     # the data file and then put entries in our MongoDB collection with a
@@ -109,6 +132,7 @@ if __name__ == '__main__':
                                                game_file)),
                                   args.max_size,
                                   args.percent_train,
+                                  bins=bins,
                                   describe=args.make_reports,
                                   just_describe=args.just_describe)
 

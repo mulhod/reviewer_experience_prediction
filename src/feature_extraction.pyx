@@ -6,6 +6,7 @@ Module of functions/classes related to feature extraction, model-building, ARFF 
 '''
 import sys
 import time
+#from ctypes import *
 from math import ceil
 from numpy import log2
 from nltk.util import ngrams
@@ -14,25 +15,25 @@ from re import sub, IGNORECASE
 from collections import Counter
 from configparser import ConfigParser
 
-class Review(object):
+cdef class Review(object):
     '''
     Class for objects representing Reviews.
     '''
 
     # Original review text
-    orig = None
+    #orig = None
     # Normalized review text
     norm = None
     # Number of hours the reviewer has played the game (float)
-    hours_played = None
+    cdef float hours_played
     # appid of the game (string ID code that Steam uses to represent the
     # game
-    appid = None
+    #appid = None
     # Attribute whose value determines whether or not the review text will
     # be lower-cased as part of the normalization step
-    lower = None
+    #lower = None
     # Length of the original text (base-2 log)
-    length = None
+    cdef float length
     # Attributes representing the word- and sentence-tokenized
     # representations of self.norm, consisting of a list of elements
     # corresponding to the identified sentences, which in turn consist of
@@ -61,8 +62,8 @@ class Review(object):
     #repvecs = []
 
 
-    def __init__(self, review_text, hours_played, game, appid, spaCy_nlp,
-                 lower=True):
+    def __init__(self, review_text, float hours_played, game, appid,
+                 spaCy_nlp, lower=True):
         '''
         Initialization method.
 

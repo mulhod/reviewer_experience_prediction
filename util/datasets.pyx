@@ -25,7 +25,7 @@ def read_reviews_from_game_file(file_path):
 
     reviews = []
     lines = open(abspath(file_path)).readlines()
-    i = 0
+    cdef int i = 0
     while i + 1 < len(lines): # We need to get every 2-line couplet
         # Extract the hours value and the review text from each 2-line
         # sequence
@@ -77,7 +77,7 @@ def get_and_describe_dataset(file_path, report=True):
                       'w')
         # Initialize seaborn-related stuff
         sns.set_palette("deep", desat=.6)
-        sns.set_context(rc={"figure.figsize": (8, 4)})
+        sns.set_context(rc={"figure.figsize": (8, 5)})
 
     # Get list of review dictionaries
     reviews = read_reviews_from_game_file(file_path)
@@ -93,21 +93,22 @@ def get_and_describe_dataset(file_path, report=True):
 
     # Look at review lengths to figure out what should be filtered out
     lengths = np.array([len(review['review']) for review in reviews])
-    mean = lengths.mean()
-    std = lengths.std()
+    cdef float mean1 = lengths.mean()
+    cdef float std1 = lengths.std()
     if report:
         output.write('Review Lengths Distribution\n\n')
-        output.write('Average review length: {}\n'.format(mean))
+        output.write('Average review length: {}\n'.format(mean1))
         output.write('Minimum review length = {}\n'.format(min(lengths)))
         output.write('Maximum review length = {}\n'.format(max(lengths)))
-        output.write('Standard deviation = {}\n\n\n'.format(std))
+        output.write('Standard deviation = {}\n\n\n'.format(std1))
 
     # Use the standard deviation to define the range of acceptable reviews
     # (in terms of the length only) as within 2 standard deviations of the
     # mean (but with the added caveat that the reviews be at least 50
     # characters
-    MINLEN = 50 if (mean - 2.0*std) < 50 else (mean - 2.0*std)
-    MAXLEN = mean + 2.0*std
+    cdef float MINLEN = 50.0 if (mean1 - 2.0*std1) < 50.0 else (mean1 -
+                                                                2.0*std1)
+    cdef float MAXLEN = mean1 + 2.0*std1
 
     if report:
         # Generate length histogram
@@ -122,21 +123,21 @@ def get_and_describe_dataset(file_path, report=True):
 
     # Look at hours played values in the same way as above for length
     hours = np.array([review['hours'] for review in reviews])
-    mean = hours.mean()
-    std = hours.std()
+    cdef float mean2 = hours.mean()
+    cdef float std2 = hours.std()
     if report:
         output.write('Review Experience Distribution\n\n')
         output.write('Average game experience (in hours played): {}' \
-                     '\n'.format(mean))
+                     '\n'.format(mean2))
         output.write('Minimum experience = {}\n'.format(min(hours)))
         output.write('Maximum experience = {}\n'.format(max(hours)))
-        output.write('Standard deviation = {}\n\n\n'.format(std))
+        output.write('Standard deviation = {}\n\n\n'.format(std2))
 
     # Use the standard deviation to define the range of acceptable reviews
     # (in terms of experience) as within 2 standard deviations of the mean
     # (starting from zero, actually)
-    MINHOURS = 0
-    MAXHOURS = mean + 2.0*std
+    cdef float MINHOURS = 0.0
+    cdef float MAXHOURS = mean2 + 2.0*std2
 
     # Write MAXLEN, MINLEN, etc. values to report
     if report:
@@ -159,10 +160,10 @@ def get_and_describe_dataset(file_path, report=True):
 
     if report:
         output.close()
-    orig_total_reviews=len(reviews)
+    cdef int orig_total_reviews=len(reviews)
     reviews = [r for r in reviews if len(r['review']) <= MAXLEN
-                                  and len(r['review']) >= MINLEN
-                                  and r['hours'] <= MAXHOURS]
+                                     and len(r['review']) >= MINLEN
+                                     and r['hours'] <= MAXHOURS]
     return dict(reviews=reviews,
                 MINLEN=MINLEN,
                 MAXLEN=MAXLEN,
