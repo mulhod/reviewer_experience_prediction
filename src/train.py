@@ -130,6 +130,7 @@ if __name__ == '__main__':
     game_files = []
     if args.game_files == "all":
         game_files = [f for f in listdir(data_dir) if f.endswith('.txt')]
+        del game_files[game_files.index('sample.txt')]
     else:
         game_files = args.game_files.split(',')
 

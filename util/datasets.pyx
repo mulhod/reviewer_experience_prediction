@@ -77,7 +77,7 @@ def get_and_describe_dataset(file_path, report=True):
                       'w')
         # Initialize seaborn-related stuff
         sns.set_palette("deep", desat=.6)
-        sns.set_context(rc={"figure.figsize": (8, 5)})
+        sns.set_context(rc={"figure.figsize": (14, 7)})
 
     # Get list of review dictionaries
     reviews = read_reviews_from_game_file(file_path)

@@ -1,0 +1,26 @@
+Descriptive Report for Team Fortress 2
+===============================================================================
+
+Number of English-language reviews: 24768
+
+Review Lengths Distribution
+
+Average review length: 180.69924926757812
+Minimum review length = 2
+Maximum review length = 8000
+Standard deviation = 415.3465270996094
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 851.0255737304688
+Minimum experience = 0.1
+Maximum experience = 12548.7
+Standard deviation = 986.2979125976562
+
+
+Filter Values
+MINLEN = 50.0
+MAXLEN = 1011.392333984375
+MINHOURS = 0.0
+MAXHOURS = 2823.621337890625

@@ -114,6 +114,9 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                      'set if there are errors during insertion and there' \
                      ' are no replacement reviews to substitute in.\n\n')
 
+    # Initialize a bulk writer
+    bulk = reviewdb.initialize_unordered_bulk_op()
+
     # Insert training set reviews into MongoDB collection
     for r in training_reviews:
         # First, let's add some keys for the training/test partition, the
@@ -137,7 +140,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
             # Actually, to really mimic the real situation, we'd have to
             # insert and then remove...
             if not just_describe:
-                reviewdb.insert(r)
+                bulk.insert(r)
             pass
         except DuplicateKeyError as e:
             if remaining_reviews:
@@ -160,9 +163,21 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         r['game'] = game
         r['appid'] = appid
         r['partition'] = 'test'
+
+        if bins:
+            _bin = get_bin(bin_ranges,
+                           r['hours'])
+            if _bin:
+                r['hours'] = _bin
+            else:
+                sys.exit('WARNING: The hours played value ({}) did not seem' \
+                         ' to fall within any of the bin ranges.\n\nBin ' \
+                         'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
+                                                              repr(bin_ranges)))
+
         try:
             if not just_describe:
-                reviewdb.insert(r)
+                bulk.insert(r)
             pass
         except DuplicateKeyError as e:
             if remaining_reviews:
@@ -186,14 +201,29 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         r['game'] = game
         r['appid'] = appid
         r['partition'] = 'extra'
+
+        if bins:
+            _bin = get_bin(bin_ranges,
+                           r['hours'])
+            if _bin:
+                r['hours'] = _bin
+            else:
+                sys.exit('WARNING: The hours played value ({}) did not seem' \
+                         ' to fall within any of the bin ranges.\n\nBin ' \
+                         'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
+                                                              repr(bin_ranges)))
+
         try:
             if not just_describe:
-                reviewdb.insert(r)
+                bulk.insert(r)
             pass
         except DuplicateKeyError as e:
             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
                              'Throwing out following ' \
                              'review:\n\n{}\n\n'.format(r))
+
+    # Do a bulk write operation
+    bulk.execute()
 
     # Print out some information about how many reviews were added
     if not just_describe:
@@ -210,7 +240,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                                      extra_inserts))
 
 
-cdef get_bin_ranges(float _min, float _max, int nbins):
+def get_bin_ranges(_min, _max, nbins):
     '''
     Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
 
@@ -223,23 +253,24 @@ cdef get_bin_ranges(float _min, float _max, int nbins):
     :returns: list of tuples representing the minimum and maximum values of a bin
     '''
 
-    cdef float bin_size = round(float(_max - _min)/nbins,
-                                1)
+    bin_size = round(float(_max - _min)/nbins,
+                     1)
     bin_ranges = []
-    cdef int b
+    _bin_start = _min - 0.1
+    _bin_end = _min + bin_size
     for b in range(1, nbins + 1):
-        _min_ = round(_min + bin_size*(b - 1),
-                      1)
-        _max_ = round(_min + bin_size*b + 0.1,
-                      1)
-        if _max_ > _max:
-            _max_ = _max
-        bin_ranges.append((_min_,
-                           _max_))
+        if not b == 1:
+            _bin_start = _bin_end
+        if b == nbins:
+            _bin_end = _bin_start + bin_size + 1.0
+        else:
+            _bin_end = _bin_start + bin_size
+        bin_ranges.append((_bin_start,
+                           _bin_end))
     return bin_ranges
 
 
-cdef get_bin(bin_ranges, float val):
+def get_bin(bin_ranges, val):
     '''
     Return the index of the bin range in which the value falls.
 
@@ -250,7 +281,6 @@ cdef get_bin(bin_ranges, float val):
     :returns int (None if val not in any of the bin ranges)
     '''
 
-    cdef int i
     for i, bin_range in enumerate(bin_ranges):
         if val > bin_range[0] and val <= bin_range[1]:
             return i + 1

@@ -1,0 +1,26 @@
+Descriptive Report for Football Manager 2015
+===============================================================================
+
+Number of English-language reviews: 1023
+
+Review Lengths Distribution
+
+Average review length: 420.764404296875
+Minimum review length = 5
+Maximum review length = 5818
+Standard deviation = 642.2216796875
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 287.40771484375
+Minimum experience = 0.2
+Maximum experience = 2482.1
+Standard deviation = 328.7956848144531
+
+
+Filter Values
+MINLEN = 50.0
+MAXLEN = 1705.207763671875
+MINHOURS = 0.0
+MAXHOURS = 944.9990844726562

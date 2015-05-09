@@ -890,8 +890,8 @@ static PyObject *__pyx_n_s_w;
 static PyObject *__pyx_n_s_write;
 static PyObject *__pyx_float__6;
 static PyObject *__pyx_int_1;
-static PyObject *__pyx_int_5;
-static PyObject *__pyx_int_8;
+static PyObject *__pyx_int_7;
+static PyObject *__pyx_int_14;
 static PyObject *__pyx_int_111;
 static PyObject *__pyx_int_neg_4;
 static PyObject *__pyx_slice__3;
@@ -1891,7 +1891,7 @@ static PyObject *__pyx_pf_4util_8datasets_2get_and_describe_dataset(CYTHON_UNUSE
  *                       'w')
  *         # Initialize seaborn-related stuff
  *         sns.set_palette("deep", desat=.6)             # <<<<<<<<<<<<<<
- *         sns.set_context(rc={"figure.figsize": (8, 5)})
+ *         sns.set_context(rc={"figure.figsize": (14, 7)})
  * 
  */
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_sns); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -1911,7 +1911,7 @@ static PyObject *__pyx_pf_4util_8datasets_2get_and_describe_dataset(CYTHON_UNUSE
     /* "util/datasets.pyx":80
  *         # Initialize seaborn-related stuff
  *         sns.set_palette("deep", desat=.6)
- *         sns.set_context(rc={"figure.figsize": (8, 5)})             # <<<<<<<<<<<<<<
+ *         sns.set_context(rc={"figure.figsize": (14, 7)})             # <<<<<<<<<<<<<<
  * 
  *     # Get list of review dictionaries
  */
@@ -4363,7 +4363,7 @@ static int __Pyx_InitCachedConstants(void) {
  *                       'w')
  *         # Initialize seaborn-related stuff
  *         sns.set_palette("deep", desat=.6)             # <<<<<<<<<<<<<<
- *         sns.set_context(rc={"figure.figsize": (8, 5)})
+ *         sns.set_context(rc={"figure.figsize": (14, 7)})
  * 
  */
   __pyx_tuple__4 = PyTuple_Pack(1, __pyx_n_s_deep); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -4373,11 +4373,11 @@ static int __Pyx_InitCachedConstants(void) {
   /* "util/datasets.pyx":80
  *         # Initialize seaborn-related stuff
  *         sns.set_palette("deep", desat=.6)
- *         sns.set_context(rc={"figure.figsize": (8, 5)})             # <<<<<<<<<<<<<<
+ *         sns.set_context(rc={"figure.figsize": (14, 7)})             # <<<<<<<<<<<<<<
  * 
  *     # Get list of review dictionaries
  */
-  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_int_8, __pyx_int_5); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__5 = PyTuple_Pack(2, __pyx_int_14, __pyx_int_7); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__5);
   __Pyx_GIVEREF(__pyx_tuple__5);
 
@@ -4503,8 +4503,8 @@ static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __pyx_float__6 = PyFloat_FromDouble(.6); if (unlikely(!__pyx_float__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_int_8 = PyInt_FromLong(8); if (unlikely(!__pyx_int_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_int_7 = PyInt_FromLong(7); if (unlikely(!__pyx_int_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_int_14 = PyInt_FromLong(14); if (unlikely(!__pyx_int_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_111 = PyInt_FromLong(111); if (unlikely(!__pyx_int_111)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_neg_4 = PyInt_FromLong(-4); if (unlikely(!__pyx_int_neg_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;

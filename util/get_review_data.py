@@ -167,6 +167,7 @@ if __name__ == '__main__':
                     games.append(game)
     else:
         games = list(APPID_DICT)
+        del games['sample.txt']
 
     # Generate review data files
     for game in games:

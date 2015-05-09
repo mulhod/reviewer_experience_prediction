@@ -1,0 +1,26 @@
+Descriptive Report for Garrys Mod
+===============================================================================
+
+Number of English-language reviews: 26670
+
+Review Lengths Distribution
+
+Average review length: 169.68357849121094
+Minimum review length = 1
+Maximum review length = 8000
+Standard deviation = 303.2784729003906
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 553.9564819335938
+Minimum experience = 0.1
+Maximum experience = 16073.7
+Standard deviation = 989.0834350585938
+
+
+Filter Values
+MINLEN = 50.0
+MAXLEN = 776.2405395507812
+MINHOURS = 0.0
+MAXHOURS = 2532.123291015625
