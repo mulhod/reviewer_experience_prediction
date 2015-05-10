@@ -20,7 +20,7 @@ Standard deviation = 283.1862487792969
 
 
 Filter Values
-MINLEN = 50.0
-MAXLEN = 3176.44482421875
-MINHOURS = 0.0
-MAXHOURS = 885.2144775390625
+Minimum length = 50.0
+Maximum length = 3176.44482421875
+Minimum hours played = 0.0
+Maximum hours played = 885.2144775390625

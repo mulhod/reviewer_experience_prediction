@@ -4,9 +4,9 @@ import sys
 import pymongo
 import argparse
 from re import sub
-from src.feature_extraction import write_arff_file
-from util.datasets import get_and_describe_dataset
 from os.path import realpath, abspath, dirname, join, basename
+from util.datasets import (get_and_describe_dataset, get_bin_ranges,
+                           write_arff_file)
 
 
 if __name__ == '__main__':
@@ -31,25 +31,66 @@ if __name__ == '__main__':
              'output file prefix must be passed in via this option flag',
         type=str,
         required=False)
+    parser.add_argument('--use_original_hours_values',
+        help='use the unmodified hours played values; otherwise, use the ' \
+             'collapsed values',
+        action='store_true',
+        default=False)
     parser.add_argument('--make_train_test_sets',
         help='search the MongoDB collection for training/test set reviews ' \
              'and make ARFF files using them only (the file suffix ".train"' \
              '/".test" will be appended onto the end of the output file ' \
-             'name to distinguish the different files)',
+             'name to distinguish the different files); note that, by ' \
+             'default, collapsed hours played values will be used (if this ' \
+             'is not desired, use the --use_original_hours_values flag)',
         action='store_true',
         default=False)
+    parser.add_argument('--nbins',
+        help='specify the number of bins in which to collapse hours played ' \
+             'values; to be used if the --make_train_test_sets flag is not ' \
+             'being used, in which case pre-computed hours played values ' \
+             'will not be read in from the database, but you still want the' \
+             ' values to be in the form of bins (i.e., 1 for 0-100, 2 for ' \
+             '101-200, etc., depending on the minimum and maximum values ' \
+             'and the number of bins specified)',
+        type=int,
+        required=False)
     parser.add_argument('--mongodb_port', '-dbport',
         help='port that the MongoDB server is running',
         type=int,
         default=27017)
     args = parser.parse_args()
 
+    bins = not args.use_original_hours_values
+
+    # Make sure --bins option flag makes sense
+    if args.nbins:
+        if args.make_train_test_sets:
+            sys.exit('ERROR: If the --make_train_test_sets flag is used, a ' \
+                     'number of bins in which to collapse the hours played ' \
+                     'values cannot be specified (since the values in the ' \
+                     'database were pre-computed). Exiting.\n')
+        elif not bins:
+            sys.exit('ERROR: Conflict between the ' \
+                     '--use_original_hours_values and --nbins flags. Both ' \
+                     'cannot be used at the same time.\n')
+    elif (bins and not args.make_train_test_sets):
+        sys.exit('ERROR: If both the --use_original_hours_values and ' \
+                 '--make_train_test_sets flags are not used, then the ' \
+                 'number of bins in which to collapse the hours played ' \
+                 'values must be specified via the --nbins option argument.' \
+                 ' Exiting.\n')
+
     # Get paths to the data and arff_files directories
     project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
-    arff_files_dir = join(project_dir,
-                          'arff_files')
+    if bins:
+        arff_files_dir = join(project_dir,
+                              'arff_files_collapsed_values')
+    else:
+        arff_files_dir = join(project_dir,
+                              'arff_files_original_values')
     sys.stderr.write('data directory: {}\n'.format(data_dir))
     sys.stderr.write('arff files directory: {}\n'.format(arff_files_dir))
 
@@ -76,7 +117,7 @@ if __name__ == '__main__':
                          '--mongodb_port option flag since the ' \
                          '--make_train_test_sets flag was not also used, ' \
                          'which means that the MongoDB database is not ' \
-                         'going to be used for this task.\n')
+                         'going to be used.\n')
 
     mode = args.mode
     game_files = []
@@ -104,6 +145,12 @@ if __name__ == '__main__':
         review_dicts_list = []
 
         if not args.make_train_test_sets:
+
+            # Min/max values of hours played (i.e., game experience)
+            if bins:
+                minh = 0.0
+                maxh = 0.0
+
             for game_file in game_files:
 
                 sys.stderr.write('Getting review data from {}...' \
@@ -113,6 +160,23 @@ if __name__ == '__main__':
                                                         game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
+
+                # If the hours played values are to be divided into bins,
+                # update the min/max values
+                if bins:
+                    if dataset['minh'] < minh:
+                        minh = dataset['minh']
+                    if dataset['max'] > maxh:
+                        maxh = dataset['maxh']
+
+            # If the hours played values are to be divided into bins, get the
+            # range that each bin maps to
+            if bins:
+                bin_ranges = get_bin_ranges(minh,
+                                            maxh,
+                                            args.nbins)
+            else:
+                bin_ranges = False
 
         file_names = [game[:-4] for game in game_files]
         arff_file = join(arff_files_dir,
@@ -129,12 +193,14 @@ if __name__ == '__main__':
             write_arff_file(arff_file,
                             file_names,
                             reviewdb=reviewdb,
-                            make_train_test=True)
+                            make_train_test=True,
+                            bins=True)
         else:
             sys.stderr.write('Generating {}...\n'.format(arff_file))
             write_arff_file(arff_file,
                             file_names,
-                            reviews=review_dicts_list)
+                            reviews=review_dicts_list,
+                            bins=bin_ranges)
     else:
         for game_file in game_files:
 
@@ -148,6 +214,20 @@ if __name__ == '__main__':
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
 
+                if bins:
+
+                    # Get min/max hours played values from results of
+                    # get_and_describe_dataset() call
+                    minh = dataset['minh']
+                    maxh = dataset['maxh']
+
+                    # Get the range that each bin maps to
+                    bin_ranges = get_bin_ranges(minh,
+                                                maxh,
+                                                args.nbins)
+                else:
+                    bin_ranges = False
+
             game = game_file[:-4]
             arff_file = join(arff_files_dir,
                              '{}.arff'.format(game))
@@ -158,10 +238,12 @@ if __name__ == '__main__':
                 write_arff_file(arff_file,
                                 [game],
                                 reviewdb=reviewdb,
-                                make_train_test=True)
+                                make_train_test=True,
+                                bins=bins)
             else:
                 sys.stderr.write('Generating {}...\n'.format(arff_file))
                 write_arff_file(arff_file,
                                 [game],
-                                reviews=review_dicts_list)
+                                reviews=review_dicts_list,
+                                bins=bin_ranges)
     sys.stderr.write('Complete.\n')

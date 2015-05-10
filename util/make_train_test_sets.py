@@ -4,6 +4,7 @@ import pymongo
 import argparse
 from os import listdir
 from util.mongodb import insert_train_test_reviews
+from util.datasets import get_and_describe_dataset
 from os.path import join, basename, abspath, dirname, realpath
 
 if __name__ == '__main__':
@@ -38,7 +39,10 @@ if __name__ == '__main__':
              'e.g. if 10 and the hours values range from 0 up to 1000, ' \
              'then hours values 0-99 will become 1, 100-199 will become 2, ' \
              'etc. (will probably be necessay to train a model that ' \
-             'actually is predictive to an acceptable degree)',
+             'actually is predictive to an acceptable degree); note that ' \
+             'both hours values will be retained, the original under the ' \
+             'name "hours" and the converted value under the name ' \
+             '"hours_bin"',
         type=int,
         required=False)
     parser.add_argument('-describe', '--make_reports',

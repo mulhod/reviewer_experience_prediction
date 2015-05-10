@@ -7,13 +7,13 @@ Module of code related to the MongoDB database that holds all of the review data
 The insert_train_test_reviews function gets all suitable, English-language reviews for a given data-set (at the provided file-path) and inserts them into the the MongoDB database ('reviews_project') under the 'reviews' collection.
 '''
 import sys
-import numpy as np
 from math import ceil
+from pprint import pprint
 from data import APPID_DICT
 from os.path import basename
 from random import randint, shuffle, seed
-from pymongo.errors import DuplicateKeyError
-from util.datasets import get_and_describe_dataset
+from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
+from pymongo.errors import DuplicateKeyError, BulkWriteError
 
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,
@@ -67,23 +67,27 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     sys.stderr.write('Number of original, English language reviews ' \
                      'collected: {}\n'.format(
                                          dataset['orig_total_reviews']))
-    cdef float MAXLEN = dataset['MAXLEN']
-    cdef float MINLEN = dataset['MINLEN']
-    cdef float MAXHOURS = dataset['MAXHOURS']
-    cdef float MINHOURS = dataset['MINHOURS']
-    sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
-                     'hours: {}\nMin. # of hours: {}\n' \
-                     '\n'.format(dataset['MAXLEN'],
-                                 dataset['MINLEN'], 
-                                 dataset['MAXHOURS'],
-                                 dataset['MINHOURS']))
+    cdef float maxl = dataset['maxl']
+    cdef float minl = dataset['minl']
+    cdef float maxh = dataset['maxh']
+    cdef float minh = dataset['minh']
+    sys.stderr.write('Maximum length = {}\n' \
+                     'Minimum length = {}\n' \
+                     'Maximum amount of hours played = {}\n' \
+                     'Minimum amount of hours played = {}\n' \
+                     '\n'.format(dataset['maxl'],
+                                 dataset['minl'], 
+                                 dataset['maxh'],
+                                 dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the range
     # that each bin maps to
     if bins:
-        bin_ranges = get_bin_ranges(MINHOURS,
-                                    MAXHOURS,
+        bin_ranges = get_bin_ranges(minh,
+                                    maxh,
                                     bins)
+    else:
+        bin_ranges = False
 
     # Shuffle the list of reviews so that we randomize it
     shuffle(reviews)
@@ -99,8 +103,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     remaining_reviews = reviews[max_size:]
 
     # Divide the selected reviews into training/test sets
-    cdef int training_set_size = ceil(len(train_test_reviews)
-                                      *(percent_train/100))
+    cdef int training_set_size = \
+        <int>ceil(len(train_test_reviews)*(percent_train/100.0))
     training_reviews = train_test_reviews[:training_set_size + 1]
     test_reviews = train_test_reviews[training_set_size + 1:]
     sys.stderr.write('Number of training set reviews: ' \
@@ -114,119 +118,47 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                      'set if there are errors during insertion and there' \
                      ' are no replacement reviews to substitute in.\n\n')
 
-    # Initialize a bulk writer
-    bulk = reviewdb.initialize_unordered_bulk_op()
-
-    # Insert training set reviews into MongoDB collection
-    for r in training_reviews:
-        # First, let's add some keys for the training/test partition, the
-        # game's name, and the appid
-        r['game'] = game
-        r['appid'] = appid
-        r['partition'] = 'training'
-
-        if bins:
-            _bin = get_bin(bin_ranges,
-                           r['hours'])
-            if _bin:
-                r['hours'] = _bin
-            else:
-                sys.exit('WARNING: The hours played value ({}) did not seem' \
-                         ' to fall within any of the bin ranges.\n\nBin ' \
-                         'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
-                                                              repr(bin_ranges)))
-
-        try:
-            # Actually, to really mimic the real situation, we'd have to
-            # insert and then remove...
-            if not just_describe:
-                bulk.insert(r)
-            pass
-        except DuplicateKeyError as e:
-            if remaining_reviews:
-                sys.stderr.write('WARNING: Encountered ' \
-                                 'DuplicateKeyError. Throwing out ' \
-                                 'following review:\n\n{}\n\nTaking ' \
-                                 'review from list of remaining ' \
-                                 'reviews.\n'.format(r))
-                training_reviews.append(remaining_reviews.pop())
-            else:
-                sys.stderr.write('WARNING: Encountered ' \
-                                 'DuplicateKeyError. Throwing out ' \
-                                 'following review:\n\n{}\n\nNo reviews ' \
-                                 'left to substitute in.\n'.format(r))
-
-    # Insert test set reviews into MongoDB collection
-    for r in test_reviews:
-        # First, let's add some keys for the training/test partition, the
-        # game's name, and the appid
-        r['game'] = game
-        r['appid'] = appid
-        r['partition'] = 'test'
-
-        if bins:
-            _bin = get_bin(bin_ranges,
-                           r['hours'])
-            if _bin:
-                r['hours'] = _bin
-            else:
-                sys.exit('WARNING: The hours played value ({}) did not seem' \
-                         ' to fall within any of the bin ranges.\n\nBin ' \
-                         'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
-                                                              repr(bin_ranges)))
-
-        try:
-            if not just_describe:
-                bulk.insert(r)
-            pass
-        except DuplicateKeyError as e:
-            if remaining_reviews:
-                sys.stderr.write('WARNING: Encountered ' \
-                                 'DuplicateKeyError. Throwing out ' \
-                                 'following review:\n\n{}\n\nTaking ' \
-                                 'review from list of remaining ' \
-                                 'reviews.\n'.format(r))
-                training_reviews.append(remaining_reviews.pop())
-            else:
-                sys.stderr.write('WARNING: Encountered ' \
-                                 'DuplicateKeyError. Throwing out ' \
-                                 'following review:\n\n{}\n\nNo reviews ' \
-                                 'left to substitute in.\n'.format(r))
-
-    # Insert extra reviews into the MongoDB collection, using 'extra' as
-    # the value of the 'partition' key
-    for r in remaining_reviews:
-        # Add keys for the partition ("extra"), the game's name, and the
-        # appid
-        r['game'] = game
-        r['appid'] = appid
-        r['partition'] = 'extra'
-
-        if bins:
-            _bin = get_bin(bin_ranges,
-                           r['hours'])
-            if _bin:
-                r['hours'] = _bin
-            else:
-                sys.exit('WARNING: The hours played value ({}) did not seem' \
-                         ' to fall within any of the bin ranges.\n\nBin ' \
-                         'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
-                                                              repr(bin_ranges)))
-
-        try:
-            if not just_describe:
-                bulk.insert(r)
-            pass
-        except DuplicateKeyError as e:
-            sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
-                             'Throwing out following ' \
-                             'review:\n\n{}\n\n'.format(r))
-
-    # Do a bulk write operation
-    bulk.execute()
-
-    # Print out some information about how many reviews were added
     if not just_describe:
+
+        # Initialize a bulk writer and add insertion operations for training,
+        # test, and extra reviews and then execture the operations and print
+        # out some information about how many entries were inserted, etc.
+        bulk = reviewdb.initialize_unordered_bulk_op()
+
+        # Training set reviews
+        add_bulk_inserts_for_partition(bulk,
+                                       training_reviews,
+                                       game,
+                                       appid,
+                                       'training',
+                                       bins=bin_ranges)
+
+        # Test set reviews
+        add_bulk_inserts_for_partition(bulk,
+                                       test_reviews,
+                                       game, appid,
+                                       'test',
+                                       bins=bin_ranges)
+
+        # Extra reviews
+        add_bulk_inserts_for_partition(bulk,
+                                       remaining_reviews,
+                                       game,
+                                       appid,
+                                       'extra',
+                                       bins=bin_ranges)
+
+        # Execute bulk insert operations
+        try:
+            result = bulk.execute()
+        except BulkWriteError as bwe:
+            pprint(bwe.details,
+                   stream=sys.stderr)
+            sys.exit(1)
+        pprint(result,
+               stream=sys.stderr)
+
+        # Print out some information about how many reviews were added
         train_inserts = reviewdb.find({'appid': appid,
                                        'partition': 'training'}).count()
         test_inserts = reviewdb.find({'appid': appid,
@@ -240,48 +172,48 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                                      extra_inserts))
 
 
-def get_bin_ranges(_min, _max, nbins):
+cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
+                                    partition_id, bins=False):
     '''
-    Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
+    Add insert operations to a bulk writer.
 
-    :param _min: minimum value of the distribution
-    :type _min: float
-    :param _max: maximum value of the distribution
-    :type _max: float
-    :param nbins: number of bins into which the distribution is being sub-divided
-    :type nbins: int
-    :returns: list of tuples representing the minimum and maximum values of a bin
-    '''
-
-    bin_size = round(float(_max - _min)/nbins,
-                     1)
-    bin_ranges = []
-    _bin_start = _min - 0.1
-    _bin_end = _min + bin_size
-    for b in range(1, nbins + 1):
-        if not b == 1:
-            _bin_start = _bin_end
-        if b == nbins:
-            _bin_end = _bin_start + bin_size + 1.0
-        else:
-            _bin_end = _bin_start + bin_size
-        bin_ranges.append((_bin_start,
-                           _bin_end))
-    return bin_ranges
-
-
-def get_bin(bin_ranges, val):
-    '''
-    Return the index of the bin range in which the value falls.
-
-    :param bin_ranges: list of ranges that define each bin
-    :type bin_ranges: list of tuples representing the minimum and maximum values of a range of values
-    :param val: value
-    :type val: float
-    :returns int (None if val not in any of the bin ranges)
+    :param bulk_writer: a bulk writer instance, to which we can add insertion operations that will be executed later on
+    :type bulk_writer: pymongo.bulk.BulkOperationBuilder instance
+    :param rdicts: list of review dictionaries
+    :type rdicts: list of dict
+    :param game: name of game
+    :type game: str
+    :param appid: appid string, ID number of game
+    :type appid: str
+    :param partition_id: name/ID of partition, i.e., 'test', 'training', 'extra'
+    :type partition_id: str
+    :param bins: False (i.e., if a converted hours value should not also be inserted) or a list of 2-tuples containing floating point numbers representing the beginning of a range (actually, the lower, non-inclusive bound of the range) and the end (the upper, inclusive bound of the range) (default: False)
+    :type bins: False or list of 2-tuples of floats
+    :returns: None
     '''
 
-    for i, bin_range in enumerate(bin_ranges):
-        if val > bin_range[0] and val <= bin_range[1]:
-            return i + 1
-    return None
+    for rd in rdicts:
+
+        # Add keys for the partition ("extra"), the game's name, and the
+        # appid
+        rd['game'] = game
+        rd['appid'] = appid
+        rd['partition'] = partition_id
+
+        if bins:
+            _bin = get_bin(bins,
+                           rd['hours'])
+            if _bin > -1:
+                rd['hours_bin'] = _bin
+            else:
+                sys.exit('WARNING: The hours played value ({}) did not seem' \
+                         ' to fall within any of the bin ranges.\n\nBin ' \
+                         'ranges:\n\n{}\n\nExiting.\n'.format(rd['hours_bin'],
+                                                              repr(bins)))
+
+        try:
+            bulk_writer.insert(rd)
+        except DuplicateKeyError as e:
+            sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
+                             'Throwing out following ' \
+                             'review:\n\n{}\n\n'.format(rd))

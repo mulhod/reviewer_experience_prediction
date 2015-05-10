@@ -430,6 +430,19 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
+struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition;
+
+/* "util/mongodb.pyx":175
+ * 
+ * 
+ * cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,             # <<<<<<<<<<<<<<
+ *                                     partition_id, bins=False):
+ *     '''
+ */
+struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition {
+  int __pyx_n;
+  PyObject *bins;
+};
 
 /* --- Runtime support code (head) --- */
 #ifndef CYTHON_REFNANNY
@@ -494,6 +507,15 @@ static const char *__pyx_f[] = {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
+    const char* function_name);
+
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
     PyTypeObject* tp = Py_TYPE(obj);
@@ -510,15 +532,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 #endif
 
 static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[], \
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args, \
-    const char* function_name);
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
 
@@ -545,72 +558,12 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func);
 #define __Pyx_PyObject_CallNoArg(func) __Pyx_PyObject_Call(func, __pyx_empty_tuple, NULL)
 #endif
 
-static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
-
 static CYTHON_INLINE void __Pyx_ExceptionSave(PyObject **type, PyObject **value, PyObject **tb);
 static void __Pyx_ExceptionReset(PyObject *type, PyObject *value, PyObject *tb);
 
 static int __Pyx_GetException(PyObject **type, PyObject **value, PyObject **tb);
 
-#if CYTHON_COMPILING_IN_CPYTHON
-static CYTHON_INLINE int __Pyx_PyList_Append(PyObject* list, PyObject* x) {
-    PyListObject* L = (PyListObject*) list;
-    Py_ssize_t len = Py_SIZE(list);
-    if (likely(L->allocated > len) & likely(len > (L->allocated >> 1))) {
-        Py_INCREF(x);
-        PyList_SET_ITEM(list, len, x);
-        Py_SIZE(list) = len+1;
-        return 0;
-    }
-    return PyList_Append(list, x);
-}
-#else
-#define __Pyx_PyList_Append(L,x) PyList_Append(L,x)
-#endif
-
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
-
-static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x);
-
-static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
-
-#define __Pyx_PyObject_Pop(L) (PyList_CheckExact(L) ? \
-    __Pyx_PyList_Pop(L) : __Pyx__PyObject_Pop(L))
-static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L);
-static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L);
-
-static double __Pyx__PyObject_AsDouble(PyObject* obj);
-#if CYTHON_COMPILING_IN_PYPY
-#define __Pyx_PyObject_AsDouble(obj) \
-(likely(PyFloat_CheckExact(obj)) ? PyFloat_AS_DOUBLE(obj) : \
- likely(PyInt_CheckExact(obj)) ? \
- PyFloat_AsDouble(obj) : __Pyx__PyObject_AsDouble(obj))
-#else
-#define __Pyx_PyObject_AsDouble(obj) \
-((likely(PyFloat_CheckExact(obj))) ? \
- PyFloat_AS_DOUBLE(obj) : __Pyx__PyObject_AsDouble(obj))
-#endif
-
-#define __Pyx_GetItemInt(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck) \
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ? \
-    __Pyx_GetItemInt_Fast(o, (Py_ssize_t)i, is_list, wraparound, boundscheck) : \
-    (is_list ? (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL) : \
-               __Pyx_GetItemInt_Generic(o, to_py_func(i))))
-#define __Pyx_GetItemInt_List(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck) \
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ? \
-    __Pyx_GetItemInt_List_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) : \
-    (PyErr_SetString(PyExc_IndexError, "list index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-#define __Pyx_GetItemInt_Tuple(o, i, type, is_signed, to_py_func, is_list, wraparound, boundscheck) \
-    (__Pyx_fits_Py_ssize_t(i, type, is_signed) ? \
-    __Pyx_GetItemInt_Tuple_Fast(o, (Py_ssize_t)i, wraparound, boundscheck) : \
-    (PyErr_SetString(PyExc_IndexError, "tuple index out of range"), (PyObject*)NULL))
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j);
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck);
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname);
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
@@ -645,27 +598,14 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'util.mongodb' */
+static PyObject *__pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "util.mongodb"
 int __pyx_module_is_main_util__mongodb = 0;
 
 /* Implementation of 'util.mongodb' */
-static PyObject *__pyx_builtin_round;
-static PyObject *__pyx_builtin_range;
-static PyObject *__pyx_builtin_enumerate;
 static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_reviewdb, PyObject *__pyx_v_file_path, int __pyx_v_max_size, float __pyx_v_percent_train, PyObject *__pyx_v_bins, PyObject *__pyx_v_describe, PyObject *__pyx_v_just_describe); /* proto */
-static PyObject *__pyx_pf_4util_7mongodb_2get_bin_ranges(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__min, PyObject *__pyx_v__max, PyObject *__pyx_v_nbins); /* proto */
-static PyObject *__pyx_pf_4util_7mongodb_4get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_val); /* proto */
-static char __pyx_k_b[] = "b";
-static char __pyx_k_e[] = "e";
-static char __pyx_k_i[] = "i";
-static char __pyx_k_r[] = "r";
-static char __pyx_k_np[] = "np";
-static char __pyx_k_bin[] = "_bin";
-static char __pyx_k_max[] = "_max";
-static char __pyx_k_min[] = "_min";
-static char __pyx_k_pop[] = "pop";
+static char __pyx_k_bwe[] = "bwe";
 static char __pyx_k_sys[] = "sys";
-static char __pyx_k_val[] = "val";
 static char __pyx_k_bins[] = "bins";
 static char __pyx_k_bulk[] = "bulk";
 static char __pyx_k_ceil[] = "ceil";
@@ -675,47 +615,42 @@ static char __pyx_k_find[] = "find";
 static char __pyx_k_game[] = "game";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_math[] = "math";
+static char __pyx_k_maxh[] = "maxh";
+static char __pyx_k_maxl[] = "maxl";
+static char __pyx_k_minh[] = "minh";
+static char __pyx_k_minl[] = "minl";
 static char __pyx_k_seed[] = "seed";
 static char __pyx_k_test[] = "test";
 static char __pyx_k_appid[] = "appid";
 static char __pyx_k_count[] = "count";
 static char __pyx_k_extra[] = "extra";
 static char __pyx_k_hours[] = "hours";
-static char __pyx_k_nbins[] = "nbins";
-static char __pyx_k_numpy[] = "numpy";
-static char __pyx_k_range[] = "range";
-static char __pyx_k_round[] = "round";
 static char __pyx_k_write[] = "write";
-static char __pyx_k_MAXLEN[] = "MAXLEN";
-static char __pyx_k_MINLEN[] = "MINLEN";
-static char __pyx_k_append[] = "append";
 static char __pyx_k_format[] = "format";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_insert[] = "insert";
+static char __pyx_k_pprint[] = "pprint";
 static char __pyx_k_random[] = "random";
 static char __pyx_k_report[] = "report";
+static char __pyx_k_result[] = "result";
 static char __pyx_k_stderr[] = "stderr";
+static char __pyx_k_stream[] = "stream";
 static char __pyx_k_test_2[] = "__test__";
-static char __pyx_k_bin_end[] = "_bin_end";
 static char __pyx_k_dataset[] = "dataset";
+static char __pyx_k_details[] = "details";
 static char __pyx_k_execute[] = "execute";
 static char __pyx_k_get_bin[] = "get_bin";
 static char __pyx_k_os_path[] = "os.path";
 static char __pyx_k_randint[] = "randint";
 static char __pyx_k_reviews[] = "reviews";
 static char __pyx_k_shuffle[] = "shuffle";
-static char __pyx_k_MAXHOURS[] = "MAXHOURS";
-static char __pyx_k_MINHOURS[] = "MINHOURS";
 static char __pyx_k_basename[] = "basename";
-static char __pyx_k_bin_size[] = "bin_size";
 static char __pyx_k_describe[] = "describe";
 static char __pyx_k_max_size[] = "max_size";
 static char __pyx_k_reviewdb[] = "reviewdb";
 static char __pyx_k_training[] = "training";
-static char __pyx_k_bin_range[] = "bin_range";
-static char __pyx_k_bin_start[] = "_bin_start";
-static char __pyx_k_enumerate[] = "enumerate";
 static char __pyx_k_file_path[] = "file_path";
+static char __pyx_k_hours_bin[] = "hours_bin";
 static char __pyx_k_partition[] = "partition";
 static char __pyx_k_APPID_DICT[] = "APPID_DICT";
 static char __pyx_k_bin_ranges[] = "bin_ranges";
@@ -728,6 +663,7 @@ static char __pyx_k_just_describe[] = "just_describe";
 static char __pyx_k_percent_train[] = "percent_train";
 static char __pyx_k_train_inserts[] = "train_inserts";
 static char __pyx_k_util_datasets[] = "util.datasets";
+static char __pyx_k_BulkWriteError[] = "BulkWriteError";
 static char __pyx_k_get_bin_ranges[] = "get_bin_ranges";
 static char __pyx_k_pymongo_errors[] = "pymongo.errors";
 static char __pyx_k_training_reviews[] = "training_reviews";
@@ -747,53 +683,39 @@ static char __pyx_k_author_Matt_Mulholland_date_05[] = "\n@author Matt Mulhollan
 static char __pyx_k_home_mulhollandm2_reviews_proje[] = "/home/mulhollandm2/reviews_project/reviewer_experience_prediction/util/mongodb.pyx";
 static char __pyx_k_Dividing_the_hours_played_values[] = "Dividing the hours played values into {} bins...\n";
 static char __pyx_k_Inserted_training_set_reviews_te[] = "Inserted {} training set reviews, {} test set reviews, and {} extra reviews...\n\n\n";
-static char __pyx_k_Max_length_Min_length_Max_of_hou[] = "Max. length: {}\nMin. length: {}\nMax. # of hours: {}\nMin. # of hours: {}\n\n";
+static char __pyx_k_Maximum_length_Minimum_length_Ma[] = "Maximum length = {}\nMinimum length = {}\nMaximum amount of hours played = {}\nMinimum amount of hours played = {}\n\n";
 static char __pyx_k_NOTE_It_is_possible_that_fewer_r[] = "NOTE: It is possible that fewer reviews get inserted into the DB for the training set or test set if there are errors during insertion and there are no replacement reviews to substitute in.\n\n";
 static char __pyx_k_Number_of_original_English_langu[] = "Number of original, English language reviews collected: {}\n";
-static char __pyx_k_WARNING_Encountered_DuplicateKey[] = "WARNING: Encountered DuplicateKeyError. Throwing out following review:\n\n{}\n\nTaking review from list of remaining reviews.\n";
+static char __pyx_k_WARNING_Encountered_DuplicateKey[] = "WARNING: Encountered DuplicateKeyError. Throwing out following review:\n\n{}\n\n";
 static char __pyx_k_WARNING_If_the_just_describe_and[] = "WARNING: If the just_describe and describe keyword arguments are set to True, just_describe wins out, i.e., the report will be generated, but no reviews will be inserted.\n";
 static char __pyx_k_WARNING_The_hours_played_value_d[] = "WARNING: The hours played value ({}) did not seem to fall within any of the bin ranges.\n\nBin ranges:\n\n{}\n\nExiting.\n";
-static char __pyx_k_WARNING_Encountered_DuplicateKey_2[] = "WARNING: Encountered DuplicateKeyError. Throwing out following review:\n\n{}\n\nNo reviews left to substitute in.\n";
-static char __pyx_k_WARNING_Encountered_DuplicateKey_3[] = "WARNING: Encountered DuplicateKeyError. Throwing out following review:\n\n{}\n\n";
 static PyObject *__pyx_n_s_APPID_DICT;
+static PyObject *__pyx_n_s_BulkWriteError;
 static PyObject *__pyx_kp_s_Dividing_the_hours_played_values;
 static PyObject *__pyx_n_s_DuplicateKeyError;
 static PyObject *__pyx_kp_s_Inserted_training_set_reviews_te;
 static PyObject *__pyx_kp_s_Inserting_reviews_from;
-static PyObject *__pyx_n_s_MAXHOURS;
-static PyObject *__pyx_n_s_MAXLEN;
-static PyObject *__pyx_n_s_MINHOURS;
-static PyObject *__pyx_n_s_MINLEN;
-static PyObject *__pyx_kp_s_Max_length_Min_length_Max_of_hou;
+static PyObject *__pyx_kp_s_Maximum_length_Minimum_length_Ma;
 static PyObject *__pyx_kp_s_NOTE_It_is_possible_that_fewer_r;
 static PyObject *__pyx_kp_s_Number_of_extra_reviews;
 static PyObject *__pyx_kp_s_Number_of_original_English_langu;
 static PyObject *__pyx_kp_s_Number_of_test_set_reviews;
 static PyObject *__pyx_kp_s_Number_of_training_set_reviews;
 static PyObject *__pyx_kp_s_WARNING_Encountered_DuplicateKey;
-static PyObject *__pyx_kp_s_WARNING_Encountered_DuplicateKey_2;
-static PyObject *__pyx_kp_s_WARNING_Encountered_DuplicateKey_3;
 static PyObject *__pyx_kp_s_WARNING_If_the_just_describe_and;
 static PyObject *__pyx_kp_s_WARNING_The_hours_played_value_d;
-static PyObject *__pyx_n_s_append;
 static PyObject *__pyx_n_s_appid;
-static PyObject *__pyx_n_s_b;
 static PyObject *__pyx_n_s_basename;
-static PyObject *__pyx_n_s_bin;
-static PyObject *__pyx_n_s_bin_end;
-static PyObject *__pyx_n_s_bin_range;
 static PyObject *__pyx_n_s_bin_ranges;
-static PyObject *__pyx_n_s_bin_size;
-static PyObject *__pyx_n_s_bin_start;
 static PyObject *__pyx_n_s_bins;
 static PyObject *__pyx_n_s_bulk;
+static PyObject *__pyx_n_s_bwe;
 static PyObject *__pyx_n_s_ceil;
 static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_n_s_data;
 static PyObject *__pyx_n_s_dataset;
 static PyObject *__pyx_n_s_describe;
-static PyObject *__pyx_n_s_e;
-static PyObject *__pyx_n_s_enumerate;
+static PyObject *__pyx_n_s_details;
 static PyObject *__pyx_n_s_execute;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_extra;
@@ -807,7 +729,7 @@ static PyObject *__pyx_n_s_get_bin;
 static PyObject *__pyx_n_s_get_bin_ranges;
 static PyObject *__pyx_kp_s_home_mulhollandm2_reviews_proje;
 static PyObject *__pyx_n_s_hours;
-static PyObject *__pyx_n_s_i;
+static PyObject *__pyx_n_s_hours_bin;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_n_s_initialize_unordered_bulk_op;
 static PyObject *__pyx_n_s_insert;
@@ -815,31 +737,29 @@ static PyObject *__pyx_n_s_insert_train_test_reviews;
 static PyObject *__pyx_n_s_just_describe;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_math;
-static PyObject *__pyx_n_s_max;
 static PyObject *__pyx_n_s_max_size;
-static PyObject *__pyx_n_s_min;
-static PyObject *__pyx_n_s_nbins;
-static PyObject *__pyx_n_s_np;
+static PyObject *__pyx_n_s_maxh;
+static PyObject *__pyx_n_s_maxl;
+static PyObject *__pyx_n_s_minh;
+static PyObject *__pyx_n_s_minl;
 static PyObject *__pyx_n_s_num_reviews;
-static PyObject *__pyx_n_s_numpy;
 static PyObject *__pyx_n_s_orig_total_reviews;
 static PyObject *__pyx_n_s_os_path;
 static PyObject *__pyx_n_s_partition;
 static PyObject *__pyx_n_s_percent_train;
-static PyObject *__pyx_n_s_pop;
+static PyObject *__pyx_n_s_pprint;
 static PyObject *__pyx_n_s_pymongo_errors;
-static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_randint;
 static PyObject *__pyx_n_s_random;
-static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_remaining_reviews;
 static PyObject *__pyx_n_s_report;
+static PyObject *__pyx_n_s_result;
 static PyObject *__pyx_n_s_reviewdb;
 static PyObject *__pyx_n_s_reviews;
-static PyObject *__pyx_n_s_round;
 static PyObject *__pyx_n_s_seed;
 static PyObject *__pyx_n_s_shuffle;
 static PyObject *__pyx_n_s_stderr;
+static PyObject *__pyx_n_s_stream;
 static PyObject *__pyx_n_s_sys;
 static PyObject *__pyx_n_s_test;
 static PyObject *__pyx_n_s_test_2;
@@ -852,23 +772,18 @@ static PyObject *__pyx_n_s_training_reviews;
 static PyObject *__pyx_n_s_training_set_size;
 static PyObject *__pyx_n_s_util_datasets;
 static PyObject *__pyx_n_s_util_mongodb;
-static PyObject *__pyx_n_s_val;
 static PyObject *__pyx_n_s_write;
-static PyObject *__pyx_float_0_1;
-static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
+static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_int_neg_4;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_slice__2;
 static PyObject *__pyx_tuple__3;
 static PyObject *__pyx_tuple__4;
 static PyObject *__pyx_tuple__5;
-static PyObject *__pyx_tuple__7;
-static PyObject *__pyx_tuple__9;
-static PyObject *__pyx_codeobj__6;
-static PyObject *__pyx_codeobj__8;
-static PyObject *__pyx_codeobj__10;
+static PyObject *__pyx_tuple__6;
+static PyObject *__pyx_codeobj__7;
 
 /* "util/mongodb.pyx":19
  * 
@@ -1020,10 +935,10 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   PyObject *__pyx_v_appid = NULL;
   PyObject *__pyx_v_dataset = NULL;
   PyObject *__pyx_v_reviews = NULL;
-  CYTHON_UNUSED float __pyx_v_MAXLEN;
-  CYTHON_UNUSED float __pyx_v_MINLEN;
-  float __pyx_v_MAXHOURS;
-  float __pyx_v_MINHOURS;
+  CYTHON_UNUSED float __pyx_v_maxl;
+  CYTHON_UNUSED float __pyx_v_minl;
+  float __pyx_v_maxh;
+  float __pyx_v_minh;
   PyObject *__pyx_v_bin_ranges = NULL;
   int __pyx_v_num_reviews;
   PyObject *__pyx_v_train_test_reviews = NULL;
@@ -1032,9 +947,8 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   PyObject *__pyx_v_training_reviews = NULL;
   PyObject *__pyx_v_test_reviews = NULL;
   PyObject *__pyx_v_bulk = NULL;
-  PyObject *__pyx_v_r = NULL;
-  PyObject *__pyx_v__bin = NULL;
-  CYTHON_UNUSED PyObject *__pyx_v_e = NULL;
+  PyObject *__pyx_v_result = NULL;
+  PyObject *__pyx_v_bwe = NULL;
   PyObject *__pyx_v_train_inserts = NULL;
   PyObject *__pyx_v_test_inserts = NULL;
   PyObject *__pyx_v_extra_inserts = NULL;
@@ -1055,12 +969,10 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   Py_ssize_t __pyx_t_13;
   PyObject *__pyx_t_14 = NULL;
   int __pyx_t_15;
-  PyObject *(*__pyx_t_16)(PyObject *);
-  Py_ssize_t __pyx_t_17;
+  struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition __pyx_t_16;
+  PyObject *__pyx_t_17 = NULL;
   PyObject *__pyx_t_18 = NULL;
   PyObject *__pyx_t_19 = NULL;
-  PyObject *__pyx_t_20 = NULL;
-  int __pyx_t_21;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1422,7 +1334,7 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
  *     sys.stderr.write('Number of original, English language reviews ' \
  *                      'collected: {}\n'.format(             # <<<<<<<<<<<<<<
  *                                          dataset['orig_total_reviews']))
- *     cdef float MAXLEN = dataset['MAXLEN']
+ *     cdef float maxl = dataset['maxl']
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_original_English_langu, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -1431,8 +1343,8 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
  *     sys.stderr.write('Number of original, English language reviews ' \
  *                      'collected: {}\n'.format(
  *                                          dataset['orig_total_reviews']))             # <<<<<<<<<<<<<<
- *     cdef float MAXLEN = dataset['MAXLEN']
- *     cdef float MINLEN = dataset['MINLEN']
+ *     cdef float maxl = dataset['maxl']
+ *     cdef float minl = dataset['minl']
  */
   __pyx_t_4 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_orig_total_reviews); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_4);
@@ -1493,61 +1405,61 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   /* "util/mongodb.pyx":70
  *                      'collected: {}\n'.format(
  *                                          dataset['orig_total_reviews']))
- *     cdef float MAXLEN = dataset['MAXLEN']             # <<<<<<<<<<<<<<
- *     cdef float MINLEN = dataset['MINLEN']
- *     cdef float MAXHOURS = dataset['MAXHOURS']
+ *     cdef float maxl = dataset['maxl']             # <<<<<<<<<<<<<<
+ *     cdef float minl = dataset['minl']
+ *     cdef float maxh = dataset['maxh']
  */
-  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MAXLEN); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_maxl); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_MAXLEN = __pyx_t_10;
+  __pyx_v_maxl = __pyx_t_10;
 
   /* "util/mongodb.pyx":71
  *                                          dataset['orig_total_reviews']))
- *     cdef float MAXLEN = dataset['MAXLEN']
- *     cdef float MINLEN = dataset['MINLEN']             # <<<<<<<<<<<<<<
- *     cdef float MAXHOURS = dataset['MAXHOURS']
- *     cdef float MINHOURS = dataset['MINHOURS']
+ *     cdef float maxl = dataset['maxl']
+ *     cdef float minl = dataset['minl']             # <<<<<<<<<<<<<<
+ *     cdef float maxh = dataset['maxh']
+ *     cdef float minh = dataset['minh']
  */
-  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MINLEN); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_minl); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_MINLEN = __pyx_t_10;
+  __pyx_v_minl = __pyx_t_10;
 
   /* "util/mongodb.pyx":72
- *     cdef float MAXLEN = dataset['MAXLEN']
- *     cdef float MINLEN = dataset['MINLEN']
- *     cdef float MAXHOURS = dataset['MAXHOURS']             # <<<<<<<<<<<<<<
- *     cdef float MINHOURS = dataset['MINHOURS']
- *     sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
+ *     cdef float maxl = dataset['maxl']
+ *     cdef float minl = dataset['minl']
+ *     cdef float maxh = dataset['maxh']             # <<<<<<<<<<<<<<
+ *     cdef float minh = dataset['minh']
+ *     sys.stderr.write('Maximum length = {}\n' \
  */
-  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MAXHOURS); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_maxh); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_MAXHOURS = __pyx_t_10;
+  __pyx_v_maxh = __pyx_t_10;
 
   /* "util/mongodb.pyx":73
- *     cdef float MINLEN = dataset['MINLEN']
- *     cdef float MAXHOURS = dataset['MAXHOURS']
- *     cdef float MINHOURS = dataset['MINHOURS']             # <<<<<<<<<<<<<<
- *     sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
- *                      'hours: {}\nMin. # of hours: {}\n' \
+ *     cdef float minl = dataset['minl']
+ *     cdef float maxh = dataset['maxh']
+ *     cdef float minh = dataset['minh']             # <<<<<<<<<<<<<<
+ *     sys.stderr.write('Maximum length = {}\n' \
+ *                      'Minimum length = {}\n' \
  */
-  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MINHOURS); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_6 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_minh); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_10 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_10 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_MINHOURS = __pyx_t_10;
+  __pyx_v_minh = __pyx_t_10;
 
   /* "util/mongodb.pyx":74
- *     cdef float MAXHOURS = dataset['MAXHOURS']
- *     cdef float MINHOURS = dataset['MINHOURS']
- *     sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \             # <<<<<<<<<<<<<<
- *                      'hours: {}\nMin. # of hours: {}\n' \
- *                      '\n'.format(dataset['MAXLEN'],
+ *     cdef float maxh = dataset['maxh']
+ *     cdef float minh = dataset['minh']
+ *     sys.stderr.write('Maximum length = {}\n' \             # <<<<<<<<<<<<<<
+ *                      'Minimum length = {}\n' \
+ *                      'Maximum amount of hours played = {}\n' \
  */
   __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
@@ -1558,46 +1470,46 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-  /* "util/mongodb.pyx":76
- *     sys.stderr.write('Max. length: {}\nMin. length: {}\nMax. # of ' \
- *                      'hours: {}\nMin. # of hours: {}\n' \
- *                      '\n'.format(dataset['MAXLEN'],             # <<<<<<<<<<<<<<
- *                                  dataset['MINLEN'],
- *                                  dataset['MAXHOURS'],
+  /* "util/mongodb.pyx":78
+ *                      'Maximum amount of hours played = {}\n' \
+ *                      'Minimum amount of hours played = {}\n' \
+ *                      '\n'.format(dataset['maxl'],             # <<<<<<<<<<<<<<
+ *                                  dataset['minl'],
+ *                                  dataset['maxh'],
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Max_length_Min_length_Max_of_hou, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Maximum_length_Minimum_length_Ma, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MAXLEN); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_maxl); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "util/mongodb.pyx":77
- *                      'hours: {}\nMin. # of hours: {}\n' \
- *                      '\n'.format(dataset['MAXLEN'],
- *                                  dataset['MINLEN'],             # <<<<<<<<<<<<<<
- *                                  dataset['MAXHOURS'],
- *                                  dataset['MINHOURS']))
+  /* "util/mongodb.pyx":79
+ *                      'Minimum amount of hours played = {}\n' \
+ *                      '\n'.format(dataset['maxl'],
+ *                                  dataset['minl'],             # <<<<<<<<<<<<<<
+ *                                  dataset['maxh'],
+ *                                  dataset['minh']))
  */
-  __pyx_t_4 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MINLEN); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_4 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_minl); if (unlikely(__pyx_t_4 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_4);
 
-  /* "util/mongodb.pyx":78
- *                      '\n'.format(dataset['MAXLEN'],
- *                                  dataset['MINLEN'],
- *                                  dataset['MAXHOURS'],             # <<<<<<<<<<<<<<
- *                                  dataset['MINHOURS']))
+  /* "util/mongodb.pyx":80
+ *                      '\n'.format(dataset['maxl'],
+ *                                  dataset['minl'],
+ *                                  dataset['maxh'],             # <<<<<<<<<<<<<<
+ *                                  dataset['minh']))
  * 
  */
-  __pyx_t_3 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MAXHOURS); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_maxh); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_3);
 
-  /* "util/mongodb.pyx":79
- *                                  dataset['MINLEN'],
- *                                  dataset['MAXHOURS'],
- *                                  dataset['MINHOURS']))             # <<<<<<<<<<<<<<
+  /* "util/mongodb.pyx":81
+ *                                  dataset['minl'],
+ *                                  dataset['maxh'],
+ *                                  dataset['minh']))             # <<<<<<<<<<<<<<
  * 
  *     # If the hours played values are to be divided into bins, get the range
  */
-  __pyx_t_11 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_MINHOURS); if (unlikely(__pyx_t_11 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_11 = PyObject_GetItem(__pyx_v_dataset, __pyx_n_s_minh); if (unlikely(__pyx_t_11 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_12 = NULL;
   __pyx_t_13 = 0;
@@ -1611,7 +1523,7 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
       __pyx_t_13 = 1;
     }
   }
-  __pyx_t_14 = PyTuple_New(4+__pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_14 = PyTuple_New(4+__pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_14);
   if (__pyx_t_12) {
     PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_12); __Pyx_GIVEREF(__pyx_t_12); __pyx_t_12 = NULL;
@@ -1628,7 +1540,7 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   __pyx_t_4 = 0;
   __pyx_t_3 = 0;
   __pyx_t_11 = 0;
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_14, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -1660,44 +1572,44 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":83
+  /* "util/mongodb.pyx":85
  *     # If the hours played values are to be divided into bins, get the range
  *     # that each bin maps to
  *     if bins:             # <<<<<<<<<<<<<<
- *         bin_ranges = get_bin_ranges(MINHOURS,
- *                                     MAXHOURS,
+ *         bin_ranges = get_bin_ranges(minh,
+ *                                     maxh,
  */
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (__pyx_t_7) {
 
-    /* "util/mongodb.pyx":84
+    /* "util/mongodb.pyx":86
  *     # that each bin maps to
  *     if bins:
- *         bin_ranges = get_bin_ranges(MINHOURS,             # <<<<<<<<<<<<<<
- *                                     MAXHOURS,
+ *         bin_ranges = get_bin_ranges(minh,             # <<<<<<<<<<<<<<
+ *                                     maxh,
  *                                     bins)
  */
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin_ranges); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin_ranges); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_MINHOURS); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_14 = PyFloat_FromDouble(__pyx_v_minh); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_14);
 
-    /* "util/mongodb.pyx":85
+    /* "util/mongodb.pyx":87
  *     if bins:
- *         bin_ranges = get_bin_ranges(MINHOURS,
- *                                     MAXHOURS,             # <<<<<<<<<<<<<<
+ *         bin_ranges = get_bin_ranges(minh,
+ *                                     maxh,             # <<<<<<<<<<<<<<
  *                                     bins)
- * 
+ *     else:
  */
-    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_MAXHOURS); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 85; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = PyFloat_FromDouble(__pyx_v_maxh); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_9);
 
-    /* "util/mongodb.pyx":86
- *         bin_ranges = get_bin_ranges(MINHOURS,
- *                                     MAXHOURS,
+    /* "util/mongodb.pyx":88
+ *         bin_ranges = get_bin_ranges(minh,
+ *                                     maxh,
  *                                     bins)             # <<<<<<<<<<<<<<
- * 
- *     # Shuffle the list of reviews so that we randomize it
+ *     else:
+ *         bin_ranges = False
  */
     __pyx_t_2 = NULL;
     __pyx_t_13 = 0;
@@ -1711,7 +1623,7 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
         __pyx_t_13 = 1;
       }
     }
-    __pyx_t_11 = PyTuple_New(3+__pyx_t_13); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyTuple_New(3+__pyx_t_13); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_2) {
       PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_2); __Pyx_GIVEREF(__pyx_t_2); __pyx_t_2 = NULL;
@@ -1725,7 +1637,7 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     __Pyx_GIVEREF(__pyx_v_bins);
     __pyx_t_14 = 0;
     __pyx_t_9 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 86; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1733,16 +1645,28 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     __pyx_t_6 = 0;
     goto __pyx_L9;
   }
+  /*else*/ {
+
+    /* "util/mongodb.pyx":90
+ *                                     bins)
+ *     else:
+ *         bin_ranges = False             # <<<<<<<<<<<<<<
+ * 
+ *     # Shuffle the list of reviews so that we randomize it
+ */
+    __Pyx_INCREF(Py_False);
+    __pyx_v_bin_ranges = Py_False;
+  }
   __pyx_L9:;
 
-  /* "util/mongodb.pyx":89
+  /* "util/mongodb.pyx":93
  * 
  *     # Shuffle the list of reviews so that we randomize it
  *     shuffle(reviews)             # <<<<<<<<<<<<<<
  * 
  *     # Get the training and test sets and the set of extra reviews (which
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_shuffle); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_shuffle); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -1755,33 +1679,33 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_11) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_reviews); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_reviews); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
   } else {
-    __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_9);
     PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
     __Pyx_INCREF(__pyx_v_reviews);
     PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_v_reviews);
     __Pyx_GIVEREF(__pyx_v_reviews);
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 89; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":93
+  /* "util/mongodb.pyx":97
  *     # Get the training and test sets and the set of extra reviews (which
  *     # might get pulled in later if necessary)
  *     cdef int num_reviews = len(reviews)             # <<<<<<<<<<<<<<
  *     if num_reviews > max_size:
  *         train_test_reviews = reviews[:max_size]
  */
-  __pyx_t_13 = PyObject_Length(__pyx_v_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 93; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = PyObject_Length(__pyx_v_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_v_num_reviews = __pyx_t_13;
 
-  /* "util/mongodb.pyx":94
+  /* "util/mongodb.pyx":98
  *     # might get pulled in later if necessary)
  *     cdef int num_reviews = len(reviews)
  *     if num_reviews > max_size:             # <<<<<<<<<<<<<<
@@ -1791,14 +1715,14 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   __pyx_t_7 = ((__pyx_v_num_reviews > __pyx_v_max_size) != 0);
   if (__pyx_t_7) {
 
-    /* "util/mongodb.pyx":95
+    /* "util/mongodb.pyx":99
  *     cdef int num_reviews = len(reviews)
  *     if num_reviews > max_size:
  *         train_test_reviews = reviews[:max_size]             # <<<<<<<<<<<<<<
  *     else:
  *         train_test_reviews = reviews[:num_reviews]
  */
-    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, 0, __pyx_v_max_size, NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, 0, __pyx_v_max_size, NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_v_train_test_reviews = __pyx_t_6;
     __pyx_t_6 = 0;
@@ -1806,19 +1730,19 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   }
   /*else*/ {
 
-    /* "util/mongodb.pyx":97
+    /* "util/mongodb.pyx":101
  *         train_test_reviews = reviews[:max_size]
  *     else:
  *         train_test_reviews = reviews[:num_reviews]             # <<<<<<<<<<<<<<
  *         max_size = num_reviews
  *     remaining_reviews = reviews[max_size:]
  */
-    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, 0, __pyx_v_num_reviews, NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 97; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, 0, __pyx_v_num_reviews, NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_v_train_test_reviews = __pyx_t_6;
     __pyx_t_6 = 0;
 
-    /* "util/mongodb.pyx":98
+    /* "util/mongodb.pyx":102
  *     else:
  *         train_test_reviews = reviews[:num_reviews]
  *         max_size = num_reviews             # <<<<<<<<<<<<<<
@@ -1829,37 +1753,29 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   }
   __pyx_L10:;
 
-  /* "util/mongodb.pyx":99
+  /* "util/mongodb.pyx":103
  *         train_test_reviews = reviews[:num_reviews]
  *         max_size = num_reviews
  *     remaining_reviews = reviews[max_size:]             # <<<<<<<<<<<<<<
  * 
  *     # Divide the selected reviews into training/test sets
  */
-  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, __pyx_v_max_size, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 99; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_reviews, __pyx_v_max_size, 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_remaining_reviews = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":102
- * 
+  /* "util/mongodb.pyx":107
  *     # Divide the selected reviews into training/test sets
- *     cdef int training_set_size = ceil(len(train_test_reviews)             # <<<<<<<<<<<<<<
- *                                       *(percent_train/100))
- *     training_reviews = train_test_reviews[:training_set_size + 1]
- */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_ceil); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_13 = PyObject_Length(__pyx_v_train_test_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "util/mongodb.pyx":103
- *     # Divide the selected reviews into training/test sets
- *     cdef int training_set_size = ceil(len(train_test_reviews)
- *                                       *(percent_train/100))             # <<<<<<<<<<<<<<
+ *     cdef int training_set_size = \
+ *         <int>ceil(len(train_test_reviews)*(percent_train/100.0))             # <<<<<<<<<<<<<<
  *     training_reviews = train_test_reviews[:training_set_size + 1]
  *     test_reviews = train_test_reviews[training_set_size + 1:]
  */
-  __pyx_t_9 = PyFloat_FromDouble((__pyx_t_13 * (__pyx_v_percent_train / 100.0))); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 103; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_ceil); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_13 = PyObject_Length(__pyx_v_train_test_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyFloat_FromDouble((__pyx_t_13 * (__pyx_v_percent_train / 100.0))); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
@@ -1872,84 +1788,76 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_11) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_9); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_9); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
-    __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_14);
     PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
     PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_9);
     __Pyx_GIVEREF(__pyx_t_9);
     __pyx_t_9 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "util/mongodb.pyx":102
- * 
- *     # Divide the selected reviews into training/test sets
- *     cdef int training_set_size = ceil(len(train_test_reviews)             # <<<<<<<<<<<<<<
- *                                       *(percent_train/100))
- *     training_reviews = train_test_reviews[:training_set_size + 1]
- */
-  __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_15 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_15 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_training_set_size = __pyx_t_15;
+  __pyx_v_training_set_size = ((int)__pyx_t_15);
 
-  /* "util/mongodb.pyx":104
- *     cdef int training_set_size = ceil(len(train_test_reviews)
- *                                       *(percent_train/100))
+  /* "util/mongodb.pyx":108
+ *     cdef int training_set_size = \
+ *         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
  *     training_reviews = train_test_reviews[:training_set_size + 1]             # <<<<<<<<<<<<<<
  *     test_reviews = train_test_reviews[training_set_size + 1:]
  *     sys.stderr.write('Number of training set reviews: ' \
  */
-  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_train_test_reviews, 0, (__pyx_v_training_set_size + 1), NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 104; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_train_test_reviews, 0, (__pyx_v_training_set_size + 1), NULL, NULL, NULL, 0, 1, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_training_reviews = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":105
- *                                       *(percent_train/100))
+  /* "util/mongodb.pyx":109
+ *         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
  *     training_reviews = train_test_reviews[:training_set_size + 1]
  *     test_reviews = train_test_reviews[training_set_size + 1:]             # <<<<<<<<<<<<<<
  *     sys.stderr.write('Number of training set reviews: ' \
  *                      '{}\n'.format(len(training_reviews)))
  */
-  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_train_test_reviews, (__pyx_v_training_set_size + 1), 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 105; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_train_test_reviews, (__pyx_v_training_set_size + 1), 0, NULL, NULL, NULL, 1, 0, 1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_v_test_reviews = __pyx_t_6;
   __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":106
+  /* "util/mongodb.pyx":110
  *     training_reviews = train_test_reviews[:training_set_size + 1]
  *     test_reviews = train_test_reviews[training_set_size + 1:]
  *     sys.stderr.write('Number of training set reviews: ' \             # <<<<<<<<<<<<<<
  *                      '{}\n'.format(len(training_reviews)))
  *     sys.stderr.write('Number of test set reviews:' \
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_14);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
 
-  /* "util/mongodb.pyx":107
+  /* "util/mongodb.pyx":111
  *     test_reviews = train_test_reviews[training_set_size + 1:]
  *     sys.stderr.write('Number of training set reviews: ' \
  *                      '{}\n'.format(len(training_reviews)))             # <<<<<<<<<<<<<<
  *     sys.stderr.write('Number of test set reviews:' \
  *                      ' {}\n'.format(len(test_reviews)))
  */
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_training_set_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_training_set_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_13 = PyObject_Length(__pyx_v_training_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_11 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = PyObject_Length(__pyx_v_training_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_9))) {
@@ -1962,17 +1870,17 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_11); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_GOTREF(__pyx_t_14);
   } else {
-    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __Pyx_GIVEREF(__pyx_t_2); __pyx_t_2 = NULL;
     PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_11);
     __Pyx_GIVEREF(__pyx_t_11);
     __pyx_t_11 = 0;
-    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 107; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_3, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
@@ -1988,50 +1896,50 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_9) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_14); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_14); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
-    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
     PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_14);
     __Pyx_GIVEREF(__pyx_t_14);
     __pyx_t_14 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 106; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":108
+  /* "util/mongodb.pyx":112
  *     sys.stderr.write('Number of training set reviews: ' \
  *                      '{}\n'.format(len(training_reviews)))
  *     sys.stderr.write('Number of test set reviews:' \             # <<<<<<<<<<<<<<
  *                      ' {}\n'.format(len(test_reviews)))
  *     sys.stderr.write('Number of extra reviews:' \
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "util/mongodb.pyx":109
+  /* "util/mongodb.pyx":113
  *                      '{}\n'.format(len(training_reviews)))
  *     sys.stderr.write('Number of test set reviews:' \
  *                      ' {}\n'.format(len(test_reviews)))             # <<<<<<<<<<<<<<
  *     sys.stderr.write('Number of extra reviews:' \
  *                      ' {}\n'.format(len(remaining_reviews)))
  */
-  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_test_set_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_test_set_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_14);
-  __pyx_t_13 = PyObject_Length(__pyx_v_test_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_9 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = PyObject_Length(__pyx_v_test_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_11 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_14))) {
@@ -2044,17 +1952,17 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_11) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_9); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_9); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_3);
   } else {
-    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
     PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_9);
     __Pyx_GIVEREF(__pyx_t_9);
     __pyx_t_9 = 0;
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 113; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
@@ -2070,50 +1978,50 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_14) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_3); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
-    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_14); __Pyx_GIVEREF(__pyx_t_14); __pyx_t_14 = NULL;
     PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_t_3);
     __Pyx_GIVEREF(__pyx_t_3);
     __pyx_t_3 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":110
+  /* "util/mongodb.pyx":114
  *     sys.stderr.write('Number of test set reviews:' \
  *                      ' {}\n'.format(len(test_reviews)))
  *     sys.stderr.write('Number of extra reviews:' \             # <<<<<<<<<<<<<<
  *                      ' {}\n'.format(len(remaining_reviews)))
  *     sys.stderr.write('NOTE: It is possible that fewer reviews get ' \
  */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_write); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "util/mongodb.pyx":111
+  /* "util/mongodb.pyx":115
  *                      ' {}\n'.format(len(test_reviews)))
  *     sys.stderr.write('Number of extra reviews:' \
  *                      ' {}\n'.format(len(remaining_reviews)))             # <<<<<<<<<<<<<<
  *     sys.stderr.write('NOTE: It is possible that fewer reviews get ' \
  *                      'inserted into the DB for the training set or test ' \
  */
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_extra_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Number_of_extra_reviews, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_13 = PyObject_Length(__pyx_v_remaining_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = PyObject_Length(__pyx_v_remaining_reviews); if (unlikely(__pyx_t_13 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_14 = PyInt_FromSsize_t(__pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_14);
   __pyx_t_9 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -2126,17 +2034,17 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_9) {
-    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_14); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_14); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     __Pyx_GOTREF(__pyx_t_2);
   } else {
-    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_11);
     PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
     PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_14);
     __Pyx_GIVEREF(__pyx_t_14);
     __pyx_t_14 = 0;
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 115; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
@@ -2152,1417 +2060,148 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_GOTREF(__pyx_t_6);
   } else {
-    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_11);
     PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
     PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_2);
     __Pyx_GIVEREF(__pyx_t_2);
     __pyx_t_2 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 114; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-  /* "util/mongodb.pyx":112
+  /* "util/mongodb.pyx":116
  *     sys.stderr.write('Number of extra reviews:' \
  *                      ' {}\n'.format(len(remaining_reviews)))
  *     sys.stderr.write('NOTE: It is possible that fewer reviews get ' \             # <<<<<<<<<<<<<<
  *                      'inserted into the DB for the training set or test ' \
  *                      'set if there are errors during insertion and there' \
  */
-  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__4, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "util/mongodb.pyx":118
- * 
- *     # Initialize a bulk writer
- *     bulk = reviewdb.initialize_unordered_bulk_op()             # <<<<<<<<<<<<<<
- * 
- *     # Insert training set reviews into MongoDB collection
- */
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_initialize_unordered_bulk_op); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_11 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
-    if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-      __Pyx_INCREF(__pyx_t_11);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_6, function);
-    }
-  }
-  if (__pyx_t_11) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 118; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  __pyx_v_bulk = __pyx_t_5;
-  __pyx_t_5 = 0;
 
   /* "util/mongodb.pyx":121
+ *                      ' are no replacement reviews to substitute in.\n\n')
  * 
- *     # Insert training set reviews into MongoDB collection
- *     for r in training_reviews:             # <<<<<<<<<<<<<<
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- */
-  if (likely(PyList_CheckExact(__pyx_v_training_reviews)) || PyTuple_CheckExact(__pyx_v_training_reviews)) {
-    __pyx_t_5 = __pyx_v_training_reviews; __Pyx_INCREF(__pyx_t_5); __pyx_t_13 = 0;
-    __pyx_t_16 = NULL;
-  } else {
-    __pyx_t_13 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_training_reviews); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_16 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  for (;;) {
-    if (likely(!__pyx_t_16)) {
-      if (likely(PyList_CheckExact(__pyx_t_5))) {
-        if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_6 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_6); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      } else {
-        if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_6); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_6 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      }
-    } else {
-      __pyx_t_6 = __pyx_t_16(__pyx_t_5);
-      if (unlikely(!__pyx_t_6)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_6);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_r, __pyx_t_6);
-    __pyx_t_6 = 0;
-
-    /* "util/mongodb.pyx":124
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- *         r['game'] = game             # <<<<<<<<<<<<<<
- *         r['appid'] = appid
- *         r['partition'] = 'training'
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_game, __pyx_v_game) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 124; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":125
- *         # game's name, and the appid
- *         r['game'] = game
- *         r['appid'] = appid             # <<<<<<<<<<<<<<
- *         r['partition'] = 'training'
+ *     if not just_describe:             # <<<<<<<<<<<<<<
  * 
+ *         # Initialize a bulk writer and add insertion operations for training,
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_appid, __pyx_v_appid) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 125; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_just_describe); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 121; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = ((!__pyx_t_7) != 0);
+  if (__pyx_t_8) {
 
     /* "util/mongodb.pyx":126
- *         r['game'] = game
- *         r['appid'] = appid
- *         r['partition'] = 'training'             # <<<<<<<<<<<<<<
+ *         # test, and extra reviews and then execture the operations and print
+ *         # out some information about how many entries were inserted, etc.
+ *         bulk = reviewdb.initialize_unordered_bulk_op()             # <<<<<<<<<<<<<<
  * 
- *         if bins:
+ *         # Training set reviews
  */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_partition, __pyx_n_s_training) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":128
- *         r['partition'] = 'training'
- * 
- *         if bins:             # <<<<<<<<<<<<<<
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- */
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 128; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (__pyx_t_7) {
-
-      /* "util/mongodb.pyx":129
- * 
- *         if bins:
- *             _bin = get_bin(bin_ranges,             # <<<<<<<<<<<<<<
- *                            r['hours'])
- *             if _bin:
- */
-      __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_11);
-      if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-
-      /* "util/mongodb.pyx":130
- *         if bins:
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])             # <<<<<<<<<<<<<<
- *             if _bin:
- *                 r['hours'] = _bin
- */
-      __pyx_t_2 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-      __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_3 = NULL;
-      __pyx_t_17 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_11))) {
-        __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_11);
-        if (likely(__pyx_t_3)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
-          __Pyx_INCREF(__pyx_t_3);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_11, function);
-          __pyx_t_17 = 1;
-        }
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_initialize_unordered_bulk_op); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_11 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_11)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_11);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
       }
-      __pyx_t_14 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_14);
-      if (__pyx_t_3) {
-        PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_17, __pyx_v_bin_ranges);
-      __Pyx_GIVEREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_17, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_2);
-      __pyx_t_2 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_14, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_6);
-      __pyx_t_6 = 0;
-
-      /* "util/mongodb.pyx":131
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- *             if _bin:             # <<<<<<<<<<<<<<
- *                 r['hours'] = _bin
- *             else:
- */
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v__bin); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 131; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      if (__pyx_t_7) {
-
-        /* "util/mongodb.pyx":132
- *                            r['hours'])
- *             if _bin:
- *                 r['hours'] = _bin             # <<<<<<<<<<<<<<
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- */
-        if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_hours, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        goto __pyx_L14;
-      }
-      /*else*/ {
-
-        /* "util/mongodb.pyx":134
- *                 r['hours'] = _bin
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \             # <<<<<<<<<<<<<<
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- */
-        __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_exit); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_14);
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-        /* "util/mongodb.pyx":136
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],             # <<<<<<<<<<<<<<
- *                                                               repr(bin_ranges)))
- * 
- */
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_The_hours_played_value_d, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_3 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-        __Pyx_GOTREF(__pyx_t_3);
-
-        /* "util/mongodb.pyx":137
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- *                                                               repr(bin_ranges)))             # <<<<<<<<<<<<<<
- * 
- *         try:
- */
-        if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-        __pyx_t_9 = PyObject_Repr(__pyx_v_bin_ranges); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_4 = NULL;
-        __pyx_t_17 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_4)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_4);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-            __pyx_t_17 = 1;
-          }
-        }
-        __pyx_t_1 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_1);
-        if (__pyx_t_4) {
-          PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-        }
-        PyTuple_SET_ITEM(__pyx_t_1, 0+__pyx_t_17, __pyx_t_3);
-        __Pyx_GIVEREF(__pyx_t_3);
-        PyTuple_SET_ITEM(__pyx_t_1, 1+__pyx_t_17, __pyx_t_9);
-        __Pyx_GIVEREF(__pyx_t_9);
-        __pyx_t_3 = 0;
-        __pyx_t_9 = 0;
-        __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 136; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __pyx_t_2 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_14))) {
-          __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_14);
-          if (likely(__pyx_t_2)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-            __Pyx_INCREF(__pyx_t_2);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_14, function);
-          }
-        }
-        if (!__pyx_t_2) {
-          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_t_11); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          __Pyx_GOTREF(__pyx_t_6);
-        } else {
-          __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_1);
-          PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_2); __Pyx_GIVEREF(__pyx_t_2); __pyx_t_2 = NULL;
-          PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_11);
-          __Pyx_GIVEREF(__pyx_t_11);
-          __pyx_t_11 = 0;
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_1, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      }
-      __pyx_L14:;
-      goto __pyx_L13;
     }
-    __pyx_L13:;
+    if (__pyx_t_11) {
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    } else {
+      __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 126; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_v_bulk = __pyx_t_5;
+    __pyx_t_5 = 0;
 
-    /* "util/mongodb.pyx":139
- *                                                               repr(bin_ranges)))
+    /* "util/mongodb.pyx":129
  * 
+ *         # Training set reviews
+ *         add_bulk_inserts_for_partition(bulk,             # <<<<<<<<<<<<<<
+ *                                        training_reviews,
+ *                                        game,
+ */
+    __pyx_t_16.__pyx_n = 1;
+    __pyx_t_16.bins = __pyx_v_bin_ranges;
+    __pyx_t_5 = __pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(__pyx_v_bulk, __pyx_v_training_reviews, __pyx_v_game, __pyx_v_appid, __pyx_n_s_training, &__pyx_t_16); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 129; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":137
+ * 
+ *         # Test set reviews
+ *         add_bulk_inserts_for_partition(bulk,             # <<<<<<<<<<<<<<
+ *                                        test_reviews,
+ *                                        game, appid,
+ */
+    __pyx_t_16.__pyx_n = 1;
+    __pyx_t_16.bins = __pyx_v_bin_ranges;
+    __pyx_t_5 = __pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(__pyx_v_bulk, __pyx_v_test_reviews, __pyx_v_game, __pyx_v_appid, __pyx_n_s_test, &__pyx_t_16); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 137; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":144
+ * 
+ *         # Extra reviews
+ *         add_bulk_inserts_for_partition(bulk,             # <<<<<<<<<<<<<<
+ *                                        remaining_reviews,
+ *                                        game,
+ */
+    __pyx_t_16.__pyx_n = 1;
+    __pyx_t_16.bins = __pyx_v_bin_ranges;
+    __pyx_t_5 = __pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(__pyx_v_bulk, __pyx_v_remaining_reviews, __pyx_v_game, __pyx_v_appid, __pyx_n_s_extra, &__pyx_t_16); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 144; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":152
+ * 
+ *         # Execute bulk insert operations
  *         try:             # <<<<<<<<<<<<<<
- *             # Actually, to really mimic the real situation, we'd have to
- *             # insert and then remove...
+ *             result = bulk.execute()
+ *         except BulkWriteError as bwe:
  */
     {
-      __Pyx_ExceptionSave(&__pyx_t_18, &__pyx_t_19, &__pyx_t_20);
+      __Pyx_ExceptionSave(&__pyx_t_17, &__pyx_t_18, &__pyx_t_19);
+      __Pyx_XGOTREF(__pyx_t_17);
       __Pyx_XGOTREF(__pyx_t_18);
       __Pyx_XGOTREF(__pyx_t_19);
-      __Pyx_XGOTREF(__pyx_t_20);
       /*try:*/ {
 
-        /* "util/mongodb.pyx":142
- *             # Actually, to really mimic the real situation, we'd have to
- *             # insert and then remove...
- *             if not just_describe:             # <<<<<<<<<<<<<<
- *                 bulk.insert(r)
- *             pass
+        /* "util/mongodb.pyx":153
+ *         # Execute bulk insert operations
+ *         try:
+ *             result = bulk.execute()             # <<<<<<<<<<<<<<
+ *         except BulkWriteError as bwe:
+ *             pprint(bwe.details,
  */
-        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_just_describe); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 142; __pyx_clineno = __LINE__; goto __pyx_L15_error;}
-        __pyx_t_8 = ((!__pyx_t_7) != 0);
-        if (__pyx_t_8) {
-
-          /* "util/mongodb.pyx":143
- *             # insert and then remove...
- *             if not just_describe:
- *                 bulk.insert(r)             # <<<<<<<<<<<<<<
- *             pass
- *         except DuplicateKeyError as e:
- */
-          __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_insert); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L15_error;}
-          __Pyx_GOTREF(__pyx_t_14);
-          __pyx_t_1 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_14))) {
-            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_14);
-            if (likely(__pyx_t_1)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-              __Pyx_INCREF(__pyx_t_1);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_14, function);
-            }
-          }
-          if (!__pyx_t_1) {
-            __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_14, __pyx_v_r); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L15_error;}
-            __Pyx_GOTREF(__pyx_t_6);
-          } else {
-            __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L15_error;}
-            __Pyx_GOTREF(__pyx_t_11);
-            PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_1); __Pyx_GIVEREF(__pyx_t_1); __pyx_t_1 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 143; __pyx_clineno = __LINE__; goto __pyx_L15_error;}
-            __Pyx_GOTREF(__pyx_t_6);
-            __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          goto __pyx_L23;
-        }
-        __pyx_L23:;
-      }
-      __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
-      __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
-      __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
-      goto __pyx_L22_try_end;
-      __pyx_L15_error:;
-      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-      /* "util/mongodb.pyx":145
- *                 bulk.insert(r)
- *             pass
- *         except DuplicateKeyError as e:             # <<<<<<<<<<<<<<
- *             if remaining_reviews:
- *                 sys.stderr.write('WARNING: Encountered ' \
- */
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_15 = PyErr_ExceptionMatches(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      if (__pyx_t_15) {
-        __Pyx_AddTraceback("util.mongodb.insert_train_test_reviews", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_14, &__pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 145; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
+        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_execute); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GOTREF(__pyx_t_14);
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_INCREF(__pyx_t_14);
-        __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_14);
-
-        /* "util/mongodb.pyx":146
- *             pass
- *         except DuplicateKeyError as e:
- *             if remaining_reviews:             # <<<<<<<<<<<<<<
- *                 sys.stderr.write('WARNING: Encountered ' \
- *                                  'DuplicateKeyError. Throwing out ' \
- */
-        __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_remaining_reviews); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 146; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-        if (__pyx_t_8) {
-
-          /* "util/mongodb.pyx":147
- *         except DuplicateKeyError as e:
- *             if remaining_reviews:
- *                 sys.stderr.write('WARNING: Encountered ' \             # <<<<<<<<<<<<<<
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nTaking ' \
- */
-          __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_9);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-          /* "util/mongodb.pyx":151
- *                                  'following review:\n\n{}\n\nTaking ' \
- *                                  'review from list of remaining ' \
- *                                  'reviews.\n'.format(r))             # <<<<<<<<<<<<<<
- *                 training_reviews.append(remaining_reviews.pop())
- *             else:
- */
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey, __pyx_n_s_format); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __pyx_t_4 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
-            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_3);
-            if (likely(__pyx_t_4)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
-              __Pyx_INCREF(__pyx_t_4);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_3, function);
-            }
-          }
-          if (!__pyx_t_4) {
-            __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_r); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_9);
-          } else {
-            __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-            PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 151; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          __pyx_t_3 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_3)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_3);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          if (!__pyx_t_3) {
-            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_9); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-            __Pyx_GOTREF(__pyx_t_1);
-          } else {
-            __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-            PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-            PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_9);
-            __Pyx_GIVEREF(__pyx_t_9);
-            __pyx_t_9 = 0;
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_12, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 147; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-          /* "util/mongodb.pyx":152
- *                                  'review from list of remaining ' \
- *                                  'reviews.\n'.format(r))
- *                 training_reviews.append(remaining_reviews.pop())             # <<<<<<<<<<<<<<
- *             else:
- *                 sys.stderr.write('WARNING: Encountered ' \
- */
-          __pyx_t_1 = __Pyx_PyObject_Pop(__pyx_v_remaining_reviews); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_21 = __Pyx_PyObject_Append(__pyx_v_training_reviews, __pyx_t_1); if (unlikely(__pyx_t_21 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 152; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          goto __pyx_L26;
-        }
-        /*else*/ {
-
-          /* "util/mongodb.pyx":154
- *                 training_reviews.append(remaining_reviews.pop())
- *             else:
- *                 sys.stderr.write('WARNING: Encountered ' \             # <<<<<<<<<<<<<<
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nNo reviews ' \
- */
-          __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_stderr); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_12);
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_write); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-
-          /* "util/mongodb.pyx":157
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nNo reviews ' \
- *                                  'left to substitute in.\n'.format(r))             # <<<<<<<<<<<<<<
- * 
- *     # Insert test set reviews into MongoDB collection
- */
-          __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey_2, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-          __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_3 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_9))) {
-            __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_9);
-            if (likely(__pyx_t_3)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-              __Pyx_INCREF(__pyx_t_3);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_9, function);
-            }
-          }
-          if (!__pyx_t_3) {
-            __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_v_r); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-          } else {
-            __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_4);
-            PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_4, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          __pyx_t_9 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_9)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_9);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          if (!__pyx_t_9) {
-            __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_12); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-            __Pyx_GOTREF(__pyx_t_1);
-          } else {
-            __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_4);
-            PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
-            PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_12);
-            __Pyx_GIVEREF(__pyx_t_12);
-            __pyx_t_12 = 0;
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L17_except_error;}
-            __Pyx_GOTREF(__pyx_t_1);
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        }
-        __pyx_L26:;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        goto __pyx_L16_exception_handled;
-      }
-      goto __pyx_L17_except_error;
-      __pyx_L17_except_error:;
-      __Pyx_XGIVEREF(__pyx_t_18);
-      __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_ExceptionReset(__pyx_t_18, __pyx_t_19, __pyx_t_20);
-      goto __pyx_L1_error;
-      __pyx_L16_exception_handled:;
-      __Pyx_XGIVEREF(__pyx_t_18);
-      __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_ExceptionReset(__pyx_t_18, __pyx_t_19, __pyx_t_20);
-      __pyx_L22_try_end:;
-    }
-
-    /* "util/mongodb.pyx":121
- * 
- *     # Insert training set reviews into MongoDB collection
- *     for r in training_reviews:             # <<<<<<<<<<<<<<
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- */
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "util/mongodb.pyx":160
- * 
- *     # Insert test set reviews into MongoDB collection
- *     for r in test_reviews:             # <<<<<<<<<<<<<<
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- */
-  if (likely(PyList_CheckExact(__pyx_v_test_reviews)) || PyTuple_CheckExact(__pyx_v_test_reviews)) {
-    __pyx_t_5 = __pyx_v_test_reviews; __Pyx_INCREF(__pyx_t_5); __pyx_t_13 = 0;
-    __pyx_t_16 = NULL;
-  } else {
-    __pyx_t_13 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_test_reviews); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_16 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  for (;;) {
-    if (likely(!__pyx_t_16)) {
-      if (likely(PyList_CheckExact(__pyx_t_5))) {
-        if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_11 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_11 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      } else {
-        if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_11 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_11); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_11 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      }
-    } else {
-      __pyx_t_11 = __pyx_t_16(__pyx_t_5);
-      if (unlikely(!__pyx_t_11)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_11);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_r, __pyx_t_11);
-    __pyx_t_11 = 0;
-
-    /* "util/mongodb.pyx":163
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- *         r['game'] = game             # <<<<<<<<<<<<<<
- *         r['appid'] = appid
- *         r['partition'] = 'test'
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_game, __pyx_v_game) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":164
- *         # game's name, and the appid
- *         r['game'] = game
- *         r['appid'] = appid             # <<<<<<<<<<<<<<
- *         r['partition'] = 'test'
- * 
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_appid, __pyx_v_appid) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":165
- *         r['game'] = game
- *         r['appid'] = appid
- *         r['partition'] = 'test'             # <<<<<<<<<<<<<<
- * 
- *         if bins:
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_partition, __pyx_n_s_test) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":167
- *         r['partition'] = 'test'
- * 
- *         if bins:             # <<<<<<<<<<<<<<
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- */
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (__pyx_t_8) {
-
-      /* "util/mongodb.pyx":168
- * 
- *         if bins:
- *             _bin = get_bin(bin_ranges,             # <<<<<<<<<<<<<<
- *                            r['hours'])
- *             if _bin:
- */
-      __pyx_t_14 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_14);
-      if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-
-      /* "util/mongodb.pyx":169
- *         if bins:
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])             # <<<<<<<<<<<<<<
- *             if _bin:
- *                 r['hours'] = _bin
- */
-      __pyx_t_6 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-      __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_1 = NULL;
-      __pyx_t_17 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_14))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_14);
-        if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-          __Pyx_INCREF(__pyx_t_1);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_14, function);
-          __pyx_t_17 = 1;
-        }
-      }
-      __pyx_t_2 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      if (__pyx_t_1) {
-        PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __Pyx_GIVEREF(__pyx_t_1); __pyx_t_1 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_2, 0+__pyx_t_17, __pyx_v_bin_ranges);
-      __Pyx_GIVEREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_17, __pyx_t_6);
-      __Pyx_GIVEREF(__pyx_t_6);
-      __pyx_t_6 = 0;
-      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_2, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_11);
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_11);
-      __pyx_t_11 = 0;
-
-      /* "util/mongodb.pyx":170
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- *             if _bin:             # <<<<<<<<<<<<<<
- *                 r['hours'] = _bin
- *             else:
- */
-      __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v__bin); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      if (__pyx_t_8) {
-
-        /* "util/mongodb.pyx":171
- *                            r['hours'])
- *             if _bin:
- *                 r['hours'] = _bin             # <<<<<<<<<<<<<<
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- */
-        if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_hours, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 171; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        goto __pyx_L30;
-      }
-      /*else*/ {
-
-        /* "util/mongodb.pyx":173
- *                 r['hours'] = _bin
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \             # <<<<<<<<<<<<<<
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- */
-        __pyx_t_14 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_14);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_14, __pyx_n_s_exit); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-
-        /* "util/mongodb.pyx":175
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],             # <<<<<<<<<<<<<<
- *                                                               repr(bin_ranges)))
- * 
- */
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_The_hours_played_value_d, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_1 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-        __Pyx_GOTREF(__pyx_t_1);
-
-        /* "util/mongodb.pyx":176
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- *                                                               repr(bin_ranges)))             # <<<<<<<<<<<<<<
- * 
- *         try:
- */
-        if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-        __pyx_t_4 = PyObject_Repr(__pyx_v_bin_ranges); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_12 = NULL;
-        __pyx_t_17 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_12)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_12);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_6, function);
-            __pyx_t_17 = 1;
-          }
-        }
-        __pyx_t_9 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_9);
-        if (__pyx_t_12) {
-          PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_12); __Pyx_GIVEREF(__pyx_t_12); __pyx_t_12 = NULL;
-        }
-        PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_17, __pyx_t_1);
-        __Pyx_GIVEREF(__pyx_t_1);
-        PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_17, __pyx_t_4);
-        __Pyx_GIVEREF(__pyx_t_4);
-        __pyx_t_1 = 0;
-        __pyx_t_4 = 0;
-        __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_9, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 175; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_14);
-        __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
-          __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
-          if (likely(__pyx_t_6)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-            __Pyx_INCREF(__pyx_t_6);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_2, function);
-          }
-        }
-        if (!__pyx_t_6) {
-          __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_14); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          __Pyx_GOTREF(__pyx_t_11);
-        } else {
-          __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_9);
-          PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_6); __Pyx_GIVEREF(__pyx_t_6); __pyx_t_6 = NULL;
-          PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_14);
-          __Pyx_GIVEREF(__pyx_t_14);
-          __pyx_t_14 = 0;
-          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 173; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_11);
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      }
-      __pyx_L30:;
-      goto __pyx_L29;
-    }
-    __pyx_L29:;
-
-    /* "util/mongodb.pyx":178
- *                                                               repr(bin_ranges)))
- * 
- *         try:             # <<<<<<<<<<<<<<
- *             if not just_describe:
- *                 bulk.insert(r)
- */
-    {
-      __Pyx_ExceptionSave(&__pyx_t_20, &__pyx_t_19, &__pyx_t_18);
-      __Pyx_XGOTREF(__pyx_t_20);
-      __Pyx_XGOTREF(__pyx_t_19);
-      __Pyx_XGOTREF(__pyx_t_18);
-      /*try:*/ {
-
-        /* "util/mongodb.pyx":179
- * 
- *         try:
- *             if not just_describe:             # <<<<<<<<<<<<<<
- *                 bulk.insert(r)
- *             pass
- */
-        __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_just_describe); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 179; __pyx_clineno = __LINE__; goto __pyx_L31_error;}
-        __pyx_t_7 = ((!__pyx_t_8) != 0);
-        if (__pyx_t_7) {
-
-          /* "util/mongodb.pyx":180
- *         try:
- *             if not just_describe:
- *                 bulk.insert(r)             # <<<<<<<<<<<<<<
- *             pass
- *         except DuplicateKeyError as e:
- */
-          __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_insert); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L31_error;}
-          __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_9 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-            __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_2);
-            if (likely(__pyx_t_9)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-              __Pyx_INCREF(__pyx_t_9);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_2, function);
-            }
-          }
-          if (!__pyx_t_9) {
-            __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_r); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L31_error;}
-            __Pyx_GOTREF(__pyx_t_11);
-          } else {
-            __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L31_error;}
-            __Pyx_GOTREF(__pyx_t_14);
-            PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_14, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 180; __pyx_clineno = __LINE__; goto __pyx_L31_error;}
-            __Pyx_GOTREF(__pyx_t_11);
-            __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-          goto __pyx_L39;
-        }
-        __pyx_L39:;
-      }
-      __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
-      __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
-      __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
-      goto __pyx_L38_try_end;
-      __pyx_L31_error:;
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
-      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-
-      /* "util/mongodb.pyx":182
- *                 bulk.insert(r)
- *             pass
- *         except DuplicateKeyError as e:             # <<<<<<<<<<<<<<
- *             if remaining_reviews:
- *                 sys.stderr.write('WARNING: Encountered ' \
- */
-      __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_15 = PyErr_ExceptionMatches(__pyx_t_11);
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (__pyx_t_15) {
-        __Pyx_AddTraceback("util.mongodb.insert_train_test_reviews", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_11, &__pyx_t_2, &__pyx_t_14) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_GOTREF(__pyx_t_14);
-        __Pyx_INCREF(__pyx_t_2);
-        __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_2);
-
-        /* "util/mongodb.pyx":183
- *             pass
- *         except DuplicateKeyError as e:
- *             if remaining_reviews:             # <<<<<<<<<<<<<<
- *                 sys.stderr.write('WARNING: Encountered ' \
- *                                  'DuplicateKeyError. Throwing out ' \
- */
-        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_remaining_reviews); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 183; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-        if (__pyx_t_7) {
-
-          /* "util/mongodb.pyx":184
- *         except DuplicateKeyError as e:
- *             if remaining_reviews:
- *                 sys.stderr.write('WARNING: Encountered ' \             # <<<<<<<<<<<<<<
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nTaking ' \
- */
-          __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-
-          /* "util/mongodb.pyx":188
- *                                  'following review:\n\n{}\n\nTaking ' \
- *                                  'review from list of remaining ' \
- *                                  'reviews.\n'.format(r))             # <<<<<<<<<<<<<<
- *                 training_reviews.append(remaining_reviews.pop())
- *             else:
- */
-          __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_1);
-          __pyx_t_12 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
-            __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_1);
-            if (likely(__pyx_t_12)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
-              __Pyx_INCREF(__pyx_t_12);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_1, function);
-            }
-          }
-          if (!__pyx_t_12) {
-            __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_v_r); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_4);
-          } else {
-            __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_12); __Pyx_GIVEREF(__pyx_t_12); __pyx_t_12 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_3, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 188; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_4);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-          __pyx_t_1 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_6);
-            if (likely(__pyx_t_1)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-              __Pyx_INCREF(__pyx_t_1);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_6, function);
-            }
-          }
-          if (!__pyx_t_1) {
-            __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __Pyx_GOTREF(__pyx_t_9);
-          } else {
-            __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1); __Pyx_GIVEREF(__pyx_t_1); __pyx_t_1 = NULL;
-            PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_t_4);
-            __Pyx_GIVEREF(__pyx_t_4);
-            __pyx_t_4 = 0;
-            __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_3, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 184; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-
-          /* "util/mongodb.pyx":189
- *                                  'review from list of remaining ' \
- *                                  'reviews.\n'.format(r))
- *                 training_reviews.append(remaining_reviews.pop())             # <<<<<<<<<<<<<<
- *             else:
- *                 sys.stderr.write('WARNING: Encountered ' \
- */
-          __pyx_t_9 = __Pyx_PyObject_Pop(__pyx_v_remaining_reviews); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_9);
-          __pyx_t_21 = __Pyx_PyObject_Append(__pyx_v_training_reviews, __pyx_t_9); if (unlikely(__pyx_t_21 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 189; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-          goto __pyx_L42;
-        }
-        /*else*/ {
-
-          /* "util/mongodb.pyx":191
- *                 training_reviews.append(remaining_reviews.pop())
- *             else:
- *                 sys.stderr.write('WARNING: Encountered ' \             # <<<<<<<<<<<<<<
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nNo reviews ' \
- */
-          __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_3);
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-
-          /* "util/mongodb.pyx":194
- *                                  'DuplicateKeyError. Throwing out ' \
- *                                  'following review:\n\n{}\n\nNo reviews ' \
- *                                  'left to substitute in.\n'.format(r))             # <<<<<<<<<<<<<<
- * 
- *     # Insert extra reviews into the MongoDB collection, using 'extra' as
- */
-          __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey_2, __pyx_n_s_format); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          __pyx_t_1 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
-            __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_4);
-            if (likely(__pyx_t_1)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-              __Pyx_INCREF(__pyx_t_1);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_4, function);
-            }
-          }
-          if (!__pyx_t_1) {
-            __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_r); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-          } else {
-            __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-            PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_1); __Pyx_GIVEREF(__pyx_t_1); __pyx_t_1 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_12, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 194; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_3);
-            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-          __pyx_t_4 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-            if (likely(__pyx_t_4)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-              __Pyx_INCREF(__pyx_t_4);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_6, function);
-            }
-          }
-          if (!__pyx_t_4) {
-            __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-            __Pyx_GOTREF(__pyx_t_9);
-          } else {
-            __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_12);
-            PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-            PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_t_3);
-            __Pyx_GIVEREF(__pyx_t_3);
-            __pyx_t_3 = 0;
-            __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 191; __pyx_clineno = __LINE__; goto __pyx_L33_except_error;}
-            __Pyx_GOTREF(__pyx_t_9);
-            __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        }
-        __pyx_L42:;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-        goto __pyx_L32_exception_handled;
-      }
-      goto __pyx_L33_except_error;
-      __pyx_L33_except_error:;
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_18);
-      __Pyx_ExceptionReset(__pyx_t_20, __pyx_t_19, __pyx_t_18);
-      goto __pyx_L1_error;
-      __pyx_L32_exception_handled:;
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_18);
-      __Pyx_ExceptionReset(__pyx_t_20, __pyx_t_19, __pyx_t_18);
-      __pyx_L38_try_end:;
-    }
-
-    /* "util/mongodb.pyx":160
- * 
- *     # Insert test set reviews into MongoDB collection
- *     for r in test_reviews:             # <<<<<<<<<<<<<<
- *         # First, let's add some keys for the training/test partition, the
- *         # game's name, and the appid
- */
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-
-  /* "util/mongodb.pyx":198
- *     # Insert extra reviews into the MongoDB collection, using 'extra' as
- *     # the value of the 'partition' key
- *     for r in remaining_reviews:             # <<<<<<<<<<<<<<
- *         # Add keys for the partition ("extra"), the game's name, and the
- *         # appid
- */
-  if (likely(PyList_CheckExact(__pyx_v_remaining_reviews)) || PyTuple_CheckExact(__pyx_v_remaining_reviews)) {
-    __pyx_t_5 = __pyx_v_remaining_reviews; __Pyx_INCREF(__pyx_t_5); __pyx_t_13 = 0;
-    __pyx_t_16 = NULL;
-  } else {
-    __pyx_t_13 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_v_remaining_reviews); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_16 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  for (;;) {
-    if (likely(!__pyx_t_16)) {
-      if (likely(PyList_CheckExact(__pyx_t_5))) {
-        if (__pyx_t_13 >= PyList_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_14 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_14); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_14 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      } else {
-        if (__pyx_t_13 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_14 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_13); __Pyx_INCREF(__pyx_t_14); __pyx_t_13++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_14 = PySequence_ITEM(__pyx_t_5, __pyx_t_13); __pyx_t_13++; if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      }
-    } else {
-      __pyx_t_14 = __pyx_t_16(__pyx_t_5);
-      if (unlikely(!__pyx_t_14)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 198; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_14);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_r, __pyx_t_14);
-    __pyx_t_14 = 0;
-
-    /* "util/mongodb.pyx":201
- *         # Add keys for the partition ("extra"), the game's name, and the
- *         # appid
- *         r['game'] = game             # <<<<<<<<<<<<<<
- *         r['appid'] = appid
- *         r['partition'] = 'extra'
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_game, __pyx_v_game) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":202
- *         # appid
- *         r['game'] = game
- *         r['appid'] = appid             # <<<<<<<<<<<<<<
- *         r['partition'] = 'extra'
- * 
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_appid, __pyx_v_appid) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 202; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":203
- *         r['game'] = game
- *         r['appid'] = appid
- *         r['partition'] = 'extra'             # <<<<<<<<<<<<<<
- * 
- *         if bins:
- */
-    if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_partition, __pyx_n_s_extra) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-    /* "util/mongodb.pyx":205
- *         r['partition'] = 'extra'
- * 
- *         if bins:             # <<<<<<<<<<<<<<
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- */
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 205; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (__pyx_t_7) {
-
-      /* "util/mongodb.pyx":206
- * 
- *         if bins:
- *             _bin = get_bin(bin_ranges,             # <<<<<<<<<<<<<<
- *                            r['hours'])
- *             if _bin:
- */
-      __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-
-      /* "util/mongodb.pyx":207
- *         if bins:
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])             # <<<<<<<<<<<<<<
- *             if _bin:
- *                 r['hours'] = _bin
- */
-      __pyx_t_11 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_11 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-      __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_9 = NULL;
-      __pyx_t_17 = 0;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_9)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_9);
-          __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_2, function);
-          __pyx_t_17 = 1;
-        }
-      }
-      __pyx_t_6 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_6);
-      if (__pyx_t_9) {
-        PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
-      }
-      __Pyx_INCREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_17, __pyx_v_bin_ranges);
-      __Pyx_GIVEREF(__pyx_v_bin_ranges);
-      PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_17, __pyx_t_11);
-      __Pyx_GIVEREF(__pyx_t_11);
-      __pyx_t_11 = 0;
-      __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_14);
-      __pyx_t_14 = 0;
-
-      /* "util/mongodb.pyx":208
- *             _bin = get_bin(bin_ranges,
- *                            r['hours'])
- *             if _bin:             # <<<<<<<<<<<<<<
- *                 r['hours'] = _bin
- *             else:
- */
-      __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v__bin); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 208; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      if (__pyx_t_7) {
-
-        /* "util/mongodb.pyx":209
- *                            r['hours'])
- *             if _bin:
- *                 r['hours'] = _bin             # <<<<<<<<<<<<<<
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- */
-        if (unlikely(PyObject_SetItem(__pyx_v_r, __pyx_n_s_hours, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        goto __pyx_L46;
-      }
-      /*else*/ {
-
-        /* "util/mongodb.pyx":211
- *                 r['hours'] = _bin
- *             else:
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \             # <<<<<<<<<<<<<<
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- */
-        __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_2);
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_exit); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-        /* "util/mongodb.pyx":213
- *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],             # <<<<<<<<<<<<<<
- *                                                               repr(bin_ranges)))
- * 
- */
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_The_hours_played_value_d, __pyx_n_s_format); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_9 = PyObject_GetItem(__pyx_v_r, __pyx_n_s_hours); if (unlikely(__pyx_t_9 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-        __Pyx_GOTREF(__pyx_t_9);
-
-        /* "util/mongodb.pyx":214
- *                          ' to fall within any of the bin ranges.\n\nBin ' \
- *                          'ranges:\n\n{}\n\nExiting.\n'.format(r['hours'],
- *                                                               repr(bin_ranges)))             # <<<<<<<<<<<<<<
- * 
- *         try:
- */
-        if (unlikely(!__pyx_v_bin_ranges)) { __Pyx_RaiseUnboundLocalError("bin_ranges"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
-        __pyx_t_12 = PyObject_Repr(__pyx_v_bin_ranges); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 214; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_12);
-        __pyx_t_3 = NULL;
-        __pyx_t_17 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_11))) {
-          __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_11);
-          if (likely(__pyx_t_3)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
-            __Pyx_INCREF(__pyx_t_3);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_11, function);
-            __pyx_t_17 = 1;
-          }
-        }
-        __pyx_t_4 = PyTuple_New(2+__pyx_t_17); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        if (__pyx_t_3) {
-          PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-        }
-        PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_17, __pyx_t_9);
-        __Pyx_GIVEREF(__pyx_t_9);
-        PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_17, __pyx_t_12);
-        __Pyx_GIVEREF(__pyx_t_12);
-        __pyx_t_9 = 0;
-        __pyx_t_12 = 0;
-        __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_4, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 213; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_2);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         __pyx_t_11 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
           __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
           if (likely(__pyx_t_11)) {
             PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
@@ -3571,288 +2210,197 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
             __Pyx_DECREF_SET(__pyx_t_6, function);
           }
         }
-        if (!__pyx_t_11) {
-          __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          __Pyx_GOTREF(__pyx_t_14);
+        if (__pyx_t_11) {
+          __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
+          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
         } else {
-          __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
-          PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_2);
-          __Pyx_GIVEREF(__pyx_t_2);
-          __pyx_t_2 = 0;
-          __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_14);
-          __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+          __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 153; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
         }
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __pyx_v_result = __pyx_t_5;
+        __pyx_t_5 = 0;
       }
-      __pyx_L46:;
-      goto __pyx_L45;
-    }
-    __pyx_L45:;
-
-    /* "util/mongodb.pyx":216
- *                                                               repr(bin_ranges)))
- * 
- *         try:             # <<<<<<<<<<<<<<
- *             if not just_describe:
- *                 bulk.insert(r)
- */
-    {
-      __Pyx_ExceptionSave(&__pyx_t_18, &__pyx_t_19, &__pyx_t_20);
-      __Pyx_XGOTREF(__pyx_t_18);
-      __Pyx_XGOTREF(__pyx_t_19);
-      __Pyx_XGOTREF(__pyx_t_20);
-      /*try:*/ {
-
-        /* "util/mongodb.pyx":217
- * 
- *         try:
- *             if not just_describe:             # <<<<<<<<<<<<<<
- *                 bulk.insert(r)
- *             pass
- */
-        __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_v_just_describe); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L47_error;}
-        __pyx_t_8 = ((!__pyx_t_7) != 0);
-        if (__pyx_t_8) {
-
-          /* "util/mongodb.pyx":218
- *         try:
- *             if not just_describe:
- *                 bulk.insert(r)             # <<<<<<<<<<<<<<
- *             pass
- *         except DuplicateKeyError as e:
- */
-          __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_insert); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L47_error;}
-          __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_4 = NULL;
-          if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-            __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-            if (likely(__pyx_t_4)) {
-              PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-              __Pyx_INCREF(__pyx_t_4);
-              __Pyx_INCREF(function);
-              __Pyx_DECREF_SET(__pyx_t_6, function);
-            }
-          }
-          if (!__pyx_t_4) {
-            __pyx_t_14 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_r); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L47_error;}
-            __Pyx_GOTREF(__pyx_t_14);
-          } else {
-            __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L47_error;}
-            __Pyx_GOTREF(__pyx_t_2);
-            PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-            __Pyx_INCREF(__pyx_v_r);
-            PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_r);
-            __Pyx_GIVEREF(__pyx_v_r);
-            __pyx_t_14 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_2, NULL); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 218; __pyx_clineno = __LINE__; goto __pyx_L47_error;}
-            __Pyx_GOTREF(__pyx_t_14);
-            __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-          }
-          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-          __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-          goto __pyx_L55;
-        }
-        __pyx_L55:;
-      }
+      __Pyx_XDECREF(__pyx_t_17); __pyx_t_17 = 0;
       __Pyx_XDECREF(__pyx_t_18); __pyx_t_18 = 0;
       __Pyx_XDECREF(__pyx_t_19); __pyx_t_19 = 0;
-      __Pyx_XDECREF(__pyx_t_20); __pyx_t_20 = 0;
-      goto __pyx_L54_try_end;
-      __pyx_L47_error:;
-      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
+      goto __pyx_L19_try_end;
+      __pyx_L12_error:;
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_XDECREF(__pyx_t_3); __pyx_t_3 = 0;
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "util/mongodb.pyx":220
- *                 bulk.insert(r)
- *             pass
- *         except DuplicateKeyError as e:             # <<<<<<<<<<<<<<
- *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
- *                              'Throwing out following ' \
+      /* "util/mongodb.pyx":154
+ *         try:
+ *             result = bulk.execute()
+ *         except BulkWriteError as bwe:             # <<<<<<<<<<<<<<
+ *             pprint(bwe.details,
+ *                    stream=sys.stderr)
  */
-      __pyx_t_14 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-      __Pyx_GOTREF(__pyx_t_14);
-      __pyx_t_15 = PyErr_ExceptionMatches(__pyx_t_14);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_BulkWriteError); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_15 = PyErr_ExceptionMatches(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_15) {
         __Pyx_AddTraceback("util.mongodb.insert_train_test_reviews", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_14, &__pyx_t_6, &__pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 220; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-        __Pyx_GOTREF(__pyx_t_14);
+        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_6, &__pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 154; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_GOTREF(__pyx_t_11);
         __Pyx_INCREF(__pyx_t_6);
-        __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_6);
+        __pyx_v_bwe = __pyx_t_6;
 
-        /* "util/mongodb.pyx":221
- *             pass
- *         except DuplicateKeyError as e:
- *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \             # <<<<<<<<<<<<<<
- *                              'Throwing out following ' \
- *                              'review:\n\n{}\n\n'.format(r))
+        /* "util/mongodb.pyx":155
+ *             result = bulk.execute()
+ *         except BulkWriteError as bwe:
+ *             pprint(bwe.details,             # <<<<<<<<<<<<<<
+ *                    stream=sys.stderr)
+ *             sys.exit(1)
  */
-        __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_stderr); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-        __Pyx_GOTREF(__pyx_t_12);
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_12, __pyx_n_s_write); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-        __Pyx_GOTREF(__pyx_t_11);
-        __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+        __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_pprint); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_bwe, __pyx_n_s_details); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_3);
+        __pyx_t_14 = PyTuple_New(1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_14);
+        PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_3);
+        __Pyx_GIVEREF(__pyx_t_3);
+        __pyx_t_3 = 0;
+        __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_3);
 
-        /* "util/mongodb.pyx":223
- *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
- *                              'Throwing out following ' \
- *                              'review:\n\n{}\n\n'.format(r))             # <<<<<<<<<<<<<<
- * 
- *     # Do a bulk write operation
+        /* "util/mongodb.pyx":156
+ *         except BulkWriteError as bwe:
+ *             pprint(bwe.details,
+ *                    stream=sys.stderr)             # <<<<<<<<<<<<<<
+ *             sys.exit(1)
+ *         pprint(result,
  */
-        __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey_3, __pyx_n_s_format); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
+        __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
         __Pyx_GOTREF(__pyx_t_9);
-        __pyx_t_3 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_9))) {
-          __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_9);
-          if (likely(__pyx_t_3)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_9);
-            __Pyx_INCREF(__pyx_t_3);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_9, function);
-          }
-        }
-        if (!__pyx_t_3) {
-          __pyx_t_12 = __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_v_r); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_GOTREF(__pyx_t_12);
-        } else {
-          __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_GOTREF(__pyx_t_1);
-          PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3); __Pyx_GIVEREF(__pyx_t_3); __pyx_t_3 = NULL;
-          __Pyx_INCREF(__pyx_v_r);
-          PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_v_r);
-          __Pyx_GIVEREF(__pyx_v_r);
-          __pyx_t_12 = __Pyx_PyObject_Call(__pyx_t_9, __pyx_t_1, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 223; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_GOTREF(__pyx_t_12);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        }
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_stderr); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 156; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        __pyx_t_9 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_11))) {
-          __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_11);
-          if (likely(__pyx_t_9)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
-            __Pyx_INCREF(__pyx_t_9);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_11, function);
-          }
-        }
-        if (!__pyx_t_9) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_11, __pyx_t_12); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-          __Pyx_GOTREF(__pyx_t_4);
-        } else {
-          __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_GOTREF(__pyx_t_1);
-          PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_9); __Pyx_GIVEREF(__pyx_t_9); __pyx_t_9 = NULL;
-          PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_12);
-          __Pyx_GIVEREF(__pyx_t_12);
-          __pyx_t_12 = 0;
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 221; __pyx_clineno = __LINE__; goto __pyx_L49_except_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_stream, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+        /* "util/mongodb.pyx":155
+ *             result = bulk.execute()
+ *         except BulkWriteError as bwe:
+ *             pprint(bwe.details,             # <<<<<<<<<<<<<<
+ *                    stream=sys.stderr)
+ *             sys.exit(1)
+ */
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_14, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 155; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-        goto __pyx_L48_exception_handled;
+        __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+        /* "util/mongodb.pyx":157
+ *             pprint(bwe.details,
+ *                    stream=sys.stderr)
+ *             sys.exit(1)             # <<<<<<<<<<<<<<
+ *         pprint(result,
+ *                stream=sys.stderr)
+ */
+        __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_exit); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_3);
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_tuple__5, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        goto __pyx_L13_exception_handled;
       }
-      goto __pyx_L49_except_error;
-      __pyx_L49_except_error:;
+      goto __pyx_L14_except_error;
+      __pyx_L14_except_error:;
+      __Pyx_XGIVEREF(__pyx_t_17);
       __Pyx_XGIVEREF(__pyx_t_18);
       __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_ExceptionReset(__pyx_t_18, __pyx_t_19, __pyx_t_20);
+      __Pyx_ExceptionReset(__pyx_t_17, __pyx_t_18, __pyx_t_19);
       goto __pyx_L1_error;
-      __pyx_L48_exception_handled:;
+      __pyx_L13_exception_handled:;
+      __Pyx_XGIVEREF(__pyx_t_17);
       __Pyx_XGIVEREF(__pyx_t_18);
       __Pyx_XGIVEREF(__pyx_t_19);
-      __Pyx_XGIVEREF(__pyx_t_20);
-      __Pyx_ExceptionReset(__pyx_t_18, __pyx_t_19, __pyx_t_20);
-      __pyx_L54_try_end:;
+      __Pyx_ExceptionReset(__pyx_t_17, __pyx_t_18, __pyx_t_19);
+      __pyx_L19_try_end:;
     }
 
-    /* "util/mongodb.pyx":198
- *     # Insert extra reviews into the MongoDB collection, using 'extra' as
- *     # the value of the 'partition' key
- *     for r in remaining_reviews:             # <<<<<<<<<<<<<<
- *         # Add keys for the partition ("extra"), the game's name, and the
- *         # appid
+    /* "util/mongodb.pyx":158
+ *                    stream=sys.stderr)
+ *             sys.exit(1)
+ *         pprint(result,             # <<<<<<<<<<<<<<
+ *                stream=sys.stderr)
+ * 
  */
-  }
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_pprint); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_11);
+    if (unlikely(!__pyx_v_result)) { __Pyx_RaiseUnboundLocalError("result"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+    __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_INCREF(__pyx_v_result);
+    PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_v_result);
+    __Pyx_GIVEREF(__pyx_v_result);
+    __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
 
-  /* "util/mongodb.pyx":226
+    /* "util/mongodb.pyx":159
+ *             sys.exit(1)
+ *         pprint(result,
+ *                stream=sys.stderr)             # <<<<<<<<<<<<<<
  * 
- *     # Do a bulk write operation
- *     bulk.execute()             # <<<<<<<<<<<<<<
- * 
- *     # Print out some information about how many reviews were added
+ *         # Print out some information about how many reviews were added
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_execute); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_6 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_6);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (__pyx_t_6) {
-    __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_stderr); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 159; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_stream, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+    /* "util/mongodb.pyx":158
+ *                    stream=sys.stderr)
+ *             sys.exit(1)
+ *         pprint(result,             # <<<<<<<<<<<<<<
+ *                stream=sys.stderr)
+ * 
+ */
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 158; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  } else {
-    __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "util/mongodb.pyx":229
+    /* "util/mongodb.pyx":162
  * 
- *     # Print out some information about how many reviews were added
- *     if not just_describe:             # <<<<<<<<<<<<<<
- *         train_inserts = reviewdb.find({'appid': appid,
- *                                        'partition': 'training'}).count()
- */
-  __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_v_just_describe); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 229; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_7 = ((!__pyx_t_8) != 0);
-  if (__pyx_t_7) {
-
-    /* "util/mongodb.pyx":230
- *     # Print out some information about how many reviews were added
- *     if not just_describe:
+ *         # Print out some information about how many reviews were added
  *         train_inserts = reviewdb.find({'appid': appid,             # <<<<<<<<<<<<<<
  *                                        'partition': 'training'}).count()
  *         test_inserts = reviewdb.find({'appid': appid,
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_14 = PyDict_New(); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_14);
-    if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_partition, __pyx_n_s_training) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_11);
+    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_partition, __pyx_n_s_training) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_4 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
       __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
@@ -3864,258 +2412,137 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
       }
     }
     if (!__pyx_t_4) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_14); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-    } else {
-      __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_11);
-      PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-      PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_14);
-      __Pyx_GIVEREF(__pyx_t_14);
-      __pyx_t_14 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 230; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_11); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_GOTREF(__pyx_t_5);
+    } else {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_11);
+      __Pyx_GIVEREF(__pyx_t_11);
+      __pyx_t_11 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-    /* "util/mongodb.pyx":231
- *     if not just_describe:
+    /* "util/mongodb.pyx":163
+ *         # Print out some information about how many reviews were added
  *         train_inserts = reviewdb.find({'appid': appid,
  *                                        'partition': 'training'}).count()             # <<<<<<<<<<<<<<
  *         test_inserts = reviewdb.find({'appid': appid,
  *                                       'partition': 'test'}).count()
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_count); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_count); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = NULL;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_2)) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
         PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_5);
         __Pyx_INCREF(function);
         __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    if (__pyx_t_2) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    if (__pyx_t_5) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     } else {
-      __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 231; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 163; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_v_train_inserts = __pyx_t_5;
-    __pyx_t_5 = 0;
+    __pyx_v_train_inserts = __pyx_t_3;
+    __pyx_t_3 = 0;
 
-    /* "util/mongodb.pyx":232
+    /* "util/mongodb.pyx":164
  *         train_inserts = reviewdb.find({'appid': appid,
  *                                        'partition': 'training'}).count()
  *         test_inserts = reviewdb.find({'appid': appid,             # <<<<<<<<<<<<<<
  *                                       'partition': 'test'}).count()
  *         extra_inserts = reviewdb.find({'appid': appid,
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_11);
-    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_partition, __pyx_n_s_test) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_14 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_2);
-      if (likely(__pyx_t_14)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-        __Pyx_INCREF(__pyx_t_14);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_14 = PyDict_New(); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_14);
+    if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_14, __pyx_n_s_partition, __pyx_n_s_test) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_11)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_11);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
-    if (!__pyx_t_14) {
-      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_11); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    if (!__pyx_t_11) {
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_14); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_GOTREF(__pyx_t_6);
     } else {
-      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_14); __Pyx_GIVEREF(__pyx_t_14); __pyx_t_14 = NULL;
-      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_11);
-      __Pyx_GIVEREF(__pyx_t_11);
-      __pyx_t_11 = 0;
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
+      PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_14);
+      __Pyx_GIVEREF(__pyx_t_14);
+      __pyx_t_14 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 164; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     }
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "util/mongodb.pyx":233
+    /* "util/mongodb.pyx":165
  *                                        'partition': 'training'}).count()
  *         test_inserts = reviewdb.find({'appid': appid,
  *                                       'partition': 'test'}).count()             # <<<<<<<<<<<<<<
  *         extra_inserts = reviewdb.find({'appid': appid,
  *                                        'partition': 'extra'}).count()
  */
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_count); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_count); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_2);
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
       if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
       }
     }
     if (__pyx_t_6) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     } else {
-      __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 233; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_v_test_inserts = __pyx_t_5;
-    __pyx_t_5 = 0;
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_v_test_inserts = __pyx_t_3;
+    __pyx_t_3 = 0;
 
-    /* "util/mongodb.pyx":234
+    /* "util/mongodb.pyx":166
  *         test_inserts = reviewdb.find({'appid': appid,
  *                                       'partition': 'test'}).count()
  *         extra_inserts = reviewdb.find({'appid': appid,             # <<<<<<<<<<<<<<
  *                                        'partition': 'extra'}).count()
  *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \
  */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_reviewdb, __pyx_n_s_find); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_partition, __pyx_n_s_extra) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_11 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_11)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_11);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
-      }
-    }
-    if (!__pyx_t_11) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_2);
-    } else {
-      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_14);
-      PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
-      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_4);
-      __Pyx_GIVEREF(__pyx_t_4);
-      __pyx_t_4 = 0;
-      __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 234; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_2);
-      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
-    }
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-
-    /* "util/mongodb.pyx":235
- *                                       'partition': 'test'}).count()
- *         extra_inserts = reviewdb.find({'appid': appid,
- *                                        'partition': 'extra'}).count()             # <<<<<<<<<<<<<<
- *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \
- *                          'reviews, and {} extra reviews...\n\n' \
- */
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_count); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_2)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_2);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
-      }
-    }
-    if (__pyx_t_2) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    } else {
-      __pyx_t_5 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 235; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    }
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_v_extra_inserts = __pyx_t_5;
-    __pyx_t_5 = 0;
-
-    /* "util/mongodb.pyx":236
- *         extra_inserts = reviewdb.find({'appid': appid,
- *                                        'partition': 'extra'}).count()
- *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \             # <<<<<<<<<<<<<<
- *                          'reviews, and {} extra reviews...\n\n' \
- *                          '\n'.format(train_inserts,
- */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-    /* "util/mongodb.pyx":238
- *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \
- *                          'reviews, and {} extra reviews...\n\n' \
- *                          '\n'.format(train_inserts,             # <<<<<<<<<<<<<<
- *                                      test_inserts,
- *                                      extra_inserts))
- */
-    __pyx_t_14 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Inserted_training_set_reviews_te, __pyx_n_s_format); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_14);
-
-    /* "util/mongodb.pyx":240
- *                          '\n'.format(train_inserts,
- *                                      test_inserts,
- *                                      extra_inserts))             # <<<<<<<<<<<<<<
- * 
- * 
- */
-    __pyx_t_4 = NULL;
-    __pyx_t_13 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_14))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_14);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_14);
-        __Pyx_INCREF(__pyx_t_4);
-        __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_14, function);
-        __pyx_t_13 = 1;
-      }
-    }
-    __pyx_t_11 = PyTuple_New(3+__pyx_t_13); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_11);
-    if (__pyx_t_4) {
-      PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
-    }
-    __Pyx_INCREF(__pyx_v_train_inserts);
-    PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_13, __pyx_v_train_inserts);
-    __Pyx_GIVEREF(__pyx_v_train_inserts);
-    __Pyx_INCREF(__pyx_v_test_inserts);
-    PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_13, __pyx_v_test_inserts);
-    __Pyx_GIVEREF(__pyx_v_test_inserts);
-    __Pyx_INCREF(__pyx_v_extra_inserts);
-    PyTuple_SET_ITEM(__pyx_t_11, 2+__pyx_t_13, __pyx_v_extra_inserts);
-    __Pyx_GIVEREF(__pyx_v_extra_inserts);
-    __pyx_t_2 = __Pyx_PyObject_Call(__pyx_t_14, __pyx_t_11, NULL); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 238; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_partition, __pyx_n_s_extra) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_14 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
       __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_6);
@@ -4127,25 +2554,146 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
       }
     }
     if (!__pyx_t_14) {
-      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+      __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_5);
     } else {
-      __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_11 = PyTuple_New(1+1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_11);
       PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_14); __Pyx_GIVEREF(__pyx_t_14); __pyx_t_14 = NULL;
-      PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_2);
-      __Pyx_GIVEREF(__pyx_t_2);
-      __pyx_t_2 = 0;
-      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 236; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      PyTuple_SET_ITEM(__pyx_t_11, 0+1, __pyx_t_4);
+      __Pyx_GIVEREF(__pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_11, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 166; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "util/mongodb.pyx":167
+ *                                       'partition': 'test'}).count()
+ *         extra_inserts = reviewdb.find({'appid': appid,
+ *                                        'partition': 'extra'}).count()             # <<<<<<<<<<<<<<
+ *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \
+ *                          'reviews, and {} extra reviews...\n\n' \
+ */
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_count); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    goto __pyx_L58;
+    __pyx_t_5 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    if (__pyx_t_5) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    } else {
+      __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_v_extra_inserts = __pyx_t_3;
+    __pyx_t_3 = 0;
+
+    /* "util/mongodb.pyx":168
+ *         extra_inserts = reviewdb.find({'appid': appid,
+ *                                        'partition': 'extra'}).count()
+ *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \             # <<<<<<<<<<<<<<
+ *                          'reviews, and {} extra reviews...\n\n' \
+ *                          '\n'.format(train_inserts,
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_stderr); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_write); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":170
+ *         sys.stderr.write('Inserted {} training set reviews, {} test set ' \
+ *                          'reviews, and {} extra reviews...\n\n' \
+ *                          '\n'.format(train_inserts,             # <<<<<<<<<<<<<<
+ *                                      test_inserts,
+ *                                      extra_inserts))
+ */
+    __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Inserted_training_set_reviews_te, __pyx_n_s_format); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_11);
+
+    /* "util/mongodb.pyx":172
+ *                          '\n'.format(train_inserts,
+ *                                      test_inserts,
+ *                                      extra_inserts))             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+    __pyx_t_4 = NULL;
+    __pyx_t_13 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_11))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_11);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_11);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_11, function);
+        __pyx_t_13 = 1;
+      }
+    }
+    __pyx_t_14 = PyTuple_New(3+__pyx_t_13); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_14);
+    if (__pyx_t_4) {
+      PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_4); __Pyx_GIVEREF(__pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_train_inserts);
+    PyTuple_SET_ITEM(__pyx_t_14, 0+__pyx_t_13, __pyx_v_train_inserts);
+    __Pyx_GIVEREF(__pyx_v_train_inserts);
+    __Pyx_INCREF(__pyx_v_test_inserts);
+    PyTuple_SET_ITEM(__pyx_t_14, 1+__pyx_t_13, __pyx_v_test_inserts);
+    __Pyx_GIVEREF(__pyx_v_test_inserts);
+    __Pyx_INCREF(__pyx_v_extra_inserts);
+    PyTuple_SET_ITEM(__pyx_t_14, 2+__pyx_t_13, __pyx_v_extra_inserts);
+    __Pyx_GIVEREF(__pyx_v_extra_inserts);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_14, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 170; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __pyx_t_11 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_11)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_11);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    if (!__pyx_t_11) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_GOTREF(__pyx_t_3);
+    } else {
+      __pyx_t_14 = PyTuple_New(1+1); if (unlikely(!__pyx_t_14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_14);
+      PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_t_11); __Pyx_GIVEREF(__pyx_t_11); __pyx_t_11 = NULL;
+      PyTuple_SET_ITEM(__pyx_t_14, 0+1, __pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_5);
+      __pyx_t_5 = 0;
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_14, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_14); __pyx_t_14 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    goto __pyx_L11;
   }
-  __pyx_L58:;
+  __pyx_L11:;
 
   /* "util/mongodb.pyx":19
  * 
@@ -4182,9 +2730,8 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   __Pyx_XDECREF(__pyx_v_training_reviews);
   __Pyx_XDECREF(__pyx_v_test_reviews);
   __Pyx_XDECREF(__pyx_v_bulk);
-  __Pyx_XDECREF(__pyx_v_r);
-  __Pyx_XDECREF(__pyx_v__bin);
-  __Pyx_XDECREF(__pyx_v_e);
+  __Pyx_XDECREF(__pyx_v_result);
+  __Pyx_XDECREF(__pyx_v_bwe);
   __Pyx_XDECREF(__pyx_v_train_inserts);
   __Pyx_XDECREF(__pyx_v_test_inserts);
   __Pyx_XDECREF(__pyx_v_extra_inserts);
@@ -4193,600 +2740,525 @@ static PyObject *__pyx_pf_4util_7mongodb_insert_train_test_reviews(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "util/mongodb.pyx":243
+/* "util/mongodb.pyx":175
  * 
  * 
- * def get_bin_ranges(_min, _max, nbins):             # <<<<<<<<<<<<<<
+ * cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,             # <<<<<<<<<<<<<<
+ *                                     partition_id, bins=False):
  *     '''
- *     Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
  */
 
-/* Python wrapper */
-static PyObject *__pyx_pw_4util_7mongodb_3get_bin_ranges(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_7mongodb_2get_bin_ranges[] = "\n    Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.\n\n    :param _min: minimum value of the distribution\n    :type _min: float\n    :param _max: maximum value of the distribution\n    :type _max: float\n    :param nbins: number of bins into which the distribution is being sub-divided\n    :type nbins: int\n    :returns: list of tuples representing the minimum and maximum values of a bin\n    ";
-static PyMethodDef __pyx_mdef_4util_7mongodb_3get_bin_ranges = {"get_bin_ranges", (PyCFunction)__pyx_pw_4util_7mongodb_3get_bin_ranges, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_2get_bin_ranges};
-static PyObject *__pyx_pw_4util_7mongodb_3get_bin_ranges(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v__min = 0;
-  PyObject *__pyx_v__max = 0;
-  PyObject *__pyx_v_nbins = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_bin_ranges (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_min,&__pyx_n_s_max,&__pyx_n_s_nbins,0};
-    PyObject* values[3] = {0,0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_min)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_max)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("get_bin_ranges", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-        case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nbins)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("get_bin_ranges", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_bin_ranges") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
-    }
-    __pyx_v__min = values[0];
-    __pyx_v__max = values[1];
-    __pyx_v_nbins = values[2];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_bin_ranges", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("util.mongodb.get_bin_ranges", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_7mongodb_2get_bin_ranges(__pyx_self, __pyx_v__min, __pyx_v__max, __pyx_v_nbins);
+static PyObject *__pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(PyObject *__pyx_v_bulk_writer, PyObject *__pyx_v_rdicts, PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_partition_id, struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition *__pyx_optional_args) {
 
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4util_7mongodb_2get_bin_ranges(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__min, PyObject *__pyx_v__max, PyObject *__pyx_v_nbins) {
-  PyObject *__pyx_v_bin_size = NULL;
-  PyObject *__pyx_v_bin_ranges = NULL;
-  PyObject *__pyx_v__bin_start = NULL;
-  PyObject *__pyx_v__bin_end = NULL;
-  PyObject *__pyx_v_b = NULL;
+  /* "util/mongodb.pyx":176
+ * 
+ * cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
+ *                                     partition_id, bins=False):             # <<<<<<<<<<<<<<
+ *     '''
+ *     Add insert operations to a bulk writer.
+ */
+  PyObject *__pyx_v_bins = ((PyObject *)Py_False);
+  PyObject *__pyx_v_rd = NULL;
+  PyObject *__pyx_v__bin = NULL;
+  CYTHON_UNUSED PyObject *__pyx_v_e = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  double __pyx_t_2;
-  PyObject *__pyx_t_3 = NULL;
-  Py_ssize_t __pyx_t_4;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  int __pyx_t_6;
-  int __pyx_t_7;
+  Py_ssize_t __pyx_t_2;
+  PyObject *(*__pyx_t_3)(PyObject *);
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
+  Py_ssize_t __pyx_t_9;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  PyObject *__pyx_t_12 = NULL;
+  PyObject *__pyx_t_13 = NULL;
+  PyObject *__pyx_t_14 = NULL;
+  PyObject *__pyx_t_15 = NULL;
+  PyObject *__pyx_t_16 = NULL;
+  int __pyx_t_17;
+  PyObject *__pyx_t_18 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("get_bin_ranges", 0);
+  __Pyx_RefNannySetupContext("add_bulk_inserts_for_partition", 0);
+  if (__pyx_optional_args) {
+    if (__pyx_optional_args->__pyx_n > 0) {
+      __pyx_v_bins = __pyx_optional_args->bins;
+    }
+  }
 
-  /* "util/mongodb.pyx":256
+  /* "util/mongodb.pyx":195
  *     '''
  * 
- *     bin_size = round(float(_max - _min)/nbins,             # <<<<<<<<<<<<<<
- *                      1)
- *     bin_ranges = []
+ *     for rd in rdicts:             # <<<<<<<<<<<<<<
+ * 
+ *         # Add keys for the partition ("extra"), the game's name, and the
  */
-  __pyx_t_1 = PyNumber_Subtract(__pyx_v__max, __pyx_v__min); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_AsDouble(__pyx_t_1); if (unlikely(__pyx_t_2 == ((double)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_1, __pyx_v_nbins); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_3);
-  __Pyx_INCREF(__pyx_int_1);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_round, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_bin_size = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "util/mongodb.pyx":258
- *     bin_size = round(float(_max - _min)/nbins,
- *                      1)
- *     bin_ranges = []             # <<<<<<<<<<<<<<
- *     _bin_start = _min - 0.1
- *     _bin_end = _min + bin_size
- */
-  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 258; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v_bin_ranges = ((PyObject*)__pyx_t_3);
-  __pyx_t_3 = 0;
-
-  /* "util/mongodb.pyx":259
- *                      1)
- *     bin_ranges = []
- *     _bin_start = _min - 0.1             # <<<<<<<<<<<<<<
- *     _bin_end = _min + bin_size
- *     for b in range(1, nbins + 1):
- */
-  __pyx_t_3 = PyNumber_Subtract(__pyx_v__min, __pyx_float_0_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 259; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v__bin_start = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "util/mongodb.pyx":260
- *     bin_ranges = []
- *     _bin_start = _min - 0.1
- *     _bin_end = _min + bin_size             # <<<<<<<<<<<<<<
- *     for b in range(1, nbins + 1):
- *         if not b == 1:
- */
-  __pyx_t_3 = PyNumber_Add(__pyx_v__min, __pyx_v_bin_size); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 260; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_v__bin_end = __pyx_t_3;
-  __pyx_t_3 = 0;
-
-  /* "util/mongodb.pyx":261
- *     _bin_start = _min - 0.1
- *     _bin_end = _min + bin_size
- *     for b in range(1, nbins + 1):             # <<<<<<<<<<<<<<
- *         if not b == 1:
- *             _bin_start = _bin_end
- */
-  __pyx_t_3 = PyNumber_Add(__pyx_v_nbins, __pyx_int_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_int_1);
-  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_int_1);
-  __Pyx_GIVEREF(__pyx_int_1);
-  PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_3);
-  __Pyx_GIVEREF(__pyx_t_3);
-  __pyx_t_3 = 0;
-  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
-    __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
+  if (likely(PyList_CheckExact(__pyx_v_rdicts)) || PyTuple_CheckExact(__pyx_v_rdicts)) {
+    __pyx_t_1 = __pyx_v_rdicts; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
+    __pyx_t_3 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_rdicts); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
-    if (likely(!__pyx_t_5)) {
+    if (likely(!__pyx_t_3)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #endif
       } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+        if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_3); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_4); __pyx_t_2++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #endif
       }
     } else {
-      __pyx_t_3 = __pyx_t_5(__pyx_t_1);
-      if (unlikely(!__pyx_t_3)) {
+      __pyx_t_4 = __pyx_t_3(__pyx_t_1);
+      if (unlikely(!__pyx_t_4)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_GOTREF(__pyx_t_4);
     }
-    __Pyx_XDECREF_SET(__pyx_v_b, __pyx_t_3);
-    __pyx_t_3 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_rd, __pyx_t_4);
+    __pyx_t_4 = 0;
 
-    /* "util/mongodb.pyx":262
- *     _bin_end = _min + bin_size
- *     for b in range(1, nbins + 1):
- *         if not b == 1:             # <<<<<<<<<<<<<<
- *             _bin_start = _bin_end
- *         if b == nbins:
+    /* "util/mongodb.pyx":199
+ *         # Add keys for the partition ("extra"), the game's name, and the
+ *         # appid
+ *         rd['game'] = game             # <<<<<<<<<<<<<<
+ *         rd['appid'] = appid
+ *         rd['partition'] = partition_id
  */
-    __pyx_t_3 = PyObject_RichCompare(__pyx_v_b, __pyx_int_1, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 262; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_7 = ((!__pyx_t_6) != 0);
-    if (__pyx_t_7) {
+    if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_game, __pyx_v_game) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 199; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "util/mongodb.pyx":263
- *     for b in range(1, nbins + 1):
- *         if not b == 1:
- *             _bin_start = _bin_end             # <<<<<<<<<<<<<<
- *         if b == nbins:
- *             _bin_end = _bin_start + bin_size + 1.0
+    /* "util/mongodb.pyx":200
+ *         # appid
+ *         rd['game'] = game
+ *         rd['appid'] = appid             # <<<<<<<<<<<<<<
+ *         rd['partition'] = partition_id
+ * 
  */
-      __Pyx_INCREF(__pyx_v__bin_end);
-      __Pyx_DECREF_SET(__pyx_v__bin_start, __pyx_v__bin_end);
+    if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_appid, __pyx_v_appid) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 200; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "util/mongodb.pyx":201
+ *         rd['game'] = game
+ *         rd['appid'] = appid
+ *         rd['partition'] = partition_id             # <<<<<<<<<<<<<<
+ * 
+ *         if bins:
+ */
+    if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_partition, __pyx_v_partition_id) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 201; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "util/mongodb.pyx":203
+ *         rd['partition'] = partition_id
+ * 
+ *         if bins:             # <<<<<<<<<<<<<<
+ *             _bin = get_bin(bins,
+ *                            rd['hours'])
+ */
+    __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 203; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__pyx_t_5) {
+
+      /* "util/mongodb.pyx":204
+ * 
+ *         if bins:
+ *             _bin = get_bin(bins,             # <<<<<<<<<<<<<<
+ *                            rd['hours'])
+ *             if _bin > -1:
+ */
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_6);
+
+      /* "util/mongodb.pyx":205
+ *         if bins:
+ *             _bin = get_bin(bins,
+ *                            rd['hours'])             # <<<<<<<<<<<<<<
+ *             if _bin > -1:
+ *                 rd['hours_bin'] = _bin
+ */
+      __pyx_t_7 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_hours); if (unlikely(__pyx_t_7 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 205; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_8 = NULL;
+      __pyx_t_9 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_8)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_8);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __pyx_t_9 = 1;
+        }
+      }
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_10);
+      if (__pyx_t_8) {
+        PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
+      }
+      __Pyx_INCREF(__pyx_v_bins);
+      PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_v_bins);
+      __Pyx_GIVEREF(__pyx_v_bins);
+      PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 204; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_4);
+      __pyx_t_4 = 0;
+
+      /* "util/mongodb.pyx":206
+ *             _bin = get_bin(bins,
+ *                            rd['hours'])
+ *             if _bin > -1:             # <<<<<<<<<<<<<<
+ *                 rd['hours_bin'] = _bin
+ *             else:
+ */
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v__bin, __pyx_int_neg_1, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 206; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__pyx_t_5) {
+
+        /* "util/mongodb.pyx":207
+ *                            rd['hours'])
+ *             if _bin > -1:
+ *                 rd['hours_bin'] = _bin             # <<<<<<<<<<<<<<
+ *             else:
+ *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
+ */
+        if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_hours_bin, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 207; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        goto __pyx_L6;
+      }
+      /*else*/ {
+
+        /* "util/mongodb.pyx":209
+ *                 rd['hours_bin'] = _bin
+ *             else:
+ *                 sys.exit('WARNING: The hours played value ({}) did not seem' \             # <<<<<<<<<<<<<<
+ *                          ' to fall within any of the bin ranges.\n\nBin ' \
+ *                          'ranges:\n\n{}\n\nExiting.\n'.format(rd['hours_bin'],
+ */
+        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_6);
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_exit); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+        /* "util/mongodb.pyx":211
+ *                 sys.exit('WARNING: The hours played value ({}) did not seem' \
+ *                          ' to fall within any of the bin ranges.\n\nBin ' \
+ *                          'ranges:\n\n{}\n\nExiting.\n'.format(rd['hours_bin'],             # <<<<<<<<<<<<<<
+ *                                                               repr(bins)))
+ * 
+ */
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_The_hours_played_value_d, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_hours_bin); if (unlikely(__pyx_t_8 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+        __Pyx_GOTREF(__pyx_t_8);
+
+        /* "util/mongodb.pyx":212
+ *                          ' to fall within any of the bin ranges.\n\nBin ' \
+ *                          'ranges:\n\n{}\n\nExiting.\n'.format(rd['hours_bin'],
+ *                                                               repr(bins)))             # <<<<<<<<<<<<<<
+ * 
+ *         try:
+ */
+        __pyx_t_11 = PyObject_Repr(__pyx_v_bins); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 212; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_11);
+        __pyx_t_12 = NULL;
+        __pyx_t_9 = 0;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_7))) {
+          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_7);
+          if (likely(__pyx_t_12)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+            __Pyx_INCREF(__pyx_t_12);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_7, function);
+            __pyx_t_9 = 1;
+          }
+        }
+        __pyx_t_13 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_13);
+        if (__pyx_t_12) {
+          PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12); __Pyx_GIVEREF(__pyx_t_12); __pyx_t_12 = NULL;
+        }
+        PyTuple_SET_ITEM(__pyx_t_13, 0+__pyx_t_9, __pyx_t_8);
+        __Pyx_GIVEREF(__pyx_t_8);
+        PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_9, __pyx_t_11);
+        __Pyx_GIVEREF(__pyx_t_11);
+        __pyx_t_8 = 0;
+        __pyx_t_11 = 0;
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_13, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 211; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_t_7 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+          if (likely(__pyx_t_7)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_7);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_10, function);
+          }
+        }
+        if (!__pyx_t_7) {
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+          __Pyx_GOTREF(__pyx_t_4);
+        } else {
+          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_GOTREF(__pyx_t_13);
+          PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_7); __Pyx_GIVEREF(__pyx_t_7); __pyx_t_7 = NULL;
+          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_6);
+          __Pyx_GIVEREF(__pyx_t_6);
+          __pyx_t_6 = 0;
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 209; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      }
+      __pyx_L6:;
       goto __pyx_L5;
     }
     __pyx_L5:;
 
-    /* "util/mongodb.pyx":264
- *         if not b == 1:
- *             _bin_start = _bin_end
- *         if b == nbins:             # <<<<<<<<<<<<<<
- *             _bin_end = _bin_start + bin_size + 1.0
- *         else:
+    /* "util/mongodb.pyx":214
+ *                                                               repr(bins)))
+ * 
+ *         try:             # <<<<<<<<<<<<<<
+ *             bulk_writer.insert(rd)
+ *         except DuplicateKeyError as e:
  */
-    __pyx_t_3 = PyObject_RichCompare(__pyx_v_b, __pyx_v_nbins, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 264; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    if (__pyx_t_7) {
+    {
+      __Pyx_ExceptionSave(&__pyx_t_14, &__pyx_t_15, &__pyx_t_16);
+      __Pyx_XGOTREF(__pyx_t_14);
+      __Pyx_XGOTREF(__pyx_t_15);
+      __Pyx_XGOTREF(__pyx_t_16);
+      /*try:*/ {
 
-      /* "util/mongodb.pyx":265
- *             _bin_start = _bin_end
- *         if b == nbins:
- *             _bin_end = _bin_start + bin_size + 1.0             # <<<<<<<<<<<<<<
- *         else:
- *             _bin_end = _bin_start + bin_size
+        /* "util/mongodb.pyx":215
+ * 
+ *         try:
+ *             bulk_writer.insert(rd)             # <<<<<<<<<<<<<<
+ *         except DuplicateKeyError as e:
+ *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
  */
-      __pyx_t_3 = PyNumber_Add(__pyx_v__bin_start, __pyx_v_bin_size); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_8 = PyNumber_Add(__pyx_t_3, __pyx_float_1_0); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 265; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-      __Pyx_DECREF_SET(__pyx_v__bin_end, __pyx_t_8);
-      __pyx_t_8 = 0;
-      goto __pyx_L6;
+        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk_writer, __pyx_n_s_insert); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_13 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_10))) {
+          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_10);
+          if (likely(__pyx_t_13)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_13);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_10, function);
+          }
+        }
+        if (!__pyx_t_13) {
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_v_rd); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+          __Pyx_GOTREF(__pyx_t_4);
+        } else {
+          __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+          __Pyx_GOTREF(__pyx_t_6);
+          PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_13); __Pyx_GIVEREF(__pyx_t_13); __pyx_t_13 = NULL;
+          __Pyx_INCREF(__pyx_v_rd);
+          PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_v_rd);
+          __Pyx_GIVEREF(__pyx_v_rd);
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+          __Pyx_GOTREF(__pyx_t_4);
+          __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      }
+      __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
+      __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
+      __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
+      goto __pyx_L14_try_end;
+      __pyx_L7_error:;
+      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+      __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+      /* "util/mongodb.pyx":216
+ *         try:
+ *             bulk_writer.insert(rd)
+ *         except DuplicateKeyError as e:             # <<<<<<<<<<<<<<
+ *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
+ *                              'Throwing out following ' \
+ */
+      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+      __Pyx_GOTREF(__pyx_t_4);
+      __pyx_t_17 = PyErr_ExceptionMatches(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      if (__pyx_t_17) {
+        __Pyx_AddTraceback("util.mongodb.add_bulk_inserts_for_partition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+        if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_10, &__pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 216; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_4);
+        __Pyx_GOTREF(__pyx_t_10);
+        __Pyx_GOTREF(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_10);
+        __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_10);
+
+        /* "util/mongodb.pyx":217
+ *             bulk_writer.insert(rd)
+ *         except DuplicateKeyError as e:
+ *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \             # <<<<<<<<<<<<<<
+ *                              'Throwing out following ' \
+ *                              'review:\n\n{}\n\n'.format(rd))
+ */
+        __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_sys); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_stderr); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_write); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+
+        /* "util/mongodb.pyx":219
+ *             sys.stderr.write('WARNING: Encountered DuplicateKeyError. ' \
+ *                              'Throwing out following ' \
+ *                              'review:\n\n{}\n\n'.format(rd))             # <<<<<<<<<<<<<<
+ */
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_WARNING_Encountered_DuplicateKey, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_12 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_8);
+          if (likely(__pyx_t_12)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+            __Pyx_INCREF(__pyx_t_12);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
+          }
+        }
+        if (!__pyx_t_12) {
+          __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_v_rd); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_GOTREF(__pyx_t_11);
+        } else {
+          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_GOTREF(__pyx_t_18);
+          PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_12); __Pyx_GIVEREF(__pyx_t_12); __pyx_t_12 = NULL;
+          __Pyx_INCREF(__pyx_v_rd);
+          PyTuple_SET_ITEM(__pyx_t_18, 0+1, __pyx_v_rd);
+          __Pyx_GIVEREF(__pyx_v_rd);
+          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_18, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 219; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_GOTREF(__pyx_t_11);
+          __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_8 = NULL;
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_7))) {
+          __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_7);
+          if (likely(__pyx_t_8)) {
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+            __Pyx_INCREF(__pyx_t_8);
+            __Pyx_INCREF(function);
+            __Pyx_DECREF_SET(__pyx_t_7, function);
+          }
+        }
+        if (!__pyx_t_8) {
+          __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_11); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+          __Pyx_GOTREF(__pyx_t_13);
+        } else {
+          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_GOTREF(__pyx_t_18);
+          PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_8); __Pyx_GIVEREF(__pyx_t_8); __pyx_t_8 = NULL;
+          PyTuple_SET_ITEM(__pyx_t_18, 0+1, __pyx_t_11);
+          __Pyx_GIVEREF(__pyx_t_11);
+          __pyx_t_11 = 0;
+          __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_18, NULL); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 217; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+          __Pyx_GOTREF(__pyx_t_13);
+          __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
+        }
+        __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+        __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+        goto __pyx_L8_exception_handled;
+      }
+      goto __pyx_L9_except_error;
+      __pyx_L9_except_error:;
+      __Pyx_XGIVEREF(__pyx_t_14);
+      __Pyx_XGIVEREF(__pyx_t_15);
+      __Pyx_XGIVEREF(__pyx_t_16);
+      __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
+      goto __pyx_L1_error;
+      __pyx_L8_exception_handled:;
+      __Pyx_XGIVEREF(__pyx_t_14);
+      __Pyx_XGIVEREF(__pyx_t_15);
+      __Pyx_XGIVEREF(__pyx_t_16);
+      __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
+      __pyx_L14_try_end:;
     }
-    /*else*/ {
 
-      /* "util/mongodb.pyx":267
- *             _bin_end = _bin_start + bin_size + 1.0
- *         else:
- *             _bin_end = _bin_start + bin_size             # <<<<<<<<<<<<<<
- *         bin_ranges.append((_bin_start,
- *                            _bin_end))
- */
-      __pyx_t_8 = PyNumber_Add(__pyx_v__bin_start, __pyx_v_bin_size); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 267; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_8);
-      __Pyx_DECREF_SET(__pyx_v__bin_end, __pyx_t_8);
-      __pyx_t_8 = 0;
-    }
-    __pyx_L6:;
-
-    /* "util/mongodb.pyx":268
- *         else:
- *             _bin_end = _bin_start + bin_size
- *         bin_ranges.append((_bin_start,             # <<<<<<<<<<<<<<
- *                            _bin_end))
- *     return bin_ranges
- */
-    __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_8);
-    __Pyx_INCREF(__pyx_v__bin_start);
-    PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_v__bin_start);
-    __Pyx_GIVEREF(__pyx_v__bin_start);
-    __Pyx_INCREF(__pyx_v__bin_end);
-    PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_v__bin_end);
-    __Pyx_GIVEREF(__pyx_v__bin_end);
-    __pyx_t_9 = __Pyx_PyList_Append(__pyx_v_bin_ranges, __pyx_t_8); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 268; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-
-    /* "util/mongodb.pyx":261
- *     _bin_start = _min - 0.1
- *     _bin_end = _min + bin_size
- *     for b in range(1, nbins + 1):             # <<<<<<<<<<<<<<
- *         if not b == 1:
- *             _bin_start = _bin_end
+    /* "util/mongodb.pyx":195
+ *     '''
+ * 
+ *     for rd in rdicts:             # <<<<<<<<<<<<<<
+ * 
+ *         # Add keys for the partition ("extra"), the game's name, and the
  */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "util/mongodb.pyx":270
- *         bin_ranges.append((_bin_start,
- *                            _bin_end))
- *     return bin_ranges             # <<<<<<<<<<<<<<
+  /* "util/mongodb.pyx":175
  * 
  * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(__pyx_v_bin_ranges);
-  __pyx_r = __pyx_v_bin_ranges;
-  goto __pyx_L0;
-
-  /* "util/mongodb.pyx":243
- * 
- * 
- * def get_bin_ranges(_min, _max, nbins):             # <<<<<<<<<<<<<<
+ * cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,             # <<<<<<<<<<<<<<
+ *                                     partition_id, bins=False):
  *     '''
- *     Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
  */
 
   /* function exit code */
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+  goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("util.mongodb.get_bin_ranges", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_bin_size);
-  __Pyx_XDECREF(__pyx_v_bin_ranges);
-  __Pyx_XDECREF(__pyx_v__bin_start);
-  __Pyx_XDECREF(__pyx_v__bin_end);
-  __Pyx_XDECREF(__pyx_v_b);
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "util/mongodb.pyx":273
- * 
- * 
- * def get_bin(bin_ranges, val):             # <<<<<<<<<<<<<<
- *     '''
- *     Return the index of the bin range in which the value falls.
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_4util_7mongodb_5get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_7mongodb_4get_bin[] = "\n    Return the index of the bin range in which the value falls.\n\n    :param bin_ranges: list of ranges that define each bin\n    :type bin_ranges: list of tuples representing the minimum and maximum values of a range of values\n    :param val: value\n    :type val: float\n    :returns int (None if val not in any of the bin ranges)\n    ";
-static PyMethodDef __pyx_mdef_4util_7mongodb_5get_bin = {"get_bin", (PyCFunction)__pyx_pw_4util_7mongodb_5get_bin, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_4get_bin};
-static PyObject *__pyx_pw_4util_7mongodb_5get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_bin_ranges = 0;
-  PyObject *__pyx_v_val = 0;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("get_bin (wrapper)", 0);
-  {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_bin_ranges,&__pyx_n_s_val,0};
-    PyObject* values[2] = {0,0};
-    if (unlikely(__pyx_kwds)) {
-      Py_ssize_t kw_args;
-      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
-      switch (pos_args) {
-        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-        case  0: break;
-        default: goto __pyx_L5_argtuple_error;
-      }
-      kw_args = PyDict_Size(__pyx_kwds);
-      switch (pos_args) {
-        case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_bin_ranges)) != 0)) kw_args--;
-        else goto __pyx_L5_argtuple_error;
-        case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_val)) != 0)) kw_args--;
-        else {
-          __Pyx_RaiseArgtupleInvalid("get_bin", 1, 2, 2, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-        }
-      }
-      if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_bin") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-      }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
-      goto __pyx_L5_argtuple_error;
-    } else {
-      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
-      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
-    }
-    __pyx_v_bin_ranges = values[0];
-    __pyx_v_val = values[1];
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("get_bin", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("util.mongodb.get_bin", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return NULL;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_7mongodb_4get_bin(__pyx_self, __pyx_v_bin_ranges, __pyx_v_val);
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_4util_7mongodb_4get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_val) {
-  PyObject *__pyx_v_i = NULL;
-  PyObject *__pyx_v_bin_range = NULL;
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  Py_ssize_t __pyx_t_3;
-  PyObject *(*__pyx_t_4)(PyObject *);
-  PyObject *__pyx_t_5 = NULL;
-  int __pyx_t_6;
-  PyObject *__pyx_t_7 = NULL;
-  int __pyx_t_8;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("get_bin", 0);
-
-  /* "util/mongodb.pyx":284
- *     '''
- * 
- *     for i, bin_range in enumerate(bin_ranges):             # <<<<<<<<<<<<<<
- *         if val > bin_range[0] and val <= bin_range[1]:
- *             return i + 1
- */
-  __Pyx_INCREF(__pyx_int_0);
-  __pyx_t_1 = __pyx_int_0;
-  if (likely(PyList_CheckExact(__pyx_v_bin_ranges)) || PyTuple_CheckExact(__pyx_v_bin_ranges)) {
-    __pyx_t_2 = __pyx_v_bin_ranges; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
-    __pyx_t_4 = NULL;
-  } else {
-    __pyx_t_3 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_bin_ranges); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  }
-  for (;;) {
-    if (likely(!__pyx_t_4)) {
-      if (likely(PyList_CheckExact(__pyx_t_2))) {
-        if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      } else {
-        if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
-        #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_5); __pyx_t_3++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        #endif
-      }
-    } else {
-      __pyx_t_5 = __pyx_t_4(__pyx_t_2);
-      if (unlikely(!__pyx_t_5)) {
-        PyObject* exc_type = PyErr_Occurred();
-        if (exc_type) {
-          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        }
-        break;
-      }
-      __Pyx_GOTREF(__pyx_t_5);
-    }
-    __Pyx_XDECREF_SET(__pyx_v_bin_range, __pyx_t_5);
-    __pyx_t_5 = 0;
-    __Pyx_INCREF(__pyx_t_1);
-    __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_1);
-    __pyx_t_5 = PyNumber_Add(__pyx_t_1, __pyx_int_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_1);
-    __pyx_t_1 = __pyx_t_5;
-    __pyx_t_5 = 0;
-
-    /* "util/mongodb.pyx":285
- * 
- *     for i, bin_range in enumerate(bin_ranges):
- *         if val > bin_range[0] and val <= bin_range[1]:             # <<<<<<<<<<<<<<
- *             return i + 1
- *     return None
- */
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_bin_range, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_v_val, __pyx_t_5, Py_GT); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (__pyx_t_8) {
-    } else {
-      __pyx_t_6 = __pyx_t_8;
-      goto __pyx_L6_bool_binop_done;
-    }
-    __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_bin_range, 1, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(__pyx_t_7 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-    __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_v_val, __pyx_t_7, Py_LE); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_8 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_8 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 285; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_6 = __pyx_t_8;
-    __pyx_L6_bool_binop_done:;
-    if (__pyx_t_6) {
-
-      /* "util/mongodb.pyx":286
- *     for i, bin_range in enumerate(bin_ranges):
- *         if val > bin_range[0] and val <= bin_range[1]:
- *             return i + 1             # <<<<<<<<<<<<<<
- *     return None
- */
-      __Pyx_XDECREF(__pyx_r);
-      __pyx_t_5 = PyNumber_Add(__pyx_v_i, __pyx_int_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 286; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_r = __pyx_t_5;
-      __pyx_t_5 = 0;
-      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      goto __pyx_L0;
-    }
-
-    /* "util/mongodb.pyx":284
- *     '''
- * 
- *     for i, bin_range in enumerate(bin_ranges):             # <<<<<<<<<<<<<<
- *         if val > bin_range[0] and val <= bin_range[1]:
- *             return i + 1
- */
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "util/mongodb.pyx":287
- *         if val > bin_range[0] and val <= bin_range[1]:
- *             return i + 1
- *     return None             # <<<<<<<<<<<<<<
- */
-  __Pyx_XDECREF(__pyx_r);
-  __Pyx_INCREF(Py_None);
-  __pyx_r = Py_None;
-  goto __pyx_L0;
-
-  /* "util/mongodb.pyx":273
- * 
- * 
- * def get_bin(bin_ranges, val):             # <<<<<<<<<<<<<<
- *     '''
- *     Return the index of the bin range in which the value falls.
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("util.mongodb.get_bin", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __Pyx_XDECREF(__pyx_t_8);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_XDECREF(__pyx_t_12);
+  __Pyx_XDECREF(__pyx_t_13);
+  __Pyx_XDECREF(__pyx_t_18);
+  __Pyx_AddTraceback("util.mongodb.add_bulk_inserts_for_partition", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
   __pyx_L0:;
-  __Pyx_XDECREF(__pyx_v_i);
-  __Pyx_XDECREF(__pyx_v_bin_range);
+  __Pyx_XDECREF(__pyx_v_rd);
+  __Pyx_XDECREF(__pyx_v__bin);
+  __Pyx_XDECREF(__pyx_v_e);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -4816,44 +3288,32 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_APPID_DICT, __pyx_k_APPID_DICT, sizeof(__pyx_k_APPID_DICT), 0, 0, 1, 1},
+  {&__pyx_n_s_BulkWriteError, __pyx_k_BulkWriteError, sizeof(__pyx_k_BulkWriteError), 0, 0, 1, 1},
   {&__pyx_kp_s_Dividing_the_hours_played_values, __pyx_k_Dividing_the_hours_played_values, sizeof(__pyx_k_Dividing_the_hours_played_values), 0, 0, 1, 0},
   {&__pyx_n_s_DuplicateKeyError, __pyx_k_DuplicateKeyError, sizeof(__pyx_k_DuplicateKeyError), 0, 0, 1, 1},
   {&__pyx_kp_s_Inserted_training_set_reviews_te, __pyx_k_Inserted_training_set_reviews_te, sizeof(__pyx_k_Inserted_training_set_reviews_te), 0, 0, 1, 0},
   {&__pyx_kp_s_Inserting_reviews_from, __pyx_k_Inserting_reviews_from, sizeof(__pyx_k_Inserting_reviews_from), 0, 0, 1, 0},
-  {&__pyx_n_s_MAXHOURS, __pyx_k_MAXHOURS, sizeof(__pyx_k_MAXHOURS), 0, 0, 1, 1},
-  {&__pyx_n_s_MAXLEN, __pyx_k_MAXLEN, sizeof(__pyx_k_MAXLEN), 0, 0, 1, 1},
-  {&__pyx_n_s_MINHOURS, __pyx_k_MINHOURS, sizeof(__pyx_k_MINHOURS), 0, 0, 1, 1},
-  {&__pyx_n_s_MINLEN, __pyx_k_MINLEN, sizeof(__pyx_k_MINLEN), 0, 0, 1, 1},
-  {&__pyx_kp_s_Max_length_Min_length_Max_of_hou, __pyx_k_Max_length_Min_length_Max_of_hou, sizeof(__pyx_k_Max_length_Min_length_Max_of_hou), 0, 0, 1, 0},
+  {&__pyx_kp_s_Maximum_length_Minimum_length_Ma, __pyx_k_Maximum_length_Minimum_length_Ma, sizeof(__pyx_k_Maximum_length_Minimum_length_Ma), 0, 0, 1, 0},
   {&__pyx_kp_s_NOTE_It_is_possible_that_fewer_r, __pyx_k_NOTE_It_is_possible_that_fewer_r, sizeof(__pyx_k_NOTE_It_is_possible_that_fewer_r), 0, 0, 1, 0},
   {&__pyx_kp_s_Number_of_extra_reviews, __pyx_k_Number_of_extra_reviews, sizeof(__pyx_k_Number_of_extra_reviews), 0, 0, 1, 0},
   {&__pyx_kp_s_Number_of_original_English_langu, __pyx_k_Number_of_original_English_langu, sizeof(__pyx_k_Number_of_original_English_langu), 0, 0, 1, 0},
   {&__pyx_kp_s_Number_of_test_set_reviews, __pyx_k_Number_of_test_set_reviews, sizeof(__pyx_k_Number_of_test_set_reviews), 0, 0, 1, 0},
   {&__pyx_kp_s_Number_of_training_set_reviews, __pyx_k_Number_of_training_set_reviews, sizeof(__pyx_k_Number_of_training_set_reviews), 0, 0, 1, 0},
   {&__pyx_kp_s_WARNING_Encountered_DuplicateKey, __pyx_k_WARNING_Encountered_DuplicateKey, sizeof(__pyx_k_WARNING_Encountered_DuplicateKey), 0, 0, 1, 0},
-  {&__pyx_kp_s_WARNING_Encountered_DuplicateKey_2, __pyx_k_WARNING_Encountered_DuplicateKey_2, sizeof(__pyx_k_WARNING_Encountered_DuplicateKey_2), 0, 0, 1, 0},
-  {&__pyx_kp_s_WARNING_Encountered_DuplicateKey_3, __pyx_k_WARNING_Encountered_DuplicateKey_3, sizeof(__pyx_k_WARNING_Encountered_DuplicateKey_3), 0, 0, 1, 0},
   {&__pyx_kp_s_WARNING_If_the_just_describe_and, __pyx_k_WARNING_If_the_just_describe_and, sizeof(__pyx_k_WARNING_If_the_just_describe_and), 0, 0, 1, 0},
   {&__pyx_kp_s_WARNING_The_hours_played_value_d, __pyx_k_WARNING_The_hours_played_value_d, sizeof(__pyx_k_WARNING_The_hours_played_value_d), 0, 0, 1, 0},
-  {&__pyx_n_s_append, __pyx_k_append, sizeof(__pyx_k_append), 0, 0, 1, 1},
   {&__pyx_n_s_appid, __pyx_k_appid, sizeof(__pyx_k_appid), 0, 0, 1, 1},
-  {&__pyx_n_s_b, __pyx_k_b, sizeof(__pyx_k_b), 0, 0, 1, 1},
   {&__pyx_n_s_basename, __pyx_k_basename, sizeof(__pyx_k_basename), 0, 0, 1, 1},
-  {&__pyx_n_s_bin, __pyx_k_bin, sizeof(__pyx_k_bin), 0, 0, 1, 1},
-  {&__pyx_n_s_bin_end, __pyx_k_bin_end, sizeof(__pyx_k_bin_end), 0, 0, 1, 1},
-  {&__pyx_n_s_bin_range, __pyx_k_bin_range, sizeof(__pyx_k_bin_range), 0, 0, 1, 1},
   {&__pyx_n_s_bin_ranges, __pyx_k_bin_ranges, sizeof(__pyx_k_bin_ranges), 0, 0, 1, 1},
-  {&__pyx_n_s_bin_size, __pyx_k_bin_size, sizeof(__pyx_k_bin_size), 0, 0, 1, 1},
-  {&__pyx_n_s_bin_start, __pyx_k_bin_start, sizeof(__pyx_k_bin_start), 0, 0, 1, 1},
   {&__pyx_n_s_bins, __pyx_k_bins, sizeof(__pyx_k_bins), 0, 0, 1, 1},
   {&__pyx_n_s_bulk, __pyx_k_bulk, sizeof(__pyx_k_bulk), 0, 0, 1, 1},
+  {&__pyx_n_s_bwe, __pyx_k_bwe, sizeof(__pyx_k_bwe), 0, 0, 1, 1},
   {&__pyx_n_s_ceil, __pyx_k_ceil, sizeof(__pyx_k_ceil), 0, 0, 1, 1},
   {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
   {&__pyx_n_s_dataset, __pyx_k_dataset, sizeof(__pyx_k_dataset), 0, 0, 1, 1},
   {&__pyx_n_s_describe, __pyx_k_describe, sizeof(__pyx_k_describe), 0, 0, 1, 1},
-  {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
-  {&__pyx_n_s_enumerate, __pyx_k_enumerate, sizeof(__pyx_k_enumerate), 0, 0, 1, 1},
+  {&__pyx_n_s_details, __pyx_k_details, sizeof(__pyx_k_details), 0, 0, 1, 1},
   {&__pyx_n_s_execute, __pyx_k_execute, sizeof(__pyx_k_execute), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_extra, __pyx_k_extra, sizeof(__pyx_k_extra), 0, 0, 1, 1},
@@ -4867,7 +3327,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_bin_ranges, __pyx_k_get_bin_ranges, sizeof(__pyx_k_get_bin_ranges), 0, 0, 1, 1},
   {&__pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_k_home_mulhollandm2_reviews_proje, sizeof(__pyx_k_home_mulhollandm2_reviews_proje), 0, 0, 1, 0},
   {&__pyx_n_s_hours, __pyx_k_hours, sizeof(__pyx_k_hours), 0, 0, 1, 1},
-  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
+  {&__pyx_n_s_hours_bin, __pyx_k_hours_bin, sizeof(__pyx_k_hours_bin), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_n_s_initialize_unordered_bulk_op, __pyx_k_initialize_unordered_bulk_op, sizeof(__pyx_k_initialize_unordered_bulk_op), 0, 0, 1, 1},
   {&__pyx_n_s_insert, __pyx_k_insert, sizeof(__pyx_k_insert), 0, 0, 1, 1},
@@ -4875,31 +3335,29 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_just_describe, __pyx_k_just_describe, sizeof(__pyx_k_just_describe), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
-  {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
   {&__pyx_n_s_max_size, __pyx_k_max_size, sizeof(__pyx_k_max_size), 0, 0, 1, 1},
-  {&__pyx_n_s_min, __pyx_k_min, sizeof(__pyx_k_min), 0, 0, 1, 1},
-  {&__pyx_n_s_nbins, __pyx_k_nbins, sizeof(__pyx_k_nbins), 0, 0, 1, 1},
-  {&__pyx_n_s_np, __pyx_k_np, sizeof(__pyx_k_np), 0, 0, 1, 1},
+  {&__pyx_n_s_maxh, __pyx_k_maxh, sizeof(__pyx_k_maxh), 0, 0, 1, 1},
+  {&__pyx_n_s_maxl, __pyx_k_maxl, sizeof(__pyx_k_maxl), 0, 0, 1, 1},
+  {&__pyx_n_s_minh, __pyx_k_minh, sizeof(__pyx_k_minh), 0, 0, 1, 1},
+  {&__pyx_n_s_minl, __pyx_k_minl, sizeof(__pyx_k_minl), 0, 0, 1, 1},
   {&__pyx_n_s_num_reviews, __pyx_k_num_reviews, sizeof(__pyx_k_num_reviews), 0, 0, 1, 1},
-  {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
   {&__pyx_n_s_orig_total_reviews, __pyx_k_orig_total_reviews, sizeof(__pyx_k_orig_total_reviews), 0, 0, 1, 1},
   {&__pyx_n_s_os_path, __pyx_k_os_path, sizeof(__pyx_k_os_path), 0, 0, 1, 1},
   {&__pyx_n_s_partition, __pyx_k_partition, sizeof(__pyx_k_partition), 0, 0, 1, 1},
   {&__pyx_n_s_percent_train, __pyx_k_percent_train, sizeof(__pyx_k_percent_train), 0, 0, 1, 1},
-  {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
+  {&__pyx_n_s_pprint, __pyx_k_pprint, sizeof(__pyx_k_pprint), 0, 0, 1, 1},
   {&__pyx_n_s_pymongo_errors, __pyx_k_pymongo_errors, sizeof(__pyx_k_pymongo_errors), 0, 0, 1, 1},
-  {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_randint, __pyx_k_randint, sizeof(__pyx_k_randint), 0, 0, 1, 1},
   {&__pyx_n_s_random, __pyx_k_random, sizeof(__pyx_k_random), 0, 0, 1, 1},
-  {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_remaining_reviews, __pyx_k_remaining_reviews, sizeof(__pyx_k_remaining_reviews), 0, 0, 1, 1},
   {&__pyx_n_s_report, __pyx_k_report, sizeof(__pyx_k_report), 0, 0, 1, 1},
+  {&__pyx_n_s_result, __pyx_k_result, sizeof(__pyx_k_result), 0, 0, 1, 1},
   {&__pyx_n_s_reviewdb, __pyx_k_reviewdb, sizeof(__pyx_k_reviewdb), 0, 0, 1, 1},
   {&__pyx_n_s_reviews, __pyx_k_reviews, sizeof(__pyx_k_reviews), 0, 0, 1, 1},
-  {&__pyx_n_s_round, __pyx_k_round, sizeof(__pyx_k_round), 0, 0, 1, 1},
   {&__pyx_n_s_seed, __pyx_k_seed, sizeof(__pyx_k_seed), 0, 0, 1, 1},
   {&__pyx_n_s_shuffle, __pyx_k_shuffle, sizeof(__pyx_k_shuffle), 0, 0, 1, 1},
   {&__pyx_n_s_stderr, __pyx_k_stderr, sizeof(__pyx_k_stderr), 0, 0, 1, 1},
+  {&__pyx_n_s_stream, __pyx_k_stream, sizeof(__pyx_k_stream), 0, 0, 1, 1},
   {&__pyx_n_s_sys, __pyx_k_sys, sizeof(__pyx_k_sys), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
   {&__pyx_n_s_test_2, __pyx_k_test_2, sizeof(__pyx_k_test_2), 0, 0, 1, 1},
@@ -4912,17 +3370,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_training_set_size, __pyx_k_training_set_size, sizeof(__pyx_k_training_set_size), 0, 0, 1, 1},
   {&__pyx_n_s_util_datasets, __pyx_k_util_datasets, sizeof(__pyx_k_util_datasets), 0, 0, 1, 1},
   {&__pyx_n_s_util_mongodb, __pyx_k_util_mongodb, sizeof(__pyx_k_util_mongodb), 0, 0, 1, 1},
-  {&__pyx_n_s_val, __pyx_k_val, sizeof(__pyx_k_val), 0, 0, 1, 1},
   {&__pyx_n_s_write, __pyx_k_write, sizeof(__pyx_k_write), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_round = __Pyx_GetBuiltinName(__pyx_n_s_round); if (!__pyx_builtin_round) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 256; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_enumerate = __Pyx_GetBuiltinName(__pyx_n_s_enumerate); if (!__pyx_builtin_enumerate) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 284; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
-  __pyx_L1_error:;
-  return -1;
 }
 
 static int __Pyx_InitCachedConstants(void) {
@@ -4962,16 +3414,27 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "util/mongodb.pyx":112
+  /* "util/mongodb.pyx":116
  *     sys.stderr.write('Number of extra reviews:' \
  *                      ' {}\n'.format(len(remaining_reviews)))
  *     sys.stderr.write('NOTE: It is possible that fewer reviews get ' \             # <<<<<<<<<<<<<<
  *                      'inserted into the DB for the training set or test ' \
  *                      'set if there are errors during insertion and there' \
  */
-  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_NOTE_It_is_possible_that_fewer_r); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 112; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__4 = PyTuple_Pack(1, __pyx_kp_s_NOTE_It_is_possible_that_fewer_r); if (unlikely(!__pyx_tuple__4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 116; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__4);
   __Pyx_GIVEREF(__pyx_tuple__4);
+
+  /* "util/mongodb.pyx":157
+ *             pprint(bwe.details,
+ *                    stream=sys.stderr)
+ *             sys.exit(1)             # <<<<<<<<<<<<<<
+ *         pprint(result,
+ *                stream=sys.stderr)
+ */
+  __pyx_tuple__5 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__5);
+  __Pyx_GIVEREF(__pyx_tuple__5);
 
   /* "util/mongodb.pyx":19
  * 
@@ -4980,34 +3443,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                               float percent_train, bins=0, describe=False,
  *                               just_describe=False):
  */
-  __pyx_tuple__5 = PyTuple_Pack(29, __pyx_n_s_reviewdb, __pyx_n_s_file_path, __pyx_n_s_max_size, __pyx_n_s_percent_train, __pyx_n_s_bins, __pyx_n_s_describe, __pyx_n_s_just_describe, __pyx_n_s_game, __pyx_n_s_appid, __pyx_n_s_dataset, __pyx_n_s_reviews, __pyx_n_s_MAXLEN, __pyx_n_s_MINLEN, __pyx_n_s_MAXHOURS, __pyx_n_s_MINHOURS, __pyx_n_s_bin_ranges, __pyx_n_s_num_reviews, __pyx_n_s_train_test_reviews, __pyx_n_s_remaining_reviews, __pyx_n_s_training_set_size, __pyx_n_s_training_reviews, __pyx_n_s_test_reviews, __pyx_n_s_bulk, __pyx_n_s_r, __pyx_n_s_bin, __pyx_n_s_e, __pyx_n_s_train_inserts, __pyx_n_s_test_inserts, __pyx_n_s_extra_inserts); if (unlikely(!__pyx_tuple__5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__5);
-  __Pyx_GIVEREF(__pyx_tuple__5);
-  __pyx_codeobj__6 = (PyObject*)__Pyx_PyCode_New(7, 0, 29, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__5, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_insert_train_test_reviews, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "util/mongodb.pyx":243
- * 
- * 
- * def get_bin_ranges(_min, _max, nbins):             # <<<<<<<<<<<<<<
- *     '''
- *     Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
- */
-  __pyx_tuple__7 = PyTuple_Pack(8, __pyx_n_s_min, __pyx_n_s_max, __pyx_n_s_nbins, __pyx_n_s_bin_size, __pyx_n_s_bin_ranges, __pyx_n_s_bin_start, __pyx_n_s_bin_end, __pyx_n_s_b); if (unlikely(!__pyx_tuple__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__7);
-  __Pyx_GIVEREF(__pyx_tuple__7);
-  __pyx_codeobj__8 = (PyObject*)__Pyx_PyCode_New(3, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__7, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_bin_ranges, 243, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "util/mongodb.pyx":273
- * 
- * 
- * def get_bin(bin_ranges, val):             # <<<<<<<<<<<<<<
- *     '''
- *     Return the index of the bin range in which the value falls.
- */
-  __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_bin_ranges, __pyx_n_s_val, __pyx_n_s_i, __pyx_n_s_bin_range); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__9);
-  __Pyx_GIVEREF(__pyx_tuple__9);
-  __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_bin, 273, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__6 = PyTuple_Pack(28, __pyx_n_s_reviewdb, __pyx_n_s_file_path, __pyx_n_s_max_size, __pyx_n_s_percent_train, __pyx_n_s_bins, __pyx_n_s_describe, __pyx_n_s_just_describe, __pyx_n_s_game, __pyx_n_s_appid, __pyx_n_s_dataset, __pyx_n_s_reviews, __pyx_n_s_maxl, __pyx_n_s_minl, __pyx_n_s_maxh, __pyx_n_s_minh, __pyx_n_s_bin_ranges, __pyx_n_s_num_reviews, __pyx_n_s_train_test_reviews, __pyx_n_s_remaining_reviews, __pyx_n_s_training_set_size, __pyx_n_s_training_reviews, __pyx_n_s_test_reviews, __pyx_n_s_bulk, __pyx_n_s_result, __pyx_n_s_bwe, __pyx_n_s_train_inserts, __pyx_n_s_test_inserts, __pyx_n_s_extra_inserts); if (unlikely(!__pyx_tuple__6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__6);
+  __Pyx_GIVEREF(__pyx_tuple__6);
+  __pyx_codeobj__7 = (PyObject*)__Pyx_PyCode_New(7, 0, 28, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__6, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_insert_train_test_reviews, 19, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5017,10 +3456,9 @@ static int __Pyx_InitCachedConstants(void) {
 
 static int __Pyx_InitGlobals(void) {
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-  __pyx_float_0_1 = PyFloat_FromDouble(0.1); if (unlikely(!__pyx_float_0_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_float_1_0 = PyFloat_FromDouble(1.0); if (unlikely(!__pyx_float_1_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_neg_4 = PyInt_FromLong(-4); if (unlikely(!__pyx_int_neg_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
@@ -5117,8 +3555,8 @@ PyMODINIT_FUNC PyInit_mongodb(void)
  * The insert_train_test_reviews function gets all suitable, English-language reviews for a given data-set (at the provided file-path) and inserts them into the the MongoDB database ('reviews_project') under the 'reviews' collection.
  * '''
  * import sys             # <<<<<<<<<<<<<<
- * import numpy as np
  * from math import ceil
+ * from pprint import pprint
  */
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_sys, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 9; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -5128,154 +3566,184 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   /* "util/mongodb.pyx":10
  * '''
  * import sys
- * import numpy as np             # <<<<<<<<<<<<<<
- * from math import ceil
- * from data import APPID_DICT
- */
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_numpy, 0, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "util/mongodb.pyx":11
- * import sys
- * import numpy as np
  * from math import ceil             # <<<<<<<<<<<<<<
+ * from pprint import pprint
  * from data import APPID_DICT
- * from os.path import basename
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_ceil);
   PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_ceil);
   __Pyx_GIVEREF(__pyx_n_s_ceil);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_math, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_math, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ceil); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ceil); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ceil, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ceil, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 10; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "util/mongodb.pyx":12
- * import numpy as np
+  /* "util/mongodb.pyx":11
+ * import sys
  * from math import ceil
+ * from pprint import pprint             # <<<<<<<<<<<<<<
+ * from data import APPID_DICT
+ * from os.path import basename
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s_pprint);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_pprint);
+  __Pyx_GIVEREF(__pyx_n_s_pprint);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pprint, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_pprint); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pprint, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 11; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "util/mongodb.pyx":12
+ * from math import ceil
+ * from pprint import pprint
  * from data import APPID_DICT             # <<<<<<<<<<<<<<
  * from os.path import basename
  * from random import randint, shuffle, seed
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_APPID_DICT);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_APPID_DICT);
-  __Pyx_GIVEREF(__pyx_n_s_APPID_DICT);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_data, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_APPID_DICT); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_APPID_DICT);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_APPID_DICT);
+  __Pyx_GIVEREF(__pyx_n_s_APPID_DICT);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_data, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_APPID_DICT, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_APPID_DICT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_APPID_DICT, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 12; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "util/mongodb.pyx":13
- * from math import ceil
+ * from pprint import pprint
  * from data import APPID_DICT
  * from os.path import basename             # <<<<<<<<<<<<<<
  * from random import randint, shuffle, seed
- * from pymongo.errors import DuplicateKeyError
+ * from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_basename);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_basename);
-  __Pyx_GIVEREF(__pyx_n_s_basename);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_os_path, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_basename); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_basename);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_basename);
+  __Pyx_GIVEREF(__pyx_n_s_basename);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_os_path, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_basename, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_basename); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_basename, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "util/mongodb.pyx":14
  * from data import APPID_DICT
  * from os.path import basename
  * from random import randint, shuffle, seed             # <<<<<<<<<<<<<<
- * from pymongo.errors import DuplicateKeyError
- * from util.datasets import get_and_describe_dataset
+ * from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
+ * from pymongo.errors import DuplicateKeyError, BulkWriteError
  */
-  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_randint);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_randint);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_randint);
   __Pyx_GIVEREF(__pyx_n_s_randint);
   __Pyx_INCREF(__pyx_n_s_shuffle);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_shuffle);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_shuffle);
   __Pyx_GIVEREF(__pyx_n_s_shuffle);
   __Pyx_INCREF(__pyx_n_s_seed);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_seed);
+  PyList_SET_ITEM(__pyx_t_1, 2, __pyx_n_s_seed);
   __Pyx_GIVEREF(__pyx_n_s_seed);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_random, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_randint); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_random, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_randint, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_shuffle, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_seed); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_seed, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_randint); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_randint, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_shuffle, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_seed); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_seed, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "util/mongodb.pyx":15
  * from os.path import basename
  * from random import randint, shuffle, seed
- * from pymongo.errors import DuplicateKeyError             # <<<<<<<<<<<<<<
- * from util.datasets import get_and_describe_dataset
+ * from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin             # <<<<<<<<<<<<<<
+ * from pymongo.errors import DuplicateKeyError, BulkWriteError
  * 
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_DuplicateKeyError);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DuplicateKeyError);
-  __Pyx_GIVEREF(__pyx_n_s_DuplicateKeyError);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pymongo_errors, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DuplicateKeyError, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "util/mongodb.pyx":16
- * from random import randint, shuffle, seed
- * from pymongo.errors import DuplicateKeyError
- * from util.datasets import get_and_describe_dataset             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_get_and_describe_dataset);
   PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_get_and_describe_dataset);
   __Pyx_GIVEREF(__pyx_n_s_get_and_describe_dataset);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_util_datasets, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_get_bin_ranges);
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_get_bin_ranges);
+  __Pyx_GIVEREF(__pyx_n_s_get_bin_ranges);
+  __Pyx_INCREF(__pyx_n_s_get_bin);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_get_bin);
+  __Pyx_GIVEREF(__pyx_n_s_get_bin);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_util_datasets, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get_and_describe_dataset); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get_and_describe_dataset); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_and_describe_dataset, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_and_describe_dataset, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get_bin_ranges); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin_ranges, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get_bin); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "util/mongodb.pyx":16
+ * from random import randint, shuffle, seed
+ * from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
+ * from pymongo.errors import DuplicateKeyError, BulkWriteError             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_DuplicateKeyError);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DuplicateKeyError);
+  __Pyx_GIVEREF(__pyx_n_s_DuplicateKeyError);
+  __Pyx_INCREF(__pyx_n_s_BulkWriteError);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_BulkWriteError);
+  __Pyx_GIVEREF(__pyx_n_s_BulkWriteError);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pymongo_errors, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_DuplicateKeyError, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_BulkWriteError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BulkWriteError, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "util/mongodb.pyx":19
  * 
@@ -5284,44 +3752,20 @@ PyMODINIT_FUNC PyInit_mongodb(void)
  *                               float percent_train, bins=0, describe=False,
  *                               just_describe=False):
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_1insert_train_test_reviews, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert_train_test_reviews, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "util/mongodb.pyx":243
- * 
- * 
- * def get_bin_ranges(_min, _max, nbins):             # <<<<<<<<<<<<<<
- *     '''
- *     Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_3get_bin_ranges, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin_ranges, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 243; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "util/mongodb.pyx":273
- * 
- * 
- * def get_bin(bin_ranges, val):             # <<<<<<<<<<<<<<
- *     '''
- *     Return the index of the bin range in which the value falls.
- */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_5get_bin, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 273; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_1insert_train_test_reviews, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert_train_test_reviews, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "util/mongodb.pyx":1
  * '''             # <<<<<<<<<<<<<<
  * @author Matt Mulholland
  * @date 05/05/2015
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test_2, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_2 = PyDict_New(); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_test_2, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /*--- Wrapped vars code ---*/
 
@@ -5362,19 +3806,6 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
-
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
 
 static void __Pyx_RaiseArgtupleInvalid(
     const char* func_name,
@@ -5513,6 +3944,19 @@ invalid_keyword:
     #endif
 bad:
     return -1;
+}
+
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
 }
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
@@ -5712,10 +4156,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_CallNoArg(PyObject *func) {
 }
 #endif
 
-static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
-    PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
-}
-
 static CYTHON_INLINE void __Pyx_ExceptionSave(PyObject **type, PyObject **value, PyObject **tb) {
 #if CYTHON_COMPILING_IN_CPYTHON
     PyThreadState *tstate = PyThreadState_GET();
@@ -5804,203 +4244,8 @@ bad:
     return -1;
 }
 
-static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg) {
-    PyObject *method, *result = NULL;
-    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
-    if (unlikely(!method)) goto bad;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyMethod_Check(method))) {
-        PyObject *self = PyMethod_GET_SELF(method);
-        if (likely(self)) {
-            PyObject *args;
-            PyObject *function = PyMethod_GET_FUNCTION(method);
-            args = PyTuple_New(2);
-            if (unlikely(!args)) goto bad;
-            Py_INCREF(self);
-            PyTuple_SET_ITEM(args, 0, self);
-            Py_INCREF(arg);
-            PyTuple_SET_ITEM(args, 1, arg);
-            Py_INCREF(function);
-            Py_DECREF(method); method = NULL;
-            result = __Pyx_PyObject_Call(function, args, NULL);
-            Py_DECREF(args);
-            Py_DECREF(function);
-            return result;
-        }
-    }
-#endif
-    result = __Pyx_PyObject_CallOneArg(method, arg);
-bad:
-    Py_XDECREF(method);
-    return result;
-}
-
-static CYTHON_INLINE int __Pyx_PyObject_Append(PyObject* L, PyObject* x) {
-    if (likely(PyList_CheckExact(L))) {
-        if (unlikely(__Pyx_PyList_Append(L, x) < 0)) return -1;
-    } else {
-        PyObject* retval = __Pyx_PyObject_CallMethod1(L, __pyx_n_s_append, x);
-        if (unlikely(!retval))
-            return -1;
-        Py_DECREF(retval);
-    }
-    return 0;
-}
-
-static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
-    PyObject *method, *result = NULL;
-    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
-    if (unlikely(!method)) goto bad;
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyMethod_Check(method))) {
-        PyObject *self = PyMethod_GET_SELF(method);
-        if (likely(self)) {
-            PyObject *function = PyMethod_GET_FUNCTION(method);
-            result = __Pyx_PyObject_CallOneArg(function, self);
-            Py_DECREF(method);
-            return result;
-        }
-    }
-#endif
-    result = __Pyx_PyObject_CallNoArg(method);
-    Py_DECREF(method);
-bad:
-    return result;
-}
-
-static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (Py_TYPE(L) == &PySet_Type) {
-        return PySet_Pop(L);
-    }
-#endif
-    return __Pyx_PyObject_CallMethod0(L, __pyx_n_s_pop);
-}
-static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyList_GET_SIZE(L) > (((PyListObject*)L)->allocated >> 1))) {
-        Py_SIZE(L) -= 1;
-        return PyList_GET_ITEM(L, PyList_GET_SIZE(L));
-    }
-#endif
-    return __Pyx_PyObject_CallMethod0(L, __pyx_n_s_pop);
-}
-
-static double __Pyx__PyObject_AsDouble(PyObject* obj) {
-    PyObject* float_value;
-#if CYTHON_COMPILING_IN_PYPY
-    float_value = PyNumber_Float(obj);
-#else
-    PyNumberMethods *nb = Py_TYPE(obj)->tp_as_number;
-    if (likely(nb) && likely(nb->nb_float)) {
-        float_value = nb->nb_float(obj);
-        if (likely(float_value) && unlikely(!PyFloat_Check(float_value))) {
-            PyErr_Format(PyExc_TypeError,
-                "__float__ returned non-float (type %.200s)",
-                Py_TYPE(float_value)->tp_name);
-            Py_DECREF(float_value);
-            goto bad;
-        }
-    } else if (PyUnicode_CheckExact(obj) || PyBytes_CheckExact(obj)) {
-#if PY_MAJOR_VERSION >= 3
-        float_value = PyFloat_FromString(obj);
-#else
-        float_value = PyFloat_FromString(obj, 0);
-#endif
-    } else {
-        PyObject* args = PyTuple_New(1);
-        if (unlikely(!args)) goto bad;
-        PyTuple_SET_ITEM(args, 0, obj);
-        float_value = PyObject_Call((PyObject*)&PyFloat_Type, args, 0);
-        PyTuple_SET_ITEM(args, 0, 0);
-        Py_DECREF(args);
-    }
-#endif
-    if (likely(float_value)) {
-        double value = PyFloat_AS_DOUBLE(float_value);
-        Py_DECREF(float_value);
-        return value;
-    }
-bad:
-    return (double)-1;
-}
-
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Generic(PyObject *o, PyObject* j) {
-    PyObject *r;
-    if (!j) return NULL;
-    r = PyObject_GetItem(o, j);
-    Py_DECREF(j);
-    return r;
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_List_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyList_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyList_GET_SIZE(o)))) {
-        PyObject *r = PyList_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Tuple_Fast(PyObject *o, Py_ssize_t i,
-                                                              int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (wraparound & unlikely(i < 0)) i += PyTuple_GET_SIZE(o);
-    if ((!boundscheck) || likely((0 <= i) & (i < PyTuple_GET_SIZE(o)))) {
-        PyObject *r = PyTuple_GET_ITEM(o, i);
-        Py_INCREF(r);
-        return r;
-    }
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
-#else
-    return PySequence_GetItem(o, i);
-#endif
-}
-static CYTHON_INLINE PyObject *__Pyx_GetItemInt_Fast(PyObject *o, Py_ssize_t i,
-                                                     int is_list, int wraparound, int boundscheck) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    if (is_list || PyList_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyList_GET_SIZE(o);
-        if ((!boundscheck) || (likely((n >= 0) & (n < PyList_GET_SIZE(o))))) {
-            PyObject *r = PyList_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    }
-    else if (PyTuple_CheckExact(o)) {
-        Py_ssize_t n = ((!wraparound) | likely(i >= 0)) ? i : i + PyTuple_GET_SIZE(o);
-        if ((!boundscheck) || likely((n >= 0) & (n < PyTuple_GET_SIZE(o)))) {
-            PyObject *r = PyTuple_GET_ITEM(o, n);
-            Py_INCREF(r);
-            return r;
-        }
-    } else {
-        PySequenceMethods *m = Py_TYPE(o)->tp_as_sequence;
-        if (likely(m && m->sq_item)) {
-            if (wraparound && unlikely(i < 0) && likely(m->sq_length)) {
-                Py_ssize_t l = m->sq_length(o);
-                if (likely(l >= 0)) {
-                    i += l;
-                } else {
-                    if (PyErr_ExceptionMatches(PyExc_OverflowError))
-                        PyErr_Clear();
-                    else
-                        return NULL;
-                }
-            }
-            return m->sq_item(o, i);
-        }
-    }
-#else
-    if (is_list || PySequence_Check(o)) {
-        return PySequence_GetItem(o, i);
-    }
-#endif
-    return __Pyx_GetItemInt_Generic(o, PyInt_FromSsize_t(i));
+static CYTHON_INLINE void __Pyx_RaiseUnboundLocalError(const char *varname) {
+    PyErr_Format(PyExc_UnboundLocalError, "local variable '%s' referenced before assignment", varname);
 }
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
