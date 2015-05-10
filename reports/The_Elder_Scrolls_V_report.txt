@@ -1,26 +1,26 @@
 Descriptive Report for The Elder Scrolls V
 ===============================================================================
 
-Number of English-language reviews: 27835
+Number of English-language reviews: 27843
 
 Review Lengths Distribution
 
-Average review length: 267.68414306640625
+Average review length: 267.57373046875
 Minimum review length = 1
 Maximum review length = 8000
-Standard deviation = 555.8733520507812
+Standard deviation = 555.8187255859375
 
 
 Review Experience Distribution
 
-Average game experience (in hours played): 240.0892791748047
+Average game experience (in hours played): 240.10531616210938
 Minimum experience = 0.1
 Maximum experience = 21568.7
-Standard deviation = 610.1414794921875
+Standard deviation = 609.9035034179688
 
 
 Filter Values
-MINLEN = 50.0
-MAXLEN = 1379.430908203125
-MINHOURS = 0.0
-MAXHOURS = 1460.3721923828125
+Minimum length = 50.0
+Maximum length = 1379.211181640625
+Minimum hours played = 0.0
+Maximum hours played = 1459.912353515625

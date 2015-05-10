@@ -51,6 +51,10 @@ if __name__ == '__main__':
              ' features (defaults to False)',
         action='store_true',
         default=False)
+    parser.add_argument('--use_original_hours_values',
+        help='use the original, uncollapsed hours played values',
+        action='store_true',
+        default=False)
     parser.add_argument('--just_extract_features',
         help='exract features from all of the reviews, generate .jsonlines ' \
              'files, etc., but quit before training any models (defaults to' \
@@ -99,6 +103,8 @@ if __name__ == '__main__':
     lowercase_text = not args.do_not_lowercase_text
     sys.stderr.write('Lower-case text as part of the normalization step? ' \
                      '{}\n'.format(lowercase_text))
+
+    bins = not args.use_original_hours_values
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
@@ -167,7 +173,10 @@ if __name__ == '__main__':
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
                 _id = game_doc['_id']
-                hours = game_doc['hours']
+                if bins:
+                    hours = game_doc['hours_bin']
+                else:
+                    hours = game_doc['hours']
                 review_text = game_doc['review']
 
                 # Instantiate a Review object
@@ -299,7 +308,10 @@ if __name__ == '__main__':
                 # Get the game_doc ID, the hours played value, and the
                 # original review text from the game_doc
                 _id = game_doc['_id']
-                hours = game_doc['hours']
+                if bins:
+                    hours = game_doc['hours_bin']
+                else:
+                    hours = game_doc['hours']
                 review_text = game_doc['review']
 
                 # Instantiate a Review object

@@ -1,8 +1,6 @@
-% Generated on Wednesday, 06. May 2015 09:33PM
-% This ARFF file was generated with review data from the following game(s):
-%     Garrys_Mod
-% It is useful only for trying out machine learning algorithms on the
-% bag-of-words representation of the reviews only.
+% Generated on Sunday, 10. May 2015 04:00AM
+% This ARFF file was generated with review data from the following game(s): ['Garrys Mod']
+% It is useful only for trying out machine learning algorithms on the bag-of-words representation of the reviews.
 @relation reviewer_experience
 @attribute string_attribute string
 @attribute numeric_attribute numeric
@@ -794,7 +792,6 @@
 "garrys mod is a very creative game more creative than others thats right im looking at you modern military shooters you can do whatever you heart desires and with the steam workshop there is endless creativity and endless updates to your game. not the game its your game you decide what you want to do if your not the creative person you can set up npcs to shoot or whatever anyhoo 10/10",565.7
 "garrysmod has 9 letters... nine ... nine has 4 letters 9-4 =5 five five has 4 letters.... 5-4 =1 1..... the illuminateh has 1 eye... 1+1=2 2 is a number ... 3 comes after 2.... 3 .... the triangle has 3 sides..... the illuminati has 3 sides... illuminati confirmed !! xd",165.5
 "i love this game, its giving me countless hours of entertainment! and by countless i mean 400 hours or so.",559.4
-"got it for sale for $2.50 and i didnt even buy it so 12/10",70.5
 "this game is by fare the funniest and most awesome game iv playd this year great game ! 10/10",77.9
 "you know, the closer it gets, the more it looks like a truck with kleiner tied to it...",2047.7
 "much fun. very funny. lot friend=fun. 9/7 worth buy. buy now only 10 buck.",33.0
@@ -1192,7 +1189,6 @@
 "this is not a game. its a playground. an enomous digitalize playground with several sections devoted to different type of game modes. a murder game? check. a racing game? check. even a literal role playing game? double check. a playground of infinite possibilities. thats what garry mod is.",375.8
 "probably the best game ive ever played, forget about minecraft here comes g-mod!",451.7
 "its like all of my favorite things mixed into one game the only thing that peeves me is the texture or prop error. everything else is okay though :)",120.3
-"a game about making stuff. and killing. but mostly making.",177.0
 "amazing just like my name waiffles. follow me on twitter instagram and youtube @waiffles/waifflesm",40.8
 "good fun game, lots of servers and different gamemodes there is lots of nice people who can help you in the communitys. i suggest this game because of its fun activites and wide range of imagination you can put into it. i also reccomend going on life punch. net its a great game serrver",1496.5
 "garrys mod is one of the best sandbox/community driven games on pc and possible in gaming. there are so many things to be said about this game and this review would go on for pages if you were to explain every single custom gamemode that is on garrys mod and you will get you 10/5/2.5 euro or whatever the price is out of it since there is constantly new content developed on servers. 9/10, a great game with a good community if you know where to look.",83.0
@@ -1847,6 +1843,7 @@
 "this is what i call digital playground ! fun gamemodes, milions of differend addons that you can instal and have fun with. gmod is a game with a lot of games inside ! plus the source engine makes it more fun :d",232.5
 "this one time i crushed my friend with the force of a speeding bathtub launched from a trainstation turnstile. gameofthedecade/10",201.5
 "i am the lethargic gaming ttt server owner and i have to say, i have put soo many hours into this game thus far and have had some of the best moments from gaming whilst playing. definite recommendation, there are tons of things to do in this game, its always expanding with the new creations people make. -xevayne (jon)",504.7
+".                .               -.      garrys mod.",293.3
 "if you own half-life 2 or counter-strike: source you definitely need to buy this",607.8
 "the game is fantastic! you can do what ever you want, race, role play, even build a rollercoaster! but just dont download to many mods, it will crash.",158.7
 "if you dont already own this game, ing kill yourself...right now.",389.6
@@ -2178,6 +2175,7 @@
 "definitely one of the most fun games of ever played.. especially with friends :d",404.7
 "oh my gosh gmod is epic (: i love it you guys would enjoy it",210.0
 "garrys mod, uhhh where to start. i personally love this game. the physics are just.. i dont know anymoar. if you like humourous creations. and lots of gamemodes, this is the game for you. i dont know what makes this game so funny, could it be over the 100+ gamemodes they have? or just the fact that you could build the silliest things evar on here. if i had the money i would buy there company. there income is so great. just because of this silly game. its nearly impossible to not laugh while on this game. i enjoy this game so much. i just cant express how well put-up this game is. which leaves me to say. buy gmod best game evar 2k14 720noscopecollatoralwallbang. !!gg no re!! all humor aside. buy this game. this is a true experience. and i mean it.",138.8
+"i can make anything. ..... 10/10 good game no probs...",1340.8
 "ive been picked on / cyberbullied on this game but im still ok! :)",2034.1
 "this game is just to much fun so play it, dont have it? buy it its not that expensive come on go have some fun and tell your friends =3",734.5
 "i reccomend this game to everyone on steam its the besy idea since toast!",82.6
@@ -3036,7 +3034,6 @@
 "if its not on the game yet it will be. there are constantly new mods coming in of all sorts. it has interests for literally everybody. the gamemodes on multiplayer are great fun . singleplayer is just as good if you like screwing around with random mods.",361.7
 "i cant -not- recommend garrys mod as its whatever you make it. make things yourself in sandbox modes, or join one of hundreds of custom game types, some of which are incredibly well done and truly dont even make you realize youre playing garrys mod. like mini-golf, kart racing, hide and seek, prop hunt, slender, obstacle courses list goes on. its always cheap and has tons of possible games for you to try out for free once you get it.",76.9
 "9.5/10 there is a variety of gamemodes to choose from, weather you into making contraptions or playing a shooter game it has them all, this game can be fataly addicting once you find the right gamemodes and good servers.",62.7
-"a funny game, game content is up to you to decide.",5.4
 "i know, im such a plebe with only 200 hours. 10/10 many things to do; great community",213.4
 "this is a very interesting game, in the sandbox you can create many things and else where there are different gamemodes in which you can have fun with friends. i like this game alot it is very worth it!!!!",87.0
 "have you ever wanted to _________ in a video game? now you can.",26.2
@@ -3121,7 +3118,6 @@
 "the only game in which you will have a 10gb addon folder.",1366.3
 "1300+ hours mostly spent on ttt (a gamemode withing garrysmod) the game is pretty addicting and if you get bored of playing it one way log onto a different server and play it another hours of fun in my case 1000 9/10.",1770.5
 "this is the best creativ game! much better as mine craft or somthing! =^,....,^=",464.3
-"i got killed by a sentient shotgun 1000000000000/10",124.5
 "gmod is a fun sandbox which for once there is no limits. from deathstroke to spongebob playermodels, npcs, ect, there is just so much to do. dont forget mini games like my 2 personal favorites murder and prop hunt.the point is get it and i can garentee you wont get bored any time soon. *tip (you need counter strike: source to see most of the of textures). 10/10",145.6
 "i love this game it is a massive sandbox that never gets old it began a mod from half life and grew ever so much.it has tf2 items,weapons and skins! you should defenetly get this game",29.1
 "very fun hours of gameplay including trouble in terrorist town. much to do.",64.7
@@ -3171,7 +3167,6 @@
 "funniest game to ever play with friends! every add-on, free. and the add-ons have tornados, jump scares, run or  (the crap?) skins, cheats, hostile and friendly ais, and dinosaurs? as i said earlier, very funny game. and dont worry if you two computers, go to multiplayer then local sever. and have fun!",35.8
 "good value for money, great community and plenty of mods to play!",309.2
 "fun game. has diffirent gamemodes so there is always a new thing to try out, and cool user made content.",277.7
-"what else can i say? you can do what ever you fricking want!!!",314.3
 "so after further review i love this game, there are so many things that can be done, multiplayer- you got it, story or something yes it is there. horror its there. this game has everything you need just screw around wiht everything, as a steam player would say spawned a ball, ate it and they would be correct to put this in there, this game has what you need, love garrys mod",48.1
 "garrys mod is a great game to play and a good time waster. its endless supply of gamemodes allow you to do whatever you feel like. you can play the normal sandbox mode mode which challenges your creativity to build something original and exotic. there are also modes such as prop hunt, ttt, or murder. these gamemodes are nothing like any other gamemodes. they are completely new and original. you will spend countless hours playing an almost endless amount of gamemodes.",1053.5
 "awesome game, the best thing is the workshop creations. havent stopped playing yet :d",42.0
@@ -3830,6 +3825,7 @@
 "start game, download content you will never see, get all steam cards, spawn in server, game crashes 10/10 would wait again",82.6
 "this is a very fun game with much replayability. aside from some bugs and lag sometimes this game is very well done. many gamemodes and really only fun when you play online. singleplayer lacks a lot. overall i give it a personal 8/10.",231.0
 "mainly the game is amazing it has unlimited hours of fun by your self or with other players! you can also download addons from the steam workshop that has over 1000 addons! the game has fun, funny and amazing moments too! so why not go buy it? its worth the money! really unlimited hours of fun for 9.99 (plus tax) so i do recommend this game its amazing!",1988.2
+"very very very very very very very very very very very very very very very very very good",415.5
 "you can get away with anything in this game. 11/10",97.3
 "this game. its legendary. it might not look as good, you know, a generic sandbox, nothing special, blah blah blah.. but once you actually invest time into it, you start to enjoy it. and get addicted, if you play regularly. (   )",158.3
 "great game, ever lasting fun... and purely addicting like coke.",1490.4
@@ -4831,7 +4827,6 @@
 "its a a great game! recommended for creative gamers and such.",163.6
 "no game is as synonymous with tomfoolery and general mayhem as garrys mod. the games major selling point is that it enables the player to do whatever it is that they please, within the bounds of reason (and often outside of these bounds as well). from building your own spacecraft, to causing a server crash due to the saccharine bliss of obscene quantities of manhacks and melons, garrys mod is a game truly worth wasting your time on; even more so with friends.",237.1
 "one of the greast games ever played a sandbox game that feels so well done.",285.2
-"gmod in its own is one big mod, has the same satisfaction and perks of modding on other games as well that including spawning ragdolls, downloading different mods, and even playing gamemodes that are just downright insane! so in short i highly recommend to those of you who are considering it espanol: gmod en s es uno mod big, tiene la misma satisfaccin y ventajas de modding en otros juegos tambin que la inclusin de muecas de trapo de desove, la descarga de diferentes mods, e incluso jugar modos de juego que son francamente una locura! por lo que en definitiva le recomiendo a aquellos de ustedes que estn teniendo en cuenta que",462.2
 "brilliant game, played for hours on end. 17 hours in my first session. not recommended without: counter strike: source",528.8
 "if you buy this game and you are bored of garrysmod. your life is empty of expression",1263.3
 "you can do litterrally what ever the heck you wish, and want.",257.2
@@ -5362,6 +5357,7 @@
 "i shot a watermelon and then it killed me 10/10 recommend",37.1
 "i made a childrens hosptial and then blew it up...",62.4
 "buy this now. there are so many little gems hidden in this game it would be impossible to list them all.",287.2
+"best game ever made!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :3",59.4
 "this is probably the best game i ever played. only $10 , making this the best bargain for the greatest game ever!",59.5
 "this game never gets old! you got stop it slender!, prop hunt and the like! always fun to play!",320.5
 "if you dont have this game where have you been. this my most played game on steam and thats completely understandable. there is so much to do on garrys mod that its hard to decide. but the murder gamemode is probably the best.",409.8
@@ -5816,6 +5812,7 @@
 "an amazing game. truly the first game with infinite free dlc. with millions of maps and plenty of gamemodes, its a win.",125.7
 "the only game in which you will have a 10gb addon folder.",1366.3
 "you can make anything you want, from a giant flying glass hot dog to a floating house boat with wheels and an eye infection.",396.6
+"literlly the best game ever and does not lag a bit",460.7
 "truly a sandbox game, garrys mod is made amazing through the combination of a good graphics and physics engine (the source engine), tools that allow you to do anything you can think of, and how easy it is to make it your own. if youve thought of it, its in garrys mod. play this game!",187.3
 "this game sounds strange, but it is anything but that. this game is a game where you create contraptions that could do almost anything.the game is basicly a sandbox gamemode for half-life 2. however, many people make multiple types of addons for this game, including npcs, wepons, tools, vehicles, maps, and just about anything else you can think of. you can also play online in building servers or rp(role playing) servers.",291.9
 "you should definitely play that game! sooooooo much fun! it is filled with mods and games and theres no time to get bored!",46.8
@@ -5985,7 +5982,6 @@
 "very cool game btw, if you want to get the secret phrase achievement, just write bloxwich in chat without the ",186.3
 "i got blown up by a drug dealing sandwhich. get this game so worth it",86.2
 "theres a reason to why i have over 1,000 hours of gameplay.",2487.8
-"you can fly on a chair...10/10 best game ever...game of the every year award",169.5
 "love the creative aspect, although i have yet to be able to spend much time in multiplayer due to slow internet, which was my main focus when i purchased the game.",11.1
 "its amazing and any ragdoll lovers will enjoy this game it has many many many many many many hours of gameplay and if you get bored of single player there is cool game mode its wroth the ten dallors i give it a 1,000,000,000,000,000,000,000,000/10",545.7
 "this game made me stay indoors alot. thats why alot of my friends dont see me anymore...",96.3
@@ -6811,7 +6807,6 @@
 "this game is the best sandbox game ever!!!! if you like shooters, sandbox & games with mods. for instance you can get a box & put turret mods on it with thrusters and fly it around shooting bullets ever. totally recommended.",844.5
 "truly one of the best physics sandbox games ever. you can do almost anything inside of gmod, you can build a vehicle, a structure, even make a gamemode. you want to play a fps? gmod will oblige. want to play a puzzle game? gmod will oblige! of course it has its limitations and problems but its definitely an all round great game and worth picking it up, especially if its on sale.",102.4
 "this is the best game in the world! pvp, cinema, zoombie! its cool! i do not regret that bought!",18.6
-"sooo awsome doing tf2 or stop motion stuff in a way and prop hunt and more wooooooooooooooooooooooooooooooooooow!! too good",13.9
 "lots of fun in this half-life 2 mod, create anything you want ! put down items,npcs,enemys, make a building. create anything with all the items from the half-life 2 engine :)",89.6
 "this is my first review, but its a good game and a awesome sandbox. create your own enemy and base! and kill your enemy with boat, with dynamite in it. its a cool sandbox game!",31.2
 "garrys mod is a great game where you can basically build anything and everything? wanna make a train? build it. wanna make a machine gun that shoots toast? you can build that, too. download as many mods as you want and you can do whatever with them.",565.0
@@ -7521,6 +7516,7 @@
 "most likely the funniest most entertaining game i have in my collection on pc, can never get bored of it, had it for over 5 years and its still my #1 for entertaining me for hours!",159.8
 "it is a fun sandbox game were you have half life themed stuff and u can ger mods get it now its awesome",122.2
 "this game can be anything you desire it to be when you allrdy own tf2 css portal 1 or 2 then this will be the best 10$ youll ever spend. very cewl yet it does require some knowledge of the steam workshop but thats fairly easy to get used to . //!l<!",98.0
+"cool man swag game had it 4eva so glad got it tho ppl weird dun wry doe u ok if curful but still gud geme u get",167.1
 "this game is amazing buy it, dont think just buy.",336.7
 "bought this game back in 07, its been worth the 3 yrs.. and more of owning this..",1047.9
 "although ive only played this game for 8 hours approx, i would highly recommend to anyone whos looking for some fun and addicting gameplay.",48.5
@@ -7588,6 +7584,7 @@
 "somtimes things can get gay......... jk if you took this like a real review you made me laugh",99.5
 "garrys mod is a fun sandbox game where, basically you do whatever you want. with over 300,000 mods in the steam workshop, you will always be occupied. a definite 10/10 from me!",440.2
 "if you like fighting zombies, building robots, creating animations, or just plain fooling around, this game is for you. the things you can do are endless thanks to the workshop. it is perfect for creating animations. im for it all the way. totally worth $10.",164.9
+"funnest derp game ever! worth every penny! u wont regret it",137.6
 "such a fun game to make and creat machines with your friends. i highly reccomend this, especially because this is only $10.",44.9
 "i have 1000+ hours logged on this long story short good game.",1013.5
 "i become the lord of a hobo nation on a school roleplaying server 8/8 m8",43.4
@@ -7640,7 +7637,6 @@
 "i shot a guy with a nyan gun. best.game.ever. (11/10)",138.4
 "this game may be the greatest sandbox to ever be created :d",146.2
 "blew up 24 people on a small map with 3 c4........including myself..........worth every c4. 10/10 would blow  up again",483.4
-"thx bby garry for makin dis gem. i raet 8/8 no b8 m8.",54.1
 "awesome sandbox game, you can do anything in single player. awesome multiplayer, i love the different gamemodes keep it up <3",1414.2
 "this games got it all. now im no video game mogul, but i can tell you that this game has got to be one of the most creative games...ever. from saw-like death scenes to making my little ponies tip toe through the daises, this game is capable of making any sick or perverted (maybe its actually a good scene, i wouldnt know) scene come to life straight from your sub-conscience.",283.1
 "amazing game that keeps me entertained for days. crazy things happen in this game. 100/10",102.3
@@ -8227,7 +8223,6 @@
 "this is a great sandbox game. i highly recomend it and you will definitely get plenty of laughs out of it.",19.6
 "this game is not know for its singleplayer but for its multiplayer. its million of gamemodes. this game is very fun. 10/10",705.7
 "played darkrp became a hobo threw shoe at the admin got banned 10/10 would throw shoe again",941.6
-"this so curvy moma tarrisa is like whaatttttttttt haha",89.1
 "dont think just buy it yes i highly recommend this game only 1 drawback for some ppl might need cs source for textures and maps",336.6
 "garrys mod is a very, very creative game. i killed some of my best friends in the weirdest, most outrageous ways immaginable (i see it as a bonding moment). if you dont have this game, get this f**king game! youll have the best time of your life!",9.1
 "spent too much of my life playing this game. 10/10.",449.5
@@ -8394,7 +8389,6 @@
 "gmod is a very good game with only minimum things to improve. ++ idea of this game. + mods/minigames + workshop - hitbox 8,5/10",83.5
 "think about something. anything. whatever that was - you can build it in garrys mod. you thought a car? -yes, you were thinking about a massive chaotic battlefield? -sure, you were thinking.. hmm.. sex between half-life 2 (or any other valve title) characters? -hell yeah! everything is possible when you play gmod! the only downfall is that you need a source engine game to run it (cause it is a mod you know!) but thats why we have team fortress 2 free-to-play, though i recommend getting it with counter-strike: source! so go get it and help me get a achievement where i need to play garrys mod with 10 of my friends! :d:p 10/10",91.7
 "the only game where your forced to be friends with squeakers. 10/10",115.7
-"my friends keep transforming me into a watermelon. 10/10.",228.5
 "really amazing game that can deliver endless possiblities from playing ttt to building a map and then blowing it up with an amotic bomb. 9/10",63.4
 "hilarious and outragious fun, i especially enjoy ttt as there are no two games the same. does what most games cant, give you freedom with no expense to the gameplay quality",258.4
 "i have no freaking idea what this game is about im pretty sure its about just having fun but i llloooovveee it i recommend this game if this game is for any one its for all in this world",285.6
@@ -9498,7 +9492,6 @@
 "all source valve games in one! this is great! building, having fun with friends, styling friends with tf2 hats and fps thingies added! logic,funny,fast,great,super,duper,advduper game ever realesed!",790.2
 "awesome game if u bored from ur life go an play this game ;)",39.6
 "survived hordes of zombies and tons of hostile npcs with rapid fire machine guns.... got killed by a flying big mac. i rate 10/10. but seriously, its a brilliant, fun game for you and your friends.",171.6
-"@ sturtup dis game didunt has gunz buot dunlodad gewd adun dat hav gewd gunz 4 shutin. 10 twankes ut af 10 twankes: wuld byh agun!!1 unly dunsid iz dat dah snepar gunz hav warsh scaop dan dah carl af dury sew has warsh kilr defh retia...",2.3
 "spawned in a boat, attached trusters, then hoverballs,flew around in space best game ever!!!!!!!",110.9
 "i really enjoy the game.....but its alittle laggy..but its really fun and awsome to play!",1.6
 "10/10 will minge again not a single thing wrong with this game. if you think something is wrong, its probably you thats wrong.",904.2
@@ -10068,6 +10061,7 @@
 "probably the best sandbox game ever made. its a classic, no steam account is complete without it. lots of fun modes to play in multiplayer along with tons and tons of community maps. single player is also fun to play around with npcs and workshop guns and physics items. buy this game. 10/10",49.5
 "great game, but there are times were you needa take a break ;p",629.9
 "its not just a sandbox, its full of mods. its a game full of games!",62.1
+"hoooooooooooo heeeeeeeeeeeeeeeee dem catz must pay 4 911",304.8
 "brilliant for absolutely everything, roleplay, zombie survival, you name it.",357.0
 "pros: -always something to do -strong modding community -great physics -many multiplayer gamemodes cons: -terrible graphics -not nube friendly -pay2win servers -ads on servers conclusion: garrys mod can be a load of when playing on the right server. or having the right mods installed for sp.",28.2
 "pretty good game having lots of fun and good for those who have creative minds i recommend g mod",85.1
@@ -10170,6 +10164,7 @@
 "very fun game you can do just about anything in it.",465.1
 "garrys mod is a great tool to use to combat your everyday bordeom. and if you havent seen or heard about garrys mod then where have you been? get it! its fun, cheap, and gives much more than what the price tag shows. its a sandbox, go crazy! you never know what you might find, create, or discover in this game.",49.3
 "over 1,000 hours and still new things to find, i really like this game because you can play different games with in the game, so if you dont know what you want to play you can find a server and just play whatever game mode you happen to be playing. dark rp and ttt are the funnest & most popular, but there are a ton more that are really fun as well.",1593.7
+"get killed by a soda can using a banana gun. 11/10",121.4
 "i got this game last year and this game really never gets boring and there is a lot of people playing. i would recommend this game!",193.8
 "lots of issues and bugs since gmod 13, i can not recommend it unless you torrent it to see if it glitches on your pc before you get it. if you do try it before you buy it, its a great game.",288.7
 "a fantsatic sandbox multiplayer game with many different game modes for you to play. 9/10",93.5
@@ -10635,6 +10630,7 @@
 "best game i have ever purchased. dont regret the day i bought it and now i have 2k+ hours on it. :)",2434.2
 "i reccomed this title its fun what else can i sya?",99.2
 "lots of things to play with. if you are interested in building stuff you can go ahead and play the single player to build whatever you can think of with the tools provided. if you are interested in playing with other people you can go ahead to the multiplayer and choose from a huge variety of gamemodes and servers!",834.8
+"i love dis game added 2 favs i play alot on weekend and some on weekdays",1187.5
 "this game sucks balls without the cummunity and the only reason it is good because monkeys came all over garrys face and made the wonderful land of lifepunch. lifepunch is where dreams  true, and time goes by at light speed. ttt sucks balls. gmod tower sucks balls. stranded sucks hairy balls. everything sucks gentials besides lifepunch.",805.6
 "ho. lee. . its like saints row had drunk angry sex with minecraft at a company party, and minecraft at the time was on crack, then the baby was addicted to crack and was also fond of puking out lego. that is essentially what this game is all about. drunken sex and cocaine. 9/10",474.8
 "an amazing game that can keep you busy for hours, and competly worth the cheap price",930.1
@@ -10645,6 +10641,7 @@
 "this game is a whole bundle of endless fun, besides the creative mode and endless building. garrys mod also provides a mother load of game types such as ttt, jail break and many more. this game is probably one of my favorite game and its also worth buying it. i would definitely recommend this game to all my friends",304.6
 "its cool an ventarian likes so dous the dimond minecrat",457.2
 "medic is a good class but i also like playing as scout.",231.7
+"tis si a gaem were ican 360 noskoop 100/10 ign approves",1646.2
 "if you have friends or want to make friends and play games with them. gmod is the game for you. i have played over 400 hours in this game and had a ton of fun. in 2014 tyou should have this game but if you dont buy this  right now!!!",476.1
 "fun,weird and wacky great game for the price you pay",200.1
 "this is possibly the second best fps on the market. the lack of killstreaks and perks is a shame though. i rate it 7/10, not as good as call of duty.",184.8
@@ -10786,7 +10783,6 @@
 "if youre looking for a top notch story based puzzler look no further, without a doubt the most challenging puzzles i have ever experienced in a game which perfectly complimented the beautifully crafted storyline. 10/10",176.2
 "strapped a teletubby to a rocket and flew it into space and watched it explode 11/10",228.6
 "has to be my most favorite game ever created. <3 10/10",526.5
-"awsomeness has just arrived because gmod 10 and gmod 13 sucked gmod 9 and minecraft are the gods of comupter game",422.5
 "garrys mod is a physics sandbox. there arent any predefined aims or goals. they give you the tools and leave you to play. you spawn objects and weld them together to create your own contraptions - whether thats a car, a rocket, a catapult or something that doesnt have a name yet - thats up to you. you can do it offline, or join the thousands of players who play online each day. if youre not too great at construction - dont worry! you can place a variety of characters in silly positions. but if you want to do more, facepunch studios have the means. you have no life to scroll down so low.",35.3
 "this game is free sandbox do whatever you want but some bad  pepole so bad stuff in it but the best thing ever when you are mad of someone and u wanna have your revenge",1408.4
 "i hed lats off fun wiht this game bcuz u cen do lots nd i got a gun wot can shoot nyan kittys lol it r the best i rat it 6/7 bcuz u cant hav a gerbil i the game veri well :(",263.0
@@ -10912,7 +10908,6 @@
 "this game has so many crazy stuff that will blow your mind! hurry up and parchase it!. you will not regret.",109.2
 "one of the moost fun and addicting games ive playedsince minecraft. i definately get more than 5hrs a week with all their new gamemodes.",464.2
 "you want to see twenty zombies get blown up? you got it. you want to make a silly pose of gman and the combine? you got it. want access to hl3? sorry it can do so much. garrys mod is what you might consider as, that game where you can do almost anything. i have so many hours wasted into this game, and theres a reason for that. because its addicting. get it if you have the chance!",1376.1
-"the most diverse sandbox ever made. best 6 ive ever spent. gamescore 9/10",132.8
 "garrys mod is probably the best game i have ever played. you can pretty much do anything. from build a rollercoaster with your friends, or making a car chase scene. there is so much to do, endless possibilities!",847.8
 "i can spawn men and look at their butts all day 11/10 would bag again",53.9
 "absolutely perfect game! i mean there is some lag problems that i think could be fixed but other than that no probs!",2439.5
@@ -11227,6 +11222,7 @@
 "i rly liek dis gam cuz u can make ppl madd n dey cnt do anyting abut it smash litl kids wiv desks 2 mak dem cry babby tears",543.7
 "so many game modes to choose from its a truly amazing game. if you was to buy this game, you should as its very amazing.",922.2
 "lolololol this game iz vrtral drugz lolololol weeeeelolol i made a carplaneboat lololol i morphed my entre screeen lololol i died",1268.6
+"i love this game so much cause the possiblities are endless.",2530.0
 "dont own this game? you should. buy it now. youll be glad you did.",104.1
 "endless entertainment for the whole spooky family of spooks.",2356.8
 "this game can be very fun. it has a wide selection of gamemodes to play and people to talk to. i do recommend that if you were to buy this, you will have a better time playing with friends. sure you can meet some annoying kids on this game who dont shut their mouth. but that is why you have a private game with your friends. they are great people to dont get me wrong, but sometimes they can just be annoying good game, do recommend to people that have friends xd",175.1
@@ -11278,7 +11274,6 @@
 "kinda wonky and poorly made but... omg this is like everything in 1 omg why is there so much -75% discounts holy  totly worth it hurry up and buy...",186.1
 "good sandbox game you can make some nice pics here",1930.9
 "has to be my most favorite game ever created. <3 10/10",526.5
-"awsomeness has just arrived because gmod 10 and gmod 13 sucked gmod 9 and minecraft are the gods of comupter game",422.5
 "garrys mod is a physics sandbox. there arent any predefined aims or goals. they give you the tools and leave you to play. you spawn objects and weld them together to create your own contraptions - whether thats a car, a rocket, a catapult or something that doesnt have a name yet - thats up to you. you can do it offline, or join the thousands of players who play online each day. if youre not too great at construction - dont worry! you can place a variety of characters in silly positions. but if you want to do more, facepunch studios have the means. you have no life to scroll down so low.",35.3
 "this game is the hardest game to play.......!!!! i press play now and nothing happens. i have only played this game once. i am soooooooo frustrated!!!!!!!1",144.2
 "a very good game for builders,minecraft players and persons with creative minds out there.it totally beats other sandbox games because in garrys mod you can do almost anything.sure other times it crashes but hey,its your computer/community addons fault if you crash.sure it gets boring playing around with the vanilla one after a while but you can still download some addons in the workshop which makes the game more interesting.tired of playing sanbox?play other gamemodes then.there are many gamemodes in the game that will surely liven up your game and all of these are just only a fraction of garrys mod awesomness.",57.3
@@ -11292,12 +11287,12 @@
 "a fantastic sandbox game where you can build anything you want. the gamemodes are exceptional and add to the fun. if you want the full experience, get cs:s as many of the maps need these textures, but overall a must buy for any pc gamer.",16.6
 "the game is great! i wish it had never switched over to gmod 13 though. gmod12 and older were more stable and way more fun to expirience things with. but the game is not bad at all! sandbox is where its all at!",1768.3
 "this game is fun and is good for people who like to use there imagnation. this game is good for mini gamemodes. i recommend this game for all people with creative ideas",433.9
+"omfg omg omg wtf i paid 10 dollers for a game thats now 2.49 crap i shouldve waited damnit but a greatgame though really fun u should get it",184.6
 "great game but the counter strike source pack is a must thats what makes it fun",73.4
 "this game has horrid graphics, the mods and game modes in this game are boring as hell ttt? more like... trouble with... having fun. the storyline was hardly gripping and the voice acting was horrendous. the online play doesnt even have a prestige system. 9/10, its usually cheap get this game.",43.3
 "fun game, but be warned you need counter strike source and half life 2 to play the game!!!!!!",3.6
 "i completely reccoment this game. its perfect for sandbox and theres so much to add only downside is my garrys mod wont work it just says launching garrys mod and after an hour it was still there but that might just be my computer but ill figure it out",400.6
 "garys mod is a fun game if you have an imagination. you can build whatever you want it may work or fail. overall its a really cool game.",49.8
-"very intertening! so xcite! many kewl! i luv. 11/10 -ign",46.0
 "this is a great game all the time im at school i think about playing this iv had this game for a wile but i still havent sean evry thing it can do it has addons it has a.c.f it has wire mod it has evry thing u con build evry thing if u dont want to build it it as steam workshop its the biggest multiplayer game i ever played and thats all i sed but theres way more stuff then u can think of",2316.9
 "guys, i may not have many hours on this but seriously this game is so fun. there are many gamemodes from you to choose from to troubble in terrorist town to prophunt or to darkrp my favourite; even offline can provide hours of fun 11/10 you must have a source game for it too run but im sure you can get those :d buy it",333.0
 "got killed by a suicide bomber raptor screaming leedleleedleleedleleedleleedle before we both exploded. 11/10 goty 1982",62.3
@@ -11388,6 +11383,7 @@
 "i mean its gmod. the game that inspired a generation of squeakers to ruin your ears. still most people would rate 10/10.",865.0
 "so many game modes to choose from its a truly amazing game. if you was to buy this game, you should as its very amazing.",922.2
 "lolololol this game iz vrtral drugz lolololol weeeeelolol i made a carplaneboat lololol i morphed my entre screeen lololol i died",1268.6
+"i love this game so much cause the possiblities are endless.",2530.0
 "the community in gamemodes like ttt are pretty cancerous but other than that this games nice.",31.6
 "the game looks grate and remind me a bit of css and i think all of u must buy it. run smooth and u can play this on a low end pc.",26.9
 "full of garry and full of mods. whats not to like? :3",661.0
@@ -11773,6 +11769,7 @@
 "this seemengly simplistic game ( mod ) is a endless possibility generetor of sorts. dark rp, murder, trouble in terrorist town etc are the modes who ussualy suck in the most of players attention. dark rp imo is without any dought a mode wich truly unique for this game and the fact that you can role play anything or anybody you can imagine is indeed impressive.",188.1
 "when i join in any server and download maps and tools fading door ...... and then i left gmodm play again and i dont have maps and tools.please help",72.1
 "you can spawn a anything from watermelons to a zombie, you can distort peoples faces adn play almost any game!",301.0
+"i killled a kitten and i give the game 100000000000000000000000000000000000000000/10",308.2
 "if youre bored as hell and looking for something to play, play this game, you wont regret it.",84.1
 "i hate having to have family share on because my brothers on all the time!!!!!!!!!!!!!!!!!!! *:c",151.8
 "love it but how to rid of the missing floor an missing texture",162.6
@@ -11904,7 +11901,6 @@
 "this seemengly simplistic game ( mod ) is a endless possibility generetor of sorts. dark rp, murder, trouble in terrorist town etc are the modes who ussualy suck in the most of players attention. dark rp imo is without any dought a mode wich truly unique for this game and the fact that you can role play anything or anybody you can imagine is indeed impressive.",188.1
 "when i join in any server and download maps and tools fading door ...... and then i left gmodm play again and i dont have maps and tools.please help",72.1
 "you can spawn a anything from watermelons to a zombie, you can distort peoples faces adn play almost any game!",301.0
-"i killled a kitten and i give the game 100000000000000000000000000000000000000000/10",308.2
 "one of the best sandbox games ive ever played !!!!! 10/10",76.0
 "this game is to funny. if you dont have funny in a server you can change to hundreds of them. trolling is the best. i got banned for mass rda and i arested the admin.",86.9
 "hello gmod players this is a game that u can make fun and kill ur time olso u can play with ur friends and meet new players in servers this game is awesome 20/20 and i wanted to celebrate my 330 hours in gmod !!!",441.8
@@ -11942,7 +11938,6 @@
 "i think all peolpe should have garrys mod if they have steam if not than dont even get steam garrys mod is steam",1410.9
 "gmod is an amazing game to play if you ave a group of friends. you can play it by yourself and enjoy it, just not as much as you would if you played with friends.",71.0
 "epic game if you looking for a fun game to play with friends",66.8
-"wohoooo best buy ever buy it now buy it lalalalal hihi",194.5
 "garrys mod really makes me hard. this game is really good and the mods are great! i feel really hard, and moist. the multiplayer is amazing and makes me hard. the gamemodes are amazing too. makes me really hard.",435.1
 "played the server mod darkrp (rolepay) as a prostitude.. suck whole server  and turn into a millionair..",11.7
 "built twin towers blew them up 9/11 would play again",27.7
@@ -12156,7 +12151,6 @@
 "i <3 this game :))))))))) and thats quite rare so ur lucky plus i like the graphics and the game itself u did good job o |-|_|-| | |",45.1
 "the game is so customizable and just altogether amazing. wether youre playing with friends or by yourself, this game just never runs out of things you can do!",321.7
 "how do u keep your ragdolls from disapearing beacuse my thing says keep corpse but they just disapeer unless its something in the settings but over all a great and really randomized game",219.8
-"i loved garrys mod when i diden havet and w i will for ever :)",337.4
 "its a great game with many different gamemodes. there is one for everyone!",77.4
 "this game is so amazeballs! it has good graghics for 2006 game, and i have so much fun making videos on it.",111.1
 "endless fun. infinite amount of game types. must get.",602.4
@@ -12938,6 +12932,7 @@
 "do not get to much addon or the game will crash in like 10 min. so plz dont get over like 200 addons",722.8
 "i dont know if i should it seems like a nice,fun game but it wont let me open it or play it so, i think i just lost 10 dollars on bull crap and not on a fun game like i thought. and ive try to open it , restart it and every thing i could .i also dont want to waste 10 more dollars if i cant even play the game so i dont recomed it in less you have the money to waste.",0.4
 "best game for people that like bilding/making things",3.9
+"yeah if you dont have this gangster  game right here you doing something wrong",1149.5
 "best physics sandbox evar! and if you can code and use the wiremod properly then your experience will be even better.",252.3
 "open world, sandbox creativeness... truly an epic game.",25.9
 "best way to play when youre bored , makes something random are awesome !! recommend !!!",65.6
@@ -13403,6 +13398,7 @@
 "i would lock this game up in a cage in my basement, and  it",88.9
 "garrys mod is a very good game and worth the 10 dollars. you can play i with your friends, play a bunch of gamemodes and mods make it even more fun 10/10",212.9
 "garrys mod is all you expect it to be when you first boot it up. the catch to having fun is that you need a couple of good friends that can take other peoples -talk. if you play by yourself, it can be a bit harder to have fun because you deal with a large demographic of random people. you have the two year old cod fanboys, the -talking loud mouths, and so on. i did however find a couple of people on there who i am now friends with so you arent sol on meeting new friends. rate: 10/10 as long as you play with friends",108.8
+"this game is just amazing soo many different game modes and a sand box to do what ever u want :d",52.8
 "in this game the possibilities are endless for whatever you want to do its a game that sparks creativity in mostly everyones minds and is one of the most fun games i have played i would reccomend this to anyone that wants to have a fun time!",57.1
 "this game is a very good way to play minigames, and create your own creations! 10/10 stars even i could learn how to make a flying chair!",164.2
 "yes.but when i play in my own server it exits me from the game please tell me how to fix it.",77.7
@@ -14321,7 +14317,6 @@
 "a great sandbox game where you can do just about anything you can think of.",36.4
 "i have 38 hours in this game and 36 were only downloading maps",46.9
 "everything is good about this game except the fact that half the time i have no idea what im doing",308.1
-"i did a long range bombing run dropping toilets on aging mits. 11/10 would play again",172.5
 "great game. never gets old if you have at least one friend to play with, and for the price its awesome. must have steam game",57.3
 "if you have the money and a good computer (youll need one) you should get it but warning you need to download alot of stuff the base games youll probably want are the orange box and counter strike source then you should be set for awile the other games are free but defintly a good game p.s. gmod costs 20$ counter strike source costs10$ (i think) and orange box is another 20$",110.2
 "people would always call me crazy for wanting a game where you could ride a pig backwards while shooting rainbows from your mouth to kill zombie kittens. when i found this game, all my dreams came true. now the world of pigtopia is safe from the vengeful zombie kittens from uranus. thanks a lot!",233.6
@@ -14501,6 +14496,7 @@
 "there are a ton of neat multiplayer modes on here if youre willing to wait forem to download onto your computer first.",168.6
 "great game about creativity i love it so much its really fun",118.8
 "what i love about valve is their constant pursuit for fun. left 4 dead, counter-strike, team fortress. these games cannot be noted for groundbreaking graphics, but they are some of the best games on the market for one very specific reason, you will have an absolute blast when playing them. garrys mod is further proof of fun focus gaming. give gamers control of everything about the game and you have a whole new kind of experience, one centralized on creativity. what i say about garrys mod is that it is fun, its a sandbox game with multiplayer. no story here so its not a cinematic experience.",2.9
+"most awesome random game ever. the best sandbox ive ever seen!",163.6
 "pretty fun game i like because its like a game where you can do whatever you want",97.8
 "this mod is too good, but you may develop paranoia and always believe your friends are trying to kill you. 10/10",238.9
 "this is the best game i have ever played on my pc.i highly recommend this game",207.8
@@ -14723,7 +14719,6 @@
 "i dont have much time i have to get back to my gmod *click*",76.6
 "10/10 would recieve as gift again. but really this is well worth the moneys and is very fun to play with friends.",324.1
 "i like this game becus when you start out a new world you get to do what ever you want and its tuns of fun and you shuld get it",82.4
-"created a combine zombie apoculypse cover up 10/10",78.4
 "real good time waster, lots of games, its just fun to play",49.3
 "excellent game!! this game is a mod for half-life 2. you can spawn anything you want with the help of addons. im michaelangelo from tmnt killing nazi my little ponys.... epicness!!!! anyway this mod/game is absolutely worth the price tag and if you own team fortress 2, counter strike source or half life 2 you can play on those games maps! there are also multiplayer servers which make the game a lot more fun! there is also a gamemode named trouble in terrorist town. this gamemode is fun since if your lucky enough, you can be the detective. the detective spys upon the players, looking at their actions and decides who is the traitor. even if your not the detective, the gamemode is still very fun to play since you can be an innocent or a traitor. 10,000/10",87.9
 "honestly a lot more fun then i had originally thought it would be.",36.7
@@ -14744,7 +14739,6 @@
 "a great game for fun and fun and fun and is a really good game for war,building,fun,",1164.8
 "great game with a great mod community warning requires creativity and imagination",774.3
 "playing dark rp and not roleplaying is quite possibly the best thing ever to happen to steam.",75.8
-"best graphics ive ever seen. looks great in ultra hd",25.7
 "great fun! no lag! smooth gameplay! plenty of addons! what else could you ask for?",299.4
 "a fun game to play with your friends. i especially love playing sandbox with my friends, to see what awesome creations we can create.",597.1
 "oh man all the hours , days ,weeks and months wasted with that mod! this is an brilliant sandbox mod there is soo much to do you can do everything played it since gmod 9.i was completely amazed when l played it we had soo much fun with friends and then gmod 10 was the bomb! i love this mod l mean if you dont buy it you have missed many stuff!",640.3
@@ -15277,7 +15271,6 @@
 "this game is really fun, especially trouble in terrorist town (ttt). however, it obviously has its flaws, such as extremely long loading times, especially if you have to download things such as textures and sound files first. also, the community sucks. its full of little kids screaming and actual racists, even nazis. 7/10",37.8
 "i sunk 41 hours into this game and i still feel like im missing a ton of the game. a ton of servers expect you to have counter-strike source but theres still a lot do. a good game to relieve stress plus infinite replayablility with addons ruins all social lifes curseyougarry/10",56.9
 "recommend? yes of cource, its garrys mod, do i really have to say anything more?",1379.4
-"buildin barricades in zombie survival and makin vagineers! aw yiss!",90.9
 "garrys mod is a great sandbox where your imagination is the limit. there are a lot of fun game modes where you can have fun with. i do believe that it is addictive once you have friends playing it with you. but i didnt have that chance. the sandbox mode is complicated in the beginning, and i still have troubles with it complexity. its a game what you should have in your library on pc, everybody knows garrys mod right? why not try it out?",41.9
 "excellent sandbox, great game types. an all-around fun time.",1.3
 "melon roller 2014 melon/10 loved every second of it.",5.0
@@ -15393,7 +15386,6 @@
 "i come with a warning: dont buy this game unless youve got the money to buy counter strike source. i havent come across a single way i can play this game without it. i think its actually rather crappy that youre given the option to buy it without counter strike source as its seemingly a waste of money and space without it.",0.3
 "this game is a great way to enjoy gameing with your friends",45.7
 "literally no restrictions on what you can do with this game. i would definitely recommend it.",17.2
-"this game is fun and adddicting (kinda) gettttttttttttt itttttttttttttt its cheap and runs off mods and valve games",196.3
 "this game is just ablolutely amazing and where do i start. its very creative with the sandbox. its also fun with the multiplayer option and these player models and maps and there are so many other things that need to be explained but ill leave it to you if youre gonna buy it hope you buy it and enjoy it cuz its worth it",433.7
 "what do i do if it dosent download the subscribed adonns i have im on a diferent laptop?",567.8
 "my addons dont work anymore and i paid 6 for this, and they have just dissapeared ive tried reinstalling them but it still doesnt work my internet is fine i can connect to servers but the addons dont work anymore since yesterday im prety pissed at the moment coz of the huge fricking errors i cant get rid of. ive tried restarting gmod leaving the server and restarting my computer still it doesnt work if anyone has any idea how to fix this please help now!!!",240.0
@@ -16149,6 +16141,7 @@
 "the best game to play with friends. so many things to do in this game.",225.0
 "always trusty and a major time killer, always look forward to something new with this game!",57.4
 "you can lag servers and annoy the  out of everyone. 9001/10",619.8
+"anything imagine, you can do. yes, i mean anything >:d",126.2
 "there are two major issues that need fixing. first. combine npcs t-pose and still shoot me. however the metropolice combine does not have this issue and animates correctly. i have searched around and why for the love of gman hasnt this issue been made more aparent in dev fourms and updates. second. i make a map with ceuling turrets, combines, rebels, and props. i save it useing the ingame save and then load it up. only to find units stuck halfway in teh ground and the other half of units missing.",9.4
 "cannot go wrong with this purchase. i dont even want to write much on the review because i dont wanna hold myself back from playing this. this game is something you absolutly have to own, its a must. life as you know it will end. you will not have a life once you start plaything this f*ck-around simulator (important: you need to own some other games in order to get the full exprience of garrys mod. you must have half-life collection and counter-strike source, with those games you will get the full expirence)",13.8
 "fun game, would spam ropes again to get a 100000 minute ban c:",20.5

@@ -1,26 +1,26 @@
 Descriptive Report for Arma 3
 ===============================================================================
 
-Number of English-language reviews: 12997
+Number of English-language reviews: 12972
 
 Review Lengths Distribution
 
-Average review length: 279.42340087890625
+Average review length: 279.946044921875
 Minimum review length = 3
 Maximum review length = 7953
-Standard deviation = 516.827880859375
+Standard deviation = 517.2042846679688
 
 
 Review Experience Distribution
 
-Average game experience (in hours played): 263.159423828125
+Average game experience (in hours played): 262.59796142578125
 Minimum experience = 0.1
 Maximum experience = 4131.5
-Standard deviation = 377.9434814453125
+Standard deviation = 377.0755615234375
 
 
 Filter Values
-MINLEN = 50.0
-MAXLEN = 1313.0791015625
-MINHOURS = 0.0
-MAXHOURS = 1019.04638671875
+Minimum length = 50.0
+Maximum length = 1314.3546142578125
+Minimum hours played = 0.0
+Maximum hours played = 1016.7490844726562

@@ -803,6 +803,7 @@ static char __pyx_k_strip[] = "strip";
 static char __pyx_k_train[] = "train";
 static char __pyx_k_write[] = "write";
 static char __pyx_k_Series[] = "Series";
+static char __pyx_k_bins_2[] = "bins.";
 static char __pyx_k_detect[] = "detect";
 static char __pyx_k_exit_2[] = "__exit__";
 static char __pyx_k_figure[] = "figure";
@@ -854,6 +855,7 @@ static char __pyx_k_set_xlabel[] = "set_xlabel";
 static char __pyx_k_set_ylabel[] = "set_ylabel";
 static char __pyx_k_startswith[] = "startswith";
 static char __pyx_k_add_subplot[] = "add_subplot";
+static char __pyx_k_dest_path_2[] = "_dest_path";
 static char __pyx_k_output_path[] = "output_path";
 static char __pyx_k_replacement[] = "replacement";
 static char __pyx_k_reports_dir[] = "reports_dir";
@@ -954,12 +956,14 @@ static PyObject *__pyx_n_s_bin_ranges;
 static PyObject *__pyx_n_s_bin_size;
 static PyObject *__pyx_n_s_bin_start;
 static PyObject *__pyx_n_s_bins;
+static PyObject *__pyx_kp_s_bins_2;
 static PyObject *__pyx_kp_s_bins_arff;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_count;
 static PyObject *__pyx_n_s_deep;
 static PyObject *__pyx_n_s_desat;
 static PyObject *__pyx_n_s_dest_path;
+static PyObject *__pyx_n_s_dest_path_2;
 static PyObject *__pyx_n_s_detect;
 static PyObject *__pyx_n_s_dirname;
 static PyObject *__pyx_n_s_en;
@@ -5106,6 +5110,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   PyObject *__pyx_v_hours = NULL;
   PyObject *__pyx_v_suffix = NULL;
   PyObject *__pyx_v_replacement = NULL;
+  PyObject *__pyx_v__dest_path = NULL;
   PyObject *__pyx_v_out = NULL;
   PyObject *__pyx_v_rd = NULL;
   PyObject *__pyx_v_f = NULL;
@@ -5969,7 +5974,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
  *                 reviews_lines.append('"{}",{}'.format(review,
  *                                                       hours))             # <<<<<<<<<<<<<<
  * 
- *             # Modify file-path by adding partition suffix
+ *             # Modify file-path by adding suffix(es)
  */
         __pyx_t_4 = NULL;
         __pyx_t_14 = 0;
@@ -6021,7 +6026,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
 
       /* "util/datasets.pyx":340
  * 
- *             # Modify file-path by adding partition suffix
+ *             # Modify file-path by adding suffix(es)
  *             suffix = 'train' if partition.startswith('train') else 'test'             # <<<<<<<<<<<<<<
  *             replacement = suffix + '.arff'
  *             if bins:
@@ -6044,11 +6049,11 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
       __pyx_t_10 = 0;
 
       /* "util/datasets.pyx":341
- *             # Modify file-path by adding partition suffix
+ *             # Modify file-path by adding suffix(es)
  *             suffix = 'train' if partition.startswith('train') else 'test'
  *             replacement = suffix + '.arff'             # <<<<<<<<<<<<<<
  *             if bins:
- *                 replacement = 'bins' + replacement
+ *                 replacement = 'bins.' + replacement
  */
       __pyx_t_10 = PyNumber_Add(__pyx_v_suffix, __pyx_kp_s_arff); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_10);
@@ -6059,8 +6064,8 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
  *             suffix = 'train' if partition.startswith('train') else 'test'
  *             replacement = suffix + '.arff'
  *             if bins:             # <<<<<<<<<<<<<<
- *                 replacement = 'bins' + replacement
- *             dest_path = dest_path[:-4] + replacement
+ *                 replacement = 'bins.' + replacement
+ *             _dest_path = dest_path[:-4] + replacement
  */
       __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       if (__pyx_t_1) {
@@ -6068,11 +6073,11 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
         /* "util/datasets.pyx":343
  *             replacement = suffix + '.arff'
  *             if bins:
- *                 replacement = 'bins' + replacement             # <<<<<<<<<<<<<<
- *             dest_path = dest_path[:-4] + replacement
+ *                 replacement = 'bins.' + replacement             # <<<<<<<<<<<<<<
+ *             _dest_path = dest_path[:-4] + replacement
  * 
  */
-        __pyx_t_10 = PyNumber_Add(__pyx_n_s_bins, __pyx_v_replacement); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_10 = PyNumber_Add(__pyx_kp_s_bins_2, __pyx_v_replacement); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF_SET(__pyx_v_replacement, __pyx_t_10);
         __pyx_t_10 = 0;
@@ -6082,8 +6087,8 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
 
       /* "util/datasets.pyx":344
  *             if bins:
- *                 replacement = 'bins' + replacement
- *             dest_path = dest_path[:-4] + replacement             # <<<<<<<<<<<<<<
+ *                 replacement = 'bins.' + replacement
+ *             _dest_path = dest_path[:-4] + replacement             # <<<<<<<<<<<<<<
  * 
  *             # Write to file
  */
@@ -6092,22 +6097,22 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
       __pyx_t_9 = PyNumber_Add(__pyx_t_10, __pyx_v_replacement); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_9);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_DECREF_SET(__pyx_v_dest_path, __pyx_t_9);
+      __Pyx_XDECREF_SET(__pyx_v__dest_path, __pyx_t_9);
       __pyx_t_9 = 0;
 
       /* "util/datasets.pyx":347
  * 
  *             # Write to file
- *             with open(dest_path,             # <<<<<<<<<<<<<<
+ *             with open(_dest_path,             # <<<<<<<<<<<<<<
  *                       'w') as out:
  *                 out.write('{}\n{}'.format(ARFF_BASE.format(strftime(TIMEF),
  */
       /*with:*/ {
         __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_9);
-        __Pyx_INCREF(__pyx_v_dest_path);
-        PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v_dest_path);
-        __Pyx_GIVEREF(__pyx_v_dest_path);
+        __Pyx_INCREF(__pyx_v__dest_path);
+        PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v__dest_path);
+        __Pyx_GIVEREF(__pyx_v__dest_path);
         __Pyx_INCREF(__pyx_n_s_w);
         PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_n_s_w);
         __Pyx_GIVEREF(__pyx_n_s_w);
@@ -6150,7 +6155,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
               __pyx_t_7 = 0;
 
               /* "util/datasets.pyx":349
- *             with open(dest_path,
+ *             with open(_dest_path,
  *                       'w') as out:
  *                 out.write('{}\n{}'.format(ARFF_BASE.format(strftime(TIMEF),             # <<<<<<<<<<<<<<
  *                                                            _file_names),
@@ -6308,7 +6313,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
             /* "util/datasets.pyx":347
  * 
  *             # Write to file
- *             with open(dest_path,             # <<<<<<<<<<<<<<
+ *             with open(_dest_path,             # <<<<<<<<<<<<<<
  *                       'w') as out:
  *                 out.write('{}\n{}'.format(ARFF_BASE.format(strftime(TIMEF),
  */
@@ -7192,6 +7197,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   __Pyx_XDECREF(__pyx_v_hours);
   __Pyx_XDECREF(__pyx_v_suffix);
   __Pyx_XDECREF(__pyx_v_replacement);
+  __Pyx_XDECREF(__pyx_v__dest_path);
   __Pyx_XDECREF(__pyx_v_out);
   __Pyx_XDECREF(__pyx_v_rd);
   __Pyx_XDECREF(__pyx_v_f);
@@ -7277,12 +7283,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_bin_size, __pyx_k_bin_size, sizeof(__pyx_k_bin_size), 0, 0, 1, 1},
   {&__pyx_n_s_bin_start, __pyx_k_bin_start, sizeof(__pyx_k_bin_start), 0, 0, 1, 1},
   {&__pyx_n_s_bins, __pyx_k_bins, sizeof(__pyx_k_bins), 0, 0, 1, 1},
+  {&__pyx_kp_s_bins_2, __pyx_k_bins_2, sizeof(__pyx_k_bins_2), 0, 0, 1, 0},
   {&__pyx_kp_s_bins_arff, __pyx_k_bins_arff, sizeof(__pyx_k_bins_arff), 0, 0, 1, 0},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_count, __pyx_k_count, sizeof(__pyx_k_count), 0, 0, 1, 1},
   {&__pyx_n_s_deep, __pyx_k_deep, sizeof(__pyx_k_deep), 0, 0, 1, 1},
   {&__pyx_n_s_desat, __pyx_k_desat, sizeof(__pyx_k_desat), 0, 0, 1, 1},
   {&__pyx_n_s_dest_path, __pyx_k_dest_path, sizeof(__pyx_k_dest_path), 0, 0, 1, 1},
+  {&__pyx_n_s_dest_path_2, __pyx_k_dest_path_2, sizeof(__pyx_k_dest_path_2), 0, 0, 1, 1},
   {&__pyx_n_s_detect, __pyx_k_detect, sizeof(__pyx_k_detect), 0, 0, 1, 1},
   {&__pyx_n_s_dirname, __pyx_k_dirname, sizeof(__pyx_k_dirname), 0, 0, 1, 1},
   {&__pyx_n_s_en, __pyx_k_en, sizeof(__pyx_k_en), 0, 0, 1, 1},
@@ -7603,7 +7611,7 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "util/datasets.pyx":340
  * 
- *             # Modify file-path by adding partition suffix
+ *             # Modify file-path by adding suffix(es)
  *             suffix = 'train' if partition.startswith('train') else 'test'             # <<<<<<<<<<<<<<
  *             replacement = suffix + '.arff'
  *             if bins:
@@ -7614,8 +7622,8 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "util/datasets.pyx":344
  *             if bins:
- *                 replacement = 'bins' + replacement
- *             dest_path = dest_path[:-4] + replacement             # <<<<<<<<<<<<<<
+ *                 replacement = 'bins.' + replacement
+ *             _dest_path = dest_path[:-4] + replacement             # <<<<<<<<<<<<<<
  * 
  *             # Write to file
  */
@@ -7626,7 +7634,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "util/datasets.pyx":347
  * 
  *             # Write to file
- *             with open(dest_path,             # <<<<<<<<<<<<<<
+ *             with open(_dest_path,             # <<<<<<<<<<<<<<
  *                       'w') as out:
  *                 out.write('{}\n{}'.format(ARFF_BASE.format(strftime(TIMEF),
  */
@@ -7710,10 +7718,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                     make_train_test=False, bins=False):
  *     '''
  */
-  __pyx_tuple__39 = PyTuple_Pack(21, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_reviewdb, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs_cursor, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__39 = PyTuple_Pack(22, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_reviewdb, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs_cursor, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_dest_path_2, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
-  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(6, 0, 21, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_write_arff_file, 232, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__40 = (PyObject*)__Pyx_PyCode_New(6, 0, 22, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__39, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_write_arff_file, 232, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__40)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;

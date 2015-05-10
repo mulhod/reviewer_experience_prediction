@@ -3502,8 +3502,8 @@ static PyObject *__pyx_pf_4util_8datasets_4get_bin(CYTHON_UNUSED PyObject *__pyx
   goto __pyx_L0;
 </pre><pre class='cython line score-0'>&#xA0;230: </pre>
 <pre class='cython line score-0'>&#xA0;231: </pre>
-<pre class='cython line score-42' onclick='toggleDiv(this)'>+232: <span class="k">def</span> <span class="nf">write_arff_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">file_names</span><span class="p">,</span> <span class="n">reviews</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">reviewdb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span></pre>
-<pre class='cython code score-42'>/* Python wrapper */
+<pre class='cython line score-43' onclick='toggleDiv(this)'>+232: <span class="k">def</span> <span class="nf">write_arff_file</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span> <span class="n">file_names</span><span class="p">,</span> <span class="n">reviews</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">reviewdb</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span></pre>
+<pre class='cython code score-43'>/* Python wrapper */
 static PyObject *__pyx_pw_4util_8datasets_7write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_4util_8datasets_6write_arff_file[] = "\n    Write .arff file either for a list of reviews read in from a file or list of files or for both the training and test partitions in the MongoDB database.\n\n    :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)\n    :type reviews: list of dict\n    :param reviewdb: MongoDB reviews collection\n    :type reviewdb: pymongo.MongoClient object (None by default)\n    :param dest_path: path for .arff output file\n    :type dest_path: str\n    :param file_names: list of extension-less game file-names\n    :type file_names: list of str\n    :param make_train_test: if True, use MongoDB collection to find reviews that are from the training and test partitions and make files for them instead of making one big file (defaults to False)\n    :type make_train_test: boolean\n    :param bins: if True or a list of bin range tuples, use collapsed hours played values (if make_train_test was also True, then the pre-computed collapsed hours values will be used (even if a list of ranges is passed in for some reason, i.e., the bin ranges will be ignored); if not, the passed-in value must be a list of 2-tuples representing the floating-point number ranges of the bins); if False, the original, unmodified hours played values will be used (default: False)\n    :type bins: boolean or list of 2-tuples of floats\n    :returns: None\n    ";
 static PyMethodDef __pyx_mdef_4util_8datasets_7write_arff_file = {"write_arff_file", (PyCFunction)__pyx_pw_4util_8datasets_7write_arff_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_6write_arff_file};
@@ -3541,6 +3541,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   PyObject *__pyx_v_hours = NULL;
   PyObject *__pyx_v_suffix = NULL;
   PyObject *__pyx_v_replacement = NULL;
+  PyObject *__pyx_v__dest_path = NULL;
   PyObject *__pyx_v_out = NULL;
   PyObject *__pyx_v_rd = NULL;
   PyObject *__pyx_v_f = NULL;
@@ -3579,6 +3580,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_hours);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_suffix);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_replacement);
+  <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v__dest_path);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_out);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_rd);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_f);
@@ -3588,7 +3590,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__39 = <span class='py_c_api'>PyTuple_Pack</span>(21, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_reviewdb, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs_cursor, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f);<span class='error_goto'> if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  __pyx_tuple__39 = <span class='py_c_api'>PyTuple_Pack</span>(22, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_reviewdb, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs_cursor, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_dest_path_2, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f);<span class='error_goto'> if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__39);
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__39);
 /* … */
@@ -4376,7 +4378,7 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_6); __pyx_t_6 = 0;
         <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_9); __pyx_t_9 = 0;
 </pre><pre class='cython line score-0'>&#xA0;338: </pre>
-<pre class='cython line score-0'>&#xA0;339:             <span class="c"># Modify file-path by adding partition suffix</span></pre>
+<pre class='cython line score-0'>&#xA0;339:             <span class="c"># Modify file-path by adding suffix(es)</span></pre>
 <pre class='cython line score-16' onclick='toggleDiv(this)'>+340:             <span class="n">suffix</span> <span class="o">=</span> <span class="s">&#39;train&#39;</span> <span class="k">if</span> <span class="n">partition</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">&#39;train&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="s">&#39;test&#39;</span></pre>
 <pre class='cython code score-16'>      __pyx_t_7 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_partition, __pyx_n_s_startswith);<span class='error_goto'> if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_7);
@@ -4406,21 +4408,21 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
 </pre><pre class='cython line score-2' onclick='toggleDiv(this)'>+342:             <span class="k">if</span> <span class="n">bins</span><span class="p">:</span></pre>
 <pre class='cython code score-2'>      __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_v_bins);<span class='error_goto'> if (unlikely(__pyx_t_1 &lt; 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
       if (__pyx_t_1) {
-</pre><pre class='cython line score-6' onclick='toggleDiv(this)'>+343:                 <span class="n">replacement</span> <span class="o">=</span> <span class="s">&#39;bins&#39;</span> <span class="o">+</span> <span class="n">replacement</span></pre>
-<pre class='cython code score-6'>        __pyx_t_10 = <span class='py_c_api'>PyNumber_Add</span>(__pyx_n_s_bins, __pyx_v_replacement);<span class='error_goto'> if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+</pre><pre class='cython line score-6' onclick='toggleDiv(this)'>+343:                 <span class="n">replacement</span> <span class="o">=</span> <span class="s">&#39;bins.&#39;</span> <span class="o">+</span> <span class="n">replacement</span></pre>
+<pre class='cython code score-6'>        __pyx_t_10 = <span class='py_c_api'>PyNumber_Add</span>(__pyx_kp_s_bins_2, __pyx_v_replacement);<span class='error_goto'> if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
         <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_replacement, __pyx_t_10);
         __pyx_t_10 = 0;
         goto __pyx_L26;
       }
       __pyx_L26:;
-</pre><pre class='cython line score-14' onclick='toggleDiv(this)'>+344:             <span class="n">dest_path</span> <span class="o">=</span> <span class="n">dest_path</span><span class="p">[:</span><span class="o">-</span><span class="mf">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">replacement</span></pre>
+</pre><pre class='cython line score-14' onclick='toggleDiv(this)'>+344:             <span class="n">_dest_path</span> <span class="o">=</span> <span class="n">dest_path</span><span class="p">[:</span><span class="o">-</span><span class="mf">4</span><span class="p">]</span> <span class="o">+</span> <span class="n">replacement</span></pre>
 <pre class='cython code score-14'>      __pyx_t_10 = <span class='pyx_c_api'>__Pyx_PyObject_GetSlice</span>(__pyx_v_dest_path, 0, -4, NULL, NULL, &amp;__pyx_slice__25, 0, 1, 1);<span class='error_goto'> if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_10);
       __pyx_t_9 = <span class='py_c_api'>PyNumber_Add</span>(__pyx_t_10, __pyx_v_replacement);<span class='error_goto'> if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
       <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
       <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_10); __pyx_t_10 = 0;
-      <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_dest_path, __pyx_t_9);
+      <span class='pyx_macro_api'>__Pyx_XDECREF_SET</span>(__pyx_v__dest_path, __pyx_t_9);
       __pyx_t_9 = 0;
 /* … */
   __pyx_slice__25 = <span class='py_c_api'>PySlice_New</span>(Py_None, __pyx_int_neg_4, Py_None);<span class='error_goto'> if (unlikely(!__pyx_slice__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
@@ -4428,13 +4430,13 @@ static PyObject *__pyx_pf_4util_8datasets_6write_arff_file(CYTHON_UNUSED PyObjec
   <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_slice__25);
 </pre><pre class='cython line score-0'>&#xA0;345: </pre>
 <pre class='cython line score-0'>&#xA0;346:             <span class="c"># Write to file</span></pre>
-<pre class='cython line score-69' onclick='toggleDiv(this)'>+347:             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest_path</span><span class="p">,</span></pre>
+<pre class='cython line score-69' onclick='toggleDiv(this)'>+347:             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">_dest_path</span><span class="p">,</span></pre>
 <pre class='cython code score-69'>      /*with:*/ {
         __pyx_t_9 = <span class='py_c_api'>PyTuple_New</span>(2);<span class='error_goto'> if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
         <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_9);
-        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v_dest_path);
-        <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_9, 0, __pyx_v_dest_path);
-        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v_dest_path);
+        <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_v__dest_path);
+        <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_9, 0, __pyx_v__dest_path);
+        <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_v__dest_path);
         <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_n_s_w);
         <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_9, 1, __pyx_n_s_w);
         <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_n_s_w);

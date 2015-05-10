@@ -336,15 +336,15 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                 reviews_lines.append('"{}",{}'.format(review,
                                                       hours))
 
-            # Modify file-path by adding partition suffix
+            # Modify file-path by adding suffix(es)
             suffix = 'train' if partition.startswith('train') else 'test'
             replacement = suffix + '.arff'
             if bins:
-                replacement = 'bins' + replacement
-            dest_path = dest_path[:-4] + replacement
+                replacement = 'bins.' + replacement
+            _dest_path = dest_path[:-4] + replacement
 
             # Write to file
-            with open(dest_path,
+            with open(_dest_path,
                       'w') as out:
                 out.write('{}\n{}'.format(ARFF_BASE.format(strftime(TIMEF),
                                                            _file_names),
