@@ -118,7 +118,7 @@ if __name__ == '__main__':
     try:
         connection = pymongo.MongoClient(connection_string)
     except pymongo.errors.ConnectionFailure as e:
-        sys.exit('ERROR: Unable to connecto to Mongo server at ' \
+        sys.exit('ERROR: Unable to connect to to Mongo server at ' \
                  '{}'.format(connection_string))
     db = connection['reviews_project']
     reviewdb = db['reviews']

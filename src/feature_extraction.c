@@ -430,21 +430,6 @@ static const char *__pyx_f[] = {
 };
 
 /*--- Type declarations ---*/
-struct __pyx_obj_3src_18feature_extraction_Review;
-
-/* "src/feature_extraction.pyx":15
- * from configparser import ConfigParser
- * 
- * cdef class Review(object):             # <<<<<<<<<<<<<<
- *     '''
- *     Class for objects representing Reviews.
- */
-struct __pyx_obj_3src_18feature_extraction_Review {
-  PyObject_HEAD
-  float hours_played;
-  float length;
-};
-
 
 /* --- Runtime support code (head) --- */
 #ifndef CYTHON_REFNANNY
@@ -728,6 +713,13 @@ static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyOb
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
 
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases);
+
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name, PyObject *qualname,
+                                           PyObject *mkw, PyObject *modname, PyObject *doc);
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases, PyObject *dict,
+                                      PyObject *mkw, int calculate_metaclass, int allow_py2_metaclass);
+
 typedef struct {
     int code_line;
     PyCodeObject* code_object;
@@ -759,32 +751,33 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 
 /* Module declarations from 'src.feature_extraction' */
-static PyTypeObject *__pyx_ptype_3src_18feature_extraction_Review = 0;
 #define __Pyx_MODULE_NAME "src.feature_extraction"
 int __pyx_module_is_main_src__feature_extraction = 0;
 
 /* Implementation of 'src.feature_extraction' */
+static PyObject *__pyx_builtin_object;
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_open;
-static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower); /* proto */
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower); /* proto */
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_generate_ngram_fdist(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sents, PyObject *__pyx_v__min, PyObject *__pyx_v__max); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_2generate_cngram_fdist(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_text, PyObject *__pyx_v__min, PyObject *__pyx_v__max); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_spaCy_annotations); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__review, PyObject *__pyx_v_lowercase_cngrams); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_2write_config_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_config_dict, PyObject *__pyx_v_path); /* proto */
-static PyObject *__pyx_tp_new_3src_18feature_extraction_Review(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static char __pyx_k_[] = " ";
 static char __pyx_k_c[] = "c";
 static char __pyx_k_i[] = "i";
+static char __pyx_k_r[] = "r";
 static char __pyx_k_s[] = "s";
 static char __pyx_k_t[] = "t";
 static char __pyx_k_w[] = "w";
 static char __pyx_k__2[] = "";
 static char __pyx_k_re[] = "re";
 static char __pyx_k_cfg[] = "cfg";
+static char __pyx_k_doc[] = "__doc__";
 static char __pyx_k_key[] = "key";
 static char __pyx_k_max[] = "_max";
 static char __pyx_k_min[] = "_min";
@@ -798,6 +791,7 @@ static char __pyx_k_ceil[] = "ceil";
 static char __pyx_k_exit[] = "__exit__";
 static char __pyx_k_fstr[] = "fstr";
 static char __pyx_k_game[] = "game";
+static char __pyx_k_init[] = "__init__";
 static char __pyx_k_join[] = "join";
 static char __pyx_k_log2[] = "log2";
 static char __pyx_k_main[] = "__main__";
@@ -807,6 +801,7 @@ static char __pyx_k_open[] = "open";
 static char __pyx_k_orig[] = "orig";
 static char __pyx_k_orth[] = "orth_";
 static char __pyx_k_path[] = "path";
+static char __pyx_k_self[] = "self";
 static char __pyx_k_sent[] = "sent";
 static char __pyx_k_tags[] = "tags";
 static char __pyx_k_test[] = "__test__";
@@ -828,6 +823,7 @@ static char __pyx_k_tag_2[] = "tag_";
 static char __pyx_k_won_t[] = "won't";
 static char __pyx_k_write[] = "write";
 static char __pyx_k_I_have[] = "I have";
+static char __pyx_k_Review[] = "Review";
 static char __pyx_k_am_not[] = "am not";
 static char __pyx_k_append[] = "append";
 static char __pyx_k_bill_b[] = "\\bill\\b";
@@ -838,8 +834,10 @@ static char __pyx_k_format[] = "format";
 static char __pyx_k_i_will[] = "i will";
 static char __pyx_k_import[] = "__import__";
 static char __pyx_k_is_not[] = "is not";
-static char __pyx_k_length[] = "length##{}";
+static char __pyx_k_length[] = "length";
+static char __pyx_k_module[] = "__module__";
 static char __pyx_k_ngrams[] = "ngrams";
+static char __pyx_k_object[] = "object";
 static char __pyx_k_review[] = "_review";
 static char __pyx_k_string[] = "string";
 static char __pyx_k_that_s[] = "that's";
@@ -859,6 +857,7 @@ static char __pyx_k_cngrams[] = "cngrams##{}";
 static char __pyx_k_did_not[] = "did not";
 static char __pyx_k_label_2[] = "label_";
 static char __pyx_k_n_lefts[] = "n_lefts";
+static char __pyx_k_prepare[] = "__prepare__";
 static char __pyx_k_weren_t[] = "weren't";
 static char __pyx_k_you_are[] = "you are";
 static char __pyx_k_barent_b[] = "\\barent\\b";
@@ -871,14 +870,16 @@ static char __pyx_k_children[] = "children";
 static char __pyx_k_entities[] = "entities";
 static char __pyx_k_features[] = "features";
 static char __pyx_k_have_not[] = "have not";
-static char __pyx_k_length_2[] = "length";
+static char __pyx_k_length_2[] = "length##{}";
 static char __pyx_k_n_rights[] = "n_rights";
 static char __pyx_k_ngrams_2[] = "ngrams##{}";
+static char __pyx_k_qualname[] = "__qualname__";
 static char __pyx_k_you_have[] = "you have";
 static char __pyx_k_bhavent_b[] = "\\bhavent\\b";
 static char __pyx_k_bthatsl_b[] = "\\bthatsl\\b";
 static char __pyx_k_btheyll_b[] = "\\btheyll\\b";
 static char __pyx_k_bwerent_b[] = "\\bwerent\\b";
+static char __pyx_k_metaclass[] = "__metaclass__";
 static char __pyx_k_nltk_util[] = "nltk.util";
 static char __pyx_k_normalize[] = "normalize";
 static char __pyx_k_spaCy_nlp[] = "spaCy_nlp";
@@ -900,8 +901,10 @@ static char __pyx_k_configparser[] = "configparser";
 static char __pyx_k_hours_played[] = "hours_played";
 static char __pyx_k_section_dict[] = "section_dict";
 static char __pyx_k_section_name[] = "section_name";
+static char __pyx_k_Review___init[] = "Review.__init__";
 static char __pyx_k_ngram_counter[] = "ngram_counter";
 static char __pyx_k_cngram_counter[] = "cngram_counter";
+static char __pyx_k_Review_normalize[] = "Review.normalize";
 static char __pyx_k_lowercase_cngrams[] = "lowercase_cngrams";
 static char __pyx_k_spaCy_annotations[] = "spaCy_annotations";
 static char __pyx_k_write_config_file[] = "write_config_file";
@@ -910,19 +913,29 @@ static char __pyx_k_generate_ngram_fdist[] = "generate_ngram_fdist";
 static char __pyx_k_generate_cngram_fdist[] = "generate_cngram_fdist";
 static char __pyx_k_generate_dep_features[] = "generate_dep_features";
 static char __pyx_k_src_feature_extraction[] = "src.feature_extraction";
+static char __pyx_k_get_entities_from_spaCy[] = "get_entities_from_spaCy";
 static char __pyx_k_extract_features_from_review[] = "extract_features_from_review";
 static char __pyx_k_get_token_features_from_spaCy[] = "get_token_features_from_spaCy";
+static char __pyx_k_Class_for_objects_representing[] = "\n    Class for objects representing Reviews.\n    ";
+static char __pyx_k_Review_get_entities_from_spaCy[] = "Review.get_entities_from_spaCy";
 static char __pyx_k_author_Matt_Mulholland_date_05[] = "\n@author Matt Mulholland\n@date 05/05/2015\n\nModule of functions/classes related to feature extraction, model-building, ARFF file generation, etc.\n";
 static char __pyx_k_home_mulhollandm2_reviews_proje[] = "/home/mulhollandm2/reviews_project/reviewer_experience_prediction/src/feature_extraction.pyx";
+static char __pyx_k_Review_get_token_features_from_s[] = "Review.get_token_features_from_spaCy";
 static char __pyx_k_extract_features_from_review_loc[] = "extract_features_from_review.<locals>.generate_ngram_fdist";
 static char __pyx_k_extract_features_from_review_loc_2[] = "extract_features_from_review.<locals>.generate_cngram_fdist";
 static char __pyx_k_extract_features_from_review_loc_3[] = "extract_features_from_review.<locals>.generate_dep_features";
 static PyObject *__pyx_kp_s_;
+static PyObject *__pyx_kp_s_Class_for_objects_representing;
 static PyObject *__pyx_n_s_ConfigParser;
 static PyObject *__pyx_n_s_Counter;
 static PyObject *__pyx_n_s_IGNORECASE;
 static PyObject *__pyx_kp_s_I_am;
 static PyObject *__pyx_kp_s_I_have;
+static PyObject *__pyx_n_s_Review;
+static PyObject *__pyx_n_s_Review___init;
+static PyObject *__pyx_n_s_Review_get_entities_from_spaCy;
+static PyObject *__pyx_n_s_Review_get_token_features_from_s;
+static PyObject *__pyx_n_s_Review_normalize;
 static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_n_s_add_section;
 static PyObject *__pyx_kp_s_am_not;
@@ -963,6 +976,7 @@ static PyObject *__pyx_n_s_configparser;
 static PyObject *__pyx_kp_s_dep_0_orth__1_orth;
 static PyObject *__pyx_n_s_dep_counter;
 static PyObject *__pyx_kp_s_did_not;
+static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_kp_s_don_t;
 static PyObject *__pyx_n_s_enter;
 static PyObject *__pyx_n_s_entities;
@@ -979,6 +993,7 @@ static PyObject *__pyx_n_s_game;
 static PyObject *__pyx_n_s_generate_cngram_fdist;
 static PyObject *__pyx_n_s_generate_dep_features;
 static PyObject *__pyx_n_s_generate_ngram_fdist;
+static PyObject *__pyx_n_s_get_entities_from_spaCy;
 static PyObject *__pyx_n_s_get_token_features_from_spaCy;
 static PyObject *__pyx_kp_s_have_not;
 static PyObject *__pyx_kp_s_home_mulhollandm2_reviews_proje;
@@ -986,21 +1001,24 @@ static PyObject *__pyx_n_s_hours_played;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_kp_s_i_will;
 static PyObject *__pyx_n_s_import;
+static PyObject *__pyx_n_s_init;
 static PyObject *__pyx_kp_s_is_not;
 static PyObject *__pyx_n_s_items;
 static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_key;
 static PyObject *__pyx_n_s_label;
 static PyObject *__pyx_n_s_label_2;
-static PyObject *__pyx_kp_s_length;
-static PyObject *__pyx_n_s_length_2;
+static PyObject *__pyx_n_s_length;
+static PyObject *__pyx_kp_s_length_2;
 static PyObject *__pyx_n_s_log2;
 static PyObject *__pyx_n_s_lower;
 static PyObject *__pyx_n_s_lowercase_cngrams;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_math;
 static PyObject *__pyx_n_s_max;
+static PyObject *__pyx_n_s_metaclass;
 static PyObject *__pyx_n_s_min;
+static PyObject *__pyx_n_s_module;
 static PyObject *__pyx_n_s_n_lefts;
 static PyObject *__pyx_n_s_n_rights;
 static PyObject *__pyx_kp_s_n_t;
@@ -1012,12 +1030,16 @@ static PyObject *__pyx_n_s_nltk_util;
 static PyObject *__pyx_n_s_norm;
 static PyObject *__pyx_n_s_normalize;
 static PyObject *__pyx_n_s_numpy;
+static PyObject *__pyx_n_s_object;
 static PyObject *__pyx_n_s_open;
 static PyObject *__pyx_n_s_orig;
 static PyObject *__pyx_n_s_orth;
 static PyObject *__pyx_n_s_parse;
 static PyObject *__pyx_n_s_path;
+static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_punctuation;
+static PyObject *__pyx_n_s_qualname;
+static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_re;
 static PyObject *__pyx_n_s_review;
@@ -1025,6 +1047,7 @@ static PyObject *__pyx_n_s_review_text;
 static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_section_dict;
 static PyObject *__pyx_n_s_section_name;
+static PyObject *__pyx_n_s_self;
 static PyObject *__pyx_n_s_sent;
 static PyObject *__pyx_n_s_sents;
 static PyObject *__pyx_n_s_set;
@@ -1068,11 +1091,20 @@ static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__11;
 static PyObject *__pyx_tuple__12;
 static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__15;
+static PyObject *__pyx_tuple__17;
+static PyObject *__pyx_tuple__19;
+static PyObject *__pyx_tuple__21;
+static PyObject *__pyx_tuple__23;
 static PyObject *__pyx_codeobj__4;
 static PyObject *__pyx_codeobj__7;
 static PyObject *__pyx_codeobj__10;
 static PyObject *__pyx_codeobj__13;
-static PyObject *__pyx_codeobj__15;
+static PyObject *__pyx_codeobj__16;
+static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_codeobj__20;
+static PyObject *__pyx_codeobj__22;
+static PyObject *__pyx_codeobj__24;
 
 /* "src/feature_extraction.pyx":62
  * 
@@ -1083,12 +1115,11 @@ static PyObject *__pyx_codeobj__15;
  */
 
 /* Python wrapper */
-static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review___init__[] = "\n        Initialization method.\n\n        :param review_text: review text\n        :type review_text: str\n        :param hours_played: length of time author spent playing game\n        :type hours_played: float\n        :param game: name of game\n        :type game: str\n        :param appid: appid string (usually a number of up to 6-7 digits)\n        :type appid: str\n        :param spaCy_nlp: spaCy English analyzer\n        :type spaCy_nlp: spaCy.en.English\n        :param lower: include lower-casing as part of the review text normalization step\n        :type lower: boolean\n        ";
-#if CYTHON_COMPILING_IN_CPYTHON
-struct wrapperbase __pyx_wrapperbase_3src_18feature_extraction_6Review___init__;
-#endif
-static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_1__init__ = {"__init__", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_18feature_extraction_6Review___init__};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_review_text = 0;
   float __pyx_v_hours_played;
   CYTHON_UNUSED PyObject *__pyx_v_game = 0;
@@ -1098,12 +1129,12 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  int __pyx_r;
+  PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_review_text,&__pyx_n_s_hours_played,&__pyx_n_s_game,&__pyx_n_s_appid,&__pyx_n_s_spaCy_nlp,&__pyx_n_s_lower,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_review_text,&__pyx_n_s_hours_played,&__pyx_n_s_game,&__pyx_n_s_appid,&__pyx_n_s_spaCy_nlp,&__pyx_n_s_lower,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
 
     /* "src/feature_extraction.pyx":63
  * 
@@ -1112,11 +1143,12 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
  *         '''
  *         Initialization method.
  */
-    values[5] = ((PyObject *)Py_True);
+    values[6] = ((PyObject *)((PyObject *)Py_True));
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
         case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
         case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
@@ -1129,32 +1161,37 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_review_text)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hours_played)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_review_text)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 6, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_game)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_hours_played)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 6, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_appid)) != 0)) kw_args--;
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_game)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 6, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 3); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  4:
-        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spaCy_nlp)) != 0)) kw_args--;
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_appid)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 6, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 4); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spaCy_nlp)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, 5); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  6:
         if (kw_args > 0) {
           PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lower);
-          if (value) { values[5] = value; kw_args--; }
+          if (value) { values[6] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args > 0)) {
@@ -1162,8 +1199,9 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
         case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
-        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -1172,22 +1210,23 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_review_text = values[0];
-    __pyx_v_hours_played = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v_hours_played == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
-    __pyx_v_game = values[2];
-    __pyx_v_appid = values[3];
-    __pyx_v_spaCy_nlp = values[4];
-    __pyx_v_lower = values[5];
+    __pyx_v_self = values[0];
+    __pyx_v_review_text = values[1];
+    __pyx_v_hours_played = __pyx_PyFloat_AsFloat(values[2]); if (unlikely((__pyx_v_hours_played == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v_game = values[3];
+    __pyx_v_appid = values[4];
+    __pyx_v_spaCy_nlp = values[5];
+    __pyx_v_lower = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__init__", 0, 5, 6, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("__init__", 0, 6, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.feature_extraction.Review.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
-  return -1;
+  return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review___init__(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self), __pyx_v_review_text, __pyx_v_hours_played, __pyx_v_game, __pyx_v_appid, __pyx_v_spaCy_nlp, __pyx_v_lower);
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review___init__(__pyx_self, __pyx_v_self, __pyx_v_review_text, __pyx_v_hours_played, __pyx_v_game, __pyx_v_appid, __pyx_v_spaCy_nlp, __pyx_v_lower);
 
   /* "src/feature_extraction.pyx":62
  * 
@@ -1202,9 +1241,9 @@ static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_
   return __pyx_r;
 }
 
-static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower) {
   PyObject *__pyx_v_sent = NULL;
-  int __pyx_r;
+  PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -1214,8 +1253,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   Py_ssize_t __pyx_t_6;
   PyObject *__pyx_t_7 = NULL;
   PyObject *__pyx_t_8 = NULL;
-  float __pyx_t_9;
-  PyObject *(*__pyx_t_10)(PyObject *);
+  PyObject *(*__pyx_t_9)(PyObject *);
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -1228,7 +1266,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         self.hours_played = hours_played
  *         self.appid = appid
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_orig, __pyx_v_review_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_orig, __pyx_v_review_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":82
  * 
@@ -1237,7 +1275,10 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         self.appid = appid
  *         self.lower = lower
  */
-  __pyx_v_self->hours_played = __pyx_v_hours_played;
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_hours_played); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_hours_played, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/feature_extraction.pyx":83
  *         self.orig = review_text
@@ -1246,7 +1287,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         self.lower = lower
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_appid, __pyx_v_appid) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":84
  *         self.hours_played = hours_played
@@ -1255,7 +1296,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  * 
  *         # Generate attribute values
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_lower, __pyx_v_lower) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_lower, __pyx_v_lower) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":87
  * 
@@ -1268,7 +1309,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_log2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_orig); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_orig); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __pyx_t_6 = PyObject_Length(__pyx_t_5); if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -1326,9 +1367,8 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __pyx_PyFloat_AsFloat(__pyx_t_1); if (unlikely((__pyx_t_9 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_length, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self->length = __pyx_t_9;
 
   /* "src/feature_extraction.pyx":90
  *             # length of the original version of the review text, not the
@@ -1337,7 +1377,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         # Use spaCy to analyze the normalized version of the review text
  *         self.spaCy_annotations = spaCy_nlp(self.norm,
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_normalize); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_normalize); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -1366,7 +1406,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *                                            tag=True,
  *                                            parse=True)
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_norm); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_norm); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -1405,7 +1445,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_annotations, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_spaCy_annotations, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
   /* "src/feature_extraction.pyx":95
@@ -1425,22 +1465,22 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
  *         self.get_token_features_from_spaCy()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_annotations); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_spaCy_annotations); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sents); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_2)) || PyTuple_CheckExact(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
-    __pyx_t_10 = NULL;
+    __pyx_t_9 = NULL;
   } else {
     __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_10 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
-    if (likely(!__pyx_t_10)) {
+    if (likely(!__pyx_t_9)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
@@ -1457,7 +1497,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
         #endif
       }
     } else {
-      __pyx_t_2 = __pyx_t_10(__pyx_t_1);
+      __pyx_t_2 = __pyx_t_9(__pyx_t_1);
       if (unlikely(!__pyx_t_2)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
@@ -1484,7 +1524,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_sents, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_spaCy_sents, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
   /* "src/feature_extraction.pyx":98
@@ -1494,7 +1534,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  *         #self.get_entities_from_spaCy()
  * 
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_token_features_from_spaCy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_get_token_features_from_spaCy); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -1525,7 +1565,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  */
 
   /* function exit code */
-  __pyx_r = 0;
+  __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
@@ -1536,9 +1576,10 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_AddTraceback("src.feature_extraction.Review.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
+  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_sent);
+  __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -1552,20 +1593,21 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_2normalize[] = "\n        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_3normalize = {"normalize", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_3normalize, METH_O, __pyx_doc_3src_18feature_extraction_6Review_2normalize};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("normalize (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_2normalize(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_2normalize(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_r = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -1588,7 +1630,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
  *             r = self.orig.lower()
  *         else:
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_lower); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_lower); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -1601,7 +1643,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
  *         else:
  *             r = self.orig
  */
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_orig); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_orig); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_3, __pyx_n_s_lower); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
@@ -1637,7 +1679,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
  * 
  *         # Collapse all sequences of one or more whitespace characters, strip
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_orig); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_orig); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_v_r = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -2614,7 +2656,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
  * 
  * 
  */
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_norm, __pyx_v_r) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_norm, __pyx_v_r) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":102
  * 
@@ -2651,20 +2693,21 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_4get_token_features_from_spaCy[] = "\n        Get tokens-related features from spaCy's text annotations.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_5get_token_features_from_spaCy = {"get_token_features_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy, METH_O, __pyx_doc_3src_18feature_extraction_6Review_4get_token_features_from_spaCy};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_token_features_from_spaCy (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_sent = NULL;
   PyObject *__pyx_v_t = NULL;
   PyObject *__pyx_r = NULL;
@@ -2691,7 +2734,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
  *             # Get tokens
  *             self.tokens.append([t.orth_ for t in sent])
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_sents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_spaCy_sents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
@@ -2741,7 +2784,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
  *             # Get tags
  *             self.tags.append([t.tag_ for t in sent])
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tokens); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_tokens); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
@@ -2801,7 +2844,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
  *             # Get lemmas
  *             #self.lemmas.append([t.lemma_ for t in sent])
  */
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_tags); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_tags); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
@@ -2900,20 +2943,21 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_6get_entities_from_spaCy[] = "\n        Get named entities from spaCy's text annotations.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_7get_entities_from_spaCy = {"get_entities_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy, METH_O, __pyx_doc_3src_18feature_extraction_6Review_6get_entities_from_spaCy};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("get_entities_from_spaCy (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_entity = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2936,7 +2980,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_s
  *             self.entities.append(dict(entity=entity.orth_,
  *                                       label=entity.label_))
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_ents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_spaCy_ents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
@@ -2986,7 +3030,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_s
  *                                       label=entity.label_))
  * 
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_entities); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_entities); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
@@ -4546,9 +4590,9 @@ static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_length, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_length_2, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v__review, __pyx_n_s_length_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v__review, __pyx_n_s_length); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
@@ -5506,90 +5550,6 @@ static PyObject *__pyx_pf_3src_18feature_extraction_2write_config_file(CYTHON_UN
   return __pyx_r;
 }
 
-static PyObject *__pyx_tp_new_3src_18feature_extraction_Review(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
-  PyObject *o;
-  if (likely((t->tp_flags & Py_TPFLAGS_IS_ABSTRACT) == 0)) {
-    o = (*t->tp_alloc)(t, 0);
-  } else {
-    o = (PyObject *) PyBaseObject_Type.tp_new(t, __pyx_empty_tuple, 0);
-  }
-  if (unlikely(!o)) return 0;
-  return o;
-}
-
-static void __pyx_tp_dealloc_3src_18feature_extraction_Review(PyObject *o) {
-  #if PY_VERSION_HEX >= 0x030400a1
-  if (unlikely(Py_TYPE(o)->tp_finalize) && (!PyType_IS_GC(Py_TYPE(o)) || !_PyGC_FINALIZED(o))) {
-    if (PyObject_CallFinalizerFromDealloc(o)) return;
-  }
-  #endif
-  (*Py_TYPE(o)->tp_free)(o);
-}
-
-static PyMethodDef __pyx_methods_3src_18feature_extraction_Review[] = {
-  {"normalize", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_3normalize, METH_NOARGS, __pyx_doc_3src_18feature_extraction_6Review_2normalize},
-  {"get_token_features_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy, METH_NOARGS, __pyx_doc_3src_18feature_extraction_6Review_4get_token_features_from_spaCy},
-  {"get_entities_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy, METH_NOARGS, __pyx_doc_3src_18feature_extraction_6Review_6get_entities_from_spaCy},
-  {0, 0, 0, 0}
-};
-
-static PyTypeObject __pyx_type_3src_18feature_extraction_Review = {
-  PyVarObject_HEAD_INIT(0, 0)
-  "src.feature_extraction.Review", /*tp_name*/
-  sizeof(struct __pyx_obj_3src_18feature_extraction_Review), /*tp_basicsize*/
-  0, /*tp_itemsize*/
-  __pyx_tp_dealloc_3src_18feature_extraction_Review, /*tp_dealloc*/
-  0, /*tp_print*/
-  0, /*tp_getattr*/
-  0, /*tp_setattr*/
-  #if PY_MAJOR_VERSION < 3
-  0, /*tp_compare*/
-  #else
-  0, /*reserved*/
-  #endif
-  0, /*tp_repr*/
-  0, /*tp_as_number*/
-  0, /*tp_as_sequence*/
-  0, /*tp_as_mapping*/
-  0, /*tp_hash*/
-  0, /*tp_call*/
-  0, /*tp_str*/
-  0, /*tp_getattro*/
-  0, /*tp_setattro*/
-  0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  "\n    Class for objects representing Reviews.\n    ", /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
-  0, /*tp_richcompare*/
-  0, /*tp_weaklistoffset*/
-  0, /*tp_iter*/
-  0, /*tp_iternext*/
-  __pyx_methods_3src_18feature_extraction_Review, /*tp_methods*/
-  0, /*tp_members*/
-  0, /*tp_getset*/
-  0, /*tp_base*/
-  0, /*tp_dict*/
-  0, /*tp_descr_get*/
-  0, /*tp_descr_set*/
-  0, /*tp_dictoffset*/
-  __pyx_pw_3src_18feature_extraction_6Review_1__init__, /*tp_init*/
-  0, /*tp_alloc*/
-  __pyx_tp_new_3src_18feature_extraction_Review, /*tp_new*/
-  0, /*tp_free*/
-  0, /*tp_is_gc*/
-  0, /*tp_bases*/
-  0, /*tp_mro*/
-  0, /*tp_cache*/
-  0, /*tp_subclasses*/
-  0, /*tp_weaklist*/
-  0, /*tp_del*/
-  0, /*tp_version_tag*/
-  #if PY_VERSION_HEX >= 0x030400a1
-  0, /*tp_finalize*/
-  #endif
-};
-
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
 };
@@ -5614,11 +5574,17 @@ static struct PyModuleDef __pyx_moduledef = {
 
 static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_, __pyx_k_, sizeof(__pyx_k_), 0, 0, 1, 0},
+  {&__pyx_kp_s_Class_for_objects_representing, __pyx_k_Class_for_objects_representing, sizeof(__pyx_k_Class_for_objects_representing), 0, 0, 1, 0},
   {&__pyx_n_s_ConfigParser, __pyx_k_ConfigParser, sizeof(__pyx_k_ConfigParser), 0, 0, 1, 1},
   {&__pyx_n_s_Counter, __pyx_k_Counter, sizeof(__pyx_k_Counter), 0, 0, 1, 1},
   {&__pyx_n_s_IGNORECASE, __pyx_k_IGNORECASE, sizeof(__pyx_k_IGNORECASE), 0, 0, 1, 1},
   {&__pyx_kp_s_I_am, __pyx_k_I_am, sizeof(__pyx_k_I_am), 0, 0, 1, 0},
   {&__pyx_kp_s_I_have, __pyx_k_I_have, sizeof(__pyx_k_I_have), 0, 0, 1, 0},
+  {&__pyx_n_s_Review, __pyx_k_Review, sizeof(__pyx_k_Review), 0, 0, 1, 1},
+  {&__pyx_n_s_Review___init, __pyx_k_Review___init, sizeof(__pyx_k_Review___init), 0, 0, 1, 1},
+  {&__pyx_n_s_Review_get_entities_from_spaCy, __pyx_k_Review_get_entities_from_spaCy, sizeof(__pyx_k_Review_get_entities_from_spaCy), 0, 0, 1, 1},
+  {&__pyx_n_s_Review_get_token_features_from_s, __pyx_k_Review_get_token_features_from_s, sizeof(__pyx_k_Review_get_token_features_from_s), 0, 0, 1, 1},
+  {&__pyx_n_s_Review_normalize, __pyx_k_Review_normalize, sizeof(__pyx_k_Review_normalize), 0, 0, 1, 1},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_n_s_add_section, __pyx_k_add_section, sizeof(__pyx_k_add_section), 0, 0, 1, 1},
   {&__pyx_kp_s_am_not, __pyx_k_am_not, sizeof(__pyx_k_am_not), 0, 0, 1, 0},
@@ -5659,6 +5625,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_dep_0_orth__1_orth, __pyx_k_dep_0_orth__1_orth, sizeof(__pyx_k_dep_0_orth__1_orth), 0, 0, 1, 0},
   {&__pyx_n_s_dep_counter, __pyx_k_dep_counter, sizeof(__pyx_k_dep_counter), 0, 0, 1, 1},
   {&__pyx_kp_s_did_not, __pyx_k_did_not, sizeof(__pyx_k_did_not), 0, 0, 1, 0},
+  {&__pyx_n_s_doc, __pyx_k_doc, sizeof(__pyx_k_doc), 0, 0, 1, 1},
   {&__pyx_kp_s_don_t, __pyx_k_don_t, sizeof(__pyx_k_don_t), 0, 0, 1, 0},
   {&__pyx_n_s_enter, __pyx_k_enter, sizeof(__pyx_k_enter), 0, 0, 1, 1},
   {&__pyx_n_s_entities, __pyx_k_entities, sizeof(__pyx_k_entities), 0, 0, 1, 1},
@@ -5675,6 +5642,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_generate_cngram_fdist, __pyx_k_generate_cngram_fdist, sizeof(__pyx_k_generate_cngram_fdist), 0, 0, 1, 1},
   {&__pyx_n_s_generate_dep_features, __pyx_k_generate_dep_features, sizeof(__pyx_k_generate_dep_features), 0, 0, 1, 1},
   {&__pyx_n_s_generate_ngram_fdist, __pyx_k_generate_ngram_fdist, sizeof(__pyx_k_generate_ngram_fdist), 0, 0, 1, 1},
+  {&__pyx_n_s_get_entities_from_spaCy, __pyx_k_get_entities_from_spaCy, sizeof(__pyx_k_get_entities_from_spaCy), 0, 0, 1, 1},
   {&__pyx_n_s_get_token_features_from_spaCy, __pyx_k_get_token_features_from_spaCy, sizeof(__pyx_k_get_token_features_from_spaCy), 0, 0, 1, 1},
   {&__pyx_kp_s_have_not, __pyx_k_have_not, sizeof(__pyx_k_have_not), 0, 0, 1, 0},
   {&__pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_k_home_mulhollandm2_reviews_proje, sizeof(__pyx_k_home_mulhollandm2_reviews_proje), 0, 0, 1, 0},
@@ -5682,21 +5650,24 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_kp_s_i_will, __pyx_k_i_will, sizeof(__pyx_k_i_will), 0, 0, 1, 0},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
+  {&__pyx_n_s_init, __pyx_k_init, sizeof(__pyx_k_init), 0, 0, 1, 1},
   {&__pyx_kp_s_is_not, __pyx_k_is_not, sizeof(__pyx_k_is_not), 0, 0, 1, 0},
   {&__pyx_n_s_items, __pyx_k_items, sizeof(__pyx_k_items), 0, 0, 1, 1},
   {&__pyx_n_s_join, __pyx_k_join, sizeof(__pyx_k_join), 0, 0, 1, 1},
   {&__pyx_n_s_key, __pyx_k_key, sizeof(__pyx_k_key), 0, 0, 1, 1},
   {&__pyx_n_s_label, __pyx_k_label, sizeof(__pyx_k_label), 0, 0, 1, 1},
   {&__pyx_n_s_label_2, __pyx_k_label_2, sizeof(__pyx_k_label_2), 0, 0, 1, 1},
-  {&__pyx_kp_s_length, __pyx_k_length, sizeof(__pyx_k_length), 0, 0, 1, 0},
-  {&__pyx_n_s_length_2, __pyx_k_length_2, sizeof(__pyx_k_length_2), 0, 0, 1, 1},
+  {&__pyx_n_s_length, __pyx_k_length, sizeof(__pyx_k_length), 0, 0, 1, 1},
+  {&__pyx_kp_s_length_2, __pyx_k_length_2, sizeof(__pyx_k_length_2), 0, 0, 1, 0},
   {&__pyx_n_s_log2, __pyx_k_log2, sizeof(__pyx_k_log2), 0, 0, 1, 1},
   {&__pyx_n_s_lower, __pyx_k_lower, sizeof(__pyx_k_lower), 0, 0, 1, 1},
   {&__pyx_n_s_lowercase_cngrams, __pyx_k_lowercase_cngrams, sizeof(__pyx_k_lowercase_cngrams), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_math, __pyx_k_math, sizeof(__pyx_k_math), 0, 0, 1, 1},
   {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
+  {&__pyx_n_s_metaclass, __pyx_k_metaclass, sizeof(__pyx_k_metaclass), 0, 0, 1, 1},
   {&__pyx_n_s_min, __pyx_k_min, sizeof(__pyx_k_min), 0, 0, 1, 1},
+  {&__pyx_n_s_module, __pyx_k_module, sizeof(__pyx_k_module), 0, 0, 1, 1},
   {&__pyx_n_s_n_lefts, __pyx_k_n_lefts, sizeof(__pyx_k_n_lefts), 0, 0, 1, 1},
   {&__pyx_n_s_n_rights, __pyx_k_n_rights, sizeof(__pyx_k_n_rights), 0, 0, 1, 1},
   {&__pyx_kp_s_n_t, __pyx_k_n_t, sizeof(__pyx_k_n_t), 0, 0, 1, 0},
@@ -5708,12 +5679,16 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_norm, __pyx_k_norm, sizeof(__pyx_k_norm), 0, 0, 1, 1},
   {&__pyx_n_s_normalize, __pyx_k_normalize, sizeof(__pyx_k_normalize), 0, 0, 1, 1},
   {&__pyx_n_s_numpy, __pyx_k_numpy, sizeof(__pyx_k_numpy), 0, 0, 1, 1},
+  {&__pyx_n_s_object, __pyx_k_object, sizeof(__pyx_k_object), 0, 0, 1, 1},
   {&__pyx_n_s_open, __pyx_k_open, sizeof(__pyx_k_open), 0, 0, 1, 1},
   {&__pyx_n_s_orig, __pyx_k_orig, sizeof(__pyx_k_orig), 0, 0, 1, 1},
   {&__pyx_n_s_orth, __pyx_k_orth, sizeof(__pyx_k_orth), 0, 0, 1, 1},
   {&__pyx_n_s_parse, __pyx_k_parse, sizeof(__pyx_k_parse), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
+  {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_punctuation, __pyx_k_punctuation, sizeof(__pyx_k_punctuation), 0, 0, 1, 1},
+  {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
+  {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
   {&__pyx_n_s_re, __pyx_k_re, sizeof(__pyx_k_re), 0, 0, 1, 1},
   {&__pyx_n_s_review, __pyx_k_review, sizeof(__pyx_k_review), 0, 0, 1, 1},
@@ -5721,6 +5696,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_section_dict, __pyx_k_section_dict, sizeof(__pyx_k_section_dict), 0, 0, 1, 1},
   {&__pyx_n_s_section_name, __pyx_k_section_name, sizeof(__pyx_k_section_name), 0, 0, 1, 1},
+  {&__pyx_n_s_self, __pyx_k_self, sizeof(__pyx_k_self), 0, 0, 1, 1},
   {&__pyx_n_s_sent, __pyx_k_sent, sizeof(__pyx_k_sent), 0, 0, 1, 1},
   {&__pyx_n_s_sents, __pyx_k_sents, sizeof(__pyx_k_sents), 0, 0, 1, 1},
   {&__pyx_n_s_set, __pyx_k_set, sizeof(__pyx_k_set), 0, 0, 1, 1},
@@ -5756,6 +5732,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
+  __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 215; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_open = __Pyx_GetBuiltinName(__pyx_n_s_open); if (!__pyx_builtin_open) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 325; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
@@ -5819,6 +5796,57 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
+  /* "src/feature_extraction.pyx":62
+ * 
+ * 
+ *     def __init__(self, review_text, float hours_played, game, appid,             # <<<<<<<<<<<<<<
+ *                  spaCy_nlp, lower=True):
+ *         '''
+ */
+  __pyx_tuple__12 = PyTuple_Pack(8, __pyx_n_s_self, __pyx_n_s_review_text, __pyx_n_s_hours_played, __pyx_n_s_game, __pyx_n_s_appid, __pyx_n_s_spaCy_nlp, __pyx_n_s_lower, __pyx_n_s_sent); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_init, 62, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__14 = PyTuple_Pack(1, ((PyObject *)Py_True)); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+
+  /* "src/feature_extraction.pyx":102
+ * 
+ * 
+ *     def normalize(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
+ */
+  __pyx_tuple__15 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_r); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__15);
+  __Pyx_GIVEREF(__pyx_tuple__15);
+  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_normalize, 102, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/feature_extraction.pyx":160
+ * 
+ * 
+ *     def get_token_features_from_spaCy(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Get tokens-related features from spaCy's text annotations.
+ */
+  __pyx_tuple__17 = PyTuple_Pack(3, __pyx_n_s_self, __pyx_n_s_sent, __pyx_n_s_t); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__17);
+  __Pyx_GIVEREF(__pyx_tuple__17);
+  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_token_features_from_spaCy, 160, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/feature_extraction.pyx":176
+ * 
+ * 
+ *     def get_entities_from_spaCy(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Get named entities from spaCy's text annotations.
+ */
+  __pyx_tuple__19 = PyTuple_Pack(2, __pyx_n_s_self, __pyx_n_s_entity); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__19);
+  __Pyx_GIVEREF(__pyx_tuple__19);
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_entities_from_spaCy, 176, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
   /* "src/feature_extraction.pyx":186
  * 
  * 
@@ -5826,10 +5854,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     '''
  *     Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hashes and then the string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
  */
-  __pyx_tuple__12 = PyTuple_Pack(10, __pyx_n_s_review, __pyx_n_s_lowercase_cngrams, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_dep_features, __pyx_n_s_generate_dep_features, __pyx_n_s_features, __pyx_n_s_orig); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__12);
-  __Pyx_GIVEREF(__pyx_tuple__12);
-  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_extract_features_from_review, 186, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__21 = PyTuple_Pack(10, __pyx_n_s_review, __pyx_n_s_lowercase_cngrams, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_dep_features, __pyx_n_s_generate_dep_features, __pyx_n_s_features, __pyx_n_s_orig); if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__21);
+  __Pyx_GIVEREF(__pyx_tuple__21);
+  __pyx_codeobj__22 = (PyObject*)__Pyx_PyCode_New(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_extract_features_from_review, 186, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":309
  * 
@@ -5838,10 +5866,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     '''
  *     This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should map keys for the SKLL config sections to dictionaries of key-value pairs for each section.
  */
-  __pyx_tuple__14 = PyTuple_Pack(8, __pyx_n_s_config_dict, __pyx_n_s_path, __pyx_n_s_cfg, __pyx_n_s_section_name, __pyx_n_s_section_dict, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_config_file); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__14);
-  __Pyx_GIVEREF(__pyx_tuple__14);
-  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_write_config_file, 309, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__23 = PyTuple_Pack(8, __pyx_n_s_config_dict, __pyx_n_s_path, __pyx_n_s_cfg, __pyx_n_s_section_name, __pyx_n_s_section_dict, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_config_file); if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__23);
+  __Pyx_GIVEREF(__pyx_tuple__23);
+  __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(2, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_write_config_file, 309, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5869,6 +5897,8 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
 {
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5940,20 +5970,6 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
   /*--- Variable export code ---*/
   /*--- Function export code ---*/
   /*--- Type init code ---*/
-  if (PyType_Ready(&__pyx_type_3src_18feature_extraction_Review) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_3src_18feature_extraction_Review.tp_print = 0;
-  #if CYTHON_COMPILING_IN_CPYTHON
-  {
-    PyObject *wrapper = PyObject_GetAttrString((PyObject *)&__pyx_type_3src_18feature_extraction_Review, "__init__"); if (unlikely(!wrapper)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    if (Py_TYPE(wrapper) == &PyWrapperDescr_Type) {
-      __pyx_wrapperbase_3src_18feature_extraction_6Review___init__ = *((PyWrapperDescrObject *)wrapper)->d_base;
-      __pyx_wrapperbase_3src_18feature_extraction_6Review___init__.doc = __pyx_doc_3src_18feature_extraction_6Review___init__;
-      ((PyWrapperDescrObject *)wrapper)->d_base = &__pyx_wrapperbase_3src_18feature_extraction_6Review___init__;
-    }
-  }
-  #endif
-  if (PyObject_SetAttrString(__pyx_m, "Review", (PyObject *)&__pyx_type_3src_18feature_extraction_Review) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_ptype_3src_18feature_extraction_Review = &__pyx_type_3src_18feature_extraction_Review;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
@@ -6097,7 +6113,7 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
  * from collections import Counter
  * from configparser import ConfigParser             # <<<<<<<<<<<<<<
  * 
- * cdef class Review(object):
+ * class Review(object):
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -6113,15 +6129,49 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
+  /* "src/feature_extraction.pyx":15
+ * from configparser import ConfigParser
+ * 
+ * class Review(object):             # <<<<<<<<<<<<<<
+ *     '''
+ *     Class for objects representing Reviews.
+ */
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_builtin_object);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_builtin_object);
+  __Pyx_GIVEREF(__pyx_builtin_object);
+  __pyx_t_1 = __Pyx_CalculateMetaclass(NULL, __pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_Review, __pyx_n_s_Review, (PyObject *) NULL, __pyx_n_s_src_feature_extraction, __pyx_kp_s_Class_for_objects_representing); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+
   /* "src/feature_extraction.pyx":23
  *     #orig = None
  *     # Normalized review text
  *     norm = None             # <<<<<<<<<<<<<<
  *     # Number of hours the reviewer has played the game (float)
- *     cdef float hours_played
+ *     #cdef float hours_played
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_3src_18feature_extraction_Review->tp_dict, __pyx_n_s_norm, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  PyType_Modified(__pyx_ptype_3src_18feature_extraction_Review);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_norm, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/feature_extraction.pyx":28
+ *     # appid of the game (string ID code that Steam uses to represent the
+ *     # game
+ *     appid = None             # <<<<<<<<<<<<<<
+ *     # Attribute whose value determines whether or not the review text will
+ *     # be lower-cased as part of the normalization step
+ */
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_appid, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/feature_extraction.pyx":31
+ *     # Attribute whose value determines whether or not the review text will
+ *     # be lower-cased as part of the normalization step
+ *     lower = None             # <<<<<<<<<<<<<<
+ *     # Length of the original text (base-2 log)
+ *     #cdef float length
+ */
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_lower, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":39
  *     # a list of elements corresponding to the identified tokens, tags,
@@ -6130,11 +6180,10 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
  *     tags = []
  *     #lemmas = []
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_3src_18feature_extraction_Review->tp_dict, __pyx_n_s_tokens, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  PyType_Modified(__pyx_ptype_3src_18feature_extraction_Review);
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_tokens, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "src/feature_extraction.pyx":40
  *     # lemmas, respectively
@@ -6143,11 +6192,10 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
  *     #lemmas = []
  *     # Attributes representing the spaCy text annotations
  */
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_3src_18feature_extraction_Review->tp_dict, __pyx_n_s_tags, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  PyType_Modified(__pyx_ptype_3src_18feature_extraction_Review);
+  __pyx_t_4 = PyList_New(0); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_tags, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "src/feature_extraction.pyx":43
  *     #lemmas = []
@@ -6156,8 +6204,7 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
  *     spaCy_sents = None
  *     #spaCy_ents = None
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_3src_18feature_extraction_Review->tp_dict, __pyx_n_s_spaCy_annotations, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  PyType_Modified(__pyx_ptype_3src_18feature_extraction_Review);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_spaCy_annotations, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/feature_extraction.pyx":44
  *     # Attributes representing the spaCy text annotations
@@ -6166,8 +6213,71 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
  *     #spaCy_ents = None
  *     # Atrribute representing the named entities in the review
  */
-  if (PyDict_SetItem((PyObject *)__pyx_ptype_3src_18feature_extraction_Review->tp_dict, __pyx_n_s_spaCy_sents, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  PyType_Modified(__pyx_ptype_3src_18feature_extraction_Review);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_spaCy_sents, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/feature_extraction.pyx":62
+ * 
+ * 
+ *     def __init__(self, review_text, float hours_played, game, appid,             # <<<<<<<<<<<<<<
+ *                  spaCy_nlp, lower=True):
+ *         '''
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_18feature_extraction_6Review_1__init__, 0, __pyx_n_s_Review___init, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__13)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_4, __pyx_tuple__14);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "src/feature_extraction.pyx":102
+ * 
+ * 
+ *     def normalize(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_18feature_extraction_6Review_3normalize, 0, __pyx_n_s_Review_normalize, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__16)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_normalize, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "src/feature_extraction.pyx":160
+ * 
+ * 
+ *     def get_token_features_from_spaCy(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Get tokens-related features from spaCy's text annotations.
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_18feature_extraction_6Review_5get_token_features_from_spaCy, 0, __pyx_n_s_Review_get_token_features_from_s, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__18)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_get_token_features_from_spaCy, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "src/feature_extraction.pyx":176
+ * 
+ * 
+ *     def get_entities_from_spaCy(self):             # <<<<<<<<<<<<<<
+ *         '''
+ *         Get named entities from spaCy's text annotations.
+ */
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_18feature_extraction_6Review_7get_entities_from_spaCy, 0, __pyx_n_s_Review_get_entities_from_spaCy, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__20)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_get_entities_from_spaCy, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+
+  /* "src/feature_extraction.pyx":15
+ * from configparser import ConfigParser
+ * 
+ * class Review(object):             # <<<<<<<<<<<<<<
+ *     '''
+ *     Class for objects representing Reviews.
+ */
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_Review, __pyx_t_2, __pyx_t_3, NULL, 0, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Review, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/feature_extraction.pyx":186
  * 
@@ -6209,6 +6319,8 @@ PyMODINIT_FUNC PyInit_feature_extraction(void)
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
   if (__pyx_m) {
     if (__pyx_d) {
       __Pyx_AddTraceback("init src.feature_extraction", __pyx_clineno, __pyx_lineno, __pyx_filename);
@@ -7319,6 +7431,110 @@ static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name) {
         #endif
     }
     return value;
+}
+
+static PyObject *__Pyx_CalculateMetaclass(PyTypeObject *metaclass, PyObject *bases) {
+    Py_ssize_t i, nbases = PyTuple_GET_SIZE(bases);
+    for (i=0; i < nbases; i++) {
+        PyTypeObject *tmptype;
+        PyObject *tmp = PyTuple_GET_ITEM(bases, i);
+        tmptype = Py_TYPE(tmp);
+#if PY_MAJOR_VERSION < 3
+        if (tmptype == &PyClass_Type)
+            continue;
+#endif
+        if (!metaclass) {
+            metaclass = tmptype;
+            continue;
+        }
+        if (PyType_IsSubtype(metaclass, tmptype))
+            continue;
+        if (PyType_IsSubtype(tmptype, metaclass)) {
+            metaclass = tmptype;
+            continue;
+        }
+        PyErr_SetString(PyExc_TypeError,
+                        "metaclass conflict: "
+                        "the metaclass of a derived class "
+                        "must be a (non-strict) subclass "
+                        "of the metaclasses of all its bases");
+        return NULL;
+    }
+    if (!metaclass) {
+#if PY_MAJOR_VERSION < 3
+        metaclass = &PyClass_Type;
+#else
+        metaclass = &PyType_Type;
+#endif
+    }
+    Py_INCREF((PyObject*) metaclass);
+    return (PyObject*) metaclass;
+}
+
+static PyObject *__Pyx_Py3MetaclassPrepare(PyObject *metaclass, PyObject *bases, PyObject *name,
+                                           PyObject *qualname, PyObject *mkw, PyObject *modname, PyObject *doc) {
+    PyObject *ns;
+    if (metaclass) {
+        PyObject *prep = __Pyx_PyObject_GetAttrStr(metaclass, __pyx_n_s_prepare);
+        if (prep) {
+            PyObject *pargs = PyTuple_Pack(2, name, bases);
+            if (unlikely(!pargs)) {
+                Py_DECREF(prep);
+                return NULL;
+            }
+            ns = PyObject_Call(prep, pargs, mkw);
+            Py_DECREF(prep);
+            Py_DECREF(pargs);
+        } else {
+            if (unlikely(!PyErr_ExceptionMatches(PyExc_AttributeError)))
+                return NULL;
+            PyErr_Clear();
+            ns = PyDict_New();
+        }
+    } else {
+        ns = PyDict_New();
+    }
+    if (unlikely(!ns))
+        return NULL;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_module, modname) < 0)) goto bad;
+    if (unlikely(PyObject_SetItem(ns, __pyx_n_s_qualname, qualname) < 0)) goto bad;
+    if (unlikely(doc && PyObject_SetItem(ns, __pyx_n_s_doc, doc) < 0)) goto bad;
+    return ns;
+bad:
+    Py_DECREF(ns);
+    return NULL;
+}
+static PyObject *__Pyx_Py3ClassCreate(PyObject *metaclass, PyObject *name, PyObject *bases,
+                                      PyObject *dict, PyObject *mkw,
+                                      int calculate_metaclass, int allow_py2_metaclass) {
+    PyObject *result, *margs;
+    PyObject *owned_metaclass = NULL;
+    if (allow_py2_metaclass) {
+        owned_metaclass = PyObject_GetItem(dict, __pyx_n_s_metaclass);
+        if (owned_metaclass) {
+            metaclass = owned_metaclass;
+        } else if (likely(PyErr_ExceptionMatches(PyExc_KeyError))) {
+            PyErr_Clear();
+        } else {
+            return NULL;
+        }
+    }
+    if (calculate_metaclass && (!metaclass || PyType_Check(metaclass))) {
+        metaclass = __Pyx_CalculateMetaclass((PyTypeObject*) metaclass, bases);
+        Py_XDECREF(owned_metaclass);
+        if (unlikely(!metaclass))
+            return NULL;
+        owned_metaclass = metaclass;
+    }
+    margs = PyTuple_Pack(3, name, bases, dict);
+    if (unlikely(!margs)) {
+        result = NULL;
+    } else {
+        result = PyObject_Call(metaclass, margs, mkw);
+        Py_DECREF(margs);
+    }
+    Py_XDECREF(owned_metaclass);
+    return result;
 }
 
 static int __pyx_bisect_code_objects(__Pyx_CodeObjectCacheEntry* entries, int count, int code_line) {

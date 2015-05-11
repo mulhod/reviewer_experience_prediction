@@ -12,7 +12,7 @@ from re import sub, IGNORECASE
 from collections import Counter
 from configparser import ConfigParser
 
-cdef class Review(object):
+class Review(object):
     '''
     Class for objects representing Reviews.
     '''
@@ -22,15 +22,15 @@ cdef class Review(object):
     # Normalized review text
     norm = None
     # Number of hours the reviewer has played the game (float)
-    cdef float hours_played
+    #cdef float hours_played
     # appid of the game (string ID code that Steam uses to represent the
     # game
-    #appid = None
+    appid = None
     # Attribute whose value determines whether or not the review text will
     # be lower-cased as part of the normalization step
-    #lower = None
+    lower = None
     # Length of the original text (base-2 log)
-    cdef float length
+    #cdef float length
     # Attributes representing the word- and sentence-tokenized
     # representations of self.norm, consisting of a list of elements
     # corresponding to the identified sentences, which in turn consist of

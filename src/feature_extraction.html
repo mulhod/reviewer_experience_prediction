@@ -465,52 +465,66 @@ body.cython { font-family: courier; font-size: 12; }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class='cython line score-0'>&#xA0;014: </pre>
-<pre class='cython line score-0'>&#xA0;015: <span class="k">cdef</span> <span class="k">class</span> <span class="nf">Review</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre>
-<pre class='cython line score-0'>&#xA0;016:     <span class="sd">&#39;&#39;&#39;</span></pre>
+<pre class='cython line score-18' onclick='toggleDiv(this)'>+015: <span class="k">class</span> <span class="nc">Review</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span></pre>
+<pre class='cython code score-18'>  __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
+  <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_builtin_object);
+  <span class='py_macro_api'>PyTuple_SET_ITEM</span>(__pyx_t_2, 0, __pyx_builtin_object);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_builtin_object);
+  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_CalculateMetaclass</span>(NULL, __pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
+  __pyx_t_3 = __Pyx_Py3MetaclassPrepare(__pyx_t_1, __pyx_t_2, __pyx_n_s_Review, __pyx_n_s_Review, (PyObject *) NULL, __pyx_n_s_src_feature_extraction, __pyx_kp_s_Class_for_objects_representing);<span class='error_goto'> if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
+/* … */
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_1, __pyx_n_s_Review, __pyx_t_2, __pyx_t_3, NULL, 0, 1);<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_Review, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_3); __pyx_t_3 = 0;
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
+</pre><pre class='cython line score-0'>&#xA0;016:     <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;017: <span class="sd">    Class for objects representing Reviews.</span></pre>
 <pre class='cython line score-0'>&#xA0;018: <span class="sd">    &#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;019: </pre>
 <pre class='cython line score-0'>&#xA0;020:     <span class="c"># Original review text</span></pre>
 <pre class='cython line score-0'>&#xA0;021:     <span class="c">#orig = None</span></pre>
 <pre class='cython line score-0'>&#xA0;022:     <span class="c"># Normalized review text</span></pre>
-<pre class='cython line score-10' onclick='toggleDiv(this)'>+023:     <span class="n">norm</span> <span class="o">=</span> <span class="bp">None</span></pre>
-<pre class='cython code score-10'>  if (<span class='py_c_api'>PyDict_SetItem</span>((PyObject *)__pyx_ptype_3src_18feature_extraction_Review-&gt;tp_dict, __pyx_n_s_norm, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='py_c_api'>PyType_Modified</span>(__pyx_ptype_3src_18feature_extraction_Review);
+<pre class='cython line score-5' onclick='toggleDiv(this)'>+023:     <span class="n">norm</span> <span class="o">=</span> <span class="bp">None</span></pre>
+<pre class='cython code score-5'>  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_norm, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 23; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;024:     <span class="c"># Number of hours the reviewer has played the game (float)</span></pre>
-<pre class='cython line score-0'>&#xA0;025:     <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">hours_played</span></pre>
+<pre class='cython line score-0'>&#xA0;025:     <span class="c">#cdef float hours_played</span></pre>
 <pre class='cython line score-0'>&#xA0;026:     <span class="c"># appid of the game (string ID code that Steam uses to represent the</span></pre>
 <pre class='cython line score-0'>&#xA0;027:     <span class="c"># game</span></pre>
-<pre class='cython line score-0'>&#xA0;028:     <span class="c">#appid = None</span></pre>
-<pre class='cython line score-0'>&#xA0;029:     <span class="c"># Attribute whose value determines whether or not the review text will</span></pre>
+<pre class='cython line score-5' onclick='toggleDiv(this)'>+028:     <span class="n">appid</span> <span class="o">=</span> <span class="bp">None</span></pre>
+<pre class='cython code score-5'>  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_appid, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+</pre><pre class='cython line score-0'>&#xA0;029:     <span class="c"># Attribute whose value determines whether or not the review text will</span></pre>
 <pre class='cython line score-0'>&#xA0;030:     <span class="c"># be lower-cased as part of the normalization step</span></pre>
-<pre class='cython line score-0'>&#xA0;031:     <span class="c">#lower = None</span></pre>
-<pre class='cython line score-0'>&#xA0;032:     <span class="c"># Length of the original text (base-2 log)</span></pre>
-<pre class='cython line score-0'>&#xA0;033:     <span class="k">cdef</span> <span class="kt">float</span> <span class="nf">length</span></pre>
+<pre class='cython line score-5' onclick='toggleDiv(this)'>+031:     <span class="n">lower</span> <span class="o">=</span> <span class="bp">None</span></pre>
+<pre class='cython code score-5'>  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_lower, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+</pre><pre class='cython line score-0'>&#xA0;032:     <span class="c"># Length of the original text (base-2 log)</span></pre>
+<pre class='cython line score-0'>&#xA0;033:     <span class="c">#cdef float length</span></pre>
 <pre class='cython line score-0'>&#xA0;034:     <span class="c"># Attributes representing the word- and sentence-tokenized</span></pre>
 <pre class='cython line score-0'>&#xA0;035:     <span class="c"># representations of self.norm, consisting of a list of elements</span></pre>
 <pre class='cython line score-0'>&#xA0;036:     <span class="c"># corresponding to the identified sentences, which in turn consist of</span></pre>
 <pre class='cython line score-0'>&#xA0;037:     <span class="c"># a list of elements corresponding to the identified tokens, tags,</span></pre>
 <pre class='cython line score-0'>&#xA0;038:     <span class="c"># lemmas, respectively</span></pre>
-<pre class='cython line score-16' onclick='toggleDiv(this)'>+039:     <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span></pre>
-<pre class='cython code score-16'>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  if (<span class='py_c_api'>PyDict_SetItem</span>((PyObject *)__pyx_ptype_3src_18feature_extraction_Review-&gt;tp_dict, __pyx_n_s_tokens, __pyx_t_2) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  <span class='py_c_api'>PyType_Modified</span>(__pyx_ptype_3src_18feature_extraction_Review);
-</pre><pre class='cython line score-16' onclick='toggleDiv(this)'>+040:     <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span></pre>
-<pre class='cython code score-16'>  __pyx_t_2 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
-  if (<span class='py_c_api'>PyDict_SetItem</span>((PyObject *)__pyx_ptype_3src_18feature_extraction_Review-&gt;tp_dict, __pyx_n_s_tags, __pyx_t_2) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  <span class='py_c_api'>PyType_Modified</span>(__pyx_ptype_3src_18feature_extraction_Review);
+<pre class='cython line score-11' onclick='toggleDiv(this)'>+039:     <span class="n">tokens</span> <span class="o">=</span> <span class="p">[]</span></pre>
+<pre class='cython code score-11'>  __pyx_t_4 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_tokens, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 39; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+</pre><pre class='cython line score-11' onclick='toggleDiv(this)'>+040:     <span class="n">tags</span> <span class="o">=</span> <span class="p">[]</span></pre>
+<pre class='cython code score-11'>  __pyx_t_4 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_tags, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 40; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
 </pre><pre class='cython line score-0'>&#xA0;041:     <span class="c">#lemmas = []</span></pre>
 <pre class='cython line score-0'>&#xA0;042:     <span class="c"># Attributes representing the spaCy text annotations</span></pre>
-<pre class='cython line score-10' onclick='toggleDiv(this)'>+043:     <span class="n">spaCy_annotations</span> <span class="o">=</span> <span class="bp">None</span></pre>
-<pre class='cython code score-10'>  if (<span class='py_c_api'>PyDict_SetItem</span>((PyObject *)__pyx_ptype_3src_18feature_extraction_Review-&gt;tp_dict, __pyx_n_s_spaCy_annotations, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='py_c_api'>PyType_Modified</span>(__pyx_ptype_3src_18feature_extraction_Review);
-</pre><pre class='cython line score-10' onclick='toggleDiv(this)'>+044:     <span class="n">spaCy_sents</span> <span class="o">=</span> <span class="bp">None</span></pre>
-<pre class='cython code score-10'>  if (<span class='py_c_api'>PyDict_SetItem</span>((PyObject *)__pyx_ptype_3src_18feature_extraction_Review-&gt;tp_dict, __pyx_n_s_spaCy_sents, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='py_c_api'>PyType_Modified</span>(__pyx_ptype_3src_18feature_extraction_Review);
+<pre class='cython line score-5' onclick='toggleDiv(this)'>+043:     <span class="n">spaCy_annotations</span> <span class="o">=</span> <span class="bp">None</span></pre>
+<pre class='cython code score-5'>  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_spaCy_annotations, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+</pre><pre class='cython line score-5' onclick='toggleDiv(this)'>+044:     <span class="n">spaCy_sents</span> <span class="o">=</span> <span class="bp">None</span></pre>
+<pre class='cython code score-5'>  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_spaCy_sents, Py_None) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;045:     <span class="c">#spaCy_ents = None</span></pre>
 <pre class='cython line score-0'>&#xA0;046:     <span class="c"># Atrribute representing the named entities in the review</span></pre>
 <pre class='cython line score-0'>&#xA0;047:     <span class="c">#entities = []</span></pre>
@@ -528,40 +542,39 @@ body.cython { font-family: courier; font-size: 12; }
 <pre class='cython line score-0'>&#xA0;059:     <span class="c">#repvecs = []</span></pre>
 <pre class='cython line score-0'>&#xA0;060: </pre>
 <pre class='cython line score-0'>&#xA0;061: </pre>
-<pre class='cython line score-10' onclick='toggleDiv(this)'>+062:     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">review_text</span><span class="p">,</span> <span class="nb">float</span> <span class="n">hours_played</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">appid</span><span class="p">,</span></pre>
-<pre class='cython code score-10'>/* Python wrapper */
-static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+<pre class='cython line score-33' onclick='toggleDiv(this)'>+062:     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">review_text</span><span class="p">,</span> <span class="nb">float</span> <span class="n">hours_played</span><span class="p">,</span> <span class="n">game</span><span class="p">,</span> <span class="n">appid</span><span class="p">,</span></pre>
+<pre class='cython code score-33'>/* Python wrapper */
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review___init__[] = "\n        Initialization method.\n\n        :param review_text: review text\n        :type review_text: str\n        :param hours_played: length of time author spent playing game\n        :type hours_played: float\n        :param game: name of game\n        :type game: str\n        :param appid: appid string (usually a number of up to 6-7 digits)\n        :type appid: str\n        :param spaCy_nlp: spaCy English analyzer\n        :type spaCy_nlp: spaCy.en.English\n        :param lower: include lower-casing as part of the review text normalization step\n        :type lower: boolean\n        ";
-#if CYTHON_COMPILING_IN_CPYTHON
-struct wrapperbase __pyx_wrapperbase_3src_18feature_extraction_6Review___init__;
-#endif
-static int __pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_1__init__ = {"__init__", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_18feature_extraction_6Review___init__};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_review_text = 0;
   float __pyx_v_hours_played;
   CYTHON_UNUSED PyObject *__pyx_v_game = 0;
   PyObject *__pyx_v_appid = 0;
   PyObject *__pyx_v_spaCy_nlp = 0;
   PyObject *__pyx_v_lower = 0;
-  int __pyx_r;
+  PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&amp;__pyx_n_s_review_text,&amp;__pyx_n_s_hours_played,&amp;__pyx_n_s_game,&amp;__pyx_n_s_appid,&amp;__pyx_n_s_spaCy_nlp,&amp;__pyx_n_s_lower,0};
-    PyObject* values[6] = {0,0,0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&amp;__pyx_n_s_self,&amp;__pyx_n_s_review_text,&amp;__pyx_n_s_hours_played,&amp;__pyx_n_s_game,&amp;__pyx_n_s_appid,&amp;__pyx_n_s_spaCy_nlp,&amp;__pyx_n_s_lower,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
 /* … */
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_review_text, float __pyx_v_hours_played, CYTHON_UNUSED PyObject *__pyx_v_game, PyObject *__pyx_v_appid, PyObject *__pyx_v_spaCy_nlp, PyObject *__pyx_v_lower) {
   PyObject *__pyx_v_sent = NULL;
-  int __pyx_r;
+  PyObject *__pyx_r = NULL;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("__init__", 0);
 /* … */
   /* function exit code */
-  __pyx_r = 0;
+  __pyx_r = Py_None; <span class='pyx_macro_api'>__Pyx_INCREF</span>(Py_None);
   goto __pyx_L0;
   __pyx_L1_error:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_1);
@@ -572,18 +585,34 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_7);
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_t_8);
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("src.feature_extraction.Review.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
+  __pyx_r = NULL;
   __pyx_L0:;
   <span class='pyx_macro_api'>__Pyx_XDECREF</span>(__pyx_v_sent);
+  <span class='refnanny'>__Pyx_XGIVEREF</span>(__pyx_r);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
-</pre><pre class='cython line score-69' onclick='toggleDiv(this)'>+063:                  <span class="n">spaCy_nlp</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span></pre>
-<pre class='cython code score-69'>    values[5] = ((PyObject *)Py_True);
+/* … */
+  __pyx_tuple__12 = <span class='py_c_api'>PyTuple_Pack</span>(8, __pyx_n_s_self, __pyx_n_s_review_text, __pyx_n_s_hours_played, __pyx_n_s_game, __pyx_n_s_appid, __pyx_n_s_spaCy_nlp, __pyx_n_s_lower, __pyx_n_s_sent);<span class='error_goto'> if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__12);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(7, 0, 8, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_init, 62, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+/* … */
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_NewEx</span>(&amp;__pyx_mdef_3src_18feature_extraction_6Review_1__init__, 0, __pyx_n_s_Review___init, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__13));<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  <span class='pyx_c_api'>__Pyx_CyFunction_SetDefaultsTuple</span>(__pyx_t_4, __pyx_tuple__14);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_init, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_tuple__14 = <span class='py_c_api'>PyTuple_Pack</span>(1, ((PyObject *)Py_True));<span class='error_goto'> if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__14);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__14);
+</pre><pre class='cython line score-78' onclick='toggleDiv(this)'>+063:                  <span class="n">spaCy_nlp</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span></pre>
+<pre class='cython code score-78'>    values[6] = ((PyObject *)((PyObject *)Py_True));
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args);
       switch (pos_args) {
+        case  7: values[6] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 6);
         case  6: values[5] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 5);
         case  5: values[4] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 4);
         case  4: values[3] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 3);
@@ -596,32 +625,37 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
       kw_args = <span class='py_c_api'>PyDict_Size</span>(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_review_text)) != 0)) kw_args--;
+        if (likely((values[0] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_self)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_hours_played)) != 0)) kw_args--;
+        if (likely((values[1] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_review_text)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 5, 6, 1); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, 1); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
         }
         case  2:
-        if (likely((values[2] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_game)) != 0)) kw_args--;
+        if (likely((values[2] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_hours_played)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 5, 6, 2); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, 2); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
         }
         case  3:
-        if (likely((values[3] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_appid)) != 0)) kw_args--;
+        if (likely((values[3] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_game)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 5, 6, 3); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, 3); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
         }
         case  4:
-        if (likely((values[4] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_spaCy_nlp)) != 0)) kw_args--;
+        if (likely((values[4] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_appid)) != 0)) kw_args--;
         else {
-          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 5, 6, 4); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, 4); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
         }
         case  5:
+        if (likely((values[5] = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_spaCy_nlp)) != 0)) kw_args--;
+        else {
+          <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, 5); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+        }
+        case  6:
         if (kw_args &gt; 0) {
           PyObject* value = <span class='py_c_api'>PyDict_GetItem</span>(__pyx_kwds, __pyx_n_s_lower);
-          if (value) { values[5] = value; kw_args--; }
+          if (value) { values[6] = value; kw_args--; }
         }
       }
       if (unlikely(kw_args &gt; 0)) {
@@ -629,8 +663,9 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
       }
     } else {
       switch (<span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)) {
+        case  7: values[6] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 6);
         case  6: values[5] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 5);
-        case  5: values[4] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 4);
+        values[4] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 4);
         values[3] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 3);
         values[2] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 2);
         values[1] = <span class='py_macro_api'>PyTuple_GET_ITEM</span>(__pyx_args, 1);
@@ -639,22 +674,23 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_review_text = values[0];
-    __pyx_v_hours_played = __pyx_<span class='py_c_api'>PyFloat_AsFloat</span>(values[1]);<span class='error_goto'> if (unlikely((__pyx_v_hours_played == (float)-1) &amp;&amp; PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
-    __pyx_v_game = values[2];
-    __pyx_v_appid = values[3];
-    __pyx_v_spaCy_nlp = values[4];
-    __pyx_v_lower = values[5];
+    __pyx_v_self = values[0];
+    __pyx_v_review_text = values[1];
+    __pyx_v_hours_played = __pyx_<span class='py_c_api'>PyFloat_AsFloat</span>(values[2]);<span class='error_goto'> if (unlikely((__pyx_v_hours_played == (float)-1) &amp;&amp; PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+    __pyx_v_game = values[3];
+    __pyx_v_appid = values[4];
+    __pyx_v_spaCy_nlp = values[5];
+    __pyx_v_lower = values[6];
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 5, 6, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
+  <span class='pyx_c_api'>__Pyx_RaiseArgtupleInvalid</span>("__init__", 0, 6, 7, <span class='py_macro_api'>PyTuple_GET_SIZE</span>(__pyx_args)); <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L3_error;}</span>
   __pyx_L3_error:;
   <span class='pyx_c_api'>__Pyx_AddTraceback</span>("src.feature_extraction.Review.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
-  return -1;
+  return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review___init__(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self), __pyx_v_review_text, __pyx_v_hours_played, __pyx_v_game, __pyx_v_appid, __pyx_v_spaCy_nlp, __pyx_v_lower);
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review___init__(__pyx_self, __pyx_v_self, __pyx_v_review_text, __pyx_v_hours_played, __pyx_v_game, __pyx_v_appid, __pyx_v_spaCy_nlp, __pyx_v_lower);
 </pre><pre class='cython line score-0'>&#xA0;064:         <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;065: <span class="sd">        Initialization method.</span></pre>
 <pre class='cython line score-0'>&#xA0;066: </pre>
@@ -673,21 +709,24 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
 <pre class='cython line score-0'>&#xA0;079: <span class="sd">        &#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;080: </pre>
 <pre class='cython line score-2' onclick='toggleDiv(this)'>+081:         <span class="bp">self</span><span class="o">.</span><span class="n">orig</span> <span class="o">=</span> <span class="n">review_text</span></pre>
-<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_orig, __pyx_v_review_text) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-</pre><pre class='cython line score-0' onclick='toggleDiv(this)'>+082:         <span class="bp">self</span><span class="o">.</span><span class="n">hours_played</span> <span class="o">=</span> <span class="n">hours_played</span></pre>
-<pre class='cython code score-0'>  __pyx_v_self-&gt;hours_played = __pyx_v_hours_played;
+<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_orig, __pyx_v_review_text) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+</pre><pre class='cython line score-8' onclick='toggleDiv(this)'>+082:         <span class="bp">self</span><span class="o">.</span><span class="n">hours_played</span> <span class="o">=</span> <span class="n">hours_played</span></pre>
+<pre class='cython code score-8'>  __pyx_t_1 = <span class='py_c_api'>PyFloat_FromDouble</span>(__pyx_v_hours_played);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
+  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_hours_played, __pyx_t_1) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 82; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class='cython line score-2' onclick='toggleDiv(this)'>+083:         <span class="bp">self</span><span class="o">.</span><span class="n">appid</span> <span class="o">=</span> <span class="n">appid</span></pre>
-<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_appid, __pyx_v_appid) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_appid, __pyx_v_appid) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 83; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-2' onclick='toggleDiv(this)'>+084:         <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="o">=</span> <span class="n">lower</span></pre>
-<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_lower, __pyx_v_lower) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_lower, __pyx_v_lower) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 84; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;085: </pre>
 <pre class='cython line score-0'>&#xA0;086:         <span class="c"># Generate attribute values</span></pre>
-<pre class='cython line score-71' onclick='toggleDiv(this)'>+087:         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orig</span><span class="p">)))</span> <span class="c"># Get base-2 log of th</span></pre>
-<pre class='cython code score-71'>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_n_s_ceil);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython line score-68' onclick='toggleDiv(this)'>+087:         <span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">ceil</span><span class="p">(</span><span class="n">log2</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orig</span><span class="p">)))</span> <span class="c"># Get base-2 log of th</span></pre>
+<pre class='cython code score-68'>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_n_s_ceil);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_4 = <span class='pyx_c_api'>__Pyx_GetModuleGlobalName</span>(__pyx_n_s_log2);<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
-  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
   __pyx_t_6 = <span class='py_c_api'>PyObject_Length</span>(__pyx_t_5);<span class='error_goto'> if (unlikely(__pyx_t_6 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
@@ -745,13 +784,12 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = __pyx_<span class='py_c_api'>PyFloat_AsFloat</span>(__pyx_t_1);<span class='error_goto'> if (unlikely((__pyx_t_9 == (float)-1) &amp;&amp; PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_length, __pyx_t_1) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 87; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_v_self-&gt;length = __pyx_t_9;
 </pre><pre class='cython line score-0'>&#xA0;088:             <span class="c"># length of the original version of the review text, not the</span></pre>
 <pre class='cython line score-0'>&#xA0;089:             <span class="c"># normalized version</span></pre>
 <pre class='cython line score-19' onclick='toggleDiv(this)'>+090:         <span class="bp">self</span><span class="o">.</span><span class="n">normalize</span><span class="p">()</span></pre>
-<pre class='cython code score-19'>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_normalize);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-19'>  __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_normalize);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 90; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_8 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON &amp;&amp; likely(<span class='py_c_api'>PyMethod_Check</span>(__pyx_t_2))) {
@@ -774,7 +812,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
 </pre><pre class='cython line score-0'>&#xA0;091:         <span class="c"># Use spaCy to analyze the normalized version of the review text</span></pre>
 <pre class='cython line score-20' onclick='toggleDiv(this)'>+092:         <span class="bp">self</span><span class="o">.</span><span class="n">spaCy_annotations</span> <span class="o">=</span> <span class="n">spaCy_nlp</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">,</span></pre>
-<pre class='cython code score-20'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_norm);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-20'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_norm);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = <span class='py_c_api'>PyTuple_New</span>(1);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
@@ -788,7 +826,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_8);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_annotations, __pyx_t_8) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_spaCy_annotations, __pyx_t_8) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
 </pre><pre class='cython line score-5' onclick='toggleDiv(this)'>+093:                                            <span class="n">tag</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span></pre>
 <pre class='cython code score-5'>  if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_t_1, __pyx_n_s_tag, Py_True) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 92; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
@@ -804,25 +842,25 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
-  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_sents, __pyx_t_8) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_spaCy_sents, __pyx_t_8) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 95; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_8); __pyx_t_8 = 0;
 </pre><pre class='cython line score-51' onclick='toggleDiv(this)'>+096:                             <span class="bp">self</span><span class="o">.</span><span class="n">spaCy_annotations</span><span class="o">.</span><span class="n">sents</span><span class="p">]</span></pre>
-<pre class='cython code score-51'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_annotations);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-51'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_spaCy_annotations);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_1, __pyx_n_s_sents);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_t_2)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_t_2)) {
     __pyx_t_1 = __pyx_t_2; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_1); __pyx_t_6 = 0;
-    __pyx_t_10 = NULL;
+    __pyx_t_9 = NULL;
   } else {
     __pyx_t_6 = -1; __pyx_t_1 = <span class='py_c_api'>PyObject_GetIter</span>(__pyx_t_2);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
-    __pyx_t_10 = Py_TYPE(__pyx_t_1)-&gt;tp_iternext;<span class='error_goto'> if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+    __pyx_t_9 = Py_TYPE(__pyx_t_1)-&gt;tp_iternext;<span class='error_goto'> if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 96; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
   for (;;) {
-    if (likely(!__pyx_t_10)) {
+    if (likely(!__pyx_t_9)) {
       if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_t_1))) {
         if (__pyx_t_6 &gt;= <span class='py_macro_api'>PyList_GET_SIZE</span>(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
@@ -839,7 +877,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
         #endif
       }
     } else {
-      __pyx_t_2 = __pyx_t_10(__pyx_t_1);
+      __pyx_t_2 = __pyx_t_9(__pyx_t_1);
       if (unlikely(!__pyx_t_2)) {
         PyObject* exc_type = <span class='py_c_api'>PyErr_Occurred</span>();
         if (exc_type) {
@@ -854,7 +892,7 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
     __pyx_t_2 = 0;
 </pre><pre class='cython line score-0'>&#xA0;097:         <span class="c">#self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]</span></pre>
 <pre class='cython line score-19' onclick='toggleDiv(this)'>+098:         <span class="bp">self</span><span class="o">.</span><span class="n">get_token_features_from_spaCy</span><span class="p">()</span></pre>
-<pre class='cython code score-19'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_get_token_features_from_spaCy);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-19'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_get_token_features_from_spaCy);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 98; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON &amp;&amp; likely(<span class='py_c_api'>PyMethod_Check</span>(__pyx_t_1))) {
@@ -878,22 +916,23 @@ static int __pyx_pf_3src_18feature_extraction_6Review___init__(struct __pyx_obj_
 </pre><pre class='cython line score-0'>&#xA0;099:         <span class="c">#self.get_entities_from_spaCy()</span></pre>
 <pre class='cython line score-0'>&#xA0;100: </pre>
 <pre class='cython line score-0'>&#xA0;101: </pre>
-<pre class='cython line score-9' onclick='toggleDiv(this)'>+102:     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-9'>/* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+<pre class='cython line score-24' onclick='toggleDiv(this)'>+102:     <span class="k">def</span> <span class="nf">normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-24'>/* Python wrapper */
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_2normalize[] = "\n        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_3normalize = {"normalize", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_3normalize, METH_O, __pyx_doc_3src_18feature_extraction_6Review_2normalize};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_3normalize(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("normalize (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_2normalize(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_2normalize(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_r = NULL;
   PyObject *__pyx_r = NULL;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -916,19 +955,29 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
+/* … */
+  __pyx_tuple__15 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_r);<span class='error_goto'> if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__15);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__15);
+/* … */
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_NewEx</span>(&amp;__pyx_mdef_3src_18feature_extraction_6Review_3normalize, 0, __pyx_n_s_Review_normalize, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__16));<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_normalize, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_codeobj__16 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_normalize, 102, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;103:         <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;104: <span class="sd">        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.</span></pre>
 <pre class='cython line score-0'>&#xA0;105: <span class="sd">        &#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;106: </pre>
 <pre class='cython line score-0'>&#xA0;107:         <span class="c"># Lower-case text if self.lower is Trues</span></pre>
 <pre class='cython line score-5' onclick='toggleDiv(this)'>+108:         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="p">:</span></pre>
-<pre class='cython code score-5'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_lower);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-5'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_lower);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   __pyx_t_2 = <span class='pyx_c_api'>__Pyx_PyObject_IsTrue</span>(__pyx_t_1);<span class='error_goto'> if (unlikely(__pyx_t_2 &lt; 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 108; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_2) {
 </pre><pre class='cython line score-21' onclick='toggleDiv(this)'>+109:             <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></pre>
-<pre class='cython code score-21'>    __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-21'>    __pyx_t_3 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
     __pyx_t_4 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_t_3, __pyx_n_s_lower);<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
@@ -958,7 +1007,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
   /*else*/ {
 </pre><pre class='cython line score-0'>&#xA0;110:         <span class="k">else</span><span class="p">:</span></pre>
 <pre class='cython line score-2' onclick='toggleDiv(this)'>+111:             <span class="n">r</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">orig</span></pre>
-<pre class='cython code score-2'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-2'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     __pyx_v_r = __pyx_t_1;
     __pyx_t_1 = 0;
@@ -1805,25 +1854,26 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(struct __
   <span class='pyx_macro_api'>__Pyx_DECREF_SET</span>(__pyx_v_r, __pyx_t_1);
   __pyx_t_1 = 0;
 </pre><pre class='cython line score-2' onclick='toggleDiv(this)'>+157:         <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">r</span></pre>
-<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_norm, __pyx_v_r) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-2'>  if (<span class='pyx_c_api'>__Pyx_PyObject_SetAttrStr</span>(__pyx_v_self, __pyx_n_s_norm, __pyx_v_r) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 157; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;158: </pre>
 <pre class='cython line score-0'>&#xA0;159: </pre>
-<pre class='cython line score-10' onclick='toggleDiv(this)'>+160:     <span class="k">def</span> <span class="nf">get_token_features_from_spaCy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-10'>/* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+<pre class='cython line score-25' onclick='toggleDiv(this)'>+160:     <span class="k">def</span> <span class="nf">get_token_features_from_spaCy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-25'>/* Python wrapper */
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_4get_token_features_from_spaCy[] = "\n        Get tokens-related features from spaCy's text annotations.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_5get_token_features_from_spaCy = {"get_token_features_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy, METH_O, __pyx_doc_3src_18feature_extraction_6Review_4get_token_features_from_spaCy};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_5get_token_features_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_token_features_from_spaCy (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_sent = NULL;
   PyObject *__pyx_v_t = NULL;
   PyObject *__pyx_r = NULL;
@@ -1848,12 +1898,22 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
+/* … */
+  __pyx_tuple__17 = <span class='py_c_api'>PyTuple_Pack</span>(3, __pyx_n_s_self, __pyx_n_s_sent, __pyx_n_s_t);<span class='error_goto'> if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__17);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__17);
+/* … */
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_NewEx</span>(&amp;__pyx_mdef_3src_18feature_extraction_6Review_5get_token_features_from_spaCy, 0, __pyx_n_s_Review_get_token_features_from_s, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__18));<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_get_token_features_from_spaCy, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_codeobj__18 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 3, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_token_features_from_spaCy, 160, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 160; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;161:         <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;162: <span class="sd">        Get tokens-related features from spaCy&#39;s text annotations.</span></pre>
 <pre class='cython line score-0'>&#xA0;163: <span class="sd">        &#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;164: </pre>
 <pre class='cython line score-49' onclick='toggleDiv(this)'>+165:         <span class="k">for</span> <span class="n">sent</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spaCy_sents</span><span class="p">:</span></pre>
-<pre class='cython code score-49'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_sents);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-49'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_spaCy_sents);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 165; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_t_1)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_2); __pyx_t_3 = 0;
@@ -1900,7 +1960,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class='cython line score-0'>&#xA0;166:             <span class="c"># Get tokens</span></pre>
 <pre class='cython line score-62' onclick='toggleDiv(this)'>+167:             <span class="bp">self</span><span class="o">.</span><span class="n">tokens</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">orth_</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">])</span></pre>
-<pre class='cython code score-62'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_tokens);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-62'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_tokens);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     __pyx_t_5 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 167; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -1954,7 +2014,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
     <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_5); __pyx_t_5 = 0;
 </pre><pre class='cython line score-0'>&#xA0;168:             <span class="c"># Get tags</span></pre>
 <pre class='cython line score-62' onclick='toggleDiv(this)'>+169:             <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">t</span><span class="o">.</span><span class="n">tag_</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">sent</span><span class="p">])</span></pre>
-<pre class='cython code score-62'>    __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_tags);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-62'>    __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_tags);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
     __pyx_t_1 = <span class='py_c_api'>PyList_New</span>(0);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
@@ -2012,22 +2072,23 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_
 <pre class='cython line score-0'>&#xA0;173:             <span class="c">#self.heads.append([t.head.orth_ for t in sent])</span></pre>
 <pre class='cython line score-0'>&#xA0;174: </pre>
 <pre class='cython line score-0'>&#xA0;175: </pre>
-<pre class='cython line score-8' onclick='toggleDiv(this)'>+176:     <span class="k">def</span> <span class="nf">get_entities_from_spaCy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
-<pre class='cython code score-8'>/* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused); /*proto*/
+<pre class='cython line score-23' onclick='toggleDiv(this)'>+176:     <span class="k">def</span> <span class="nf">get_entities_from_spaCy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span></pre>
+<pre class='cython code score-23'>/* Python wrapper */
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
 static char __pyx_doc_3src_18feature_extraction_6Review_6get_entities_from_spaCy[] = "\n        Get named entities from spaCy's text annotations.\n        ";
-static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_v_self, CYTHON_UNUSED PyObject *unused) {
+static PyMethodDef __pyx_mdef_3src_18feature_extraction_6Review_7get_entities_from_spaCy = {"get_entities_from_spaCy", (PyCFunction)__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy, METH_O, __pyx_doc_3src_18feature_extraction_6Review_6get_entities_from_spaCy};
+static PyObject *__pyx_pw_3src_18feature_extraction_6Review_7get_entities_from_spaCy(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
   <span class='refnanny'>__Pyx_RefNannySetupContext</span>("get_entities_from_spaCy (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(((struct __pyx_obj_3src_18feature_extraction_Review *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(struct __pyx_obj_3src_18feature_extraction_Review *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_entity = NULL;
   PyObject *__pyx_r = NULL;
   <span class='refnanny'>__Pyx_RefNannyDeclarations</span>
@@ -2049,12 +2110,22 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_s
   <span class='refnanny'>__Pyx_RefNannyFinishContext</span>();
   return __pyx_r;
 }
+/* … */
+  __pyx_tuple__19 = <span class='py_c_api'>PyTuple_Pack</span>(2, __pyx_n_s_self, __pyx_n_s_entity);<span class='error_goto'> if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__19);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__19);
+/* … */
+  __pyx_t_4 = <span class='pyx_c_api'>__Pyx_CyFunction_NewEx</span>(&amp;__pyx_mdef_3src_18feature_extraction_6Review_7get_entities_from_spaCy, 0, __pyx_n_s_Review_get_entities_from_spaCy, NULL, __pyx_n_s_src_feature_extraction, __pyx_d, ((PyObject *)__pyx_codeobj__20));<span class='error_goto'> if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_4);
+  if (<span class='py_c_api'>PyObject_SetItem</span>(__pyx_t_3, __pyx_n_s_get_entities_from_spaCy, __pyx_t_4) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_codeobj__20 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(1, 0, 2, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_get_entities_from_spaCy, 176, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 176; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;177:         <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;178: <span class="sd">        Get named entities from spaCy&#39;s text annotations.</span></pre>
 <pre class='cython line score-0'>&#xA0;179: <span class="sd">        &#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;180: </pre>
 <pre class='cython line score-49' onclick='toggleDiv(this)'>+181:         <span class="k">for</span> <span class="n">entity</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">spaCy_ents</span><span class="p">:</span></pre>
-<pre class='cython code score-49'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_spaCy_ents);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-49'>  __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_spaCy_ents);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 181; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
   if (likely(<span class='py_c_api'>PyList_CheckExact</span>(__pyx_t_1)) || <span class='py_c_api'>PyTuple_CheckExact</span>(__pyx_t_1)) {
     __pyx_t_2 = __pyx_t_1; <span class='pyx_macro_api'>__Pyx_INCREF</span>(__pyx_t_2); __pyx_t_3 = 0;
@@ -2100,7 +2171,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_6get_entities_from_s
   }
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
 </pre><pre class='cython line score-19' onclick='toggleDiv(this)'>+182:             <span class="bp">self</span><span class="o">.</span><span class="n">entities</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">entity</span><span class="o">=</span><span class="n">entity</span><span class="o">.</span><span class="n">orth_</span><span class="p">,</span></pre>
-<pre class='cython code score-19'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(((PyObject *)__pyx_v_self), __pyx_n_s_entities);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+<pre class='cython code score-19'>    __pyx_t_1 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v_self, __pyx_n_s_entities);<span class='error_goto'> if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_1);
     __pyx_t_5 = <span class='py_c_api'>PyDict_New</span>();<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 182; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
     <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
@@ -2216,15 +2287,15 @@ static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__12 = <span class='py_c_api'>PyTuple_Pack</span>(10, __pyx_n_s_review, __pyx_n_s_lowercase_cngrams, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_dep_features, __pyx_n_s_generate_dep_features, __pyx_n_s_features, __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__12);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__12);
+  __pyx_tuple__21 = <span class='py_c_api'>PyTuple_Pack</span>(10, __pyx_n_s_review, __pyx_n_s_lowercase_cngrams, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_ngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_cngram_fdist, __pyx_n_s_generate_dep_features, __pyx_n_s_generate_dep_features, __pyx_n_s_features, __pyx_n_s_orig);<span class='error_goto'> if (unlikely(!__pyx_tuple__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__21);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__21);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_3src_18feature_extraction_1extract_features_from_review, NULL, __pyx_n_s_src_feature_extraction);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   if (<span class='py_c_api'>PyDict_SetItem</span>(__pyx_d, __pyx_n_s_extract_features_from_review, __pyx_t_2) &lt; 0) <span class='error_goto'>{__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='pyx_macro_api'>__Pyx_DECREF</span>(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_codeobj__13 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_extract_features_from_review, 186, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  __pyx_codeobj__22 = (PyObject*)<span class='pyx_c_api'>__Pyx_PyCode_New</span>(2, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__21, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_extract_features_from_review, 186, __pyx_empty_bytes);<span class='error_goto'> if (unlikely(!__pyx_codeobj__22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 186; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
 </pre><pre class='cython line score-0'>&#xA0;187:     <span class="sd">&#39;&#39;&#39;</span></pre>
 <pre class='cython line score-0'>&#xA0;188: <span class="sd">    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature (&quot;wngrams&quot; for word n-grams, &quot;cngrams&quot; for character n-grams, &quot;length&quot; for length, and &quot;dep&quot; for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hashes and then the string representation of the feature (e.g. &quot;the dog&quot; for an example n-gram feature, &quot;th&quot; for an example character n-gram feature, or &quot;step:forward&quot; for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.</span></pre>
 <pre class='cython line score-0'>&#xA0;189: </pre>
@@ -3341,9 +3412,9 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
   __pyx_t_3 = <span class='py_c_api'>PyDict_New</span>();<span class='error_goto'> if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_3);
-  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_kp_s_length, __pyx_n_s_format);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  __pyx_t_5 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_kp_s_length_2, __pyx_n_s_format);<span class='error_goto'> if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_5);
-  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v__review, __pyx_n_s_length_2);<span class='error_goto'> if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  __pyx_t_6 = <span class='pyx_c_api'>__Pyx_PyObject_GetAttrStr</span>(__pyx_v__review, __pyx_n_s_length);<span class='error_goto'> if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 294; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_6);
   __pyx_t_7 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON &amp;&amp; likely(<span class='py_c_api'>PyMethod_Check</span>(__pyx_t_5))) {
@@ -3670,9 +3741,9 @@ static PyObject *__pyx_pf_3src_18feature_extraction_2write_config_file(CYTHON_UN
   return __pyx_r;
 }
 /* … */
-  __pyx_tuple__14 = <span class='py_c_api'>PyTuple_Pack</span>(8, __pyx_n_s_config_dict, __pyx_n_s_path, __pyx_n_s_cfg, __pyx_n_s_section_name, __pyx_n_s_section_dict, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_config_file);<span class='error_goto'> if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
-  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__14);
-  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__14);
+  __pyx_tuple__23 = <span class='py_c_api'>PyTuple_Pack</span>(8, __pyx_n_s_config_dict, __pyx_n_s_path, __pyx_n_s_cfg, __pyx_n_s_section_name, __pyx_n_s_section_dict, __pyx_n_s_key, __pyx_n_s_val, __pyx_n_s_config_file);<span class='error_goto'> if (unlikely(!__pyx_tuple__23)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
+  <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_tuple__23);
+  <span class='refnanny'>__Pyx_GIVEREF</span>(__pyx_tuple__23);
 /* … */
   __pyx_t_2 = PyCFunction_NewEx(&amp;__pyx_mdef_3src_18feature_extraction_3write_config_file, NULL, __pyx_n_s_src_feature_extraction);<span class='error_goto'> if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 309; __pyx_clineno = __LINE__; goto __pyx_L1_error;}</span>
   <span class='refnanny'>__Pyx_GOTREF</span>(__pyx_t_2);
