@@ -1,126 +1,13 @@
 #!/usr/env python3.4
 import os
 import sys
-import time
+import logging
 import pymongo
 import argparse
 from re import sub
-from util.make_train_test_sets import get_and_describe_dataset
 from os.path import realpath, abspath, dirname, join, basename
-
-# ARFF file template
-ARFF_BASE = '''
-% Generated on {}
-% This ARFF file was generated with review data from the following game(s):
-%     {}
-% It is useful only for trying out machine learning algorithms on the
-% bag-of-words representation of the reviews only.
-@relation reviewer_experience
-@attribute string_attribute string
-@attribute numeric_attribute numeric
-
-@data'''
-TIMEF = '%A, %d. %B %Y %I:%M%p'
-
-# Global variable used for MongoDB collection, if making training/test sets
-reviewdb = None
-
-def write_arff_file(reviews=None, file_path, file_names,
-                    make_train_test=False):
-    '''
-    Write .arff file.
-
-    :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)
-    :type reviews: list of dict
-    :param file_path: path to output .arff file
-    :type file_path: str
-    :param file_names: list of extension-less game file-names
-    :type file_names: list of str
-    :param make_train_test: if True, use MongoDB collection to find reviews that are from the training and test partitions and make files for them instead of making one big file (defaults to False)
-    :type make_train_test: boolean
-    :returns: None
-    '''
-
-    global reviewdb
-
-    # Replace underscores with spaces in the game names
-    _file_names = [sub(r'_',
-                       r' ',
-                       f) for f in file_names]
-
-    # Write ARFF file(s)
-    if make_train_test:
-
-        # Make an ARFF file for each partition
-        for partition in ['training', 'test']:
-
-            # Make empty list of lines to populate with ARFF-style lines,
-            # one per review
-            reviews_lines = []
-
-            # Modify file-path by adding partition suffix
-            suffix = 'train' if partition.startswith('train') else 'test'
-            replacement = '.{}.arff'.format(suffix)
-            _file_path = sub(r'\.arff$',
-                             replacement,
-                             file_path)
-
-            # Get reviews for the given partition from all of the games
-            game_docs_cursor = \
-                reviewdb.find({'partition': partition,
-                               'game': {'$in': file_names}})
-            if game_docs_cursor.count() == 0:
-                sys.exit('ERROR: No matching documents were found in the ' \
-                         'MongoDB collection for the {} partition and the' \
-                         ' following games:\n\n{}\nExiting.' \
-                         '\n'.format(partition,
-                                     file_names))
-            
-            game_docs = list(game_docs_cursor)
-            for game_doc in game_docs:
-                # Remove single/double quotes from the reviews first...
-                review = sub(r'\'|"',
-                             r'',
-                             game_doc['review'].lower())
-                # Get rid of backslashes since they only make things
-                # confusing
-                review = sub(r'\\',
-                             r'',
-                             review)
-                reviews_lines.append('"{}",{}'.format(review,
-                                                      game_doc['hours']))
-            with open(_file_path,
-                      'w') as out:
-                out.write('{}\n{}'.format(ARFF_BASE.format(
-                                              time.strftime(TIMEF),
-                                              ' ,'.join(file_names)),
-                              '\n'.join(reviews_lines)))
-    else:
-
-        if not reviews:
-            sys.exit('ERROR: Empty list of reviews passed in to the ' \
-                     'write_arff_file method. Exiting.\n')
-
-        # Make empty list of lines to populate with ARFF-style lines,
-        # one per review
-        reviews_lines = []
-
-        for review_dict in reviews:
-            # Remove single/double quotes from the reviews first...
-            review = sub(r'\'|"',
-                         r'',
-                         review_dict['review'].lower())
-            # Get rid of backslashes since they only make things confusing
-            review = sub(r'\\',
-                         r'',
-                         review)
-            reviews_lines.append('"{}",{}'.format(review,
-                                                  review_dict['hours']))
-        with open(file_path,
-                      'w') as out:
-            out.write('{}\n{}'.format(ARFF_BASE.format(time.strftime(TIMEF),
-                                                       ' ,'.join(file_names)),
-                                      '\n'.join(reviews_lines)))
+from util.datasets import (get_and_describe_dataset, get_bin_ranges,
+                           write_arff_file)
 
 
 if __name__ == '__main__':
@@ -145,43 +32,121 @@ if __name__ == '__main__':
              'output file prefix must be passed in via this option flag',
         type=str,
         required=False)
+    parser.add_argument('--use_original_hours_values',
+        help='use the unmodified hours played values; otherwise, use the ' \
+             'collapsed values',
+        action='store_true',
+        default=False)
     parser.add_argument('--make_train_test_sets',
         help='search the MongoDB collection for training/test set reviews ' \
              'and make ARFF files using them only (the file suffix ".train"' \
              '/".test" will be appended onto the end of the output file ' \
-             'name to distinguish the different files)',
+             'name to distinguish the different files); note that, by ' \
+             'default, collapsed hours played values will be used (if this ' \
+             'is not desired, use the --use_original_hours_values flag)',
         action='store_true',
         default=False)
+    parser.add_argument('--nbins',
+        help='specify the number of bins in which to collapse hours played ' \
+             'values; to be used if the --make_train_test_sets flag is not ' \
+             'being used, in which case pre-computed hours played values ' \
+             'will not be read in from the database, but you still want the' \
+             ' values to be in the form of bins (i.e., 1 for 0-100, 2 for ' \
+             '101-200, etc., depending on the minimum and maximum values ' \
+             'and the number of bins specified)',
+        type=int,
+        required=False)
+    parser.add_argument('--mongodb_port', '-dbport',
+        help='port that the MongoDB server is running',
+        type=int,
+        default=27017)
     args = parser.parse_args()
+
+    # Initialize logging system
+    logger = logging.getLogger('rep.arff')
+    logger.setLevel(logging.DEBUG)
+
+    # Create console handler with a high logging level specificity
+    sh = logging.StreamHandler()
+    sh.setLevel(logging.WARNING)
+
+    # Add nicer formatting
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
+                                  ' %(message)s')
+    #fh.setFormatter(formatter)
+    sh.setFormatter(formatter)
+    #logger.addHandler(fh)
+    logger.addHandler(sh)
+
+    bins = not args.use_original_hours_values
+
+    # Make sure --bins option flag makes sense
+    if args.nbins:
+        if args.make_train_test_sets:
+            logger.info('ERROR: If the --make_train_test_sets flag is used,' \
+                        ' a number of bins in which to collapse the hours ' \
+                        'played values cannot be specified (since the ' \
+                        'values in the database were pre-computed). Exiting.')
+            sys.exit(1)
+        elif not bins:
+            logger.info('ERROR: Conflict between the ' \
+                        '--use_original_hours_values and --nbins flags. ' \
+                        'Both cannot be used at the same time.')
+            sys.exit(1)
+    elif (bins and not args.make_train_test_sets):
+        logger.info('ERROR: If both the --use_original_hours_values and ' \
+                    '--make_train_test_sets flags are not used, then the ' \
+                    'number of bins in which to collapse the hours played ' \
+                    'values must be specified via the --nbins option ' \
+                    'argument. Exiting.')
+        sys.exit(1)
 
     # Get paths to the data and arff_files directories
     project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
-    arff_files_dir = join(project_dir,
-                          'arff_files')
-    sys.stderr.write('data directory: {}\n'.format(data_dir))
-    sys.stderr.write('arff_files directory: {}\n'.format(arff_files_dir))
+    if bins:
+        arff_files_dir = join(project_dir,
+                              'arff_files_collapsed_values')
+    else:
+        arff_files_dir = join(project_dir,
+                              'arff_files_original_values')
+    logger.info('data directory: {}'.format(data_dir))
+    logger.info('arff files directory: {}'.format(arff_files_dir))
 
     # Make sure there is a combined output file prefix if "combine" is the
     # value passed in via --mode
     if args.mode == 'combined' and not args.combined_file_prefix:
-        sys.exit('ERROR: A combined output file prefix must be specified ' \
-                 'in cases where the "combined" value was passed in via ' \
-                 'the --mode option flag (or --mode was not specified, in' \
-                 ' which case "combined" is the default value). Exiting.\n')
+        logger.info('ERROR: A combined output file prefix must be specified' \
+                    ' in cases where the "combined" value was passed in via' \
+                    ' the --mode option flag (or --mode was not specified, ' \
+                    'in which case "combined" is the default value). ' \
+                    'Exiting.')
+        sys.exit(1)
 
     # See if the --make_train_test_sets flag was used, in which case we have
     # to make a connection to the MongoDB collection
+    # And, if it wasn't used, then print out warning if the --mongodb_port
+    # flag was used (since it will be ignored) unless the value is equal to
+    # the default value (since it probably wasn't specified in that case)
     if args.make_train_test_sets:
-        connection = pymongo.MongoClient('mongodb://localhost:27017')
+        connection = pymongo.MongoClient('mongodb://localhost:' \
+                                         '{}'.format(args.mongodb_port))
         db = connection['reviews_project']
         reviewdb = db['reviews']
+    elif args.mongodb_port and not args.mongodb_port == 27017:
+        logger.info('WARNING: Ignoring argument passed in via the ' \
+                    '--mongodb_port option flag since the ' \
+                    '--make_train_test_sets flag was not also used, which ' \
+                    'means that the MongoDB database is not going to be ' \
+                    'used.')
+        sys.exit(1)
 
     mode = args.mode
     game_files = []
     if args.game_files == "all":
         game_files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
+        del game_files[game_files.index('sample.txt')]
     else:
         game_files = args.game_files.split(',')
     if len(game_files) == 1:
@@ -190,81 +155,118 @@ if __name__ == '__main__':
         # was only one file n the list of game files since only a single ARFF
         # file will be created
         if args.mode == 'combined':
-            sys.stderr.write('WARNING: The --mode flag was used with the ' \
-                             'value "combined" (or was unspecified) even ' \
-                             'though only one game file was passed in via ' \
-                             'the --game_files flag. Only one file will be ' \
-                             'written and it will be named after the game.\n')
+            logger.info('WARNING: The --mode flag was used with the value ' \
+                        '"combined" (or was unspecified) even though only ' \
+                        'one game file was passed in via the --game_files ' \
+                        'flag. Only one file will be written and it will be' \
+                        ' named after the game.')
+            sys.exit(1)
 
     # Make a list of dicts corresponding to each review and write .arff files
-    sys.stderr.write('Reading in data from reviews files...\n')
+    logger.info('Reading in data from reviews files...')
     if mode == "combined":
 
         review_dicts_list = []
 
         if not args.make_train_test_sets:
+
+            # Min/max values of hours played (i.e., game experience)
+            if bins:
+                minh = 0.0
+                maxh = 0.0
+
             for game_file in game_files:
 
-                sys.stderr.write('Getting review data from {}...' \
-                                 '\n'.format(game_file))
+                logger.info('Getting review data from {}' \
+                            '...'.format(game_file))
 
                 dataset = get_and_describe_dataset(join(data_dir,
                                                         game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
+
+                # If the hours played values are to be divided into bins,
+                # update the min/max values
+                if bins:
+                    if dataset['minh'] < minh:
+                        minh = dataset['minh']
+                    if dataset['max'] > maxh:
+                        maxh = dataset['maxh']
+
+            # If the hours played values are to be divided into bins, get the
+            # range that each bin maps to
+            if bins:
+                bin_ranges = get_bin_ranges(minh,
+                                            maxh,
+                                            args.nbins)
+            else:
+                bin_ranges = False
 
         file_names = [game[:-4] for game in game_files]
         arff_file = join(arff_files_dir,
                          '{}.arff'.format(args.combined_file_prefix))
 
         if args.make_train_test_sets:
-            sys.stderr.write('Generating ARFF files for the combined ' \
-                             'training sets and the combined test sets, ' \
-                             'respectively, of the following games:\n\n' \
-                             '{}\n'.format(', '.join([sub(r'_',
-                                                          r' ',
-                                                          fname) for fname
-                                                      in file_names])))
+            logger.info('Generating ARFF files for the combined training ' \
+                        'sets and the combined test sets, respectively, of ' \
+                        'the following games:\n\n' \
+                        '{}'.format(', '.join([sub(r'_',
+                                                   r' ',
+                                                   fname) for fname
+                                               in file_names])))
             write_arff_file(arff_file,
                             file_names,
-                            make_train_test=True)
+                            reviewdb=reviewdb,
+                            make_train_test=True,
+                            bins=True)
         else:
-            sys.stderr.write('Generating {}...\n'.format(arff_file))
-            write_arff_file(reviews=review_dicts_list,
-                            arff_file,
-                            file_names)
-        sys.stderr.write('Generated ARFF file(s) for {}...' \
-                         '\n'.format(arff_file))
+            logger.info('Generating {}...'.format(arff_file))
+            write_arff_file(arff_file,
+                            file_names,
+                            reviews=review_dicts_list,
+                            bins=bin_ranges)
     else:
         for game_file in game_files:
 
-            sys.stderr.write('Getting review data from {}...' \
-                             '\n'.format(game_file))
+            logger.info('Getting review data from {}...'.format(game_file))
 
             if not args.make_train_test_sets:
+                review_dicts_list = []
                 dataset = get_and_describe_dataset(join(data_dir,
                                                         game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
 
+                if bins:
+
+                    # Get min/max hours played values from results of
+                    # get_and_describe_dataset() call
+                    minh = dataset['minh']
+                    maxh = dataset['maxh']
+
+                    # Get the range that each bin maps to
+                    bin_ranges = get_bin_ranges(minh,
+                                                maxh,
+                                                args.nbins)
+                else:
+                    bin_ranges = False
+
+            game = game_file[:-4]
             arff_file = join(arff_files_dir,
-                             '{}.arff'.format(game_file[:-4]))
+                             '{}.arff'.format(game))
 
             if args.make_train_test_sets:
-                sys.stderr.write('Generating ARFF files for the training ' \
-                                 'and test sets for each of the following' \
-                                 ' games:\n\n{}\n'.format(
-                                     ', '.join([sub(r'_',
-                                                    r' ',
-                                                    fname) for fname in
-                                                file_names])))
+                logger.info('Generating ARFF file for the training and test' \
+                            ' sets for {}...'.format(game))
                 write_arff_file(arff_file,
-                                file_names,
-                                make_train_test=True)
+                                [game],
+                                reviewdb=reviewdb,
+                                make_train_test=True,
+                                bins=bins)
             else:
-                sys.stderr.write('Generating {}...\n'.format(arff_file))
-                write_arff_file(reviews=review_dicts_list,
-                                arff_file,
-                                file_names)
-            sys.stderr.write('Generated ARFF file(s) for {}...' \
-                             '\n'.format(arff_file))
+                logger.info('Generating {}...'.format(arff_file))
+                write_arff_file(arff_file,
+                                [game],
+                                reviews=review_dicts_list,
+                                bins=bin_ranges)
+    logger.info('Complete.')
