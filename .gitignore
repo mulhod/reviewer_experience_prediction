@@ -5,3 +5,5 @@ __pycache__
 reviews_env
 working/*jsonlines
 Makefile
+models/*
+
