@@ -5,6 +5,8 @@
 Module of code that reads review data from raw text files and returns a list of files, describes the data, etc.
 '''
 import sys
+import logging
+logger = logging.getLogger()
 import numpy as np
 from re import sub
 import pandas as pd
@@ -251,38 +253,41 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 
     # Make sure that the passed-in keyword arguments make sense
     if make_train_test and (reviews or not reviewdb):
-        sys.exit('ERROR: The make_train_test keyword argument was set to ' \
-                 'True and either the reviewdb keyword was left unspecified' \
-                 ' or the reviews keyword was specified (or both). If the ' \
-                 'make_train_test keyword is used, it is expected that ' \
-                 'training/test reviews will be retrieved from the MongoDB ' \
-                 'database rather than a list of reviews passed in via the ' \
-                 'reviews keyword. Exiting.\n')
+        logger.info('ERROR: The make_train_test keyword argument was set to' \
+                    'True and either the reviewdb keyword was left ' \
+                    'unspecified or the reviews keyword was specified (or ' \
+                    'both). If the make_train_test keyword is used, it is ' \
+                    'expected that training/test reviews will be retrieved ' \
+                    'from the MongoDB database rather than a list of ' \
+                    'reviews passed in via the reviews keyword. Exiting.')
+        sys.exit(1)
     if not make_train_test and reviewdb:
         if reviews:
-            sys.stderr.write('WARNING: Ignoring passed-in reviewdb keyword ' \
-                             'value. Reason: If a list of reviews is passed' \
-                             ' in via the reviews keyword argument, then ' \
-                             'the reviewdb keyword argument should not be ' \
-                             'used at all since it will not be needed.\n')
+            logger.info('WARNING: Ignoring passed-in reviewdb keyword ' \
+                        'value. Reason: If a list of reviews is passed in ' \
+                         'via the reviews keyword argument, then the ' \
+                         'reviewdb keyword argument should not be used at ' \
+                         'all since it will not be needed.')
         else:
-            sys.exit('ERROR: A list of review dictionaries was not ' \
-                     'specified. Exiting.\n')
+            logger.info('ERROR: A list of review dictionaries was not ' \
+                        'specified. Exiting.')
+            sys.exit(1)
     if bins:
         if make_train_test and type(bins) == list:
-            sys.stderr.write('WARNING: The write_arff_file method was ' \
-                             'called with \'make_train_test\' set to True ' \
-                             'and \'bins\' set to a list of bin ranges ' \
-                             '({}). Because the bin values in the database ' \
-                             'were precomputed, the passed-in list of bin ' \
-                             'ranges will be ignored.\n'.format(repr(bins)))
+            logger.info('WARNING: The write_arff_file method was called ' \
+                        'with \'make_train_test\' set to True and \'bins\' ' \
+                        'set to a list of bin ranges ({}). Because the bin ' \
+                        'values in the database were precomputed, the ' \
+                        'passed-in list of bin ranges will be ignored' \
+                        '.'.format(repr(bins)))
         if reviews and type(bins) == bool:
-            sys.exit('ERROR: The write_arff_file method was called with a ' \
-                     'list of review dictionaries and \'bins\' set to True.' \
-                     ' If the hours played values are to be collapsed and ' \
-                     'precomputed values (as from the database, for ' \
-                     'example) are not being used, then the bin ranges must' \
-                     ' be specified. Exiting.\n')
+            logger.info('ERROR: The write_arff_file method was called with ' \
+                        'a list of review dictionaries and \'bins\' set to ' \
+                        'True. If the hours played values are to be ' \
+                        'collapsed and precomputed values (as from the ' \
+                        'database, for example) are not being used, then ' \
+                        'the bin ranges must be specified. Exiting.')
+            sys.exit(1)
 
     # ARFF file template
     ARFF_BASE = '''% Generated on {}
@@ -312,16 +317,16 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             reviews_lines = []
 
             # Get reviews for the given partition from all of the games
-            game_docs_cursor = reviewdb.find({'partition': partition,
-                                              'game': {'$in': file_names}})
-            if game_docs_cursor.count() == 0:
-                sys.exit('ERROR: No matching documents were found in the ' \
-                         'MongoDB collection for the {} partition and the' \
-                         ' following games:\n\n{}\nExiting.' \
-                         '\n'.format(partition,
-                                     file_names))
+            game_docs = reviewdb.find({'partition': partition,
+                                       'game': {'$in': file_names}})
+            if game_docs.count() == 0:
+                logger.info('ERROR: No matching documents were found in the' \
+                            ' MongoDB collection for the {} partition and ' \
+                            'the following games:\n\n{}'.format(partition,
+                                                                file_names))
+                logger.info('Exiting.')
+                sys.exit(1)
 
-            game_docs = list(game_docs_cursor)
             for game_doc in game_docs:
                 # Remove single/double quotes from the reviews first...
                 review = sub(r'\'|"',
@@ -352,8 +357,9 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     else:
 
         if not reviews:
-            sys.exit('ERROR: Empty list of reviews passed in to the ' \
-                     'write_arff_file method. Exiting.\n')
+            logger.info('ERROR: Empty list of reviews passed in to the ' \
+                        'write_arff_file method. Exiting.')
+            sys.exit(1)
 
         # Make empty list of lines to populate with ARFF-style lines,
         # one per review
@@ -372,10 +378,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                 hours = get_bin(bins,
                                 rd['hours'])
                 if hours < 0:
-                    sys.exit('ERROR: The given hours played value ({}) was ' \
-                             'not found in the list of possible bin ranges ' \
-                             '({}). Exiting.\n'.format(rd['hours'],
-                                                       bins))
+                    logger.info('ERROR: The given hours played value ({}) ' \
+                                'was not found in the list of possible bin ' \
+                                'ranges ({}). Exiting.'.format(rd['hours'],
+                                                               bins))
+                    sys.exit(1)
             else:
                 hours = rd['hours']
             reviews_lines.append('"{}",{}'.format(review,

@@ -1,5 +1,12 @@
 #!/usr/env python3.4
+'''
+@author Matt Mulholland
+@date May, 2015
+
+Script used to create training/test sets in a MongoDB database from review data extracted from flat files.
+'''
 import sys
+import logging
 import pymongo
 import argparse
 from os import listdir
@@ -62,13 +69,30 @@ if __name__ == '__main__':
         default=27017)
     args = parser.parse_args()
 
+    # Initialize logging system
+    logger = logging.getLogger('rep.make_train_test_sets')
+    logger.setLevel(logging.DEBUG)
+
+    # Create console handler with a high logging level specificity
+    sh = logging.StreamHandler()
+    sh.setLevel(logging.WARNING)
+
+    # Add nicer formatting
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
+                                  ' %(message)s')
+    #fh.setFormatter(formatter)
+    sh.setFormatter(formatter)
+    #logger.addHandler(fh)
+    logger.addHandler(sh)
+
     # Make sure value passed in via the --convert_to_bins/-bins option flag
     # makes sense and, if so, assign value to variable bins (if not, set bins
     # equal to 0)
     if args.convert_to_bins and args.convert_to_bins < 2:
-        sys.exit('ERROR: The value passed in via --convert_to_bins/-bins ' \
-                 'must be greater than 1 since there must be multiple bins ' \
-                 'to divide the hours played values. Exiting.\n')
+        logger.info('ERROR: The value passed in via --convert_to_bins/-bins' \
+                    'must be greater than 1 since there must be multiple ' \
+                    'bins to divide the hours played values. Exiting.')
+        sys.exit(1)
     elif args.convert_to_bins:
         bins = args.convert_to_bins
     else:
@@ -87,23 +111,23 @@ if __name__ == '__main__':
 
     # Make sure args make sense
     if args.max_size < 50:
-        sys.exit('ERROR: You can\'t be serious, right? You passed in a ' +
-                 'value of 50 for the MAXIMUM size of the combination ' +
-                 'of training/test sets? Exiting.\n')
+        logger.info('ERROR: You can\'t be serious, right? You passed in a ' \
+                    'value of 50 for the MAXIMUM size of the combination of' \
+                    ' training/test sets? Exiting.')
+        sys.exit(1)
     if args.percent_train < 1.0:
-        sys.exit('ERROR: You can\'t be serious, right? You passed in a ' +
-                 'value of 1.0% for the percentage of the selected ' +
-                 'reviews that will be devoted to the training set? That' +
-                 'is not going to be enough training samples... ' +
-                 'Exiting.\n')
+        logger.info('ERROR: You can\'t be serious, right? You passed in a ' \
+                    'value of 1.0% for the percentage of the selected ' \
+                    'reviews that will be devoted to the training set? That' \
+                    ' is not going to be enough training samples... Exiting.')
+        sys.exit(1)
 
     # Make sense of arguments
     if args.make_reports and args.just_describe:
-        sys.stderr.write('WARNING: If the --just_describe and -describe/' \
-                         '--make_reports option flags are used, ' \
-                         '--just_describe wins out, i.e., reports will be ' \
-                         'generated, but no reviews will be inserted into ' \
-                         'the DB.\n')
+        logger.info('WARNING: If the --just_describe and -describe/' \
+                    '--make_reports option flags are used, --just_describe ' \
+                    'wins out, i.e., reports will be generated, but no ' \
+                    'reviews will be inserted into the DB.')
 
     # Get list of games
     game_files = []
@@ -113,25 +137,23 @@ if __name__ == '__main__':
     else:
         game_files = args.game_files.split(',')
 
-    sys.stderr.write('Adding training/test partitions to Mongo DB for ' +
-                     'the following games: ' +
-                     '{}\n'.format(', '.join([g[:-4] for g in game_files])))
-    sys.stderr.write('\nMaximum size for the combined training/test ' \
-                     'sets: {0}\nPercentage split between training and ' \
-                     'test sets: {1:.2f}/{2:.2f}' \
-                     '\n'.format(args.max_size,
-                                 args.percent_train,
-                                 100.0 - args.percent_train))
+    logger.info('Adding training/test partitions to Mongo DB for the ' +
+                'following games: {}'.format(', '.join([g[:-4] for g in
+                                                        game_files])))
+    logger.info('Maximum size for the combined training/test sets: ' \
+                '{0}'.format(args.max_size))
+    logger.info('Percentage split between training and test sets: ' \
+                '{2:.2f}/{3:.2f}'.format(args.percent_train,
+                                         100.0 - args.percent_train))
     if bins:
-        sys.stderr.write('Converting hours played values to {} bins.' \
-                         '\n'.format(bins))
+        logger.info('Converting hours played values to {} bins.'.format(bins))
 
     # For each game in our list of games, we will read in the reviews from
     # the data file and then put entries in our MongoDB collection with a
     # key that identifies each review as either training or test
     for game_file in game_files:
-        sys.stderr.write('Getting/inserting reviews for {}...\n' \
-                         '\n'.format(basename(game_file)[:-4]))
+        logger.info('Getting/inserting reviews for {}' \
+                    '...'.format(basename(game_file)[:-4]))
         insert_train_test_reviews(reviewdb,
                                   abspath(join(data_dir,
                                                game_file)),
@@ -141,4 +163,4 @@ if __name__ == '__main__':
                                   describe=args.make_reports,
                                   just_describe=args.just_describe)
 
-    sys.stderr.write('\nComplete.\n')
+    logger.info('Complete.')

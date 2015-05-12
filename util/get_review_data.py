@@ -1,12 +1,14 @@
 import sys
 import re
-import requests
 import time
+import logging
 import argparse
+import requests
 from lxml import html
-from bs4 import UnicodeDammit
 from os import listdir
+from bs4 import UnicodeDammit
 from os.path import dirname, abspath, realpath, join
+
 main_dir = dirname(dirname(abspath(realpath(__file__))))
 util_dir = join(main_dir, 'util')
 data_dir = join(main_dir, 'data')
@@ -52,7 +54,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         try:
             page = requests.get(url, timeout=time_out)
         except requests.exceptions.Timeout as e:
-            print("There was a Timeout error...")
+            logger.info("There was a Timeout error...")
             breaks += 1
             continue
         # If there's nothing at this URL, page might have no value at all,
@@ -92,14 +94,12 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         try:
             assert len(hours) == len(range_reviews)
         except AssertionError:
-            sys.stderr.write('Warning: len(hours) ({}) not equal to ' \
-                             'len(range_reviews) ' \
-                             '({}).\n\n'.format(len(hours),
-                                                len(range_reviews)))
-            sys.stderr.write('URL: {}\n'.format(url))
-            sys.stderr.write('{}\n\n'.format([h[:5] for h in hours]))
-            sys.stderr.write('{}\n\n\n'.format(
-                [r[:20] for r in range_reviews]))
+            logger.debug('Warning: len(hours) ({}) not equal to ' \
+                         'len(range_reviews) ({}).\n'.format(len(hours),
+                                                          len(range_reviews)))
+            logger.debug('URL: {}'.format(url))
+            logger.debug('{}\n'.format([h[:5] for h in hours]))
+            logger.debug('{}\n\n'.format([r[:20] for r in range_reviews]))
             range_begin += 10
             i += 1
             time.sleep(120)
@@ -136,8 +136,8 @@ def parse_appids(appids):
     appids = appids.split(',')
     for appid in appids:
         if not appid in APPID_DICT.values():
-            sys.exit('ERROR: {} not found in APPID_DICT. ' \
-                     'Exiting.\n'.format(appid))
+            logger.info('ERROR: {} not found in APPID_DICT. ' \
+                        'Exiting.'.format(appid))
     return appids
 
 
@@ -156,6 +156,22 @@ if __name__ == '__main__':
         type=str,
         required=False)
     args = parser.parse_args()
+
+    # Initialize logging system
+    logger = logging.getLogger('rep.get')
+    logger.setLevel(logging.DEBUG)
+
+    # Create console handler with a high logging level specificity
+    sh = logging.StreamHandler()
+    sh.setLevel(logging.WARNING)
+
+    # Add nicer formatting
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
+                                  ' %(message)s')
+    #fh.setFormatter(formatter)
+    sh.setFormatter(formatter)
+    #logger.addHandler(fh)
+    logger.addHandler(sh)
 
     # Make list of games for which to generate review data files
     if args.appids:

@@ -185,7 +185,7 @@ class Review(object):
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature ("wngrams" for word n-grams, "cngrams" for character n-grams, "length" for length, and "dep" for syntactic dependency features) is represented as a key:value mapping in which the key is a string with the name of the feature class followed by two hashes and then the string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
+    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature is represented as a key:value mapping in which the key is a string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -218,8 +218,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         # Re-represent keys as string representations of specific features
         # of the feature class "ngrams"
         for ngram in list(ngram_counter):
-            ngram_counter['ngrams##{}'.format(' '.join(ngram))] = \
-                ngram_counter[ngram]
+            ngram_counter[' '.join(ngram)] = ngram_counter[ngram]
             del ngram_counter[ngram]
 
         return ngram_counter
@@ -249,8 +248,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         # of the feature class "cngrams" (and set all values to 1 if binarize
         # is True)
         for cngram in list(cngram_counter):
-            cngram_counter['cngrams##{}'.format(''.join(cngram))] = \
-                cngram_counter[cngram]
+            cngram_counter[''.join(cngram)] = cngram_counter[cngram]
             del cngram_counter[cngram]
 
         return cngram_counter
@@ -277,9 +275,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 # get the children and make dependency features with
                 # them
                 if t.n_lefts + t.n_rights:
-                    fstr = "dep##{0.orth_}:{1.orth_}"
-                    [dep_counter.update({fstr.format(t, c): 1})
-                     for c in t.children if not c.tag_ in punctuation]
+                    fstr = "{0.orth_}:{1.orth_}"
+                    [dep_counter.update({fstr.format(t, c): 1}) for c in
+                     t.children if not c.tag_ in punctuation]
 
         return dep_counter
 
@@ -291,7 +289,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     # it exists for every single review and, thus, a review of this length
     # being mapped to the hours played value that it is mapped to has
     # occurred once.
-    features.update({'length##{}'.format(_review.length): 1})
+    features.update({str(_review.length): 1})
 
     # Extract n-gram features
     features.update(generate_ngram_fdist(_review.tokens))
