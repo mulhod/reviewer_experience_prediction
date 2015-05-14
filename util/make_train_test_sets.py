@@ -80,11 +80,11 @@ if __name__ == '__main__':
 
     # Initialize logging system
     logger = logging.getLogger('make_train_test_sets')
-    logger.setLevel(logging.ERROR)
+    logger.setLevel(logging.INFO)
 
-    # Create file handler with a high logging level specificity
+    # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.ERROR)
+    fh.setLevel(logging.INFO)
 
     # Create console handler
     sh = logging.StreamHandler()

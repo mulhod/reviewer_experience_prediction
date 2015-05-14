@@ -1,0 +1,26 @@
+Descriptive Report for Dota 2
+===============================================================================
+
+Number of English-language reviews: 18391
+
+Review Lengths Distribution
+
+Average review length: 152.19281005859375
+Minimum review length = 1
+Maximum review length = 7934
+Standard deviation = 387.3566589355469
+
+
+Review Experience Distribution
+
+Average game experience (in hours played): 1299.1912841796875
+Minimum experience = 0.0
+Maximum experience = 13414.2
+Standard deviation = 1157.9169921875
+
+
+Filter Values
+Minimum length = 50.0
+Maximum length = 926.9061279296875
+Minimum hours played = 0.0
+Maximum hours played = 3615.025390625

@@ -9,6 +9,7 @@ from os.path import realpath, abspath, dirname, join, basename
 from util.datasets import (get_and_describe_dataset, get_bin_ranges,
                            write_arff_file)
 
+project_dir = dirname(dirname(realpath(__file__)))
 
 if __name__ == '__main__':
 
@@ -60,22 +61,32 @@ if __name__ == '__main__':
         help='port that the MongoDB server is running',
         type=int,
         default=27017)
+    parser.add_argument('--log_file_path', '-log',
+        help='path for log file',
+        type=str,
+        default=join(project_dir,
+                     'logs',
+                     'replog_make_arff.txt'))
     args = parser.parse_args()
 
     # Initialize logging system
     logger = logging.getLogger('make_arff')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging.INFO)
 
-    # Create console handler with a high logging level specificity
+    # Create file handler
+    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh.setLevel(logging.INFO)
+
+    # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.WARNING)
+    sh.setLevel(logging.INFO)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
                                   ' %(message)s')
-    #fh.setFormatter(formatter)
+    fh.setFormatter(formatter)
     sh.setFormatter(formatter)
-    #logger.addHandler(fh)
+    logger.addHandler(fh)
     logger.addHandler(sh)
 
     bins = not args.use_original_hours_values
@@ -101,8 +112,7 @@ if __name__ == '__main__':
                     'argument. Exiting.')
         sys.exit(1)
 
-    # Get paths to the data and arff_files directories
-    project_dir = dirname(dirname(abspath(realpath(__file__))))
+    # Get path to the data directory
     data_dir = join(project_dir,
                     'data')
     if bins:
