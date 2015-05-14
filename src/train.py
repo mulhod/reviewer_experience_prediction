@@ -21,9 +21,13 @@ from os.path import join, dirname, realpath, abspath
 from src.feature_extraction import (Review, extract_features_from_review,
                                     write_config_file)
 
+project_dir = dirname(dirname(realpath(__file__)))
+
+
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(usage='python train.py',
+    parser = argparse.ArgumentParser(usage='python train.py --game_files ' \
+        'GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
         description='Build a machine learning model based on the features ' \
                     'that are extracted from a set of reviews relating to a' \
                     ' specific game or set of games.',
@@ -58,8 +62,8 @@ if __name__ == '__main__':
         action='store_true',
         default=False)
     parser.add_argument('--just_extract_features',
-        help='exract features from all of the reviews, generate .jsonlines ' \
-             'files, etc., but quit before training any models',
+        help='extract features from all of the reviews, generate .jsonlines' \
+             ' files, etc., but quit before training any models',
         action='store_true',
         default=False)
     parser.add_argument('--try_to_reuse_extracted_features',
@@ -80,26 +84,35 @@ if __name__ == '__main__':
         help='port that the MongoDB server is running',
         type=int,
         default=27017)
+    parser.add_argument('--log_file_path', '-log',
+        help='path for log file',
+        type=str,
+        default=join(project_dir,
+                     'logs',
+                     'replog_train.txt'))
     args = parser.parse_args()
 
     # Initialize logging system
-    logger = logging.getLogger('rep.train')
-    logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger('train')
+    logger.setLevel(logging.ERROR)
 
-    # Create console handler with a high logging level specificity
+    # Create file handler with a high logging level specificity
+    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh.setLevel(logging.ERROR)
+
+    # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.WARNING)
+    sh.setLevel(logging.INFO)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
                                   ' %(message)s')
-    #fh.setFormatter(formatter)
+    fh.setFormatter(formatter)
     sh.setFormatter(formatter)
-    #logger.addHandler(fh)
+    logger.addHandler(fh)
     logger.addHandler(sh)
 
     # Get paths to the project, data, working, and models directories
-    project_dir = dirname(dirname(abspath(realpath(__file__))))
     data_dir = join(project_dir,
                     'data')
     working_dir = join(project_dir,
@@ -110,31 +123,31 @@ if __name__ == '__main__':
                    'config')
     logs_dir = join(project_dir,
                    'logs')
-    logger.info('project directory: {}'.format(project_dir))
-    logger.info('data directory: {}'.format(data_dir))
-    logger.info('working directory: {}'.format(working_dir))
-    logger.info('models directory: {}'.format(models_dir))
-    logger.info('configuration directory: {}'.format(cfg_dir))
-    logger.info('logs directory: {}'.format(logs_dir))
+    logger.debug('project directory: {}'.format(project_dir))
+    logger.debug('data directory: {}'.format(data_dir))
+    logger.debug('working directory: {}'.format(working_dir))
+    logger.debug('models directory: {}'.format(models_dir))
+    logger.debug('configuration directory: {}'.format(cfg_dir))
+    logger.debug('logs directory: {}'.format(logs_dir))
 
     binarize = not args.do_not_binarize_features
-    logger.info('Binarize features? {}'.format(binarize))
+    logger.debug('Binarize features? {}'.format(binarize))
     lowercase_text = not args.do_not_lowercase_text
-    logger.info('Lower-case text as part of the normalization step? ' \
-                '{}'.format(lowercase_text))
-    logger.info('Just extract features? ' \
-                '{}'.format(args.just_extract_features))
-    logger.info('Try to reuse extracted features? ' \
-                '{}'.format(args.try_to_reuse_extracted_features))
+    logger.debug('Lower-case text as part of the normalization step? ' \
+                 '{}'.format(lowercase_text))
+    logger.debug('Just extract features? ' \
+                 '{}'.format(args.just_extract_features))
+    logger.debug('Try to reuse extracted features? ' \
+                 '{}'.format(args.try_to_reuse_extracted_features))
 
     bins = not args.use_original_hours_values
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
     if args.combine and not args.combined_model_prefix:
-        logger.info('ERROR: When using the --combine flag, you must also ' \
-                    'specify a model prefix, which can be passed in via the' \
-                    ' --combined_model_prefix option argument. Exiting.')
+        logger.error('When using the --combine flag, you must also specify ' \
+                     'a model prefix, which can be passed in via the ' \
+                     '--combined_model_prefix option argument. Exiting.')
         sys.exit(1)
 
     if not args.run_configuration:
@@ -143,8 +156,8 @@ if __name__ == '__main__':
         try:
             connection = pymongo.MongoClient(connection_string)
         except pymongo.errors.ConnectionFailure as e:
-            logger.info('ERROR: Unable to connect to to Mongo server at ' \
-                        '{}'.format(connection_string))
+            logger.error('Unable to connect to to Mongo server at {}. ' \
+                         'Exiting.'.format(connection_string))
             sys.exit(1)
         db = connection['reviews_project']
         reviewdb = db['reviews']
@@ -208,10 +221,10 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logger.info('ERROR: No matching documents were found in' \
-                                ' the MongoDB collection in the training ' \
-                                'partition for game {}. Exiting' \
-                                '.'.format(game))
+                    logger.error('No matching documents were found in the ' \
+                                 'MongoDB collection in the training ' \
+                                 'partition for game {}. Exiting' \
+                                 '.'.format(game))
                     sys.exit(1)
 
             if not args.run_configuration:
@@ -267,15 +280,15 @@ if __name__ == '__main__':
                                         'binarized': binarize}})
                                 break
                             except AutoReconnect as e:
-                                logger.info('WARNING: Encountered ' \
-                                           'ConnectionFailure error, ' \
-                                            'attempting to reconnect ' \
-                                            'automatically...')
+                                logger.warning('Encountered ' \
+                                               'ConnectionFailure error, ' \
+                                               'attempting to reconnect ' \
+                                               'automatically...')
                                 tries += 1
                                 if tries >= 5:
-                                    logger.info('ERROR: Unable to update ' \
-                                                'database even after 5 ' \
-                                                'tries. Exiting.')
+                                    logger.error('Unable to update database' \
+                                                 'even after 5 tries. ' \
+                                                 'Exiting.')
                                     sys.exit(1)
                                 sleep(20)
 
@@ -359,8 +372,8 @@ if __name__ == '__main__':
 
                 # Get the training reviews for this game from the Mongo
                 # database
-                logger.info('Extracting features from the training data for {}' \
-                            '...'.format(game))
+                logger.info('Extracting features from the training data for' \
+                            ' {}...'.format(game))
                 appid = APPID_DICT[game]
                 game_docs = reviewdb.find({'game': game,
                                            'partition': 'training'},
@@ -368,10 +381,10 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logger.info('ERROR: No matching documents were found in' \
-                                ' the MongoDB collection in the training ' \
-                                'partition for game {}. Exiting' \
-                                '.'.format(game))
+                    logger.error('No matching documents were found in the ' \
+                                 'MongoDB collection in the training ' \
+                                 'partition for game {}. Exiting' \
+                                 '.'.format(game))
                     sys.exit(1)
 
             # Open JSONLINES file
@@ -442,15 +455,15 @@ if __name__ == '__main__':
                                               'binarized': binarize}})
                                 break
                             except AutoReconnect as e:
-                                logger.info('WARNING: Encountered ' \
-                                            'ConnectionFailure error, ' \
-                                            'attempting to reconnect ' \
-                                            'automatically...\n')
+                                logger.warning('Encountered ' \
+                                               'ConnectionFailure error, ' \
+                                               'attempting to reconnect ' \
+                                               'automatically...\n')
                                 tries += 1
                                 if tries >= 5:
-                                    logger.info('ERROR: Unable to update ' \
-                                                'database even after 5 ' \
-                                                'tries. Exiting.')
+                                    logger.error('Unable to update database' \
+                                                 'even after 5 tries. ' \
+                                                 'Exiting.')
                                     sys.exit(1)
                                 sleep(20)
 

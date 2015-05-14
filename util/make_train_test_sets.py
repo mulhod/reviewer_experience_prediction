@@ -12,11 +12,14 @@ import argparse
 from os import listdir
 from util.mongodb import insert_train_test_reviews
 from util.datasets import get_and_describe_dataset
-from os.path import join, basename, abspath, dirname, realpath
+from os.path import join, abspath, dirname, realpath, basename
+
+project_dir = dirname(dirname(realpath(__file__)))
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(usage='python make_train_test_sets.py',
+    parser = argparse.ArgumentParser(usage='python make_train_test_sets.py ' \
+        '--game_files GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
         description='Build train/test sets for each game. Take up to ' \
                     '21k reviews and split it 66.67/33.33 training/test, ' \
                     'respectively, by default. Both the maximum size and ' \
@@ -35,12 +38,12 @@ if __name__ == '__main__':
         help='maximum number of reviews to get for training/testing (if' \
              ' possible)',
         type=int,
-        default=10000)
+        default=4000)
     parser.add_argument('--percent_train', '-%',
         help='percent of selected reviews for which to use for the ' \
              'training set, the rest going to the test set',
         type=float,
-        default=(2.0/3.0)*100.0)
+        default=80.0)
     parser.add_argument('--convert_to_bins', '-bins',
         help='number of equal sub-divisions of the hours-played values, ' \
              'e.g. if 10 and the hours values range from 0 up to 1000, ' \
@@ -67,31 +70,41 @@ if __name__ == '__main__':
         help='port that the MongoDB server is running',
         type=int,
         default=27017)
+    parser.add_argument('--log_file_path', '-log',
+        help='path for log file',
+        type=str,
+        default=join(project_dir,
+                     'logs',
+                     'replog_make_train_test_sets.txt'))
     args = parser.parse_args()
 
     # Initialize logging system
-    logger = logging.getLogger('rep.make_train_test_sets')
-    logger.setLevel(logging.DEBUG)
+    logger = logging.getLogger('make_train_test_sets')
+    logger.setLevel(logging.ERROR)
 
-    # Create console handler with a high logging level specificity
+    # Create file handler with a high logging level specificity
+    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh.setLevel(logging.ERROR)
+
+    # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.WARNING)
+    sh.setLevel(logging.INFO)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
                                   ' %(message)s')
-    #fh.setFormatter(formatter)
+    fh.setFormatter(formatter)
     sh.setFormatter(formatter)
-    #logger.addHandler(fh)
+    logger.addHandler(fh)
     logger.addHandler(sh)
 
     # Make sure value passed in via the --convert_to_bins/-bins option flag
     # makes sense and, if so, assign value to variable bins (if not, set bins
     # equal to 0)
     if args.convert_to_bins and args.convert_to_bins < 2:
-        logger.info('ERROR: The value passed in via --convert_to_bins/-bins' \
-                    'must be greater than 1 since there must be multiple ' \
-                    'bins to divide the hours played values. Exiting.')
+        logger.error('The value passed in via --convert_to_bins/-bins must ' \
+                     'be greater than one since there must be multiple bins' \
+                     ' to divide the hours played values. Exiting.')
         sys.exit(1)
     elif args.convert_to_bins:
         bins = args.convert_to_bins
@@ -104,30 +117,29 @@ if __name__ == '__main__':
     db = connection['reviews_project']
     reviewdb = db['reviews']
 
-    # Get paths to the project and data directories
-    project_dir = dirname(dirname(abspath(realpath(__file__))))
+    # Get path to the data directory
     data_dir = join(project_dir,
                     'data')
 
     # Make sure args make sense
     if args.max_size < 50:
-        logger.info('ERROR: You can\'t be serious, right? You passed in a ' \
-                    'value of 50 for the MAXIMUM size of the combination of' \
-                    ' training/test sets? Exiting.')
+        logger.error('You can\'t be serious, right? You passed in a value ' \
+                     'of 50 for the MAXIMUM size of the combination of ' \
+                     'training/test sets? Exiting.')
         sys.exit(1)
     if args.percent_train < 1.0:
-        logger.info('ERROR: You can\'t be serious, right? You passed in a ' \
-                    'value of 1.0% for the percentage of the selected ' \
-                    'reviews that will be devoted to the training set? That' \
-                    ' is not going to be enough training samples... Exiting.')
+        logger.error('You can\'t be serious, right? You passed in a value ' \
+                     'of 1.0% for the percentage of the selected reviews ' \
+                     'that will be devoted to the training set? That is not' \
+                     'going to be enough training samples. Exiting.')
         sys.exit(1)
 
     # Make sense of arguments
     if args.make_reports and args.just_describe:
-        logger.info('WARNING: If the --just_describe and -describe/' \
-                    '--make_reports option flags are used, --just_describe ' \
-                    'wins out, i.e., reports will be generated, but no ' \
-                    'reviews will be inserted into the DB.')
+        logger.warning('If the --just_describe and -describe/--make_reports' \
+                       ' option flags are used, --just_describe wins out, ' \
+                       'i.e., reports will be generated, but no reviews ' \
+                       'will be inserted into the database.')
 
     # Get list of games
     game_files = []
@@ -137,13 +149,13 @@ if __name__ == '__main__':
     else:
         game_files = args.game_files.split(',')
 
-    logger.info('Adding training/test partitions to Mongo DB for the ' +
+    logger.info('Adding training/test partitions to Mongo DB for the ' \
                 'following games: {}'.format(', '.join([g[:-4] for g in
                                                         game_files])))
     logger.info('Maximum size for the combined training/test sets: ' \
                 '{0}'.format(args.max_size))
     logger.info('Percentage split between training and test sets: ' \
-                '{2:.2f}/{3:.2f}'.format(args.percent_train,
+                '{0:.2f}/{1:.2f}'.format(args.percent_train,
                                          100.0 - args.percent_train))
     if bins:
         logger.info('Converting hours played values to {} bins.'.format(bins))

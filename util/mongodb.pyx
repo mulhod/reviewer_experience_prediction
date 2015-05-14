@@ -14,8 +14,8 @@ from pprint import pprint
 from data import APPID_DICT
 from os.path import basename
 from random import randint, shuffle, seed
-from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
 from pymongo.errors import DuplicateKeyError, BulkWriteError
+from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
 
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,
@@ -56,26 +56,28 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
 
     # Make sense of arguments
     if describe and just_describe:
-        logger.info('WARNING: If the just_describe and describe keyword ' \
-                    'keyword arguments are set to True, just_describe wins ' \
-                    'out, i.e., the report will be generated, but no ' \
-                    'reviews will be inserted.')
+        logger.warning('If the just_describe and describe keyword arguments' \
+                       'are set to True, just_describe wins out, i.e., the ' \
+                       'report will be generated, but no reviews will be ' \
+                       'inserted.')
 
     # Get list of all reviews represented as dictionaries with 'review' and
     # 'hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
                                        report=(describe or just_describe))
     reviews = dataset['reviews']
-    logger.info('Number of original, English language reviews collected: ' \
-                '{}'.format(dataset['orig_total_reviews']))
+    logger.debug('Number of original, English language reviews collected: ' \
+                 '{}'.format(dataset['orig_total_reviews']))
     cdef float maxl = dataset['maxl']
     cdef float minl = dataset['minl']
     cdef float maxh = dataset['maxh']
     cdef float minh = dataset['minh']
-    logger.info('Maximum length = {}'.format(dataset['maxl']))
-    logger.info('Minimum length = {}'.format(dataset['minl']))
-    logger.info('Maximum amount of hours played = {}'.format(dataset['maxh']))
-    logger.info('Minimum amount of hours played = {}'.format(dataset['minh']))
+    logger.debug('Maximum length = {}'.format(dataset['maxl']))
+    logger.debug('Minimum length = {}'.format(dataset['minl']))
+    logger.debug('Maximum amount of hours played = ' \
+                 '{}'.format(dataset['maxh']))
+    logger.debug('Minimum amount of hours played = ' \
+                 '{}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the range
     # that each bin maps to
@@ -104,12 +106,12 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
     training_reviews = train_test_reviews[:training_set_size + 1]
     test_reviews = train_test_reviews[training_set_size + 1:]
-    logger.info('Number of training set reviews: ' \
-                '{}'.format(len(training_reviews)))
-    logger.info('Number of test set reviews: {}'.format(len(test_reviews)))
-    logger.info('Number of extra reviews: {}'.format(len(remaining_reviews)))
-    logger.info('NOTE: It is possible that fewer reviews get inserted into ' \
-                'the DB for the training set or test set if there are ' \
+    logger.debug('Number of training set reviews: ' \
+                 '{}'.format(len(training_reviews)))
+    logger.debug('Number of test set reviews: {}'.format(len(test_reviews)))
+    logger.debug('Number of extra reviews: {}'.format(len(remaining_reviews)))
+    logger.debug('NOTE: It is possible that fewer reviews get inserted into' \
+                ' the DB for the training set or test set if there are ' \
                 'errors during insertion and there are no replacement ' \
                 'reviews to substitute in.')
 
@@ -150,8 +152,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
             pprint(bwe.details,
                    stream=sys.stderr)
             sys.exit(1)
-        pprint(result,
-               stream=sys.stderr)
+        logger.debug(repr(result))
 
         # Print out some information about how many reviews were added
         train_inserts = reviewdb.find({'appid': appid,
@@ -160,10 +161,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                                       'partition': 'test'}).count()
         extra_inserts = reviewdb.find({'appid': appid,
                                        'partition': 'extra'}).count()
-        logger.info('Inserted {} training set reviews, {} test set reviews,' \
-                    ' and {} extra reviews...'.format(train_inserts,
-                                                      test_inserts,
-                                                      extra_inserts))
+        logger.debug('Inserted {} training set reviews, {} test set reviews' \
+                     ', and {} extra reviews...'.format(train_inserts,
+                                                        test_inserts,
+                                                        extra_inserts))
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
@@ -200,15 +201,14 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
             if _bin > -1:
                 rd['hours_bin'] = _bin
             else:
-                logger.info('WARNING: The hours played value ({}) did not ' \
-                            'seem to fall within any of the bin ranges' \
-                            '.'.format(rd['hours_bin']))
-                logger.info('Bin ranges:\n{}\n'.format(repr(bins)))
-                logger.info('Exiting.')
+                logger.error('The hours played value ({}) did not seem to ' \
+                             'fall within any of the bin ranges.\n\nBin ' \
+                             'ranges:\n{}\nExiting.'.format(rd['hours_bin'],
+                                                            repr(bins)))
                 sys.exit(1)
 
         try:
             bulk_writer.insert(rd)
         except DuplicateKeyError as e:
-            logger.info('WARNING: Encountered DuplicateKeyError. Throwing ' \
-                        'out the following review:\n{}'.format(rd))
+            logger.warning('Encountered DuplicateKeyError. Throwing out the' \
+                           ' following review:\n{}'.format(rd))

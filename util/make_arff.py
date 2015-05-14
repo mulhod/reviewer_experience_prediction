@@ -12,7 +12,7 @@ from util.datasets import (get_and_describe_dataset, get_bin_ranges,
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(usage='python make_arff.py',
+    parser = argparse.ArgumentParser(usage='python make_arff.py --game_files GAME_FILE1,GAME_FILE2[ OPTIONS]',
         description='Build .arff files for a specific game file, all game ' \
                     'files combined, or for each game file separately.',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -63,7 +63,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Initialize logging system
-    logger = logging.getLogger('rep.arff')
+    logger = logging.getLogger('make_arff')
     logger.setLevel(logging.DEBUG)
 
     # Create console handler with a high logging level specificity
@@ -83,18 +83,18 @@ if __name__ == '__main__':
     # Make sure --bins option flag makes sense
     if args.nbins:
         if args.make_train_test_sets:
-            logger.info('ERROR: If the --make_train_test_sets flag is used,' \
-                        ' a number of bins in which to collapse the hours ' \
+            logger.info('If the --make_train_test_sets flag is used, a ' \
+                        'number of bins in which to collapse the hours ' \
                         'played values cannot be specified (since the ' \
                         'values in the database were pre-computed). Exiting.')
             sys.exit(1)
         elif not bins:
-            logger.info('ERROR: Conflict between the ' \
-                        '--use_original_hours_values and --nbins flags. ' \
-                        'Both cannot be used at the same time.')
+            logger.info('Conflict between the --use_original_hours_values ' \
+                        'and --nbins flags. Both cannot be used at the same' \
+                        ' time.')
             sys.exit(1)
     elif (bins and not args.make_train_test_sets):
-        logger.info('ERROR: If both the --use_original_hours_values and ' \
+        logger.info('If both the --use_original_hours_values and ' \
                     '--make_train_test_sets flags are not used, then the ' \
                     'number of bins in which to collapse the hours played ' \
                     'values must be specified via the --nbins option ' \
@@ -117,11 +117,10 @@ if __name__ == '__main__':
     # Make sure there is a combined output file prefix if "combine" is the
     # value passed in via --mode
     if args.mode == 'combined' and not args.combined_file_prefix:
-        logger.info('ERROR: A combined output file prefix must be specified' \
-                    ' in cases where the "combined" value was passed in via' \
-                    ' the --mode option flag (or --mode was not specified, ' \
-                    'in which case "combined" is the default value). ' \
-                    'Exiting.')
+        logger.error('A combined output file prefix must be specified in ' \
+                    'cases where the "combined" value was passed in via the' \
+                    ' --mode option flag (or --mode was not specified, in ' \
+                    'which case "combined" is the default value). Exiting.')
         sys.exit(1)
 
     # See if the --make_train_test_sets flag was used, in which case we have
@@ -135,11 +134,11 @@ if __name__ == '__main__':
         db = connection['reviews_project']
         reviewdb = db['reviews']
     elif args.mongodb_port and not args.mongodb_port == 27017:
-        logger.info('WARNING: Ignoring argument passed in via the ' \
-                    '--mongodb_port option flag since the ' \
-                    '--make_train_test_sets flag was not also used, which ' \
-                    'means that the MongoDB database is not going to be ' \
-                    'used.')
+        logger.warning('Ignoring argument passed in via the ' \
+                       '--mongodb_port/-dbport option flag since the ' \
+                       '--make_train_test_sets flag was not also used, ' \
+                       'which means that the MongoDB database is not going ' \
+                       'to be used.')
         sys.exit(1)
 
     mode = args.mode
@@ -155,11 +154,11 @@ if __name__ == '__main__':
         # was only one file n the list of game files since only a single ARFF
         # file will be created
         if args.mode == 'combined':
-            logger.info('WARNING: The --mode flag was used with the value ' \
-                        '"combined" (or was unspecified) even though only ' \
-                        'one game file was passed in via the --game_files ' \
-                        'flag. Only one file will be written and it will be' \
-                        ' named after the game.')
+            logger.warning('The --mode flag was used with the value ' \
+                           '"combined" (or was unspecified) even though ' \
+                           'only one game file was passed in via the ' \
+                           '--game_files flag. Only one file will be ' \
+                           'written and it will be named after the game.')
             sys.exit(1)
 
     # Make a list of dicts corresponding to each review and write .arff files
