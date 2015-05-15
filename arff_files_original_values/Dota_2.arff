@@ -1,4 +1,4 @@
-% Generated on Sunday, 10. May 2015 04:17AM
+% Generated on Thursday, 14. May 2015 05:31PM
 % This ARFF file was generated with review data from the following game(s): ['Dota 2']
 % It is useful only for trying out machine learning algorithms on the bag-of-words representation of the reviews.
 @relation reviewer_experience
@@ -98,6 +98,7 @@
 "playing about 2 years, learnt fluent russian, portuguese and several spanish dialects. got a+s in my exams.",2631.5
 "step 1. install step 2. search for match. step 3. go lion. step 4. tell your mother you fingered a dude. 10/10",1291.5
 "sugar cookies. sugar is really cocaine. cookie is also cocaine. i ing hate this game.",1468.7
+"made me lose my friends, lose my social life and lose my mind 10/10",3042.9
 "have played game for 1800 hours and still have not found a single way to reach the ending. 8/10 for gameplay. 4/10 for direction.",1964.7
 "some guys was talking russian i wrote  they started laughing 10/10",268.1
 "10/10 got swore at in russian and portugese within the first 5 minutes, then decided this game was too hardcore for me. i would easily recommend this game to anybody that wants to feel like a worthless, bad video game player in 6 languages from sunday!",4.7
@@ -203,6 +204,7 @@
 "the greatest moba of them all. ..but i furiously hate these kind of ing  games,  them so bad, and may it die horribly. but if you get past that, 10/10.",71.8
 "dota 2 is an awesome game ruined by its lacking match making skills. i found a guy who had 0% knowledge of the game so i tell steam plz fix this and do not match people with same level but same skill meaning judge a persons skill. any by the way i have seen lvl4 people playing with lvl76 people i mean whats that about really.",2172.3
 "dont play this, i will keep inviting you to play this game with me and talk about how important team play is, but its just to lure you in. 500+ hours for a single game? play 10 other games instead.",1554.2
+"i cant play these games. but lol vs. dota, dota is the best.. byle oyunlar oynayamyorum, ancak lol ile karlatrrsak dota en iyisi.",0.4
 "it will ruin you life man. its like a drug but legal. you have been warned. dont not attempt.",504.3
 "ive been playing dota since waracraft iii, after hon and lol. then i bought dota 2 in beta and there is no better moba in my opinion. valve is doing a good job on keeping game up and interesting and i hope it will be keep doing well in the future too.",2170.2
 "reporting simulator! 10/10 would be reported again",340.4
@@ -486,7 +488,6 @@
 "best game ever!! join up and invite ur friends. =d",719.8
 "ruined my life and still continues to do so. 10/10",1734.9
 "thumbs up if you want this game. because its awesome and free.",734.6
-"nice game nice graphic nice all in dota 2 i like it dota 2 best",1612.7
 "amazing team game. but only for good players. look on your hands. if you see pincers, be ready to hear interesting stories about yor mum..",414.4
 "the most great game in the world { dota will never die }",2006.8
 "you might see this  installed in my friends list and go wow, you really have a moba installed? no i dont you ing weebs. i dont play this nerd  so just stop right in your  tracks if you were gonna ask me to help you get some  360 noskill points or climb out of your cardboard-cloud-9-tier whatever that you dorks do. i wont have that . i installed this dot a game because some disgusting ski-mask-wearing cockbiting chuckle put a gun to my head and said if i didnt install it then he would suicide bomb every bald eagle. we all know i dont  around when it comes to the greatest symbol of freedom on earth so i installed this dumb spaz  before punching that  in the throat and breaking his  neck and promptly washing my hard drive in bleach. because corporal jace stryker once told me i dont negotiate with cyber terrorists and i dont either god dammit. #semperfidelis",0.1
@@ -536,6 +537,7 @@
 "this is a great game. i used to play the warcraft 3 user map settings version. it was addicting way back then, and it is still addicting now. i played league of legends before i played dota 2, and i admit i was a little scared of the transition from league to dota. but as i write this review now, i do not think i will ever play league of legends again. i will stick to playing dota2 from now until forever. perhaps its the nostalgia it gives me or perhaps its fact that everyone is a  on league of legends. eitherway, this is a great game to get into, especially if mobas are your type of game.",168.0
 "learned alot of curse word from all over the world, 10/10",2006.8
 "before i started playing dota i had everything. now i dont. 10/10",2412.9
+"your messing out if you dont give dota a chance !",2517.1
 "pretty good but not as good as bad rats: the rats revenge",1005.1
 "summoned a ghost ship from an ethereal plain to land on a facelees human that had created a pocket of time that had ceased to be thus crushing him and a fire witch. 11/10.",2771.2
 "oh god i think im having something called dota addiction lol",421.9
@@ -669,7 +671,6 @@
 "this game is addictive, will waste your time and will make you hate everyone. recommended!",669.5
 "was supposed to do my project after i played this game...a week has already passed and i havent gotten any good rares yet. 5 stars!",206.8
 "a very nice game for everyone who loves good storylines, peace games and a relaxing gaming. i lied  blyat davai davai 11/10",1245.7
-"i used to like filipinos. 10/10 would doto ngamo bobo again",393.4
 "i played a match in us west, i learned russian very quickly 10/10 the new version of rossetta is super effective",1511.5
 "write a review for dota 2 please describe what you liked or disliked about this game and whether you recommend it to others. please remember to be polite and follow the rules and guidelines. do you recommend this game? formatting help visibility: public language: english yes no",2297.4
 "great for dota and lol fans! free and easy to learn. its a must try to see if thats your type of a game.",11.8
@@ -716,7 +717,9 @@
 "slowly eats away at your life 100% lifesteal ! i r8ed 8/8 m8 would masterb8",1188.8
 "this game is the only reason how i passed my russian exam.",547.6
 "better russian teacher then any school has to offer",1716.3
+"puros weones jugando dota. wena men steve gomez. new york times 2013",2851.5
 "like bad rats, revelations 2012 combined, with magic. - ign",2979.7
+"puros weones jugando dota. wena men steve gomez. new york times 2013",2851.5
 "watching russians trying to comunicate with other nations are just f****** hilarious 10/10",599.4
 "a game that deserves the greatness that it has reached.",3516.7
 "10/10 - dont waste money on that rosetta stone software if you want to learn russian - just play dota.",246.6
@@ -726,7 +729,6 @@
 "please give me a fair game.... if lose, i still proud... oyeah... (^_^)",1062.3
 "frankly and honestly !! dota 2 is awesome and great to play but one thing i disliked is about the steam wallet , i already add a minimum fund to my steam wallet and purchased a item on market , the thing i disliked is that you can`t withdraw your steam wallet money back to your paypal account or credit card , i think its unfair .. what will happen if i got a big steam wallet fund in the future by selling some items i get from a game that i played hard ? how can i withdraw my money to my paypal or credit card ?",1637.0
 "dota 2 has a huge fan base. it is a great game with many customize features to heroes in-game. ever since the original dota map from warcraft 3; it has made a huge come back in terms of graphics, and gameplay in dota 2. id recommend this game in a heartbeat to those who love moba games.",819.9
-"25 hours/day wasnt enough for me to play this game!",3613.0
 "dota 2 is literally one of the best games i have ever played! i give the game 8/10 because it can be really hard at the beginning if you dont have anyone telling you how to play it. dota 2 has about the same type of game as league of legends, but i like dota 2 much better because its more real-life. lol (league of legends) is almost the same just with comic book look alike textures and more champions.. if you dont agree with me, then thumbs down. your choice! if you want to play a mmo/rpg game, that has awesome and amazing textures you should definately download this game right now! be sure to thumbs up if you agree or this made you wanna play it!",40.7
 "motherin ig lost no no ingingttt ig mothering lost no dont touch this game ing ever douchenozzle  cuntass",564.4
 "dota 2, where we have horrible communication with russians on the us east servers",323.5
@@ -842,6 +844,7 @@
 "had a dream. dota 2 change that. ruined my life. 5stars",3448.0
 "if you wanna waste your time (life on this ) then this game is made for you",3394.0
 "this game was good but got not good. 0/10 put more shrek in.",129.3
+"persomnalei i wuld lik to sae dat dis gaem gud and i lik lot and lik i get lots kills and lik gud gaem and stuf... ,but i dun lik all da 4skinerrs dat speke rushin and spanesh cuz dey nubz and taek my killz1 also no kilstreeks so mebe 11/10, just cuz gaem is gud",1275.3
 "never occurs to me that time in life is too little, until dota 2 came along.",1.3
 "we had two bags of tango, animal courier, five high-powered healing salves, a saltshaker half-full of dust of appearance, a whole galaxy of multi-colored wards... also, a quart of clarity, a case smoke of deceit, a bottle with a double damage rune, and two town portal scrolls. not that we needed all that for the dota, but once you get locked into a serious items collection, the tendency is to push it as far as you can. the only thing that really worried me was the bottle with a double damage rune. there is nothing in the world more helpless and irresponsible and depraved than a man with the double damage, and i knew wed get into that rotten stuff pretty soon.",2527.8
 "ahhh.... dota 2. this game is severaly unbalanced since no matter how well you play, your team will always blame you for the loss. it is also insanely luck based because the team that gets most russians usually looses. a lot of functions in this game are completely broken as well. for example, even if you pick english in the language bar everyone still speaks russian. sometimes german or french, but never english. playing this game i had a few mental breakdowns and smashed three windows in total. it sometimes feels like my life is fading away and i imagine life in prison with a really musculine in-mate would provide the same level of . to sum up, this is game is ing terrible. 10/10 would recommend.",1273.5
@@ -1398,7 +1401,6 @@
 "this game can be really fun sometimes other times i hate myself for playing it at all",664.8
 "this game wrecked my social life ! good games for teamwork",1507.2
 "do you like mobas? enjoy league of legends or smite? well this game is, of coruse, another moba. however it is also the original moba. one of the things you may love or hate about dota is that there isnt really any sort on unfairness to new players beyond skill. if a person with 10,000 hours faces a player who has only 12 they have no different items, no different heroes, no different abilities. the veteran may have new aesthetic things but the only thing seperating them will be skill. if youre new to mobas i encourage you to try this one, they are very fun and are fortunately not pay to win.",940.9
-"this dota2 is very great for my life and love playing pudge,invoker,juggernut i hope i meet dendi someday",1292.0
 "its actually free no stupid microtransactions that make it pay to win so download this thing now",1699.3
 "one day, a wise man introduce me into this game. it shall protect your virginity, my lad he said.",2963.5
 "queue with at least four other people or you will be teamed with mindless south americans and/or russians.",769.8
@@ -1600,7 +1602,6 @@
 "play 4 ever, never be sarisfied by own play. always love winning, hate losing. teamwipes make you  or cry, depending on whos wiped.",2704.1
 "gives me cancer ery game 0/10 i am switching to lol",2159.6
 "this game is the best game mankind ever created! go ahead and play it!",2803.6
-"awesome game i suggest picking carry every game and speaking in brazillian 10/10 beans",3587.9
 "dota 2 is the most amazing competitive game i have ever played in my whole life!!! xd and its free also so nothing more to ask for guys!!! xd ill give 10/10 rating, must play this game!!! xd",2931.2
 "easy and fun game, invite your friends to experience the thrill of dota with good graphics.",603.7
 "gets reported for being better than some one, 10/10 best game ever by this scrub:",597.2
@@ -2187,7 +2188,6 @@
 "the best thing about dota 2 is its player vs player action. the worst thing about dota 2 is its player vs player interaction. all and all great game 10/10",696.4
 "game is good, it has potential .. but players are in most cases immature, angry, rude kids",1099.2
 "great game, would recommend to my friends. besides the fact that its free-to-play, getting your friends to play, (or making new friends) is key unless you want to be stuck with annoying players who kick you for being insolent. anyways, the community is far from perfect, but it isnt downright horrible either. it is in my opinion, pretty decent to say the least. 11/10 stole my friends life and my life. he spent over a lot on this game.",22.6
-"i do not want to be a troll, but recently i have left behind lol to start playing dota2, and i do not regret this decision, since it has more in-depth at every fight when compared to lol. sure the community seems a bit more toxic then lols but i can get used to it, since all the time i do not write in chat and mute the flamers and wannabes. playing with friends its more fun then alone and more rewarding, especially the events or being in a team. one thing i do not like about the game is the cost of the skins and items for the events. they are way to pricey. but on the other hand there is always discounts at the shop. to mention that the graphics are amazing and optimized since it is running on the source engine. see you on the battlefield champion! ps: if you want to do solo rankings prepare to learn russian and how to delete dota from steam. do that at your own risk but i strongly suggest playing with friends.",787.1
 "its good but it takes forever to get good at it p.s. if your not good at it the good player will just report you because there s... so its a good game but the community is ...your welcome",4.7
 "no quick scope, no jumping, no pot breaking, no one shotkill backstabbing? what kind of modern game is this? if i want to play a games with friends where everyone hates each other, id rather play mario kart. you can beat this game in 30 minutes to an hour, but a lot of people have over 1000 hours, they must really suck or something. thankfully its free, or else i wouldnt pay a single cent for this. and also i dont get why there are 107 characters. why cant there just be one ultimate character and just play it through? and ultimately, why am i forced to learn russian or portuguese in order to understand half of this game? 10/10, would not place any wards again.",348.7
 "alright so when i first got the game i thought cool, but now everytime im not playing it my computer starts showing me pictures of hitler, spams the sieg heil sound and keeps opening and closing the disc tray if im not ingame. 6000000/6000000",537.2
@@ -2495,7 +2495,6 @@
 "i like this game. i dont care about losing or winning. well, winning give me happiness lol, but you can learn from your loses and point out your weaknesses in the game . just remain calm , and remember, its only a game .",569.5
 "its a really good game, with good mechanics and good graphics. at first, it is boring, but when you practice and start understanding the game, it becomes a pleasure every time. all the matches seem like theyre the same but theyre not. its a different game every match, with tactics and fun. 10/10. ps: there are russians.",1258.2
 "a nice refreshment away from sandbox, rpg, fps games. also a great comeback from the old dota mod on world of warcraft 3. great game, fun gameplay, new modes kept it more interesting.",85.9
-"rip in peace skeleton king i thot youd live forever",636.4
 "its a real free to play game! no purchasable content in the game. its not pay to win. its competitive. just take a look at the fastest growing game in e-sports.",350.2
 "awesome and immersive gameplay! well ported from dota ! hats off to valve",2024.6
 "this game is similar to the super smash bros, but it diverges from that mold as it has a certain touch of sorrow and a solid connection with the concept of the human condition. these two factors truely make it a great game. plus these as put in some flying- donkeys 9/10",14.8
@@ -3130,7 +3129,6 @@
 "b4 dis gaem was release i was a virgin my friend (only 1, from north africa) always tease me. after i play dis gaem i am still virgin thank you gaben i can now go to kindergarten skool and be bullied by the white folk",2830.6
 "the day i started playing dota was the day i ruined my life! -dendi",0.6
 "dota 2, a game full of russian, pinoy, indo that doesnt communicate with english even if they have selected english as their language. they only speak english when up courier, ward,  noob 100% best game ever. train your patience and self-esteem. 20/10 ruined my life too.",1749.3
-"good strategic game ever and has a better graphics than lol :p",754.6
 "new update is great! ive never been able to get less credit for matches than ever. go d/cing!!! 420/10",1049.3
 "for those who have played a moba game, i recommend dota 2. however its not fully perfect yet. language wise it is a mess. even if you pick english as your choice. you will get games with russians, brazilians, mexicans, and etc from time to time and there is really nothing you can do about until it is fixed. game play wise its a bit slower pace then heroes of newerth, but much faster then league of legends and equally as competitive.",2619.8
 "the most awesome steam game !!! its a world within a world !!",731.2
@@ -3263,7 +3261,6 @@
 "before i played this game i only had 2 balls. after playing for a total of 500 hours i had a million.",1185.4
 "the support for the game is , but the game is fun.",76.7
 "sick game, teaches you tolerance of dealing with wits for an hour straight. also i now know a bit of chineses as people dont understand a regional search function. 10/10 ragemode would recommend",1981.2
-"well, if i liked dota 1, u will love dota 2, simple.",1391.6
 "this game is so good, it ripped out my heart and shoved it back in and the sheer amazingness of this game healed me instantly. - jacob",917.3
 "not bad, everything is great scept the jungler, kinda boring, and the fact that you need to spend almost half of your live playing just to be an ok player. worth every cent i paid for it.",113.9
 "awesome game! i suggest you give it a shot if you are into the moba genre.",102.1
@@ -3436,7 +3433,6 @@
 "best game ever there always pinoy and russian ruin the game party with your friends or you gonna get report from them with no reasons 100/10",1518.3
 "i love dota 2 because the unique blend of online rts and rpg action that has made dota popular with tens of millions of gamers and expand upon it in every way.",97.6
 "roughest community and steepest learning curve, other then that its a great game that is constantly evolving.",1136.9
-"better then league of legend. (if you understanding rules).",996.3
 "dota 2 has been the best game of my life.its gameplay and graphics are spectacular.ive played many games in my life.but dota 2 has been the best of all.its addictive and fun to play and once u start playing this game u will not stop!:).well for me dota 2 rocks and playing this game is very awesome.i will never stop playing this game.its creative and u have to do anything to get in the line.:)",436.7
 "a really addictive game. playing with bots will easily bore you but when you start playing with other players on different parts of the world, the game starts to shine.",1510.6
 "i can safely say that the more i play the game and more i , i get more and more axaxax as invoker the more love it. comment me     .",2471.0
@@ -3601,8 +3597,8 @@
 "this game is one of the best moba and its free!!! all heros are playable you dont have to buy anything its all the same playing field. the updates have made the game better and better, thus moar fun!!! try it out its free and you can practise with the modes with other people, it takes lots of skills to play. have fun!!!",554.1
 "this game improved so much since it was released on the beta. there are over 90 heroes to choose from currently and the gamplay is as intence and as rewarding as dota 1. i know alot of people will be hesitant to try it at first but there has been a new tutorial system implemented in dota 2 and i think it will help new comers. i know some people who play lol might bash in this game, but both games are compleatly different. its like comparing cod and battlefield, they are so different that connot be compared. (no preference on either game, i think bot of them are good) give this game a try, the learning curve is very steep but it is rewarding when you learn. i think this is the best gave valve has ever developed and has been the most played game on steam ever since the second year of beta development. try it out, its free and badass!",1546.3
 "theres too much to say about dota2. all i can say is i love playing the game.",648.1
+"this is the best steam game by far hands down. a must play. period, end of discussion.",1596.2
 "best game ever ! its really addictive and fun to play , cant get bored of it . it demands both team play and individual skills , which make the game very unique and enjoyable ! i really recommend playing this game , but beware because youll need to have an organised team structure to thrive .",706.2
-"when i hear the match found sound i get a boner. this game has shown me things no other game or human being has before. this game is essential to my thrice-daily spank sessions; the female heroes (windranger, drow ranger, crystal maiden, etc.) all wear very sultry clothing which adds to my erotic fantasy. highly recommended i cant go a day without this",3610.3
 "this game is gonna suck out the life in you. its like youre selling your soul to the devil, except youre selling it to dota. its not like you need a soul anyway.",2505.2
 "so far its a really good game love the animation and the similarty to wow",1.6
 "never gave this type of a game a chance because of the harsh learning curve. dont make my mistake... jump in and deal with a few games of other players yelling at you. it is worth it once you figure it out.",93.6
@@ -4858,6 +4854,7 @@
 "at first i think i wouldnt try dota 2 cause its too much effect.. but when i try it ,, i cant let myself go from this awesome game.. if u are a real gamers ,, u should try this great game..",1488.7
 "dota is sort of a combination of football and chess.",276.8
 "after only spending 2,500 hours on this game i had just about mastered how to buy a courier and not feed. then they updated the map and changed everything, i hope that if i now invest another 2,500 hours i will get above 1k mmr. 10/10 would have botty sekz with",3462.6
+"new meta: armlet cm, bloodstone axe, dagon all heroes !!",2127.9
 "this game.... where do i even start. this game has consumed, no, devoured into its abyss more than a thousand hours of my life. thats like watching youre favorite tv show (without ads) for close to 3000 episodes. i would rather kill myself rather than watch 3000 episodes of tv. after all these countless hours exploring the gaping void of what seems to be, as some would call, fun, in dota 2, i have learned a few things: 1. if someone picks void, lycan or naga, leave immidiately. do not pass go, do not collect 200 gold. 2. do not attempt to understand russia, russian people, culture, or anything associated with the words , blyat, id inahui, etc. 3. this game will destroy your ing life still better than lol dan outa dan - john wins",1085.8
 "one of the best free games ive played.part(not all) of the community is perty toxic but then again each game has its own bad players. overall its a sweet moba game to play and i do recommend giving it a try.",142.1
 "dota 2, a free to play strategy game wherein players team up and battle with other teams. this is so great, they improve so much the old dota in warcraft frozen throne, and they also add items that can freely customize your favorite heroes. great marketing strategy, live long dota 2!",479.9
@@ -5112,6 +5109,7 @@
 "i cant recall a game that is more addictive than this son of a .",324.8
 "this games good do stuff with it have kids, no one cares",454.0
 "i love this game. because improve my team work ability. and improve strategy thinking base on many situation in game. enjoy with your friend or solo by your self!",668.9
+"i used to play soccer but now dota allll dddddaaaaaay thanks any way",678.4
 "epic competitive/interesting game and with that said... also extremely fun !!! <3 navi",2303.2
 "this game is for anyone who feels that they have gaming skills",456.7
 "this game is a rmoba russian multiplayer online battle arena 10/10",105.6
@@ -5142,6 +5140,7 @@
 "i recommend this game to everyone that ever played dota 1 in warcraft 3 or played hon/lol. im looking foward to seeing you in dota 2.",2699.5
 "dota 2 has a competitive feel to it so if youre a moba player who wants to win and dominate the opposition then dota 2 is the game for you.",19.4
 "i like that dota 2 is easier to play than dota 1 and how you can play with your friends from far places",373.7
+"rahshian data eez baist data in sahviet rahshia b means push,comrade!!",1360.9
 "russians use dota 2 as a simulator on which country to invade next. no matter what region you pick you are always with russians. always! fk can a scotsman no play a round of dota with other scotsman! not for the noob minded",180.5
 "fun and strategic and most of all nid team work and patience etc. all i can say is if play this game you will be sitting all day long",61.1
 "got stunlocked for 20 seconds 10/10 would get fked again.",16.2
@@ -5272,7 +5271,6 @@
 "this is a moba like league of legends excpet much harder, but once you get to know the game and get decent, it gets really fun to play.",811.6
 "play a few more games with me and my friends and if u still dont like it then ok",375.4
 "i became racist after playing dota. kill all pinoys!",1740.6
-"this game is like banoffee pie, some like it some dont yano.",8.3
 "i injected six marijuanas after playing this game, then i proceeded to curl into a ball and rub my crotch region with vasoline. 9001/10",0.6
 "if you are good in a team this is for you, if youve got a solo mentality go play something else.",453.9
 "addictive .... very very addictive game .. carefull u have been warned !",1602.7
@@ -5666,6 +5664,7 @@
 "imo, if youre thinking about league or dota, dota. ill give the score, but beneath that will be reasons dotas better than the next moba youll try to pick up. dota2-9/10 pros: -every hero is free, so no real money needed. (except skins) no real money to buy that good champ you want -good community -much more rewarding for a skilled player. its not that other mobas are *easy* but more towards the idea of them taking less focus. -better graphics and particles (imo, because some can reason that their bad) -voice chat, allowing skilled party members to quickly say what they need to say rather than typing -very balanced. everything is weak against something else. cons: -laggy, at times. -occasionaly youll find a toxic player. (very rude) -much harder to git gud at, due to high experience needed. - oh yeah, and some people stay on the wrong server, despite being spanish, brazillian, russian",367.9
 "if there were less people, that pretend they can play, it would be thousand times better, but i still love this game so much, because valve gave a second life to blizzards dotaallstars. thx, valve.",2738.0
 "this game is too good man m/ best game ever :p m/ . .",1877.2
+"niceniceicniencenicneincienicneincienciencineicnisndfkljnsdkjgsd as d as das d as d asfasfashfjknasjkhfuakshfkjhasui khfk asn fsafasfas",1253.8
 "best moba this is where it all began. mother of all mobas litteraly so do try it out.",958.9
 "i really like this game and im going to be crazy without this game and i improved my grammar and i learned how cooperate with the team and i learned how to be a leader friendly and teaching others how to play is so great :d please play this game cuz you will learn to many things :d",2147.8
 "it so nice to play dota that whay i want to play always dota 2",478.8
@@ -5774,6 +5773,7 @@
 "incredibly fun game. challenging and the skill levels have a wide range but the match making sorts most of the better players from the inexperienced ones so that it is still challenging at all levels you play at.",1075.5
 "a great pvp game that offers some of the most intriguing and nuanced team combat around.",1529.9
 "better than league of legends. a game where you need to have pro skill to win.",185.5
+"i like when playing and not disconect but if playing then disconect,like a  disturb very2 disturbing me but i like so much about dota 2",1409.8
 "dota 2 adds a great deal of complexity to the moba genre. its balance tenet is: everything goes. there is no character that is underpowered; in fact, theyre all overpowered in their own way. the game places a great burden of knowledge over whoever tries it out. be sure to stick to co-op games for starters. the tutorial may prepare you slightly, but the game as a whole is a lot more complex than other mobas on the market. oh, and the saying it aint over till its over applies here. you cant be sure youre winning until the radiant/dire goes down. lots of rooms for comebacks in here, but the game is far more snowbally than other mobas.",80.6
 "if you dont have this game. youre really missing out. not only is it free but its a very good game! its currently my favorite and its very popular. give it a try and learn it. it took some time for me to learn it and now i love it!",331.6
 "as soon as i clicked install, i grew a massive erection. it still hasnt gone down.",0.7
@@ -5849,7 +5849,6 @@
 "if you ever feel like commiting suicide, just get this game instead, there sorta the same thing.",45.2
 "the best strategy game based on dota, you should try this game.",2337.1
 "yo this game is real life chess witch happen between 2 terrotory ( play to known )",1708.7
-"pretty game! like it! its amazing:d pretty interesting and ive being playing it for long long time :d",1632.3
 "what a game i love it now with all the epic ways to play",285.7
 "its an amazing game - technically outstanding, showing all of valves usual polish and attention to detail, especially in the all-important multiplayer aspects. the continual balance tweaks and new heroes combined with the vast amount of content in the game offer countless hours of enjoyment. its hard to master but good wins with your teammates are incredibly satisfying. it took me a long time to warm up to, but im helplessly addicted and every day look forward to getting home to fire this up with my friends. if you can spare the time - play it.",1212.6
 "thise is a good stragergey game for all and very amazing for frinds and fo so injay when get the game re mebere it is douse a game",363.4
@@ -6551,7 +6550,6 @@
 "do you know what meth is? dota 2 is the exact same thing you come out losing teeth, paying people for things you dont need, seemingly twitch for no reason whatsoever, and you become racist to every living thing ever created... yup that sums up dota 2 in a nutshell. have fun playing guys.",788.4
 "makes your brain work fast than ever cause youd had to think how win the game :p",1689.2
 "dota 2 is a fun amazing easy to pick up and play moba with amazing rich cast of charachters abilitys lore and voice acting. and its f#cking fun! had lots of fun! 9.8/10",489.6
-"holy meat! this game is like naruto mixed with family guy!!!",3609.6
 "jesus make it stop are the russians really that bad? i asked.. they know english, right? i asked.. i had no idea.. otherwise, awesome game. ;)))))))",989.6
 "downloaded this game. then everyone in-game told me to uninstall it.",946.5
 "yeah! it`s a great game so need more desing and more graphics work",1033.2
@@ -6597,6 +6595,7 @@
 "i will recommend this to my friends because it is fun and lots epic fails or funny moments xd",895.6
 "my parents hate me, my grades are horrid, and my girlfriend left me. 10/10 would play again.",1400.3
 "multiplayer online battle arena video game and the stand-alone sequel to the defense of the ancients warcraft iii: reign of chaos and warcraft iii: the frozen throne mod",322.2
+"dota is an amazing game it never seizures to amaze me",888.1
 "the best patience rater in the world, as well as being a good language quiz simulator where you have to guess what your teammates are saying without being given the answer at all! you better get one now, or else the stockll run out when hell freezes over!!",1491.9
 "you will never be good at this game, you will merely be less bad. it is fun trying to be less bad though.",2845.8
 "competitive gaming like dota2 is good for players like us and me :)",316.1
@@ -7487,7 +7486,6 @@
 "good game, very fun, play if you want to learn ruski.",2815.8
 "i cant stop playing please help please help me jk you cant stop playing too",999.3
 "i hope 1 day russian will understand that they have there own ing server...",1101.3
-"when life gives you potatos, you make potato salad",1095.1
 "dota 2 is truly a game for skilled players and takes true dedication and practice.. dota 2 is a game where you have two teams, dire and whatever that other thing is, and a large array of characters and gear.. the only problem about gear is that you need it to suit your kind of character, an example would be that mages require wisdom and archers need agility! i played this game a fair bit, so i have lets say, moderate skills.. im a big range guy. but anyways back to the point. dota 2 is wonderful for a f2p game, and can really bring out the inner gamer in you. along with its entertaining feel, it can unlock a land of oppurtunities such as the championships.. this game deserves a whopping 9.5/10 which trasnlates to a gold in my rating system..",5.6
 "once you get enough practice youll want more and more. pushing your self more and more for every game, finding new strategies, perfecting your heroes. all of this makes to a perfect moba giving you endless hours of fun.",602.6
 "highly recommended, many hours. lots of fun, but hard to learn. also the ranked mmr community can be rough on newbs.",2058.0
@@ -7905,6 +7903,7 @@
 "this game was horrible. i cant stop playing it.. gggghhhaaaddd.. !! this game sucks i got no money left cause i bought items in this game.",1087.9
 "this game changed my life. i like dota2 very much.",554.6
 "the next installment of the league of the champions",8.6
+"11/10 -igm good game. no need to pay to become a pro player !",988.7
 "my first game on steam.... like most people... great gameplay, lots of update, not repetitive, great publicity are some plus points...  community, hard to master are some minus points.... which i tend to ignore... well, enjoy it...",356.1
 "the best game ever in the world. full strategy and teamwork",1166.8
 "cant stop playing this game. the best game ever in the world",1814.2
@@ -8073,6 +8072,7 @@
 "love love love love this game, thanks for my friend always play with me. fast respon from valve make this game so good",2681.5
 "its the best free game by steam it almost took over my life :v",366.4
 "great moba. if you like lol you will like this better. it is hard, but the best moba out there!",181.9
+"best russian simulator ever made!!!!1111!1!1 ign 11/10",483.5
 "good game, but it is worth remembering that this is just a game!",2412.7
 "this is a pretty awesome game, like team play outdoor sport that involves teamwork, i really like this game",448.7
 "would be nice if i could understand what to do. /cyka.",1.5
@@ -8385,6 +8385,7 @@
 "i only stopped playing because i wanted my life back.",1336.1
 "i preemptively report everyone i run into on the off chance that theyre bad.",2616.7
 "ten out of ten my  bled due to russian many annoying",1163.3
+"fastest way to learn so many languages...tangina bobo",1559.0
 "dota 2 = chess between professionals lol = checkers between kids nothing more needs to be said.",380.5
 "no need talk too much about this game, absolutely addicting game ever!",3126.4
 "i look to this game and i think: how a game with only one map and one scenario can be s complex? only dota can do this for you. i will be an eternal noob on this, and thats why i recommend this game.",5.5
@@ -8504,6 +8505,7 @@
 "this game made me understand why communism didnt work. because if it worked, the russians wouldnt have dota.",1395.6
 "as a league of legends player, (i know, i know) dota 2 had a huge learning curve to it, but as you play and learn the vast amount of game mechanics, you learn to love it. now that it is *finally* out of beta, more players are going to be playing, and i find that the in-game tutorials (even against real players! :d) are very helpful, something league of legends doesnt go nearly as in-depth with.",30.4
 "dota 2 - this is pain-killer and simultaneously pain-dealer. at least the people who live there - exactly in exactly! :) this game brings a lot of pain and suffering, but sometimes it is very fun . try it, youll like -_^ p.s: i am gladly accept gifts of inventory dota 2 :) do not hesitate ;) +25 karma =)",1455.3
+"dota2 is so nice,i love dendi,resolution,and silent <3",723.5
 "the level of russians is too damn high. if you want to play a competitive game play this, but prepare your  first.",1161.3
 "defence of the ancients is   finest multiplayer   . if you are        in to      .  .",773.7
 "i feel like this is the only game i have not stop playing. recommended 10/10",1474.7
@@ -8521,7 +8523,6 @@
 "i like the game it,s just so fun to play and n don,t have any problems with it just mixes up search engens every now and then but n would personaly recomend the game to not only children but to anyoune......awsome game",743.8
 "cout << would definitely recommend.. best multiplayer strategy game out there with superb gameplay.. & whats more, its free!!  << endl;",1092.6
 "a game that is hard to learn and there is always room for improvement, such as learning some poor scrubs peruvian language that is mixed with spanish so that you could better understand them. 8/8 m80 ign would peru again",2646.8
-"this game its ok but nt as gud as sum other games nd vry hard 2 play der r a lot of champions!! but sum champions is not vry gud n der is 1 champion dat makes 4 champions lol so op der r sum prob with game lyk when ur team kils ur own team minions nd also mana is vry hard 2 get nd dn think u cn surrender but dis game is lyk league of legends so its ok i recconend",3588.1
 "tbh i could not have think of a better game then skyrim untill i came along this big bag of wonders, every night i play dota. when i am asked to go to the park i always say yes in a couple of mins, instead i spend the whole day on dota",567.3
 "highly addictive hat sim made by our favorite jews working at valve hq.",1852.4
 "the best free to play game imo. even better than a lot of $60 games out there. very complex game if you are new to this genre and very rewarding. as this game really depends on team gameplay and strategy, matching up with random players, even foriegn language players, can cause a not so pleasent experience.  blyat,  taco, tangina, poda patti! gf hl!",809.1
