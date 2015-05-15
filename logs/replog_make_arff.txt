@@ -1,5 +1,3 @@
-2015-05-14 17:03:46,810 - make_arff - INFO - If the --make_train_test_sets flag is used, a number of bins in which to collapse the hours played values cannot be specified (since the values in the database were pre-computed). Exiting.
-2015-05-14 17:04:18,676 - make_arff - INFO - If both the --use_original_hours_values and --make_train_test_sets flags are not used, then the number of bins in which to collapse the hours played values must be specified via the --nbins option argument. Exiting.
 2015-05-14 17:04:26,226 - make_arff - INFO - data directory: /home/mulhollandm2/reviews_project/reviewer_experience_prediction/data
 2015-05-14 17:04:26,226 - make_arff - INFO - arff files directory: /home/mulhollandm2/reviews_project/reviewer_experience_prediction/arff_files_collapsed_values
 2015-05-14 17:04:26,231 - make_arff - INFO - Reading in data from reviews files...
@@ -26,7 +24,7 @@
 2015-05-14 17:04:32,221 - make_arff - INFO - Getting review data from Arma_3.txt...
 2015-05-14 17:04:32,222 - make_arff - INFO - Generating ARFF file for the training and test sets for Arma_3...
 2015-05-14 17:04:32,872 - make_arff - INFO - Complete.
-2015-05-14 17:04:46,589 - make_arff - INFO - If both the --use_original_hours_values and --make_train_test_sets flags are not used, then the number of bins in which to collapse the hours played values must be specified via the --nbins option argument. Exiting.
+
 2015-05-14 17:05:03,560 - make_arff - INFO - data directory: /home/mulhollandm2/reviews_project/reviewer_experience_prediction/data
 2015-05-14 17:05:03,560 - make_arff - INFO - arff files directory: /home/mulhollandm2/reviews_project/reviewer_experience_prediction/arff_files_collapsed_values
 2015-05-14 17:05:03,560 - make_arff - INFO - Reading in data from reviews files...

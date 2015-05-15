@@ -34,7 +34,9 @@ if __name__ == '__main__':
         type=str,
         required=True)
     parser.add_argument('--model', '-m',
-        help='model prefix',
+        help='model prefix (note: take care to ensure that you are ' \
+             'extracting features from test reviews in the same way that ' \
+             'features were extracted for the training reviews)',
         type=str,
         required=False)
     parser.add_argument('--results_path', '-r',
@@ -190,4 +192,26 @@ if __name__ == '__main__':
 
     # Iterate over game files, generating/fetching features
     for game_file in game_files:
-        
+
+        game = game_file[:-4]
+        appid = APPID_DICT[game]
+
+        # Get test reviews
+        logger.info('Extracting features from the training data for {}' \
+                    '...'.format(game))
+        game_docs = reviewdb.find({'game': game,
+                                   'partition': 'test'},
+                                  {'features': 0,
+                                   'game': 0,
+                                   'partition': 0})
+
+        if game_docs.count() == 0:
+            logger.error('No matching documents were found in the MongoDB ' \
+                         'collection in the test partition for game {}. ' \
+                         'Exiting.'.format(game))
+            sys.exit(1)
+
+        for game_doc in game_docs:
+
+            if args.try_to_reuse_extracted_features:
+                
