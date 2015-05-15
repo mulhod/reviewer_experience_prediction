@@ -1,5 +1,5 @@
 '''
-@author Matt Mulholland
+@author Matt Mulholland, Janette Martinez, Emily Olshefski
 @date 05/05/2015
 
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
