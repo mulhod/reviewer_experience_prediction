@@ -10,7 +10,6 @@ import sys
 import logging
 logger = logging.getLogger()
 from math import ceil
-from pprint import pprint
 from data import APPID_DICT
 from os.path import basename
 from random import randint, shuffle, seed
@@ -149,8 +148,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         try:
             result = bulk.execute()
         except BulkWriteError as bwe:
-            pprint(bwe.details,
-                   stream=sys.stderr)
+            logger.debug(bwe.details)
             sys.exit(1)
         logger.debug(repr(result))
 

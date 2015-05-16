@@ -1,5 +1,0 @@
-game-hours: 987.0
-review: i didnt like it, im dumb.
-game-hours: 8007.0
-review: it was the best game i ever played.
-
