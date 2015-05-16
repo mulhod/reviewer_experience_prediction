@@ -1,7 +1,6 @@
 #Reviewer Experience Prediction
 
-    #Description
-    * System for predicting the number of game-hours that have been played by a reviewer given only the review text itself.
+  * System for predicting the number of game-hours that have been played by a reviewer given only the review text itself.
 
 * Idea: The online gaming platform Steam publishes hundreds of thousands of video game reviews (along with other pieces of data) by its users and it also collects and makes available huge amounts of data linked to those very same users. So, we can look at things like...
     1. How many hours a reviewer played the game he/she is reviewing
