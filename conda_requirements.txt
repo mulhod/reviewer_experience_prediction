@@ -1,0 +1,16 @@
+skll=1.0.1
+cython=0.22
+ipython=3.0.0
+lxml=3.4.2
+pymongo=2.8
+python=3.4.3
+python-dateutil=2.4.2
+pytz=2015.2
+pyyaml=3.11
+pyzmq=14.5.0
+requests=2.6.2
+scipy=0.15.1
+sklearn=0.15.2
+numpy=1.9.2
+pandas=0.16.0
+langdetect

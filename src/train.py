@@ -17,7 +17,7 @@ from collections import Counter
 from skll import run_configuration
 from pymongo.errors import AutoReconnect
 from json import dumps, JSONEncoder, JSONDecoder
-from os.path import join, dirname, realpath, abspath
+from os.path import join, dirname, realpath, abspath, exists
 from src.feature_extraction import (Review, extract_features_from_review,
                                     write_config_file)
 

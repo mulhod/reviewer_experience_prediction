@@ -1,0 +1,3 @@
+Task: train
+Training on working, feature set ['Football_Manager_2015'] ...
+	featurizing and training new RescaledRandomForestRegressor model
