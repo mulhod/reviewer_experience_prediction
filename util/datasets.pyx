@@ -1,6 +1,6 @@
 '''
-@author Matt Mulholland
-@date 05/05/2015
+:author: Matt Mulholland
+:date: May 5, 2015
 
 Module of code that reads review data from raw text files and returns a list of files, describes the data, etc.
 '''

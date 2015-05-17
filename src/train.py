@@ -1,7 +1,7 @@
 #!/usr/env python3.4
 '''
-@author: Matt Mulholland, Janette Martinez, Emily Olshefski
-@date: 3/18/15
+:author: Matt Mulholland, Janette Martinez, Emily Olshefski
+:date: March 18, 2015
 
 Script used to train models on datasets (or multiple datasets combined).
 '''
@@ -19,7 +19,7 @@ from pymongo.errors import AutoReconnect
 from json import dumps, JSONEncoder, JSONDecoder
 from os.path import join, dirname, realpath, abspath, exists
 from src.feature_extraction import (Review, extract_features_from_review,
-                                    write_config_file)
+                                    generate_config_file)
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -136,24 +136,9 @@ if __name__ == '__main__':
     logger.addHandler(sh)
 
     # Get paths to the project, data, working, and models directories
-    data_dir = join(project_dir,
-                    'data')
-    working_dir = join(project_dir,
-                       'working')
-    models_dir = join(project_dir,
-                      'models')
-    cfg_dir = join(project_dir,
-                   'config')
-    logs_dir = join(project_dir,
-                   'logs')
 
     # Print out some logging information about the upcoming tasks
     logger.debug('project directory: {}'.format(project_dir))
-    logger.debug('data directory: {}'.format(data_dir))
-    logger.debug('working directory: {}'.format(working_dir))
-    logger.debug('models directory: {}'.format(models_dir))
-    logger.debug('configuration directory: {}'.format(cfg_dir))
-    logger.debug('logs directory: {}'.format(logs_dir))
     logger.debug('Learner: {}'.format(args.learner))
     logger.debug('Objective function used for tuning: ' \
                  '{}'.format(args.objective_function))
@@ -211,7 +196,8 @@ if __name__ == '__main__':
 
     # Get list of games
     if args.game_files == "all":
-        game_files = [f for f in listdir(data_dir) if f.endswith('.txt')]
+        game_files = [f for f in listdir(join(project_dir,
+                                              'data')) if f.endswith('.txt')]
         del game_files[game_files.index('sample.txt')]
     else:
         game_files = args.game_files.split(',')
@@ -248,7 +234,8 @@ if __name__ == '__main__':
         if args.do_not_binarize_features:
             combined_model_prefix += '.nobin'
         jsonlines_filename = combined_model_prefix + '.jsonlines'
-        jsonlines_filepath = join(working_dir,
+        jsonlines_filepath = join(project_dir,
+                                  'working',
                                   jsonlines_filename)
 
         # Get experiment name
@@ -258,8 +245,6 @@ if __name__ == '__main__':
 
         # Get config file path
         cfg_filename = '{}.train.cfg'.format(expid)
-        cfg_filepath = join(cfg_dir,
-                            cfg_filename)
 
         if not args.run_configuration:
 
@@ -277,7 +262,7 @@ if __name__ == '__main__':
             jsonlines_file = open(jsonlines_filepath,
                                   'w')
 
-            # Get the training reviews for this game from the Mongo database
+            # Get the training reviews for this game from the MongoDB database
             for game_file in game_files:
 
                 game = game_file[:-4]
@@ -371,52 +356,14 @@ if __name__ == '__main__':
             jsonlines_file.close()
             features = None
 
-            # Create a template for the SKLL config file
-            # Note that all values must be strings
-            if args.learner == 'RescaledSVR':
-                param_grid_list = [{'C': [10.0 ** x for x in range(-3, 4)]}]
-                cfg_dict_base = \
-                    {"General": {},
-                     "Input": {"train_location": working_dir,
-                               "ids_to_floats": "False",
-                               "label_col": "y",
-                               "featuresets":
-                                   dumps([[combined_model_prefix]]),
-                               "suffix": '.jsonlines',
-                               "learners": dumps([args.learner])},
-                     "Tuning": {"feature_scaling": "none",
-                                "grid_search": "True",
-                                "min_feature_count": "1",
-                                "objective": args.objective_function,
-                                "param_grids": dumps([param_grid_list])},
-                     "Output": {"probability": "False",
-                                "log": join(logs_dir,
-                                            '{}.log'.format(expid))}}
-            else:
-                cfg_dict_base = \
-                    {"General": {},
-                     "Input": {"train_location": working_dir,
-                               "ids_to_floats": "False",
-                               "label_col": "y",
-                               "featuresets":
-                                   dumps([[combined_model_prefix]]),
-                               "suffix": '.jsonlines',
-                               "learners": dumps([args.learner])},
-                     "Tuning": {"feature_scaling": "none",
-                                "grid_search": "True",
-                                "min_feature_count": "1",
-                                "objective": args.objective_function},
-                     "Output": {"probability": "False",
-                                "log": join(logs_dir,
-                                            '{}.log'.format(expid))}}
-
             # Set up the job for training the model
             logger.info('Generating configuration file...')
-            cfg_dict_base["General"]["task"] = "train"
-            cfg_dict_base["General"]["experiment_name"] = expid
-            cfg_dict_base["Output"]["models"] = models_dir
-            write_config_file(cfg_dict_base,
-                              cfg_filepath)
+            generate_config_file(expid,
+                                 combined_model_prefix,
+                                 args.learner,
+                                 args.objective_function,
+                                 project_dir,
+                                 cfg_filename)
 
         if args.just_extract_features:
             logger.info('Complete.')
@@ -432,7 +379,8 @@ if __name__ == '__main__':
 
         # Run the SKLL configuration, producing a model file
         logger.info('Training combined model...')
-        run_configuration(cfg_filepath)
+        run_configuration(cfg_filepath,
+                          local=True)
 
     else:
 
@@ -450,7 +398,8 @@ if __name__ == '__main__':
             if args.do_not_binarize_features:
                 model_prefix += '.nobin'
             jsonlines_filename = model_prefix + '.jsonlines'
-            jsonlines_filepath = join(working_dir,
+            jsonlines_filepath = join(project_dir,
+                                      'working',
                                       jsonlines_filename)
 
             # Get experiment name
@@ -460,8 +409,6 @@ if __name__ == '__main__':
 
             # Get config file path
             cfg_filename = '{}.train.cfg'.format(expid)
-            cfg_filepath = join(cfg_dir,
-                                cfg_filename)
 
             if not args.run_configuration:
 
@@ -576,54 +523,14 @@ if __name__ == '__main__':
                 jsonlines_file.close()
                 features = None
 
-                # Create a template for the SKLL config file
-                # Note that all values must be strings
-                if args.learner == 'RescaledSVR':
-                    param_grid_list = [{'C': [10.0 ** x for x in
-                                              range(-3, 4)]}]
-                    cfg_dict_base = \
-                        {"General": {},
-                         "Input": {"train_location": working_dir,
-                                   "ids_to_floats": "False",
-                                   "label_col": "y",
-                                   "featuresets":
-                                       dumps([[model_prefix]]),
-                                   "suffix": '.jsonlines',
-                                   "learners": dumps([args.learner])},
-                         "Tuning": {"feature_scaling": "none",
-                                    "grid_search": "True",
-                                    "min_feature_count": "1",
-                                    "objective": args.objective_function,
-                                    "param_grids": dumps([param_grid_list])},
-                         "Output": {"probability": "False",
-                                    "log": join(logs_dir,
-                                                '{}.log'.format(expid))}}
-                else:
-                    cfg_dict_base = \
-                        {"General": {},
-                         "Input": {"train_location": working_dir,
-                                   "ids_to_floats": "False",
-                                   "label_col": "y",
-                                   "featuresets":
-                                       dumps([[model_prefix]]),
-                                   "suffix": '.jsonlines',
-                                   "learners": dumps([args.learner])},
-                         "Tuning": {"feature_scaling": "none",
-                                    "grid_search": "True",
-                                    "min_feature_count": "1",
-                                    "objective": args.objective_function},
-                         "Output": {"probability": "False",
-                                    "log": join(logs_dir,
-                                                '{}.log'.format(expid))}}
-
                 # Set up the job for training the model
                 logger.info('Generating configuration file...')
-                cfg_dict_base["General"]["task"] = "train"
-                cfg_dict_base["General"]["experiment_name"] = \
-                    '{}.train'.format(expid)
-                cfg_dict_base["Output"]["models"] = models_dir
-                write_config_file(cfg_dict_base,
-                                  cfg_filepath)
+                generate_config_file(expid,
+                                     model_prefix,
+                                     args.learner,
+                                     args.objective_function,
+                                     project_dir,
+                                     cfg_filename)
 
             if args.just_extract_features:
                 logger.info('Complete.')
@@ -639,6 +546,7 @@ if __name__ == '__main__':
 
             # Run the SKLL configuration, producing a model file
             logger.info('Training model for {}...'.format(game))
-            run_configuration(cfg_filepath)
+            run_configuration(cfg_filepath,
+                              local=True)
 
     logger.info('Complete.')

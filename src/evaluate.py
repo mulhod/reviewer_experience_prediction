@@ -1,7 +1,7 @@
 #!/usr/env python3.4
 '''
-@author: Matt Mulholland
-@date: 5/13/15
+:author: Matt Mulholland
+:date: May 13, 2015
 
 Script used to make predictions for datasets (or multiple datasets combined) and generate evaluation metrics.
 '''

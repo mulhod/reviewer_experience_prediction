@@ -1,6 +1,6 @@
 '''
-@author Matt Mulholland
-@date 05/05/2015
+:author: Matt Mulholland
+:date: May 5, 2015
 
 Module of code related to the MongoDB database that holds all of the review data.
 

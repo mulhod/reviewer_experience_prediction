@@ -1,4 +1,10 @@
 #!/usr/env python3.4
+'''
+:author: Matt Mulholland
+:date: April 15, 2015
+
+Script used to generate ARFF files usable in Weka for the video game review data-sets.
+'''
 import os
 import sys
 import logging

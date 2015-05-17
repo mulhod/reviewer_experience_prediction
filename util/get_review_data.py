@@ -1,3 +1,10 @@
+#!/usr/env python3.4
+'''
+:author: Matt Mulholland
+:date: April 1, 2015
+
+Script used to run the web scraping tool in order to build the video game review corpus.
+'''
 import sys
 import logging
 logger = logging.getLogger()

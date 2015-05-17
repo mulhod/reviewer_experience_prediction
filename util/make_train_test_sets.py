@@ -1,7 +1,7 @@
 #!/usr/env python3.4
 '''
-@author Matt Mulholland
-@date May, 2015
+:author: Matt Mulholland
+:date: April 15, 2015
 
 Script used to create training/test sets in a MongoDB database from review data extracted from flat files.
 '''
