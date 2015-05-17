@@ -4,13 +4,13 @@
 
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
 '''
+import re
 from math import ceil
 from json import dumps
 from numpy import log2
 from os.path import join
 from nltk.util import ngrams
 from string import punctuation
-from re import sub, IGNORECASE
 from collections import Counter
 from configparser import ConfigParser
 
@@ -112,50 +112,85 @@ class Review(object):
         else:
             r = self.orig
 
+        # Compile regular expressions
+        _spaces = re.compile(r'[\n\t ]+')
+        _wont = re.compile(r'\bwont\b', re.IGNORECASE)
+        _dont = re.compile(r'\bdont\b', re.IGNORECASE)
+        _doesnt = re.compile(r'\bdoesnt\b', re.IGNORECASE)
+        _didnt = re.compile(r'\bdidnt\b', re.IGNORECASE)
+        _wasnt = re.compile(r'\bwasnt\b', re.IGNORECASE)
+        _werent = re.compile(r'\bwerent\b', re.IGNORECASE)
+        _aint = re.compile(r'\baint\b', re.IGNORECASE)
+        _arent = re.compile(r'\barent\b', re.IGNORECASE)
+        _cant = re.compile(r'\bcant\b', re.IGNORECASE)
+        _couldnt = re.compile(r'\bcouldnt\b', re.IGNORECASE)
+        _wouldnt = re.compile(r'\bwouldnt\b', re.IGNORECASE)
+        _havent = re.compile(r'\bhavent\b', re.IGNORECASE)
+        _ive = re.compile(r'\bive\b', re.IGNORECASE)
+        _isnt = re.compile(r'\bisnt\b', re.IGNORECASE)
+        _theyre = re.compile(r'\btheyre\b', re.IGNORECASE)
+        _theyll = re.compile(r'\btheyll\b', re.IGNORECASE)
+        _thats = re.compile(r'\bthats\b', re.IGNORECASE)
+        _whats = re.compile(r'\bwhats\b', re.IGNORECASE)
+        _whatre = re.compile(r'\bwhatre\b', re.IGNORECASE)
+        _im = re.compile(r'\bim\b', re.IGNORECASE)
+        _youre = re.compile(r'\byoure\b', re.IGNORECASE)
+        _youve = re.compile(r'\byouve\b', re.IGNORECASE)
+
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
-        r = sub(r'[\n\t ]+',
-                r' ',
-                r.strip())
-        # Hand-crafted contraction-fixing rules
+        r = _spaces.sub(r' ',
+                        r.strip())
+        # Hand-crafted contraction-fixing rules (not comprehensive...)
         # wont ==> won't
-        r = sub(r"\bwont\b", r"won't", r, IGNORECASE)
+        r = _wont.sub(r'won\'t', r, re.IGNORECASE)
         # dont ==> don't
-        r = sub(r"\bdont\b", r"don't", r, IGNORECASE)
+        r = _dont.sub(r'don\'t', r, re.IGNORECASE)
+        # doesnt ==> doesn't
+        r = _doesnt.sub(r'doesn\'t', r, re.IGNORECASE)
+        # didnt ==> didn't
+        r = _didnt.sub(r'didn\'t', r, re.IGNORECASE)
         # wasnt ==> wasn't
-        r = sub(r"\bwasnt\b", r"wasn't", r, IGNORECASE)
+        r = _wasnt.sub(r'wasn\'t', r, re.IGNORECASE)
         # werent ==> weren't
-        r = sub(r"\bwerent\b", r"weren't", r, IGNORECASE)
+        r = _werent.sub(r'weren\'t', r, re.IGNORECASE)
         # aint ==> am not
-        r = sub(r"\baint\b", r"am not", r, IGNORECASE)
-        # arent ==> are not
-        r = sub(r"\barent\b", r"are not", r, IGNORECASE)
-        # cant ==> can not
-        r = sub(r"\bcant\b", r"can not", r, IGNORECASE)
-        # didnt ==> does not
-        r = sub(r"\bdidnt\b", r"did not", r, IGNORECASE)
-        # havent ==> have not
-        r = sub(r"\bhavent\b", r"have not", r, IGNORECASE)
-        # ive ==> I have
-        r = sub(r"\bive\b", r"I have", r, IGNORECASE)
-        # isnt ==> is not
-        r = sub(r"\bisnt\b", r"is not", r, IGNORECASE)
-        # theyll ==> they will
-        r = sub(r"\btheyll\b", r"they will", r, IGNORECASE)
-        # thats ==> that's
-        r = sub(r"\bthatsl\b", r"that's", r, IGNORECASE)
-        # whats ==> what's
-        r = sub(r"\bwhats\b", r"what's", r, IGNORECASE)
+        # Note: this is not always true, so we should fix it...
+        #r = _aint.sub(r'am not', r, re.IGNORECASE)
+        # arent ==> aren't
+        r = _arent.sub(r'aren\'t', r, re.IGNORECASE)
+        # cant ==> can't
+        r = _cant.sub(r'can\'t', r, re.IGNORECASE)
+        # couldnt ==> couldn't
+        r = _couldnt.sub(r'couldn\'t', r, re.IGNORECASE)
         # wouldnt ==> would not
-        r = sub(r"\bwouldnt\b", r"would not", r, IGNORECASE)
-        # im ==> I am
-        r = sub(r"\bim\b", r"I am", r, IGNORECASE)
-        # youre ==> you are
-        r = sub(r"\byoure\b", r"you are", r, IGNORECASE)
-        # youve ==> you have
-        r = sub(r"\byouve\b", r"you have", r, IGNORECASE)
-        # ill ==> i will
-        r = sub(r"\bill\b", r"i will", r, IGNORECASE)
+        r = _wouldnt.sub(r'wouldn\'t', r, re.IGNORECASE)
+        # havent ==> haven't
+        r = _havent.sub(r'haven\'t', r, re.IGNORECASE)
+        # ive ==> I\'ve
+        r = _ive.sub(r'I\'ve', r, re.IGNORECASE)
+        # isnt ==> isn\'t
+        r = _isnt.sub(r'isn\'t', r, re.IGNORECASE)
+        # theyre ==> they're
+        r = _theyre.sub(r'they\'re', r, re.IGNORECASE)
+        # theyll ==> they'll
+        r = _theyll.sub(r'they\'ll', r, re.IGNORECASE)
+        # thats ==> that's
+        r = _thats.sub(r'that\'s', r, re.IGNORECASE)
+        # whats ==> what's
+        r = _whats.sub(r'what\'s', r, re.IGNORECASE)
+        # whatre ==> what're
+        r = _whatre.sub(r'what\'re', r, re.IGNORECASE)
+        # im ==> I\'m
+        r = _im.sub(r'I\'m', r, re.IGNORECASE)
+        # youre ==> you're
+        r = _youre.sub(r'you\'re', r, re.IGNORECASE)
+        # youve ==> you\'ve
+        r = _youve.sub(r'you\'ve', r, re.IGNORECASE)
+        # ill ==> I\'ll
+        # Keep this out due to real-word errors
+        #r = _ill.sub(r'I\'ll', r, re.IGNORECASE)
+        # Keep "were" and "well" out due to real-word errors
         self.norm = r
 
 
