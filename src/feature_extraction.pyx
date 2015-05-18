@@ -1,16 +1,14 @@
 '''
-:author: Matt Mulholland, Janette Martinez, Emily Olshefski
-:date: May 5, 2015
+@author Matt Mulholland, Janette Martinez, Emily Olshefski
+@date 05/05/2015
 
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
 '''
-import re
 from math import ceil
-from json import dumps
 from numpy import log2
-from os.path import join
 from nltk.util import ngrams
 from string import punctuation
+from re import sub, IGNORECASE
 from collections import Counter
 from configparser import ConfigParser
 
@@ -112,85 +110,50 @@ class Review(object):
         else:
             r = self.orig
 
-        # Compile regular expressions
-        _spaces = re.compile(r'[\n\t ]+')
-        _wont = re.compile(r'\bwont\b', re.IGNORECASE)
-        _dont = re.compile(r'\bdont\b', re.IGNORECASE)
-        _doesnt = re.compile(r'\bdoesnt\b', re.IGNORECASE)
-        _didnt = re.compile(r'\bdidnt\b', re.IGNORECASE)
-        _wasnt = re.compile(r'\bwasnt\b', re.IGNORECASE)
-        _werent = re.compile(r'\bwerent\b', re.IGNORECASE)
-        _aint = re.compile(r'\baint\b', re.IGNORECASE)
-        _arent = re.compile(r'\barent\b', re.IGNORECASE)
-        _cant = re.compile(r'\bcant\b', re.IGNORECASE)
-        _couldnt = re.compile(r'\bcouldnt\b', re.IGNORECASE)
-        _wouldnt = re.compile(r'\bwouldnt\b', re.IGNORECASE)
-        _havent = re.compile(r'\bhavent\b', re.IGNORECASE)
-        _ive = re.compile(r'\bive\b', re.IGNORECASE)
-        _isnt = re.compile(r'\bisnt\b', re.IGNORECASE)
-        _theyre = re.compile(r'\btheyre\b', re.IGNORECASE)
-        _theyll = re.compile(r'\btheyll\b', re.IGNORECASE)
-        _thats = re.compile(r'\bthats\b', re.IGNORECASE)
-        _whats = re.compile(r'\bwhats\b', re.IGNORECASE)
-        _whatre = re.compile(r'\bwhatre\b', re.IGNORECASE)
-        _im = re.compile(r'\bim\b', re.IGNORECASE)
-        _youre = re.compile(r'\byoure\b', re.IGNORECASE)
-        _youve = re.compile(r'\byouve\b', re.IGNORECASE)
-
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
-        r = _spaces.sub(r' ',
-                        r.strip())
-        # Hand-crafted contraction-fixing rules (not comprehensive...)
+        r = sub(r'[\n\t ]+',
+                r' ',
+                r.strip())
+        # Hand-crafted contraction-fixing rules
         # wont ==> won't
-        r = _wont.sub(r'won\'t', r, re.IGNORECASE)
+        r = sub(r"\bwont\b", r"won't", r, IGNORECASE)
         # dont ==> don't
-        r = _dont.sub(r'don\'t', r, re.IGNORECASE)
-        # doesnt ==> doesn't
-        r = _doesnt.sub(r'doesn\'t', r, re.IGNORECASE)
-        # didnt ==> didn't
-        r = _didnt.sub(r'didn\'t', r, re.IGNORECASE)
+        r = sub(r"\bdont\b", r"don't", r, IGNORECASE)
         # wasnt ==> wasn't
-        r = _wasnt.sub(r'wasn\'t', r, re.IGNORECASE)
+        r = sub(r"\bwasnt\b", r"wasn't", r, IGNORECASE)
         # werent ==> weren't
-        r = _werent.sub(r'weren\'t', r, re.IGNORECASE)
+        r = sub(r"\bwerent\b", r"weren't", r, IGNORECASE)
         # aint ==> am not
-        # Note: this is not always true, so we should fix it...
-        #r = _aint.sub(r'am not', r, re.IGNORECASE)
-        # arent ==> aren't
-        r = _arent.sub(r'aren\'t', r, re.IGNORECASE)
-        # cant ==> can't
-        r = _cant.sub(r'can\'t', r, re.IGNORECASE)
-        # couldnt ==> couldn't
-        r = _couldnt.sub(r'couldn\'t', r, re.IGNORECASE)
-        # wouldnt ==> would not
-        r = _wouldnt.sub(r'wouldn\'t', r, re.IGNORECASE)
-        # havent ==> haven't
-        r = _havent.sub(r'haven\'t', r, re.IGNORECASE)
-        # ive ==> I\'ve
-        r = _ive.sub(r'I\'ve', r, re.IGNORECASE)
-        # isnt ==> isn\'t
-        r = _isnt.sub(r'isn\'t', r, re.IGNORECASE)
-        # theyre ==> they're
-        r = _theyre.sub(r'they\'re', r, re.IGNORECASE)
-        # theyll ==> they'll
-        r = _theyll.sub(r'they\'ll', r, re.IGNORECASE)
+        r = sub(r"\baint\b", r"am not", r, IGNORECASE)
+        # arent ==> are not
+        r = sub(r"\barent\b", r"are not", r, IGNORECASE)
+        # cant ==> can not
+        r = sub(r"\bcant\b", r"can not", r, IGNORECASE)
+        # didnt ==> does not
+        r = sub(r"\bdidnt\b", r"did not", r, IGNORECASE)
+        # havent ==> have not
+        r = sub(r"\bhavent\b", r"have not", r, IGNORECASE)
+        # ive ==> I have
+        r = sub(r"\bive\b", r"I have", r, IGNORECASE)
+        # isnt ==> is not
+        r = sub(r"\bisnt\b", r"is not", r, IGNORECASE)
+        # theyll ==> they will
+        r = sub(r"\btheyll\b", r"they will", r, IGNORECASE)
         # thats ==> that's
-        r = _thats.sub(r'that\'s', r, re.IGNORECASE)
+        r = sub(r"\bthatsl\b", r"that's", r, IGNORECASE)
         # whats ==> what's
-        r = _whats.sub(r'what\'s', r, re.IGNORECASE)
-        # whatre ==> what're
-        r = _whatre.sub(r'what\'re', r, re.IGNORECASE)
-        # im ==> I\'m
-        r = _im.sub(r'I\'m', r, re.IGNORECASE)
-        # youre ==> you're
-        r = _youre.sub(r'you\'re', r, re.IGNORECASE)
-        # youve ==> you\'ve
-        r = _youve.sub(r'you\'ve', r, re.IGNORECASE)
-        # ill ==> I\'ll
-        # Keep this out due to real-word errors
-        #r = _ill.sub(r'I\'ll', r, re.IGNORECASE)
-        # Keep "were" and "well" out due to real-word errors
+        r = sub(r"\bwhats\b", r"what's", r, IGNORECASE)
+        # wouldnt ==> would not
+        r = sub(r"\bwouldnt\b", r"would not", r, IGNORECASE)
+        # im ==> I am
+        r = sub(r"\bim\b", r"I am", r, IGNORECASE)
+        # youre ==> you are
+        r = sub(r"\byoure\b", r"you are", r, IGNORECASE)
+        # youve ==> you have
+        r = sub(r"\byouve\b", r"you have", r, IGNORECASE)
+        # ill ==> i will
+        r = sub(r"\bill\b", r"i will", r, IGNORECASE)
         self.norm = r
 
 
@@ -341,66 +304,21 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     return dict(features)
 
 
-def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
-                         project_dir_path, cfg_filename):
+def write_config_file(config_dict, path):
     '''
     This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should map keys for the SKLL config sections to dictionaries of key-value pairs for each section.
 
-    :param exp_name: name/ID associated with model/experiment
-    :type exp_name: str
-    :param feature_set_name: name of feature set (should be the name of the corresponding JSONLINES file in the 'working' directory minus the extension)
-    :type feature_set_name: str
-    :param learner_name: name of machine learning algorithm
-    :type learner_name: str
-    :param obj_func: name of objective function
-    :type obj_func: str
-    :param project_dir_path: path to main project directory
-    :type project_dir_path: str
-    :param cfg_filename: configuration file-name
-    :type cfg_filename: str
+    :param config_dict: configuration dictionary
+    :type config_dict: dict
+    :param path: destination path to configuration file
+    :type path: str
     :returns: None
     '''
 
-    # Create base config file and then add specific attributes to it
-    # afterwards
-    cfg_dict = {'General': {},
-                'Input': {'ids_to_floats': 'False',
-                          'label_col': 'y',
-                          'suffix': '.jsonlines'},
-                'Tuning': {'feature_scaling': 'none',
-                           'grid_search': 'True',
-                           'min_feature_count': '1'},
-                'Output': {'probability': 'False'}}
-
-    cfg_dict['General']['task'] = 'train'
-    cfg_dict['General']['experiment_name'] = exp_name
-    cfg_dict['Output']['models'] = join(project_dir_path,
-                                        'models')
-    cfg_dict['Output']['log'] = join(project_dir_path,
-                                     'logs',
-                                     '{}.log'.format(exp_name))
-    cfg_dict['Input']['train_location'] = join(project_dir_path,
-                                               'working')
-    cfg_dict['Input']['featuresets'] = dumps([[feature_set_name]])
-    cfg_dict['Input']['learners'] = dumps([learner_name])
-    cfg_dict['Tuning']['objective'] = obj_func
-    if learner_name == 'RescaledSVR':
-        param_grid_list = [{'C': [10.0 ** x for x in range(-3, 4)]}]
-        cfg_dict['Tuning']['param_grids'] = dumps([param_grid_list])
-
-    # Create ConfigParser instance and populate it with values from
-    # cfg_dict
     cfg = ConfigParser()
-    for section_name, section_dict in cfg_dict.items():
+    for section_name, section_dict in config_dict.items():
         cfg.add_section(section_name)
         for key, val in section_dict.items():
-            cfg.set(section_name,
-                    key,
-                    val)
-
-    # Write the file to the provided destination path
-    with open(join(project_dir_path,
-                   'config',
-                   cfg_filename),
-              'w') as config_file:
+            cfg.set(section_name, key, val)
+    with open(path, 'w') as config_file:
         cfg.write(config_file)
