@@ -5,7 +5,9 @@
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
 '''
 from math import ceil
+from json import dumps
 from numpy import log2
+from os.path import join
 from nltk.util import ngrams
 from string import punctuation
 from re import sub, IGNORECASE
@@ -304,21 +306,65 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     return dict(features)
 
 
-def write_config_file(config_dict, path):
+def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
+                         project_dir_path, cfg_filename):
     '''
     This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should map keys for the SKLL config sections to dictionaries of key-value pairs for each section.
-
-    :param config_dict: configuration dictionary
-    :type config_dict: dict
-    :param path: destination path to configuration file
-    :type path: str
+    :param exp_name: name/ID associated with model/experiment
+    :type exp_name: str
+    :param feature_set_name: name of feature set (should be the name of the corresponding JSONLINES file in the 'working' directory minus the extension)
+    :type feature_set_name: str
+    :param learner_name: name of machine learning algorithm
+    :type learner_name: str
+    :param obj_func: name of objective function
+    :type obj_func: str
+    :param project_dir_path: path to main project directory
+    :type project_dir_path: str
+    :param cfg_filename: configuration file-name
+    :type cfg_filename: str
     :returns: None
     '''
 
+    # Create base config file and then add specific attributes to it
+    # afterwards
+    cfg_dict = {'General': {},
+                'Input': {'ids_to_floats': 'False',
+                          'label_col': 'y',
+                          'suffix': '.jsonlines'},
+                'Tuning': {'feature_scaling': 'none',
+                           'grid_search': 'True',
+                           'min_feature_count': '1'},
+                'Output': {'probability': 'False'}}
+
+    cfg_dict['General']['task'] = 'train'
+    cfg_dict['General']['experiment_name'] = exp_name
+    cfg_dict['Output']['models'] = join(project_dir_path,
+                                        'models')
+    cfg_dict['Output']['log'] = join(project_dir_path,
+                                     'logs',
+                                     '{}.log'.format(exp_name))
+    cfg_dict['Input']['train_location'] = join(project_dir_path,
+                                               'working')
+    cfg_dict['Input']['featuresets'] = dumps([[feature_set_name]])
+    cfg_dict['Input']['learners'] = dumps([learner_name])
+    cfg_dict['Tuning']['objective'] = obj_func
+    if learner_name == 'RescaledSVR':
+        param_grid_list = [{'C': [10.0 ** x for x in range(-3, 4)]}]
+        cfg_dict['Tuning']['param_grids'] = dumps([param_grid_list])
+
+    # Create ConfigParser instance and populate it with values from
+    # cfg_dict
     cfg = ConfigParser()
-    for section_name, section_dict in config_dict.items():
+    for section_name, section_dict in cfg_dict.items():
         cfg.add_section(section_name)
         for key, val in section_dict.items():
-            cfg.set(section_name, key, val)
-    with open(path, 'w') as config_file:
+            cfg.set(section_name,
+                    key,
+                    val)
+
+    # Write the file to the provided destination path
+    with open(join(project_dir_path,
+                   'config',
+                   cfg_filename),
+              'w') as config_file:
         cfg.write(config_file)
