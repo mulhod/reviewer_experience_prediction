@@ -1,4 +1,3 @@
-#!/usr/env python3.4
 '''
 :author: Matt Mulholland
 :date: May 13, 2015
@@ -53,7 +52,7 @@ if __name__ == '__main__':
         help='destination path for predictions file',
         type=str,
         required=False)
-        parser.add_argument('--do_not_lowercase_text',
+    parser.add_argument('--do_not_lowercase_text',
         help='do not make lower-casing part of the review text ' \
              'normalization step, which affects word n-gram-related ' \
              'features',

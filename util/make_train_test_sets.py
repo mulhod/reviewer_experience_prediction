@@ -1,4 +1,3 @@
-#!/usr/env python3.4
 '''
 :author: Matt Mulholland
 :date: April 15, 2015

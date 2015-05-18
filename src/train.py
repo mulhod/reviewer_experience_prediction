@@ -1,4 +1,3 @@
-#!/usr/env python3.4
 '''
 :author: Matt Mulholland, Janette Martinez, Emily Olshefski
 :date: March 18, 2015
