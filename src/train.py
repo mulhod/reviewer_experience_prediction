@@ -208,8 +208,8 @@ if __name__ == '__main__':
     elif args.learner.islower():
         learner_short = args.learner[:5]
     else:
-        learner_short = '.{}'.format(''.join([c for c in args.learner if
-                                              c.isupper()]))
+        learner_short = '{}'.format(''.join([c for c in args.learner if
+                                             c.isupper()]))
     if len(args.objective_function) < 5:
         objective_function_short = args.objective_function
     elif args.objective_function.islower():
