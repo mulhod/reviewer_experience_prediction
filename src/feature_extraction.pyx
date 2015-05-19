@@ -258,12 +258,12 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return cngram_counter
 
 
-    def generate_dep_features(spaCy_annotations):
+    def generate_dep_features(spaCy_sents):
         '''
         Generate syntactic dependency features from spaCy text annotations.
 
-        :param spaCy_annotations: spaCy English text analysis object
-        :type spaCy_annotations: spacy.en.English instance
+        :param spaCy_annotations: lists of spaCy Token instances
+        :type spaCy_annotations: list of list of spaCy.tokens.Tokens instances
         :returns: Counter object representing a frequency distribution of syntactic dependency features
         '''
 
@@ -272,7 +272,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         # Iterate through spaCy annotations for each sentence and then for
         # each token
-        for s in spaCy_annotations.sents:
+        for s in spaCy_sents:
             for t in s:
                 # If the number of children to the left and to the right
                 # of the token add up to a value that is not zero, then
@@ -303,7 +303,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features.update(generate_cngram_fdist(orig))
 
     # Generate the syntactic dependency features
-    features.update(generate_dep_features(_review.spaCy_annotations))
+    features.update(generate_dep_features(_review.spaCy_sents))
 
     return dict(features)
 

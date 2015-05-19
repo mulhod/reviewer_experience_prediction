@@ -797,7 +797,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_6Review_2normalize(CYTHON_UN
 static PyObject *__pyx_pf_3src_18feature_extraction_6Review_4get_token_features_from_spaCy(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_generate_ngram_fdist(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_sents, PyObject *__pyx_v__min, PyObject *__pyx_v__max); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_2generate_cngram_fdist(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_text, PyObject *__pyx_v__min, PyObject *__pyx_v__max); /* proto */
-static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_spaCy_annotations); /* proto */
+static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_spaCy_sents); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v__review, PyObject *__pyx_v_lowercase_cngrams); /* proto */
 static PyObject *__pyx_pf_3src_18feature_extraction_2generate_config_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_exp_name, PyObject *__pyx_v_feature_set_name, PyObject *__pyx_v_learner_name, PyObject *__pyx_v_obj_func, PyObject *__pyx_v_project_dir_path, PyObject *__pyx_v_cfg_filename); /* proto */
 static char __pyx_k_[] = " ";
@@ -3941,27 +3941,27 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
 /* "src/feature_extraction.pyx":261
  * 
  * 
- *     def generate_dep_features(spaCy_annotations):             # <<<<<<<<<<<<<<
+ *     def generate_dep_features(spaCy_sents):             # <<<<<<<<<<<<<<
  *         '''
  *         Generate syntactic dependency features from spaCy text annotations.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features(PyObject *__pyx_self, PyObject *__pyx_v_spaCy_annotations); /*proto*/
-static char __pyx_doc_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features[] = "\n        Generate syntactic dependency features from spaCy text annotations.\n\n        :param spaCy_annotations: spaCy English text analysis object\n        :type spaCy_annotations: spacy.en.English instance\n        :returns: Counter object representing a frequency distribution of syntactic dependency features\n        ";
+static PyObject *__pyx_pw_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features(PyObject *__pyx_self, PyObject *__pyx_v_spaCy_sents); /*proto*/
+static char __pyx_doc_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features[] = "\n        Generate syntactic dependency features from spaCy text annotations.\n\n        :param spaCy_annotations: lists of spaCy Token instances\n        :type spaCy_annotations: list of list of spaCy.tokens.Tokens instances\n        :returns: Counter object representing a frequency distribution of syntactic dependency features\n        ";
 static PyMethodDef __pyx_mdef_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features = {"generate_dep_features", (PyCFunction)__pyx_pw_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features, METH_O, __pyx_doc_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features};
-static PyObject *__pyx_pw_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features(PyObject *__pyx_self, PyObject *__pyx_v_spaCy_annotations) {
+static PyObject *__pyx_pw_3src_18feature_extraction_28extract_features_from_review_5generate_dep_features(PyObject *__pyx_self, PyObject *__pyx_v_spaCy_sents) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("generate_dep_features (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(__pyx_self, ((PyObject *)__pyx_v_spaCy_annotations));
+  __pyx_r = __pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(__pyx_self, ((PyObject *)__pyx_v_spaCy_sents));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_spaCy_annotations) {
+static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_spaCy_sents) {
   PyObject *__pyx_v_dep_counter = NULL;
   PyObject *__pyx_v_s = NULL;
   PyObject *__pyx_v_t = NULL;
@@ -4027,41 +4027,38 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
   /* "src/feature_extraction.pyx":275
  *         # Iterate through spaCy annotations for each sentence and then for
  *         # each token
- *         for s in spaCy_annotations.sents:             # <<<<<<<<<<<<<<
+ *         for s in spaCy_sents:             # <<<<<<<<<<<<<<
  *             for t in s:
  *                 # If the number of children to the left and to the right
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_spaCy_annotations, __pyx_n_s_sents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
-    __pyx_t_2 = __pyx_t_1; __Pyx_INCREF(__pyx_t_2); __pyx_t_4 = 0;
+  if (likely(PyList_CheckExact(__pyx_v_spaCy_sents)) || PyTuple_CheckExact(__pyx_v_spaCy_sents)) {
+    __pyx_t_1 = __pyx_v_spaCy_sents; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_5 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_spaCy_sents); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   for (;;) {
     if (likely(!__pyx_t_5)) {
-      if (likely(PyList_CheckExact(__pyx_t_2))) {
-        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_2)) break;
+      if (likely(PyList_CheckExact(__pyx_t_1))) {
+        if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #endif
       } else {
-        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+        if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_2); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_2, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 275; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #endif
       }
     } else {
-      __pyx_t_1 = __pyx_t_5(__pyx_t_2);
-      if (unlikely(!__pyx_t_1)) {
+      __pyx_t_2 = __pyx_t_5(__pyx_t_1);
+      if (unlikely(!__pyx_t_2)) {
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
@@ -4069,45 +4066,45 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
         }
         break;
       }
-      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_GOTREF(__pyx_t_2);
     }
-    __Pyx_XDECREF_SET(__pyx_v_s, __pyx_t_1);
-    __pyx_t_1 = 0;
+    __Pyx_XDECREF_SET(__pyx_v_s, __pyx_t_2);
+    __pyx_t_2 = 0;
 
     /* "src/feature_extraction.pyx":276
  *         # each token
- *         for s in spaCy_annotations.sents:
+ *         for s in spaCy_sents:
  *             for t in s:             # <<<<<<<<<<<<<<
  *                 # If the number of children to the left and to the right
  *                 # of the token add up to a value that is not zero, then
  */
     if (likely(PyList_CheckExact(__pyx_v_s)) || PyTuple_CheckExact(__pyx_v_s)) {
-      __pyx_t_1 = __pyx_v_s; __Pyx_INCREF(__pyx_t_1); __pyx_t_6 = 0;
+      __pyx_t_2 = __pyx_v_s; __Pyx_INCREF(__pyx_t_2); __pyx_t_6 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_6 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_v_s); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_v_s); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_7 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
-        if (likely(PyList_CheckExact(__pyx_t_1))) {
-          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_1)) break;
+        if (likely(PyList_CheckExact(__pyx_t_2))) {
+          if (__pyx_t_6 >= PyList_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #endif
         } else {
-          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
+          if (__pyx_t_6 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_6); __Pyx_INCREF(__pyx_t_3); __pyx_t_6++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_6); __pyx_t_6++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #endif
         }
       } else {
-        __pyx_t_3 = __pyx_t_7(__pyx_t_1);
+        __pyx_t_3 = __pyx_t_7(__pyx_t_2);
         if (unlikely(!__pyx_t_3)) {
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
@@ -4301,23 +4298,23 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
 
       /* "src/feature_extraction.pyx":276
  *         # each token
- *         for s in spaCy_annotations.sents:
+ *         for s in spaCy_sents:
  *             for t in s:             # <<<<<<<<<<<<<<
  *                 # If the number of children to the left and to the right
  *                 # of the token add up to a value that is not zero, then
  */
     }
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "src/feature_extraction.pyx":275
  *         # Iterate through spaCy annotations for each sentence and then for
  *         # each token
- *         for s in spaCy_annotations.sents:             # <<<<<<<<<<<<<<
+ *         for s in spaCy_sents:             # <<<<<<<<<<<<<<
  *             for t in s:
  *                 # If the number of children to the left and to the right
  */
   }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/feature_extraction.pyx":286
  *                      t.children if not c.tag_ in punctuation]
@@ -4334,7 +4331,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_28extract_features_from_revi
   /* "src/feature_extraction.pyx":261
  * 
  * 
- *     def generate_dep_features(spaCy_annotations):             # <<<<<<<<<<<<<<
+ *     def generate_dep_features(spaCy_sents):             # <<<<<<<<<<<<<<
  *         '''
  *         Generate syntactic dependency features from spaCy text annotations.
  */
@@ -4421,7 +4418,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review
   /* "src/feature_extraction.pyx":261
  * 
  * 
- *     def generate_dep_features(spaCy_annotations):             # <<<<<<<<<<<<<<
+ *     def generate_dep_features(spaCy_sents):             # <<<<<<<<<<<<<<
  *         '''
  *         Generate syntactic dependency features from spaCy text annotations.
  */
@@ -4649,13 +4646,13 @@ static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review
   /* "src/feature_extraction.pyx":306
  * 
  *     # Generate the syntactic dependency features
- *     features.update(generate_dep_features(_review.spaCy_annotations))             # <<<<<<<<<<<<<<
+ *     features.update(generate_dep_features(_review.spaCy_sents))             # <<<<<<<<<<<<<<
  * 
  *     return dict(features)
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_features, __pyx_n_s_update); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v__review, __pyx_n_s_spaCy_annotations); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v__review, __pyx_n_s_spaCy_sents); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __pyx_pf_3src_18feature_extraction_28extract_features_from_review_4generate_dep_features(__pyx_v_generate_dep_features, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 306; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -4689,7 +4686,7 @@ static PyObject *__pyx_pf_3src_18feature_extraction_extract_features_from_review
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/feature_extraction.pyx":308
- *     features.update(generate_dep_features(_review.spaCy_annotations))
+ *     features.update(generate_dep_features(_review.spaCy_sents))
  * 
  *     return dict(features)             # <<<<<<<<<<<<<<
  * 
@@ -6242,11 +6239,11 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/feature_extraction.pyx":261
  * 
  * 
- *     def generate_dep_features(spaCy_annotations):             # <<<<<<<<<<<<<<
+ *     def generate_dep_features(spaCy_sents):             # <<<<<<<<<<<<<<
  *         '''
  *         Generate syntactic dependency features from spaCy text annotations.
  */
-  __pyx_tuple__9 = PyTuple_Pack(6, __pyx_n_s_spaCy_annotations, __pyx_n_s_dep_counter, __pyx_n_s_s, __pyx_n_s_t, __pyx_n_s_fstr, __pyx_n_s_c); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(6, __pyx_n_s_spaCy_sents, __pyx_n_s_dep_counter, __pyx_n_s_s, __pyx_n_s_t, __pyx_n_s_fstr, __pyx_n_s_c); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
   __pyx_codeobj__10 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__9, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mulhollandm2_reviews_proje, __pyx_n_s_generate_dep_features, 261, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 261; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
