@@ -116,15 +116,15 @@ if __name__ == '__main__':
 
     # Initialize logging system
     logger = logging.getLogger('train')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.INFO)
+    fh.setLevel(logging.DEBUG)
 
     # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.INFO)
+    sh.setLevel(logging.DEBUG)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'

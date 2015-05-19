@@ -39,7 +39,7 @@ class Review(object):
     # a list of elements corresponding to the identified tokens, tags,
     # lemmas, respectively
     tokens = []
-    tags = []
+    #tags = []
     #lemmas = []
     # Attributes representing the spaCy text annotations
     spaCy_annotations = None
@@ -94,8 +94,10 @@ class Review(object):
         self.spaCy_annotations = spaCy_nlp(self.norm,
                                            tag=True,
                                            parse=True)
-        self.spaCy_sents = [list(sent) for sent in
-                            self.spaCy_annotations.sents]
+        self.spaCy_sents = []
+        for _range in self.spaCy_annotations.sents:
+            self.spaCy_sents.append([self.spaCy_annotations[i] for i in
+                                     range(*_range)])
         #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
         self.get_token_features_from_spaCy()
         #self.get_entities_from_spaCy()
@@ -168,22 +170,22 @@ class Review(object):
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
             # Get tags
-            self.tags.append([t.tag_ for t in sent])
+            #self.tags.append([t.tag_ for t in sent])
             # Get lemmas
             #self.lemmas.append([t.lemma_ for t in sent])
             # Get syntactic heads
             #self.heads.append([t.head.orth_ for t in sent])
 
-
+    '''
     def get_entities_from_spaCy(self):
-        '''
+        """
         Get named entities from spaCy's text annotations.
-        '''
+        """
 
         for entity in self.spaCy_ents:
             self.entities.append(dict(entity=entity.orth_,
                                       label=entity.label_))
-
+    '''
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
