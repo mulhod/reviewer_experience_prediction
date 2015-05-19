@@ -7,3 +7,4 @@ working/*jsonlines
 Makefile
 models/*
 apln_paper/.directory
+util/cythonize_ets.sh

@@ -345,8 +345,8 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
     cfg_dict['Output']['log'] = join(project_dir_path,
                                      'logs',
                                      '{}.log'.format(exp_name))
-    cfg_dict['Input']['train_location'] = join(project_dir_path,
-                                               'working')
+    cfg_dict['Input']['train_directory'] = join(project_dir_path,
+                                                'working')
     cfg_dict['Input']['featuresets'] = dumps([[feature_set_name]])
     cfg_dict['Input']['learners'] = dumps([learner_name])
     cfg_dict['Tuning']['objective'] = obj_func

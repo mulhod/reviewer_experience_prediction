@@ -244,6 +244,9 @@ if __name__ == '__main__':
 
         # Get config file path
         cfg_filename = '{}.train.cfg'.format(expid)
+        cfg_filepath = join(project_dir,
+                            'config',
+                            cfg_filename)
 
         if not args.run_configuration:
 
@@ -282,9 +285,7 @@ if __name__ == '__main__':
                     sys.exit(1)
 
                 # Iterate over all training documents for the given game
-                while game_docs.alive:
-
-                    game_doc = game_docs.__next__()
+                for game_doc in iter(game_docs):
 
                     # Instantiate a Review object
                     _Review = Review(game_doc['review'],
@@ -410,6 +411,9 @@ if __name__ == '__main__':
 
             # Get config file path
             cfg_filename = '{}.train.cfg'.format(expid)
+            cfg_filepath = join(project_dir,
+                                'config',
+                                cfg_filename)
 
             if not args.run_configuration:
 
@@ -444,9 +448,7 @@ if __name__ == '__main__':
                                       'w')
 
                 # Iterate over all training documents for the given game
-                while game_docs.alive:
-
-                    game_doc = game_docs.__next__()
+                for game_doc in iter(game_docs):
 
                     if bins:
                         hours = game_doc['hours_bin']
