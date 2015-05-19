@@ -282,7 +282,7 @@ if __name__ == '__main__':
                     sys.exit(1)
 
                 # Iterate over all training documents for the given game
-                while game_docs.alive():
+                while game_docs.alive:
 
                     game_doc = game_docs.next()
 
@@ -444,7 +444,7 @@ if __name__ == '__main__':
                                       'w')
 
                 # Iterate over all training documents for the given game
-                while game_docs.alive():
+                while game_docs.alive:
 
                     game_doc = game_docs.next()
 
