@@ -282,7 +282,9 @@ if __name__ == '__main__':
                     sys.exit(1)
 
                 # Iterate over all training documents for the given game
-                for game_doc in game_docs:
+                while game_docs.alive():
+
+                    game_doc = game_docs.next()
 
                     # Instantiate a Review object
                     _Review = Review(game_doc['review'],
@@ -442,7 +444,9 @@ if __name__ == '__main__':
                                       'w')
 
                 # Iterate over all training documents for the given game
-                for game_doc in game_docs:
+                while game_docs.alive():
+
+                    game_doc = game_docs.next()
 
                     if bins:
                         hours = game_doc['hours_bin']
