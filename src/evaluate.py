@@ -5,20 +5,27 @@
 Script used to make predictions for datasets (or multiple datasets combined) and generate evaluation metrics.
 '''
 import sys
+import csv
 import pymongo
 import logging
 import argparse
 import numpy as np
 from os import listdir
-from skll import Learner
 from data import APPID_DICT
 from spacy.en import English
 from collections import Counter
+from skll import Learner, metrics
 from pymongo.errors import AutoReconnect
 from skll.data.featureset import FeatureSet
 from json import dumps, JSONEncoder, JSONDecoder
 from os.path import realpath, dirname, abspath, join, exists
 from src.feature_extraction import Review, extract_features_from_review
+
+# Since the skll Learner.predict method will probably print out a warning each
+# time a prediction is made, let's try to stop the warnings in all but the
+# first case
+import warnings
+warnings.filterwarnings('once')
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -26,8 +33,8 @@ project_dir = dirname(dirname(realpath(__file__)))
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(usage='python evaluate.py --game_files' \
-        ' GAME_FILE1,GAME_FILE2[ --resuls_path PATH|--predictions_path PATH' \
-        '|--just_extract_features][ OPTIONS]',
+        ' GAME_FILE1,GAME_FILE2,... --model MODEL_PREFIX[ --results_path ' \
+        'PATH|--predictions_path PATH|--just_extract_features][ OPTIONS]',
         description='generate predictions for a data-set\'s test set ' \
                     'reviews and output evaluation metrics',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter)
@@ -37,19 +44,17 @@ if __name__ == '__main__':
         type=str,
         required=True)
     parser.add_argument('--model', '-m',
-        help='model prefix for cases where the game files that are being ' \
-             'tested, etc., are all being tested with the same exact model ' \
-             '(note: take care to ensure that you are extracting features ' \
-             'from test reviews in the same way that features were ' \
-             'extracted for the training reviews)',
+        help='model prefix (this will be the model that is used to generate' \
+             ' predictions for all test reviews for the game files input ' \
+             'via the --game_files option argument)',
         type=str,
-        required=False)
+        required=True)
     parser.add_argument('--results_path', '-r',
-        help='destination path for results output file',
+        help='destination directory for results output file',
         type=str,
         required=False)
     parser.add_argument('--predictions_path', '-p',
-        help='destination path for predictions file',
+        help='destination directory for predictions file',
         type=str,
         required=False)
     parser.add_argument('--do_not_lowercase_text',
@@ -205,8 +210,12 @@ if __name__ == '__main__':
     if args.model:
         learner = Learner.from_file(join(models_dir,
                                          '{}.model'.format(args.model)))
-    else:
-        learner = None
+
+    # Lists of original and predicted hours values
+    total_ids = []
+    total_reviews = []
+    total_hours_values = []
+    total_predicted_hours_values = []
 
     # Iterate over game files, generating/fetching features, etc.,
     # and putting them in lists
@@ -214,6 +223,7 @@ if __name__ == '__main__':
 
         _ids = []
         hours_values = []
+        reviews = []
         features_dicts = []
 
         game = game_file[:-4]
@@ -239,13 +249,13 @@ if __name__ == '__main__':
             _ids.append(repr(game_doc['_id']))
             hours_values.append(game_doc['hours_bin'] if bins else \
                                 game_doc['hours'])
+            reviews.append(game_doc['review'])
 
             found_features = None
             if args.try_to_reuse_extracted_features:
-                features_doc = reviewdb.find_one(
-                                   {'_id': game_doc['_id']},
-                                   {'_id': 0,
-                                    'features': 1})
+                features_doc = reviewdb.find_one({'_id': game_doc['_id']},
+                                                 {'_id': 0,
+                                                  'features': 1})
                 features = features_doc.get('features')
                 if features \
                    and game_doc.get('binarized') == binarize:
@@ -298,12 +308,83 @@ if __name__ == '__main__':
             # Append feature dict to end of list
             features_dicts.append(features)
 
-            # Make FeatureSet instance
-            fs = FeatureSet('{}.test'.format(game),
-                            np.array(_ids,
-                                     dtype=np.chararray),
-                            np.array(hours_values,
-                                     dtype=np.float32),
-                            feature_dicts)
+        # Make all hours values natural numbers (rounding down)
+        hours_values = [int(h) for h in hours_values]
 
-            
+        # Make list of FeatureSet instances
+        fs = FeatureSet('{}.test'.format(game),
+                        np.array(_ids,
+                                 dtype=np.chararray),
+                        feature_dicts)
+
+        # Generate predictions
+        predictions = [int(learner.predict(_fs)) for _fs in fs]
+
+        # Make sure all the lists are equal
+        if not any([map(lambda x, y: len(x) == len(y),
+                        [_ids, reviews, hours_values, predictions])]):
+            logger.error('Lists of values not of expected length:\n\n' \
+                         '{}\n\nExiting.'.format(str([_ids,
+                                                      reviews,
+                                                      hours_values,
+                                                      predictions])))
+            sys.exit()
+
+        total_predicted_hours_values.extend(predictions)
+        total_ids.extend(_ids),
+        total_reviews.extend(reviews)
+        total_hours_values.extend(hours_values)
+
+        # Open predictions/results file(s) (if applicable) for specific game
+        # file
+        if args.predictions_path:
+            logging.info('Writing predictions file for {}...'.format(game))
+            preds_file = open(join(args.predictions_path,
+                                   '{}.test_{}_predictions.csv'.format(
+                                       game,
+                                       args.model)),
+                              'w')
+            preds_file_csv = csv.writer(delimiter=',')
+            preds_file_csv.writerow(['id',
+                                     'review',
+                                     'hours_played',
+                                     'prediction'])
+            for _id, review, hours_value, pred in zip(_ids,
+                                                      reviews,
+                                                      hours_values,
+                                                      predictions):
+                preds_file_csv.writerow([_id,
+                                         review,
+                                         hours_value,
+                                         pred])
+            preds_file.close()
+
+        if args.results_path:
+            logging.info('Writing results file for {}...'.format(game))
+            results_file = open(join(args.results_path,
+                                     '{}.test_{}_results.md'.format(
+                                         game,
+                                         args.model)),
+                                'w')
+            results_file.write('#Results Summary\n')
+            results_file.write('- Game: {}\n'.format(game))
+            results_file.write('- Model: {}\n'.format(args.model))
+            results_file.write('##Evaluation Metrics')
+            results_file.write('Kappa: {}\n'.format(metrics.kappa(
+                                                        hours_values,
+                                                        predictions)))
+            results_file.write('Kappa (allow off-by-one): {}\n'.format(
+                metrics.kappa(hours_values,
+                              predictions)))
+            results_file.write('Pearson: {}\n'.format(metrics.pearson(
+                                                          hours_values,
+                                                          predictions)))
+            results_file.write('##Confusion Matrix (predicted along top, ' \
+                               'actual along side)')
+            results_file.write('{}\n'.format(metrics.use_score_func(
+                                                 'confusion_matrix',
+                                                 hours_values,
+                                                 predictions)))
+            results_file.close()
+
+        
