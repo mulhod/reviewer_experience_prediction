@@ -87,6 +87,10 @@ if __name__ == '__main__':
         help='do not make all non-zero feature frequencies equal to 1',
         action='store_true',
         default=False)
+    parser.add_argument('--eval_combined_games',
+        help='print evaluation metrics across all games',
+        action='store_true',
+        default=False)
     parser.add_argument('--mongodb_port', '-dbport',
         help='port that the MongoDB server is running',
         type=int,
@@ -161,6 +165,12 @@ if __name__ == '__main__':
                        'and --do_not_lowercase_text should match the values' \
                        ' used to build the models.')
 
+    if args.eval_combined_games and args.just_extract_features:
+        logger.error('Cannot use the --eval_combined_games and ' \
+                     '--just_extract_features option flags simultaneously. ' \
+                     'Exiting.')
+        sys.exit(1)
+
     binarize = not args.do_not_binarize_features
     logger.debug('Binarize features? {}'.format(binarize))
     lowercase_text = not args.do_not_lowercase_text
@@ -201,6 +211,14 @@ if __name__ == '__main__':
     else:
         game_files = args.game_files.split(',')
 
+    # If the --eval_combined_games flag was used but there's only one game
+    # file to evaluate on, print a warning that the "combined" stats will only
+    # be for one game...
+    if args.eval_combined_games and len(game_files) == 1:
+        logger.warning('The --eval_combined_games flag was used, but there ' \
+                       'was only one game that predictions were generated ' \
+                       'for.')
+
     # Open results/predictions files
     if predictions_path:
         predictions_file = open(predictions_path)
@@ -212,13 +230,11 @@ if __name__ == '__main__':
                                          '{}.model'.format(args.model)))
 
     # Lists of original and predicted hours values
-    total_ids = []
-    total_reviews = []
     total_hours_values = []
     total_predicted_hours_values = []
 
-    # Iterate over game files, generating/fetching features, etc.,
-    # and putting them in lists
+    # Iterate over game files, generating/fetching features, etc., and putting
+    # them in lists
     for game_file in game_files:
 
         _ids = []
@@ -279,12 +295,11 @@ if __name__ == '__main__':
                                  and game_doc.get('binarized')):
                 features = dict(Counter(list(features)))
 
-            # Update Mongo database game doc with new key "features",
-            # which will be mapped to game_features, and a new key
-            # "binarized", which will be set to True if features were
-            # extracted with the --do_not_binarize_features flag or
-            # False otherwise
-            if not found_features:
+            # Update Mongo database game doc with new key "features", which
+            # will be mapped to game_features, and a new key "binarized",
+            # which will be set to True if features were extracted with the --
+            # do_not_binarize_features flag or False otherwise
+            if not found_features and args.just_extract_features:
                 tries = 0
                 while tries < 5:
                     try:
@@ -304,6 +319,11 @@ if __name__ == '__main__':
                                          'after 5 tries. Exiting.')
                             sys.exit(1)
                         sleep(20)
+
+            # Go to next game document if all that's being done is extracting
+            # features
+            if args.just_extract_features:
+                continue
 
             # Append feature dict to end of list
             features_dicts.append(features)
@@ -330,21 +350,21 @@ if __name__ == '__main__':
                                                       predictions])))
             sys.exit()
 
+        # Save predicted/expected values for final evaluation
         total_predicted_hours_values.extend(predictions)
-        total_ids.extend(_ids),
-        total_reviews.extend(reviews)
         total_hours_values.extend(hours_values)
 
         # Open predictions/results file(s) (if applicable) for specific game
         # file
         if args.predictions_path:
-            logging.info('Writing predictions file for {}...'.format(game))
+            logger.info('Writing predictions file for {}...'.format(game))
             preds_file = open(join(args.predictions_path,
                                    '{}.test_{}_predictions.csv'.format(
                                        game,
                                        args.model)),
                               'w')
-            preds_file_csv = csv.writer(delimiter=',')
+            preds_file_csv = csv.writer(preds_file,
+                                        delimiter=',')
             preds_file_csv.writerow(['id',
                                      'review',
                                      'hours_played',
@@ -360,7 +380,7 @@ if __name__ == '__main__':
             preds_file.close()
 
         if args.results_path:
-            logging.info('Writing results file for {}...'.format(game))
+            logger.info('Writing results file for {}...'.format(game))
             results_file = open(join(args.results_path,
                                      '{}.test_{}_results.md'.format(
                                          game,
@@ -369,7 +389,7 @@ if __name__ == '__main__':
             results_file.write('#Results Summary\n')
             results_file.write('- Game: {}\n'.format(game))
             results_file.write('- Model: {}\n'.format(args.model))
-            results_file.write('##Evaluation Metrics')
+            results_file.write('##Evaluation Metrics\n')
             results_file.write('Kappa: {}\n'.format(metrics.kappa(
                                                         hours_values,
                                                         predictions)))
@@ -380,11 +400,33 @@ if __name__ == '__main__':
                                                           hours_values,
                                                           predictions)))
             results_file.write('##Confusion Matrix (predicted along top, ' \
-                               'actual along side)')
+                               'actual along side)\n')
             results_file.write('{}\n'.format(metrics.use_score_func(
                                                  'confusion_matrix',
                                                  hours_values,
                                                  predictions)))
             results_file.close()
 
-        
+    # Do evaluation on all predicted/expected values across all games or exit
+    if not args.eval_combined_games:
+        logger.info('Complete.')
+        sys.exit(0)
+    logger.info('Printing out evaluation metrics for the performance of the' \
+                ' model across all games...')
+    logger.info('Using predicted/expected values for the following games: ' \
+                '{}'.format(', '.join(game_files)))
+    logger.info('Kappa: {}'.format(metrics.kappa(
+                                       total_hours_values,
+                                       total_predicted_hours_values)))
+    logger.info('Kappa (allow off-by-one): {}'.format(
+                    metrics.kappa(total_hours_values,
+                                  total_predicted_hours_values)))
+    logger.info('Pearson: {}'.format(metrics.pearson(
+                                         total_hours_values,
+                                         total_predicted_hours_values)))
+    logger.info('Confusion Matrix (predicted along top, actual along side)' \
+                '\n\n{}'.format(metrics.use_score_func(
+                                    'confusion_matrix',
+                                    total_hours_values,
+                                    total_predicted_hours_values)))
+    logger.info('Complete.')
