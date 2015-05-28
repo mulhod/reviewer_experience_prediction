@@ -137,24 +137,29 @@ if __name__ == '__main__':
                          'directory ({}). Exiting.'.format(args.model,
                                                            models_dir))
             sys.exit(1)
+        paths = []
         if args.predictions_path:
-            predictions_path = abspath(predictions_path)
+            predictions_path = abspath(args.predictions_path)
+            paths.append(predictions_path)
         if args.results_path:
-            results_path = abspath(results_path)
+            results_path = abspath(args.results_path)
+            paths.append(results_path)
+        if paths and not any(map(exists, paths)):
+            logger.error('Could not verify the existence of the destination' \
+                         ' directories for the predictions and/or results ' \
+                         'output files. Exiting.')
+            sys.exit(1)
 
     # Make sure command-line arguments make sense
-    if not (args.results_path
-            or args.predictions_path
-            or args.just_extract_features):
-        logger.error('evaluate.py has to at least do one thing, so specify ' \
-                     'a predictions file path or a results file path or use' \
-                     'the --just_extract_features option. Exiting.')
-        sys.exit(1)
     if args.just_extract_features \
        and (args.results_path
-            or args.predictions_path):
-        logger.error('Unable to do feature extraction AND generate ' \
-                     'results/predictions. Exiting.')
+            or args.predictions_path
+            or args.eval_combined_games):
+        logger.error('If the --just_extract_features flag is used, then any' \
+                     ' other flags used for evaluation-related tasks cannot' \
+                     ' be used (since the program skips evaluation if it is' \
+                     ' just extracting the features and putting them in the' \
+                     ' MondoDB). Exiting.')
         sys.exit(1)
 
     if args.try_to_reuse_extracted_features \
@@ -164,12 +169,6 @@ if __name__ == '__main__':
                        'then the values picked for the --lowercase_cngrams ' \
                        'and --do_not_lowercase_text should match the values' \
                        ' used to build the models.')
-
-    if args.eval_combined_games and args.just_extract_features:
-        logger.error('Cannot use the --eval_combined_games and ' \
-                     '--just_extract_features option flags simultaneously. ' \
-                     'Exiting.')
-        sys.exit(1)
 
     binarize = not args.do_not_binarize_features
     logger.debug('Binarize features? {}'.format(binarize))
@@ -218,12 +217,6 @@ if __name__ == '__main__':
         logger.warning('The --eval_combined_games flag was used, but there ' \
                        'was only one game that predictions were generated ' \
                        'for.')
-
-    # Open results/predictions files
-    if predictions_path:
-        predictions_file = open(predictions_path)
-    if results_path:
-        results_file = open(results_path)
 
     if args.model:
         learner = Learner.from_file(join(models_dir,
