@@ -105,11 +105,11 @@ if __name__ == '__main__':
 
     # Initialize logging system
     logger = logging.getLogger('eval')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.DEBUG)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.INFO)
+    fh.setLevel(logging.DEBUG)
 
     # Create console handler
     sh = logging.StreamHandler()
@@ -122,6 +122,9 @@ if __name__ == '__main__':
     sh.setFormatter(formatter)
     logger.addHandler(fh)
     logger.addHandler(sh)
+
+    # Redirect warnings to the logging system
+    logging.captureWarnings(True)
 
     # Get predictions/results output file path and models directory path and
     # make sure model exists
@@ -224,7 +227,7 @@ if __name__ == '__main__':
 
     # Lists of original and predicted hours values
     total_hours_values = []
-    total_predicted_hours_values = []
+    total_predicted_hours_labels = []
 
     # Iterate over game files, generating/fetching features, etc., and putting
     # them in lists
@@ -239,7 +242,7 @@ if __name__ == '__main__':
         appid = APPID_DICT[game]
 
         # Get test reviews
-        logger.info('Extracting features from the training data for {}' \
+        logger.info('Extracting features from the test data for {}' \
                     '...'.format(game))
         game_docs = reviewdb.find({'game': game,
                                    'partition': 'test'},
@@ -328,23 +331,24 @@ if __name__ == '__main__':
         fs = FeatureSet('{}.test'.format(game),
                         np.array(_ids,
                                  dtype=np.chararray),
-                        feature_dicts)
+                        features=features_dicts)
 
         # Generate predictions
-        predictions = [int(learner.predict(_fs)) for _fs in fs]
+        predictions = learner.predict(fs)
+        predicted_labels = [int(p) for p in predictions]
 
         # Make sure all the lists are equal
         if not any([map(lambda x, y: len(x) == len(y),
-                        [_ids, reviews, hours_values, predictions])]):
+                        [_ids, reviews, hours_values, predicted_labels])]):
             logger.error('Lists of values not of expected length:\n\n' \
                          '{}\n\nExiting.'.format(str([_ids,
                                                       reviews,
                                                       hours_values,
-                                                      predictions])))
+                                                      predicted_labels])))
             sys.exit()
 
         # Save predicted/expected values for final evaluation
-        total_predicted_hours_values.extend(predictions)
+        total_predicted_hours_labels.extend(predicted_labels)
         total_hours_values.extend(hours_values)
 
         # Open predictions/results file(s) (if applicable) for specific game
@@ -365,7 +369,7 @@ if __name__ == '__main__':
             for _id, review, hours_value, pred in zip(_ids,
                                                       reviews,
                                                       hours_values,
-                                                      predictions):
+                                                      predicted_labels):
                 preds_file_csv.writerow([_id,
                                          review,
                                          hours_value,
@@ -385,19 +389,19 @@ if __name__ == '__main__':
             results_file.write('##Evaluation Metrics\n')
             results_file.write('Kappa: {}\n'.format(metrics.kappa(
                                                         hours_values,
-                                                        predictions)))
+                                                        predicted_labels)))
             results_file.write('Kappa (allow off-by-one): {}\n'.format(
                 metrics.kappa(hours_values,
-                              predictions)))
+                              predicted_labels)))
             results_file.write('Pearson: {}\n'.format(metrics.pearson(
                                                           hours_values,
-                                                          predictions)))
+                                                          predicted_labels)))
             results_file.write('##Confusion Matrix (predicted along top, ' \
                                'actual along side)\n')
             results_file.write('{}\n'.format(metrics.use_score_func(
                                                  'confusion_matrix',
                                                  hours_values,
-                                                 predictions)))
+                                                 predicted_labels)))
             results_file.close()
 
     # Do evaluation on all predicted/expected values across all games or exit
@@ -410,16 +414,16 @@ if __name__ == '__main__':
                 '{}'.format(', '.join(game_files)))
     logger.info('Kappa: {}'.format(metrics.kappa(
                                        total_hours_values,
-                                       total_predicted_hours_values)))
+                                       total_predicted_hours_labels)))
     logger.info('Kappa (allow off-by-one): {}'.format(
                     metrics.kappa(total_hours_values,
-                                  total_predicted_hours_values)))
+                                  total_predicted_hours_labels)))
     logger.info('Pearson: {}'.format(metrics.pearson(
                                          total_hours_values,
-                                         total_predicted_hours_values)))
+                                         total_predicted_hours_labels)))
     logger.info('Confusion Matrix (predicted along top, actual along side)' \
                 '\n\n{}'.format(metrics.use_score_func(
                                     'confusion_matrix',
                                     total_hours_values,
-                                    total_predicted_hours_values)))
+                                    total_predicted_hours_labels)))
     logger.info('Complete.')
