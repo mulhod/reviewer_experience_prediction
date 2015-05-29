@@ -380,25 +380,25 @@ if __name__ == '__main__':
         if args.results_path:
             logger.info('Writing results file for {}...'.format(game))
             results_file = open(join(args.results_path,
-                                     '{}.test_{}_results.md'.format(
+                                     '{}.test_{}_results.txt'.format(
                                          game,
                                          args.model)),
                                 'w')
-            results_file.write('#Results Summary\n')
+            results_file.write('Results Summary\n\n')
             results_file.write('- Game: {}\n'.format(game))
-            results_file.write('- Model: {}\n'.format(args.model))
-            results_file.write('##Evaluation Metrics\n')
+            results_file.write('- Model: {}\n\n'.format(args.model))
+            results_file.write('Evaluation Metrics\n\n')
             results_file.write('Kappa: {}\n'.format(metrics.kappa(
                                                         hours_values,
                                                         predicted_labels)))
             results_file.write('Kappa (allow off-by-one): {}\n'.format(
                 metrics.kappa(hours_values,
                               predicted_labels)))
-            results_file.write('Pearson: {}\n'.format(metrics.pearson(
-                                                          hours_values,
-                                                          predicted_labels)))
-            results_file.write('##Confusion Matrix (predicted along top, ' \
-                               'actual along side)\n')
+            results_file.write('Pearson: {}\n\n'.format(
+                                   metrics.pearson(hours_values,
+                                                   predicted_labels)))
+            results_file.write('Confusion Matrix\n')
+            results_file.write('(predicted along top, actual along side)\n\n')
             results_file.write('{}\n'.format(make_confusion_matrix(
                                                  hours_values,
                                                  predicted_labels)['string']))
