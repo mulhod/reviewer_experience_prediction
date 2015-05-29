@@ -401,7 +401,7 @@ if __name__ == '__main__':
                                'actual along side)\n')
             results_file.write('{}\n'.format(make_confusion_matrix(
                                                  hours_values,
-                                                 predicted_labels)))
+                                                 predicted_labels)['string']))
             results_file.close()
 
     # Do evaluation on all predicted/expected values across all games or exit
@@ -424,5 +424,5 @@ if __name__ == '__main__':
     logger.info('Confusion Matrix (predicted along top, actual along side)' \
                 '\n\n{}'.format(make_confusion_matrix(
                                     total_hours_values,
-                                    total_predicted_hours_labels)))
+                                    total_predicted_hours_labels)['string']))
     logger.info('Complete.')
