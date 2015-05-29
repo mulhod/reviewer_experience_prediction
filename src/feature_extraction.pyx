@@ -4,9 +4,9 @@
 
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
 '''
+import numpy as np
 from math import ceil
 from json import dumps
-from numpy import log2
 from os.path import join
 from nltk.util import ngrams
 from string import punctuation
@@ -86,7 +86,7 @@ class Review(object):
         self.lower = lower
 
         # Generate attribute values
-        self.length = ceil(log2(len(self.orig))) # Get base-2 log of th
+        self.length = ceil(np.log2(len(self.orig))) # Get base-2 log of the
             # length of the original version of the review text, not the
             # normalized version
         self.normalize()
@@ -370,3 +370,51 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
                    cfg_filename),
               'w') as config_file:
         cfg.write(config_file)
+
+
+def make_confusion_matrix(x_true, y_pred, continuous=True):
+    '''
+    Return confusion matrix with n rows/columns where n is equal to the number of unique data-points (or points on a scale, if continuous).
+
+    :param x_true: np.array of "true" labels
+    :type x_true: 1-dimensional np.array with dtype=np.int32
+    :param y_pred: np.array of predicted labels
+    :type y_pred: 1-dimensional np.array with dtype=np.int32
+    :param continuous: if data-points/labels form a continuous scale of natural numbers
+    :type continuous: boolean
+    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion matrix itself (a 2-dimensional np.array with dtype=np.int32) and 2) a 'string' key mapped to a string representation of the confusion matrix
+    '''
+
+    # Get the range of labels/data-points
+    label_set = set(x_true)
+    if continuous:
+        _range = list(range(min(label_set),
+                            max(label_set) + 1))
+    else:
+        _range = sorted(label_set)
+
+    # Compute the confusion matrix
+    rows = []
+    for i, row_val in enumerate(_range):
+        row = []
+        for j, col_val in enumerate(_range):
+            row.append(sum([1 for (x,
+                                   y) in zip(x_true,
+                                             y_pred) if x == row_val
+                                                        and y == col_val]))
+        rows.append(row)
+
+    conf_matrix = np.array(rows,
+                           dtype=np.int32)
+
+    # Make string representations of the rows in the confusion matrix
+    conf_matrix_rows = ['\t{}'.format('\t'.join(['_{}_'.format(val) for val in
+                                                 _range]))]
+    for i, row_val in enumerate(_range):
+        conf_matrix_rows.append('_{}_\t{}'.format(row_val,
+                                                  '\t'.join(
+                                                      [str(val) for val in
+                                                       conf_matrix[i]])))
+
+    return dict(data=conf_matrix,
+                string='\n'.join(conf_matrix_rows))

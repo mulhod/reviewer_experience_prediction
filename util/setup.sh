@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+# Not really in a working state right now
+
 # Usage: ./setup.sh
 
 set -eu

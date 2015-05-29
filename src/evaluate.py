@@ -19,7 +19,8 @@ from pymongo.errors import AutoReconnect
 from skll.data.featureset import FeatureSet
 from json import dumps, JSONEncoder, JSONDecoder
 from os.path import realpath, dirname, abspath, join, exists
-from src.feature_extraction import Review, extract_features_from_review
+from src.feature_extraction import (Review, extract_features_from_review,
+                                    make_confusion_matrix)
 
 # Since the skll Learner.predict method will probably print out a warning each
 # time a prediction is made, let's try to stop the warnings in all but the
@@ -398,8 +399,7 @@ if __name__ == '__main__':
                                                           predicted_labels)))
             results_file.write('##Confusion Matrix (predicted along top, ' \
                                'actual along side)\n')
-            results_file.write('{}\n'.format(metrics.use_score_func(
-                                                 'confusion_matrix',
+            results_file.write('{}\n'.format(make_confusion_matrix(
                                                  hours_values,
                                                  predicted_labels)))
             results_file.close()
@@ -422,8 +422,7 @@ if __name__ == '__main__':
                                          total_hours_values,
                                          total_predicted_hours_labels)))
     logger.info('Confusion Matrix (predicted along top, actual along side)' \
-                '\n\n{}'.format(metrics.use_score_func(
-                                    'confusion_matrix',
+                '\n\n{}'.format(make_confusion_matrix(
                                     total_hours_values,
                                     total_predicted_hours_labels)))
     logger.info('Complete.')
