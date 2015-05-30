@@ -4,19 +4,8 @@
 
 Script used to make predictions for datasets (or multiple datasets combined) and generate evaluation metrics.
 '''
-import logging
-from sys import exit
-from os import listdir
-from data import APPID_DICT
-from spacy.en import English
-from collections import Counter
-from pymongo import MongoClient
-from json import JSONEncoder, JSONDecoder
-from pymongo.errors import AutoReconnect, ConnectionFailure
 from os.path import realpath, dirname, abspath, join, exists
 from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from src.feature_extraction import (Review, extract_features_from_review,
-                                    make_confusion_matrix)
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -94,6 +83,20 @@ if __name__ == '__main__':
                      'logs',
                      'replog_eval.txt'))
     args = parser.parse_args()
+
+    # Imports
+    import logging
+    from sys import exit
+    from os import listdir
+    from data import APPID_DICT
+    from spacy.en import English
+    from collections import Counter
+    from pymongo import MongoClient
+    from json import JSONEncoder, JSONDecoder
+    from pymongo.errors import AutoReconnect, ConnectionFailure
+    from src.feature_extraction import (Review,
+                                        extract_features_from_review,
+                                        make_confusion_matrix)
 
     # Make local copies of arguments
     game_files = args.game_files

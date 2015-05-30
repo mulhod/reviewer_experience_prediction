@@ -4,11 +4,8 @@
 
 Script used to train models on datasets (or multiple datasets combined).
 '''
-import logging
-from sys import exit
-from os import listdir
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from os.path import join, dirname, realpath, abspath, exists
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -104,6 +101,11 @@ if __name__ == '__main__':
                      'logs',
                      'replog_train.txt'))
     args = parser.parse_args()
+
+    # Imports
+    import logging
+    from sys import exit
+    from os import listdir
 
     # Make local copies of arguments
     game_files = args.game_files
