@@ -1,5 +1,0 @@
-Task: train
-Training on working, feature set ['Arma_3_first500'] ...
-	featurizing and training new RescaledSVR model
-	best quadratic_weighted_kappa grid search score: 0.144
-	hyperparameters: cache_size: 1000, degree: 3, verbose: False, tol: 0.001, epsilon: 0.1, kernel: linear, random_state: None, constrain: True, gamma: 0.0, C: 0.1, max_iter: -1, shrinking: True, rescale: True, coef0: 0.0, probability: False

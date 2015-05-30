@@ -7,7 +7,7 @@ Script used to run the web scraping tool in order to build the video game review
 import sys
 import logging
 logger = logging.getLogger()
-import argparse
+from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from data import APPID_DICT
 from os.path import dirname, abspath, realpath, join
 from util.datasets import parse_appids, get_review_data_for_game
@@ -18,26 +18,29 @@ data_dir = join(project_dir,
 
 if __name__ == '__main__':
 
-    parser = argparse.ArgumentParser(usage='./python get_review_data.py[ ' \
+    parser = ArgumentParser(usage='./python get_review_data.py[ ' \
         '--appids APPID1,APPID2,...]',
         description='Make review data files for each game in the APPID_DICT' \
                     ', which is specified in the __init__.py module in the ' \
                     'the "data" directory. A specific list of game IDs ' \
                     '(same as "appid") can also be specified instead, but ' \
                     'they must map to games in APPID_DICT.',
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-    parser.add_argument('--appids',
+        formatter_class=ArgumentDefaultsHelpFormatter)
+    parser_add_argument = parser.add_argument
+    parser_add_argument('--appids',
         help='comma-separated list of game IDs for which to generate review' \
              ' data files (all IDs should map to games in APPID_DICT)',
         type=str,
         required=False)
-    parser.add_argument('--log_file_path', '-log',
+    parser_add_argument('--log_file_path', '-log',
         help='path for log file',
         type=str,
         default=join(project_dir,
                      'logs',
                      'replog_get_review_data.txt'))
     args = parser.parse_args()
+
+    appids = args.appids
 
     # Initialize logging system
     logger = logging.getLogger('make_train_test_sets')
@@ -59,24 +62,27 @@ if __name__ == '__main__':
     logger.addHandler(fh)
     logger.addHandler(sh)
 
+    loginfo = logger.info
+
     # Make list of games for which to generate review data files
-    if args.appids:
-        appids = parse_appids(args.appids)
+    if appids:
+        appids = parse_appids(appids)
         games = []
+        games_appends = games.append
         for appid in appids:
             for game in APPID_DICT:
                 if APPID_DICT[game] == appid:
-                    games.append(game)
+                    games_append(game)
     else:
         games = list(APPID_DICT)
         del games['sample.txt']
 
     # Generate review data files
-    logger.info('Scraping review data from the Steam website...')
+    loginfo('Scraping review data from the Steam website...')
     for game in games:
         out_path = join(data_dir,
                         '{}.txt'.format(game))
-        logger.info('Writing to {}...'.format(out_path))
+        loginfo('Writing to {}...'.format(out_path))
         with open(out_path,
                   'w') as of:
             for review_set in get_review_data_for_game(APPID_DICT[game],
@@ -85,3 +91,4 @@ if __name__ == '__main__':
                     of.write('game-hours: {0[1]}\n' \
                              'review: {0[0]}\n'.format(review))
                 of.flush()
+    loginfo('Complete.')

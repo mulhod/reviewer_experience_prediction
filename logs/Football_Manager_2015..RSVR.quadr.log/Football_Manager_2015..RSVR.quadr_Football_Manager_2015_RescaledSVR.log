@@ -1,5 +1,0 @@
-Task: train
-Training on working, feature set ['Football_Manager_2015'] ...
-	featurizing and training new RescaledSVR model
-	best quadratic_weighted_kappa grid search score: 0.041
-	hyperparameters: constrain: True, tol: 0.001, random_state: None, verbose: False, rescale: True, probability: False, coef0: 0.0, kernel: linear, max_iter: -1, C: 0.1, cache_size: 1000, gamma: 0.0, epsilon: 0.1, degree: 3, shrinking: True

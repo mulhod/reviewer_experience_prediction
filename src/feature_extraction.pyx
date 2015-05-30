@@ -4,7 +4,6 @@
 
 Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
 '''
-import numpy as np
 from math import ceil
 from json import dumps
 from os.path import join
@@ -12,6 +11,7 @@ from nltk.util import ngrams
 from string import punctuation
 from re import sub, IGNORECASE
 from collections import Counter
+from numpy import array, int32, log2
 from configparser import ConfigParser
 
 class Review(object):
@@ -86,7 +86,7 @@ class Review(object):
         self.lower = lower
 
         # Generate attribute values
-        self.length = ceil(np.log2(len(self.orig))) # Get base-2 log of the
+        self.length = ceil(log2(len(self.orig))) # Get base-2 log of the
             # length of the original version of the review text, not the
             # normalized version
         self.normalize()
@@ -376,13 +376,13 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
     '''
     Return confusion matrix with n rows/columns where n is equal to the number of unique data-points (or points on a scale, if continuous).
 
-    :param x_true: np.array of "true" labels
-    :type x_true: 1-dimensional np.array with dtype=np.int32
-    :param y_pred: np.array of predicted labels
-    :type y_pred: 1-dimensional np.array with dtype=np.int32
+    :param x_true: numpy.array of "true" labels
+    :type x_true: 1-dimensional numpy.array with dtype=numpy.int32
+    :param y_pred: numpy.array of predicted labels
+    :type y_pred: 1-dimensional numpy.array with dtype=numpy.int32
     :param continuous: if data-points/labels form a continuous scale of natural numbers
     :type continuous: boolean
-    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion matrix itself (a 2-dimensional np.array with dtype=np.int32) and 2) a 'string' key mapped to a string representation of the confusion matrix
+    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion matrix itself (a 2-dimensional numpy.array with dtype=numpy.int32) and 2) a 'string' key mapped to a string representation of the confusion matrix
     '''
 
     # Get the range of labels/data-points
@@ -395,6 +395,8 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
 
     # Compute the confusion matrix
     rows = []
+    cdef int i
+    cdef int j
     for i, row_val in enumerate(_range):
         row = []
         for j, col_val in enumerate(_range):
@@ -404,17 +406,18 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
                                                         and y == col_val]))
         rows.append(row)
 
-    conf_matrix = np.array(rows,
-                           dtype=np.int32)
+    conf_matrix = array(rows,
+                        dtype=int32)
 
     # Make string representations of the rows in the confusion matrix
     conf_matrix_rows = ['\t{}'.format('\t'.join(['_{}_'.format(val) for val in
                                                  _range]))]
-    for i, row_val in enumerate(_range):
+    cdef int k
+    for k, row_val in enumerate(_range):
         conf_matrix_rows.append('_{}_\t{}'.format(row_val,
                                                   '\t'.join(
                                                       [str(val) for val in
-                                                       conf_matrix[i]])))
+                                                       conf_matrix[k]])))
 
     return dict(data=conf_matrix,
                 string='\n'.join(conf_matrix_rows))
