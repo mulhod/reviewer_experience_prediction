@@ -20,6 +20,6 @@ terminado
 tornado
 jinja2
 jsonschema
-pyzmq=13
+pyzmq
 mistune
 pygments
