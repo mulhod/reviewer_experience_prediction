@@ -11,13 +11,13 @@
         - Number of hours played in the last 2 weeks
 
 - Dependencies:
-    - conda (anaconda/miniconda), which can be found (here)[http://conda.pydata.org/miniconda.html]
+    - conda (anaconda/miniconda), which can be found [here](http://conda.pydata.org/miniconda.html)
         - For a Linux, 64-bit system, install with:
             ```curl http://repo.continuum.io/miniconda/Miniconda-1.6.0-Linux-x86_64.sh >! ~/Miniconda-1.6.0-Linux-x86_64.sh
             chmod a+x ~/Miniconda-1.6.0-Linux-x86_64.sh
             ~/Miniconda-1.6.0-Linux-x86_64.sh -b -p ~/conda
             rm -f ~/Miniconda-1.6.0-Linux-x86_64.sh```
-        - MongoDB, which can be found (here)[https://www.mongodb.org/downloads]
+        - MongoDB, which can be found [here](https://www.mongodb.org/downloads)
 
 - Set-up:
     - Run util/setup.sh to create the conda environment (must have conda/miniconda installed, see `Dependencies` section above), which will also run Cython on the Cython modules so that they get compiled from source.
