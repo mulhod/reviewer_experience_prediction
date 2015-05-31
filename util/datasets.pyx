@@ -126,7 +126,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         i += 1
         # If a limit was defined and processing 10 more essays will push us
         # over the limit, stop here
-        if limit and range_begin + 10 > limit:
+        if (limit
+            and range_begin + 10 > limit):
             break
         time.sleep(120)
 
@@ -356,7 +357,8 @@ def get_bin(bin_ranges, float val):
 
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
-        if val > bin_range[0] and val <= bin_range[1]:
+        if (val > bin_range[0]
+            and val <= bin_range[1]):
             return i + 1
     return -1
 
@@ -382,7 +384,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     '''
 
     # Make sure that the passed-in keyword arguments make sense
-    if make_train_test and (reviews or not reviewdb):
+    if (make_train_test
+        and (reviews or not reviewdb)):
         logger.error('The make_train_test keyword argument was set to True ' \
                      'and either the reviewdb keyword was left unspecified ' \
                      'or the reviews keyword was specified (or both). If ' \
@@ -391,7 +394,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                      ' MongoDB database rather than a list of reviews ' \
                      'passed in via the reviews keyword. Exiting.')
         sys.exit(1)
-    if not make_train_test and reviewdb:
+    if (not make_train_test
+        and reviewdb):
         if reviews:
             logger.warning('Ignoring passed-in reviewdb keyword value. ' \
                            'Reason: If a list of reviews is passed in via ' \
@@ -403,14 +407,16 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                          'Exiting.')
             sys.exit(1)
     if bins:
-        if make_train_test and type(bins) == list:
+        if (make_train_test
+            and type(bins) == list):
             logger.warning('The write_arff_file method was called with ' \
                            '\'make_train_test\' set to True and \'bins\' ' \
                            'set to a list of bin ranges ({}). Because the ' \
                            'bin values in the database were precomputed, ' \
                            'the passed-in list of bin ranges will be ' \
                            'ignored.'.format(repr(bins)))
-        if reviews and type(bins) == bool:
+        if (reviews
+            and type(bins) == bool):
             logger.error('The write_arff_file method was called with a list' \
                          ' of review dictionaries and \'bins\' set to True.' \
                          ' If the hours played values are to be collapsed ' \

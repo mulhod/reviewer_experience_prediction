@@ -87,16 +87,17 @@ if __name__ == '__main__':
     just_describe = args.just_describe
 
     # Initialize logging system
+    logging_info = logging.INFO
     logger = logging.getLogger('make_train_test_sets')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging_info)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.INFO)
+    fh.setLevel(logging_info)
 
     # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.INFO)
+    sh.setLevel(logging_info)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
@@ -113,7 +114,8 @@ if __name__ == '__main__':
     # Make sure value passed in via the --convert_to_bins/-bins option flag
     # makes sense and, if so, assign value to variable bins (if not, set bins
     # equal to 0)
-    if convert_to_bins and convert_to_bins < 2:
+    if (convert_to_bins
+        and convert_to_bins < 2):
         logerror('The value passed in via --convert_to_bins/-bins must be ' \
                  'greater than one since there must be multiple bins to ' \
                  'divide the hours played values. Exiting.')
@@ -147,7 +149,8 @@ if __name__ == '__main__':
         exit(1)
 
     # Make sense of arguments
-    if make_reports and just_describe:
+    if (make_reports
+        and just_describe):
         logwarn('If the --just_describe and -describe/--make_reports option' \
                 ' flags are used, --just_describe wins out, i.e., reports ' \
                'will be generated, but no reviews will be inserted into the' \

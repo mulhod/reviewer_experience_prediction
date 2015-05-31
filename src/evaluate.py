@@ -112,16 +112,17 @@ if __name__ == '__main__':
     eval_combined_games = args.eval_combined_games
 
     # Initialize logging system
+    logging_debug = logging.DEBUG
     logger = logging.getLogger('eval')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging_debug)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.DEBUG)
+    fh.setLevel(logging_debug)
 
     # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.INFO)
+    sh.setLevel(logging_debug)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
@@ -173,8 +174,9 @@ if __name__ == '__main__':
         if results_path:
             results_path = abspath(results_path)
             paths.append(results_path)
-        if paths and not any(map(exists,
-                                 paths)):
+        if (paths
+            and not any(map(exists,
+                            paths))):
             logerror('Could not verify the existence of the destination ' \
                      'directories for the predictions and/or results ' \
                      'output files. Exiting.')
@@ -183,10 +185,10 @@ if __name__ == '__main__':
             import csv
 
     # Make sure command-line arguments make sense
-    if just_extract_features \
-       and (results_path
-            or predictions_path
-            or eval_combined_games):
+    if (just_extract_features
+        and (results_path
+             or predictions_path
+             or eval_combined_games)):
         logerror('If the --just_extract_features flag is used, then any ' \
                  'other flags used for evaluation-related tasks cannot be ' \
                  'used (since the program skips evaluation if it is just ' \
@@ -194,9 +196,9 @@ if __name__ == '__main__':
                  ' Exiting.')
         exit(1)
 
-    if try_to_reuse_extracted_features \
-       and (lowercase_cngrams
-            or do_not_lowercase_text):
+    if (try_to_reuse_extracted_features
+        and (lowercase_cngrams
+             or do_not_lowercase_text)):
         logwarn('If trying to reuse previously extracted features, then the' \
                 ' values picked for the --lowercase_cngrams and ' \
                 '--do_not_lowercase_text should match the values used to ' \
@@ -317,8 +319,8 @@ if __name__ == '__main__':
                                                  {'_id': 0,
                                                   'features': 1})
                 features = features_doc.get('features')
-                if features \
-                   and _binarized == binarize:
+                if (features
+                    and _binarized == binarize):
                     features = json_decode(features)
                     found_features = True
 

@@ -43,16 +43,17 @@ if __name__ == '__main__':
     appids = args.appids
 
     # Initialize logging system
+    logging_info = logging.INFO
     logger = logging.getLogger('make_train_test_sets')
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging_info)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.INFO)
+    fh.setLevel(logging_info)
 
     # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.INFO)
+    sh.setLevel(logging_info)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'

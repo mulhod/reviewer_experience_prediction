@@ -122,16 +122,17 @@ if __name__ == '__main__':
     do_not_binarize_features = args.do_not_binarize_features
 
     # Initialize logging system
+    logging_debug = logging.DEBUG
     logger = logging.getLogger('train')
-    logger.setLevel(logging.DEBUG)
+    logger.setLevel(logging_debug)
 
     # Create file handler
     fh = logging.FileHandler(abspath(args.log_file_path))
-    fh.setLevel(logging.DEBUG)
+    fh.setLevel(logging_debug)
 
     # Create console handler
     sh = logging.StreamHandler()
-    sh.setLevel(logging.DEBUG)
+    sh.setLevel(logging_debug)
 
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
@@ -166,19 +167,20 @@ if __name__ == '__main__':
 
     # Make sure that, if --combine is being used, there is also a file prefix
     # being passed in via --combined_model_prefix for the combined model
-    if combine and not combined_model_prefix:
+    if (combine
+        and not combined_model_prefix):
         logerror('When using the --combine flag, you must also specify a ' \
                  'model prefix, which can be passed in via the ' \
                  '--combined_model_prefix option argument. Exiting.')
         exit(1)
 
     # Make sure command-line arguments make sense
-    if just_extract_features \
-       and (combine
-            or combined_model_prefix
-            or learner
-            or objective_function
-            or _run_configuration):
+    if (just_extract_features
+        and (combine
+             or combined_model_prefix
+             or learner
+             or objective_function
+             or _run_configuration)):
        logerror('Cannot use --just_extract_features flag in combination ' \
                 'with other options related to training a model. Exiting.')
        exit(1)
@@ -342,8 +344,8 @@ if __name__ == '__main__':
                             {'_id': 0,
                              'features': 1})
                         features = features_doc.get('features')
-                        if features \
-                           and _binarized == binarize:
+                        if (features
+                            and _binarized == binarize):
                             features = json_decode(features)
                             found_features = True
 
@@ -354,8 +356,9 @@ if __name__ == '__main__':
                                lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all values 1
-                    if binarize and not (found_features
-                                         and _binarized):
+                    if (binarize
+                        and not (found_features
+                                 and _binarized)):
                         features = dict(Counter(list(features)))
 
                     # Update Mongo database game doc with new key "features",
@@ -518,8 +521,9 @@ if __name__ == '__main__':
                                 lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all values 1
-                    if binarize and not (found_features
-                                         and _binarized):
+                    if (binarize
+                        and not (found_features
+                                 and _binarized)):
                         features = dict(Counter(list(features)))
 
                     # Update Mongo database game doc with new key "features",

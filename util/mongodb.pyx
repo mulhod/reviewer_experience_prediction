@@ -54,7 +54,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                     '...'.format(bins))
 
     # Make sense of arguments
-    if describe and just_describe:
+    if (describe
+        and just_describe):
         logger.warning('If the just_describe and describe keyword arguments' \
                        'are set to True, just_describe wins out, i.e., the ' \
                        'report will be generated, but no reviews will be ' \
