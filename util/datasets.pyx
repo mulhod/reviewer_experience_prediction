@@ -19,7 +19,11 @@ from data import APPID_DICT
 from bs4 import UnicodeDammit
 from langdetect import detect
 import matplotlib.pyplot as plt
-from os.path import abspath, basename, dirname, realpath, join
+from os.path import (abspath,
+                     basename,
+                     dirname,
+                     realpath,
+                     join)
 from langdetect.lang_detect_exception import LangDetectException
 
 codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",

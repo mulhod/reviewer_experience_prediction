@@ -4,8 +4,13 @@
 
 Script used to make predictions for datasets (or multiple datasets combined) and generate evaluation metrics.
 '''
-from os.path import realpath, dirname, abspath, join, exists
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from os.path import (realpath,
+                     dirname,
+                     abspath,
+                     join,
+                     exists)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
 

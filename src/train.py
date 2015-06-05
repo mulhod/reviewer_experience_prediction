@@ -4,8 +4,13 @@
 
 Script used to train models on datasets (or multiple datasets combined).
 '''
-from os.path import join, dirname, realpath, abspath, exists
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from os.path import (join,
+                     dirname,
+                     realpath,
+                     abspath,
+                     exists)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
 

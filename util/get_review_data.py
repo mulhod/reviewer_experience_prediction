@@ -7,10 +7,15 @@ Script used to run the web scraping tool in order to build the video game review
 import sys
 import logging
 logger = logging.getLogger()
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
 from data import APPID_DICT
-from os.path import dirname, abspath, realpath, join
-from util.datasets import parse_appids, get_review_data_for_game
+from os.path import (dirname,
+                     abspath,
+                     realpath,
+                     join)
+from util.datasets import (parse_appids,
+                           get_review_data_for_game)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir,

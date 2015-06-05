@@ -9,9 +9,15 @@ import logging
 from re import sub
 from sys import exit
 from pymongo import MongoClient
-from os.path import realpath, abspath, dirname, join, basename
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
-from util.datasets import (get_and_describe_dataset, get_bin_ranges,
+from os.path import (realpath,
+                     abspath,
+                     dirname,
+                     join,
+                     basename)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
+from util.datasets import (get_and_describe_dataset,
+                           get_bin_ranges,
                            write_arff_file)
 
 project_dir = dirname(dirname(realpath(__file__)))

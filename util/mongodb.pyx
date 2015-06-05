@@ -12,9 +12,14 @@ logger = logging.getLogger()
 from math import ceil
 from data import APPID_DICT
 from os.path import basename
-from random import randint, shuffle, seed
-from pymongo.errors import DuplicateKeyError, BulkWriteError
-from util.datasets import get_and_describe_dataset, get_bin_ranges, get_bin
+from random import (randint,
+                    shuffle,
+                    seed)
+from pymongo.errors import (DuplicateKeyError,
+                            BulkWriteError)
+from util.datasets import (get_and_describe_dataset,
+                           get_bin_ranges,
+                           get_bin)
 
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,

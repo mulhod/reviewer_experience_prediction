@@ -10,8 +10,13 @@ from os import listdir
 from pymongo import MongoClient
 from util.mongodb import insert_train_test_reviews
 from util.datasets import get_and_describe_dataset
-from os.path import join, abspath, dirname, realpath, basename
-from argparse import ArgumentParser, ArgumentDefaultsHelpFormatter
+from os.path import (join,
+                     abspath,
+                     dirname,
+                     realpath,
+                     basename)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
 

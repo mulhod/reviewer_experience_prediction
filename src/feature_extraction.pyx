@@ -9,9 +9,12 @@ from json import dumps
 from os.path import join
 from nltk.util import ngrams
 from string import punctuation
-from re import sub, IGNORECASE
+from re import (sub,
+                IGNORECASE)
 from collections import Counter
-from numpy import array, int32, log2
+from numpy import (array,
+                   int32,
+                   log2)
 from configparser import ConfigParser
 
 class Review(object):
