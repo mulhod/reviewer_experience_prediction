@@ -15,6 +15,10 @@ from os.path import basename
 from random import (randint,
                     shuffle,
                     seed)
+from json import JSONDecoder
+# Make local binding to JSONEncoder method attribute
+json_decoder = JSONDecoder()
+json_decode = json_decoder.decode
 from pymongo.errors import (DuplicateKeyError,
                             BulkWriteError)
 from util.datasets import (get_and_describe_dataset,
@@ -55,15 +59,15 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
 
     logger.info('Inserting reviews from {}...'.format(game))
     if bins:
-        logger.info('Dividing the hours played values into {} bins' \
+        logger.info('Dividing the hours played values into {} bins'
                     '...'.format(bins))
 
     # Make sense of arguments
     if (describe
         and just_describe):
-        logger.warning('If the just_describe and describe keyword arguments' \
-                       'are set to True, just_describe wins out, i.e., the ' \
-                       'report will be generated, but no reviews will be ' \
+        logger.warning('If the just_describe and describe keyword arguments '
+                       'are set to True, just_describe wins out, i.e., the '
+                       'report will be generated, but no reviews will be '
                        'inserted.')
 
     # Get list of all reviews represented as dictionaries with 'review' and
@@ -71,7 +75,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     dataset = get_and_describe_dataset(file_path,
                                        report=(describe or just_describe))
     reviews = dataset['reviews']
-    logger.debug('Number of original, English language reviews collected: ' \
+    logger.debug('Number of original, English language reviews collected: '
                  '{}'.format(dataset['orig_total_reviews']))
     cdef float maxl = dataset['maxl']
     cdef float minl = dataset['minl']
@@ -79,9 +83,9 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     cdef float minh = dataset['minh']
     logger.debug('Maximum length = {}'.format(dataset['maxl']))
     logger.debug('Minimum length = {}'.format(dataset['minl']))
-    logger.debug('Maximum amount of hours played = ' \
+    logger.debug('Maximum amount of hours played = '
                  '{}'.format(dataset['maxh']))
-    logger.debug('Minimum amount of hours played = ' \
+    logger.debug('Minimum amount of hours played = '
                  '{}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the range
@@ -111,14 +115,14 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
     training_reviews = train_test_reviews[:training_set_size + 1]
     test_reviews = train_test_reviews[training_set_size + 1:]
-    logger.debug('Number of training set reviews: ' \
+    logger.debug('Number of training set reviews: '
                  '{}'.format(len(training_reviews)))
     logger.debug('Number of test set reviews: {}'.format(len(test_reviews)))
     logger.debug('Number of extra reviews: {}'.format(len(remaining_reviews)))
-    logger.debug('NOTE: It is possible that fewer reviews get inserted into' \
-                ' the DB for the training set or test set if there are ' \
-                'errors during insertion and there are no replacement ' \
-                'reviews to substitute in.')
+    logger.debug('NOTE: It is possible that fewer reviews get inserted into '
+                'the DB for the training set or test set if there are errors '
+                'during insertion and there are no replacement reviews to '
+                'substitute in.')
 
     if not just_describe:
 
@@ -165,10 +169,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                                       'partition': 'test'}).count()
         extra_inserts = reviewdb.find({'appid': appid,
                                        'partition': 'extra'}).count()
-        logger.debug('Inserted {} training set reviews, {} test set reviews' \
-                     ', and {} extra reviews...'.format(train_inserts,
-                                                        test_inserts,
-                                                        extra_inserts))
+        logger.debug('Inserted {} training set reviews, {} test set reviews, '
+                     'and {} extra reviews...'.format(train_inserts,
+                                                      test_inserts,
+                                                      extra_inserts))
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
@@ -205,8 +209,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
             if _bin > -1:
                 rd['hours_bin'] = _bin
             else:
-                logger.error('The hours played value ({}) did not seem to ' \
-                             'fall within any of the bin ranges.\n\nBin ' \
+                logger.error('The hours played value ({}) did not seem to '
+                             'fall within any of the bin ranges.\n\nBin '
                              'ranges:\n{}\nExiting.'.format(rd['hours_bin'],
                                                             repr(bins)))
                 sys.exit(1)
@@ -214,5 +218,22 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
         try:
             bulk_writer.insert(rd)
         except DuplicateKeyError as e:
-            logger.warning('Encountered DuplicateKeyError. Throwing out the' \
-                           ' following review:\n{}'.format(rd))
+            logger.warning('Encountered DuplicateKeyError. Throwing out the '
+                           'following review:\n{}'.format(rd))
+
+
+def get_review_features_from_db(db, _id):
+    '''
+    Collect the features from the database for a given review and return the decoded value.
+
+    :param db: database
+    :type db: MongoClient instance
+    :param _id: ID string for review
+    :type _id: pymong.bson.objectid.ObjectId
+    :returns: dict if features were found; None otherwise
+    '''
+
+    features_doc = db.find_one({'_id': _id},
+                               {'_id': 0,
+                                'features': 1})
+    return json_decode(features_doc.get('features')) if features_doc else None

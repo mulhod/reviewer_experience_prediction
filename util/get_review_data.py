@@ -23,18 +23,18 @@ data_dir = join(project_dir,
 
 if __name__ == '__main__':
 
-    parser = ArgumentParser(usage='./python get_review_data.py[ ' \
+    parser = ArgumentParser(usage='./python get_review_data.py[ '
         '--appids APPID1,APPID2,...]',
-        description='Make review data files for each game in the APPID_DICT' \
-                    ', which is specified in the __init__.py module in the ' \
-                    'the "data" directory. A specific list of game IDs ' \
-                    '(same as "appid") can also be specified instead, but ' \
-                    'they must map to games in APPID_DICT.',
+        description='Make review data files for each game in the APPID_DICT, '
+                    'which is specified in the __init__.py module in the '
+                    '"data" directory. A specific list of game IDs (same as '
+                    '"appid") can also be specified instead, but they must '
+                    'map to games in APPID_DICT.',
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--appids',
-        help='comma-separated list of game IDs for which to generate review' \
-             ' data files (all IDs should map to games in APPID_DICT)',
+        help='comma-separated list of game IDs for which to generate review '
+             'data files (all IDs should map to games in APPID_DICT)',
         type=str,
         required=False)
     parser_add_argument('--log_file_path', '-log',

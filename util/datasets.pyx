@@ -56,10 +56,10 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
               'e={1}&artpage={1}&allguidepage={1}&webguidepage={1}&integr' \
               'atedguidepage={1}&discussionspage={1}&appid={2}&appHubSubS' \
               'ection=10&appHubSubSection=10&l=english&browsefilter=topra' \
-              'ted&filterLanguage=default&searchText=&forceanon=1'.format(
-                  range_begin,
-                  i,
-                  appid)
+              'ted&filterLanguage=default&searchText=&forceanon=' \
+              '1'.format(range_begin,
+                         i,
+                         appid)
         # Try to get the URL content
         page = None
         try:
@@ -106,8 +106,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0):
         try:
             assert len(hours) == len(range_reviews)
         except AssertionError:
-            logger.warning('len(hours) ({}) not equal to len(range_reviews)' \
-                           ' ({}).\nURL: {}\n\n{}\n\n' \
+            logger.warning('len(hours) ({}) not equal to len(range_reviews) '
+                           '({}).\nURL: {}\n\n{}\n\n'
                            '{}'.format(len(hours),
                                        len(range_reviews),
                                        url,
@@ -225,12 +225,12 @@ def get_and_describe_dataset(file_path, report=True):
     reviews = read_reviews_from_game_file(file_path)
 
     if report:
-        output.write('Descriptive Report for {}\n======================' \
-                     '=================================================' \
-                     '========\n\n'.format(sub(r'_',
-                                               r' ',
-                                               game)))
-        output.write('Number of English-language reviews: {}\n' \
+        output.write('Descriptive Report for {}\n============================'
+                     '===================================================\n'
+                     '\n'.format(sub(r'_',
+                                     r' ',
+                                     game)))
+        output.write('Number of English-language reviews: {}\n'
                      '\n'.format(len(reviews)))
 
     # Look at review lengths to figure out what should be filtered out
@@ -269,7 +269,7 @@ def get_and_describe_dataset(file_path, report=True):
     cdef float stdh = hours.std()
     if report:
         output.write('Review Experience Distribution\n\n')
-        output.write('Average game experience (in hours played): {}' \
+        output.write('Average game experience (in hours played): {}'
                      '\n'.format(meanh))
         output.write('Minimum experience = {}\n'.format(min(hours)))
         output.write('Maximum experience = {}\n'.format(max(hours)))
@@ -283,10 +283,10 @@ def get_and_describe_dataset(file_path, report=True):
 
     # Write MAXLEN, MINLEN, etc. values to report
     if report:
-        output.write('Filter Values\n' \
-                     'Minimum length = {}\n' \
-                     'Maximum length = {}\n' \
-                     'Minimum hours played = {}\n' \
+        output.write('Filter Values\n'
+                     'Minimum length = {}\n'
+                     'Maximum length = {}\n'
+                     'Minimum hours played = {}\n'
                      'Maximum hours played = {}\n'.format(minl,
                                                           maxl,
                                                           minh,
@@ -390,43 +390,43 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
         and (reviews or not reviewdb)):
-        logger.error('The make_train_test keyword argument was set to True ' \
-                     'and either the reviewdb keyword was left unspecified ' \
-                     'or the reviews keyword was specified (or both). If ' \
-                     'the make_train_test keyword is used, it is expected ' \
-                     'that training/test reviews will be retrieved from the' \
-                     ' MongoDB database rather than a list of reviews ' \
-                     'passed in via the reviews keyword. Exiting.')
+        logger.error('The make_train_test keyword argument was set to True '
+                     'and either the reviewdb keyword was left unspecified or'
+                     ' the reviews keyword was specified (or both). If the '
+                     'make_train_test keyword is used, it is expected that '
+                     'training/test reviews will be retrieved from the'
+                     ' MongoDB database rather than a list of reviews passed '
+                     'in via the reviews keyword. Exiting.')
         sys.exit(1)
     if (not make_train_test
         and reviewdb):
         if reviews:
-            logger.warning('Ignoring passed-in reviewdb keyword value. ' \
-                           'Reason: If a list of reviews is passed in via ' \
-                           'the reviews keyword argument, then the reviewdb' \
-                           ' keyword argument should not be used at all ' \
-                           'since it will not be needed.')
+            logger.warning('Ignoring passed-in reviewdb keyword value. '
+                           'Reason: If a list of reviews is passed in via the'
+                           ' reviews keyword argument, then the reviewdb '
+                           'keyword argument should not be used at all since '
+                           'it will not be needed.')
         else:
-            logger.error('A list of review dictionaries was not specified. ' \
+            logger.error('A list of review dictionaries was not specified. '
                          'Exiting.')
             sys.exit(1)
     if bins:
         if (make_train_test
             and type(bins) == list):
-            logger.warning('The write_arff_file method was called with ' \
-                           '\'make_train_test\' set to True and \'bins\' ' \
-                           'set to a list of bin ranges ({}). Because the ' \
-                           'bin values in the database were precomputed, ' \
-                           'the passed-in list of bin ranges will be ' \
+            logger.warning('The write_arff_file method was called with '
+                           '\'make_train_test\' set to True and \'bins\' set '
+                           'to a list of bin ranges ({}). Because the bin '
+                           'values in the database were precomputed, the '
+                           'passed-in list of bin ranges will be '
                            'ignored.'.format(repr(bins)))
         if (reviews
             and type(bins) == bool):
-            logger.error('The write_arff_file method was called with a list' \
-                         ' of review dictionaries and \'bins\' set to True.' \
-                         ' If the hours played values are to be collapsed ' \
-                         'and precomputed values (as from the database, for' \
-                         ' example) are not being used, then the bin ranges' \
-                         ' must be specified. Exiting.')
+            logger.error('The write_arff_file method was called with a list '
+                         'of review dictionaries and \'bins\' set to True. If'
+                         ' the hours played values are to be collapsed and '
+                         'precomputed values (as from the database, for '
+                         'example) are not being used, then the bin ranges '
+                         'must be specified. Exiting.')
             sys.exit(1)
 
     # ARFF file template
@@ -460,9 +460,9 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             game_docs = reviewdb.find({'partition': partition,
                                        'game': {'$in': file_names}})
             if game_docs.count() == 0:
-                logger.error('No matching documents were found in the ' \
-                             'MongoDB collection for the {} partition and ' \
-                             'the following games:\n\n{}\n\nExiting' \
+                logger.error('No matching documents were found in the '
+                             'MongoDB collection for the {} partition and the'
+                             ' following games:\n\n{}\n\nExiting'
                              '.'.format(partition,
                                         file_names))
                 sys.exit(1)
@@ -497,7 +497,7 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     else:
 
         if not reviews:
-            logger.error('Empty list of reviews passed in to the ' \
+            logger.error('Empty list of reviews passed in to the '
                          'write_arff_file method. Exiting.')
             sys.exit(1)
 
@@ -518,10 +518,10 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                 hours = get_bin(bins,
                                 rd['hours'])
                 if hours < 0:
-                    logger.error('The given hours played value ({}) was not' \
-                                 ' found in the list of possible bin ranges' \
-                                 ' ({}). Exiting.'.format(rd['hours'],
-                                                          bins))
+                    logger.error('The given hours played value ({}) was not '
+                                 'found in the list of possible bin ranges '
+                                 '({}). Exiting.'.format(rd['hours'],
+                                                         bins))
                     sys.exit(1)
             else:
                 hours = rd['hours']

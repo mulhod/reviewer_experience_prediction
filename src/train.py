@@ -17,15 +17,15 @@ project_dir = dirname(dirname(realpath(__file__)))
 
 if __name__ == '__main__':
 
-    parser = ArgumentParser(usage='python train.py --game_files GAME_FILE1,' \
+    parser = ArgumentParser(usage='python train.py --game_files GAME_FILE1,'
                                   'GAME_FILE2,...[ OPTIONS]',
-        description='Build a machine learning model based on the features ' \
-                    'that are extracted from a set of reviews relating to a' \
-                    ' specific game or set of games.',
+        description='Build a machine learning model based on the features '
+                    'that are extracted from a set of reviews relating to a '
+                    'specific game or set of games.',
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
-        help='comma-separated list of file-names or "all" for all of the ' \
+        help='comma-separated list of file-names or "all" for all of the '
              'files (the game files should reside in the "data" directory)',
         type=str,
         required=True)
@@ -34,16 +34,16 @@ if __name__ == '__main__':
         action='store_true',
         required=False)
     parser_add_argument('--combined_model_prefix',
-        help='prefix to use when naming the combined model (required if ' \
-             'the --combine flag is used); basically, just combine the ' \
-             'names of the games together in a way that doesn\'t make the ' \
-             'file-name 150 characters long...',
+        help='prefix to use when naming the combined model (required if '
+             'the --combine flag is used); basically, just combine the names '
+             'of the games together in a way that doesn\'t make the file-name'
+             '150 characters long...',
         type=str,
         required=False)
     parser_add_argument('--learner',
-        help='machine learning algorithm to use (only regressors are ' \
-             'supported); both regular and rescaled versions of each ' \
-             'learner are available',
+        help='machine learning algorithm to use (only regressors are '
+             'supported); both regular and rescaled versions of each learner '
+             'are available',
         choices=['AdaBoost', 'DecisionTree', 'ElasticNet',
                  'GradientBoostingRegressor', 'KNeighborsRegressor', 'Lasso',
                  'LinearRegression', 'RandomForestRegressor', 'Ridge',
@@ -62,14 +62,14 @@ if __name__ == '__main__':
                  'mean_squared_error'],
         default='quadratic_weighted_kappa')
     parser_add_argument('--do_not_lowercase_text',
-        help='do not make lower-casing part of the review text ' \
-             'normalization step, which affects word n-gram-related ' \
+        help='do not make lower-casing part of the review text '
+             'normalization step, which affects word n-gram-related '
              'features',
         action='store_true',
         default=False)
     parser_add_argument('--lowercase_cngrams',
-        help='lower-case the review text before extracting character n-gram' \
-             ' features',
+        help='lower-case the review text before extracting character n-gram '
+             'features',
         action='store_true',
         default=False)
     parser_add_argument('--use_original_hours_values',
@@ -77,22 +77,27 @@ if __name__ == '__main__':
         action='store_true',
         default=False)
     parser_add_argument('--just_extract_features',
-        help='extract features from all of the reviews, generate .jsonlines' \
-             ' files, etc., but quit before training any models',
+        help='extract features from all of the reviews, generate .jsonlines '
+             'files, etc., but quit before training any models',
         action='store_true',
         default=False)
     parser_add_argument('--try_to_reuse_extracted_features',
-        help='try to make use of previously-extracted features that reside ' \
-             'in the MongoDB database',
+        help='try to make use of previously-extracted features that reside in'
+             ' the MongoDB database',
         action='store_true',
         default=True)
     parser_add_argument('--run_configuration', '-run_cfg',
-        help='assumes that .jsonlines files have already been created and ' \
+        help='assumes that .jsonlines files have already been created and '
              'attempts to run the configuration',
          action='store_true',
          default=False)
     parser_add_argument('--do_not_binarize_features',
         help='do not make all non-zero feature frequencies equal to 1',
+        action='store_true',
+        default=False)
+    parser_add_argument('--use_cluster', '-cluster',
+        help='if run on a compute cluster, make use of the cluster rather '
+             'than running everything locally on one machine',
         action='store_true',
         default=False)
     parser_add_argument('--mongodb_port', '-dbport',
@@ -125,6 +130,7 @@ if __name__ == '__main__':
     try_to_reuse_extracted_features = args.try_to_reuse_extracted_features
     _run_configuration = args.run_configuration
     do_not_binarize_features = args.do_not_binarize_features
+    local=not args.use_cluster
 
     # Initialize logging system
     logging_debug = logging.DEBUG
@@ -157,15 +163,15 @@ if __name__ == '__main__':
     # Print out some logging information about the upcoming tasks
     logdebug('project directory: {}'.format(project_dir))
     logdebug('Learner: {}'.format(learner))
-    logdebug('Objective function used for tuning: ' \
+    logdebug('Objective function used for tuning: '
              '{}'.format(objective_function))
     binarize = not do_not_binarize_features
     logdebug('Binarize features? {}'.format(binarize))
     lowercase_text = not do_not_lowercase_text
-    logdebug('Lower-case text as part of the normalization step? ' \
+    logdebug('Lower-case text as part of the normalization step? '
              '{}'.format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
-    logdebug('Try to reuse extracted features? ' \
+    logdebug('Try to reuse extracted features? '
                  '{}'.format(try_to_reuse_extracted_features))
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
@@ -174,8 +180,8 @@ if __name__ == '__main__':
     # being passed in via --combined_model_prefix for the combined model
     if (combine
         and not combined_model_prefix):
-        logerror('When using the --combine flag, you must also specify a ' \
-                 'model prefix, which can be passed in via the ' \
+        logerror('When using the --combine flag, you must also specify a '
+                 'model prefix, which can be passed in via the '
                  '--combined_model_prefix option argument. Exiting.')
         exit(1)
 
@@ -186,8 +192,8 @@ if __name__ == '__main__':
              or learner
              or objective_function
              or _run_configuration)):
-       logerror('Cannot use --just_extract_features flag in combination ' \
-                'with other options related to training a model. Exiting.')
+       logerror('Cannot use --just_extract_features flag in combination with '
+                'other options related to training a model. Exiting.')
        exit(1)
 
     if not _run_configuration:
@@ -197,12 +203,15 @@ if __name__ == '__main__':
         from data import APPID_DICT
         from spacy.en import English
         from collections import Counter
-        from json import JSONEncoder, JSONDecoder, dumps
+        from json import (JSONEncoder,
+                          dumps)
         from pymongo import MongoClient
-        from pymongo.errors import AutoReconnect, ConnectionFailure
+        from pymongo.errors import (AutoReconnect,
+                                    ConnectionFailure)
         from src.feature_extraction import (Review,
                                             extract_features_from_review,
                                             generate_config_file)
+        from util.mongodb import get_review_features_from_db
         # Establish connection to MongoDB database
         connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
         try:
@@ -215,17 +224,14 @@ if __name__ == '__main__':
         reviewdb = db['reviews']
         reviewdb.write_concern['w'] = 0
         reviewdb_find = reviewdb.find
-        reviewdb_find_one = reviewdb.find_one
         reviewdb_update = reviewdb.update
 
         # Initialize an English-language spaCy NLP analyzer instance
         spaCy_nlp = English()
 
-        # Initialize JSONEncoder, JSONDecoder objects
+        # Make local binding to JSONEncoder method attribute
         json_encoder = JSONEncoder()
         json_encode = json_encoder.encode
-        json_decoder = JSONDecoder()
-        json_decode = json_decoder.decode
 
     if not just_extract_features:
         from skll import run_configuration
@@ -240,21 +246,38 @@ if __name__ == '__main__':
 
     # Get short names for the learner and objective function to use in the
     # experiment name(s)
-    if len(learner) < 5:
-        learner_short = learner
-    elif learner.islower():
-        learner_short = learner[:5]
-    else:
-        learner_short = '{}'.format(''.join([c for c in learner if
-                                             c.isupper()]))
-    if len(objective_function) < 5:
-        objective_function_short = objective_function
-    elif objective_function.islower():
-        objective_function_short = objective_function[:5]
-    else:
-        objective_function_short = \
-            '.{}'.format(''.join([c for c in objective_function if
-                                  c.isupper()]))
+    learner_abbrs = {'AdaBoost': 'AdaBoost',
+                     'DecisionTree': 'DecisionTree',
+                     'ElasticNet': 'ElasticNet',
+                     'GradientBoostingRegressor': 'GBReg',
+                     'KNeighborsRegressor': 'KNReg',
+                     'Lasso': 'Lasso',
+                     'LinearRegression': 'LinearReg',
+                     'RandomForestRegressor': 'RFReg',
+                     'Ridge': 'Ridge',
+                     'SGDRegressor': 'SGDReg',
+                     'SVR': 'SVR',
+                     'RescaledAdaBoost': 'RescaledAdaBoost',
+                     'DecisionTree': 'RescaledDecisionTree',
+                     'ElasticNet': 'RescaledElasticNet',
+                     'GradientBoostingRegressor': 'RescaledGBReg',
+                     'KNeighborsRegressor': 'RescaledKNReg',
+                     'Lasso': 'RescaledLasso',
+                     'LinearRegression': 'RescaledLinearReg',
+                     'RandomForestRegressor': 'RescaledRFReg',
+                     'Ridge': 'RescaledRidge',
+                     'SGDRegressor': 'RescaledSGDReg',
+                     'SVR': 'RescaledSVR'}
+    obj_func_abbrs = {'unweighted_kappa': 'kappa',
+                      'linear_weighted_kappa': 'lwk',
+                      'quadratic_weighted_kappa': 'qwk',
+                      'uwk_off_by_one': 'kappa_offby1',
+                      'lwk_off_by_one': 'lwk_offby1',
+                      'qwk_off_by_one': 'qwk_offby1',
+                      'r2': 'r2',
+                      'mean_squared_error': 'mse'}
+    learner_short = learner_abbrs[learner]
+    objective_function_short = obj_func_abbrs[objective_function]
 
     # Train a combined model with all of the games or train models for each
     # individual game dataset
@@ -287,8 +310,8 @@ if __name__ == '__main__':
 
         if not _run_configuration:
 
-            loginfo('Extracting features to train a combined model with ' \
-                    'training data from the following games: ' \
+            loginfo('Extracting features to train a combined model with '
+                    'training data from the following games: '
                     '{}'.format(', '.join(game_files)))
 
             # Initialize empty list for holding all of the feature
@@ -296,7 +319,7 @@ if __name__ == '__main__':
             # features from each game's training data
             feature_dicts = []
 
-            loginfo('Writing {} to working directory' \
+            loginfo('Writing {} to working directory'
                     '...'.format(jsonlines_filename))
             jsonlines_file = open(jsonlines_filepath,
                                   'w')
@@ -306,7 +329,7 @@ if __name__ == '__main__':
             for game_file in game_files:
 
                 game = game_file[:-4]
-                loginfo('Extracting features from the training data for ' \
+                loginfo('Extracting features from the training data for '
                         '{}...'.format(game))
 
                 appid = APPID_DICT[game]
@@ -316,9 +339,9 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logerror('No matching documents were found in the ' \
-                             'MongoDB collection in the training partition ' \
-                             'for game {}. Exiting.'.format(game))
+                    logerror('No matching documents were found in the MongoDB'
+                             ' collection in the training partition for game '
+                             '{}. Exiting.'.format(game))
                     exit(1)
 
                 # Iterate over all training documents for the given game
@@ -333,32 +356,26 @@ if __name__ == '__main__':
                     _id = _get('_id')
                     _binarized = _get('binarized')
 
-                    # Instantiate a Review object
-                    _Review = Review(review_text,
-                                     hours,
-                                     game,
-                                     appid,
-                                     spaCy_nlp,
-                                     lower=lowercase_text)
-
-                    # Extract features from the review text
+                    # Extract features by querying the database (if they are
+                    # available and the --try_to_reuse_extracted_features
+                    # flag was used); otherwise, extract features from the
+                    # review text directly (and try to update the database)
                     found_features = False
-                    if try_to_reuse_extracted_features:
-                        features_doc = reviewdb_find_one(
-                            {'_id': _id},
-                            {'_id': 0,
-                             'features': 1})
-                        features = features_doc.get('features')
-                        if (features
-                            and _binarized == binarize):
-                            features = json_decode(features)
-                            found_features = True
+                    if (try_to_reuse_extracted_features
+                        and _binarized == binarize):
+                        features = get_review_features_from_db(reviewdb,
+                                                               _id)
+                        found_features = True if features else False
 
                     if not found_features:
-                        features = \
-                           extract_features_from_review(
-                               _Review,
-                               lowercase_cngrams=lowercase_cngrams)
+                        features = extract_features_from_review(
+                                       Review(review_text,
+                                              hours,
+                                              game,
+                                              appid,
+                                              spaCy_nlp,
+                                              lower=lowercase_text),
+                                       lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all values 1
                     if (binarize
@@ -381,20 +398,19 @@ if __name__ == '__main__':
                                         'binarized': binarize}})
                                 break
                             except AutoReconnect as e:
-                                logwarn('Encountered ConnectionFailure ' \
-                                        'error, attempting to reconnect ' \
+                                logwarn('Encountered ConnectionFailure error,'
+                                        ' attempting to reconnect '
                                         'automatically...')
                                 tries += 1
                                 if tries >= 5:
-                                    logerror('Unable to update database ' \
-                                             'even after 5 tries. Exiting.')
+                                    logerror('Unable to update database even '
+                                             'after 5 tries. Exiting.')
                                     exit(1)
                                 sleep(20)
 
-                    jsonlines_write('{}\n'.format(dumps(
-                        {'id': str(_id),
-                         'y': hours,
-                         'x': features})))
+                    jsonlines_write('{}\n'.format(dumps({'id': str(_id),
+                                                         'y': hours,
+                                                         'x': features})))
 
             # Close JSONLINES file and take features out of memory
             jsonlines_file.close()
@@ -416,14 +432,15 @@ if __name__ == '__main__':
         # Make sure the jsonlines and config files exist
         if not any([exists(fpath) for fpath in [jsonlines_filepath,
                                                 cfg_filepath]]):
-            logerror('Could not find either the .jsonlines file or the ' \
-                     'config file or both ({}, {})'.format(jsonlines_filepath,
-                                                           cfg_filepath))
+            logerror('Could not find either the .jsonlines file or the config'
+                     ' file or both ({}, {})'.format(jsonlines_filepath,
+                                                     cfg_filepath))
 
         # Run the SKLL configuration, producing a model file
-        loginfo('Training combined model...')
+        loginfo('Training combined model {}...'.format('locally' if local
+                                                       else 'on cluster'))
         run_configuration(cfg_filepath,
-                          local=True)
+                          local=local)
 
     else:
         # Build model, extract features, etc. for each game separately
@@ -457,8 +474,8 @@ if __name__ == '__main__':
 
             if not _run_configuration:
 
-                loginfo('Extracting features to train a model with ' \
-                        'training data from {}...'.format(game))
+                loginfo('Extracting features to train a model with training '
+                        'data from {}...'.format(game))
 
                 # Initialize empty list for holding all of the feature
                 # dictionaries from each review and then extract features from
@@ -467,7 +484,7 @@ if __name__ == '__main__':
 
                 # Get the training reviews for this game from the Mongo
                 # database
-                loginfo('Extracting features from the training data for ' \
+                loginfo('Extracting features from the training data for '
                         ' {}...'.format(game))
                 appid = APPID_DICT[game]
                 game_docs = reviewdb_find({'game': game,
@@ -476,12 +493,12 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logerror('No matching documents were found in the ' \
-                             'MongoDB collection in the training partition ' \
-                             'for game {}. Exiting.'.format(game))
+                    logerror('No matching documents were found in the MongoDB'
+                             ' collection in the training partition for game '
+                             '{}. Exiting.'.format(game))
                     exit(1)
 
-                loginfo('Writing {} to working directory' \
+                loginfo('Writing {} to working directory'
                         '...'.format(jsonlines_filename))
                 jsonlines_file = open(jsonlines_filepath,
                                       'w')
@@ -499,31 +516,27 @@ if __name__ == '__main__':
                     _id = _get('_id')
                     _binarized = _get('binarized')
 
-                    # Instantiate a Review object
-                    _Review = Review(review_text,
-                                     hours,
-                                     game,
-                                     appid,
-                                     spaCy_nlp,
-                                     lower=lowercase_text)
-
-                    # Extract features from the review text
+                    # Extract features by querying the database (if they are
+                    # available and the --try_to_reuse_extracted_features
+                    # flag was used); otherwise, extract features from the
+                    # review text directly (and try to update the database)
                     found_features = False
-                    if try_to_reuse_extracted_features:
-                        features_doc = reviewdb_find_one(
-                            {'_id': _id},
-                            {'_id': 0,
-                             'features': 1})
-                        features = features_doc.get('features')
-                        if features and _binarized == binarize:
-                            features = json_decode(features)
-                            found_features = True
+                    if (try_to_reuse_extracted_features
+                        and _binarized == binarize):
+                        features = get_review_features_from_db(reviewdb,
+                                                               _id)
+                        found_features = True if features else False
 
                     if not found_features:
-                        features = \
-                            extract_features_from_review(
-                                _Review,
-                                lowercase_cngrams=lowercase_cngrams)
+                        # Instantiate a Review object
+                        features = extract_features_from_review(
+                                       Review(review_text,
+                                              hours,
+                                              game,
+                                              appid,
+                                              spaCy_nlp,
+                                              lower=lowercase_text),
+                                       lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all values 1
                     if (binarize
@@ -547,21 +560,20 @@ if __name__ == '__main__':
                                               'binarized': binarize}})
                                 break
                             except AutoReconnect as e:
-                                logwarn('Encountered ConnectionFailure ' \
-                                        'error, attempting to reconnect ' \
+                                logwarn('Encountered ConnectionFailure error,'
+                                        ' attempting to reconnect '
                                         'automatically...\n')
                                 tries += 1
                                 if tries >= 5:
-                                    logerror('Unable to update database ' \
-                                             'even after 5 tries. Exiting.')
+                                    logerror('Unable to update database even'
+                                             ' after 5 tries. Exiting.')
                                     exit(1)
                                 sleep(20)
 
                     # Write features to line of JSONLINES output file
-                    jsonlines_write('{}\n'.format(dumps(
-                        {'id': str(_id),
-                         'y': hours,
-                         'x': features})))
+                    jsonlines_write('{}\n'.format(dumps({'id': str(_id),
+                                                         'y': hours,
+                                                         'x': features})))
 
                 # Close JSONLINES file and take features from memory
                 jsonlines_file.close()
@@ -583,14 +595,16 @@ if __name__ == '__main__':
             # Make sure the jsonlines and config files exist
             if not any([exists(fpath) for fpath in [jsonlines_filepath,
                                                     cfg_filepath]]):
-                logerror('Could not find either the .jsonlines ' \
-                         'file or the config file or both ({}, ' \
+                logerror('Could not find either the .jsonlines fiel or the '
+                         'config file or both ({}, '
                          '{})'.format(jsonlines_filepath,
                                       cfg_filepath))
 
             # Run the SKLL configuration, producing a model file
-            loginfo('Training model for {}...'.format(game))
+            loginfo('Training model for {} {}...'.format(game,
+                                                         'locally' if local
+                                                         else 'on cluster'))
             run_configuration(cfg_filepath,
-                              local=True)
+                              local=local)
 
     loginfo('Complete.')

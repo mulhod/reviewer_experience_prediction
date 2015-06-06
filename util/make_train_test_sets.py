@@ -22,53 +22,51 @@ project_dir = dirname(dirname(realpath(__file__)))
 
 if __name__ == '__main__':
 
-    parser = ArgumentParser(usage='python make_train_test_sets.py ' \
+    parser = ArgumentParser(usage='python make_train_test_sets.py '
         '--game_files GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
-        description='Build train/test sets for each game. Take up to ' \
-                    '21k reviews and split it 66.67/33.33 training/test, ' \
-                    'respectively, by default. Both the maximum size and ' \
-                    'the percentage split can be altered via command-line ' \
-                    'flags. All selected reviews will be put into the ' \
-                    'MongoDB "reviews_project" database\'s  "reviews" ' \
-                    'collection (which is being hosted on the Montclair ' \
-                    'University server on port 27017).',
+        description='Build train/test sets for each game. Take up to 21k '
+                    'reviews and split it 66.67/33.33 training/test, '
+                    'respectively, by default. Both the maximum size and '
+                    'the percentage split can be altered via command-line '
+                    'flags. All selected reviews will be put into the MongoDB'
+                    ' "reviews_project" database\'s  "reviews" collection '
+                    '(which is being hosted on the Montclair University '
+                    'server on port 27017).',
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
-        help='comma-separated list of file-names or "all" for all of the ' \
+        help='comma-separated list of file-names or "all" for all of the '
              'files (the game files should reside in the "data" directory)',
         type=str,
         required=True)
     parser_add_argument('--max_size', '-m',
-        help='maximum number of reviews to get for training/testing (if' \
-             ' possible)',
+        help='maximum number of reviews to get for training/testing (if '
+             'possible)',
         type=int,
         default=4000)
     parser_add_argument('--percent_train', '-%',
-        help='percent of selected reviews for which to use for the ' \
-             'training set, the rest going to the test set',
+        help='percent of selected reviews for which to use for the training '
+             'set, the rest going to the test set',
         type=float,
         default=80.0)
     parser_add_argument('--convert_to_bins', '-bins',
-        help='number of equal sub-divisions of the hours-played values, ' \
-             'e.g. if 10 and the hours values range from 0 up to 1000, ' \
-             'then hours values 0-99 will become 1, 100-199 will become 2, ' \
-             'etc. (will probably be necessay to train a model that ' \
-             'actually is predictive to an acceptable degree); note that ' \
-             'both hours values will be retained, the original under the ' \
-             'name "hours" and the converted value under the name ' \
-             '"hours_bin"',
+        help='number of equal sub-divisions of the hours-played values, e.g. '
+             'if 10 and the hours values range from 0 up to 1000, then hours '
+             'values 0-99 will become 1, 100-199 will become 2, etc. (will '
+             'probably be necessay to train a model that actually is '
+             'predictive to an acceptable degree); note that both hours '
+             'values will be retained, the original under the name "hours" '
+             'and the converted value under the name "hours_bin"',
         type=int,
         required=False)
     parser_add_argument('--make_reports', '-describe',
-        help='generate reports and histograms describing the data ' \
-             'filtering procedure',
+        help='generate reports and histograms describing the data filtering '
+             'procedure',
         action='store_true',
         default=False)
     parser_add_argument('--just_describe',
-        help='generate reports and histograms describing the data ' \
-             'filtering procedure, but then do NOT insert the reviews into ' \
-             'the DB',
+        help='generate reports and histograms describing the data filtering '
+             'procedure, but then do NOT insert the reviews into the DB',
         action='store_true',
         default=False)
     parser_add_argument('--mongodb_port', '-dbport',
@@ -121,8 +119,8 @@ if __name__ == '__main__':
     # equal to 0)
     if (convert_to_bins
         and convert_to_bins < 2):
-        logerror('The value passed in via --convert_to_bins/-bins must be ' \
-                 'greater than one since there must be multiple bins to ' \
+        logerror('The value passed in via --convert_to_bins/-bins must be '
+                 'greater than one since there must be multiple bins to '
                  'divide the hours played values. Exiting.')
         exit(1)
     elif convert_to_bins:
@@ -131,7 +129,7 @@ if __name__ == '__main__':
         bins = 0
 
     # Establish connection to MongoDB database
-    connection = MongoClient('mongodb://localhost:' \
+    connection = MongoClient('mongodb://localhost:'
                              '{}'.format(args.mongodb_port))
     db = connection['reviews_project']
     reviewdb = db['reviews']
@@ -142,24 +140,24 @@ if __name__ == '__main__':
 
     # Make sure args make sense
     if max_size < 50:
-        logerror('You can\'t be serious, right? You passed in a value of 50' \
-                 ' for the MAXIMUM size of the combination of training/test' \
-                 ' sets? Exiting.')
+        logerror('You can\'t be serious, right? You passed in a value of 50 '
+                 'for the MAXIMUM size of the combination of training/test '
+                 'sets? Exiting.')
         exit(1)
     if percent_train < 1.0:
-        logerror('You can\'t be serious, right? You passed in a value of ' \
-                 '1.0% for the percentage of the selected reviews that will' \
-                 ' be devoted to the training set? That is not going to be ' \
-                 'enough training samples. Exiting.')
+        logerror('You can\'t be serious, right? You passed in a value of 1.0%'
+                 ' for the percentage of the selected reviews that will be '
+                 'devoted to the training set? That is not going to be enough'
+                 ' training samples. Exiting.')
         exit(1)
 
     # Make sense of arguments
     if (make_reports
         and just_describe):
-        logwarn('If the --just_describe and -describe/--make_reports option' \
-                ' flags are used, --just_describe wins out, i.e., reports ' \
-               'will be generated, but no reviews will be inserted into the' \
-               ' database.')
+        logwarn('If the --just_describe and -describe/--make_reports option '
+                'flags are used, --just_describe wins out, i.e., reports will'
+                ' be generated, but no reviews will be inserted into the '
+                'database.')
 
     # Get list of games
     if game_files == "all":
@@ -168,12 +166,12 @@ if __name__ == '__main__':
     else:
         game_files = game_files.split(',')
 
-    loginfo('Adding training/test partitions to Mongo DB for the ' \
+    loginfo('Adding training/test partitions to Mongo DB for the '
             'following games: {}'.format(', '.join([g[:-4] for g in
                                                         game_files])))
-    loginfo('Maximum size for the combined training/test sets: ' \
+    loginfo('Maximum size for the combined training/test sets: '
             '{}'.format(max_size))
-    loginfo('Percentage split between training and test sets: ' \
+    loginfo('Percentage split between training and test sets: '
             '{0:.2f}/{1:.2f}'.format(percent_train,
                                      100.0 - percent_train))
     if bins:
@@ -183,7 +181,7 @@ if __name__ == '__main__':
     # the data file and then put entries in our MongoDB collection with a
     # key that identifies each review as either training or test
     for game_file in game_files:
-        loginfo('Getting/inserting reviews for {}' \
+        loginfo('Getting/inserting reviews for {}'
                 '...'.format(basename(game_file)[:-4]))
         insert_train_test_reviews(reviewdb,
                                   abspath(join(data_dir,
