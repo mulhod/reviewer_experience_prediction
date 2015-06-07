@@ -37,5 +37,5 @@ echo "Cythonizing and compiling *.pyx modules...\n"
 UTIL_DIR=$(dirname $(readlink -f $0))
 python3.4 ${UTIL_DIR}/setup.py build_ext
 
-echo "Setup complete. Use \"source activate reviews\" to use conda"
+echo "Setup complete. Use \"source activate reviews\" to use conda" \
      "environment.\n"
