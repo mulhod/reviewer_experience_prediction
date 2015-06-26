@@ -12,11 +12,11 @@ import requests
 import numpy as np
 from re import sub
 import pandas as pd
-from lxml import html
 import seaborn as sns
 from time import strftime
 from data import APPID_DICT
-from bs4 import UnicodeDammit
+from bs4 import (BeautifulSoup,
+                 UnicodeDammit)
 from langdetect import detect
 import matplotlib.pyplot as plt
 from os.path import (abspath,
@@ -26,114 +26,320 @@ from os.path import (abspath,
                      join)
 from langdetect.lang_detect_exception import LangDetectException
 
+# Define a couple useful regular expressions
+SPACE = re.compile(r'[\s]+')
+BREAKS_REGEX = re.compile(r'\<br\>')
+COMMA = re.compile(r',')
+
+# Codecs for use with UnicodeDammit
 codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
           "cp858", "cp1140", "cp1250", "iso-8859-1", "iso8859_2",
           "iso8859_15", "iso8859_16", "mac_roman", "mac_latin2", "utf32",
           "utf16"]
 
-def get_review_data_for_game(appid, time_out=0.5, limit=0):
+def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
     '''
-    Get list of tuples representing all review/game-hours played pairs for a given game.
+    Generate dictionaries for each review for a given game.
+
+    The dictionaries will contain keys for the review text, the reviewer ID,
+    the reviewer's user-name, the number of friends the reviewer has, the
+    the number of reviews the reviewer has written, and much more.
 
     :param appid: ID corresponding to a given game
     :type appid: str
-    :param timeout: amount of time allowed to go by without hearing response while using requests.get() method
+    :param timeout: amount of time allowed to go by without hearing
+                    response while using requests.get() method
     :type timeout: float
     :param limit: the maximum number of reviews to collect
     :type limit: int (default: 0, which signifies all)
-    :yields: lists of tuples
+    :param sleep: amount of time to wait between reading different pages on
+                  the Steam websites
+    :type sleep: int/float
+    :yields: dictionary with keys for various pieces of data related to a
+             single review, including the review itself, the number of hours
+             the reviewer has played the game, etc.
     '''
 
-    # Get reviews from each page that has content, starting at range_begin
-    # = 0 and i = 1, yielding the list of review tuples as they're found
+    logger.info('Collecting review data for {} ({})...'
+                .format(APPID_DICT[appid],
+                        appid))
+    logger.info('TIME_OUT = {} seconds'.format(time_out))
+    logger.info('LIMIT = {} reviews'.format(limit))
+    logger.info('SLEEP = {} seconds'.format(sleep))
+    if limit == 0:
+        limit = -1
+    cdef int reviews_count = 0
     cdef int range_begin = 0
     cdef int i = 1
     cdef int breaks = 0
     while True and breaks < 100:
         # Get unique URL for values of range_begin and i
-        url = 'http://steamcommunity.com/app/{2}/homecontent/?userreviews' \
-              'offset={0}&p=1&itemspage={1}&screenshotspage={1}&videospag' \
-              'e={1}&artpage={1}&allguidepage={1}&webguidepage={1}&integr' \
-              'atedguidepage={1}&discussionspage={1}&appid={2}&appHubSubS' \
-              'ection=10&appHubSubSection=10&l=english&browsefilter=topra' \
-              'ted&filterLanguage=default&searchText=&forceanon=' \
-              '1'.format(range_begin,
-                         i,
-                         appid)
-        # Try to get the URL content
-        page = None
+        base_url = 'http://steamcommunity.com/app/{2}/homecontent/?user' \
+                   'reviewsoffset={0}&p=1&itemspage={1}&screenshotspage' \
+                   '={1}&videospage={1}&artpage={1}&allguidepage={1}&web' \
+                   'guidepage={1}&integratedguidepage={1}&discussionspage' \
+                   '={1}&appid={2}&appHubSubSection=10&appHubSubSection=' \
+                   '10&l=english&browsefilter=toprated&filterLanguage=' \
+                   'default&searchText=&forceanon=1'.format(range_begin,
+                                                            i,
+                                                            appid)
+        logger.debug('')
+        # Get the URL content
+        base_page = None
+        time.sleep(sleep)
+        # Get the HTML page; if there's a timeout error, then catch it and
+        # exit out of the loop, effectively ending the function.
         try:
-            page = requests.get(url,
-                                timeout=time_out)
+            base_page = requests.get(base_url,
+                                     timeout=time_out)
         except requests.exceptions.Timeout as e:
-            logger.warning('There was a Timeout error. Continuing for now...')
+            logger.error('There was a Timeout error...')
+            breaks += 1
+        continue
+        # If there's nothing at this URL, page might have no value at all,
+        # in which case we should skip the URL
+        # Another situation where we'd want to skip is if page.text contains
+        # only an empty string or a string that has only a sequence of one or
+        # more spaces
+        if not base_page:
             breaks += 1
             continue
-        # If there's nothing at this URL, page might have no value at all, in
-        # which case we should break out of the loop
-        if not page:
+        elif not base_page.text.strip():
             breaks += 1
             continue
-        elif not page.text.strip():
-            breaks += 1
-            continue
-        # Preprocess the HTML source a little bit
-        text = sub(r'[\n\t\r ]+',
-                   r' ',
-                   sub(r'\<br\>',
-                       r' ',
-                       page.text.strip())) # Replace the string "<br>" with a
-            # space and replace any sequence of carriage returns or whitespace
-            # characters with a single space
-        # Try to decode the HTML source and then re-encode it with the 'ascii'
-        # encoding
-        text = UnicodeDammit(text,
-                             codecs).unicode_markup.encode('ascii',
-                                                           'ignore')
-        # Get the parse tree from source html
-        tree = html.fromstring(text.strip())
-        # Get lists of review texts and values for game-hours played
-        range_reviews = \
-            tree.xpath('//div[@class="apphub_CardTextContent"]/text()')
-        hours = tree.xpath('//div[@class="hours"]/text()')
-        # Truncate the list of reviews by getting rid of elements that are
-        # either empty or have only a single space
-        range_reviews = [x.strip() for x in range_reviews if x.strip()]
-        # Make sure that the assumption that the lists of data line up
-        # correctly actually is true and, if not, print out some debugging
-        # info to STDERR and skip to the next review page without adding any
-        # reviews to the file
-        try:
-            assert len(hours) == len(range_reviews)
-        except AssertionError:
-            logger.warning('len(hours) ({}) not equal to len(range_reviews) '
-                           '({}).\nURL: {}\n\n{}\n\n'
-                           '{}'.format(len(hours),
-                                       len(range_reviews),
-                                       url,
-                                       [h[:5] for h in hours],
-                                       [r[:20] for r in range_reviews]))
-            range_begin += 10
-            i += 1
-            time.sleep(120)
-            continue
-        # Try to decode the reviews with a number of different formats and
-        # then encode all to utf-8
-        # Zip the values together, processing them also
-        yield [(z.strip(),
-                float(sub(r',',
-                          r'',
-                          w.split(' ', 1)[0]))) for z, w in zip(range_reviews,
-                                                                hours)]
-        # Increment the range_begin and i variables
+        # Preprocess the HTML source, getting rid of "<br>" tags and
+        # replacing any sequence of one or more carriage returns or
+        # whitespace characters with a single space
+        base_html = SPACE.sub(r' ',
+                              BREAKS_REGEX.sub(r' ',
+                                               base_page.text.strip()))
+        # Try to decode the HTML to unicode and then re-encode the text
+        # with ASCII, ignoring any characters that can't be represented
+        # with ASCII
+        base_html = UnicodeDammit(base_html,
+                                  codecs).unicode_markup.encode('ascii',
+                                                                'ignore')
+
+        # Parse the source HTML with BeautifulSoup
+        source_soup = BeautifulSoup(base_html,
+                                    'lxml')
+        reviews = soup.find_all('div',
+                                'apphub_Card interactable')
+
+        # Iterate over the reviews in the source HTML and find data for
+        # each review, yielding a dictionary
+        for review in reviews:
+
+            # Get links to review URL, profile URL, Steam ID number
+            review_url = review.attrs['onclick'].split(' ',
+                                                       2)[1].strip("',")
+            review_url_split = review_url.split('/')
+            steam_id_number = review_url_split[4]
+            profile_url = '/'.join(review_url_split[:5])
+
+            # Get other data within the base reviews page
+            stripped_strings = list(review.stripped_strings)
+            # Parsing the HTML in this way depends on stripped_strings
+            # having a length of at least 8
+            if len(stripped_strings) >= 8:
+                print(stripped_strings)
+                # Extracting data from the text that supplies the number
+                # of users who found the review helpful and/or funny
+                # depends on a couple facts
+                helpful_and_funny_list = stripped_strings[0].split()
+                if (helpful_and_funny_list[8] == 'helpful'
+                    and len(helpful_and_funny_list) == 15):
+                    helpful = helpful_and_funny_list[:9]
+                    funny = helpful_and_funny_list[9:]
+                    num_found_helpful = int(COMMA.sub(r'',
+                                                  helpful[0]))
+                    num_voted_helpfulness = int(COMMA.sub(r'',
+                                                          helpful[2]))
+                    num_found_unhelpful = \
+                        num_voted_helpfulness - num_found_helpful
+                    found_helpful_percentage = \
+                        float(num_found_helpful)/num_voted_helpfulness
+                    num_found_funny = funny[0]
+                recommended = stripped_strings[1]
+                total_game_hours = COMMA.sub(r'',
+                                             stripped_strings[2]
+                                             .split()[0])
+                date_posted = '{}, 2015'.format(stripped_strings[3][8:])
+                review_text = ' '.join(stripped_strings[4:-3])
+                num_games_owned = stripped_strings[-2].split()[0]
+            else:
+                logger.warning('Found incorrect number of "stripped_strings" '
+                               'in review HTML element. stripped_strings: {}'
+                               '\nContinuing.'.format(stripped_strings))
+                continue
+
+            # Make dictionary for holding all the data related to the
+            # review
+            review_dict = \
+                dict(review_url=review_url,
+                     recommended=recommended,
+                     total_game_hours=total_game_hours,
+                     date_posted=date_posted,
+                     review=review_text,
+                     num_games_owned=num_games_owned,
+                     num_found_helpful=num_found_helpful,
+                     num_found_unhelpful=num_found_unhelpful,
+                     num_voted_helpfulness=num_voted_helpfulness,
+                     found_helpful_percentage=found_helpful_percentage,
+                     num_found_funny=num_found_funny,
+                     steam_id_number=steam_id_number,
+                     profile_url=profile_url)
+
+            # Follow links to profile and review pages and collect data
+            # from there
+            time.sleep(sleep)
+            review_page = requests.get(review_dict['review_url'])
+            time.sleep(sleep)
+            profile_page = requests.get(review_dict['profile_url'])
+            review_page_html = review_page.text
+            profile_page_html = profile_page.text
+
+            # Preprocess HTML and try to decode the HTML to unicode and
+            # then re-encode the text with ASCII, ignoring any characters
+            # that can't be represented with ASCII
+            review_page_html = \
+                SPACE.sub(r' ',
+                          BREAKS_REGEX.sub(r' ',
+                                           review_page_html.strip()))
+            review_page_html = \
+                UnicodeDammit(review_page_html,
+                              codecs).unicode_markup.encode('ascii',
+                                                            'ignore')
+            profile_page_html = \
+                SPACE.sub(r' ',
+                          BREAKS_REGEX.sub(r' ',
+                                           profile_page_html.strip()))
+            profile_page_html = \
+                UnicodeDammit(profile_page_html,
+                              codecs).unicode_markup.encode('ascii',
+                                                            'ignore')
+
+            # Now use BeautifulSoup to parse the HTML
+            review_soup = BeautifulSoup(review_page_html,
+                                        'lxml')
+            profile_soup = BeautifulSoup(profile_page_html,
+                                         'lxml')
+
+            # Get the user-name from the review page
+            review_dict['username'] = \
+                review_soup.find('span',
+                                 'profile_small_header_name').string
+
+            # Get the number of hours the reviewer played the game in the
+            # last 2 weeks
+            review_dict['hours_previous_2_weeks'] = \
+                COMMA.sub(r'',
+                          review_soup.find('div',
+                                           'playTime').string.split()[0])
+
+            # Get the number of comments users made on the review (if any)
+            review_dict['num_comments'] = \
+                COMMA.sub(r'',
+                          list(review_soup
+                               .find('div',
+                                     'commentthread_count')
+                               .strings)[1])
+
+            # Get the reviewer's "level" (friend player level)
+            friend_player_level = profile_soup.find('div',
+                                                    'friendPlayerLevel')
+            if friend_player_level:
+                review_dict['friend_player_level'] = \
+                    friend_player_level.string
+            else:
+                review_dict['friend_player_level'] = None
+
+            # Get the game achievements summary data
+            achievements = \
+                profile_soup.find('span',
+                                  'game_info_achievement_summary')
+            if achievements:
+                achievements = achievements.stripped_strings
+                if achievements:
+                    achievements = list(achievements)[1].split()
+                    review_dict['achievement_progress'] = \
+                        dict(num_achievements_attained=achievements[0],
+                             num_achievements_possible=achievements[2])
+                else:
+                    review_dict['achievement_progress'] = \
+                        dict(num_achievements_attained=None,
+                             num_achievements_possible=None)
+            else:
+                review_dict['achievement_progress'] = \
+                    dict(num_achievements_attained=None,
+                         num_achievements_possible=None)
+
+            # Get the number of badges the reviewer has earned on the site
+            badges = profile_soup.find('div',
+                                       'profile_badges')
+            if badges:
+                badges = badges.stripped_strings
+                if badges:
+                    review_dict['num_badges'] = list(badges)[1]
+                else:
+                    review_dict['num_badges'] = None
+            else:
+                review_dict['num_badges'] = None
+
+            # Get the number of reviews the reviewer has written across all
+            # games and the number of screenshots he/she has taken
+            reviews_screens = profile_soup.find('div',
+                                                'profile_item_links')
+            if reviews_screens:
+                reviews_screens = reviews_screens.stripped_strings
+                if reviews_screens:
+                    reviews_screens = list(reviews_screens)
+                    review_dict['num_screenshots'] = reviews_screens[3]
+                    review_dict['num_reviews'] = reviews_screens[5]
+                else:
+                    review_dict['num_screenshots'] = None
+                    review_dict['num_reviews'] = None
+            else:
+                review_dict['num_screenshots'] = None
+                review_dict['num_reviews'] = None
+
+            # Get the number of groups the reviewer is part of on the site
+            groups = profile_soup.find('div',
+                                       'profile_group_links')
+            if groups:
+                groups = groups.stripped_strings
+                if groups:
+                    review_dict['num_groups'] = list(groups)[1]
+                else:
+                    review_dict['num_groups'] = None
+            else:
+                review_dict['num_groups'] = None
+
+            # Get the number of friends the reviwer has on the site
+            friends = profile_soup.find('div',
+                                        'profile_friend_links')
+            if friends:
+                friends = friends.stripped_strings
+                if friends:
+                    review_dict['num_friends'] = list(friends)[1]
+                else:
+                    review_dict['num_friends'] = None
+            else:
+                review_dict['num_friends'] = None
+
+            yield review_dict
+
+            reviews_count += 1
+            if reviews_count == limit:
+                break
+
+        if reviews_count == limit:
+            break
+
+        # Increment the range_begin and i variables, which will be used in the
+        # generation of the next page of reviews
         range_begin += 10
         i += 1
-        # If a limit was defined and processing 10 more essays will push us
-        # over the limit, stop here
-        if (limit
-            and range_begin + 10 > limit):
-            break
-        time.sleep(120)
 
 
 def parse_appids(appids):
