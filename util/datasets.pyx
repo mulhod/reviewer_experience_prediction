@@ -4,40 +4,22 @@
 
 Module of code that reads review data from raw text files and returns a list of files, describes the data, etc.
 '''
-import sys
-import time
+from sys import exit
+from re import (sub,
+                compile)
+from time import (strftime,
+                  sleep)
+
+# Connect to logger
 import logging
 logger = logging.getLogger()
-import requests
-import numpy as np
-from re import sub
-import pandas as pd
-import seaborn as sns
-from time import strftime
-from data import APPID_DICT
-from bs4 import (BeautifulSoup,
-                 UnicodeDammit)
-from langdetect import detect
-import matplotlib.pyplot as plt
-from os.path import (abspath,
-                     basename,
-                     dirname,
-                     realpath,
-                     join)
-from langdetect.lang_detect_exception import LangDetectException
+loginfo = logger.info
+logdebug = logger.debug
+logwarn = logger.warning
+logerr = logger.error
 
-# Define a couple useful regular expressions
-SPACE = re.compile(r'[\s]+')
-BREAKS_REGEX = re.compile(r'\<br\>')
-COMMA = re.compile(r',')
 
-# Codecs for use with UnicodeDammit
-codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
-          "cp858", "cp1140", "cp1250", "iso-8859-1", "iso8859_2",
-          "iso8859_15", "iso8859_16", "mac_roman", "mac_latin2", "utf32",
-          "utf16"]
-
-def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
+def get_review_data_for_game(appid, time_out=0.5, limit=0, rest=10):
     '''
     Generate dictionaries for each review for a given game.
 
@@ -52,20 +34,46 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
     :type timeout: float
     :param limit: the maximum number of reviews to collect
     :type limit: int (default: 0, which signifies all)
-    :param sleep: amount of time to wait between reading different pages on
+    :param rest: amount of time to wait between reading different pages on
                   the Steam websites
-    :type sleep: int/float
+    :type rest: int/float
     :yields: dictionary with keys for various pieces of data related to a
              single review, including the review itself, the number of hours
              the reviewer has played the game, etc.
     '''
 
-    logger.info('Collecting review data for {} ({})...'
-                .format(APPID_DICT[appid],
-                        appid))
-    logger.info('TIME_OUT = {} seconds'.format(time_out))
-    logger.info('LIMIT = {} reviews'.format(limit))
-    logger.info('SLEEP = {} seconds'.format(sleep))
+    # Define a couple useful regular expressions
+    SPACE = compile(r'[\s]+')
+    BREAKS_REGEX = compile(r'\<br\>')
+    COMMA = compile(r',')
+
+    # Codecs for use with UnicodeDammit
+    codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
+              "cp858", "cp1140", "cp1250", "iso-8859-1", "iso8859_2",
+              "iso8859_15", "iso8859_16", "mac_roman", "mac_latin2", "utf32",
+              "utf16"]
+
+    # Base URL for pages of reviews
+    BASE_URL = 'http://steamcommunity.com/app/{2}/homecontent/?userreviewso' \
+               'ffset={0}&p=1&itemspage={1}&screenshotspage={1}&videospage=' \
+               '{1}&artpage={1}&allguidepage={1}&webguidepage={1}&integrate' \
+               'dguidepage={1}&discussionspage={1}&appid={2}&appHubSubSecti' \
+               'on=10&appHubSubSection=10&l=english&browsefilter=toprated&f' \
+               'ilterLanguage=default&searchText=&forceanon=1'
+
+    # Imports
+    import requests
+    from data import APPID_DICT
+    from langdetect import detect
+    from bs4 import (BeautifulSoup,
+                     UnicodeDammit)
+    from langdetect.lang_detect_exception import LangDetectException
+
+    loginfo('Collecting review data for {} ({})...'.format(APPID_DICT[appid],
+                                                           appid))
+    loginfo('TIME_OUT = {} seconds'.format(time_out))
+    loginfo('LIMIT = {} reviews'.format(limit))
+    loginfo('SLEEP = {} seconds'.format(rest))
     if limit == 0:
         limit = -1
     cdef int reviews_count = 0
@@ -74,26 +82,21 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
     cdef int breaks = 0
     while True and breaks < 100:
         # Get unique URL for values of range_begin and i
-        base_url = 'http://steamcommunity.com/app/{2}/homecontent/?user' \
-                   'reviewsoffset={0}&p=1&itemspage={1}&screenshotspage' \
-                   '={1}&videospage={1}&artpage={1}&allguidepage={1}&web' \
-                   'guidepage={1}&integratedguidepage={1}&discussionspage' \
-                   '={1}&appid={2}&appHubSubSection=10&appHubSubSection=' \
-                   '10&l=english&browsefilter=toprated&filterLanguage=' \
-                   'default&searchText=&forceanon=1'.format(range_begin,
-                                                            i,
-                                                            appid)
-        logger.debug('')
+        url = BASE_URL.format(range_begin,
+                              i,
+                              appid)
+        loginfo('Collecting review data from the following URL: '
+                '{}'.format(url))
         # Get the URL content
         base_page = None
-        time.sleep(sleep)
+        sleep(rest)
         # Get the HTML page; if there's a timeout error, then catch it and
         # exit out of the loop, effectively ending the function.
         try:
             base_page = requests.get(base_url,
                                      timeout=time_out)
         except requests.exceptions.Timeout as e:
-            logger.error('There was a Timeout error...')
+            logerr('There was a Timeout error...')
             breaks += 1
         continue
         # If there's nothing at this URL, page might have no value at all,
@@ -123,8 +126,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
         # Parse the source HTML with BeautifulSoup
         source_soup = BeautifulSoup(base_html,
                                     'lxml')
-        reviews = soup.find_all('div',
-                                'apphub_Card interactable')
+        reviews = source_soup.find_all('div',
+                                       'apphub_Card interactable')
 
         # Iterate over the reviews in the source HTML and find data for
         # each review, yielding a dictionary
@@ -168,9 +171,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
                 review_text = ' '.join(stripped_strings[4:-3])
                 num_games_owned = stripped_strings[-2].split()[0]
             else:
-                logger.warning('Found incorrect number of "stripped_strings" '
-                               'in review HTML element. stripped_strings: {}'
-                               '\nContinuing.'.format(stripped_strings))
+                logwarn('Found incorrect number of "stripped_strings" in '
+                        'review HTML element. stripped_strings: {}\n'
+                        'Continuing.'.format(stripped_strings))
                 continue
 
             # Make dictionary for holding all the data related to the
@@ -192,9 +195,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, sleep=10):
 
             # Follow links to profile and review pages and collect data
             # from there
-            time.sleep(sleep)
+            sleep(rest)
             review_page = requests.get(review_dict['review_url'])
-            time.sleep(sleep)
+            sleep(rest)
             profile_page = requests.get(review_dict['profile_url'])
             review_page_html = review_page.text
             profile_page_html = profile_page.text
@@ -351,11 +354,15 @@ def parse_appids(appids):
     :returns: list of game IDs
     '''
 
+    # Import APPID_DICT, containing a mapping between the appid strings and
+    # the names of the video games
+    from data import APPID_DICT
+
     appids = appids.split(',')
     for appid in appids:
         if not appid in APPID_DICT.values():
-            logger.error('{} not found in APPID_DICT. Exiting.'.format(appid))
-            sys.exit(1)
+            logerr('{} not found in APPID_DICT. Exiting.'.format(appid))
+            exit(1)
     return appids
 
 
@@ -369,7 +376,7 @@ cdef read_reviews_from_game_file(file_path):
     '''
 
     reviews = []
-    lines = open(abspath(file_path)).readlines()
+    lines = open(file_path).readlines()
     cdef int i = 0
     while i + 1 < len(lines): # We need to get every 2-line couplet
         # Extract the hours value and the review text from each 2-line
@@ -411,7 +418,18 @@ def get_and_describe_dataset(file_path, report=True):
     :returns: dict containing a 'reviews' key mapped to the list of read-in review dictionaries and int values mapped to keys for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
     '''
 
+    # Imports
+    import numpy as np
+    from os.path import (basename,
+                         dirname,
+                         realpath,
+                         join)
+
     if report:
+        # Imports
+        import pandas as pd
+        import seaborn as sns
+        import matplotlib.pyplot as plt
 
         # Get path to reports directory and open report file
         reports_dir = join(dirname(dirname(realpath(__file__))),
@@ -595,45 +613,43 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
-        and (reviews or not reviewdb)):
-        logger.error('The make_train_test keyword argument was set to True '
-                     'and either the reviewdb keyword was left unspecified or'
-                     ' the reviews keyword was specified (or both). If the '
-                     'make_train_test keyword is used, it is expected that '
-                     'training/test reviews will be retrieved from the'
-                     ' MongoDB database rather than a list of reviews passed '
-                     'in via the reviews keyword. Exiting.')
-        sys.exit(1)
+        and (reviews
+             or not reviewdb)):
+        logerr('The make_train_test keyword argument was set to True and '
+               'either the reviewdb keyword was left unspecified or the '
+               'reviews keyword was specified (or both). If the '
+               'make_train_test keyword is used, it is expected that training'
+               '/test reviews will be retrieved from the MongoDB database '
+               'rather than a list of reviews passed in via the reviews '
+               'keyword. Exiting.')
+        exit(1)
     if (not make_train_test
         and reviewdb):
         if reviews:
-            logger.warning('Ignoring passed-in reviewdb keyword value. '
-                           'Reason: If a list of reviews is passed in via the'
-                           ' reviews keyword argument, then the reviewdb '
-                           'keyword argument should not be used at all since '
-                           'it will not be needed.')
+            logwarn('Ignoring passed-in reviewdb keyword value. Reason: If a '
+                    'list of reviews is passed in via the reviews keyword '
+                    'argument, then the reviewdb keyword argument should not '
+                    'be used at all since it will not be needed.')
         else:
-            logger.error('A list of review dictionaries was not specified. '
-                         'Exiting.')
-            sys.exit(1)
+            logerr('A list of review dictionaries was not specified. '
+                   'Exiting.')
+            exit(1)
     if bins:
         if (make_train_test
             and type(bins) == list):
-            logger.warning('The write_arff_file method was called with '
-                           '\'make_train_test\' set to True and \'bins\' set '
-                           'to a list of bin ranges ({}). Because the bin '
-                           'values in the database were precomputed, the '
-                           'passed-in list of bin ranges will be '
-                           'ignored.'.format(repr(bins)))
+            logwarn('The write_arff_file method was called with '
+                    '\'make_train_test\' set to True and \'bins\' set to a '
+                    'list of bin ranges ({}). Because the bin values in the '
+                    'database were precomputed, the passed-in list of bin '
+                    'ranges will be ignored.'.format(repr(bins)))
         if (reviews
             and type(bins) == bool):
-            logger.error('The write_arff_file method was called with a list '
-                         'of review dictionaries and \'bins\' set to True. If'
-                         ' the hours played values are to be collapsed and '
-                         'precomputed values (as from the database, for '
-                         'example) are not being used, then the bin ranges '
-                         'must be specified. Exiting.')
-            sys.exit(1)
+            logerr('The write_arff_file method was called with a list of '
+                   'review dictionaries and \'bins\' set to True. If the '
+                   'hours played values are to be collapsed and precomputed '
+                   'values (as from the database, for example) are not being '
+                   'used, then the bin ranges must be specified. Exiting.')
+            exit(1)
 
     # ARFF file template
     ARFF_BASE = '''% Generated on {}
@@ -666,12 +682,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             game_docs = reviewdb.find({'partition': partition,
                                        'game': {'$in': file_names}})
             if game_docs.count() == 0:
-                logger.error('No matching documents were found in the '
-                             'MongoDB collection for the {} partition and the'
-                             ' following games:\n\n{}\n\nExiting'
-                             '.'.format(partition,
-                                        file_names))
-                sys.exit(1)
+                logerr('No matching documents were found in the MongoDB '
+                       'collection for the {} partition and the following '
+                       'games:\n\n{}\n\nExiting.'.format(partition,
+                                                         file_names))
+                exit(1)
 
             for game_doc in game_docs:
                 # Remove single/double quotes from the reviews first...
@@ -703,9 +718,9 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     else:
 
         if not reviews:
-            logger.error('Empty list of reviews passed in to the '
-                         'write_arff_file method. Exiting.')
-            sys.exit(1)
+            logerr('Empty list of reviews passed in to the write_arff_file '
+                   'method. Exiting.')
+            exit(1)
 
         # Make empty list of lines to populate with ARFF-style lines,
         # one per review
@@ -724,11 +739,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                 hours = get_bin(bins,
                                 rd['hours'])
                 if hours < 0:
-                    logger.error('The given hours played value ({}) was not '
-                                 'found in the list of possible bin ranges '
-                                 '({}). Exiting.'.format(rd['hours'],
-                                                         bins))
-                    sys.exit(1)
+                    logerr('The given hours played value ({}) was not found '
+                           'in the list of possible bin ranges ({}). Exiting'
+                           '.'.format(rd['hours'],
+                                      bins))
+                    exit(1)
             else:
                 hours = rd['hours']
             reviews_lines.append('"{}",{}'.format(review,
