@@ -37,6 +37,11 @@ if __name__ == '__main__':
              'data files (all IDs should map to games in APPID_DICT)',
         type=str,
         required=False)
+    parser_add_argument('--wait',
+        help='amount of time in seconds to wait between making requests for '
+             'pages',
+        type=int,
+        default=30)
     parser_add_argument('--log_file_path', '-log',
         help='path for log file',
         type=str,
@@ -94,7 +99,7 @@ if __name__ == '__main__':
                   'w') as of:
             for review in get_review_data_for_game(APPID_DICT[game],
                                                    time_out=10.0,
-                                                   rest=40):
+                                                   wait=args.wait):
                 dump(review,
                      of)
                 if flush_to_file == 0:

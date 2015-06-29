@@ -19,7 +19,7 @@ logwarn = logger.warning
 logerr = logger.error
 
 
-def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
+def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     '''
     Generate dictionaries for each review for a given game.
 
@@ -34,9 +34,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
     :type timeout: float
     :param limit: the maximum number of reviews to collect
     :type limit: int (default: -1, which signifies no limit)
-    :param rest: amount of time to wait between reading different pages on
-                  the Steam websites
-    :type rest: int/float
+    :param wait: amount of time to wait between requesting different pages on
+                 the Steam website
+    :type wait: int/float
     :yields: dictionary with keys for various pieces of data related to a
              single review, including the review itself, the number of hours
              the reviewer has played the game, etc.
@@ -73,7 +73,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
                                                            appid))
     loginfo('TIME_OUT = {} seconds'.format(time_out))
     loginfo('LIMIT = {} reviews'.format(limit))
-    loginfo('SLEEP = {} seconds'.format(rest))
+    loginfo('SLEEP = {} seconds'.format(wait))
 
     cdef int reviews_count = 0
     cdef int range_begin = 0
@@ -88,7 +88,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
                 '{}'.format(url))
         # Get the URL content
         base_page = None
-        sleep(rest)
+        sleep(wait)
         # Get the HTML page; if there's a timeout error, then catch it and
         # exit out of the loop, effectively ending the function.
         try:
@@ -213,9 +213,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
 
             # Follow links to profile and review pages and collect data
             # from there
-            sleep(rest)
+            sleep(wait)
             review_page = requests.get(review_dict['review_url'])
-            sleep(rest)
+            sleep(wait)
             profile_page = requests.get(review_dict['profile_url'])
             review_page_html = review_page.text
             profile_page_html = profile_page.text
@@ -442,6 +442,7 @@ def get_and_describe_dataset(file_path, report=True):
     reviews = list(read_reviews_from_game_file(file_path))
 
     if report:
+        # Write header of report
         output.write('Descriptive Report for {}\n============================'
                      '===================================================\n'
                      '\n'.format(sub(r'_',
@@ -455,6 +456,7 @@ def get_and_describe_dataset(file_path, report=True):
     cdef float meanl = lengths.mean()
     cdef float stdl = lengths.std()
     if report:
+        # Write length distribution information to report
         output.write('Review Lengths Distribution\n\n')
         output.write('Average review length: {}\n'.format(meanl))
         output.write('Minimum review length = {}\n'.format(min(lengths)))
@@ -462,11 +464,11 @@ def get_and_describe_dataset(file_path, report=True):
         output.write('Standard deviation = {}\n\n\n'.format(stdl))
 
     # Use the standard deviation to define the range of acceptable reviews
-    # (in terms of the length only) as within 2 standard deviations of the
+    # (in terms of the length only) as within 4 standard deviations of the
     # mean (but with the added caveat that the reviews be at least 50
     # characters
-    cdef float minl = 50.0 if (meanl - 2*stdl) < 50 else (meanl - 2*stdl)
-    cdef float maxl = meanl + 2*stdl
+    cdef float minl = 50.0 if (meanl - 4*stdl) < 50 else (meanl - 4*stdl)
+    cdef float maxl = meanl + 4*stdl
 
     if report:
         # Generate length histogram
@@ -485,6 +487,7 @@ def get_and_describe_dataset(file_path, report=True):
     cdef float meanh = hours.mean()
     cdef float stdh = hours.std()
     if report:
+        # Write hours played distribution information to report
         output.write('Review Experience Distribution\n\n')
         output.write('Average game experience (in hours played): {}'
                      '\n'.format(meanh))
@@ -493,13 +496,14 @@ def get_and_describe_dataset(file_path, report=True):
         output.write('Standard deviation = {}\n\n\n'.format(stdh))
 
     # Use the standard deviation to define the range of acceptable reviews
-    # (in terms of experience) as within 2 standard deviations of the mean
+    # (in terms of experience) as within 4 standard deviations of the mean
     # (starting from zero, actually)
     cdef float minh = 0.0
-    cdef float maxh = meanh + 2*stdh
+    cdef float maxh = meanh + 4*stdh
 
     # Write MAXLEN, MINLEN, etc. values to report
     if report:
+        # Write information about the hours played filtering
         output.write('Filter Values\n'
                      'Minimum length = {}\n'
                      'Maximum length = {}\n'
