@@ -92,12 +92,12 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
         # Get the HTML page; if there's a timeout error, then catch it and
         # exit out of the loop, effectively ending the function.
         try:
-            base_page = requests.get(base_url,
+            base_page = requests.get(url,
                                      timeout=time_out)
         except requests.exceptions.Timeout as e:
             logerr('There was a Timeout error...')
             breaks += 1
-        continue
+            continue
         # If there's nothing at this URL, page might have no value at all,
         # in which case we should skip the URL
         # Another situation where we'd want to skip is if page.text contains
@@ -186,7 +186,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         continue
                 except LangDetectException:
                     continue
-        except LangDetectException:
                 num_games_owned = stripped_strings[-2].split()[0]
             else:
                 logwarn('Found incorrect number of "stripped_strings" in '
@@ -386,18 +385,21 @@ def parse_appids(appids):
 
 cdef read_reviews_from_game_file(file_path):
     '''
-    Generate review dictionaries from a single game .jsonlines file.
+    Generate list of review dictionaries from a single game's .jsonlines file.
 
     :param file_path: path to reviews file
     :type file_path: str
-    :yields: dict
+    :returns: list of dict
     '''
 
     from json import JSONDecoder
     json_decode = JSONDecoder().decode
 
+    reviews = []
     for json_line in open(file_path).readlines():
-        yield json_decode(json_line)
+        reviews.append(json_decode(json_line))
+
+    return reviews
 
 
 def get_and_describe_dataset(file_path, report=True):
@@ -568,7 +570,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     # 3.375, 5.0625] and the first bin would be equal to the range divided by
     # the sum of range_parts, or 1/13th of the range, while the last bin would
     # be equal to about 5/13ths of the range.
-    cdef int i = 1.0
+    cdef float i = 1.0
     range_parts = [i]
     for _ in list(range(nbins))[1:]:
         i *= factor
