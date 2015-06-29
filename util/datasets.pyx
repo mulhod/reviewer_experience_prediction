@@ -19,7 +19,7 @@ logwarn = logger.warning
 logerr = logger.error
 
 
-def get_review_data_for_game(appid, time_out=0.5, limit=0, rest=10):
+def get_review_data_for_game(appid, time_out=0.5, limit=-1, rest=10):
     '''
     Generate dictionaries for each review for a given game.
 
@@ -33,7 +33,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, rest=10):
                     response while using requests.get() method
     :type timeout: float
     :param limit: the maximum number of reviews to collect
-    :type limit: int (default: 0, which signifies all)
+    :type limit: int (default: -1, which signifies no limit)
     :param rest: amount of time to wait between reading different pages on
                   the Steam websites
     :type rest: int/float
@@ -74,8 +74,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, rest=10):
     loginfo('TIME_OUT = {} seconds'.format(time_out))
     loginfo('LIMIT = {} reviews'.format(limit))
     loginfo('SLEEP = {} seconds'.format(rest))
-    if limit == 0:
-        limit = -1
+
     cdef int reviews_count = 0
     cdef int range_begin = 0
     cdef int i = 1
@@ -168,7 +167,26 @@ def get_review_data_for_game(appid, time_out=0.5, limit=0, rest=10):
                                              stripped_strings[2]
                                              .split()[0])
                 date_posted = '{}, 2015'.format(stripped_strings[3][8:])
-                review_text = ' '.join(stripped_strings[4:-3])
+                # The review text is usually at index 4, but, in some cases,
+                # the review text is split over several indices. In these
+                # cases, we can simply concatenate all of the elements at
+                # indices 4 up to (but not including) the third index from the
+                # end of the list (since we know that the last 3 indices are
+                # occupied by other elements that won't be similarly split
+                # across indices.
+                review_text = ' '.join(stripped_strings[4:-3]).strip()
+
+                # Skip reviews that don't have any characters
+                if not review_text:
+                    continue
+
+                # Skip review if it is not recognized as English
+                try:
+                    if not detect(review_text) == 'en':
+                        continue
+                except LangDetectException:
+                    continue
+        except LangDetectException:
                 num_games_owned = stripped_strings[-2].split()[0]
             else:
                 logwarn('Found incorrect number of "stripped_strings" in '
@@ -368,50 +386,25 @@ def parse_appids(appids):
 
 cdef read_reviews_from_game_file(file_path):
     '''
-    Get list of reviews from a single game file.
+    Generate review dictionaries from a single game .jsonlines file.
 
     :param file_path: path to reviews file
     :type file_path: str
-    :returns: list of dicts
+    :yields: dict
     '''
 
-    reviews = []
-    lines = open(file_path).readlines()
-    cdef int i = 0
-    while i + 1 < len(lines): # We need to get every 2-line couplet
-        # Extract the hours value and the review text from each 2-line
-        # sequence
-        try:
-            h = float(lines[i].split()[1].strip())
-            r = lines[i + 1].split(' ', 1)[1].strip()
-        except (ValueError, IndexError) as e:
-            i += 2
-            continue
-        # Skip reviews that don't have any characters
-        if not len(r):
-            i += 2
-            continue
-        # Skip reviews if they cannot be recognized as English
-        try:
-            if not detect(r) == 'en':
-                i += 2
-                continue
-        except LangDetectException:
-            i += 2
-            continue
-        # Now we append the 2-key dict to the end of reviews
-        reviews.append(dict(hours=h,
-                            review=r))
-        i += 2 # Increment i by 2 since we need to go to the next
-            # 2-line couplet
-    return reviews
+    from json import JSONDecoder
+    json_decode = JSONDecoder().decode
+
+    for json_line in open(file_path).readlines():
+        yield json_decode(json_line)
 
 
 def get_and_describe_dataset(file_path, report=True):
     '''
-    Return dictionary with a list of filtered review dictionaries as well as the filtering values for maximum/minimum review length and minimum/maximum hours played values and the number of original, English-language reviews (before filtering); also produce a report with some descriptive statistics and graphs.
+    Return dictionary with a list of review dictionaries (filtered in terms of the values for maximum/minimum review length and minimum/maximum hours played values) and the number of original, English-language reviews (before filtering); also produce a report with some descriptive statistics and graphs.
 
-    :param file_path: path to game reviews file
+    :param file_path: path to game reviews .jsonlines file
     :type file_path: str
     :param report: make a report describing the data-set (defaults to True)
     :type report: boolean
@@ -446,7 +439,7 @@ def get_and_describe_dataset(file_path, report=True):
         sns.set_context(rc={"figure.figsize": (14, 7)})
 
     # Get list of review dictionaries
-    reviews = read_reviews_from_game_file(file_path)
+    reviews = list(read_reviews_from_game_file(file_path))
 
     if report:
         output.write('Descriptive Report for {}\n============================'
@@ -488,7 +481,7 @@ def get_and_describe_dataset(file_path, report=True):
         plt.close(fig)
 
     # Look at hours played values in the same way as above for length
-    hours = np.array([review['hours'] for review in reviews])
+    hours = np.array([review['total_game_hours'] for review in reviews])
     cdef float meanh = hours.mean()
     cdef float stdh = hours.std()
     if report:
@@ -542,33 +535,57 @@ def get_and_describe_dataset(file_path, report=True):
                 orig_total_reviews=orig_total_reviews)
 
 
-def get_bin_ranges(float _min, float _max, int nbins):
+def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     '''
-    Return list of floating point number ranges (in increments of 0.1) that correspond to each bin in the distribution.
+    Return list of floating point number ranges (in increments of 0.1) that
+    correspond to each bin in the distribution.
+
+    If the bin sizes should be weighted so that they become larger as they get
+    toward the end of the scale, specify a factor.
 
     :param _min: minimum value of the distribution
     :type _min: float
     :param _max: maximum value of the distribution
     :type _max: float
-    :param nbins: number of bins into which the distribution is being sub-divided
+    :param nbins: number of bins into which the distribution is being
+                  sub-divided (default: 5)
     :type nbins: int
-    :returns: list of tuples representing the minimum and maximum values of each bin
+    :param factor: factor by which to multiply the bin sizes (default: 1.0)
+    :type factor: float
+    :returns: list of tuples representing the minimum and maximum values of
+              each bin
     '''
 
-    cdef float bin_size = round((_max - _min)/<float>nbins, 1)
+    # Make a list of range units, one for each bin
+    # For example, if nbins = 5 and factor = 1.0, then range_parts will simply
+    # be a list of 1.0 values, i.e., each bin will be equal to one part of the
+    # range, or 1/5th in this case.
+    # If factor = 1.5, however, range_parts will then be [1.0, 1.5, 2.25,
+    # 3.375, 5.0625] and the first bin would be equal to the range divided by
+    # the sum of range_parts, or 1/13th of the range, while the last bin would
+    # be equal to about 5/13ths of the range.
+    cdef int i = 1.0
+    range_parts = [i]
+    for _ in list(range(nbins))[1:]:
+        i *= factor
+        range_parts.append(i)
+
+    # Generate a list of range tuples
+    cdef float range_unit = round(_max - _min)/sum(range_parts)
     bin_ranges = []
-    cdef float _bin_start = _min - 0.1
-    cdef float _bin_end = _min + bin_size
-    cdef int b
-    for b in range(1, nbins + 1):
-        if not b == 1:
-            _bin_start = _bin_end
-        if b == nbins:
-            _bin_end = _bin_start + bin_size + 1.0
-        else:
-            _bin_end = _bin_start + bin_size
-        bin_ranges.append((_bin_start,
-                           _bin_end))
+    cdef float current_min = _min
+    for range_part in range_parts:
+        _range = (range_unit*range_part)
+        bin_ranges.append((round(current_min + 0.1, 1),
+                           round(current_min + _range, 1)))
+        current_min += _range
+
+    # Subtract 0.1 from the beginning of the first range tuple since 0.1 was
+    # artifically added to every range beginning value to ensure that the
+    # range tuples did not overlap in values
+    bin_ranges[0] = (bin_ranges[0][0] - 0.1,
+                     bin_ranges[0][1])
+
     return bin_ranges
 
 
@@ -585,7 +602,7 @@ def get_bin(bin_ranges, float val):
 
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
-        if (val > bin_range[0]
+        if (val >= bin_range[0]
             and val <= bin_range[1]):
             return i + 1
     return -1

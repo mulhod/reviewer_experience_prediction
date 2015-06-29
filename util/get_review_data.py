@@ -86,15 +86,20 @@ if __name__ == '__main__':
     # Generate review data files
     loginfo('Scraping review data from the Steam website...')
     for game in games:
+        flush_to_file = 10
         out_path = join(data_dir,
                         '{}.txt'.format(game))
         loginfo('Writing to {}...'.format(out_path))
         with open(out_path,
                   'w') as of:
-            for review_set in get_review_data_for_game(APPID_DICT[game],
-                                                       time_out=60.0):
-                for review in review_set:
-                    of.write('game-hours: {0[1]}\n' \
-                             'review: {0[0]}\n'.format(review))
-                of.flush()
+            for review in get_review_data_for_game(APPID_DICT[game],
+                                                   time_out=10.0,
+                                                   rest=40):
+                dump(review,
+                     of)
+                if flush_to_file == 0:
+                    of.flush()
+                    flush_to_file = 10
+                else:
+                    flush_to_file -= 1
     loginfo('Complete.')
