@@ -146,7 +146,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # Parsing the HTML in this way depends on stripped_strings
             # having a length of at least 8
             if len(stripped_strings) >= 8:
-                print(stripped_strings)
                 # Extracting data from the text that supplies the number
                 # of users who found the review helpful and/or funny
                 # depends on a couple facts
@@ -316,6 +315,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 reviews_screens = reviews_screens.stripped_strings
                 if reviews_screens:
                     reviews_screens = list(reviews_screens)
+                    if len(reviews_screens) < 4 or len(reviews_screens) < 6:
+                        print(reviews_screens)
                     review_dict['num_screenshots'] = reviews_screens[3]
                     review_dict['num_reviews'] = reviews_screens[5]
                 else:

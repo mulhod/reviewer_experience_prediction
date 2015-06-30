@@ -5,6 +5,7 @@
 Script used to run the web scraping tool in order to build the video game review corpus.
 '''
 import logging
+from json import dumps
 logger = logging.getLogger()
 from data import APPID_DICT
 from os.path import (dirname,
@@ -105,17 +106,18 @@ if __name__ == '__main__':
     for game in games:
         flush_to_file = 10
         out_path = join(data_dir,
-                        '{}.txt'.format(game))
+                        '{}.jsonlines'.format(game))
         loginfo('Writing to {}...'.format(out_path))
         with open(out_path,
-                  'w') as of:
+                  'w') as jsonlines_file:
+            jsonlines_file_write = jsonlines_file.write
             for review in get_review_data_for_game(APPID_DICT[game],
                                                    time_out=10.0,
                                                    wait=args.wait):
-                dump(review,
-                     of)
+                jsonlines_file_write('{}\n'.format(dumps(review,
+                                                         jsonlines_file)))
                 if flush_to_file == 0:
-                    of.flush()
+                    jsonlines_file.flush()
                     flush_to_file = 10
                 else:
                     flush_to_file -= 1
