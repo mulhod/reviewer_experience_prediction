@@ -79,11 +79,9 @@ if __name__ == '__main__':
     if appids:
         appids = parse_appids(appids)
         games = []
-        games_appends = games.append
         for appid in appids:
-            for game in APPID_DICT:
-                if APPID_DICT[game] == appid:
-                    games_append(game)
+            games.append([x[0] for x in APPID_DICT.items()
+                          if x[1] == appid][0])
     else:
         games = list(APPID_DICT)
         del games['sample.txt']

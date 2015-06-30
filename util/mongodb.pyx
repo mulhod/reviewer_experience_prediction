@@ -6,9 +6,13 @@ Module of code related to the MongoDB database that holds all of the review data
 
 The insert_train_test_reviews function gets all suitable, English-language reviews for a given data-set (at the provided file-path) and inserts them into the the MongoDB database ('reviews_project') under the 'reviews' collection.
 '''
-import sys
 import logging
 logger = logging.getLogger()
+loginfo = logger.info
+logdebug = logger.debug
+logwarn = logger.warning
+logerr = logger.error
+from sys import exit
 from math import ceil
 from data import APPID_DICT
 from os.path import basename
@@ -57,36 +61,34 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     game = basename(file_path)[:-4]
     appid = APPID_DICT[game]
 
-    logger.info('Inserting reviews from {}...'.format(game))
+    loginfo('Inserting reviews from {}...'.format(game))
     if bins:
-        logger.info('Dividing the hours played values into {} bins'
-                    '...'.format(bins))
+        loginfo('Dividing the hours played values into {} bins...'
+                .format(bins))
 
     # Make sense of arguments
     if (describe
         and just_describe):
-        logger.warning('If the just_describe and describe keyword arguments '
-                       'are set to True, just_describe wins out, i.e., the '
-                       'report will be generated, but no reviews will be '
-                       'inserted.')
+        logwarn('If the just_describe and describe keyword arguments are set '
+                'to True, just_describe wins out, i.e., the report will be '
+                'generated, but no reviews will be inserted.')
 
     # Get list of all reviews represented as dictionaries with 'review' and
     # 'hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
-                                       report=(describe or just_describe))
+                                       report=(describe
+                                               or just_describe))
     reviews = dataset['reviews']
-    logger.debug('Number of original, English language reviews collected: '
-                 '{}'.format(dataset['orig_total_reviews']))
+    logdebug('Number of original, English language reviews collected: {}'
+             .format(dataset['orig_total_reviews']))
     cdef float maxl = dataset['maxl']
     cdef float minl = dataset['minl']
     cdef float maxh = dataset['maxh']
     cdef float minh = dataset['minh']
-    logger.debug('Maximum length = {}'.format(dataset['maxl']))
-    logger.debug('Minimum length = {}'.format(dataset['minl']))
-    logger.debug('Maximum amount of hours played = '
-                 '{}'.format(dataset['maxh']))
-    logger.debug('Minimum amount of hours played = '
-                 '{}'.format(dataset['minh']))
+    logdebug('Maximum length = {}'.format(dataset['maxl']))
+    logdebug('Minimum length = {}'.format(dataset['minl']))
+    logdebug('Maximum amount of hours played = {}'.format(dataset['maxh']))
+    logdebug('Minimum amount of hours played = {}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the range
     # that each bin maps to
@@ -115,14 +117,14 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
     training_reviews = train_test_reviews[:training_set_size + 1]
     test_reviews = train_test_reviews[training_set_size + 1:]
-    logger.debug('Number of training set reviews: '
-                 '{}'.format(len(training_reviews)))
-    logger.debug('Number of test set reviews: {}'.format(len(test_reviews)))
-    logger.debug('Number of extra reviews: {}'.format(len(remaining_reviews)))
-    logger.debug('NOTE: It is possible that fewer reviews get inserted into '
-                'the DB for the training set or test set if there are errors '
-                'during insertion and there are no replacement reviews to '
-                'substitute in.')
+    logdebug('Number of training set reviews: {}'
+             .format(len(training_reviews)))
+    logdebug('Number of test set reviews: {}'.format(len(test_reviews)))
+    logdebug('Number of extra reviews: {}'.format(len(remaining_reviews)))
+    logdebug('NOTE: It is possible that fewer reviews get inserted into the '
+             'DB for the training set or test set if there are errors during '
+             'insertion and there are no replacement reviews to substitute in'
+             '.')
 
     if not just_describe:
 
@@ -159,8 +161,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
             result = bulk.execute()
         except BulkWriteError as bwe:
             logger.debug(bwe.details)
-            sys.exit(1)
-        logger.debug(repr(result))
+            exit(1)
+        logdebug(repr(result))
 
         # Print out some information about how many reviews were added
         train_inserts = reviewdb.find({'appid': appid,
@@ -169,10 +171,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                                       'partition': 'test'}).count()
         extra_inserts = reviewdb.find({'appid': appid,
                                        'partition': 'extra'}).count()
-        logger.debug('Inserted {} training set reviews, {} test set reviews, '
-                     'and {} extra reviews...'.format(train_inserts,
-                                                      test_inserts,
-                                                      extra_inserts))
+        logdebug('Inserted {} training set reviews, {} test set reviews, and '
+                 '{} extra reviews...'.format(train_inserts,
+                                              test_inserts,
+                                              extra_inserts))
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
@@ -196,7 +198,6 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     '''
 
     for rd in rdicts:
-
         # Add keys for the partition ("extra"), the game's name, and the
         # appid
         rd['game'] = game
@@ -209,17 +210,17 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
             if _bin > -1:
                 rd['hours_bin'] = _bin
             else:
-                logger.error('The hours played value ({}) did not seem to '
-                             'fall within any of the bin ranges.\n\nBin '
-                             'ranges:\n{}\nExiting.'.format(rd['hours_bin'],
-                                                            repr(bins)))
-                sys.exit(1)
+                logerr('The hours played value ({}) did not seem to fall '
+                       'within any of the bin ranges.\n\nBin ranges\n{}\n'
+                       'Exiting.'.format(rd['hours_bin'],
+                                         repr(bins)))
+                exit(1)
 
         try:
             bulk_writer.insert(rd)
         except DuplicateKeyError as e:
-            logger.warning('Encountered DuplicateKeyError. Throwing out the '
-                           'following review:\n{}'.format(rd))
+            logwarn('Encountered DuplicateKeyError. Throwing out the '
+                    'following review:\n{}'.format(rd))
 
 
 def get_review_features_from_db(db, _id):

@@ -155,7 +155,7 @@ if __name__ == '__main__':
 
     loginfo = logger.info
     logdebug = logger.debug
-    logerror = logger.error
+    logerr = logger.error
     logwarn = logger.warning
 
     # Get paths to the project, data, working, and models directories
@@ -163,16 +163,16 @@ if __name__ == '__main__':
     # Print out some logging information about the upcoming tasks
     logdebug('project directory: {}'.format(project_dir))
     logdebug('Learner: {}'.format(learner))
-    logdebug('Objective function used for tuning: '
-             '{}'.format(objective_function))
+    logdebug('Objective function used for tuning: {}'
+             .format(objective_function))
     binarize = not do_not_binarize_features
     logdebug('Binarize features? {}'.format(binarize))
     lowercase_text = not do_not_lowercase_text
-    logdebug('Lower-case text as part of the normalization step? '
-             '{}'.format(lowercase_text))
+    logdebug('Lower-case text as part of the normalization step? {}'
+             .format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
-    logdebug('Try to reuse extracted features? '
-                 '{}'.format(try_to_reuse_extracted_features))
+    logdebug('Try to reuse extracted features? {}'
+             .format(try_to_reuse_extracted_features))
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
@@ -180,9 +180,9 @@ if __name__ == '__main__':
     # being passed in via --combined_model_prefix for the combined model
     if (combine
         and not combined_model_prefix):
-        logerror('When using the --combine flag, you must also specify a '
-                 'model prefix, which can be passed in via the '
-                 '--combined_model_prefix option argument. Exiting.')
+        logerr('When using the --combine flag, you must also specify a '
+               'model prefix, which can be passed in via the '
+               '--combined_model_prefix option argument. Exiting.')
         exit(1)
 
     # Make sure command-line arguments make sense
@@ -192,8 +192,8 @@ if __name__ == '__main__':
              or learner
              or objective_function
              or _run_configuration)):
-       logerror('Cannot use --just_extract_features flag in combination with '
-                'other options related to training a model. Exiting.')
+       logerr('Cannot use --just_extract_features flag in combination with '
+              'other options related to training a model. Exiting.')
        exit(1)
 
     if not _run_configuration:
@@ -217,8 +217,8 @@ if __name__ == '__main__':
         try:
             connection = MongoClient(connection_string)
         except ConnectionFailure as e:
-            logerror('Unable to connect to to Mongo server at {}. ' \
-                     'Exiting.'.format(connection_string))
+            logerr('Unable to connect to to Mongo server at {}. Exiting.'
+                   .format(connection_string))
             exit(1)
         db = connection['reviews_project']
         reviewdb = db['reviews']
@@ -311,16 +311,16 @@ if __name__ == '__main__':
         if not _run_configuration:
 
             loginfo('Extracting features to train a combined model with '
-                    'training data from the following games: '
-                    '{}'.format(', '.join(game_files)))
+                    'training data from the following games: {}'
+                    .format(', '.join(game_files)))
 
             # Initialize empty list for holding all of the feature
             # dictionaries from each review in each game and then extract
             # features from each game's training data
             feature_dicts = []
 
-            loginfo('Writing {} to working directory'
-                    '...'.format(jsonlines_filename))
+            loginfo('Writing {} to working directory...'
+                    .format(jsonlines_filename))
             jsonlines_file = open(jsonlines_filepath,
                                   'w')
             jsonlines_write = jsonlines_file.write
@@ -329,8 +329,8 @@ if __name__ == '__main__':
             for game_file in game_files:
 
                 game = game_file[:-4]
-                loginfo('Extracting features from the training data for '
-                        '{}...'.format(game))
+                loginfo('Extracting features from the training data for {}...'
+                        .format(game))
 
                 appid = APPID_DICT[game]
                 game_docs = reviewdb_find({'game': game,
@@ -339,9 +339,9 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logerror('No matching documents were found in the MongoDB'
-                             ' collection in the training partition for game '
-                             '{}. Exiting.'.format(game))
+                    logerr('No matching documents were found in the MongoDB '
+                           'collection in the training partition for game {}.'
+                           ' Exiting.'.format(game))
                     exit(1)
 
                 # Iterate over all training documents for the given game
@@ -403,8 +403,8 @@ if __name__ == '__main__':
                                         'automatically...')
                                 tries += 1
                                 if tries >= 5:
-                                    logerror('Unable to update database even '
-                                             'after 5 tries. Exiting.')
+                                    logerr('Unable to update database even '
+                                           'after 5 tries. Exiting.')
                                     exit(1)
                                 sleep(20)
 
@@ -432,13 +432,13 @@ if __name__ == '__main__':
         # Make sure the jsonlines and config files exist
         if not any([exists(fpath) for fpath in [jsonlines_filepath,
                                                 cfg_filepath]]):
-            logerror('Could not find either the .jsonlines file or the config'
-                     ' file or both ({}, {})'.format(jsonlines_filepath,
-                                                     cfg_filepath))
+            logerr('Could not find either the .jsonlines file or the config '
+                   'file or both ({}, {})'.format(jsonlines_filepath,
+                                                  cfg_filepath))
 
         # Run the SKLL configuration, producing a model file
-        loginfo('Training combined model {}...'.format('locally' if local
-                                                       else 'on cluster'))
+        loginfo('Training combined model {}...'
+                .format('locally' if local else 'on cluster'))
         run_configuration(cfg_filepath,
                           local=local)
 
@@ -484,8 +484,8 @@ if __name__ == '__main__':
 
                 # Get the training reviews for this game from the Mongo
                 # database
-                loginfo('Extracting features from the training data for '
-                        ' {}...'.format(game))
+                loginfo('Extracting features from the training data for {}...'
+                        .format(game))
                 appid = APPID_DICT[game]
                 game_docs = reviewdb_find({'game': game,
                                            'partition': 'training'},
@@ -493,20 +493,19 @@ if __name__ == '__main__':
                                            'game': 0,
                                            'partition': 0})
                 if game_docs.count() == 0:
-                    logerror('No matching documents were found in the MongoDB'
-                             ' collection in the training partition for game '
-                             '{}. Exiting.'.format(game))
+                    logerr('No matching documents were found in the MongoDB '
+                           'collection in the training partition for game {}.'
+                           ' Exiting.'.format(game))
                     exit(1)
 
-                loginfo('Writing {} to working directory'
-                        '...'.format(jsonlines_filename))
+                loginfo('Writing {} to working directory...'
+                        .format(jsonlines_filename))
                 jsonlines_file = open(jsonlines_filepath,
                                       'w')
                 jsonlines_write = jsonlines_file.write
 
                 # Iterate over all training documents for the given game
                 for game_doc in iter(game_docs):
-
                     _get = game_doc.get
                     if bins:
                         hours = _get('hours_bin')
@@ -565,8 +564,8 @@ if __name__ == '__main__':
                                         'automatically...\n')
                                 tries += 1
                                 if tries >= 5:
-                                    logerror('Unable to update database even'
-                                             ' after 5 tries. Exiting.')
+                                    logerr('Unable to update database even '
+                                           'after 5 tries. Exiting.')
                                     exit(1)
                                 sleep(20)
 
@@ -595,15 +594,15 @@ if __name__ == '__main__':
             # Make sure the jsonlines and config files exist
             if not any([exists(fpath) for fpath in [jsonlines_filepath,
                                                     cfg_filepath]]):
-                logerror('Could not find either the .jsonlines fiel or the '
-                         'config file or both ({}, '
-                         '{})'.format(jsonlines_filepath,
-                                      cfg_filepath))
+                logerr('Could not find either the .jsonlines fiel or the '
+                       'config file or both ({}, {})'
+                       .format(jsonlines_filepath,
+                               cfg_filepath))
 
             # Run the SKLL configuration, producing a model file
-            loginfo('Training model for {} {}...'.format(game,
-                                                         'locally' if local
-                                                         else 'on cluster'))
+            loginfo('Training model for {} {}...'
+                    .format(game,
+                            'locally' if local else 'on cluster'))
             run_configuration(cfg_filepath,
                               local=local)
 

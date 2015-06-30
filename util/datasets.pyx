@@ -69,8 +69,10 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                      UnicodeDammit)
     from langdetect.lang_detect_exception import LangDetectException
 
-    loginfo('Collecting review data for {} ({})...'.format(APPID_DICT[appid],
-                                                           appid))
+    loginfo('Collecting review data for {} ({})...'
+            .format([x[0] for x in APPID_DICT.items()
+                     if x[1] == appid][0],
+                    appid))
     loginfo('TIME_OUT = {} seconds'.format(time_out))
     loginfo('LIMIT = {} reviews'.format(limit))
     loginfo('SLEEP = {} seconds'.format(wait))
@@ -84,8 +86,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
         url = BASE_URL.format(range_begin,
                               i,
                               appid)
-        loginfo('Collecting review data from the following URL: '
-                '{}'.format(url))
+        loginfo('Collecting review data from the following URL: {}'
+                .format(url))
         # Get the URL content
         base_page = None
         sleep(wait)
@@ -446,12 +448,12 @@ def get_and_describe_dataset(file_path, report=True):
     if report:
         # Write header of report
         output.write('Descriptive Report for {}\n============================'
-                     '===================================================\n'
-                     '\n'.format(sub(r'_',
-                                     r' ',
-                                     game)))
-        output.write('Number of English-language reviews: {}\n'
-                     '\n'.format(len(reviews)))
+                     '===================================================\n\n'
+                     .format(sub(r'_',
+                                 r' ',
+                                 game)))
+        output.write('Number of English-language reviews: {}\n\n'
+                     .format(len(reviews)))
 
     # Look at review lengths to figure out what should be filtered out
     lengths = np.array([len(review['review']) for review in reviews])
@@ -763,9 +765,9 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                                 rd['hours'])
                 if hours < 0:
                     logerr('The given hours played value ({}) was not found '
-                           'in the list of possible bin ranges ({}). Exiting'
-                           '.'.format(rd['hours'],
-                                      bins))
+                           'in the list of possible bin ranges ({}). Exiting.'
+                           .format(rd['hours'],
+                                   bins))
                     exit(1)
             else:
                 hours = rd['hours']

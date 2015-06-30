@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     loginfo = logger.info
     logdebug = logger.debug
-    logerror = logger.error
+    logerr = logger.error
     logwarn = logger.warning
 
     # Get predictions/results output file path and models directory path and
@@ -171,9 +171,9 @@ if __name__ == '__main__':
                           'models')
         if not exists(join(models_dir,
                            '{}.model'.format(model))):
-            logerror('Could not find model with prefix {} in models '
-                     'directory ({}). Exiting.'.format(model,
-                                                       models_dir))
+            logerr('Could not find model with prefix {} in models directory '
+                   '({}). Exiting.'.format(model,
+                                           models_dir))
             exit(1)
         paths = []
         if predictions_path:
@@ -185,9 +185,9 @@ if __name__ == '__main__':
         if (paths
             and not any(map(exists,
                             paths))):
-            logerror('Could not verify the existence of the destination '
-                     'directories for the predictions and/or results output '
-                     'files. Exiting.')
+            logerr('Could not verify the existence of the destination '
+                   'directories for the predictions and/or results output '
+                   'files. Exiting.')
             exit(1)
         if predictions_path:
             import csv
@@ -197,11 +197,10 @@ if __name__ == '__main__':
         and (results_path
              or predictions_path
              or eval_combined_games)):
-        logerror('If the --just_extract_features flag is used, then any other'
-                 ' flags used for evaluation-related tasks cannot be used '
-                 '(since the program skips evaluation if it is just '
-                 'extracting the features and putting them in the MondoDB). '
-                 'Exiting.')
+        logerr('If the --just_extract_features flag is used, then any other '
+               'flags used for evaluation-related tasks cannot be used '
+               '(since the program skips evaluation if it is just extracting '
+               'the features and putting them in the MondoDB). Exiting.')
         exit(1)
 
     if (try_to_reuse_extracted_features
@@ -215,11 +214,11 @@ if __name__ == '__main__':
     binarize = not do_not_binarize_features
     logdebug('Binarize features? {}'.format(binarize))
     lowercase_text = not do_not_lowercase_text
-    logdebug('Lower-case text as part of the normalization step? '
-             '{}'.format(lowercase_text))
+    logdebug('Lower-case text as part of the normalization step? {}'
+             .format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
-    logdebug('Try to reuse extracted features? '
-             '{}'.format(try_to_reuse_extracted_features))
+    logdebug('Try to reuse extracted features? {}'
+             .format(try_to_reuse_extracted_features))
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
@@ -228,8 +227,8 @@ if __name__ == '__main__':
     try:
         connection = MongoClient(connection_string)
     except ConnectionFailure as e:
-        logerror('Unable to connect to to Mongo server at '
-                 '{}'.format(connection_string))
+        logerr('Unable to connect to to Mongo server at {}'
+               .format(connection_string))
         exit(1)
     db = connection['reviews_project']
     reviewdb = db['reviews']
@@ -299,9 +298,9 @@ if __name__ == '__main__':
                                    'partition': 0})
 
         if game_docs.count() == 0:
-            logerror('No matching documents were found in the MongoDB '
-                     'collection in the test partition for game {}. Exiting'
-                     '.'.format(game))
+            logerr('No matching documents were found in the MongoDB '
+                   'collection in the test partition for game {}. Exiting.'
+                   .format(game))
             exit(1)
 
         for game_doc in game_docs:
@@ -365,8 +364,8 @@ if __name__ == '__main__':
                                 'attempting to reconnect automatically...')
                         tries += 1
                         if tries >= 5:
-                            logerror('Unable to update database even after 5 '
-                                     'tries. Exiting.')
+                            logerr('Unable to update database even after 5 '
+                                   'tries. Exiting.')
                             exit(1)
                         sleep(20)
 
@@ -394,11 +393,11 @@ if __name__ == '__main__':
         # Make sure all the lists are equal
         if not any([map(lambda x, y: len(x) == len(y),
                         [_ids, reviews, hours_values, predicted_labels])]):
-            logerror('Lists of values not of expected length:\n\n{}\n\n'
-                     'Exiting.'.format(str([_ids,
-                                            reviews,
-                                            hours_values,
-                                            predicted_labels])))
+            logerr('Lists of values not of expected length:\n\n{}\n\nExiting.'
+                   .format(str([_ids,
+                                reviews,
+                                hours_values,
+                                predicted_labels])))
             exit()
 
         # Save predicted/expected values for final evaluation
@@ -440,22 +439,23 @@ if __name__ == '__main__':
                 results_file_write('- Game: {}\n'.format(game))
                 results_file_write('- Model: {}\n\n'.format(model))
                 results_file_write('Evaluation Metrics\n\n')
-                results_file_write('Kappa: {}\n'.format(
-                                       kappa(hours_values,
-                                             predicted_labels)))
-                results_file_write('Kappa (allow off-by-one): {}\n'.format(
-                    kappa(hours_values,
-                          predicted_labels,
-                          allow_off_by_one=True)))
-                results_file_write('Pearson: {}\n\n'.format(
-                                       pearson(hours_values,
-                                               predicted_labels)))
+                results_file_write('Kappa: {}\n'
+                                   .format(kappa(hours_values,
+                                           predicted_labels)))
+                results_file_write('Kappa (allow off-by-one): {}\n'
+                                   .format(kappa(hours_values,
+                                                 predicted_labels,
+                                                 allow_off_by_one=True)))
+                results_file_write('Pearson: {}\n\n'
+                                   .format(pearson(hours_values,
+                                                   predicted_labels)))
                 results_file_write('Confusion Matrix\n')
-                results_file_write('(predicted along top, actual along '
-                                   'side)\n\n')
-                results_file_write('{}\n'.format(
-                    make_confusion_matrix(hours_values,
-                                          predicted_labels)['string']))
+                results_file_write('(predicted along top, actual along side)'
+                                   '\n\n')
+                results_file_write(
+                    '{}\n'.format(
+                        make_confusion_matrix(hours_values,
+                                              predicted_labels)['string']))
 
     # Do evaluation on all predicted/expected values across all games or exit
     if not eval_combined_games:
@@ -463,19 +463,20 @@ if __name__ == '__main__':
         exit(0)
     loginfo('Printing out evaluation metrics for the performance of the '
             'model across all games...')
-    loginfo('Using predicted/expected values for the following games: '
-            '{}'.format(', '.join(game_files)))
+    loginfo('Using predicted/expected values for the following games: {}'
+            .format(', '.join(game_files)))
     loginfo('Kappa: {}'.format(kappa(total_hours_values,
                                      total_predicted_hours_labels)))
-    loginfo('Kappa (allow off-by-one): {}'.format(
-                kappa(total_hours_values,
-                      total_predicted_hours_labels,
-                      allow_off_by_one=True)))
-    loginfo('Pearson: {}'.format(pearson(
-                                     total_hours_values,
-                                     total_predicted_hours_labels)))
-    loginfo('Confusion Matrix (predicted along top, actual along side)\n\n'
-            '{}'.format(make_confusion_matrix(
-                            total_hours_values,
-                            total_predicted_hours_labels)['string']))
+    loginfo('Kappa (allow off-by-one): {}'
+            .format(kappa(total_hours_values,
+                          total_predicted_hours_labels,
+                          allow_off_by_one=True)))
+    loginfo('Pearson: {}'
+            .format(pearson(total_hours_values,
+                            total_predicted_hours_labels)))
+    loginfo('Confusion Matrix (predicted along top, actual along side)\n\n{}'
+            .format(
+                make_confusion_matrix(
+                    total_hours_values,
+                    total_predicted_hours_labels)['string']))
     loginfo('Complete.')

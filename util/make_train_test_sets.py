@@ -166,14 +166,13 @@ if __name__ == '__main__':
     else:
         game_files = game_files.split(',')
 
-    loginfo('Adding training/test partitions to Mongo DB for the '
-            'following games: {}'.format(', '.join([g[:-4] for g in
-                                                        game_files])))
-    loginfo('Maximum size for the combined training/test sets: '
-            '{}'.format(max_size))
-    loginfo('Percentage split between training and test sets: '
-            '{0:.2f}/{1:.2f}'.format(percent_train,
-                                     100.0 - percent_train))
+    loginfo('Adding training/test partitions to Mongo DB for the following '
+            'games: {}'.format(', '.join([g[:-4] for g in game_files])))
+    loginfo('Maximum size for the combined training/test sets: {}'
+            .format(max_size))
+    loginfo('Percentage split between training and test sets: {0:.2f}/{1:.2f}'
+            .format(percent_train,
+                    100.0 - percent_train))
     if bins:
         loginfo('Converting hours played values to {} bins.'.format(bins))
 
@@ -181,8 +180,8 @@ if __name__ == '__main__':
     # the data file and then put entries in our MongoDB collection with a
     # key that identifies each review as either training or test
     for game_file in game_files:
-        loginfo('Getting/inserting reviews for {}'
-                '...'.format(basename(game_file)[:-4]))
+        loginfo('Getting/inserting reviews for {}...'
+                .format(basename(game_file)[:-4]))
         insert_train_test_reviews(reviewdb,
                                   abspath(join(data_dir,
                                                game_file)),
