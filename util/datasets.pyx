@@ -149,9 +149,18 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                        'Continuing on to next review.'
                        .format(review_url,
                                stripped_strings,
-                               review_url))
+                               url))
                 continue
-            steam_id_number = review_url_split[4]
+            try:
+                steam_id_number = review_url_split[4]
+                if not steam_id_number:
+                    raise ValueError
+            except ValueError as e:
+                logerr('Empty steam_id_number. URL: {}\nstripped_strings: {}'
+                       '\n\nContinuing on to next review.'
+                       .format(url,
+                               stripped_strings))
+                continue
             profile_url = '/'.join(review_url_split[:5])
 
             # Parsing the HTML in this way depends on stripped_strings
@@ -171,7 +180,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     # Extract the number of people who found the review
                     # helpful
                     num_found_helpful = COMMA.sub(r'',
-                                                  helpful[0])
+                                                      helpful[0])
                     try:
                         num_found_helpful = int(num_found_helpful)
                     except ValueError:
@@ -233,7 +242,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 # recommended (not sure what the possible values are for this
                 # yet...)
                 recommended = stripped_strings[1]
-                if recommend != "Recommended":
+                if recommended != "Recommended":
                     logdebug('Found review with a view in the "Recommended" '
                              'field that is not equal to the string '
                              '"Recommended": {}\nRest of review: {}\nURL: {}'
@@ -379,12 +388,17 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the user-name from the review page
             try:
-                review_dict['username'] = \
+                username = \
                     review_soup.find('span',
                                      'profile_small_header_name').string
-            except AttributeError:
-                logerr('Could not identify username from review page.\nReview'
-                       ' URL: {}\n\nContinuing on to next review.'
+                if not username:
+                    raise ValueError
+                review_dict['username'] = username
+            except (AttributeError,
+                    ValueError) as e:
+                logerr('Could not identify username from review page.\nError '
+                       'output: {}\nReview URL: {}\n\nContinuing on to next '
+                       'review.'
                        .format(review_dict['review_url']))
                 continue
 
@@ -494,8 +508,11 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                           'game_info_achievement_summary')
                                     .stripped_strings)[1].split()
                 review_dict['achievement_progress'] = \
-                        dict(num_achievements_attained=achievements[0],
-                             num_achievements_possible=achievements[2])
+                        dict(
+                    num_achievements_attained=int(achievements[0]),
+                    num_achievements_possible=int(achievements[2]),
+                    num_achievements_percentage=(float(achievements[0])
+                                                 /float(achievements[2])))
             except (AttributeError,
                     ValueError,
                     IndexError,
