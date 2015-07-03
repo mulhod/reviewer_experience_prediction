@@ -46,6 +46,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     SPACE = compile(r'[\s]+')
     BREAKS_REGEX = compile(r'\<br\>')
     COMMA = compile(r',')
+    DATE_END_WITH_YEAR_STRING = compile(r', \d{4}$')
 
     # Codecs for use with UnicodeDammit
     codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
@@ -164,35 +165,26 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 continue
             profile_url = '/'.join(review_url_split[:5])
 
-            # Parsing the HTML in this way depends on stripped_strings
-            # having a length of at least 8
+            # Parsing the HTML in this way depends on stripped_strings having
+            # a length of at least 8
             if len(stripped_strings) >= 8:
-                # Extracting data from the text that supplies the number
-                # of users who found the review helpful and/or funny
-                # depends on a couple facts
                 helpful_and_funny_list = stripped_strings[0].split()
-                if (helpful_and_funny_list[8] == 'helpful'
-                    and len(helpful_and_funny_list) == 15):
+                # Extracting data from the text that supplies the number of
+                # users who found the review helpful and/or funny depends on a
+                # couple facts about how what is in this particular string
+                if len(helpful_and_funny_list) == 15:
+                    helpful = helpful_and_funny_list[:9]
+                    funny = helpful_and_funny_list[9:]
+                elif (len(helpful_and_funny_list == 9)
+                      or len(helpful_and_funny_list == 6)):
                     # Get the parts of the string that have to do with the
                     # review being helpful, funny
                     if len(helpful_and_funny_list) == 9:
                         helpful = helpful_and_funny_list
                         funny = None
-                    elif len(helpful_and_funny_list) == 6:
+                    else:
                         helpful = None
                         funny = helpful_and_funny_list
-                    elif len(helpful_and_funny_list) == 15:
-                        helpful = helpful_and_funny_list[:9]
-                        funny = helpful_and_funny_list[9:]
-                    else:
-                        logerr('Found review with a helpful/funny string that'
-                               ' does not conform to the expected format: {}'
-                               '\nRest of the review\'s contents: {}\nURL: {}'
-                               '\nContinuing on to next review.'
-                               .format(stripped_strings[0],
-                                       stripped_strings[1:],
-                                       url))
-                        continue
 
                     # Extract the number of people who found the review
                     # helpful
@@ -298,8 +290,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 # Extract the date that the review was posted
                 if stripped_strings[3].startswith('Posted'):
                     date_str = stripped_strings[3][8:]
-                    if re.search(r', \d{4}$',
-                                 date_str):
+                    if DATE_END_WITH_YEAR_STRING.search(date_str):
                         date_posted = date_str
                     else:
                         date_posted = ('{}, 2015'
@@ -628,34 +619,52 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                    review_dict['profile_url']))
                 continue
 
-            # Get the number of reviews the reviewer has written across all
-            # games and the number of screenshots he/she has taken
+            # Get the number of reviews the reviewer has written, screenshots
+            # he/she has taken, guides written, etc.
             try:
-                reviews_screens = profile_soup.find('div',
-                                                    'profile_item_links')
-                if reviews_screens:
-                    reviews_screens_stripped_strings = \
-                        list(reviews_screens.stripped_strings)
-                    if reviews_screens_stripped_strings[2] == 'Screenshots':
-                        review_dict['num_screenshots'] = \
-                            int(COMMA
-                                .sub(r'',
-                                     reviews_screens_stripped_strings[3]))
-                        review_dict['num_reviews'] = \
-                            int(COMMA
-                                .sub(r'',
-                                     reviews_screens_stripped_strings[5]))
-                    elif reviews_screens_stripped_strings[2] == 'Reviews':
-                        review_dict['num_screenshots'] = None
-                        review_dict['num_reviews'] = \
-                            int(COMMA
-                                .sub(r'',
-                                     reviews_screens_stripped_strings[3]))
-                    else:
-                        raise ValueError
+                profile_items = profile_soup.find('div',
+                                                  'profile_item_links')
+                if profile_items:
+                    # Try to parse stripped_strings by getting each pair of
+                    # sequential strings
+                    profile_items_strings = list(profile_items
+                                                 .stripped_strings)
+                    iter_items = iter(profile_items_strings)
+                    profile_items_strings_dict = dict(zip(iter_items,
+                                                          iter_items))
+
+                    # Get the number of screenshots if it exists
+                    review_dict['num_screenshots'] = \
+                        int(COMMA.sub(r'',
+                                      profile_items_strings_dict
+                                      .get('Screenshots',
+                                           0)))
+
+                    # Get the number of reviews if it exists
+                    review_dict['num_reviews'] = \
+                        int(COMMA.sub(r'',
+                                      profile_items_strings_dict
+                                      .get('Reviews',
+                                           0)))
+
+                    # Get the number of guides if it exists
+                    review_dict['num_guides'] = \
+                        int(COMMA.sub(r'',
+                                      profile_items_strings_dict
+                                      .get('Guides',
+                                           0)))
+
+                    # Get the number of workship items if it exists
+                    review_dict['num_workshop_items'] = \
+                        int(COMMA.sub(r'',
+                                      profile_items_strings_dict
+                                      .get('Workshop Items',
+                                           0)))
                 else:
-                    review_dict['num_screenshots'] = None
-                    review_dict['num_reviews'] = None
+                    review_dict['num_screenshots'] = 0
+                    review_dict['num_reviews'] = 0
+                    review_dict['num_guides'] = 0
+                    review_dict['num_workshop_items'] = 0
             except (AttributeError,
                     ValueError,
                     IndexError,
