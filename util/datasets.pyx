@@ -68,7 +68,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     # Imports
     import requests
     from data import APPID_DICT
-    from dateutil import parser
     from langdetect import detect
     from bs4 import (BeautifulSoup,
                      UnicodeDammit)
@@ -295,7 +294,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     else:
                         date_posted = ('{}, 2015'
                                        .format(date_str))
-                    date_posted = parser.parse(date_posted)
                 else:
                     logerr('Found unexpected date_posted value: {}\nRest of '
                            'review: {}\nURL: {}\nContinuing on to next '
