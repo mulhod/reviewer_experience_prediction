@@ -2,6 +2,8 @@
 
 - [Getting_review_data.ipynb](http://nbviewer.ipython.org/github/mulhod/reviewer_experience_prediction/blob/master/ipython_notebooks/Getting_review_data.ipynb)
     - The notebook used to figure out how to scrape data from the Steam website
+- NEW [Getting_review_data.ipynb](http://nbviewer.ipython.org/github/mulhod/reviewer_experience_prediction/blob/master/ipython_notebooks/Getting_review_data_2.ipynb)
+    - The notebook used to figure out how to scrape MORE data from the Steam website
 - [get_reviews_data.ipynb](http://nbviewer.ipython.org/github/mulhod/reviewer_experience_prediction/blob/master/ipython_notebooks/get_reviews_data.ipynb)
     - Processing review data and filtering (not the exact process we ended up using, but it laid the groundwork)
 - [Exploring_Review_Data-MM.ipynb](http://nbviewer.ipython.org/github/mulhod/reviewer_experience_prediction/blob/master/ipython_notebooks/Exploring_Review_Data-MM.ipynb)
