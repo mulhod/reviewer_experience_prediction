@@ -145,7 +145,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             if not (review_url.startswith('http://')
                     or len(review_url_split) > 4):
                 logerr('Found review with invalid review_url: {}\nThe rest of'
-                       ' the review\'s contents: {}\nReview URL: {}\n\n'
+                       ' the review\'s contents: {}\nReview URL: {}\n'
                        'Continuing on to next review.'
                        .format(review_url,
                                stripped_strings,
@@ -157,7 +157,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     raise ValueError
             except ValueError as e:
                 logerr('Empty steam_id_number. URL: {}\nstripped_strings: {}'
-                       '\n\nContinuing on to next review.'
+                       '\nContinuing on to next review.'
                        .format(url,
                                stripped_strings))
                 continue
@@ -185,7 +185,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         num_found_helpful = int(num_found_helpful)
                     except ValueError:
                         logerr('Could not cast num_found_helpful value to an '
-                               'int: {}\nRest of review: {}\nURL: {}\n\n'
+                               'int: {}\nRest of review: {}\nURL: {}\n'
                                'Continuing on to next review.'
                                .format(num_found_helpful,
                                        stripped_strings,
@@ -200,7 +200,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         num_voted_helpfulness = int(num_voted_helpfulness)
                     except ValueError:
                         logerr('Could not cast num_voted_helpfulness value to'
-                               ' an int: {}\nRest of review: {}\nURL: {}\n\n'
+                               ' an int: {}\nRest of review: {}\nURL: {}\n'
                                'Continuing on to next review.'
                                .format(num_voted_helpfulness,
                                        stripped_strings,
@@ -222,7 +222,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         num_found_funny = int(num_found_funny)
                     except ValueError:
                         logerr('Could not cast num_found_funny value to an '
-                               'int: {}\nRest of review: {}\nURL: {}\n\n'
+                               'int: {}\nRest of review: {}\nURL: {}\n'
                                'Continuing on to next review.'
                                .format(num_found_funny,
                                        stripped_strings,
@@ -231,7 +231,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 else:
                     logerr('Found review with a helpful/funny string that '
                            'does not conform to the expected format: {}\nRest'
-                           ' of the review\'s contents: {}\nURL: {}\n\n'
+                           ' of the review\'s contents: {}\nURL: {}\n'
                            'Continuing on to next review.'
                            .format(stripped_strings[0],
                                    stripped_strings[1:],
@@ -246,7 +246,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     logdebug('Found review with a view in the "Recommended" '
                              'field that is not equal to the string '
                              '"Recommended": {}\nRest of review: {}\nURL: {}'
-                             '\n\n'.format(recommended,
+                             '\n'.format(recommended,
                                            stripped_strings,
                                            url))
 
@@ -259,7 +259,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     total_game_hours = float(total_game_hours)
                 except ValueError:
                     logerr('Could not cast total_game_hours value to a '
-                           'float: {}\nRest of review: {}\nURL: {}\n\n'
+                           'float: {}\nRest of review: {}\nURL: {}\n'
                            'Continuing on to next review.'
                            .format(total_game_hours,
                                    stripped_strings,
@@ -271,7 +271,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     date_posted = '{}, 2015'.format(stripped_strings[3][8:])
                 else:
                     logerr('Found unexpected date_posted value: {}\nRest of '
-                           'review: {}\nURL: {}\n\nContinuing on to next '
+                           'review: {}\nURL: {}\nContinuing on to next '
                            'review.'.format(stripped_strings[3],
                                             stripped_strings,
                                             url))
@@ -289,8 +289,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 # Skip reviews that don't have any characters
                 if not review_text:
                     logdebug('Found review with apparently no review text: {}'
-                             '\nURL: {}'.format(stripped_strings,
-                                                url))
+                             '\nURL: {}\nContinuing on to next review.'
+                             .format(stripped_strings,
+                                     url))
                     continue
 
                 # Skip review if it is not recognized as English
@@ -300,7 +301,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 except LangDetectException:
                     logdebug('Found review whose review text content was not '
                              'recognized as English: {}\nRest of review: {}\n'
-                             'URL: {}\n\nContinuing on to next review.'
+                             'URL: {}\nContinuing on to next review.'
                              .format(review_text,
                                      stripped_strings,
                                      url))
@@ -311,13 +312,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if not num_games_owned:
                     logerr('Found num_games_owned string that does not '
                            'conform to the expected format: {}\nRest of '
-                           'review: {}\nURL: {}\n\nContinuing on to next '
+                           'review: {}\nURL: {}\nContinuing on to next '
                            'review.'.format(num_games_owned,
                                             stripped_strings,
                                             url))
                     continue
                 try:
-                    num_games_owned = int(num_games_owned[0])
+                    num_games_owned = int(COMMA.sub(r'',
+                                                    num_games_owned[0]))
                 except ValueError:
                     logerr('Could not cast num_games_owned value to an int: '
                            '{}\nRest of review: {}\nURL: {}\nContinuing on to'
@@ -328,7 +330,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             else:
                 logerr('Found incorrect number of "stripped_strings" in '
                        'review HTML element. The review\'s stripped_strings: '
-                       '{}\nURL: {}\n\nContinuing on to next review.'
+                       '{}\nURL: {}\nContinuing on to next review.'
                        .format(stripped_strings,
                                url))
                 continue
@@ -397,7 +399,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             except (AttributeError,
                     ValueError) as e:
                 logerr('Could not identify username from review page.\nError '
-                       'output: {}\nReview URL: {}\n\nContinuing on to next '
+                       'output: {}\nReview URL: {}\nContinuing on to next '
                        'review.'
                        .format(review_dict['review_url']))
                 continue
@@ -405,31 +407,33 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # Get the number of hours the reviewer played the game in the
             # last 2 weeks
             try:
-                review_dict['hours_previous_2_weeks'] = \
-                    float(COMMA
-                          .sub(r'',
-                               review_soup
-                               .find('div',
-                                     'playTime')
-                               .string
-                               .split()[0]))
+                hours_previous_2_weeks = review_soup=.find('div',
+                                                           'playTime')
+                if hours_previous_2_weeks:
+                    review_dict['hours_previous_2_weeks'] = \
+                        float(COMMA.sub(r'',
+                                        hours_previous_2_weeks
+                                        .string
+                                        .split()[0]))
+                else:
+                    review_dict['hours_previous_2_weeks'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
                     TypeError) as e:
                 try:
                     logerr('Got unexpected value for the playTime div element'
-                           ': {}\nError output: {}\nReview URL: {}\n\n'
+                           ': {}\nError output: {}\nReview URL: {}\n'
                            'Continuing on to next review.'
                            .format(review_soup
                                    .find('div',
                                          'playTime')
-                                   .stripped_strings,
+                                   .string,
                                    str(e),
                                    review_dict['review_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the playTime div element'
-                           ': {}\nReview URL: {}\n\nContinuing on to next '
+                           ': {}\nReview URL: {}\nContinuing on to next '
                            'review.'
                            .format(review_soup
                                    .find('div',
@@ -439,13 +443,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of comments users made on the review (if any)
             try:
-                review_dict['num_comments'] = \
-                    int(COMMA
-                        .sub(r'',
-                             list(review_soup
-                                  .find('div',
-                                        'commentthread_count')
-                                        .strings)[1]))
+                comments = review_soup.find('div',
+                                            'commentthread_count')
+                if comments:
+                    review_dict['num_comments'] = \
+                        int(COMMA.sub(r'',
+                                      list(comments.strings)[1]))
+                else:
+                    review_dict['num_comments'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -453,16 +458,16 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the commentthread_count '
                            'div element: {}\nError output: {}\nReview URL: '
-                           '{}\n\nContinuing on to next review.'
-                           .format(review_soup
-                                   .find('div',
-                                         'commentthread_count')
-                                   .strings,
+                           '{}\nContinuing on to next review.'
+                           .format(list(review_soup
+                                        .find('div',
+                                              'commentthread_count')
+                                        .strings),
                                    str(e),
                                    review_dict['review_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the commentthread_count '
-                           'div element: {}\nReview URL: {}\n\nContinuing on'
+                           'div element: {}\nReview URL: {}\nContinuing on'
                            ' to next review.'
                            .format(review_soup
                                    .find('div',
@@ -472,11 +477,15 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the reviewer's "level" (friend player level)
             try:
-                review_dict['friend_player_level'] = \
-                    int(profile_soup
-                        .find('div',
-                              'friendPlayerLevel')
-                        .string)
+                friend_player_level = profile_soup.find('div',
+                                                        'friendPlayerLevel')
+                if friend_player_level:
+                    review_dict['friend_player_level'] = \
+                        int(COMMA.sub(r'',
+                                      friend_player_level
+                                      .string))
+                else:
+                    review_dict['friend_player_level'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -484,7 +493,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the friendPlayerLevel '
                            'div element: {}\nError output: {}\nProfile URL: '
-                           '{}\n\nContinuing on to next review.'
+                           '{}\nContinuing on to next review.'
                            .format(profile_soup
                                    .find('div',
                                          'friendPlayerLevel')
@@ -493,8 +502,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the friendPlayerLevel '
-                           'div element: {}\nProfile URL: {}\n\nContinuing on'
-                           ' to next review.'
+                           'div element: {}\nProfile URL: {}\nContinuing on '
+                           'to next review.'
                            .format(profile_soup
                                    .find('div',
                                          'friendPlayerLevel'),
@@ -503,16 +512,27 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the game achievements summary data
             try:
-                achievements = list(profile_soup
-                                    .find('span',
-                                          'game_info_achievement_summary')
-                                    .stripped_strings)[1].split()
-                review_dict['achievement_progress'] = \
-                        dict(
-                    num_achievements_attained=int(achievements[0]),
-                    num_achievements_possible=int(achievements[2]),
-                    num_achievements_percentage=(float(achievements[0])
-                                                 /float(achievements[2])))
+                achievements = \
+                    profile_soup.find('span',
+                                      'game_info_achievement_summary')
+                if achievements:
+                    achievements_list = list(achievements
+                                             .stripped_strings)[1].split()
+                    attained = COMMA.sub(r'',
+                                         achievements_list[0])
+                    possible = COMMA.sub(r'',
+                                         achievements_list[2])
+                    review_dict['achievement_progress'] = \
+                            dict(
+                        num_achievements_attained=int(attained),
+                        num_achievements_possible=int(possible),
+                        num_achievements_percentage=(float(attained)
+                                                     /float(possible)))
+                else:
+                    review_dict['achievement_progress'] = \
+                            dict(num_achievements_attained=None,
+                                 num_achievements_possible=None,
+                                 num_achievements_percentage=None)
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -520,18 +540,18 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the '
                            'game_info_achievement_summary div element: {}\n'
-                           'Error output: {}\nProfile URL: {}\n\nContinuing '
-                           'on to next review.'
-                           .format(profile_soup
-                                   .find('div',
-                                         'game_info_achievement_summary')
-                                   .stripped_strings,
+                           'Error output: {}\nProfile URL: {}\nContinuing on '
+                           'to next review.'
+                           .format(list(profile_soup
+                                        .find('div',
+                                              'game_info_achievement_summary')
+                                        .stripped_strings),
                                    str(e),
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the '
                            'game_info_achievement_summary div element: {}\n'
-                           'Profile URL: {}\n\nContinuing on to next review.'
+                           'Profile URL: {}\nContinuing on to next review.'
                            .format(profile_soup
                                    .find('div',
                                          'game_info_achievement_summary'),
@@ -540,10 +560,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of badges the reviewer has earned on the site
             try:
-                review_dict['num_badges'] = list(profile_soup
-                                                 .find('div',
-                                                       'profile_badges')
-                                                 .stripped_strings)[1]
+                badges = profile_soup.find('div',
+                                           'profile_badges')
+                if badges:
+                    review_dict['num_badges'] = \
+                        int(COMMA.sub(r'',
+                                      list(badges.stripped_strings)[1]))
+                else:
+                    review_dict['num_badges'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -552,15 +576,15 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     logerr('Got unexpected value for the profile_badges div '
                            'element: {}\nError output: {}\nProfile URL: {}\n'
                            '\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div',
-                                         'profile_badges')
-                                   .stripped_strings,
+                           .format(list(profile_soup
+                                        .find('div',
+                                              'profile_badges')
+                                        .stripped_strings),
                                    str(e),
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_badges div '
-                           'element: {}\nProfile URL: {}\n\nContinuing on to '
+                           'element: {}\nProfile URL: {}\nContinuing on to '
                            'next review.'
                            .format(profile_soup
                                    .find('div',
@@ -571,12 +595,31 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # Get the number of reviews the reviewer has written across all
             # games and the number of screenshots he/she has taken
             try:
-                reviews_screens = list(profile_soup
-                                       .find('div',
-                                             'profile_item_links')
-                                       .stripped_strings)
-                review_dict['num_screenshots'] = int(reviews_screens[3])
-                review_dict['num_reviews'] = int(reviews_screens[5])
+                reviews_screens = profile_soup.find('div',
+                                                    'profile_item_links')
+                if reviews_screens:
+                    reviews_screens_stripped_strings = \
+                        list(reviews_screens.stripped_strings)
+                    if reviews_screens_stripped_strings[2] == 'Screenshots':
+                        review_dict['num_screenshots'] = \
+                            int(COMMA
+                                .sub(r'',
+                                     reviews_screens_stripped_strings[3]))
+                        review_dict['num_reviews'] = \
+                            int(COMMA
+                                .sub(r'',
+                                     reviews_screens_stripped_strings[5]))
+                    elif reviews_screens_stripped_strings[2] == 'Reviews':
+                        review_dict['num_screenshots'] = None
+                        review_dict['num_reviews'] = \
+                            int(COMMA
+                                .sub(r'',
+                                     reviews_screens_stripped_strings[3]))
+                    else:
+                        raise ValueError
+                else:
+                    review_dict['num_screenshots'] = None
+                    review_dict['num_reviews'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -584,16 +627,16 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the profile_item_links '
                            'div element: {}\nError output: {}\nProfile URL: '
-                           '{}\n\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div',
-                                         'profile_item_links')
-                                   .stripped_strings,
+                           '{}\nContinuing on to next review.'
+                           .format(list(profile_soup
+                                        .find('div',
+                                              'profile_item_links')
+                                        .stripped_strings),
                                    str(e),
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_item_links '
-                           'div element: {}\nProfile URL: {}\n\nContinuing on'
+                           'div element: {}\nProfile URL: {}\nContinuing on'
                            ' to next review.'
                            .format(profile_soup
                                    .find('div',
@@ -603,11 +646,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of groups the reviewer is part of on the site
             try:
-                review_dict['num_groups'] = \
-                    int(list(profile_soup
-                             .find('div',
-                                   'profile_group_links')
-                             .stripped_strings)[1])
+                groups = profile_soup.find('div',
+                                           'profile_group_links')
+                if groups:
+                    review_dict['num_groups'] = \
+                        int(COMMA.sub(r'',
+                                      list(groups.stripped_strings)[1]))
+                else:
+                    review_dict['num_groups'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -615,17 +661,17 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the profile_group_links '
                            'div element: {}\nError output: {}\nProfile URL: '
-                           '{}\n\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div',
-                                         'profile_group_links')
-                                   .stripped_strings,
+                           '{}\nContinuing on to next review.'
+                           .format(list(profile_soup
+                                        .find('div',
+                                              'profile_group_links')
+                                        .stripped_strings),
                                    str(e),
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_group_links '
-                           'div element: {}\nProfile URL: {}\n\nContinuing on'
-                           ' to next review.'
+                           'div element: {}\nProfile URL: {}\nContinuing on '
+                           'to next review.'
                            .format(profile_soup
                                    .find('div',
                                          'profile_group_links'),
@@ -634,11 +680,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of friends the reviwer has on Steam
             try:
-                review_dict['num_friends'] = \
-                    int(list(profile_soup
-                             .find('div',
-                                   'profile_friend_links')
-                             .stripped_strings)[1])
+                friends = profile_soup.find('div',
+                                            'profile_friend_links')
+                if friends:
+                    review_dict['num_friends'] = \
+                        int(COMMA.sub(r'',
+                                      list(friends.stripped_strings)[1]))
+                else:
+                    review_dict['num_friends'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
@@ -646,17 +695,17 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 try:
                     logerr('Got unexpected value for the profile_friend_links'
                            ' div element: {}\nError output: {}\nProfile URL: '
-                           '{}\n\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div',
-                                         'profile_friend_links')
-                                   .stripped_strings,
+                           '{}\nContinuing on to next review.'
+                           .format(list(profile_soup
+                                        .find('div',
+                                              'profile_friend_links')
+                                        .stripped_strings),
                                    str(e),
                                    review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_friend_links'
-                           ' div element: {}\nProfile URL: {}\n\nContinuing '
-                           'on to next review.'
+                           ' div element: {}\nProfile URL: {}\nContinuing on '
+                           'to next review.'
                            .format(profile_soup
                                    .find('div',
                                          'profile_friend_links'),
