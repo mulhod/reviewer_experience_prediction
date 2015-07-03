@@ -182,8 +182,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if len(helpful_and_funny_list) == 15:
                     helpful = helpful_and_funny_list[:9]
                     funny = helpful_and_funny_list[9:]
-                elif (len(helpful_and_funny_list == 9)
-                      or len(helpful_and_funny_list == 6)):
+                elif (len(helpful_and_funny_list) == 9
+                      or len(helpful_and_funny_list) == 6):
                     # Get the parts of the string that have to do with the
                     # review being helpful, funny
                     if len(helpful_and_funny_list) == 9:
