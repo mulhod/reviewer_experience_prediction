@@ -407,8 +407,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # Get the number of hours the reviewer played the game in the
             # last 2 weeks
             try:
-                hours_previous_2_weeks = review_soup=.find('div',
-                                                           'playTime')
+                hours_previous_2_weeks = review_soup.find('div',
+                                                          'playTime')
                 if hours_previous_2_weeks:
                     review_dict['hours_previous_2_weeks'] = \
                         float(COMMA.sub(r'',
