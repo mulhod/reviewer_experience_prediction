@@ -142,7 +142,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # Get other data within the base reviews page
             stripped_strings = list(review.stripped_strings)
 
-            if not (review.startswith('http://')
+            if not (review_url.startswith('http://')
                     or len(review_url_split) > 4):
                 logerr('Found review with invalid review_url: {}\nThe rest of'
                        ' the review\'s contents: {}\nReview URL: {}\n\n'
