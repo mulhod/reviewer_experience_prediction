@@ -627,11 +627,16 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if profile_items:
                     # Try to parse stripped_strings by getting each pair of
                     # sequential strings
+                    # Note: Cython doesn't seem to like the zip(iter1, iter2)
+                    #       trick, so do it the longer way.
                     profile_items_strings = list(profile_items
                                                  .stripped_strings)
-                    iter_items = iter(profile_items_strings)
-                    profile_items_strings_dict = dict(zip(iter_items,
-                                                          iter_items))
+                    length_indices = list(range(len(profile_items_strings)))
+                    profile_items_strings_dict = \
+                        dict(zip([profile_items_strings[i] for i
+                                  in length_indices if not i & 1],
+                                 [profile_items_strings[i] for i
+                                  in length_indices if i & 1]))
 
                     # Get the number of screenshots if it exists
                     review_dict['num_screenshots'] = \
