@@ -2,7 +2,10 @@
 :author: Matt Mulholland
 :date: May 5, 2015
 
-Module of code that reads review data from raw text files and returns a list of files, describes the data, etc.
+Cython extension for functions that collect review data from Steam, read
+review data from raw text files, describe review data in terms of descriptive
+statistics, write ARFF format files for use with Weka, convert raw hours
+played values to a scale of a given number of values, etc.
 '''
 from sys import exit
 from re import (sub,
@@ -172,6 +175,11 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 # Extracting data from the text that supplies the number of
                 # users who found the review helpful and/or funny depends on a
                 # couple facts about how what is in this particular string
+                num_found_helpful = 0
+                num_voted_helpfulness = 0
+                num_found_unhelpful = 0
+                found_helpful_percentage = 0
+                num_found_funny = 0
                 if len(helpful_and_funny_list) == 15:
                     helpful = helpful_and_funny_list[:9]
                     funny = helpful_and_funny_list[9:]
@@ -226,12 +234,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         found_helpful_percentage = \
                             float(num_found_helpful)/num_voted_helpfulness
 
-                    else:
-                        num_found_helpful = 0
-                        num_voted_helpfulness = 0
-                        num_found_unhelpful = 0
-                        found_helpful_percentage = 0
-
                     # Extract the number of people who found the review funny
                     if funny:
                         num_found_funny = COMMA.sub(r'',
@@ -246,8 +248,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                            stripped_strings,
                                            url))
                             continue
-                    else:
-                        num_found_funny = 0
 
                 else:
                     logerr('Found review with a helpful/funny string that '
@@ -774,7 +774,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
 def parse_appids(appids):
     '''
-    Parse the command-line argument passed in with the --appids flag, exiting if any of the resulting IDs do not map to games in APPID_DICT.
+    Parse the command-line argument passed in with the --appids flag, exiting
+    if any of the resulting IDs do not map to games in APPID_DICT.
 
     :param appids: game IDs
     :type appids: str
@@ -814,13 +815,19 @@ cdef read_reviews_from_game_file(file_path):
 
 def get_and_describe_dataset(file_path, report=True):
     '''
-    Return dictionary with a list of review dictionaries (filtered in terms of the values for maximum/minimum review length and minimum/maximum hours played values) and the number of original, English-language reviews (before filtering); also produce a report with some descriptive statistics and graphs.
+    Return dictionary with a list of review dictionaries (filtered in terms of
+    the values for maximum/minimum review length and minimum/maximum hours
+    played values) and the number of original, English-language reviews
+    (before filtering); also produce a report with some descriptive statistics
+    and graphs.
 
     :param file_path: path to game reviews .jsonlines file
     :type file_path: str
     :param report: make a report describing the data-set (defaults to True)
     :type report: boolean
-    :returns: dict containing a 'reviews' key mapped to the list of read-in review dictionaries and int values mapped to keys for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
+    :returns: dict containing a 'reviews' key mapped to the list of read-in
+              review dictionaries and int values mapped to keys for MAXLEN,
+              MINLEN, MAXHOURS, and MINHOURS
     '''
 
     # Imports
@@ -1010,7 +1017,8 @@ def get_bin(bin_ranges, float val):
     Return the index of the bin range in which the value falls.
 
     :param bin_ranges: list of ranges that define each bin
-    :type bin_ranges: list of tuples representing the minimum and maximum values of a range of values
+    :type bin_ranges: list of tuples representing the minimum and maximum
+                      values of a range of values
     :param val: value
     :type val: float
     :returns: int (-1 if val not in any of the bin ranges)
@@ -1027,9 +1035,12 @@ def get_bin(bin_ranges, float val):
 def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     make_train_test=False, bins=False):
     '''
-    Write .arff file either for a list of reviews read in from a file or list of files or for both the training and test partitions in the MongoDB database.
+    Write .arff file either for a list of reviews read in from a file or list
+    of files or for both the training and test partitions in the MongoDB
+    database.
 
-    :param reviews: list of dicts with hours/review keys-value mappings representing each data-point (defaults to None)
+    :param reviews: list of dicts with hours/review keys-value mappings
+                    representing each data-point (defaults to None)
     :type reviews: list of dict
     :param reviewdb: MongoDB reviews collection
     :type reviewdb: pymongo.MongoClient object (None by default)
@@ -1037,9 +1048,19 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     :type dest_path: str
     :param file_names: list of extension-less game file-names
     :type file_names: list of str
-    :param make_train_test: if True, use MongoDB collection to find reviews that are from the training and test partitions and make files for them instead of making one big file (defaults to False)
+    :param make_train_test: if True, use MongoDB collection to find reviews
+                            that are from the training and test partitions and
+                            make files for them instead of making one big file
+                            (defaults to False)
     :type make_train_test: boolean
-    :param bins: if True or a list of bin range tuples, use collapsed hours played values (if make_train_test was also True, then the pre-computed collapsed hours values will be used (even if a list of ranges is passed in for some reason, i.e., the bin ranges will be ignored); if not, the passed-in value must be a list of 2-tuples representing the floating-point number ranges of the bins); if False, the original, unmodified hours played values will be used (default: False)
+    :param bins: if True or a list of bin range tuples, use collapsed hours
+                 played values (if make_train_test was also True, then the
+                 pre-computed collapsed hours values will be used (even if a
+                 list of ranges is passed in for some reason, i.e., the bin
+                 ranges will be ignored); if not, the passed-in value must be
+                 a list of 2-tuples representing the floating-point number
+                 ranges of the bins); if False, the original, unmodified hours
+                 played values will be used (default: False)
     :type bins: boolean or list of 2-tuples of floats
     :returns: None
     '''
