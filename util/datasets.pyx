@@ -627,44 +627,39 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if profile_items:
                     # Try to parse stripped_strings by getting each pair of
                     # sequential strings
-                    # Note: Cython doesn't seem to like the zip(iter1, iter2)
-                    #       trick, so do it the longer way.
-                    profile_items_strings = list(profile_items
-                                                 .stripped_strings)
-                    length_indices = list(range(len(profile_items_strings)))
+                    profile_items_strings_iter = iter(profile_items
+                                                      .stripped_strings)
                     profile_items_strings_dict = \
-                        dict(zip([profile_items_strings[i] for i
-                                  in length_indices if not i & 1],
-                                 [profile_items_strings[i] for i
-                                  in length_indices if i & 1]))
+                        dict(zip(profile_items_strings_iter,
+                                 profile_items_strings_iter))
 
                     # Get the number of screenshots if it exists
                     review_dict['num_screenshots'] = \
                         int(COMMA.sub(r'',
                                       profile_items_strings_dict
                                       .get('Screenshots',
-                                           0)))
+                                           '0')))
 
                     # Get the number of reviews if it exists
                     review_dict['num_reviews'] = \
                         int(COMMA.sub(r'',
                                       profile_items_strings_dict
                                       .get('Reviews',
-                                           0)))
+                                           '0')))
 
                     # Get the number of guides if it exists
                     review_dict['num_guides'] = \
                         int(COMMA.sub(r'',
                                       profile_items_strings_dict
                                       .get('Guides',
-                                           0)))
+                                           '0')))
 
                     # Get the number of workship items if it exists
                     review_dict['num_workshop_items'] = \
                         int(COMMA.sub(r'',
                                       profile_items_strings_dict
                                       .get('Workshop Items',
-                                           0)))
+                                           '0')))
                 else:
                     review_dict['num_screenshots'] = 0
                     review_dict['num_reviews'] = 0
