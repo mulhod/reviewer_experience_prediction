@@ -64,6 +64,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     # Imports
     import requests
     from data import APPID_DICT
+    from dateutil import parser
     from langdetect import detect
     from bs4 import (BeautifulSoup,
                      UnicodeDammit)
@@ -174,60 +175,88 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     and len(helpful_and_funny_list) == 15):
                     # Get the parts of the string that have to do with the
                     # review being helpful, funny
-                    helpful = helpful_and_funny_list[:9]
-                    funny = helpful_and_funny_list[9:]
+                    if len(helpful_and_funny_list) == 9:
+                        helpful = helpful_and_funny_list
+                        funny = None
+                    elif len(helpful_and_funny_list) == 6:
+                        helpful = None
+                        funny = helpful_and_funny_list
+                    elif len(helpful_and_funny_list) == 15:
+                        helpful = helpful_and_funny_list[:9]
+                        funny = helpful_and_funny_list[9:]
+                    else:
+                        logerr('Found review with a helpful/funny string that'
+                               ' does not conform to the expected format: {}'
+                               '\nRest of the review\'s contents: {}\nURL: {}'
+                               '\nContinuing on to next review.'
+                               .format(stripped_strings[0],
+                                       stripped_strings[1:],
+                                       url))
+                        continue
 
                     # Extract the number of people who found the review
                     # helpful
-                    num_found_helpful = COMMA.sub(r'',
+                    if helpful:
+                        num_found_helpful = COMMA.sub(r'',
                                                       helpful[0])
-                    try:
-                        num_found_helpful = int(num_found_helpful)
-                    except ValueError:
-                        logerr('Could not cast num_found_helpful value to an '
-                               'int: {}\nRest of review: {}\nURL: {}\n'
-                               'Continuing on to next review.'
-                               .format(num_found_helpful,
-                                       stripped_strings,
-                                       url))
-                        continue
+                        try:
+                            num_found_helpful = int(num_found_helpful)
+                        except ValueError:
+                            logerr('Could not cast num_found_helpful value to'
+                                   ' an int: {}\nRest of review: {}\nURL: {}'
+                                   '\nContinuing on to next review.'
+                                   .format(num_found_helpful,
+                                           stripped_strings,
+                                           url))
+                            continue
 
-                    # Extract the number of people who voted on whether or not
-                    # the review was helpful (whether it was or wasn't)
-                    num_voted_helpfulness = COMMA.sub(r'',
-                                                      helpful[2])
-                    try:
-                        num_voted_helpfulness = int(num_voted_helpfulness)
-                    except ValueError:
-                        logerr('Could not cast num_voted_helpfulness value to'
-                               ' an int: {}\nRest of review: {}\nURL: {}\n'
-                               'Continuing on to next review.'
-                               .format(num_voted_helpfulness,
-                                       stripped_strings,
-                                       url))
-                        continue
+                        # Extract the number of people who voted on whether or
+                        # not the review was helpful (whether it was or
+                        # wasn't)
+                        num_voted_helpfulness = COMMA.sub(r'',
+                                                          helpful[2])
+                        try:
+                            num_voted_helpfulness = int(num_voted_helpfulness)
+                        except ValueError:
+                            logerr('Could not cast num_voted_helpfulness '
+                                   'value to an int: {}\nRest of review: {}\n'
+                                   'URL: {}\nContinuing on to next review.'
+                                   .format(num_voted_helpfulness,
+                                           stripped_strings,
+                                           url))
+                            continue
 
-                    # Calculate the number of people who must have found the
-                    # review NOT helpful and the percentage of people who
-                    # found the review helpful
-                    num_found_unhelpful = \
-                        num_voted_helpfulness - num_found_helpful
-                    found_helpful_percentage = \
-                        float(num_found_helpful)/num_voted_helpfulness
+                        # Calculate the number of people who must have found
+                        # the review NOT helpful and the percentage of people
+                        # who found the review helpful
+                        num_found_unhelpful = \
+                            num_voted_helpfulness - num_found_helpful
+                        found_helpful_percentage = \
+                            float(num_found_helpful)/num_voted_helpfulness
+
+                    else:
+                        num_found_helpful = 0
+                        num_voted_helpfulness = 0
+                        num_found_unhelpful = 0
+                        found_helpful_percentage = 0
 
                     # Extract the number of people who found the review funny
-                    num_found_funny = COMMA.sub(r'',
-                                                funny[0])
-                    try:
-                        num_found_funny = int(num_found_funny)
-                    except ValueError:
-                        logerr('Could not cast num_found_funny value to an '
-                               'int: {}\nRest of review: {}\nURL: {}\n'
-                               'Continuing on to next review.'
-                               .format(num_found_funny,
-                                       stripped_strings,
-                                       url))
-                        continue
+                    if funny:
+                        num_found_funny = COMMA.sub(r'',
+                                                    funny[0])
+                        try:
+                            num_found_funny = int(num_found_funny)
+                        except ValueError:
+                            logerr('Could not cast num_found_funny value to '
+                                   'an int: {}\nRest of review: {}\nURL: {}\n'
+                                   'Continuing on to next review.'
+                                   .format(num_found_funny,
+                                           stripped_strings,
+                                           url))
+                            continue
+                    else:
+                        num_found_funny = 0
+
                 else:
                     logerr('Found review with a helpful/funny string that '
                            'does not conform to the expected format: {}\nRest'
@@ -247,8 +276,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                              'field that is not equal to the string '
                              '"Recommended": {}\nRest of review: {}\nURL: {}'
                              '\n'.format(recommended,
-                                           stripped_strings,
-                                           url))
+                                         stripped_strings,
+                                         url))
 
                 # Extract total number of hours the reviewer played the game
                 # being reviewed
@@ -268,7 +297,14 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
                 # Extract the date that the review was posted
                 if stripped_strings[3].startswith('Posted'):
-                    date_posted = '{}, 2015'.format(stripped_strings[3][8:])
+                    date_str = stripped_strings[3][8:]
+                    if re.search(r', \d{4}$',
+                                 date_str):
+                        date_posted = date_str
+                    else:
+                        date_posted = ('{}, 2015'
+                                       .format(date_str))
+                    date_posted = parser.parse(date_posted)
                 else:
                     logerr('Found unexpected date_posted value: {}\nRest of '
                            'review: {}\nURL: {}\nContinuing on to next '
