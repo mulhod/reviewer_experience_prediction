@@ -1,5 +1,7 @@
-from sys import exit
-from os import listdir
+from sys import (exit,
+                 stderr)
+from os import (listdir,
+                getcwd)
 from shutil import copy
 from getpass import getuser
 from os.path import (dirname,
@@ -50,26 +52,62 @@ setup(
     ext_modules = cythonize(ext_modules)
 )
 
-# Copy files from build directory
-if not exists(build_dir):
-    exit('Build directory does not exist. Exiting.')
-build_libs_dir = [join(build_dir,
-                       _dir) for _dir in listdir(build_dir) if
-                  _dir.startswith('lib')]
-if not build_libs_dir or len(build_libs_dir) > 1:
-    exit('Could not find lib* directory in build/. Exiting.\n')
-build_libs_dir = build_libs_dir[0]
-exts = listdir(build_libs_dir)
-for ext in exts:
-    if ext.startswith('feature_extraction'):
-        copy(join(build_libs_dir,
-                  ext),
-             join(src_dir,
-                  '{}.so'.format(ext.split('.',
-                                           1)[0])))
-    else:
-        copy(join(build_libs_dir,
-                  ext),
-             join(util_dir,
-                  '{}.so'.format(ext.split('.',
-                                           1)[0])))
+# Copy files from build/libs* directory (or try to guess where they are)
+build_libs_dirs_list = []
+if exists(build_dir):
+    build_libs_dirs_list = [join(build_dir,
+                                 _dir) for _dir in listdir(build_dir)
+                            if _dir.startswith('lib')]
+    if not len(build_libs_dirs_list):
+        stderr.write('Could not find "build" directory...\n')
+
+if len(build_libs_dirs_list) == 1:
+    build_libs_dir = build_libs_dirs_list[0]
+elif len(build_libs_dirs_list) > 1:
+    stderr.write('Found multiple directories in {} that begin with "lib". Not'
+                 ' sure which one to use.\n'.format(build_dir))
+else:
+    stderr.write('Found no directories in {} that begin with "lib".\n'
+                 .format(build_dir))
+    build_libs_dir = None
+
+if not exists(build_dir) or not build_libs_dir:
+    stderr.write('Could not find build/libs* directory. Checking to see if '
+                 'the shared object files were generated in the project '
+                 'directory or the current working directory.\n')
+    for _dir in [dirname(src_dir),
+                 getcwd()]:
+        stderr.write('Checking in {}...\n'.format(_dir))
+        exts = [f for f in listdir(_dir) if f.endswith('.so')]
+        stderr.write('Contents of {}:\n{}\n'.format(_dir,
+                                                    '\n'.join(exts)))
+        for ext in exts:
+            if ext.startswith('feature_extraction'):
+                copy(join(_dir,
+                          ext),
+                     join(src_dir,
+                          '{}.so'.format(ext.split('.',
+                                                   1)[0])))
+            else:
+                copy(join(_dir,
+                          ext),
+                     join(util_dir,
+                          '{}.so'.format(ext.split('.',
+                                                   1)[0])))
+else:
+    exts = listdir(build_libs_dir)
+    for ext in exts:
+        if ext.startswith('feature_extraction'):
+            copy(join(build_libs_dir,
+                      ext),
+                 join(src_dir,
+                      '{}.so'.format(ext.split('.',
+                                               1)[0])))
+        else:
+            copy(join(build_libs_dir,
+                      ext),
+                 join(util_dir,
+                      '{}.so'.format(ext.split('.',
+                                               1)[0])))
+
+stderr.write('Complete.\n')
