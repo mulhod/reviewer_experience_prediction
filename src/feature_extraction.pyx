@@ -2,7 +2,8 @@
 @author Matt Mulholland, Janette Martinez, Emily Olshefski
 @date 05/05/2015
 
-Module of functions/classes related to feature extraction, model-building, ARFF file generation, etc.
+Module of functions/classes related to feature extraction, model-building,
+ARFF file generation, etc.
 '''
 from math import ceil
 from json import dumps
@@ -79,7 +80,8 @@ class Review(object):
         :type appid: str
         :param spaCy_nlp: spaCy English analyzer
         :type spaCy_nlp: spaCy.en.English
-        :param lower: include lower-casing as part of the review text normalization step
+        :param lower: include lower-casing as part of the review text
+                      normalization step
         :type lower: boolean
         '''
 
@@ -108,7 +110,8 @@ class Review(object):
 
     def normalize(self):
         '''
-        Perform text preprocessing, i.e., lower-casing, etc., to generate the norm attribute.
+        Perform text preprocessing, i.e., lower-casing, etc., to generate the
+        norm attribute.
         '''
 
         # Lower-case text if self.lower is Trues
@@ -192,11 +195,18 @@ class Review(object):
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram features, length, and syntactic dependency features from a Review object and return as dictionary where each feature is represented as a key:value mapping in which the key is a string representation of the feature (e.g. "the dog" for an example n-gram feature, "th" for an example character n-gram feature, or "step:forward" for an example syntactic dependency feature) and the value is the frequency with which that feature occurred in the review.
+    Extract word/character n-gram features, length, and syntactic dependency
+    features from a Review object and return as dictionary where each feature
+    is represented as a key:value mapping in which the key is a string
+    representation of the feature (e.g. "the dog" for an example n-gram
+    feature, "th" for an example character n-gram feature, or "step:forward"
+    for an example syntactic dependency feature) and the value is the
+    frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
-    :param lowercase_cngrams: whether or not to lower-case the review text before extracting character n-grams
+    :param lowercase_cngrams: whether or not to lower-case the review text
+                              before extracting character n-grams
     :type lowercase_cngrams: boolean (False by default)
     :returns: dict
     '''
@@ -205,7 +215,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         '''
         Generate frequency distribution for the tokens in the text.
 
-        :param sents: list of lists of tokens that can be chopped up into n-grams.
+        :param sents: list of lists of tokens that can be chopped up into
+                      n-grams.
         :type sents: list of lists/strs
         :param _min: minimum value of n for n-gram extraction
         :type _min: int
@@ -267,7 +278,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         :param spaCy_annotations: lists of spaCy Token instances
         :type spaCy_annotations: list of list of spaCy.tokens.Tokens instances
-        :returns: Counter object representing a frequency distribution of syntactic dependency features
+        :returns: Counter object representing a frequency distribution of
+                  syntactic dependency features
         '''
 
         # Make emtpy Counter
@@ -314,10 +326,15 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
                          project_dir_path, cfg_filename):
     '''
-    This Creates a configparser config file from a dict and writes it to a file that can be read in by SKLL.  The dict should map keys for the SKLL config sections to dictionaries of key-value pairs for each section.
+    This Creates a configparser config file from a dict and writes it to a
+    file that can be read in by SKLL.  The dict should map keys for the SKLL
+    config sections to dictionaries of key-value pairs for each section.
+
     :param exp_name: name/ID associated with model/experiment
     :type exp_name: str
-    :param feature_set_name: name of feature set (should be the name of the corresponding JSONLINES file in the 'working' directory minus the extension)
+    :param feature_set_name: name of feature set (should be the name of the
+                             corresponding JSONLINES file in the 'working'
+                             directory minus the extension)
     :type feature_set_name: str
     :param learner_name: name of machine learning algorithm
     :type learner_name: str
@@ -377,15 +394,20 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
 
 def make_confusion_matrix(x_true, y_pred, continuous=True):
     '''
-    Return confusion matrix with n rows/columns where n is equal to the number of unique data-points (or points on a scale, if continuous).
+    Return confusion matrix with n rows/columns where n is equal to the number
+    of unique data-points (or points on a scale, if continuous).
 
     :param x_true: numpy.array of "true" labels
     :type x_true: 1-dimensional numpy.array with dtype=numpy.int32
     :param y_pred: numpy.array of predicted labels
     :type y_pred: 1-dimensional numpy.array with dtype=numpy.int32
-    :param continuous: if data-points/labels form a continuous scale of natural numbers
+    :param continuous: if data-points/labels form a continuous scale of
+                       natural numbers
     :type continuous: boolean
-    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion matrix itself (a 2-dimensional numpy.array with dtype=numpy.int32) and 2) a 'string' key mapped to a string representation of the confusion matrix
+    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion
+              matrix itself (a 2-dimensional numpy.array with
+              dtype=numpy.int32) and 2) a 'string' key mapped to a string
+              representation of the confusion matrix
     '''
 
     # Get the range of labels/data-points

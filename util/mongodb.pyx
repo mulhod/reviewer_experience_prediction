@@ -2,9 +2,12 @@
 :author: Matt Mulholland
 :date: May 5, 2015
 
-Module of code related to the MongoDB database that holds all of the review data.
+Module of code related to the MongoDB database that holds all of the review
+data.
 
-The insert_train_test_reviews function gets all suitable, English-language reviews for a given data-set (at the provided file-path) and inserts them into the the MongoDB database ('reviews_project') under the 'reviews' collection.
+The insert_train_test_reviews function gets all suitable, English-language
+reviews for a given data-set (at the provided file-path) and inserts them into
+the the MongoDB database ('reviews_project') under the 'reviews' collection.
 '''
 import logging
 logger = logging.getLogger()
@@ -34,21 +37,29 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                               float percent_train, bins=0, describe=False,
                               just_describe=False):
     '''
-    Insert training/test set reviews into the MongoDB database and optionally generate a report and graphs describing the filtering mechanisms.
+    Insert training/test set reviews into the MongoDB database and optionally
+    generate a report and graphs describing the filtering mechanisms.
 
     :param reviewdb: MongoDB reviews collection
     :type reviewdb: pymongo.MongoClient object
     :param file_path: path to game reviews file
     :type file_path: str
-    :param max_size: maximum size of training/test set combination (in number of reviews)
+    :param max_size: maximum size of training/test set combination (in number
+                     of reviews)
     :type max_size: int
-    :param percent_train: percent of training/test combination that should be reserved for the training set
+    :param percent_train: percent of training/test combination that should be
+                          reserved for the training set
     :type percent_train: float/int
-    :param bins: number of bins in which to sub-divide the hours played values (defaults to 0, in which case the values will be left as they are)
+    :param bins: number of bins in which to sub-divide the hours played
+                 values (defaults to 0, in which case the values will be left
+                 as they are)
     :type bins: int
-    :param describe: describe data-set, outputting a report with some descriptive statistics and histograms representing review length and hours played distributions
+    :param describe: describe data-set, outputting a report with some
+                     descriptive statistics and histograms representing review
+                     length and hours played distributions
     :type describe: boolean
-    :param just_describe: only get the reviews and generate the statistical report
+    :param just_describe: only get the reviews and generate the statistical
+                          report
     :type just_describe: boolean
     :returns: None
     '''
@@ -182,7 +193,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     '''
     Add insert operations to a bulk writer.
 
-    :param bulk_writer: a bulk writer instance, to which we can add insertion operations that will be executed later on
+    :param bulk_writer: a bulk writer instance, to which we can add insertion
+                        operations that will be executed later on
     :type bulk_writer: pymongo.bulk.BulkOperationBuilder instance
     :param rdicts: list of review dictionaries
     :type rdicts: list of dict
@@ -190,9 +202,14 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     :type game: str
     :param appid: appid string, ID number of game
     :type appid: str
-    :param partition_id: name/ID of partition, i.e., 'test', 'training', 'extra'
+    :param partition_id: name/ID of partition, i.e., 'test', 'training',
+                         'extra'
     :type partition_id: str
-    :param bins: False (i.e., if a converted hours value should not also be inserted) or a list of 2-tuples containing floating point numbers representing the beginning of a range (actually, the lower, non-inclusive bound of the range) and the end (the upper, inclusive bound of the range) (default: False)
+    :param bins: False (i.e., if a converted hours value should not also be
+                 inserted) or a list of 2-tuples containing floating point
+                 numbers representing the beginning of a range (actually, the
+                 lower, non-inclusive bound of the range) and the end (the
+                 upper, inclusive bound of the range) (default: False)
     :type bins: False or list of 2-tuples of floats
     :returns: None
     '''
@@ -225,7 +242,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
 
 def get_review_features_from_db(db, _id):
     '''
-    Collect the features from the database for a given review and return the decoded value.
+    Collect the features from the database for a given review and return the
+    decoded value.
 
     :param db: database
     :type db: MongoClient instance
