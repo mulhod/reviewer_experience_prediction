@@ -426,7 +426,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 logerr('Could not identify username from review page.\nError '
                        'output: {}\nReview URL: {}\nContinuing on to next '
                        'review.'
-                       .format(review_dict['review_url']))
+                       .format(str(e),
+                               review_dict['review_url']))
                 continue
 
             # Get the number of hours the reviewer played the game in the
