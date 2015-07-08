@@ -4,20 +4,22 @@
 
 Script used to run the web scraping tool in order to build the video game review corpus.
 '''
+import sys
 import logging
 from json import dumps
 logger = logging.getLogger()
-from data import APPID_DICT
 from os.path import (dirname,
                      abspath,
                      realpath,
                      join)
+project_dir = dirname(dirname(realpath(__file__)))
+sys.path.append(project_dir)
+from data import APPID_DICT
 from util.datasets import (parse_appids,
                            get_review_data_for_game)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir,
                 'data')
 
