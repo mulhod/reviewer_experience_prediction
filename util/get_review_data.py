@@ -59,7 +59,7 @@ if __name__ == '__main__':
 
     # Initialize logging system
     logging_info = logging.INFO
-    logger = logging.getLogger('make_train_test_sets')
+    logger = logging.getLogger('get_review_data')
     logger.setLevel(logging_info)
 
     # Create file handler
@@ -88,7 +88,8 @@ if __name__ == '__main__':
             exit('Could not match in APPID_DICT at least one game in the '
                  'list of passed-in games. Exiting.\n')
     elif args.appids:
-        appids = parse_appids(args.appids)
+        appids = parse_appids(args.appids,
+                              logger_name='get_review_data')
         games = []
         for appid in appids:
             game = [x[0] for x in APPID_DICT.items() if x[1] == appid]

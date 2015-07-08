@@ -25,7 +25,7 @@ project_dir = dirname(dirname(realpath(__file__)))
 if __name__ == '__main__':
 
     parser = ArgumentParser(
-        usage='python make_arff.py --game_files GAME_FILE1,GAME_FILE2[ '
+        usage='python make_arff_files.py --game_files GAME_FILE1,GAME_FILE2[ '
               'OPTIONS]',
         description='Build .arff files for a specific game file, all game '
                     'files combined, or for each game file separately.',
@@ -94,7 +94,7 @@ if __name__ == '__main__':
 
     # Initialize logging system
     logging_info = logging.INFO
-    logger = logging.getLogger('make_arff')
+    logger = logging.getLogger('make_arff_files')
     logger.setLevel(logging_info)
 
     # Create file handler

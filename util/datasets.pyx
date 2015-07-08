@@ -7,19 +7,12 @@ review data from raw text files, describe review data in terms of descriptive
 statistics, write ARFF format files for use with Weka, convert raw hours
 played values to a scale of a given number of values, etc.
 '''
+import logging
 from sys import exit
 from re import (sub,
                 compile)
 from time import (strftime,
                   sleep)
-
-# Connect to logger
-import logging
-logger = logging.getLogger()
-loginfo = logger.info
-logdebug = logger.debug
-logwarn = logger.warning
-logerr = logger.error
 
 
 def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
@@ -44,6 +37,13 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
              single review, including the review itself, the number of hours
              the reviewer has played the game, etc.
     '''
+
+    # Connect to get_review_data logger
+    logger = logging.getLogger('get_review_data')
+    loginfo = logger.info
+    logdebug = logger.debug
+    logwarn = logger.warning
+    logerr = logger.error
 
     # Define a couple useful regular expressions
     SPACE = compile(r'[\s]+')
@@ -771,15 +771,21 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
         i += 1
 
 
-def parse_appids(appids):
+def parse_appids(appids, logger_name=None):
     '''
     Parse the command-line argument passed in with the --appids flag, exiting
     if any of the resulting IDs do not map to games in APPID_DICT.
 
     :param appids: game IDs
     :type appids: str
+    :param logger_name: name of logger initialized in driver program (default:
+                        None)
+    :type logger_name: str
     :returns: list of game IDs
     '''
+
+    if logger_name:
+        logger = logging.getLogger(logger_name)
 
     # Import APPID_DICT, containing a mapping between the appid strings and
     # the names of the video games
@@ -788,7 +794,7 @@ def parse_appids(appids):
     appids = appids.split(',')
     for appid in appids:
         if not appid in APPID_DICT.values():
-            logerr('{} not found in APPID_DICT. Exiting.'.format(appid))
+            logger.error('{} not found in APPID_DICT. Exiting.'.format(appid))
             exit(1)
     return appids
 
@@ -1063,6 +1069,11 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     :type bins: boolean or list of 2-tuples of floats
     :returns: None
     '''
+
+    # Connect to logger from driver progam
+    logger = logging.getLogger('make_arff_files')
+    logerr = logger.error
+    logwarn = logger.warning
 
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
