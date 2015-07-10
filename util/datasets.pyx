@@ -51,8 +51,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     BREAKS_REGEX = recompile(r'\<br\>')
     COMMA = recompile(r',')
     DATE_END_WITH_YEAR_STRING = recompile(r', \d{4}$')
-    #COMMENT_RE_1 = recompile(r'<span id="commentthread[^<]+')
-    #COMMENT_RE_2 = recompile(r'>(\d*)$')
+    COMMENT_RE_1 = recompile(r'<span id="commentthread[^<]+')
+    COMMENT_RE_2 = recompile(r'>(\d*)$')
 
     # Codecs for use with UnicodeDammit
     codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
@@ -470,12 +470,13 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of comments users made on the review (if any)
             try:
-                comment_match_1 = search(r'<span id="commentthread[^<]+',
-                                         review_page.text.strip())
+                comment_match_1 = COMMENT_RE_1.search(review_page
+                                                      .text
+                                                      .strip())
                 if not comment_match_1:
                     raise ValueError
-                comment_match_2 = search(r'>(\d*)$',
-                                         comment_match_1.group())
+                comment_match_2 = COMMENT_RE_2.search(comment_match_1
+                                                      .group())
                 if not comment_match_2:
                     raise ValueError
                 num_comments = comment_match_2.groups()[0].strip()
