@@ -473,19 +473,19 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 comment_match_1 = COMMENT_RE_1.search(review_page
                                                       .text
                                                       .strip())
-                if not comment_match_1:
-                    raise ValueError
-                comment_match_2 = COMMENT_RE_2.search(comment_match_1
-                                                      .group())
-                if not comment_match_2:
-                    raise ValueError
-                num_comments = comment_match_2.groups()[0].strip()
+                num_comments = 0
+                comment_match_2 = None
+                if comment_match_1:
+                    comment_match_2 = COMMENT_RE_2.search(comment_match_1
+                                                          .group())
+                if comment_match_2:
+                    num_comments = comment_match_2.groups()[0].strip()
                 if num_comments:
                     review_dict['num_comments'] = \
                         int(COMMA.sub(r'',
                                       num_comments))
                 else:
-                    review_dict['num_comments'] = None
+                    review_dict['num_comments'] = 0
             except (AttributeError,
                     ValueError,
                     IndexError,
