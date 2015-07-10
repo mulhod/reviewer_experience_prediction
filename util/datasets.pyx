@@ -50,6 +50,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     BREAKS_REGEX = compile(r'\<br\>')
     COMMA = compile(r',')
     DATE_END_WITH_YEAR_STRING = compile(r', \d{4}$')
+    COMMENT_REGEX1 = compile(r'<span id="commentthread[^<]+')
+    COMMENT_REGEX2 = compile(r'>(\d*)$')
 
     # Codecs for use with UnicodeDammit
     codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
@@ -132,16 +134,21 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
         source_soup = BeautifulSoup(base_html,
                                     'lxml')
         reviews = source_soup.find_all('div',
-                                       'apphub_Card interactable')
+                                       'apphub_CardContentMain')
+        link_blocks = \
+            source_soup.findAll('div',
+                                'apphub_Card modalContentLink interactable')
 
-        # Iterate over the reviews in the source HTML and find data for
-        # each review, yielding a dictionary
-        for review in reviews:
+        # Iterate over the reviews/link blocks in the source HTML and find
+        # data for each review, yielding a dictionary
+        for (review,
+             link_block) in zip(reviews,
+                                link_blocks):
 
             # Get links to review URL, profile URL, Steam ID number
-            review_url = review.attrs['onclick'].split(' ',
-                                                       2)[1].strip("',")
+            review_url = link_block.attrs['data-modal-content-url']
             review_url_split = review_url.split('/')
+            profile_url = '/'.join(review_url_split[:5])
 
             # Get other data within the base reviews page
             stripped_strings = list(review.stripped_strings)
@@ -165,11 +172,18 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                        .format(url,
                                stripped_strings))
                 continue
-            profile_url = '/'.join(review_url_split[:5])
 
-            # Parsing the HTML in this way depends on stripped_strings having
-            # a length of at least 8
-            if len(stripped_strings) >= 8:
+            # Parsing the HTML in this way (with the stripped_strings
+            # attribute) depends on a length of at least 5 (one list element
+            # for the following items (not all will be collected, however):
+            #     1) number of people who found the review helpful/funny
+            #     2) "recommended" value
+            #     3) hours on record
+            #     4) date posted
+            #     5+) the review, which can stretch over several elements
+            # All that we are really interested in collecting from here are 1
+            # and 5+
+            if len(stripped_strings) >= 5:
                 helpful_and_funny_list = stripped_strings[0].split()
                 # Extracting data from the text that supplies the number of
                 # users who found the review helpful and/or funny depends on a
@@ -258,58 +272,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                    url))
                     continue
 
-                # Extract the value for whether or not the review was
-                # recommended (not sure what the possible values are for this
-                # yet...)
-                recommended = stripped_strings[1]
-                if recommended != "Recommended":
-                    logdebug('Found review with a view in the "Recommended" '
-                             'field that is not equal to the string '
-                             '"Recommended": {}\nRest of review: {}\nURL: {}'
-                             '\n'.format(recommended,
-                                         stripped_strings,
-                                         url))
-
-                # Extract total number of hours the reviewer played the game
-                # being reviewed
-                total_game_hours = COMMA.sub(r'',
-                                             stripped_strings[2]
-                                             .split()[0])
-                try:
-                    total_game_hours = float(total_game_hours)
-                except ValueError:
-                    logerr('Could not cast total_game_hours value to a '
-                           'float: {}\nRest of review: {}\nURL: {}\n'
-                           'Continuing on to next review.'
-                           .format(total_game_hours,
-                                   stripped_strings,
-                                   url))
-                    continue
-
-                # Extract the date that the review was posted
-                if stripped_strings[3].startswith('Posted'):
-                    date_str = stripped_strings[3][8:]
-                    if DATE_END_WITH_YEAR_STRING.search(date_str):
-                        date_posted = date_str
-                    else:
-                        date_posted = ('{}, 2015'
-                                       .format(date_str))
-                else:
-                    logerr('Found unexpected date_posted value: {}\nRest of '
-                           'review: {}\nURL: {}\nContinuing on to next '
-                           'review.'.format(stripped_strings[3],
-                                            stripped_strings,
-                                            url))
-                    continue
-
-                # The review text is usually at index 4, but, in some cases,
-                # the review text is split over several indices. In these
-                # cases, we can simply concatenate all of the elements at
-                # indices 4 up to (but not including) the third index from the
-                # end of the list (since we know that the last 3 indices are
-                # occupied by other elements that won't be similarly split
-                # across indices.
-                review_text = ' '.join(stripped_strings[4:-3]).strip()
+                # The review text should be located at index 4, but, in some
+                # cases, the review text is split over several indices
+                review_text = ' '.join(stripped_strings[4:]).strip()
 
                 # Skip reviews that don't have any characters
                 if not review_text:
@@ -331,27 +296,6 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                      stripped_strings,
                                      url))
                     continue
-
-                # Extract the number of games the reviewer owns
-                num_games_owned = stripped_strings[-2].split()
-                if not num_games_owned:
-                    logerr('Found num_games_owned string that does not '
-                           'conform to the expected format: {}\nRest of '
-                           'review: {}\nURL: {}\nContinuing on to next '
-                           'review.'.format(num_games_owned,
-                                            stripped_strings,
-                                            url))
-                    continue
-                try:
-                    num_games_owned = int(COMMA.sub(r'',
-                                                    num_games_owned[0]))
-                except ValueError:
-                    logerr('Could not cast num_games_owned value to an int: '
-                           '{}\nRest of review: {}\nURL: {}\nContinuing on to'
-                           ' next review.'.format(num_games_owned,
-                                                  stripped_strings,
-                                                  url))
-                    continue
             else:
                 logerr('Found incorrect number of "stripped_strings" in '
                        'review HTML element. The review\'s stripped_strings: '
@@ -364,11 +308,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # review
             review_dict = \
                 dict(review_url=review_url,
-                     recommended=recommended,
-                     total_game_hours=total_game_hours,
-                     date_posted=date_posted,
                      review=review_text,
-                     num_games_owned=num_games_owned,
                      num_found_helpful=num_found_helpful,
                      num_found_unhelpful=num_found_unhelpful,
                      num_voted_helpfulness=num_voted_helpfulness,
@@ -413,11 +353,62 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             profile_soup = BeautifulSoup(profile_page_html,
                                          'lxml')
 
+            # Get some information about the review, such as when it was
+            # posted, what the rating summary is (i.e., is the game
+            # recommended or not?), the number of hours the reviewer has
+            # played the game, and the number of hours the reviewer has
+            # played the game in the previous 2 weeks
+            rating_summary_block = (review_soup
+                                    .find('div',
+                                          'ratingSummaryBlock'))
+            try:
+                rating_summary_block_list = list(rating_summary_block)
+
+                # Get rating
+                review_dict['rating'] = rating_summary_block_list[3]
+
+                # Get date
+                date_str = \
+                    rating_summary_block_list[7].string.strip()[8:]
+                time, date = tuple([x.strip() for x in date_str.split('@')])
+                time = time.upper()
+                if DATE_END_WITH_YEAR_STRING.search(date):
+                        date_posted = '{}, {}'.format(date,
+                                                      time)
+                else:
+                    date_posted = '{}, 2015, {}'.format(date,
+                                                        time)
+                review_dict['date_posted'] = date_posted
+
+                # Get number of hours the reviewer has played the game
+                hours_str = rating_summary_block_list[5].string
+                (hours_last_two_weeks_str,
+                 hours_total_str) = tuple([x.strip() for x
+                                           in hours_str.split('/')])
+                hours_total = hours_total_str.split()[0]
+                review_dict['total_game_hours'] = \
+                        float(COMMA.sub(r'',
+                                        hours_total))
+                hours_last_two_weeks = hours_last_two_weeks_str.split()[0]
+                review_dict['total_game_hours_last_two_weeks'] = \
+                        float(COMMA.sub(r'',
+                                        hours_last_two_weeks))
+
+            except (AttributeError,
+                    ValueError,
+                    IndexError,
+                    TypeError) as e:
+                logerr('Found unexpected ratingSummaryBlock div element in '
+                       'review HTML. Review URL: {}\nContinuing on to next '
+                       'review.'.format(review_url))
+                continue
+
             # Get the user-name from the review page
             try:
-                username = \
-                    review_soup.find('span',
-                                     'profile_small_header_name').string
+                username = (review_soup
+                            .find('span',
+                                  'profile_small_header_name')
+                            .string)
                 if not username:
                     raise ValueError
                 review_dict['username'] = username
@@ -430,75 +421,30 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                review_dict['review_url']))
                 continue
 
-            # Get the number of hours the reviewer played the game in the
-            # last 2 weeks
-            try:
-                hours_previous_2_weeks = review_soup.find('div',
-                                                          'playTime')
-                if hours_previous_2_weeks:
-                    review_dict['hours_previous_2_weeks'] = \
-                        float(COMMA.sub(r'',
-                                        hours_previous_2_weeks
-                                        .string
-                                        .split()[0]))
-                else:
-                    review_dict['hours_previous_2_weeks'] = None
-            except (AttributeError,
-                    ValueError,
-                    IndexError,
-                    TypeError) as e:
-                try:
-                    logerr('Got unexpected value for the playTime div element'
-                           ': {}\nError output: {}\nReview URL: {}\n'
-                           'Continuing on to next review.'
-                           .format(review_soup
-                                   .find('div',
-                                         'playTime')
-                                   .string,
-                                   str(e),
-                                   review_dict['review_url']))
-                except AttributeError:
-                    logerr('Got unexpected value for the playTime div element'
-                           ': {}\nReview URL: {}\nContinuing on to next '
-                           'review.'
-                           .format(review_soup
-                                   .find('div',
-                                         'playTime'),
-                                   review_dict['review_url']))
-                continue
-
             # Get the number of comments users made on the review (if any)
             try:
-                comments = review_soup.find('div',
-                                            'commentthread_count')
-                if comments:
+                comment_match_1 = COMMENT_REGEX1.search(review_page_html)
+                if not comment_match_1:
+                    raise ValueError
+                comment_match_2 = COMMENT_REGEX2.search(comment_match_1
+                                                        .group())
+                if not comment_match_2:
+                    raise ValueError
+                num_comments = comment_match_2.groups()[0]
+                if num_comments:
                     review_dict['num_comments'] = \
                         int(COMMA.sub(r'',
-                                      list(comments.strings)[1]))
+                                      num_comments))
                 else:
                     review_dict['num_comments'] = None
             except (AttributeError,
                     ValueError,
                     IndexError,
                     TypeError) as e:
-                try:
-                    logerr('Got unexpected value for the commentthread_count '
-                           'div element: {}\nError output: {}\nReview URL: '
-                           '{}\nContinuing on to next review.'
-                           .format(list(review_soup
-                                        .find('div',
-                                              'commentthread_count')
-                                        .strings),
-                                   str(e),
-                                   review_dict['review_url']))
-                except AttributeError:
-                    logerr('Got unexpected value for the commentthread_count '
-                           'div element: {}\nReview URL: {}\nContinuing on'
-                           ' to next review.'
-                           .format(review_soup
-                                   .find('div',
-                                         'commentthread_count'),
-                                   review_dict['review_url']))
+                logerr('Could not determine the number of comments.\nError '
+                       'output: {}\nReview URL: {}\nContinuing on to next '
+                       'review.'.format(str(e),
+                                        review_dict['review_url']))
                 continue
 
             # Get the reviewer's "level" (friend player level)
@@ -632,6 +578,13 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                         dict(zip(profile_items_strings_iter,
                                  profile_items_strings_iter))
 
+                    # Get the number of games the reviewer owns if it exists
+                    review_dict['num_games_owned'] = \
+                        int(COMMA.sub(r'',
+                                      profile_items_strings_dict
+                                      .get('Games',
+                                           '0')))
+
                     # Get the number of screenshots if it exists
                     review_dict['num_screenshots'] = \
                         int(COMMA.sub(r'',
@@ -660,6 +613,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                       .get('Workshop Items',
                                            '0')))
                 else:
+                    review_dict['num_games_owned'] = 0
                     review_dict['num_screenshots'] = 0
                     review_dict['num_reviews'] = 0
                     review_dict['num_guides'] = 0
