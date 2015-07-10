@@ -10,7 +10,8 @@ played values to a scale of a given number of values, etc.
 import logging
 from sys import exit
 from re import (sub,
-                compile)
+                compile as recompile,
+                search)
 from time import (strftime,
                   sleep)
 
@@ -46,12 +47,12 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
     logerr = logger.error
 
     # Define a couple useful regular expressions
-    SPACE = compile(r'[\s]+')
-    BREAKS_REGEX = compile(r'\<br\>')
-    COMMA = compile(r',')
-    DATE_END_WITH_YEAR_STRING = compile(r', \d{4}$')
-    COMMENT_REGEX1 = compile(r'<span id="commentthread[^<]+')
-    COMMENT_REGEX2 = compile(r'>(\d*)$')
+    SPACE = recompile(r'[\s]+')
+    BREAKS_REGEX = recompile(r'\<br\>')
+    COMMA = recompile(r',')
+    DATE_END_WITH_YEAR_STRING = recompile(r', \d{4}$')
+    #COMMENT_RE_1 = recompile(r'<span id="commentthread[^<]+')
+    #COMMENT_RE_2 = recompile(r'>(\d*)$')
 
     # Codecs for use with UnicodeDammit
     codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852",
@@ -146,9 +147,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                                 link_blocks):
 
             # Get links to review URL, profile URL, Steam ID number
-            review_url = link_block.attrs['data-modal-content-url']
+            review_url = link_block.attrs['data-modal-content-url'].strip()
             review_url_split = review_url.split('/')
-            profile_url = '/'.join(review_url_split[:5])
+            profile_url = '/'.join(review_url_split[:5]).strip()
 
             # Get other data within the base reviews page
             stripped_strings = list(review.stripped_strings)
@@ -184,7 +185,7 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             # All that we are really interested in collecting from here are 1
             # and 5+
             if len(stripped_strings) >= 5:
-                helpful_and_funny_list = stripped_strings[0].split()
+                helpful_and_funny_list = stripped_strings[0].strip().split()
                 # Extracting data from the text that supplies the number of
                 # users who found the review helpful and/or funny depends on a
                 # couple facts about how what is in this particular string
@@ -324,8 +325,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             review_page = requests.get(review_dict['review_url'])
             sleep(wait)
             profile_page = requests.get(review_dict['profile_url'])
-            review_page_html = review_page.text
-            profile_page_html = profile_page.text
+            review_page_html = review_page.text.strip()
+            profile_page_html = profile_page.text.strip()
 
             # Preprocess HTML and try to decode the HTML to unicode and then
             # re-encode the text with ASCII, ignoring any characters that
@@ -333,19 +334,19 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
             review_page_html = \
                 SPACE.sub(r' ',
                           BREAKS_REGEX.sub(r' ',
-                                           review_page_html.strip()))
+                                           review_page_html))
             review_page_html = \
                 UnicodeDammit(review_page_html,
                               codecs).unicode_markup.encode('ascii',
-                                                            'ignore')
+                                                            'ignore').strip()
             profile_page_html = \
                 SPACE.sub(r' ',
                           BREAKS_REGEX.sub(r' ',
-                                           profile_page_html.strip()))
+                                           profile_page_html))
             profile_page_html = \
                 UnicodeDammit(profile_page_html,
                               codecs).unicode_markup.encode('ascii',
-                                                            'ignore')
+                                                            'ignore').strip()
 
             # Now use BeautifulSoup to parse the HTML
             review_soup = BeautifulSoup(review_page_html,
@@ -365,30 +366,75 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 rating_summary_block_list = list(rating_summary_block)
 
                 # Get rating
-                review_dict['rating'] = rating_summary_block_list[3]
+                review_dict['rating'] = (rating_summary_block_list[3]
+                                         .string
+                                         .strip())
 
-                # Get date
-                date_str = \
-                    rating_summary_block_list[7].string.strip()[8:]
-                time, date = tuple([x.strip() for x in date_str.split('@')])
-                time = time.upper()
-                if DATE_END_WITH_YEAR_STRING.search(date):
+                # Get date posted string, which will include an original
+                # posted date and maybe an updated date as well (if the post
+                # was updated)
+                date_updated = None
+                date_str_orig = (rating_summary_block_list[7]
+                                 .string
+                                 .strip())
+                date_strs = \
+                    SPACE.sub(' ',
+                              date_str_orig[8:]).split(' Updated: ')
+                if len(date_strs) == 1:
+                    date_str = date_strs[0]
+                    date, time = tuple([x.strip() for x
+                                        in date_str.split('@')])
+                    time = time.upper()
+                    if DATE_END_WITH_YEAR_STRING.search(date):
                         date_posted = '{}, {}'.format(date,
                                                       time)
+                    else:
+                        date_posted = '{}, 2015, {}'.format(date,
+                                                            time)
+                elif len(date_strs) == 2:
+                    # Get original posted date
+                    date_str = date_strs[0]
+                    date_orig, time_orig = \
+                        tuple([x.strip() for x
+                               in date_str.split('@')])
+                    time_orig = time_orig.upper()
+                    if DATE_END_WITH_YEAR_STRING.search(date_orig):
+                        date_posted = '{}, {}'.format(date_orig,
+                                                      time_orig)
+                    else:
+                        date_posted = '{}, 2015, {}'.format(date_orig,
+                                                            time_orig)
+
+                    # Get date when review was updated
+                    date_str_updated = date_strs[1]
+                    date_updated, time_updated = \
+                        tuple([x.strip() for x
+                               in date_str_updated.split('@')])
+                    time_updated = time_updated.upper()
+                    if DATE_END_WITH_YEAR_STRING.search(date_updated):
+                        date_updated = '{}, {}'.format(date_updated,
+                                                       time_updated)
+                    else:
+                        date_updated = '{}, 2015, {}'.format(date_updated,
+                                                             time_updated)
                 else:
-                    date_posted = '{}, 2015, {}'.format(date,
-                                                        time)
+                    logerr('Found date posted string with unexpected format: '
+                           '{}\nReview URL: {}\nContinuing on to next review.'
+                           .format(date_str_orig,
+                                   review_dict['review_url']))
                 review_dict['date_posted'] = date_posted
+                review_dict['date_updated'] = (date_updated if date_updated
+                                                            else None)
 
                 # Get number of hours the reviewer has played the game
-                hours_str = rating_summary_block_list[5].string
+                hours_str = rating_summary_block_list[5].string.strip()
                 (hours_last_two_weeks_str,
                  hours_total_str) = tuple([x.strip() for x
                                            in hours_str.split('/')])
                 hours_total = hours_total_str.split()[0]
                 review_dict['total_game_hours'] = \
-                        float(COMMA.sub(r'',
-                                        hours_total))
+                    float(COMMA.sub(r'',
+                                    hours_total))
                 hours_last_two_weeks = hours_last_two_weeks_str.split()[0]
                 review_dict['total_game_hours_last_two_weeks'] = \
                         float(COMMA.sub(r'',
@@ -408,7 +454,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 username = (review_soup
                             .find('span',
                                   'profile_small_header_name')
-                            .string)
+                            .string
+                            .strip())
                 if not username:
                     raise ValueError
                 review_dict['username'] = username
@@ -423,14 +470,15 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
             # Get the number of comments users made on the review (if any)
             try:
-                comment_match_1 = COMMENT_REGEX1.search(review_page_html)
+                comment_match_1 = search(r'<span id="commentthread[^<]+',
+                                         review_page.text.strip())
                 if not comment_match_1:
                     raise ValueError
-                comment_match_2 = COMMENT_REGEX2.search(comment_match_1
-                                                        .group())
+                comment_match_2 = search(r'>(\d*)$',
+                                         comment_match_1.group())
                 if not comment_match_2:
                     raise ValueError
-                num_comments = comment_match_2.groups()[0]
+                num_comments = comment_match_2.groups()[0].strip()
                 if num_comments:
                     review_dict['num_comments'] = \
                         int(COMMA.sub(r'',
@@ -455,7 +503,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     review_dict['friend_player_level'] = \
                         int(COMMA.sub(r'',
                                       friend_player_level
-                                      .string))
+                                      .string
+                                      .strip()))
                 else:
                     review_dict['friend_player_level'] = None
             except (AttributeError,
@@ -491,9 +540,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                     achievements_list = list(achievements
                                              .stripped_strings)[1].split()
                     attained = COMMA.sub(r'',
-                                         achievements_list[0])
+                                         achievements_list[0].strip())
                     possible = COMMA.sub(r'',
-                                         achievements_list[2])
+                                         achievements_list[2].strip())
                     review_dict['achievement_progress'] = \
                             dict(
                         num_achievements_attained=int(attained),
@@ -537,7 +586,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if badges:
                     review_dict['num_badges'] = \
                         int(COMMA.sub(r'',
-                                      list(badges.stripped_strings)[1]))
+                                      list(badges
+                                           .stripped_strings)[1]
+                                      .strip()))
                 else:
                     review_dict['num_badges'] = None
             except (AttributeError,
@@ -649,7 +700,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if groups:
                     review_dict['num_groups'] = \
                         int(COMMA.sub(r'',
-                                      list(groups.stripped_strings)[1]))
+                                      list(groups
+                                           .stripped_strings)[1]
+                                      .strip()))
                 else:
                     review_dict['num_groups'] = None
             except (AttributeError,
@@ -683,7 +736,9 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 if friends:
                     review_dict['num_friends'] = \
                         int(COMMA.sub(r'',
-                                      list(friends.stripped_strings)[1]))
+                                      list(friends
+                                           .stripped_strings)[1]
+                                      .strip()))
                 else:
                     review_dict['num_friends'] = None
             except (AttributeError,
