@@ -16,7 +16,7 @@ from time import (strftime,
                   sleep)
 
 
-def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
+def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
     '''
     Generate dictionaries for each review for a given game.
 
@@ -72,6 +72,8 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
 
     # Imports
     import requests
+    from requests.exceptions import (Timeout,
+                                     ConnectionError)
     from data import APPID_DICT
     from langdetect import detect
     from bs4 import (BeautifulSoup,
@@ -104,11 +106,42 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
         # exit out of the loop, effectively ending the function.
         try:
             base_page = requests.get(url,
-                                     timeout=time_out)
-        except requests.exceptions.Timeout as e:
-            logerr('There was a Timeout error...')
-            breaks += 1
-            continue
+                                     timeout=(0.1,
+                                              time_out))
+        except (Timeout,
+                ConnectionError) as e:
+            if type(e) == type(Timeout()):
+                logerr('There was a Timeout error. Skipping to next review.')
+                breaks += 1
+                continue
+            else:
+                logdebug('ConnectionError encountered. Will try to wait for a'
+                         ' bit before trying to reconnect again.')
+                sleep(wait)
+                try:
+                    base_page = requests.get(url,
+                                             timeout=(0.1,
+                                                      time_out))
+                except (Timeout,
+                        ConnectionError) as e:
+                    if type(e) == type(Timeout()):
+                        logerr('There was a Timeout error. Skipping to next '
+                               'review.')
+                        breaks += 1
+                        continue
+                    else:
+                        exit_message = ('Encountered second ConnectionError '
+                                        'in a row. Gracefully exiting program'
+                                        '. Here are the details for '
+                                        'continuing:\nReviews count = {}\n'
+                                        'Range start = {}\nindex = {}\nURL = '
+                                        '{}\n\nExiting.'
+                                        .format(reviews_count,
+                                                range_begin,
+                                                i,
+                                                url))
+                        logerr(exit_message)
+                        exit(exit_message)
         # If there's nothing at this URL, page might have no value at all,
         # in which case we should skip the URL
         # Another situation where we'd want to skip is if page.text contains
@@ -331,16 +364,64 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                      steam_id_number=steam_id_number,
                      profile_url=profile_url,
                      orig_url=url)
-
             # Follow links to profile and review pages and collect data from
             # there
             sleep(wait)
-            review_page = requests.get(review_dict['review_url'])
+            try:
+                review_page = requests.get(review_dict['review_url'],
+                                           timeout=(0.1,
+                                                    time_out))
+            except ConnectionError:
+                logdebug('ConnectionError encountered. Will try to wait for a'
+                         ' bit before trying to reconnect again.')
+                sleep(wait)
+                try:
+                    review_page = requests.get(review_dict['review_url'],
+                                               timeout=(0.1,
+                                                        time_out))
+                except ConnectionError:
+                    exit_message = ('Encountered second ConnectionError in a '
+                                    'row. Gracefully exiting program. Here '
+                                    'are the details for continuing:\n'
+                                    'Reviews count = {}\nRange start = {}\n'
+                                    'Index = {}\nURL = {}\nReview URL = {}\n'
+                                    '\nExiting.'
+                                    .format(reviews_count,
+                                            range_begin,
+                                            i,
+                                            url,
+                                            review_dict['review_url']))
+                    logerr(exit_message)
+                    exit(exit_message)
             sleep(wait)
-            profile_page = requests.get(review_dict['profile_url'])
+            try:
+                profile_page = requests.get(review_dict['profile_url'],
+                                            timeout=(0.1,
+                                                     time_out))
+            except ConnectionError:
+                logdebug('ConnectionError encountered. Will try to wait for a'
+                         ' bit before trying to reconnect again.')
+                sleep(wait)
+                try:
+                    profile_page = requests.get(review_dict['profile_url'],
+                                                timeout=(0.1,
+                                                         time_out))
+                except ConnectionError:
+                    exit_message = ('Encountered second ConnectionError in a '
+                                    'row. Gracefully exiting program. Here '
+                                    'are the details for continuing:\n'
+                                    'Reviews count = {}\nRange start = {}\n'
+                                    'Index = {}\nURL = {}\nProfile URL = {}\n'
+                                    '\nExiting.'
+                                    .format(reviews_count,
+                                            range_begin,
+                                            i,
+                                            url,
+                                            review_dict['profile_url']))
+                    logerr(exit_message)
+                    exit(exit_message)
             review_page_html = review_page.text.strip()
             profile_page_html = profile_page.text.strip()
-
             # Preprocess HTML and try to decode the HTML to unicode and then
             # re-encode the text with ASCII, ignoring any characters that
             # can't be represented with ASCII
@@ -360,13 +441,11 @@ def get_review_data_for_game(appid, time_out=0.5, limit=-1, wait=10):
                 UnicodeDammit(profile_page_html,
                               codecs).unicode_markup.encode('ascii',
                                                             'ignore').strip()
-
             # Now use BeautifulSoup to parse the HTML
             review_soup = BeautifulSoup(review_page_html,
                                         'lxml')
             profile_soup = BeautifulSoup(profile_page_html,
                                          'lxml')
-
             # Get some information about the review, such as when it was
             # posted, what the rating summary is (i.e., is the game
             # recommended or not?), the number of hours the reviewer has
