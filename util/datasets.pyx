@@ -117,7 +117,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
             else:
                 logdebug('ConnectionError encountered. Will try to wait for a'
                          ' bit before trying to reconnect again.')
-                sleep(wait)
+                sleep(1000)
                 try:
                     base_page = requests.get(url,
                                              timeout=(0.1,
@@ -374,7 +374,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
             except ConnectionError:
                 logdebug('ConnectionError encountered. Will try to wait for a'
                          ' bit before trying to reconnect again.')
-                sleep(wait)
+                sleep(1000)
                 try:
                     review_page = requests.get(review_dict['review_url'],
                                                timeout=(0.1,
@@ -401,7 +401,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
             except ConnectionError:
                 logdebug('ConnectionError encountered. Will try to wait for a'
                          ' bit before trying to reconnect again.')
-                sleep(wait)
+                sleep(1000)
                 try:
                     profile_page = requests.get(review_dict['profile_url'],
                                                 timeout=(0.1,
