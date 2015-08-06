@@ -9,7 +9,6 @@ from sys import exit
 from os import listdir
 from pymongo import MongoClient
 from util.mongodb import insert_train_test_reviews
-from util.datasets import get_and_describe_dataset
 from os.path import (join,
                      abspath,
                      dirname,
@@ -50,14 +49,21 @@ if __name__ == '__main__':
         type=float,
         default=80.0)
     parser_add_argument('--convert_to_bins', '-bins',
-        help='number of equal sub-divisions of the hours-played values, e.g. '
-             'if 10 and the hours values range from 0 up to 1000, then hours '
-             'values 0-99 will become 1, 100-199 will become 2, etc. (will '
+        help='number of sub-divisions of the hours-played values, e.g. if 10 '
+             'and the hours values range from 0 up to 1000, then hours values'
+             ' 0-99 will become 1, 100-199 will become 2, etc. (will '
              'probably be necessay to train a model that actually is '
              'predictive to an acceptable degree); note that both hours '
              'values will be retained, the original under the name "hours" '
              'and the converted value under the name "hours_bin"',
         type=int,
+        required=False)
+    parser_add_argument('--bin_factor',
+        help='if the --convert_to_bins/-bins argument is specified, increase '
+             'the sizes of the bins by the given factor so that bins in which'
+             ' there will be lots of instances will be smaller in terms of '
+             'range than bins that are more spasely-populated',
+        type=float,
         required=False)
     parser_add_argument('--make_reports', '-describe',
         help='generate reports and histograms describing the data filtering '
@@ -86,6 +92,7 @@ if __name__ == '__main__':
     max_size = args.max_size
     percent_train = args.percent_train
     convert_to_bins = args.convert_to_bins
+    bin_factor = args.bin_factor
     make_reports = args.make_reports
     just_describe = args.just_describe
 
@@ -127,6 +134,15 @@ if __name__ == '__main__':
         bins = convert_to_bins
     else:
         bins = 0
+
+    # Make sure that, if the --bin_factor argument is specified, the
+    # --convert_to_bins/-bins argument was also specified
+    if (bin_factor
+        and not convert_to_bins):
+        logerror('The --bin_factor argument was specified despite the fact '
+                 'that the --convert_to_bins/-bins argument was not used. '
+                 'Exiting.')
+        exit(1)
 
     # Establish connection to MongoDB database
     connection = MongoClient('mongodb://localhost:'
@@ -188,6 +204,7 @@ if __name__ == '__main__':
                                   max_size,
                                   percent_train,
                                   bins=bins,
+                                  bin_factor=bin_factor,
                                   describe=make_reports,
                                   just_describe=just_describe)
 
