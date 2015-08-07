@@ -18,11 +18,12 @@ logerr = logger.error
 from sys import exit
 from math import ceil
 from data import APPID_DICT
-from os.path import basename
 from random import (randint,
                     shuffle,
                     seed)
 from json import JSONDecoder
+from os.path import (basename,
+                     splitext)
 # Make local binding to JSONEncoder method attribute
 json_decoder = JSONDecoder()
 json_decode = json_decoder.decode
@@ -77,7 +78,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     # random.shuffle)
     seed(1)
 
-    game = basename(file_path)[:-4]
+    game = splitext(basename(file_path))[0]
     appid = APPID_DICT[game]
 
     loginfo('Inserting reviews from {}...'.format(game))

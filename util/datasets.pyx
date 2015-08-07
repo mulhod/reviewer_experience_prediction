@@ -920,7 +920,8 @@ def get_and_describe_dataset(file_path, report=True):
     from os.path import (basename,
                          dirname,
                          realpath,
-                         join)
+                         join,
+                         splitext)
 
     if report:
         # Imports
@@ -930,15 +931,15 @@ def get_and_describe_dataset(file_path, report=True):
         # Get path to reports directory and open report file
         reports_dir = join(dirname(dirname(realpath(__file__))),
                            'reports')
-        game = basename(file_path)[:-4]
+        game = splitext(basename(file_path))[0]
         output_path = join(reports_dir,
                            '{}_report.txt'.format(game))
         output = open(output_path,
                       'w')
         # Initialize seaborn-related stuff
-        sns.set_palette("deep",
+        sns.set_palette('deep',
                         desat=.6)
-        sns.set_context(rc={"figure.figsize": (14, 7)})
+        sns.set_context(rc={'figure.figsize': (14, 7)})
 
     # Get list of review dictionaries
     reviews = list(read_reviews_from_game_file(file_path))
@@ -1025,7 +1026,7 @@ def get_and_describe_dataset(file_path, report=True):
     cdef int orig_total_reviews = len(reviews)
     reviews = [r for r in reviews if len(r['review']) <= maxl
                                      and len(r['review']) >= minl
-                                     and r['hours'] <= maxh]
+                                     and r['total_game_hours'] <= maxh]
     return dict(reviews=reviews,
                 minl=minl,
                 maxl=maxl,
@@ -1223,7 +1224,9 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                 review = sub(r'\\',
                              r'',
                              review)
-                hours = game_doc['hours_bin'] if bins else game_doc['hours']
+                hours = (game_doc['total_game_hours_bin']
+                         if bins
+                         else game_doc['total_game_hours'])
                 reviews_lines.append('"{}",{}'.format(review,
                                                       hours))
             # Modify file-path by adding suffix(es)
@@ -1258,15 +1261,15 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                          review)
             if bins:
                 hours = get_bin(bins,
-                                rd['hours'])
+                                rd['total_game_hours'])
                 if hours < 0:
                     logerr('The given hours played value ({}) was not found '
                            'in the list of possible bin ranges ({}). Exiting.'
-                           .format(rd['hours'],
+                           .format(rd['total_game_hours'],
                                    bins))
                     exit(1)
             else:
-                hours = rd['hours']
+                hours = rd['total_game_hours']
             reviews_lines.append('"{}",{}'.format(review,
                                                   hours))
         # Modify file-path by adding partition suffix

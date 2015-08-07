@@ -13,7 +13,8 @@ from os.path import (join,
                      abspath,
                      dirname,
                      realpath,
-                     basename)
+                     basename,
+                     splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -177,13 +178,15 @@ if __name__ == '__main__':
 
     # Get list of games
     if game_files == "all":
-        game_files = [f for f in listdir(data_dir) if f.endswith('.txt')]
-        del game_files[game_files.index('sample.txt')]
+        game_files = [f for f in listdir(data_dir)
+                      if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
     else:
         game_files = game_files.split(',')
 
     loginfo('Adding training/test partitions to Mongo DB for the following '
-            'games: {}'.format(', '.join([g[:-4] for g in game_files])))
+            'games: {}'.format(', '.join([splitext(g)[0]
+                                          for g in game_files])))
     loginfo('Maximum size for the combined training/test sets: {}'
             .format(max_size))
     loginfo('Percentage split between training and test sets: {0:.2f}/{1:.2f}'
@@ -197,7 +200,7 @@ if __name__ == '__main__':
     # key that identifies each review as either training or test
     for game_file in game_files:
         loginfo('Getting/inserting reviews for {}...'
-                .format(basename(game_file)[:-4]))
+                .format(splitext(basename(game_file))[0]))
         insert_train_test_reviews(reviewdb,
                                   abspath(join(data_dir,
                                                game_file)),

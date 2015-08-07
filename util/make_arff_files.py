@@ -13,7 +13,8 @@ from os.path import (realpath,
                      abspath,
                      dirname,
                      join,
-                     basename)
+                     basename,
+                     splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 from util.datasets import (get_and_describe_dataset,
@@ -71,6 +72,12 @@ if __name__ == '__main__':
              'the number of bins specified)',
         type=int,
         required=False)
+    parser_add_argument('--bin_factor',
+        help='factor by which to multiply the sizes of the bins, such that '
+             'the bins with lots of values will be smaller and the more '
+             'sparsely-populated bins will be smaller in terms of range',
+        type=float,
+        default=1.0)
     parser_add_argument('--mongodb_port', '-dbport',
         help='port that the MongoDB server is running',
         type=int,
@@ -90,6 +97,7 @@ if __name__ == '__main__':
     make_train_test_sets = args.make_train_test_sets
     nbins = args.nbins
     bins = not args.use_original_hours_values
+    bin_factor = args.bin_factor
     mongodb_port = args.mongodb_port
 
     # Initialize logging system
@@ -137,6 +145,14 @@ if __name__ == '__main__':
                 ' specified via the --nbins option argument. Exiting.')
         exit(1)
 
+    # Exit if the --bin_factor argument was used despite the fact that the
+    # original hours values are not being binned
+    if (not bins
+        and bin_factor > 1.0):
+        logerror('The --bin_factor argument was specified despite the fact '
+                 'that the original hours values are being binned. Exiting.')
+        exit(1)
+
     # Get path to the data directory
     data_dir = join(project_dir,
                     'data')
@@ -175,11 +191,11 @@ if __name__ == '__main__':
                 'option flag since the --make_train_test_sets flag was not '
                 'also used, which means that the MongoDB database is not '
                 'going to be used.')
-        exit(1)
 
     if game_files == "all":
-        game_files = [f for f in os.listdir(data_dir) if f.endswith('.txt')]
-        del game_files[game_files.index('sample.txt')]
+        game_files = [f for f in os.listdir(data_dir)
+                      if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
     else:
         game_files = game_files.split(',')
     if len(game_files) == 1:
@@ -191,7 +207,6 @@ if __name__ == '__main__':
                     'was unspecified) even though only one game file was '
                     'passed in via the --game_files flag. Only one file will '
                     'be written and it will be named after the game.')
-            exit(1)
         mode = "separate"
 
     # Make a list of dicts corresponding to each review and write .arff files
@@ -229,11 +244,12 @@ if __name__ == '__main__':
             if bins:
                 bin_ranges = get_bin_ranges(minh,
                                             maxh,
-                                            nbins)
+                                            nbins,
+                                            bin_factor)
             else:
                 bin_ranges = False
 
-        file_names = [game[:-4] for game in game_files]
+        file_names = [splitext(game)[0] for game in game_files]
         arff_file = join(arff_files_dir,
                          '{}.arff'.format(combined_file_prefix))
 
@@ -277,11 +293,12 @@ if __name__ == '__main__':
                     # Get the range that each bin maps to
                     bin_ranges = get_bin_ranges(minh,
                                                 maxh,
-                                                nbins)
+                                                nbins,
+                                                bin_factor)
                 else:
                     bin_ranges = False
 
-            game = game_file[:-4]
+            game = splitext(game_file)[0]
             arff_file = join(arff_files_dir,
                              '{}.arff'.format(game))
 
