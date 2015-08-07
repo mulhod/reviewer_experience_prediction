@@ -96,7 +96,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                 'database.')
 
     # Get list of all reviews represented as dictionaries with 'review' and
-    # 'hours' keys and get the filter values
+    # 'total_game_hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
                                        report=(describe
                                                or just_describe))
