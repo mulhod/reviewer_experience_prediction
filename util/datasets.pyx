@@ -890,7 +890,8 @@ cdef read_reviews_from_game_file(file_path):
     '''
 
     from json import JSONDecoder
-    json_decode = JSONDecoder().decode
+    json_decoder = JSONDecoder()
+    json_decode = json_decoder.decode
     reviews = []
     for json_line in open(file_path).readlines():
         reviews.append(json_decode(json_line))

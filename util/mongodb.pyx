@@ -34,8 +34,8 @@ from util.datasets import (get_and_describe_dataset,
 
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,
-                              float percent_train, bins=0, describe=False,
-                              just_describe=False):
+                              float percent_train, bins=0, bin_factor=1.0,
+                              describe=False, just_describe=False):
     '''
     Insert training/test set reviews into the MongoDB database and optionally
     generate a report and graphs describing the filtering mechanisms.
@@ -54,6 +54,14 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                  values (defaults to 0, in which case the values will be left
                  as they are)
     :type bins: int
+    :param bin_factor: if the bins parameter is set to something other than
+                       the default, the size of the bins relative to each
+                       other will be governed by bin_factor, i.e., the size
+                       of the bins in terms of the ranges of values will
+                       be smaller for the bins that have a lot of instances
+                       and will increase in size for the more
+                       sparsely-populated bins
+    :type bin_factor: float
     :param describe: describe data-set, outputting a report with some
                      descriptive statistics and histograms representing review
                      length and hours played distributions
@@ -74,15 +82,17 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
 
     loginfo('Inserting reviews from {}...'.format(game))
     if bins:
-        loginfo('Dividing the hours played values into {} bins...'
-                .format(bins))
+        loginfo('Dividing the hours played values into {} bins with a bin '
+                'factor of {}...'.format(bins,
+                                         bin_factor))
 
     # Make sense of arguments
     if (describe
         and just_describe):
         logwarn('If the just_describe and describe keyword arguments are set '
                 'to True, just_describe wins out, i.e., the report will be '
-                'generated, but no reviews will be inserted.')
+                'generated, but no reviews will be inserted into the '
+                'database.')
 
     # Get list of all reviews represented as dictionaries with 'review' and
     # 'hours' keys and get the filter values
@@ -106,7 +116,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     if bins:
         bin_ranges = get_bin_ranges(minh,
                                     maxh,
-                                    bins)
+                                    bins,
+                                    bin_factor)
     else:
         bin_ranges = False
 
@@ -215,7 +226,7 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     '''
 
     for rd in rdicts:
-        # Add keys for the partition ("extra"), the game's name, and the
+        # Add keys for the partition (i.e., "extra"), the game's name, and the
         # appid
         rd['game'] = game
         rd['appid'] = appid
@@ -223,13 +234,13 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
 
         if bins:
             _bin = get_bin(bins,
-                           rd['hours'])
+                           rd['total_game_hours'])
             if _bin > -1:
-                rd['hours_bin'] = _bin
+                rd['total_game_hours_bin'] = _bin
             else:
                 logerr('The hours played value ({}) did not seem to fall '
                        'within any of the bin ranges.\n\nBin ranges\n{}\n'
-                       'Exiting.'.format(rd['hours_bin'],
+                       'Exiting.'.format(rd['total_game_hours_bin'],
                                          repr(bins)))
                 exit(1)
 

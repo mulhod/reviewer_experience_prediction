@@ -13,7 +13,7 @@
 - Dependencies:
     * conda (anaconda/miniconda), which can be found [here](http://conda.pydata.org/miniconda.html)
         * For a Linux, 64-bit system, install with:
-            ```curl http://repo.continuum.io/miniconda/Miniconda-1.6.0-Linux-x86_64.sh >! ~/Miniconda-1.6.0-Linux-x86_64.sh; chmod a+x ~/Miniconda-1.6.0-Linux-x86_64.sh; ~/Miniconda-1.6.0-Linux-x86_64.sh -b -p ~/conda; rm -f ~/Miniconda-1.6.0-Linux-x86_64.sh```
+            ```wget http://repo.continuum.io/miniconda/Miniconda-1.6.0-Linux-x86_64.sh; chmod a+x Miniconda-1.6.0-Linux-x86_64.sh; ./Miniconda-1.6.0-Linux-x86_64.sh -b -p conda; rm -f Miniconda-1.6.0-Linux-x86_64.sh```
     * MongoDB, which can be found [here](https://www.mongodb.org/downloads)
 
 - Set-up:
