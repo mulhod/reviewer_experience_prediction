@@ -113,12 +113,17 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     logdebug('Minimum amount of hours played = {}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the range
-    # that each bin maps to
+    # that each bin maps to and add values for the number of bins, the bin
+    # ranges, and the bin factor to the review dictionaries
     if bins:
         bin_ranges = get_bin_ranges(minh,
                                     maxh,
                                     bins,
                                     bin_factor)
+        bin_dict = dict(nbins=bins,
+                        bin_factor=bin_factor,
+                        bin_ranges=bin_ranges)
+        [review.update(bin_dict) for review in reviews]
     else:
         bin_ranges = False
 
@@ -241,7 +246,7 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
             else:
                 logerr('The hours played value ({}) did not seem to fall '
                        'within any of the bin ranges.\n\nBin ranges\n{}\n'
-                       'Exiting.'.format(rd['total_game_hours_bin'],
+                       'Exiting.'.format(rd['total_game_hours'],
                                          repr(bins)))
                 exit(1)
 
