@@ -8,7 +8,8 @@ from os.path import (realpath,
                      dirname,
                      abspath,
                      join,
-                     exists)
+                     exists,
+                     splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -247,8 +248,9 @@ if __name__ == '__main__':
     # Iterate over the game files, looking for test set reviews
     # Get list of games
     if game_files == "all":
-        game_files = [f for f in listdir(data_dir) if f.endswith('.txt')]
-        del game_files[game_files.index('sample.txt')]
+        game_files = [f for f in listdir(data_dir)
+                      if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
     else:
         game_files = game_files.split(',')
 
@@ -285,7 +287,7 @@ if __name__ == '__main__':
         features_dicts = []
         features_dicts_append = features_dicts.append
 
-        game = game_file[:-4]
+        game = splitext(game_file)[0]
         appid = APPID_DICT[game]
 
         # Get test reviews
@@ -306,10 +308,7 @@ if __name__ == '__main__':
         for game_doc in game_docs:
 
             _get = game_doc.get
-            if bins:
-                hours = _get('hours_bin')
-            else:
-                hours = _get('hours')
+            hours = _get('total_game_hours_bin' if bins else 'total_game_hours')
             review_text = _get('review')
             _id = _get('_id')
             _binarized = _get('binarized')
@@ -452,10 +451,10 @@ if __name__ == '__main__':
                 results_file_write('Confusion Matrix\n')
                 results_file_write('(predicted along top, actual along side)'
                                    '\n\n')
-                results_file_write(
-                    '{}\n'.format(
-                        make_confusion_matrix(hours_values,
-                                              predicted_labels)['string']))
+                results_file_write('{}\n'
+                                   .format(make_confusion_matrix(
+                                               hours_values,
+                                               predicted_labels)['string']))
 
     # Do evaluation on all predicted/expected values across all games or exit
     if not eval_combined_games:

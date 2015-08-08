@@ -101,8 +101,8 @@ class Review(object):
                                            parse=True)
         self.spaCy_sents = []
         for _range in self.spaCy_annotations.sents:
-            self.spaCy_sents.append([self.spaCy_annotations[i] for i in
-                                     range(*_range)])
+            self.spaCy_sents.append([self.spaCy_annotations[i]
+                                     for i in range(*_range)])
         #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
         self.get_token_features_from_spaCy()
         #self.get_entities_from_spaCy()
@@ -114,7 +114,7 @@ class Review(object):
         norm attribute.
         '''
 
-        # Lower-case text if self.lower is Trues
+        # Lower-case text if self.lower is True
         if self.lower:
             r = self.orig.lower()
         else:
@@ -230,7 +230,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         # Count up all n-grams
         for sent in sents:
-            for i in range(_min, _max + 1):
+            for i in range(_min,
+                           _max + 1):
                 ngram_counter.update(list(ngrams(sent, i)))
 
         # Re-represent keys as string representations of specific features
@@ -259,7 +260,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         cngram_counter = Counter()
 
         # Count up all character n-grams
-        for i in range(_min, _max + 1):
+        for i in range(_min,
+                       _max + 1):
             cngram_counter.update(list(ngrams(text, i)))
 
         # Re-represent keys as string representations of specific features
@@ -295,8 +297,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 # them
                 if t.n_lefts + t.n_rights:
                     fstr = "{0.orth_}:{1.orth_}"
-                    [dep_counter.update({fstr.format(t, c): 1}) for c in
-                     t.children if not c.tag_ in punctuation]
+                    [dep_counter.update({fstr.format(t, c): 1})
+                     for c in t.children if not c.tag_ in punctuation]
 
         return dep_counter
 
@@ -379,10 +381,10 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
     cfg = ConfigParser()
     for section_name, section_dict in cfg_dict.items():
         cfg.add_section(section_name)
-        for key, val in section_dict.items():
-            cfg.set(section_name,
-                    key,
-                    val)
+        [cfg.set(section_name,
+                 key,
+                 val)
+         for key, val in section_dict.items()]
 
     # Write the file to the provided destination path
     with open(join(project_dir_path,
@@ -425,24 +427,27 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
     for i, row_val in enumerate(_range):
         row = []
         for j, col_val in enumerate(_range):
-            row.append(sum([1 for (x,
-                                   y) in zip(x_true,
-                                             y_pred) if x == row_val
-                                                        and y == col_val]))
+            row.append(sum([1 for (x, y)
+                            in zip(x_true,
+                                   y_pred) if x == row_val
+                                              and y == col_val]))
         rows.append(row)
 
     conf_matrix = array(rows,
                         dtype=int32)
 
     # Make string representations of the rows in the confusion matrix
-    conf_matrix_rows = ['\t{}'.format('\t'.join(['_{}_'.format(val) for val in
-                                                 _range]))]
+    conf_matrix_rows = ['\t{}'
+                        .format('\t'
+                                .join(['_{}_'.format(val)
+                                       for val in _range]))]
     cdef int k
     for k, row_val in enumerate(_range):
-        conf_matrix_rows.append('_{}_\t{}'.format(row_val,
-                                                  '\t'.join(
-                                                      [str(val) for val in
-                                                       conf_matrix[k]])))
+        conf_matrix_rows.append('_{}_\t{}'
+                                .format(row_val,
+                                        '\t'
+                                        .join([str(val) for val
+                                               in conf_matrix[k]])))
 
     return dict(data=conf_matrix,
                 string='\n'.join(conf_matrix_rows))

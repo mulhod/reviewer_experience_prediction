@@ -8,7 +8,8 @@ from os.path import (join,
                      dirname,
                      realpath,
                      abspath,
-                     exists)
+                     exists,
+                     splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -239,8 +240,9 @@ if __name__ == '__main__':
     # Get list of games
     if game_files == "all":
         game_files = [f for f in listdir(join(project_dir,
-                                              'data')) if f.endswith('.txt')]
-        del game_files[game_files.index('sample.txt')]
+                                              'data'))
+                      if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
     else:
         game_files = game_files.split(',')
 
@@ -328,7 +330,7 @@ if __name__ == '__main__':
             # Get the training reviews for this game from the MongoDB database
             for game_file in game_files:
 
-                game = game_file[:-4]
+                game = splitext(game_file)[0]
                 loginfo('Extracting features from the training data for {}...'
                         .format(game))
 
@@ -348,10 +350,9 @@ if __name__ == '__main__':
                 for game_doc in iter(game_docs):
 
                     _get = game_doc.get
-                    if bins:
-                        hours = _get('hours_bin')
-                    else:
-                        hours = _get('hours')
+                    hours = _get('total_game_hours_bin'
+                                 if bins
+                                 else 'total_game_hours')
                     review_text = _get('review')
                     _id = _get('_id')
                     _binarized = _get('binarized')
@@ -397,7 +398,7 @@ if __name__ == '__main__':
                               {'$set': {'features': json_encode(features),
                                         'binarized': binarize}})
                                 break
-                            except AutoReconnect as e:
+                            except AutoReconnect:
                                 logwarn('Encountered ConnectionFailure error,'
                                         ' attempting to reconnect '
                                         'automatically...')
@@ -446,7 +447,7 @@ if __name__ == '__main__':
         # Build model, extract features, etc. for each game separately
         for game_file in game_files:
 
-            game = game_file[:-4]
+            game = splitext(game_file)[0]
             model_prefix = game
             if do_not_lowercase_text:
                 model_prefix = '{}.nolc'.format(model_prefix)
@@ -507,10 +508,9 @@ if __name__ == '__main__':
                 # Iterate over all training documents for the given game
                 for game_doc in iter(game_docs):
                     _get = game_doc.get
-                    if bins:
-                        hours = _get('hours_bin')
-                    else:
-                        hours = _get('hours')
+                    hours = _get('total_game_hours_bin'
+                                 if bins
+                                 else 'total_game_hours')
                     review_text = _get('review')
                     _id = _get('_id')
                     _binarized = _get('binarized')
@@ -558,7 +558,7 @@ if __name__ == '__main__':
                                                   json_encode(features),
                                               'binarized': binarize}})
                                 break
-                            except AutoReconnect as e:
+                            except AutoReconnect:
                                 logwarn('Encountered ConnectionFailure error,'
                                         ' attempting to reconnect '
                                         'automatically...\n')
