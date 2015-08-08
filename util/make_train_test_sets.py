@@ -193,7 +193,8 @@ if __name__ == '__main__':
             .format(percent_train,
                     100.0 - percent_train))
     if bins:
-        loginfo('Converting hours played values to {} bins.'.format(bins))
+        loginfo('Converting hours played values to {} bins with a bin factor '
+                'of {}.'.format(bins, bin_factor))
 
     # For each game in our list of games, we will read in the reviews from
     # the data file and then put entries in our MongoDB collection with a
