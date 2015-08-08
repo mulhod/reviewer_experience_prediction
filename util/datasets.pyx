@@ -1098,10 +1098,31 @@ def get_bin(bin_ranges, float val):
     :returns: int (-1 if val not in any of the bin ranges)
     '''
 
+    from numpy.testing import assert_almost_equal
+
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
-        if (val >= bin_range[0]
-            and val <= bin_range[1]):
+
+        # Test if val is almost equal to the beginning or end of the range
+        try:
+            assert_almost_equal(val,
+                                bin_range[0],
+                                decimal=1)
+            almost_equal_begin = True
+        except AssertionError:
+            almost_equal_begin = False
+        try:
+            assert_almost_equal(val,
+                                bin_range[1],
+                                decimal=1)
+            almost_equal_end = True
+        except AssertionError:
+            almost_equal_end = False
+
+        if ((val > bin_range[0]
+             or almost_equal_begin)
+            and (val < bin_range[1]
+                 or almost_equal_end)):
             return i + 1
     return -1
 
