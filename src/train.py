@@ -472,12 +472,12 @@ if __name__ == '__main__':
                          'num_achievements_percentage':
                              (achievement_dict
                               .get('num_achievements_percentage')),
-                         'rating': _get('rating')})
+                         'rating': (1 if _get('rating') == "Recommended"
+                                      else 0)})
 
                     # If any features have a value of None, then turn the
                     # values into zeroes
-                    [features.update({k: 0}) for k, v in features.items()
-                     if v == None]
+                    [features.pop(k) for k in features if not features[k]]
 
                     # Write JSON object to file
                     jsonlines_write('{}\n'.format(dumps({'id': str(_id),
