@@ -326,7 +326,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
-                         project_dir_path, cfg_filename):
+                         project_dir_path, cfg_file_path):
     '''
     This Creates a configparser config file from a dict and writes it to a
     file that can be read in by SKLL.  The dict should map keys for the SKLL
@@ -344,7 +344,7 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
     :type obj_func: str
     :param project_dir_path: path to main project directory
     :type project_dir_path: str
-    :param cfg_filename: configuration file-name
+    :param cfg_file_path: path to configuration file
     :type cfg_filename: str
     :returns: None
     '''
@@ -387,9 +387,7 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
          for key, val in section_dict.items()]
 
     # Write the file to the provided destination path
-    with open(join(project_dir_path,
-                   'config',
-                   cfg_filename),
+    with open(cfg_file_path,
               'w') as config_file:
         cfg.write(config_file)
 
