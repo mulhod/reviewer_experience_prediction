@@ -480,7 +480,7 @@ if __name__ == '__main__':
                     [features.pop(k) for k in features if not features[k]]
 
                     # Write JSON object to file
-                    jsonlines_write('{}\n'.format(dumps({'id': str(_id),
+                    jsonlines_write('{}\n'.format(dumps({'id': hash(str(_id)),
                                                          'y': hours,
                                                          'x': features})))
 
