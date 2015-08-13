@@ -14,19 +14,30 @@ echo "Creating conda environment...\n"
 conda config --add channels pypi
 # Create environment first and force python3.4 (for some reason, just adding
 # python=3.4 to the list of packages in conda_requirements.txt does not work
-# as it is not recognized as a valid package name (wtf...).
+# as it is not recognized as a valid package name.
 conda create --yes -n reviews python=3.4
 # And now install all of the packages we need
 source activate reviews
-conda install --yes --file conda_requirements.txt || \
-    (echo "Wouldn't fucking work. Exiting.\n"; exit 1)
+conda install --yes --file conda_requirements.txt
+if [[ $? -gt 0 ]]; then
+    
+    echo "Wouldn't work. Exiting.\n"
+    exit 1
+    
+fi
 echo "Created \"reviews\" environment successfully! To use environment, run" \
      "\"source activate reviews\". To get out of the environment, run" \
      "\"source deactivate\".\n"
 
 echo "Installing some extra packages with pip (since conda does not seem to" \
      "want to install them)...\n"
-pip install skll langdetect argparse
+pip install langdetect argparse
+if [[ $? -gt 0 ]]; then
+    
+    echo "pip installation of langdetect and argparse failed. Exiting.\n"
+    exit 1
+    
+fi
 
 # Download model data for spaCy
 echo "Downloading model data for spaCy package...\n"
