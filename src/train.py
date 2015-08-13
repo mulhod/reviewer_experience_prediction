@@ -436,7 +436,7 @@ if __name__ == '__main__':
                          'num_achievements_percentage':
                              (achievement_dict
                               .get('num_achievements_percentage')),
-                         'rating': _get('rating'))
+                         'rating': _get('rating')})
 
                     # If any features have a value of None, then turn the
                     # values into zeroes
@@ -631,7 +631,7 @@ if __name__ == '__main__':
                          'num_achievements_percentage':
                              (achievement_dict
                               .get('num_achievements_percentage')),
-                         'rating': _get('rating'))
+                         'rating': _get('rating')})
 
                     # If any features have a value of None, then turn the
                     # values into zeroes
