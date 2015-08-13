@@ -357,8 +357,8 @@ if __name__ == '__main__':
                     _id = _get('_id')
                     _binarized = _get('binarized')
 
-                    # Extract features by querying the database (if they are
-                    # available and the --try_to_reuse_extracted_features
+                    # Extract NLP features by querying the database (if they
+                    # are available and the --try_to_reuse_extracted_features
                     # flag was used); otherwise, extract features from the
                     # review text directly (and try to update the database)
                     found_features = False
@@ -378,17 +378,17 @@ if __name__ == '__main__':
                                               lower=lowercase_text),
                                        lowercase_cngrams=lowercase_cngrams)
 
-                    # If binarize is True, make all values 1
+                    # If binarize is True, make all NLP feature values 1
                     if (binarize
                         and not (found_features
                                  and _binarized)):
                         features = dict(Counter(list(features)))
 
                     # Update Mongo database game doc with new key "features",
-                    # which will be mapped to game_features, and a new key
-                    # "binarized", which will be set to True if features were
-                    # extracted with the --do_not_binarize_features flag or
-                    # False otherwise
+                    # which will be mapped to NLP features, and a new key
+                    # "binarized", which will be set to True if NLP features
+                    # were extracted with the --do_not_binarize_features flag
+                    # or False otherwise
                     if not found_features:
                         tries = 0
                         while tries < 5:
@@ -409,6 +409,41 @@ if __name__ == '__main__':
                                     exit(1)
                                 sleep(20)
 
+                    # Get features collected from Steam (non-NLP features) and
+                    # add them to the features dictionary
+                    achievement_dict = _get('achievement_progress')
+                    features.update(
+                        {'total_game_hours_last_two_weeks':
+                             _get('total_game_hours_last_two_weeks'),
+                         'num_found_funny': _get('num_found_funny'),
+                         'num_found_helpful': _get('num_found_helpful'),
+                         'found_helpful_percentage':
+                             _get('found_helpful_percentage'),
+                         'num_friends': _get('num_friends'),
+                         'friend_player_level': _get('friend_player_level'),
+                         'num_groups': _get('num_groups'),
+                         'num_screenshots': _get('num_screenshots'),
+                         'num_workshop_items': _get('num_workshop_items'),
+                         'num_comments': _get('num_comments'),
+                         'num_games_owned': _get('num_games_owned'),
+                         'num_reviews': _get('num_reviews'),
+                         'num_guides': _get('num_guides'),
+                         'num_badges': _get('num_badges'),
+                         'updated': 1 if _get('date_updated') else 0,
+                         'num_achievements_attained':
+                             (achievement_dict
+                              .get('num_achievements_attained')),
+                         'num_achievements_percentage':
+                             (achievement_dict
+                              .get('num_achievements_percentage')),
+                         'rating': _get('rating'))
+
+                    # If any features have a value of None, then turn the
+                    # values into zeroes
+                    [features.update({k: 0}) for k, v in features.items()
+                     if v == None]
+
+                    # Write JSON object to file
                     jsonlines_write('{}\n'.format(dumps({'id': str(_id),
                                                          'y': hours,
                                                          'x': features})))
@@ -515,8 +550,8 @@ if __name__ == '__main__':
                     _id = _get('_id')
                     _binarized = _get('binarized')
 
-                    # Extract features by querying the database (if they are
-                    # available and the --try_to_reuse_extracted_features
+                    # Extract NLP features by querying the database (if they
+                    # are available and the --try_to_reuse_extracted_features
                     # flag was used); otherwise, extract features from the
                     # review text directly (and try to update the database)
                     found_features = False
@@ -537,17 +572,17 @@ if __name__ == '__main__':
                                               lower=lowercase_text),
                                        lowercase_cngrams=lowercase_cngrams)
 
-                    # If binarize is True, make all values 1
+                    # If binarize is True, make all NLP feature values 1
                     if (binarize
                         and not (found_features
                                  and _binarized)):
                         features = dict(Counter(list(features)))
 
                     # Update Mongo database game doc with new key "features",
-                    # which will be mapped to game_features, and a new key
-                    # "binarized", which will be set to True if features were
-                    # extracted with the --do_not_binarize_features flag or
-                    # False otherwise
+                    # which will be mapped to NLP features, and a new key
+                    # "binarized", which will be set to True if NLP features
+                    # were extracted with the --do_not_binarize_features flag
+                    # or False otherwise
                     if not found_features:
                         tries = 0
                         while tries < 5:
@@ -568,6 +603,40 @@ if __name__ == '__main__':
                                            'after 5 tries. Exiting.')
                                     exit(1)
                                 sleep(20)
+
+                    # Get features collected from Steam (non-NLP features) and
+                    # add them to the features dictionary
+                    achievement_dict = _get('achievement_progress')
+                    features.update(
+                        {'total_game_hours_last_two_weeks':
+                             _get('total_game_hours_last_two_weeks'),
+                         'num_found_funny': _get('num_found_funny'),
+                         'num_found_helpful': _get('num_found_helpful'),
+                         'found_helpful_percentage':
+                             _get('found_helpful_percentage'),
+                         'num_friends': _get('num_friends'),
+                         'friend_player_level': _get('friend_player_level'),
+                         'num_groups': _get('num_groups'),
+                         'num_screenshots': _get('num_screenshots'),
+                         'num_workshop_items': _get('num_workshop_items'),
+                         'num_comments': _get('num_comments'),
+                         'num_games_owned': _get('num_games_owned'),
+                         'num_reviews': _get('num_reviews'),
+                         'num_guides': _get('num_guides'),
+                         'num_badges': _get('num_badges'),
+                         'updated': 1 if _get('date_updated') else 0,
+                         'num_achievements_attained':
+                             (achievement_dict
+                              .get('num_achievements_attained')),
+                         'num_achievements_percentage':
+                             (achievement_dict
+                              .get('num_achievements_percentage')),
+                         'rating': _get('rating'))
+
+                    # If any features have a value of None, then turn the
+                    # values into zeroes
+                    [features.update({k: 0}) for k, v in features.items()
+                     if v == None]
 
                     # Write features to line of JSONLINES output file
                     jsonlines_write('{}\n'.format(dumps({'id': str(_id),
