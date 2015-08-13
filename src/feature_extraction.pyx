@@ -102,7 +102,7 @@ class Review(object):
         self.spaCy_sents = []
         for _range in self.spaCy_annotations.sents:
             self.spaCy_sents.append([self.spaCy_annotations[i]
-                                     for i in range(_range)])
+                                     for i in range(*_range)])
         #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
         self.get_token_features_from_spaCy()
         #self.get_entities_from_spaCy()
