@@ -7,13 +7,41 @@ Script used to train models on datasets (or multiple datasets combined).
 from os.path import (join,
                      dirname,
                      realpath,
-                     abspath,
                      exists,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
+
+
+def make_train_dirs():
+    '''
+    Make sure that training-related directories exist.
+
+    :returns: None
+    '''
+
+    from os import makedirs
+    makedirs(cfg_dir_path,
+             exist_ok=True)
+    makedirs(working_dir_path,
+             exist_ok=True)
+    makedirs(join(project_dir,
+                  'models'),
+             exist_ok=True)
+    makedirs(join(project_dir,
+                  'logs'),
+             exist_ok=True)
+    makedirs(join(project_dir,
+                  'predictions'),
+             exist_ok=True)
+    makedirs(join(project_dir,
+                  'results'),
+             exist_ok=True)
+    makedirs(join(project_dir,
+                  'outputs'),
+             exist_ok=True)
 
 
 if __name__ == '__main__':
@@ -88,8 +116,10 @@ if __name__ == '__main__':
         action='store_true',
         default=True)
     parser_add_argument('--run_configuration', '-run_cfg',
-        help='assumes that .jsonlines files have already been created and '
-             'attempts to run the configuration',
+        help='assumes feature/config files have already been generated and '
+             'attempts to run the configuration; not needed to run training '
+             'task under normal circumstances, so use only if you know what '
+             'you are doing',
          action='store_true',
          default=False)
     parser_add_argument('--do_not_binarize_features',
@@ -139,7 +169,7 @@ if __name__ == '__main__':
     logger.setLevel(logging_debug)
 
     # Create file handler
-    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh = logging.FileHandler(realpath(args.log_file_path))
     fh.setLevel(logging_debug)
 
     # Create console handler
@@ -159,7 +189,14 @@ if __name__ == '__main__':
     logerr = logger.error
     logwarn = logger.warning
 
-    # Get paths to the project, data, working, and models directories
+    # Get paths to directories related to the training/evaluation tasks and
+    # make them global variables
+    global cfg_dir_path, working_dir_path
+    cfg_dir_path = join(project_dir,
+                        'config')
+    working_dir_path = join(project_dir,
+                            'working')
+    make_train_dirs()
 
     # Print out some logging information about the upcoming tasks
     logdebug('project directory: {}'.format(project_dir))
@@ -249,28 +286,28 @@ if __name__ == '__main__':
     # Get short names for the learner and objective function to use in the
     # experiment name(s)
     learner_abbrs = {'AdaBoost': 'AdaBoost',
-                     'DecisionTree': 'DecisionTree',
-                     'ElasticNet': 'ElasticNet',
+                     'DecisionTree': 'DTree',
+                     'ElasticNet': 'ENet',
                      'GradientBoostingRegressor': 'GBReg',
                      'KNeighborsRegressor': 'KNReg',
                      'Lasso': 'Lasso',
-                     'LinearRegression': 'LinearReg',
+                     'LinearRegression': 'LReg',
                      'RandomForestRegressor': 'RFReg',
                      'Ridge': 'Ridge',
                      'SGDRegressor': 'SGDReg',
                      'SVR': 'SVR',
-                     'RescaledAdaBoost': 'RescaledAdaBoost',
-                     'DecisionTree': 'RescaledDecisionTree',
-                     'ElasticNet': 'RescaledElasticNet',
-                     'GradientBoostingRegressor': 'RescaledGBReg',
-                     'KNeighborsRegressor': 'RescaledKNReg',
-                     'Lasso': 'RescaledLasso',
-                     'LinearRegression': 'RescaledLinearReg',
-                     'RandomForestRegressor': 'RescaledRFReg',
-                     'Ridge': 'RescaledRidge',
-                     'SGDRegressor': 'RescaledSGDReg',
-                     'SVR': 'RescaledSVR'}
-    obj_func_abbrs = {'unweighted_kappa': 'kappa',
+                     'RescaledAdaBoost': 'RAdaBoost',
+                     'DecisionTree': 'RDTree',
+                     'ElasticNet': 'RENet',
+                     'GradientBoostingRegressor': 'RGBReg',
+                     'KNeighborsRegressor': 'RKNReg',
+                     'Lasso': 'RLasso',
+                     'LinearRegression': 'RLReg',
+                     'RandomForestRegressor': 'RRFReg',
+                     'Ridge': 'RRidge',
+                     'SGDRegressor': 'RSGDReg',
+                     'RescaledSVR': 'RSVR'}
+    obj_func_abbrs = {'unweighted_kappa': 'uwk',
                       'linear_weighted_kappa': 'lwk',
                       'quadratic_weighted_kappa': 'qwk',
                       'uwk_off_by_one': 'kappa_offby1',
@@ -288,27 +325,26 @@ if __name__ == '__main__':
         if do_not_lowercase_text:
             combined_model_prefix = '{}.nolc'.format(combined_model_prefix)
         if lowercase_cngrams:
-            combined_model_prefix = '{}.lccngrams'.format(
-                                        combined_model_prefix)
+            combined_model_prefix = ('{}.lccngrams'
+                                     .format(combined_model_prefix))
         if use_original_hours_values:
             combined_model_prefix = '{}.orghrs'.format(combined_model_prefix)
         if do_not_binarize_features:
             combined_model_prefix = '{}.nobin'.format(combined_model_prefix)
-        jsonlines_filename = '{}.jsonlines'.format(combined_model_prefix)
-        jsonlines_filepath = join(project_dir,
-                                  'working',
-                                  jsonlines_filename)
+        jsonlines_file_name = '{}.jsonlines'.format(combined_model_prefix)
+        jsonlines_file_path = join(working_dir_path,
+                                   jsonlines_file_name)
 
         # Get experiment name
         expid = '{}.{}.{}'.format(combined_model_prefix,
                                   learner_short,
                                   objective_function_short)
 
-        # Get config file path
-        cfg_filename = '{}.train.cfg'.format(expid)
-        cfg_filepath = join(project_dir,
-                            'config',
-                            cfg_filename)
+        # Get config file path and make path to 'config' directory if it
+        # doesn't exist
+        cfg_file_name = '{}.train.cfg'.format(expid)
+        cfg_file_path = join(cfg_dir_path,
+                             cfg_file_name)
 
         if not _run_configuration:
 
@@ -322,8 +358,8 @@ if __name__ == '__main__':
             feature_dicts = []
 
             loginfo('Writing {} to working directory...'
-                    .format(jsonlines_filename))
-            jsonlines_file = open(jsonlines_filepath,
+                    .format(jsonlines_file_name))
+            jsonlines_file = open(jsonlines_file_path,
                                   'w')
             jsonlines_write = jsonlines_file.write
 
@@ -459,23 +495,24 @@ if __name__ == '__main__':
                                  learner,
                                  objective_function,
                                  project_dir,
-                                 cfg_filename)
+                                 cfg_file_path)
 
         if just_extract_features:
             loginfo('Complete.')
             exit(0)
 
         # Make sure the jsonlines and config files exist
-        if not any([exists(fpath) for fpath in [jsonlines_filepath,
-                                                cfg_filepath]]):
+        if not all([exists(fpath) for fpath in [jsonlines_file_path,
+                                                cfg_file_path]]):
             logerr('Could not find either the .jsonlines file or the config '
-                   'file or both ({}, {})'.format(jsonlines_filepath,
-                                                  cfg_filepath))
+                   'file or both ({}, {})'.format(jsonlines_file_path,
+                                                  cfg_file_path))
+            exit(1)
 
         # Run the SKLL configuration, producing a model file
         loginfo('Training combined model {}...'
                 .format('locally' if local else 'on cluster'))
-        run_configuration(cfg_filepath,
+        run_configuration(cfg_file_path,
                           local=local)
 
     else:
@@ -492,10 +529,9 @@ if __name__ == '__main__':
                 model_prefix = '{}.orghrs'.format(model_prefix)
             if do_not_binarize_features:
                 model_prefix = '{}.nobin'.format(model_prefix)
-            jsonlines_filename = '{}.jsonlines'.format(model_prefix)
-            jsonlines_filepath = join(project_dir,
-                                      'working',
-                                      jsonlines_filename)
+            jsonlines_file_name = '{}.jsonlines'.format(model_prefix)
+            jsonlines_file_path = join(working_dir_path,
+                                       jsonlines_file_name)
 
             # Get experiment name
             expid = '{}.{}.{}'.format(model_prefix,
@@ -503,10 +539,9 @@ if __name__ == '__main__':
                                       objective_function_short)
 
             # Get config file path
-            cfg_filename = '{}.train.cfg'.format(expid)
-            cfg_filepath = join(project_dir,
-                                'config',
-                                cfg_filename)
+            cfg_file_name = '{}.train.cfg'.format(expid)
+            cfg_file_path = join(cfg_dir_path,
+                                 cfg_file_name)
 
             if not _run_configuration:
 
@@ -535,8 +570,8 @@ if __name__ == '__main__':
                     exit(1)
 
                 loginfo('Writing {} to working directory...'
-                        .format(jsonlines_filename))
-                jsonlines_file = open(jsonlines_filepath,
+                        .format(jsonlines_file_name))
+                jsonlines_file = open(jsonlines_file_path,
                                       'w')
                 jsonlines_write = jsonlines_file.write
 
@@ -654,25 +689,26 @@ if __name__ == '__main__':
                                      learner,
                                      objective_function,
                                      project_dir,
-                                     cfg_filename)
+                                     cfg_file_path)
 
             if just_extract_features:
                 loginfo('Complete.')
                 exit(0)
 
             # Make sure the jsonlines and config files exist
-            if not any([exists(fpath) for fpath in [jsonlines_filepath,
-                                                    cfg_filepath]]):
-                logerr('Could not find either the .jsonlines fiel or the '
+            if not all([exists(fpath) for fpath in [jsonlines_file_path,
+                                                    cfg_file_path]]):
+                logerr('Could not find either the .jsonlines file or the '
                        'config file or both ({}, {})'
-                       .format(jsonlines_filepath,
-                               cfg_filepath))
+                       .format(jsonlines_file_path,
+                               cfg_file_path))
+                exit(1)
 
             # Run the SKLL configuration, producing a model file
             loginfo('Training model for {} {}...'
                     .format(game,
                             'locally' if local else 'on cluster'))
-            run_configuration(cfg_filepath,
+            run_configuration(cfg_file_path,
                               local=local)
 
     loginfo('Complete.')
