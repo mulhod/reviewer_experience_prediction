@@ -39,7 +39,7 @@ class Review(object):
     spaCy_sents = None
     # Attributes representing the cluster IDs, "repvecs" (representation
     # vectors), and "probs" (log probabilities) corresponding to tokens
-    cluster_ids = []
+    cluster_id_counter = Counter()
     repvecs = []
     probs = []
 
@@ -153,7 +153,7 @@ class Review(object):
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
             # Get clusters
-            self.cluster_ids.append([t.cluster for t in sent])
+            self.cluster_id_counter.update([t.cluster for t in sent])
             # Get "probs"
             self.probs.append([t.prob_ for t in sent])
             # Get repvecs
@@ -162,13 +162,14 @@ class Review(object):
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram features, length, and syntactic dependency
-    features from a Review object and return as dictionary where each feature
-    is represented as a key:value mapping in which the key is a string
-    representation of the feature (e.g. "the dog" for an example n-gram
-    feature, "th" for an example character n-gram feature, or
-    "step:VMOD:forward" for an example syntactic dependency feature) and the
-    value is the frequency with which that feature occurred in the review.
+    Extract word/character n-gram, length, cluster ID, and syntactic
+    dependency features from a Review object and return as dictionary where
+    each feature is represented as a key:value mapping in which the key is a
+    string representation of the feature (e.g. "the dog" for an example n-gram
+    feature, "th" for an example character n-gram feature, "c667" for an
+    example cluster feature, or "step:VMOD:forward" for an example syntactic
+    dependency feature) and the value is the frequency with which that feature
+    occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -241,6 +242,24 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return cngram_counter
 
 
+    def generate_cluster_fdist(cluster_counter):
+        '''
+        Generate frequency distribution of the cluster IDs corresponding to
+        the tokens in a text.
+
+        :param text: frequency distribution of cluster IDs (int)
+        :type text: Counter
+        :returns: Counter
+        '''
+
+        for cluster_id, freq in cluster_counter.items():
+            del cluster_counter[cluster_id]
+            cluster_counter['c{}'
+                            .format(cluster_id)] = freq
+
+        return cluster_counter
+
+
     def generate_dep_features(spaCy_sents):
         '''
         Generate syntactic dependency features from spaCy text annotations and
@@ -289,6 +308,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     # Extract character n-gram features
     orig = _review.orig.lower() if lowercase_cngrams else _review.orig
     features.update(generate_cngram_fdist(orig))
+
+    # Convert cluster ID values into useable features
+    features.update(generate_cluster_fdist(_review.cluster_id_counter))
 
     # Generate the syntactic dependency features
     features.update(generate_dep_features(_review.spaCy_sents))
