@@ -23,46 +23,25 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    # Original review text
-    #orig = None
     # Normalized review text
     norm = None
-    # Number of hours the reviewer has played the game (float)
-    #cdef float hours_played
     # appid of the game (string ID code that Steam uses to represent the
     # game
     appid = None
     # Attribute whose value determines whether or not the review text will
     # be lower-cased as part of the normalization step
     lower = None
-    # Length of the original text (base-2 log)
-    #cdef float length
-    # Attributes representing the word- and sentence-tokenized
-    # representations of self.norm, consisting of a list of elements
-    # corresponding to the identified sentences, which in turn consist of
-    # a list of elements corresponding to the identified tokens, tags,
-    # lemmas, respectively
+    # Attribute consisting of the identified sentences, which, in turn
+    # consist of the identified tokens
     tokens = []
-    #tags = []
-    #lemmas = []
     # Attributes representing the spaCy text annotations
     spaCy_annotations = None
     spaCy_sents = None
-    #spaCy_ents = None
-    # Atrribute representing the named entities in the review
-    #entities = []
-    # Attribute representing the syntactic heads of each token
-    #heads = []
-    # Attribute representing the syntactic child(ren) of each token (if
-    # any), which will be represented as a Counter mapping a token and its
-    # children to frequencies
-    #children = Counter()
-    # Attributes representing the cluster IDs and repvecs (representation
-    # vectors) corresponding to tokens
-    # Maybe it would be a good idea to make a frequency distribution of
-    # the cluster IDs...
-    #cluster_ids = []
-    #repvecs = []
+    # Attributes representing the cluster IDs, "repvecs" (representation
+    # vectors), and "probs" (log probabilities) corresponding to tokens
+    cluster_ids = []
+    repvecs = []
+    probs = []
 
 
     def __init__(self, review_text, float hours_played, game, appid,
@@ -103,9 +82,7 @@ class Review(object):
         for _range in self.spaCy_annotations.sents:
             self.spaCy_sents.append([self.spaCy_annotations[i]
                                      for i in range(*_range)])
-        #self.spaCy_ents = [list(ent) for ent in self.spaCy_annotations.ents]
         self.get_token_features_from_spaCy()
-        #self.get_entities_from_spaCy()
 
 
     def normalize(self):
@@ -175,23 +152,13 @@ class Review(object):
         for sent in self.spaCy_sents:
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
-            # Get tags
-            #self.tags.append([t.tag_ for t in sent])
-            # Get lemmas
-            #self.lemmas.append([t.lemma_ for t in sent])
-            # Get syntactic heads
-            #self.heads.append([t.head.orth_ for t in sent])
+            # Get clusters
+            self.cluster_ids.append([t.cluster for t in sent])
+            # Get "probs"
+            self.probs.append([t.prob_ for t in sent])
+            # Get repvecs
+            self.repvecs.append([t.repvec for t in sent])
 
-    '''
-    def get_entities_from_spaCy(self):
-        """
-        Get named entities from spaCy's text annotations.
-        """
-
-        for entity in self.spaCy_ents:
-            self.entities.append(dict(entity=entity.orth_,
-                                      label=entity.label_))
-    '''
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
@@ -199,9 +166,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features from a Review object and return as dictionary where each feature
     is represented as a key:value mapping in which the key is a string
     representation of the feature (e.g. "the dog" for an example n-gram
-    feature, "th" for an example character n-gram feature, or "step:forward"
-    for an example syntactic dependency feature) and the value is the
-    frequency with which that feature occurred in the review.
+    feature, "th" for an example character n-gram feature, or
+    "step:VMOD:forward" for an example syntactic dependency feature) and the
+    value is the frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -276,7 +243,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     def generate_dep_features(spaCy_sents):
         '''
-        Generate syntactic dependency features from spaCy text annotations.
+        Generate syntactic dependency features from spaCy text annotations and
+        represent the features as token (lemma) + dependency type + child
+        token (lemma).
 
         :param spaCy_annotations: lists of spaCy Token instances
         :type spaCy_annotations: list of list of spaCy.tokens.Tokens instances
@@ -296,9 +265,11 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 # get the children and make dependency features with
                 # them
                 if t.n_lefts + t.n_rights:
-                    fstr = "{0.orth_}:{1.orth_}"
-                    [dep_counter.update({fstr.format(t, c): 1})
-                     for c in t.children if not c.tag_ in punctuation]
+                    fstr = "{0.lemma_}:{0.dep_}:{1.lemma_}"
+                    [dep_counter.update({fstr.format(t,
+                                                     c): 1})
+                     for c in t.children
+                     if not c.tag_ in punctuation]
 
         return dep_counter
 
