@@ -286,7 +286,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 j += 1
             i += 1
         return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
-                                        if not np.isnan(cos_sim)])
+                                         if not np.isnan(cos_sim)])
                                  /len(cos_sims))}
 
 
