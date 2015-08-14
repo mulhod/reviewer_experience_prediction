@@ -674,7 +674,7 @@ if __name__ == '__main__':
                      if v == None]
 
                     # Write features to line of JSONLINES output file
-                    jsonlines_write('{}\n'.format(dumps({'id': str(_id),
+                    jsonlines_write('{}\n'.format(dumps({'id': hash(str(_id)),
                                                          'y': hours,
                                                          'x': features})))
 
