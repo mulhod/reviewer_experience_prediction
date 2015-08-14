@@ -5,6 +5,7 @@
 Module of functions/classes related to feature extraction, model-building,
 ARFF file generation, etc.
 '''
+import numpy as np
 from math import ceil
 from json import dumps
 from os.path import join
@@ -13,9 +14,6 @@ from string import punctuation
 from re import (sub,
                 IGNORECASE)
 from collections import Counter
-from numpy import (array,
-                   int32,
-                   log2)
 from configparser import ConfigParser
 
 class Review(object):
@@ -70,7 +68,7 @@ class Review(object):
         self.lower = lower
 
         # Generate attribute values
-        self.length = ceil(log2(len(self.orig))) # Get base-2 log of the
+        self.length = ceil(np.log2(len(self.orig))) # Get base-2 log of the
             # length of the original version of the review text, not the
             # normalized version
         self.normalize()
@@ -162,14 +160,16 @@ class Review(object):
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram, length, cluster ID, and syntactic
-    dependency features from a Review object and return as dictionary where
-    each feature is represented as a key:value mapping in which the key is a
-    string representation of the feature (e.g. "the dog" for an example n-gram
+    Extract word/character n-gram, length, cluster ID, average cosine
+    similarity between word representation vectors, and syntactic dependency
+    features from a Review object and return as dictionary where each feature
+    is represented as a key:value mapping in which the key is a string
+    representation of the feature (e.g. "the dog" for an example n-gram
     feature, "th" for an example character n-gram feature, "c667" for an
-    example cluster feature, or "step:VMOD:forward" for an example syntactic
-    dependency feature) and the value is the frequency with which that feature
-    occurred in the review.
+    example cluster feature, "mean_cos_sim" mapped to a float in the range 0
+    to 1 for the average cosine similarity feature, and "step:VMOD:forward"
+    for an example syntactic dependency feature) and the value is the
+    frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -260,6 +260,36 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return cluster_counter
 
 
+    def calculate_mean_cos_sim(repvecs):
+        '''
+        Calcualte the mean cosine similarity between all pairwise cosine
+        similarity metrics between two words.
+
+        :param repvecs: list of 1-dimensinal representation vectors
+        :type repvecs: list of 1-dimensional np.ndarray with dtype==np.float64
+        '''
+
+        cos_sims = []
+        while i < len(repvecs):
+            j = 0
+            repvec = repvecs[i]
+            if i == 0:
+                rem_repvecs = repvecs[1:]
+            elif i != len(repvecs) - 1:
+                rem_repvecs = repvecs[:i] + repvecs[i + 1:]
+            else:
+                rem_repvecs = repvecs[:-1]
+            while j < len(rem_repvecs):
+                cos_sims.append(repvec.dot(rem_repvecs[j].T)
+                                /np.linalg.norm(repvec)
+                                /np.linalg.norm(rem_repvecs[j]))
+                j += 1
+            i += 1
+        return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
+                                        if not np.isnan(cos_sim)])
+                                 /len(cos_sims))}
+
+
     def generate_dep_features(spaCy_sents):
         '''
         Generate syntactic dependency features from spaCy text annotations and
@@ -311,6 +341,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     # Convert cluster ID values into useable features
     features.update(generate_cluster_fdist(_review.cluster_id_counter))
+
+    # Calculate the mean cosine similarity across all word-pairs
+    features.update(calculate_mean_cos_sim(_review.repvecs))
 
     # Generate the syntactic dependency features
     features.update(generate_dep_features(_review.spaCy_sents))
@@ -390,16 +423,16 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
     Return confusion matrix with n rows/columns where n is equal to the number
     of unique data-points (or points on a scale, if continuous).
 
-    :param x_true: numpy.array of "true" labels
-    :type x_true: 1-dimensional numpy.array with dtype=numpy.int32
-    :param y_pred: numpy.array of predicted labels
-    :type y_pred: 1-dimensional numpy.array with dtype=numpy.int32
+    :param x_true: np.array of "true" labels
+    :type x_true: 1-dimensional np.array with dtype=np.int32
+    :param y_pred: np.array of predicted labels
+    :type y_pred: 1-dimensional numpy.array with dtype=np.int32
     :param continuous: if data-points/labels form a continuous scale of
                        natural numbers
     :type continuous: boolean
     :returns: dictionary consisting of 1) a 'data' key mapped to the confusion
-              matrix itself (a 2-dimensional numpy.array with
-              dtype=numpy.int32) and 2) a 'string' key mapped to a string
+              matrix itself (a 2-dimensional np.array with
+              dtype=np.int32) and 2) a 'string' key mapped to a string
               representation of the confusion matrix
     '''
 
@@ -424,8 +457,8 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
                                               and y == col_val]))
         rows.append(row)
 
-    conf_matrix = array(rows,
-                        dtype=int32)
+    conf_matrix = np.array(rows,
+                           dtype=np.int32)
 
     # Make string representations of the rows in the confusion matrix
     conf_matrix_rows = ['\t{}'
