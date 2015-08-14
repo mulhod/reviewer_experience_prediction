@@ -238,6 +238,7 @@ if __name__ == '__main__':
         # Import some functions, etc., that will only be needed if this code
         # gets executed
         from time import sleep
+        from copy import deepcopy
         from data import APPID_DICT
         from spacy.en import English
         from collections import Counter
@@ -415,10 +416,15 @@ if __name__ == '__main__':
                                        lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all NLP feature values 1
+                    # (except for the mean cosine similarity feature
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        features = dict(Counter(list(features)))
+                        _features = deepcopy(features)
+                        del _features['mean_cos_sim']
+                        _features = dict(Counter(list(_features)))
+                        _features['mean_cos_sim'] = features['mean_cos_sim']
+                        features = _features
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
@@ -608,10 +614,15 @@ if __name__ == '__main__':
                                        lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all NLP feature values 1
+                    # (except for the mean cosine similarity feature
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        features = dict(Counter(list(features)))
+                        _features = deepcopy(features)
+                        del _features['mean_cos_sim']
+                        _features = dict(Counter(list(_features)))
+                        _features['mean_cos_sim'] = features['mean_cos_sim']
+                        features = _features
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
