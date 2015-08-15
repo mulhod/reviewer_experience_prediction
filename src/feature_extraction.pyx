@@ -247,8 +247,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         Generate frequency distribution of the cluster IDs corresponding to
         the tokens in a text.
 
-        :param text: frequency distribution of cluster IDs (int)
-        :type text: Counter
+        :param cluster_counter: frequency distribution of cluster IDs (int)
+        :type cluster_counter: Counter
         :returns: Counter
         '''
 
@@ -314,9 +314,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 # get the children and make dependency features with
                 # them
                 if t.n_lefts + t.n_rights:
-                    fstr = "{0.lemma_}:{0.dep_}:{1.lemma_}"
-                    [dep_counter.update({fstr.format(t,
-                                                     c): 1})
+                    [dep_counter.update({'{0.lemma_}:{0.dep_}:{1.lemma_}'
+                                         .format(t,
+                                                 c): 1})
                      for c in t.children
                      if not c.tag_ in punctuation]
 

@@ -420,11 +420,10 @@ if __name__ == '__main__':
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        _features = deepcopy(features)
-                        del _features['mean_cos_sim']
-                        _features = dict(Counter(list(_features)))
-                        _features['mean_cos_sim'] = features['mean_cos_sim']
-                        features = _features
+                        mean_cos_sim = features['mean_cos_sim']
+                        del features['mean_cos_sim']
+                        features = dict(Counter(list(features)))
+                        features['mean_cos_sim'] = mean_cos_sim
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
@@ -618,11 +617,10 @@ if __name__ == '__main__':
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        _features = deepcopy(features)
-                        del _features['mean_cos_sim']
-                        _features = dict(Counter(list(_features)))
-                        _features['mean_cos_sim'] = features['mean_cos_sim']
-                        features = _features
+                        mean_cos_sim = features['mean_cos_sim']
+                        del features['mean_cos_sim']
+                        features = dict(Counter(list(features)))
+                        features['mean_cos_sim'] = mean_cos_sim
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
