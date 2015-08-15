@@ -270,6 +270,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         '''
 
         cos_sims = []
+        i == 0
         while i < len(repvecs):
             j = 0
             repvec = repvecs[i]
