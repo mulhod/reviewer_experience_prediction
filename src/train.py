@@ -416,14 +416,19 @@ if __name__ == '__main__':
                                        lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all NLP feature values 1
-                    # (except for the mean cosine similarity feature
+                    # (except for the mean cosine similarity feature and the
+                    # feature counting the number of tokens with
+                    # representation vectors consisting entirely of zeroes)
                     if (binarize
                         and not (found_features
                                  and _binarized)):
                         mean_cos_sim = features['mean_cos_sim']
+                        zeroes_repvecs = features['zeroes_repvecs']
                         del features['mean_cos_sim']
+                        del features['zeroes_repvecs']
                         features = dict(Counter(list(features)))
                         features['mean_cos_sim'] = mean_cos_sim
+                        features['zeroes_repvecs'] = zeroes_repvecs
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
@@ -615,14 +620,19 @@ if __name__ == '__main__':
                                        lowercase_cngrams=lowercase_cngrams)
 
                     # If binarize is True, make all NLP feature values 1
-                    # (except for the mean cosine similarity feature
+                    # (except for the mean cosine similarity feature and the
+                    # feature counting the number of tokens with
+                    # representation vectors consisting entirely of zeroes)
                     if (binarize
                         and not (found_features
                                  and _binarized)):
                         mean_cos_sim = features['mean_cos_sim']
+                        zeroes_repvecs = features['zeroes_repvecs']
                         del features['mean_cos_sim']
+                        del features['zeroes_repvecs']
                         features = dict(Counter(list(features)))
                         features['mean_cos_sim'] = mean_cos_sim
+                        features['zeroes_repvecs'] = zeroes_repvecs
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
