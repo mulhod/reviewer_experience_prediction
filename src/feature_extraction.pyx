@@ -39,7 +39,7 @@ class Review(object):
     # vectors), and "probs" (log probabilities) corresponding to tokens
     cluster_id_counter = Counter()
     repvecs = []
-    probs = []
+    #probs = []
 
 
     def __init__(self, review_text, float hours_played, game, appid,
@@ -153,7 +153,7 @@ class Review(object):
             # Get clusters
             self.cluster_id_counter.update([t.cluster for t in sent])
             # Get "probs"
-            self.probs.append([t.prob_ for t in sent])
+            #self.probs.append([t.prob_ for t in sent])
             # Get repvecs
             self.repvecs.append([t.repvec for t in sent])
 
@@ -270,7 +270,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         '''
 
         cos_sims = []
-        i == 0
+        i = 0
         while i < len(repvecs):
             j = 0
             repvec = repvecs[i]
