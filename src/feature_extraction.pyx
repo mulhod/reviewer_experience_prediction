@@ -370,7 +370,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     # Generate feature consisting of a counter of all tokens whose
     # represenation vectors are made up entirely of zeroes
-    features.update({'zeroes_repvecs': _reivew.zeroes_repvecs})
+    features.update({'zeroes_repvecs': _review.zeroes_repvecs})
 
     # Calculate the mean cosine similarity across all word-pairs
     features.update(calculate_mean_cos_sim())
