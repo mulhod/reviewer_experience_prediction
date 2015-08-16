@@ -54,25 +54,25 @@ if __name__ == '__main__':
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
-        help='comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory)',
+        help='Comma-separated list of file-names or "all" for all of the '
+             'files (the game files should reside in the "data" directory).',
         type=str,
         required=True)
     parser_add_argument('--combine',
-        help='combine all game files together to make one big model',
+        help='Combine all game files together to make one big model.',
         action='store_true',
         required=False)
     parser_add_argument('--combined_model_prefix',
-        help='prefix to use when naming the combined model (required if '
+        help='Prefix to use when naming the combined model (required if '
              'the --combine flag is used); basically, just combine the names '
              'of the games together in a way that doesn\'t make the file-name'
              '150 characters long...',
         type=str,
         required=False)
     parser_add_argument('--learner',
-        help='machine learning algorithm to use (only regressors are '
+        help='Machine learning algorithm to use (only regressors are '
              'supported); both regular and rescaled versions of each learner '
-             'are available',
+             'are available.',
         choices=['AdaBoost', 'DecisionTree', 'ElasticNet',
                  'GradientBoostingRegressor', 'KNeighborsRegressor', 'Lasso',
                  'LinearRegression', 'RandomForestRegressor', 'Ridge',
@@ -84,59 +84,59 @@ if __name__ == '__main__':
                  'RescaledRidge', 'RescaledSGDRegressor', 'RescaledSVR'],
         default='RescaledSVR')
     parser_add_argument('--objective_function', '-obj',
-        help='objective function used for tuning',
+        help='Objective function used for tuning.',
         choices=['unweighted_kappa', 'linear_weighted_kappa',
                  'quadratic_weighted_kappa', 'uwk_off_by_one',
                  'lwk_off_by_one', 'qwk_off_by_one', 'r2',
                  'mean_squared_error'],
         default='quadratic_weighted_kappa')
     parser_add_argument('--do_not_lowercase_text',
-        help='do not make lower-casing part of the review text '
+        help='Do not make lower-casing part of the review text '
              'normalization step, which affects word n-gram-related '
-             'features',
+             'features.',
         action='store_true',
         default=False)
     parser_add_argument('--lowercase_cngrams',
-        help='lower-case the review text before extracting character n-gram '
-             'features',
+        help='Lower-case the review text before extracting character n-gram '
+             'features.',
         action='store_true',
         default=False)
     parser_add_argument('--use_original_hours_values',
-        help='use the original, uncollapsed hours played values',
+        help='Use the raw hours played values from Steam.',
         action='store_true',
         default=False)
     parser_add_argument('--just_extract_features',
-        help='extract features from all of the reviews, generate .jsonlines '
-             'files, etc., but quit before training any models',
+        help='Extract features from all of the reviews, generate .jsonlines '
+             'files, etc., but quit before training any models.',
         action='store_true',
         default=False)
-    parser_add_argument('--try_to_reuse_extracted_features',
-        help='try to make use of previously-extracted features that reside in'
-             ' the MongoDB database',
+    parser_add_argument('--reuse_features',
+        help='Try to make use of previously-extracted features that reside in'
+             ' the MongoDB database.',
         action='store_true',
-        default=True)
+        requied=False)
     parser_add_argument('--run_configuration', '-run_cfg',
-        help='assumes feature/config files have already been generated and '
+        help='Assumes feature/config files have already been generated and '
              'attempts to run the configuration; not needed to run training '
              'task under normal circumstances, so use only if you know what '
-             'you are doing',
+             'you are doing.',
          action='store_true',
          default=False)
     parser_add_argument('--do_not_binarize_features',
-        help='do not make all non-zero feature frequencies equal to 1',
+        help='Do not make all non-zero feature frequencies equal to 1.',
         action='store_true',
         default=False)
     parser_add_argument('--use_cluster', '-cluster',
-        help='if run on a compute cluster, make use of the cluster rather '
-             'than running everything locally on one machine',
+        help='If run on a compute cluster, make use of the cluster rather '
+             'than running everything locally on one machine.',
         action='store_true',
         default=False)
     parser_add_argument('--mongodb_port', '-dbport',
-        help='port that the MongoDB server is running',
+        help='Port that the MongoDB server is running.',
         type=int,
         default=27017)
     parser_add_argument('--log_file_path', '-log',
-        help='path for log file',
+        help='Path to log file.',
         type=str,
         default=join(project_dir,
                      'logs',
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     lowercase_cngrams = args.lowercase_cngrams
     use_original_hours_values = args.use_original_hours_values
     just_extract_features = args.just_extract_features
-    try_to_reuse_extracted_features = args.try_to_reuse_extracted_features
+    reuse_features = args.reuse_features
     _run_configuration = args.run_configuration
     do_not_binarize_features = args.do_not_binarize_features
     local=not args.use_cluster
@@ -210,7 +210,7 @@ if __name__ == '__main__':
              .format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
     logdebug('Try to reuse extracted features? {}'
-             .format(try_to_reuse_extracted_features))
+             .format(reuse_features))
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
@@ -395,11 +395,11 @@ if __name__ == '__main__':
                     _binarized = _get('binarized')
 
                     # Extract NLP features by querying the database (if they
-                    # are available and the --try_to_reuse_extracted_features
-                    # flag was used); otherwise, extract features from the
-                    # review text directly (and try to update the database)
+                    # are available and the --reuse_features flag was used);
+                    # otherwise, extract features from the review text
+                    # directly (and try to update the database)
                     found_features = False
-                    if (try_to_reuse_extracted_features
+                    if (reuse_features
                         and _binarized == binarize):
                         features = get_review_features_from_db(reviewdb,
                                                                _id)
@@ -591,11 +591,11 @@ if __name__ == '__main__':
                     _binarized = _get('binarized')
 
                     # Extract NLP features by querying the database (if they
-                    # are available and the --try_to_reuse_extracted_features
-                    # flag was used); otherwise, extract features from the
-                    # review text directly (and try to update the database)
+                    # are available and the --reuse_features flag was used);
+                    # otherwise, extract features from the review text
+                    # directly (and try to update the database)
                     found_features = False
-                    if (try_to_reuse_extracted_features
+                    if (reuse_features
                         and _binarized == binarize):
                         features = get_review_features_from_db(reviewdb,
                                                                _id)
