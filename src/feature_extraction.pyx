@@ -294,27 +294,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         pairwise_repvecs = list(combinations(list(range(len(_review
                                                             .repvecs))),
                                              2))
-
-        def get_repvecs(repvecs, index_tuple):
-            '''
-            Get representation vectors from the list of pairwise index
-            combinations given a tuple of indices.
-
-            :param repvecs: list of represenation vectors
-            :type repvecs: list of 1-dimensional np.ndarray
-            :param index_tuple: tuple of indices of representation vectors
-            :type index_tuple: tuple of int
-            :returns: 2-tuple of 1-dimensional np.array
-            '''
-
-            return (repvecs[index_tuple[0]],
-                    repvecs[index_tuple[1]])
-
-        cos_sims = [[(repvec_tuple[0].dot(repvec_tuple[1].T)
-                      /np.linalg.norm(repvec_tuple[0])
-                      /np.linalg.norm(repvec_tuple[1]))
-                     for repvec_tuple in get_repvecs(_review.repvecs,
-                                                     ituple)]
+        cos_sims = [(_review.repvecs[ituple[0]].dot(_review
+                                                    .repvecs[ituple[1]].T)
+                     /np.linalg.norm(_review.repvecs[ituple[0]])
+                     /np.linalg.norm(_review.repvecs[ituple[1]]))
                     for ituple in pairwise_repvecs]
         return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
                                          if not np.isnan(cos_sim)])
