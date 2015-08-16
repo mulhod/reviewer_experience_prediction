@@ -489,9 +489,11 @@ if __name__ == '__main__':
                                                          'y': hours,
                                                          'x': features})))
 
-            # Close JSONLINES file and take features out of memory
-            jsonlines_file.close()
-            features = None
+                    # Set features to None now that it's no longer needed
+                    features = None
+
+                # Close JSONLINES file
+                jsonlines_file.close()
 
             # Set up the job for training the model
             loginfo('Generating configuration file...')
@@ -687,9 +689,11 @@ if __name__ == '__main__':
                                                          'y': hours,
                                                          'x': features})))
 
-                # Close JSONLINES file and take features from memory
+                    # Set features to None now that it's no longer needed
+                    features = None
+
+                # Close JSONLINES file
                 jsonlines_file.close()
-                features = None
 
                 # Set up the job for training the model
                 loginfo('Generating configuration file...')
