@@ -301,11 +301,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
             return (repvecs[index_tuple[0]],
                     repvecs[index_tuple[1]])
 
-        cos_sims = [[(repvec1.dot(repvec2.T)
-                      /np.linalg.norm(repvec1)
-                      /np.linalg.norm(repvec2))
-                     for (repvec1,
-                          repvec2) in get_repvecs(ituple)]
+        cos_sims = [[(repvecs[0].dot(repvecs[1].T)
+                      /np.linalg.norm(repvecs[0])
+                      /np.linalg.norm(repvecs[1]))
+                     for repvecs in get_repvecs(ituple)]
                     for ituple in pairwise_repvecs]
         return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
                                          if not np.isnan(cos_sim)])
