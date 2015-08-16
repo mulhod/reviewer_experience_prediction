@@ -490,9 +490,10 @@ if __name__ == '__main__':
                     [features.pop(k) for k in features if not features[k]]
 
                     # Write JSON object to file
-                    jsonlines_write('{}\n'.format(dumps({'id': hash(str(_id)),
-                                                         'y': hours,
-                                                         'x': features})))
+                    jsonlines_write('{}\n'
+                                    .format(dumps({'id': abs(hash(str(_id))),
+                                                   'y': hours,
+                                                   'x': features})))
 
                     # Set features to None now that it's no longer needed
                     features = None
@@ -695,9 +696,10 @@ if __name__ == '__main__':
                      if v == None]
 
                     # Write features to line of JSONLINES output file
-                    jsonlines_write('{}\n'.format(dumps({'id': hash(str(_id)),
-                                                         'y': hours,
-                                                         'x': features})))
+                    jsonlines_write('{}\n'
+                                    .format(dumps({'id': abs(hash(str(_id))),
+                                                   'y': hours,
+                                                   'x': features})))
 
                     # Set features to None now that it's no longer needed
                     features = None
