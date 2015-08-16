@@ -37,7 +37,7 @@ class Review(object):
     spaCy_sents = None
     # Attributes representing the cluster IDs, "repvecs" (representation
     # vectors), and "probs" (log probabilities) corresponding to tokens
-    cluster_id_counter = Counter()
+    cluster_id_counter = None
     repvecs = []
     #probs = []
 
@@ -148,6 +148,7 @@ class Review(object):
         '''
 
         lemma_set = set()
+        cluster_ids = []
         for sent in self.spaCy_sents:
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
@@ -155,9 +156,10 @@ class Review(object):
             # calculation)
             lemma_set.update([t.lemma_ for t in sent])
             # Get clusters
-            self.cluster_id_counter.update([t.cluster for t in sent])
+            cluster_ids.extend([t.cluster for t in sent])
             # Get "probs"
             #self.probs.append([t.prob_ for t in sent])
+        self.cluster_id_counter = dict(Counter(cluster_ids))
 
         # Get repvecs for unique lemmas
         used_up_lemmas = set()
