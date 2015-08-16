@@ -336,7 +336,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return dep_counter
 
     # Extract features
-    features = Counter()
+    features = {}
 
     # Get the length feature
     # Note: This feature will always be mapped to a frequency of 1 since
