@@ -252,12 +252,11 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: Counter
         '''
 
+        cluster_fdist = {}
         for cluster_id, freq in cluster_counter.items():
-            del cluster_counter[cluster_id]
-            cluster_counter['c{}'
-                            .format(cluster_id)] = freq
+            cluster_fdist['c{}'.format(cluster_id)] = freq
 
-        return cluster_counter
+        return cluster_fdist
 
 
     def calculate_mean_cos_sim(repvecs):
