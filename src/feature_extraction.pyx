@@ -40,6 +40,7 @@ class Review(object):
     # vectors), and "probs" (log probabilities) corresponding to tokens
     cluster_id_counter = None
     repvecs = []
+    zeroes_repvecs = 0 # Count of repvecs containing all zeroes
     #probs = []
 
 
@@ -165,12 +166,11 @@ class Review(object):
         # Get repvecs for unique lemmas (when they do not consist entirely of
         # zeroes) and store count of all repvecs that consist only of zeroes
         used_up_lemmas = set()
-        zeroes_repvecs = 0
         for sent in self.spaCy_sents:
             for t in sent:
                 if np.array_equal(t.repvec,
                                   np.zeros(300)):
-                    zeroes_repvecs += 1
+                    self.zeroes_repvecs += 1
                     continue
                 if not t.lemma_ in used_up_lemmas:
                     self.repvecs.append(t.repvec)
@@ -178,16 +178,17 @@ class Review(object):
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram, length, cluster ID, average cosine
-    similarity between word representation vectors, and syntactic dependency
-    features from a Review object and return as dictionary where each feature
-    is represented as a key:value mapping in which the key is a string
-    representation of the feature (e.g. "the dog" for an example n-gram
-    feature, "th" for an example character n-gram feature, "c667" for an
-    example cluster feature, "mean_cos_sim" mapped to a float in the range 0
-    to 1 for the average cosine similarity feature, and "step:VMOD:forward"
-    for an example syntactic dependency feature) and the value is the
-    frequency with which that feature occurred in the review.
+    Extract word/character n-gram, length, cluster ID, number of tokens
+    corresponding to represenation vectors consisting entirely of zeroes,
+    average cosine similarity between word representation vectors, and
+    syntactic dependency features from a Review object and return as
+    dictionary where each feature is represented as a key:value mapping in
+    which the key is a string representation of the feature (e.g. "the dog"
+    for an example n-gram feature, "th" for an example character n-gram
+    feature, "c667" for an example cluster feature, "mean_cos_sim" mapped to a
+    float in the range 0 to 1 for the average cosine similarity feature, and
+    "step:VMOD:forward" for an example syntactic dependency feature) and the
+    value is the frequency with which that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -366,6 +367,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     # Convert cluster ID values into useable features
     features.update(generate_cluster_fdist())
+
+    # Generate feature consisting of a counter of all tokens whose
+    # represenation vectors are made up entirely of zeroes
+    features.update({'zeroes_repvecs': _reivew.zeroes_repvecs})
 
     # Calculate the mean cosine similarity across all word-pairs
     features.update(calculate_mean_cos_sim())
