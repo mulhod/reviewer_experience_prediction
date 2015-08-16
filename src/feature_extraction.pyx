@@ -14,6 +14,7 @@ from string import punctuation
 from re import (sub,
                 IGNORECASE)
 from collections import Counter
+from itertools import combinations
 from configparser import ConfigParser
 
 class Review(object):
@@ -282,23 +283,28 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         '''
 
         repvecs = _review.repvecs
-        cos_sims = []
-        i = 0
-        while i < len(repvecs):
-            j = 0
-            repvec = repvecs[i]
-            if i == 0:
-                rem_repvecs = repvecs[1:]
-            elif i != len(repvecs) - 1:
-                rem_repvecs = repvecs[:i] + repvecs[i + 1:]
-            else:
-                rem_repvecs = repvecs[:-1]
-            while j < len(rem_repvecs):
-                cos_sims.append(repvec.dot(rem_repvecs[j].T)
-                                /np.linalg.norm(repvec)
-                                /np.linalg.norm(rem_repvecs[j]))
-                j += 1
-            i += 1
+
+        # Get all pairwise combinations
+        pairwise_repvecs = list(combinations(list(range(len(repvecs))),
+                                             2))
+
+        def get_repvecs(index_tuple):
+            '''
+            Get representation vectors from the list of pairwise index
+            combinations given a tuple of indices.
+
+            :param index_tuple: tuple of indices of representation vectors
+            :type index_tuple: tuple of int
+            :returns: 2-tuple of 1-dimensional np.array
+            '''
+
+            return repvecs[index_tuple[0]], repvecs[index_tuple[1]]
+
+        cos_sims = [[(repvec1.dot(repvec2.T)
+                      /np.linalg.norm(repvec1)
+                      /np.linalg.norm(repvec2))
+                     for repvec1, repvec2 in get_repvecs(ituple)]
+                    for ituple in list(range(len(pairwise_repvecs)))]
         return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
                                          if not np.isnan(cos_sim)])
                                  /len(cos_sims))}
