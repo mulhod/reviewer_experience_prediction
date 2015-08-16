@@ -147,15 +147,24 @@ class Review(object):
         Get tokens-related features from spaCy's text annotations.
         '''
 
+        lemma_set = set()
         for sent in self.spaCy_sents:
             # Get tokens
             self.tokens.append([t.orth_ for t in sent])
+            # Generate set of lemmas (for use in the average cosine similarity
+            # calculation)
+            lemma_set.update([t.lemma_ for t in sent])
             # Get clusters
             self.cluster_id_counter.update([t.cluster for t in sent])
             # Get "probs"
             #self.probs.append([t.prob_ for t in sent])
-            # Get repvecs
-            self.repvecs.append([t.repvec for t in sent])
+
+        # Get repvecs for unique lemmas
+        used_up_lemmas = set()
+        for sent in self.spaCy_sents:
+            for t in sent:
+                if not t.lemma_ in used_up_lemmas:
+                    self.repvecs.append(t.repvec)
 
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
@@ -179,13 +188,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     :returns: dict
     '''
 
-    def generate_ngram_fdist(sents, _min=1, _max=2):
+    def generate_ngram_fdist(_min=1, _max=2):
         '''
         Generate frequency distribution for the tokens in the text.
 
-        :param sents: list of lists of tokens that can be chopped up into
-                      n-grams.
-        :type sents: list of lists/strs
         :param _min: minimum value of n for n-gram extraction
         :type _min: int
         :param _max: maximum value of n for n-gram extraction
@@ -197,10 +203,12 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         ngram_counter = Counter()
 
         # Count up all n-grams
-        for sent in sents:
+        tokenized_sents = _review.tokens
+        for sent in tokenized_sents:
             for i in range(_min,
                            _max + 1):
-                ngram_counter.update(list(ngrams(sent, i)))
+                ngram_counter.update(list(ngrams(sent,
+                                                 i)))
 
         # Re-represent keys as string representations of specific features
         # of the feature class "ngrams"
@@ -211,12 +219,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return ngram_counter
 
 
-    def generate_cngram_fdist(text, _min=2, _max=5):
+    def generate_cngram_fdist(_min=2, _max=5):
         '''
         Generate frequency distribution for the characters in the text.
 
-        :param text: review text
-        :type text: str
         :param _min: minimum value of n for character n-gram extraction
         :type _min: int
         :param _max: maximum value of n for character n-gram extraction
@@ -224,13 +230,19 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: Counter
         '''
 
+        # Text
+        orig_text = _review.orig
+        text = (orig_text.lower() if lowercase_cngrams
+                                     else orig_text)
+
         # Make emtpy Counter
         cngram_counter = Counter()
 
         # Count up all character n-grams
         for i in range(_min,
                        _max + 1):
-            cngram_counter.update(list(ngrams(text, i)))
+            cngram_counter.update(list(ngrams(text,
+                                              i)))
 
         # Re-represent keys as string representations of specific features
         # of the feature class "cngrams" (and set all values to 1 if binarize
@@ -242,32 +254,32 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return cngram_counter
 
 
-    def generate_cluster_fdist(cluster_counter):
+    def generate_cluster_fdist():
         '''
-        Generate frequency distribution of the cluster IDs corresponding to
-        the tokens in a text.
+        Convert cluster ID frequency distribution to a frequency distribution
+        where the keys are strings representing "cluster" features (rather
+        than just a number, the cluster ID).
 
-        :param cluster_counter: frequency distribution of cluster IDs (int)
-        :type cluster_counter: Counter
         :returns: Counter
         '''
 
-        cluster_fdist = {}
-        for cluster_id, freq in cluster_counter.items():
+        cluster_fdist = _review.cluster_id_counter
+        for cluster_id, freq in list(cluster_fdist.items()):
+            del cluster_fdist[cluster_id]
             cluster_fdist['c{}'.format(cluster_id)] = freq
 
         return cluster_fdist
 
 
-    def calculate_mean_cos_sim(repvecs):
+    def calculate_mean_cos_sim():
         '''
         Calcualte the mean cosine similarity between all pairwise cosine
         similarity metrics between two words.
 
-        :param repvecs: list of 1-dimensinal representation vectors
-        :type repvecs: list of 1-dimensional np.ndarray with dtype==np.float64
+        :returns: dict
         '''
 
+        repvecs = _review.repvecs
         cos_sims = []
         i = 0
         while i < len(repvecs):
@@ -290,25 +302,24 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                                  /len(cos_sims))}
 
 
-    def generate_dep_features(spaCy_sents):
+    def generate_dep_features():
         '''
         Generate syntactic dependency features from spaCy text annotations and
         represent the features as token (lemma) + dependency type + child
         token (lemma).
 
-        :param spaCy_annotations: lists of spaCy Token instances
-        :type spaCy_annotations: list of list of spaCy.tokens.Tokens instances
-        :returns: Counter object representing a frequency distribution of
-                  syntactic dependency features
+        :returns: Counter
         '''
+
+        spaCy_sents = _review.spaCy_sents
 
         # Make emtpy Counter
         dep_counter = Counter()
 
         # Iterate through spaCy annotations for each sentence and then for
         # each token
-        for s in spaCy_sents:
-            for t in s:
+        for sent in spaCy_sents:
+            for t in sent:
                 # If the number of children to the left and to the right
                 # of the token add up to a value that is not zero, then
                 # get the children and make dependency features with
@@ -333,20 +344,19 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features.update({str(_review.length): 1})
 
     # Extract n-gram features
-    features.update(generate_ngram_fdist(_review.tokens))
+    features.update(generate_ngram_fdist())
 
     # Extract character n-gram features
-    orig = _review.orig.lower() if lowercase_cngrams else _review.orig
-    features.update(generate_cngram_fdist(orig))
+    features.update(generate_cngram_fdist())
 
     # Convert cluster ID values into useable features
-    features.update(generate_cluster_fdist(_review.cluster_id_counter))
+    features.update(generate_cluster_fdist())
 
     # Calculate the mean cosine similarity across all word-pairs
-    features.update(calculate_mean_cos_sim(_review.repvecs))
+    features.update(calculate_mean_cos_sim())
 
     # Generate the syntactic dependency features
-    features.update(generate_dep_features(_review.spaCy_sents))
+    features.update(generate_dep_features())
 
     return dict(features)
 
