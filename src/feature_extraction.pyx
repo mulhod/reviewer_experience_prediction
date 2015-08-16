@@ -162,10 +162,16 @@ class Review(object):
             #self.probs.append([t.prob_ for t in sent])
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
-        # Get repvecs for unique lemmas
+        # Get repvecs for unique lemmas (when they do not consist entirely of
+        # zeroes) and store count of all repvecs that consist only of zeroes
         used_up_lemmas = set()
+        zeroes_repvecs = 0
         for sent in self.spaCy_sents:
             for t in sent:
+                if np.array_equal(t.repvec,
+                                  np.zeros(300)):
+                    zeroes_repvecs += 1
+                    continue
                 if not t.lemma_ in used_up_lemmas:
                     self.repvecs.append(t.repvec)
 
@@ -282,10 +288,10 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: dict
         '''
 
-        repvecs = _review.repvecs
 
         # Get all pairwise combinations
-        pairwise_repvecs = list(combinations(list(range(len(repvecs))),
+        pairwise_repvecs = list(combinations(list(range(len(_review
+                                                            .repvecs))),
                                              2))
 
         def get_repvecs(index_tuple):
@@ -298,8 +304,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
             :returns: 2-tuple of 1-dimensional np.array
             '''
 
-            return (repvecs[index_tuple[0]],
-                    repvecs[index_tuple[1]])
+            return (_review.repvecs[index_tuple[0]],
+                    _review.repvecs[index_tuple[1]])
 
         cos_sims = [[(repvec_tuple[0].dot(repvec_tuple[1].T)
                       /np.linalg.norm(repvec_tuple[0])
