@@ -114,7 +114,7 @@ if __name__ == '__main__':
         help='Try to make use of previously-extracted features that reside in'
              ' the MongoDB database.',
         action='store_true',
-        requied=False)
+        required=False)
     parser_add_argument('--run_configuration', '-run_cfg',
         help='Assumes feature/config files have already been generated and '
              'attempts to run the configuration; not needed to run training '
