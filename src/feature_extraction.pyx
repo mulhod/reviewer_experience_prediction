@@ -304,7 +304,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                       /np.linalg.norm(repvec1)
                       /np.linalg.norm(repvec2))
                      for repvec1, repvec2 in get_repvecs(ituple)]
-                    for ituple in list(range(len(pairwise_repvecs)))]
+                    for ituple in pairwise_repvecs]
         return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
                                          if not np.isnan(cos_sim)])
                                  /len(cos_sims))}
