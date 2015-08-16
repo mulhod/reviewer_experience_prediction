@@ -266,7 +266,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         cluster_fdist = _review.cluster_id_counter
         for cluster_id, freq in list(cluster_fdist.items()):
             del cluster_fdist[cluster_id]
-            cluster_fdist['c{}'.format(cluster_id)] = freq
+            cluster_fdist['cluster{}'.format(cluster_id)] = freq
 
         return cluster_fdist
 
