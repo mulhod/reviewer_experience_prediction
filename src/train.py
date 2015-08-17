@@ -4,13 +4,17 @@
 
 Script used to train models on datasets (or multiple datasets combined).
 '''
+from sys import exit
+from time import sleep
 from os.path import (join,
                      dirname,
                      realpath,
                      exists,
                      splitext)
+from collections import Counter
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
+from pymongo.errors import AutoReconnect
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -42,6 +46,101 @@ def make_train_dirs():
     makedirs(join(project_dir,
                   'outputs'),
              exist_ok=True)
+
+
+def update_db(db_update, _id, json_encoded_features, _binarize):
+    '''
+    Update Mongo database document with extracted features.
+
+    :param db_update: Mondo database update function
+    :type db_update: function
+    :param _id: Object ID
+    :type _id: pymongo.objectid.ObjectId
+    :param json_encoded_features: JSON-encoded feature string
+    :type json_encoded_features: str
+    :param _binarize: whether or not the features are binarized
+    :type _binarize: boolean
+    :returns: None
+    '''
+
+    tries = 0
+    while tries < 5:
+        try:
+            db_update({'_id': _id},
+                      {'$set': {'features': json_encoded_features,
+                                'binarized': _binarize}})
+            break
+        except AutoReconnect:
+            logwarn('Encountered ConnectionFailure error, attempting to '
+                    'reconnect automatically...')
+            tries += 1
+            if tries >= 5:
+                logerr('Unable to update database even after 5 tries. '
+                       'Exiting.')
+                exit(1)
+            sleep(20)
+
+
+def get_steam_features(get_feat):
+    '''
+    Get features collected from Steam (i.e., the non-NLP features).
+
+    :param get_feat: get function for a database document
+    :type get_feat: function
+    :returns: dict
+    '''
+
+    achievements = _get('achievement_progress')
+    steam_feats = {'total_game_hours_last_two_weeks':
+                       _get('total_game_hours_last_two_weeks'),
+                   'num_found_funny': _get('num_found_funny'),
+                   'num_found_helpful': _get('num_found_helpful'),
+                   'found_helpful_percentage':
+                       _get('found_helpful_percentage'),
+                   'num_friends': _get('num_friends'),
+                   'friend_player_level': _get('friend_player_level'),
+                   'num_groups': _get('num_groups'),
+                   'num_screenshots': _get('num_screenshots'),
+                   'num_workshop_items': _get('num_workshop_items'),
+                   'num_comments': _get('num_comments'),
+                   'num_games_owned': _get('num_games_owned'),
+                   'num_reviews': _get('num_reviews'),
+                   'num_guides': _get('num_guides'),
+                   'num_badges': _get('num_badges'),
+                   'updated': 1 if _get('date_updated') else 0,
+                   'num_achievements_attained':
+                       achievements.get('num_achievements_attained'),
+                   'num_achievements_percentage':
+                       achievements.get('num_achievements_percentage'),
+                   'rating': _get('rating')}
+    return steam_feats
+
+
+def binarize_features(_features):
+    '''
+    Binarize (most of) the NLP features.
+
+    :param _features: feature dictionary
+    :type _features: dict
+    :returns: dict
+    '''
+
+    # Get the mean cosine similarity and zero-filled representation vector
+    # features and then delete those keys from the feature dictionary (so
+    # that they don't get set to 1)
+    mean_cos_sim = _features['mean_cos_sim']
+    zeroes_repvecs = _features['zeroes_repvecs']
+    del _features['mean_cos_sim']
+    del _features['zeroes_repvecs']
+
+    # Binarize the remaining features
+    _features = dict(Counter(list(features)))
+
+    # Add the two held-out features back into the feature dictionary
+    _features['mean_cos_sim'] = mean_cos_sim
+    _features['zeroes_repvecs'] = zeroes_repvecs
+
+    return _features
 
 
 if __name__ == '__main__':
@@ -145,7 +244,6 @@ if __name__ == '__main__':
 
     # Imports
     import logging
-    from sys import exit
     from os import listdir
 
     # Make local copies of arguments
@@ -184,6 +282,7 @@ if __name__ == '__main__':
     logger.addHandler(fh)
     logger.addHandler(sh)
 
+    # global loginfo, logdebug, logerr, logwarn
     loginfo = logger.info
     logdebug = logger.debug
     logerr = logger.error
@@ -237,16 +336,13 @@ if __name__ == '__main__':
     if not _run_configuration:
         # Import some functions, etc., that will only be needed if this code
         # gets executed
-        from time import sleep
         from copy import deepcopy
         from data import APPID_DICT
         from spacy.en import English
-        from collections import Counter
         from json import (JSONEncoder,
                           dumps)
         from pymongo import MongoClient
-        from pymongo.errors import (AutoReconnect,
-                                    ConnectionFailure)
+        from pymongo.errors import ConnectionFailure
         from src.feature_extraction import (Review,
                                             extract_features_from_review,
                                             generate_config_file)
@@ -422,13 +518,7 @@ if __name__ == '__main__':
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        mean_cos_sim = features['mean_cos_sim']
-                        zeroes_repvecs = features['zeroes_repvecs']
-                        del features['mean_cos_sim']
-                        del features['zeroes_repvecs']
-                        features = dict(Counter(list(features)))
-                        features['mean_cos_sim'] = mean_cos_sim
-                        features['zeroes_repvecs'] = zeroes_repvecs
+                        features = binarize_features(features)
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
@@ -436,54 +526,14 @@ if __name__ == '__main__':
                     # were extracted with the --do_not_binarize_features flag
                     # or False otherwise
                     if not found_features:
-                        tries = 0
-                        while tries < 5:
-                            try:
-                                reviewdb_update(
-                              {'_id': _id},
-                              {'$set': {'features': json_encode(features),
-                                        'binarized': binarize}})
-                                break
-                            except AutoReconnect:
-                                logwarn('Encountered ConnectionFailure error,'
-                                        ' attempting to reconnect '
-                                        'automatically...')
-                                tries += 1
-                                if tries >= 5:
-                                    logerr('Unable to update database even '
-                                           'after 5 tries. Exiting.')
-                                    exit(1)
-                                sleep(20)
+                        update_db(reviewdb_update,
+                                  _id,
+                                  json_encode(features),
+                                  binarize)
 
                     # Get features collected from Steam (non-NLP features) and
                     # add them to the features dictionary
-                    achievement_dict = _get('achievement_progress')
-                    features.update(
-                        {'total_game_hours_last_two_weeks':
-                             _get('total_game_hours_last_two_weeks'),
-                         'num_found_funny': _get('num_found_funny'),
-                         'num_found_helpful': _get('num_found_helpful'),
-                         'found_helpful_percentage':
-                             _get('found_helpful_percentage'),
-                         'num_friends': _get('num_friends'),
-                         'friend_player_level': _get('friend_player_level'),
-                         'num_groups': _get('num_groups'),
-                         'num_screenshots': _get('num_screenshots'),
-                         'num_workshop_items': _get('num_workshop_items'),
-                         'num_comments': _get('num_comments'),
-                         'num_games_owned': _get('num_games_owned'),
-                         'num_reviews': _get('num_reviews'),
-                         'num_guides': _get('num_guides'),
-                         'num_badges': _get('num_badges'),
-                         'updated': 1 if _get('date_updated') else 0,
-                         'num_achievements_attained':
-                             (achievement_dict
-                              .get('num_achievements_attained')),
-                         'num_achievements_percentage':
-                             (achievement_dict
-                              .get('num_achievements_percentage')),
-                         'rating': (1 if _get('rating') == "Recommended"
-                                      else 0)})
+                    features.update(get_steam_features(_get))
 
                     # If any features have a value of None, then turn the
                     # values into zeroes
@@ -627,13 +677,7 @@ if __name__ == '__main__':
                     if (binarize
                         and not (found_features
                                  and _binarized)):
-                        mean_cos_sim = features['mean_cos_sim']
-                        zeroes_repvecs = features['zeroes_repvecs']
-                        del features['mean_cos_sim']
-                        del features['zeroes_repvecs']
-                        features = dict(Counter(list(features)))
-                        features['mean_cos_sim'] = mean_cos_sim
-                        features['zeroes_repvecs'] = zeroes_repvecs
+                        features = binarize_features(features)
 
                     # Update Mongo database game doc with new key "features",
                     # which will be mapped to NLP features, and a new key
@@ -641,59 +685,19 @@ if __name__ == '__main__':
                     # were extracted with the --do_not_binarize_features flag
                     # or False otherwise
                     if not found_features:
-                        tries = 0
-                        while tries < 5:
-                            try:
-                                reviewdb_update(
-                                    {'_id': _id},
-                                    {'$set': {'features':
-                                                  json_encode(features),
-                                              'binarized': binarize}})
-                                break
-                            except AutoReconnect:
-                                logwarn('Encountered ConnectionFailure error,'
-                                        ' attempting to reconnect '
-                                        'automatically...\n')
-                                tries += 1
-                                if tries >= 5:
-                                    logerr('Unable to update database even '
-                                           'after 5 tries. Exiting.')
-                                    exit(1)
-                                sleep(20)
+                        update_db(reviewdb_update,
+                                  _id,
+                                  json_encode(features),
+                                  binarize)
 
                     # Get features collected from Steam (non-NLP features) and
                     # add them to the features dictionary
-                    achievement_dict = _get('achievement_progress')
-                    features.update(
-                        {'total_game_hours_last_two_weeks':
-                             _get('total_game_hours_last_two_weeks'),
-                         'num_found_funny': _get('num_found_funny'),
-                         'num_found_helpful': _get('num_found_helpful'),
-                         'found_helpful_percentage':
-                             _get('found_helpful_percentage'),
-                         'num_friends': _get('num_friends'),
-                         'friend_player_level': _get('friend_player_level'),
-                         'num_groups': _get('num_groups'),
-                         'num_screenshots': _get('num_screenshots'),
-                         'num_workshop_items': _get('num_workshop_items'),
-                         'num_comments': _get('num_comments'),
-                         'num_games_owned': _get('num_games_owned'),
-                         'num_reviews': _get('num_reviews'),
-                         'num_guides': _get('num_guides'),
-                         'num_badges': _get('num_badges'),
-                         'updated': 1 if _get('date_updated') else 0,
-                         'num_achievements_attained':
-                             (achievement_dict
-                              .get('num_achievements_attained')),
-                         'num_achievements_percentage':
-                             (achievement_dict
-                              .get('num_achievements_percentage')),
-                         'rating': _get('rating')})
+                    features.update(get_steam_features(_get))
 
                     # If any features have a value of None, then turn the
                     # values into zeroes
-                    [features.update({k: 0}) for k, v in features.items()
-                     if v == None]
+                    [features.update({k: 0}) for k, v
+                     in features.items() if v == None]
 
                     # Write features to line of JSONLINES output file
                     jsonlines_write('{}\n'
