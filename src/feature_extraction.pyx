@@ -9,13 +9,16 @@ import numpy as np
 from math import ceil
 from json import dumps
 from os.path import join
-from nltk.util import ngrams
-from string import punctuation
 from re import (sub,
                 IGNORECASE)
+from joblib import (Parallel,
+                    delayed)
+from nltk.util import ngrams
+from string import punctuation
 from collections import Counter
 from itertools import combinations
 from configparser import ConfigParser
+from sklearn.metrics.pairwise import cosine_similarity
 
 class Review(object):
     '''
@@ -290,18 +293,17 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         '''
 
 
-        # Get all pairwise combinations
-        pairwise_repvecs = list(combinations(list(range(len(_review
-                                                            .repvecs))),
-                                             2))
-        cos_sims = [(_review.repvecs[ituple[0]].dot(_review
-                                                    .repvecs[ituple[1]].T)
-                     /np.linalg.norm(_review.repvecs[ituple[0]])
-                     /np.linalg.norm(_review.repvecs[ituple[1]]))
-                    for ituple in pairwise_repvecs]
-        return {'mean_cos_sim': (np.sum([cos_sim for cos_sim in cos_sims
-                                         if not np.isnan(cos_sim)])
-                                 /len(cos_sims))}
+        # Calculate the cosine similarity between all unique word-pairs
+        # (excluding words whose representation vectors consist entirely of
+        # zeroes)
+        pairwise_repvecs = combinations(range(len(_review.repvecs)),
+                                        2)
+        cos_sims = Parallel(n_jobs=4)(delayed(cosine_similarity)
+                                          (_review.repvecs[i[0]],
+                                           _review.repvecs[i[1]])
+                                      for i in pairwise_repvecs)
+        cos_sims = [cos_sim[0][0] for cos_sim in cos_sims]
+        return {'mean_cos_sim': float(np.array(cos_sims).mean())}
 
 
     def generate_dep_features():
