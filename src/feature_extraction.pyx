@@ -298,10 +298,11 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         # zeroes)
         pairwise_repvecs = combinations(range(len(_review.repvecs)),
                                         2)
-        cos_sims = Parallel(n_jobs=4)(delayed(cosine_similarity)
-                                          (_review.repvecs[i[0]],
-                                           _review.repvecs[i[1]])
-                                      for i in pairwise_repvecs)
+        cos_sims = Parallel(n_jobs=6,
+                            backend="threading")(delayed(cosine_similarity)
+                                                     (_review.repvecs[i[0]],
+                                                      _review.repvecs[i[1]])
+                                                 for i in pairwise_repvecs)
         cos_sims = [cos_sim[0][0] for cos_sim in cos_sims]
         return {'mean_cos_sim': float(np.array(cos_sims).mean())}
 
