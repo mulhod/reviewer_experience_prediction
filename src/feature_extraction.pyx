@@ -8,14 +8,9 @@ ARFF file generation, etc.
 import numpy as np
 from math import ceil
 from json import dumps
-from shutil import rmtree
-from os.path import (join,
-                     exists)
+from os.path import join
 from re import (sub,
                 IGNORECASE)
-from tempfile import mkdtemp
-from joblib import (Parallel,
-                    delayed)
 from nltk.util import ngrams
 from string import punctuation
 from collections import Counter
@@ -182,22 +177,6 @@ class Review(object):
                     self.repvecs.append(t.repvec)
 
 
-def memmap_set(_memmap, index, value):
-    '''
-    Write new value to given index in memmap.
-
-    :param _memmap: memmap instance
-    :type _memmap: np.memmap
-    :param index: index in memmap where new value should be written
-    :type index: int
-    :param value: value to write (cosine similarity result)
-    :type value: float
-    :returns: None
-    '''
-
-    _memmap[index] = value
-
-
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
     Extract word/character n-gram, length, cluster ID, number of tokens
@@ -314,28 +293,14 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         # Calculate the cosine similarity between all unique word-pairs
         # (excluding words whose representation vectors consist entirely of
         # zeroes)
-        _tmp = mkdtemp()
-        cos_sims_memmap_file = join(_tmp,
-                                    'cos_sims_memmap')
         pairwise_repvecs = list(combinations(range(len(_review.repvecs)),
                                              2))
-        cos_sims_memmap = np.memmap(cos_sims_memmap_file,
-                                    dtype=np.float64,
-                                    shape=len(pairwise_repvecs),
-                                    mode='w+')
-        Parallel(n_jobs=4)(delayed(memmap_set)
-                               (cos_sims_memmap,
-                                i,
-                                cosine_similarity(_review
-                                                  .repvecs[ituple[0]],
-                                                  _review
-                                                  .repvecs[ituple[1]])[0][0])
-                           for i, ituple in enumerate(pairwise_repvecs))
-        mean_cos_sim = float(cos_sims_memmap.mean())
+        cos_sims = [cosine_similarity(_review.repvecs[ituple[0]],
+                                      _review.repvecs[ituple[1]])[0][0]
+                    for ituple in pairwise_repvecs]
 
         # Return mean cosine similarity feature as a key/value pair
-        rmtree(_tmp)
-        return {'mean_cos_sim': mean_cos_sim}
+        return {'mean_cos_sim': float(np.array(cos_sims).mean())}
 
 
     def generate_dep_features():
