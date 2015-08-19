@@ -336,16 +336,16 @@ if __name__ == '__main__':
     if not _run_configuration:
         # Import some functions, etc., that will only be needed if this code
         # gets executed
+        from json import (dumps,
+                          JSONEncoder)
         from copy import deepcopy
         from data import APPID_DICT
         from spacy.en import English
-        from json import (JSONEncoder,
-                          dumps)
         from pymongo import MongoClient
-        from pymongo.errors import ConnectionFailure
         from src.feature_extraction import (Review,
-                                            extract_features_from_review,
-                                            generate_config_file)
+                                            generate_config_file,
+                                            extract_features_from_review)
+        from pymongo.errors import ConnectionFailure
         from util.mongodb import get_review_features_from_db
         # Establish connection to MongoDB database
         connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
@@ -444,7 +444,6 @@ if __name__ == '__main__':
                              cfg_file_name)
 
         if not _run_configuration:
-
             loginfo('Extracting features to train a combined model with '
                     'training data from the following games: {}'
                     .format(', '.join(game_files)))
@@ -462,7 +461,6 @@ if __name__ == '__main__':
 
             # Get the training reviews for this game from the MongoDB database
             for game_file in game_files:
-
                 game = splitext(game_file)[0]
                 loginfo('Extracting features from the training data for {}...'
                         .format(game))
@@ -581,7 +579,6 @@ if __name__ == '__main__':
     else:
         # Build model, extract features, etc. for each game separately
         for game_file in game_files:
-
             game = splitext(game_file)[0]
             model_prefix = game
             if do_not_lowercase_text:
@@ -607,7 +604,6 @@ if __name__ == '__main__':
                                  cfg_file_name)
 
             if not _run_configuration:
-
                 loginfo('Extracting features to train a model with training '
                         'data from {}...'.format(game))
 
