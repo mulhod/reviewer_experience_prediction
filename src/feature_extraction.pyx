@@ -6,17 +6,19 @@ Module of functions/classes related to feature extraction, model-building,
 ARFF file generation, etc.
 '''
 import numpy as np
+from numba import jit
 from math import ceil
 from json import dumps
 from os.path import join
 from re import (sub,
                 IGNORECASE)
+from joblib import (Parallel,
+                    delayed)
 from nltk.util import ngrams
 from string import punctuation
 from collections import Counter
 from itertools import combinations
 from configparser import ConfigParser
-from sklearn.metrics.pairwise import cosine_similarity
 
 class Review(object):
     '''
@@ -290,17 +292,17 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: dict
         '''
 
-        # Calculate the cosine similarity between all unique word-pairs
-        # (excluding words whose representation vectors consist entirely of
-        # zeroes)
-        pairwise_repvecs = list(combinations(range(len(_review.repvecs)),
-                                             2))
-        cos_sims = [cosine_similarity(_review.repvecs[ituple[0]],
-                                      _review.repvecs[ituple[1]])[0][0]
-                    for ituple in pairwise_repvecs]
 
-        # Return mean cosine similarity feature as a key/value pair
-        return {'mean_cos_sim': float(np.array(cos_sims).mean())}
+        # Calculate the cosine similarity between all unique word-pairs
+        return {'mean_cos_sim':
+                    float(np.array(
+                        [v1.dot(v2.T)/np.linalg.norm(v1)/np.linalg.norm(v2)
+                         for v1, v2
+                         in [(_review.repvecs[i],
+                              _review.repvecs[j])
+                             for i, j
+                             in combinations(range(len(_review.repvecs)),
+                                             2)]]).mean())}
 
 
     def generate_dep_features():
