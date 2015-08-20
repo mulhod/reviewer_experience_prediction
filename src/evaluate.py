@@ -93,7 +93,6 @@ if __name__ == '__main__':
     import logging
     from sys import exit
     from os import listdir
-    from data import APPID_DICT
     from spacy.en import English
     from collections import Counter
     from pymongo import MongoClient
@@ -288,7 +287,6 @@ if __name__ == '__main__':
         features_dicts_append = features_dicts.append
 
         game = splitext(game_file)[0]
-        appid = APPID_DICT[game]
 
         # Get test reviews
         loginfo('Extracting features from the test data for {}'
@@ -333,7 +331,6 @@ if __name__ == '__main__':
                                Review(review_text,
                                       hours,
                                       game,
-                                      appid,
                                       spaCy_nlp,
                                       lower=lowercase_text),
                                lowercase_cngrams=lowercase_cngrams)

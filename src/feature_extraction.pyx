@@ -12,18 +12,23 @@ from sys import exit
 from numba import jit
 from math import ceil
 from time import sleep
-from json import dumps
+from json import (dumps,
+                  JSONEncoder)
+json_encoder = JSONEncoder()
+json_encode = json_encoder.encode
 from os.path import join
 from re import (sub,
                 IGNORECASE)
-from joblib import (Parallel,
-                    delayed)
+from data import APPID_DICT
+#from joblib import (Parallel,
+#                    delayed)
 from nltk.util import ngrams
 from string import punctuation
 from collections import Counter
 from itertools import combinations
 from configparser import ConfigParser
 from pymongo.errors import AutoReconnect
+from util.mongodb import get_review_features_from_db
 
 class Review(object):
     '''
@@ -52,8 +57,8 @@ class Review(object):
     #probs = []
 
 
-    def __init__(self, review_text, float hours_played, game, appid,
-                 spaCy_nlp, lower=True):
+    def __init__(self, review_text, float hours_played, game, spaCy_nlp,
+                 lower=True):
         '''
         Initialization method.
 
@@ -63,8 +68,6 @@ class Review(object):
         :type hours_played: float
         :param game: name of game
         :type game: str
-        :param appid: appid string (usually a number of up to 6-7 digits)
-        :type appid: str
         :param spaCy_nlp: spaCy English analyzer
         :type spaCy_nlp: spaCy.en.English
         :param lower: include lower-casing as part of the review text
@@ -74,7 +77,7 @@ class Review(object):
 
         self.orig = review_text
         self.hours_played = hours_played
-        self.appid = appid
+        self.appid = APPID_DICT[game]
         self.lower = lower
 
         # Generate attribute values
@@ -373,7 +376,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     return dict(features)
 
 
-def update_db(db_update, _id, json_encoded_features, _binarize):
+def update_db(db_update, _id, features, _binarize):
     '''
     Update Mongo database document with extracted features.
 
@@ -381,8 +384,8 @@ def update_db(db_update, _id, json_encoded_features, _binarize):
     :type db_update: function
     :param _id: Object ID
     :type _id: pymongo.objectid.ObjectId
-    :param json_encoded_features: JSON-encoded feature string
-    :type json_encoded_features: str
+    :param features: dictionary of features
+    :type features: dict
     :param _binarize: whether or not the features are binarized
     :type _binarize: boolean
     :returns: None
@@ -392,7 +395,7 @@ def update_db(db_update, _id, json_encoded_features, _binarize):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'features': json_encoded_features,
+                      {'$set': {'features': json_encode(features),
                                 'binarized': _binarize}})
             break
         except AutoReconnect:
@@ -466,6 +469,110 @@ def binarize_features(_features):
     _features['zeroes_repvecs'] = zeroes_repvecs
 
     return _features
+
+
+def process_features(db, game_id, nlp_analyzer, jsonlines_file,
+                     use_bins=False, reuse_features=False,
+                     binarize_feats=True, lowercase_text=True,
+                     lowercase_cngrams=False):
+    '''
+    Get or extract features from review entries in the database, update the
+    database's copy of those features, and write features to .jsonlines file.
+
+    :param db: client to Mongo database of reviews
+    :type db: MongoClient
+    :param game_id: game ID
+    :type game_id: str
+    :param nlp_analyzer: spaCy English analyzer
+    :type nlp_analyzer: spaCy.en.English
+    :param jsonlines_file: writable file for features
+    :type jsonlines_file: file object
+    :param use_bins: use binned hours values (i.e., not raw values)
+    :type use_bins: boolean
+    :param reuse_features: try to reuse features from database
+    :type reuse_features: boolean
+    :param binarize_feats: whether or not to binarize features/use
+                           binarized features
+    :type binarize_feats: boolean
+    :param lowercase_text: whether or not to lower-case the review text
+    :type lowercase_text: boolean
+    :param lowercase_cngrams: whether or not to lower-case the character
+                              n-grams
+    :type lowercase_cngrams: boolean
+    :returns: None
+    '''
+
+    db_update = db.update
+    jsonlines_write = jsonlines_file.write
+
+    game_docs = db.find({'game': game,
+                         'partition': 'training'},
+                        {'features': 0,
+                         'game': 0,
+                         'partition': 0})
+    if game_docs.count() == 0:
+        logger.error('No matching documents were found in the MongoDB '
+                     'collection in the training partition for game {}. '
+                     'Exiting.'.format(gameid))
+        exit(1)
+    for game_doc in iter(games):
+        _get = game_doc.get
+        hours = _get('total_game_hours_bin' if use_bins
+                                            else 'total_game_hours')
+        review_text = _get('review')
+        _id = _get('_id')
+        _binarized = _get('binarized')
+
+        # Extract NLP features by querying the database (if they are available
+        # and the --reuse_features flag was used); otherwise, extract features
+        # from the review text directly (and try to update the database)
+        found_features = False
+        if (reuse_features
+            and _binarized == binarize_feats):
+            features = get_review_features_from_db(db,
+                                                   _id)
+            found_features = True if features else False
+
+            if not found_features:
+                features = extract_features_from_review(
+                               Review(review_text,
+                                      hours,
+                                      gameid,
+                                      nlp_analyzer,
+                                      lower=lowercase_text),
+                               lowercase_cngrams=lowercase_cngrams)
+
+            # If binarize_feats is True, make all NLP feature values 1 (except
+            # for the mean cosine similarity feature and the feature counting
+            # the number of tokens with representation vectors consisting
+            # entirely of zeroes)
+            if (binarize_feats
+                and not (found_features
+                         and _binarized)):
+                 features = binarize_features(features)
+
+            # Update Mongo database game doc with new key "features", which
+            # will be mapped to NLP features, and a new key "binarized", which
+            # will be set to True if NLP features were extracted with the
+            # --do_not_binarize_features flag or False otherwise
+            if not found_features:
+                update_db(db_update,
+                          _id,
+                          features,
+                          binarize_feats)
+
+            # Get features collected from Steam (non-NLP features) and add
+            # them to the features dictionary
+            features.update(get_steam_features(_get))
+
+            # If any features have a value of None, then turn the values into
+            # zeroes
+            [features.pop(k) for k in features if not features[k]]
+
+            # Write JSON object to file
+            jsonlines_write('{}\n'.format(dumps({'id': abs(hash(str(_id))),
+                                                 'y': hours,
+                                                 'x': features})))
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,

@@ -242,20 +242,12 @@ if __name__ == '__main__':
     if not _run_configuration:
         # Import some functions, etc., that will only be needed if this code
         # gets executed
-        from json import (dumps,
-                          JSONEncoder)
+        from json import dumps
         from copy import deepcopy
-        from data import APPID_DICT
         from spacy.en import English
         from pymongo import MongoClient
-        from src.feature_extraction import (Review,
-                                            generate_config_file,
-                                            extract_features_from_review,
-                                            update_db,
-                                            get_steam_features,
-                                            binarize_features)
+        from src.feature_extraction import generate_config_file
         from pymongo.errors import ConnectionFailure
-        from util.mongodb import get_review_features_from_db
         # Establish connection to MongoDB database
         connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
         try:
@@ -267,15 +259,9 @@ if __name__ == '__main__':
         db = connection['reviews_project']
         reviewdb = db['reviews']
         reviewdb.write_concern['w'] = 0
-        reviewdb_find = reviewdb.find
-        reviewdb_update = reviewdb.update
 
         # Initialize an English-language spaCy NLP analyzer instance
         spaCy_nlp = English()
-
-        # Make local binding to JSONEncoder method attribute
-        json_encoder = JSONEncoder()
-        json_encode = json_encoder.encode
 
     if not just_extract_features:
         from skll import run_configuration
@@ -362,101 +348,27 @@ if __name__ == '__main__':
             # features from each game's training data
             feature_dicts = []
 
+            # Extract/get features from all training documents for the given
+            # game, update the database, and write features to .jsonlines file
             loginfo('Writing {} to working directory...'
                     .format(jsonlines_file_name))
-            jsonlines_file = open(jsonlines_file_path,
-                                  'w')
-            jsonlines_write = jsonlines_file.write
-
-            # Get the training reviews for this game from the MongoDB database
-            for game_file in game_files:
-                game = splitext(game_file)[0]
-                loginfo('Extracting features from the training data for {}...'
-                        .format(game))
-
-                appid = APPID_DICT[game]
-                game_docs = reviewdb_find({'game': game,
-                                           'partition': 'training'},
-                                          {'features': 0,
-                                           'game': 0,
-                                           'partition': 0})
-                if game_docs.count() == 0:
-                    logerr('No matching documents were found in the MongoDB '
-                           'collection in the training partition for game {}.'
-                           ' Exiting.'.format(game))
-                    exit(1)
-
-                # Iterate over all training documents for the given game
-                for game_doc in iter(game_docs):
-
-                    _get = game_doc.get
-                    hours = _get('total_game_hours_bin'
-                                 if bins
-                                 else 'total_game_hours')
-                    review_text = _get('review')
-                    _id = _get('_id')
-                    _binarized = _get('binarized')
-
-                    # Extract NLP features by querying the database (if they
-                    # are available and the --reuse_features flag was used);
-                    # otherwise, extract features from the review text
-                    # directly (and try to update the database)
-                    found_features = False
-                    if (reuse_features
-                        and _binarized == binarize):
-                        features = get_review_features_from_db(reviewdb,
-                                                               _id)
-                        found_features = True if features else False
-
-                    if not found_features:
-                        features = extract_features_from_review(
-                                       Review(review_text,
-                                              hours,
-                                              game,
-                                              appid,
-                                              spaCy_nlp,
-                                              lower=lowercase_text),
-                                       lowercase_cngrams=lowercase_cngrams)
-
-                    # If binarize is True, make all NLP feature values 1
-                    # (except for the mean cosine similarity feature and the
-                    # feature counting the number of tokens with
-                    # representation vectors consisting entirely of zeroes)
-                    if (binarize
-                        and not (found_features
-                                 and _binarized)):
-                        features = binarize_features(features)
-
-                    # Update Mongo database game doc with new key "features",
-                    # which will be mapped to NLP features, and a new key
-                    # "binarized", which will be set to True if NLP features
-                    # were extracted with the --do_not_binarize_features flag
-                    # or False otherwise
-                    if not found_features:
-                        update_db(reviewdb_update,
-                                  _id,
-                                  json_encode(features),
-                                  binarize)
-
-                    # Get features collected from Steam (non-NLP features) and
-                    # add them to the features dictionary
-                    features.update(get_steam_features(_get))
-
-                    # If any features have a value of None, then turn the
-                    # values into zeroes
-                    [features.pop(k) for k in features if not features[k]]
-
-                    # Write JSON object to file
-                    jsonlines_write('{}\n'
-                                    .format(dumps({'id': abs(hash(str(_id))),
-                                                   'y': hours,
-                                                   'x': features})))
-
-                    # Set features to None now that it's no longer needed
-                    features = None
-
-                # Close JSONLINES file
-                jsonlines_file.close()
+            with open(jsonlines_file_path,
+                      'w') as jsonlines_file:
+                # Get the training reviews for this game from the MongoDB
+                # database
+                for game_file in game_files:
+                    game = splitext(game_file)[0]
+                    loginfo('Extracting features from the training data for '
+                            '{}...'.format(game))
+                    process_features(reviewdb,
+                                     game,
+                                     spaCy_nlp,
+                                     jsonlines_file,
+                                     use_bins=bins,
+                                     reuse_features=reuse_features,
+                                     binarize_feats=binarize,
+                                     lowercase_text=lowercase_text,
+                                     lowercase_cngrams=lowercase_cngrams)
 
             # Set up the job for training the model
             loginfo('Generating configuration file...')
@@ -525,96 +437,19 @@ if __name__ == '__main__':
                 # database
                 loginfo('Extracting features from the training data for {}...'
                         .format(game))
-                appid = APPID_DICT[game]
-                game_docs = reviewdb_find({'game': game,
-                                           'partition': 'training'},
-                                          {'features': 0,
-                                           'game': 0,
-                                           'partition': 0})
-                if game_docs.count() == 0:
-                    logerr('No matching documents were found in the MongoDB '
-                           'collection in the training partition for game {}.'
-                           ' Exiting.'.format(game))
-                    exit(1)
-
                 loginfo('Writing {} to working directory...'
                         .format(jsonlines_file_name))
-                jsonlines_file = open(jsonlines_file_path,
-                                      'w')
-                jsonlines_write = jsonlines_file.write
-
-                # Iterate over all training documents for the given game
-                for game_doc in iter(game_docs):
-                    _get = game_doc.get
-                    hours = _get('total_game_hours_bin'
-                                 if bins
-                                 else 'total_game_hours')
-                    review_text = _get('review')
-                    _id = _get('_id')
-                    _binarized = _get('binarized')
-
-                    # Extract NLP features by querying the database (if they
-                    # are available and the --reuse_features flag was used);
-                    # otherwise, extract features from the review text
-                    # directly (and try to update the database)
-                    found_features = False
-                    if (reuse_features
-                        and _binarized == binarize):
-                        features = get_review_features_from_db(reviewdb,
-                                                               _id)
-                        found_features = True if features else False
-
-                    if not found_features:
-                        # Instantiate a Review object
-                        features = extract_features_from_review(
-                                       Review(review_text,
-                                              hours,
-                                              game,
-                                              appid,
-                                              spaCy_nlp,
-                                              lower=lowercase_text),
-                                       lowercase_cngrams=lowercase_cngrams)
-
-                    # If binarize is True, make all NLP feature values 1
-                    # (except for the mean cosine similarity feature and the
-                    # feature counting the number of tokens with
-                    # representation vectors consisting entirely of zeroes)
-                    if (binarize
-                        and not (found_features
-                                 and _binarized)):
-                        features = binarize_features(features)
-
-                    # Update Mongo database game doc with new key "features",
-                    # which will be mapped to NLP features, and a new key
-                    # "binarized", which will be set to True if NLP features
-                    # were extracted with the --do_not_binarize_features flag
-                    # or False otherwise
-                    if not found_features:
-                        update_db(reviewdb_update,
-                                  _id,
-                                  json_encode(features),
-                                  binarize)
-
-                    # Get features collected from Steam (non-NLP features) and
-                    # add them to the features dictionary
-                    features.update(get_steam_features(_get))
-
-                    # If any features have a value of None, then turn the
-                    # values into zeroes
-                    [features.update({k: 0}) for k, v
-                     in features.items() if v == None]
-
-                    # Write features to line of JSONLINES output file
-                    jsonlines_write('{}\n'
-                                    .format(dumps({'id': abs(hash(str(_id))),
-                                                   'y': hours,
-                                                   'x': features})))
-
-                    # Set features to None now that it's no longer needed
-                    features = None
-
-                # Close JSONLINES file
-                jsonlines_file.close()
+                with open(jsonlines_file_path,
+                          'w') as jsonlines_file:
+                    process_features(reviewdb,
+                                     game,
+                                     spaCy_nlp,
+                                     jsonlines_file,
+                                     use_bins=bins,
+                                     reuse_features=reuse_features,
+                                     binarize_feats=binarize,
+                                     lowercase_text=lowercase_text,
+                                     lowercase_cngrams=lowercase_cngrams)
 
                 # Set up the job for training the model
                 loginfo('Generating configuration file...')
