@@ -14,7 +14,6 @@ from os.path import (join,
 from collections import Counter
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
-from pymongo.errors import AutoReconnect
 
 project_dir = dirname(dirname(realpath(__file__)))
 

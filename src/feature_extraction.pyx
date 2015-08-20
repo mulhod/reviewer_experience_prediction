@@ -5,6 +5,8 @@
 Module of functions/classes related to feature extraction, model-building,
 ARFF file generation, etc.
 '''
+import logging
+logger = logging.getLogger()
 import numpy as np
 from sys import exit
 from numba import jit
@@ -21,6 +23,7 @@ from string import punctuation
 from collections import Counter
 from itertools import combinations
 from configparser import ConfigParser
+from pymongo.errors import AutoReconnect
 
 class Review(object):
     '''
@@ -385,7 +388,7 @@ def update_db(db_update, _id, json_encoded_features, _binarize):
     :returns: None
     '''
 
-    int tries = 0
+    cdef int tries = 0
     while tries < 5:
         try:
             db_update({'_id': _id},
@@ -393,12 +396,12 @@ def update_db(db_update, _id, json_encoded_features, _binarize):
                                 'binarized': _binarize}})
             break
         except AutoReconnect:
-            logwarn('Encountered ConnectionFailure error, attempting to '
-                    'reconnect automatically...')
+            logger.warning('Encountered AutoReconnect failure, attempting to '
+                           'reconnect automatically after 20 seconds...')
             tries += 1
             if tries >= 5:
-                logerr('Unable to update database even after 5 tries. '
-                       'Exiting.')
+                logger.error('Unable to update database even after 5 tries. '
+                             'Exiting.')
                 exit(1)
             sleep(20)
 
@@ -412,29 +415,29 @@ def get_steam_features(get_feat):
     :returns: dict
     '''
 
-    achievements = _get('achievement_progress')
+    achievements = get_feat('achievement_progress')
     steam_feats = {'total_game_hours_last_two_weeks':
-                       _get('total_game_hours_last_two_weeks'),
-                   'num_found_funny': _get('num_found_funny'),
-                   'num_found_helpful': _get('num_found_helpful'),
+                       get_feat('total_game_hours_last_two_weeks'),
+                   'num_found_funny': get_feat('num_found_funny'),
+                   'num_found_helpful': get_feat('num_found_helpful'),
                    'found_helpful_percentage':
-                       _get('found_helpful_percentage'),
-                   'num_friends': _get('num_friends'),
-                   'friend_player_level': _get('friend_player_level'),
-                   'num_groups': _get('num_groups'),
-                   'num_screenshots': _get('num_screenshots'),
-                   'num_workshop_items': _get('num_workshop_items'),
-                   'num_comments': _get('num_comments'),
-                   'num_games_owned': _get('num_games_owned'),
-                   'num_reviews': _get('num_reviews'),
-                   'num_guides': _get('num_guides'),
-                   'num_badges': _get('num_badges'),
-                   'updated': 1 if _get('date_updated') else 0,
+                       get_feat('found_helpful_percentage'),
+                   'num_friends': get_feat('num_friends'),
+                   'friend_player_level': get_feat('friend_player_level'),
+                   'num_groups': get_feat('num_groups'),
+                   'num_screenshots': get_feat('num_screenshots'),
+                   'num_workshop_items': get_feat('num_workshop_items'),
+                   'num_comments': get_feat('num_comments'),
+                   'num_games_owned': get_feat('num_games_owned'),
+                   'num_reviews': get_feat('num_reviews'),
+                   'num_guides': get_feat('num_guides'),
+                   'num_badges': get_feat('num_badges'),
+                   'updated': 1 if get_feat('date_updated') else 0,
                    'num_achievements_attained':
                        achievements.get('num_achievements_attained'),
                    'num_achievements_percentage':
                        achievements.get('num_achievements_percentage'),
-                   'rating': _get('rating')}
+                   'rating': get_feat('rating')}
     return steam_feats
 
 
@@ -456,7 +459,7 @@ def binarize_features(_features):
     del _features['zeroes_repvecs']
 
     # Binarize the remaining features
-    _features = dict(Counter(list(features)))
+    _features = dict(Counter(list(_features)))
 
     # Add the two held-out features back into the feature dictionary
     _features['mean_cos_sim'] = mean_cos_sim
