@@ -183,10 +183,12 @@ if __name__ == '__main__':
                                   ' %(message)s')
     fh.setFormatter(formatter)
     sh.setFormatter(formatter)
+
+    # Add logging handlers
     logger.addHandler(fh)
     logger.addHandler(sh)
 
-    # global loginfo, logdebug, logerr, logwarn
+    # Log methods
     loginfo = logger.info
     logdebug = logger.debug
     logerr = logger.error
