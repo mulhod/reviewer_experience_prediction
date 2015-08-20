@@ -6,8 +6,10 @@ Module of functions/classes related to feature extraction, model-building,
 ARFF file generation, etc.
 '''
 import numpy as np
+from sys import exit
 from numba import jit
 from math import ceil
+from time import sleep
 from json import dumps
 from os.path import join
 from re import (sub,
@@ -366,6 +368,101 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     features.update(generate_dep_features())
 
     return dict(features)
+
+
+def update_db(db_update, _id, json_encoded_features, _binarize):
+    '''
+    Update Mongo database document with extracted features.
+
+    :param db_update: Mondo database update function
+    :type db_update: function
+    :param _id: Object ID
+    :type _id: pymongo.objectid.ObjectId
+    :param json_encoded_features: JSON-encoded feature string
+    :type json_encoded_features: str
+    :param _binarize: whether or not the features are binarized
+    :type _binarize: boolean
+    :returns: None
+    '''
+
+    int tries = 0
+    while tries < 5:
+        try:
+            db_update({'_id': _id},
+                      {'$set': {'features': json_encoded_features,
+                                'binarized': _binarize}})
+            break
+        except AutoReconnect:
+            logwarn('Encountered ConnectionFailure error, attempting to '
+                    'reconnect automatically...')
+            tries += 1
+            if tries >= 5:
+                logerr('Unable to update database even after 5 tries. '
+                       'Exiting.')
+                exit(1)
+            sleep(20)
+
+
+def get_steam_features(get_feat):
+    '''
+    Get features collected from Steam (i.e., the non-NLP features).
+
+    :param get_feat: get function for a database document
+    :type get_feat: function
+    :returns: dict
+    '''
+
+    achievements = _get('achievement_progress')
+    steam_feats = {'total_game_hours_last_two_weeks':
+                       _get('total_game_hours_last_two_weeks'),
+                   'num_found_funny': _get('num_found_funny'),
+                   'num_found_helpful': _get('num_found_helpful'),
+                   'found_helpful_percentage':
+                       _get('found_helpful_percentage'),
+                   'num_friends': _get('num_friends'),
+                   'friend_player_level': _get('friend_player_level'),
+                   'num_groups': _get('num_groups'),
+                   'num_screenshots': _get('num_screenshots'),
+                   'num_workshop_items': _get('num_workshop_items'),
+                   'num_comments': _get('num_comments'),
+                   'num_games_owned': _get('num_games_owned'),
+                   'num_reviews': _get('num_reviews'),
+                   'num_guides': _get('num_guides'),
+                   'num_badges': _get('num_badges'),
+                   'updated': 1 if _get('date_updated') else 0,
+                   'num_achievements_attained':
+                       achievements.get('num_achievements_attained'),
+                   'num_achievements_percentage':
+                       achievements.get('num_achievements_percentage'),
+                   'rating': _get('rating')}
+    return steam_feats
+
+
+def binarize_features(_features):
+    '''
+    Binarize (most of) the NLP features.
+
+    :param _features: feature dictionary
+    :type _features: dict
+    :returns: dict
+    '''
+
+    # Get the mean cosine similarity and zero-filled representation vector
+    # features and then delete those keys from the feature dictionary (so
+    # that they don't get set to 1)
+    mean_cos_sim = _features['mean_cos_sim']
+    zeroes_repvecs = _features['zeroes_repvecs']
+    del _features['mean_cos_sim']
+    del _features['zeroes_repvecs']
+
+    # Binarize the remaining features
+    _features = dict(Counter(list(features)))
+
+    # Add the two held-out features back into the feature dictionary
+    _features['mean_cos_sim'] = mean_cos_sim
+    _features['zeroes_repvecs'] = zeroes_repvecs
+
+    return _features
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
