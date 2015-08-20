@@ -9,6 +9,8 @@ import logging
 logger = logging.getLogger()
 import numpy as np
 from sys import exit
+from re import (sub,
+                IGNORECASE)
 from numba import jit
 from math import ceil
 from time import sleep
@@ -17,8 +19,6 @@ from json import (dumps,
 json_encoder = JSONEncoder()
 json_encode = json_encoder.encode
 from os.path import join
-from re import (sub,
-                IGNORECASE)
 from data import APPID_DICT
 #from joblib import (Parallel,
 #                    delayed)
