@@ -505,7 +505,7 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
     db_update = db.update
     jsonlines_write = jsonlines_file.write
 
-    game_docs = db.find({'game': game,
+    game_docs = db.find({'game': game_id,
                          'partition': 'training'},
                         {'features': 0,
                          'game': 0,
@@ -513,9 +513,9 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
     if game_docs.count() == 0:
         logger.error('No matching documents were found in the MongoDB '
                      'collection in the training partition for game {}. '
-                     'Exiting.'.format(gameid))
+                     'Exiting.'.format(game_id))
         exit(1)
-    for game_doc in iter(games):
+    for game_doc in iter(game_docs):
         _get = game_doc.get
         hours = _get('total_game_hours_bin' if use_bins
                                             else 'total_game_hours')
@@ -537,7 +537,7 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
                 features = extract_features_from_review(
                                Review(review_text,
                                       hours,
-                                      gameid,
+                                      game_id,
                                       nlp_analyzer,
                                       lower=lowercase_text),
                                lowercase_cngrams=lowercase_cngrams)
