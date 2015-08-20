@@ -6,16 +6,64 @@ Script used to train models on datasets (or multiple datasets combined).
 '''
 from sys import exit
 from time import sleep
+from os import listdir
 from os.path import (join,
                      dirname,
                      realpath,
                      exists,
                      splitext)
+project_dir = dirname(dirname(realpath(__file__)))
 from collections import Counter
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
+import logging
+logging_debug = logging.DEBUG
+logger = logging.getLogger('train')
+logger.setLevel(logging_debug)
+sh = logging.StreamHandler()
+sh.setLevel(logging_debug)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
+                              ' %(message)s')
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+loginfo = logger.info
+logdebug = logger.debug
+logerr = logger.error
+logwarn = logger.warning
+
+# Get short names for the learner and objective function to use in the
+# experiment name(s)
+learner_abbrs = {'AdaBoost': 'AdaBoost',
+                 'DecisionTree': 'DTree',
+                 'ElasticNet': 'ENet',
+                 'GradientBoostingRegressor': 'GBReg',
+                 'KNeighborsRegressor': 'KNReg',
+                 'Lasso': 'Lasso',
+                 'LinearRegression': 'LReg',
+                 'RandomForestRegressor': 'RFReg',
+                 'Ridge': 'Ridge',
+                 'SGDRegressor': 'SGDReg',
+                 'SVR': 'SVR',
+                 'RescaledAdaBoost': 'RAdaBoost',
+                 'DecisionTree': 'RDTree',
+                 'ElasticNet': 'RENet',
+                 'GradientBoostingRegressor': 'RGBReg',
+                 'KNeighborsRegressor': 'RKNReg',
+                 'Lasso': 'RLasso',
+                 'LinearRegression': 'RLReg',
+                 'RandomForestRegressor': 'RRFReg',
+                 'Ridge': 'RRidge',
+                 'SGDRegressor': 'RSGDReg',
+                 'RescaledSVR': 'RSVR'}
+obj_func_abbrs = {'unweighted_kappa': 'uwk',
+                  'linear_weighted_kappa': 'lwk',
+                  'quadratic_weighted_kappa': 'qwk',
+                  'uwk_off_by_one': 'kappa_offby1',
+                  'lwk_off_by_one': 'lwk_offby1',
+                  'qwk_off_by_one': 'qwk_offby1',
+                  'r2': 'r2',
+                  'mean_squared_error': 'mse'}
 
 
 def make_train_dirs():
@@ -45,6 +93,33 @@ def make_train_dirs():
     makedirs(join(project_dir,
                   'outputs'),
              exist_ok=True)
+
+
+def get_game_files(games_str):
+    '''
+    Get list of game files (file-names only).
+
+    :param games_str: string representation of list of game files (or "all"
+                      for all game-files)
+    :type games_str: str
+    :returns: list of str
+    '''
+
+    game_files = []
+    if games_str == "all":
+        game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
+    else:
+        game_files = [f for f in games_str.split(',')
+                      if exists(join(data_dir_path,
+                                     f))]
+
+    if len(game_files) == 0:
+        logerr('No files passed in via --game_files argument were found: {}. '
+               'Exiting.'.format(', '.join(games_str.split(','))))
+        exit(1)
+
+    return game_files
 
 
 if __name__ == '__main__':
@@ -146,10 +221,6 @@ if __name__ == '__main__':
                      'replog_train.txt'))
     args = parser.parse_args()
 
-    # Imports
-    import logging
-    from os import listdir
-
     # Make local copies of arguments
     game_files = args.game_files
     combine = args.combine
@@ -165,42 +236,21 @@ if __name__ == '__main__':
     do_not_binarize_features = args.do_not_binarize_features
     local=not args.use_cluster
 
-    # Initialize logging system
-    logging_debug = logging.DEBUG
-    logger = logging.getLogger('train')
-    logger.setLevel(logging_debug)
-
-    # Create file handler
+    # Create logging file handler
     fh = logging.FileHandler(realpath(args.log_file_path))
     fh.setLevel(logging_debug)
-
-    # Create console handler
-    sh = logging.StreamHandler()
-    sh.setLevel(logging_debug)
-
-    # Add nicer formatting
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                                  ' %(message)s')
     fh.setFormatter(formatter)
-    sh.setFormatter(formatter)
-
-    # Add logging handlers
     logger.addHandler(fh)
-    logger.addHandler(sh)
-
-    # Log methods
-    loginfo = logger.info
-    logdebug = logger.debug
-    logerr = logger.error
-    logwarn = logger.warning
 
     # Get paths to directories related to the training/evaluation tasks and
     # make them global variables
-    global cfg_dir_path, working_dir_path
+    global cfg_dir_path, working_dir_path, data_dir_path
     cfg_dir_path = join(project_dir,
                         'config')
     working_dir_path = join(project_dir,
                             'working')
+    data_dir_path = join(project_dir,
+                         'data')
     make_train_dirs()
 
     # Print out some logging information about the upcoming tasks
@@ -267,46 +317,9 @@ if __name__ == '__main__':
         from skll import run_configuration
 
     # Get list of games
-    if game_files == "all":
-        game_files = [f for f in listdir(join(project_dir,
-                                              'data'))
-                      if f.endswith('.jsonlines')]
-        del game_files[game_files.index('sample.jsonlines')]
-    else:
-        game_files = game_files.split(',')
+    game_files = get_game_files(game_files)
 
-    # Get short names for the learner and objective function to use in the
-    # experiment name(s)
-    learner_abbrs = {'AdaBoost': 'AdaBoost',
-                     'DecisionTree': 'DTree',
-                     'ElasticNet': 'ENet',
-                     'GradientBoostingRegressor': 'GBReg',
-                     'KNeighborsRegressor': 'KNReg',
-                     'Lasso': 'Lasso',
-                     'LinearRegression': 'LReg',
-                     'RandomForestRegressor': 'RFReg',
-                     'Ridge': 'Ridge',
-                     'SGDRegressor': 'SGDReg',
-                     'SVR': 'SVR',
-                     'RescaledAdaBoost': 'RAdaBoost',
-                     'DecisionTree': 'RDTree',
-                     'ElasticNet': 'RENet',
-                     'GradientBoostingRegressor': 'RGBReg',
-                     'KNeighborsRegressor': 'RKNReg',
-                     'Lasso': 'RLasso',
-                     'LinearRegression': 'RLReg',
-                     'RandomForestRegressor': 'RRFReg',
-                     'Ridge': 'RRidge',
-                     'SGDRegressor': 'RSGDReg',
-                     'RescaledSVR': 'RSVR'}
-    obj_func_abbrs = {'unweighted_kappa': 'uwk',
-                      'linear_weighted_kappa': 'lwk',
-                      'quadratic_weighted_kappa': 'qwk',
-                      'uwk_off_by_one': 'kappa_offby1',
-                      'lwk_off_by_one': 'lwk_offby1',
-                      'qwk_off_by_one': 'qwk_offby1',
-                      'r2': 'r2',
-                      'mean_squared_error': 'mse'}
+    # Get short versions of learner/objective function names
     learner_short = learner_abbrs[learner]
     objective_function_short = obj_func_abbrs[objective_function]
 
