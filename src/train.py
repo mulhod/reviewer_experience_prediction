@@ -343,11 +343,6 @@ if __name__ == '__main__':
                     'training data from the following games: {}'
                     .format(', '.join(game_files)))
 
-            # Initialize empty list for holding all of the feature
-            # dictionaries from each review in each game and then extract
-            # features from each game's training data
-            feature_dicts = []
-
             # Extract/get features from all training documents for the given
             # game, update the database, and write features to .jsonlines file
             loginfo('Writing {} to working directory...'
@@ -427,11 +422,6 @@ if __name__ == '__main__':
             if not _run_configuration:
                 loginfo('Extracting features to train a model with training '
                         'data from {}...'.format(game))
-
-                # Initialize empty list for holding all of the feature
-                # dictionaries from each review and then extract features from
-                # all reviews
-                feature_dicts = []
 
                 # Get the training reviews for this game from the Mongo
                 # database
