@@ -302,9 +302,11 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
 
         # Calculate the cosine similarity between all unique word-pairs
+        # Note: There's no need to use the transpose of in the dot product of
+        # the vectors below since they only contain one dimension.
         return {'mean_cos_sim':
                     float(np.array(
-                        [v1.dot(v2.T)/np.linalg.norm(v1)/np.linalg.norm(v2)
+                        [v1.dot(v2)/v1.dot(v1)/v2.dot(v2)
                          for v1, v2
                          in [(_review.repvecs[i],
                               _review.repvecs[j])
