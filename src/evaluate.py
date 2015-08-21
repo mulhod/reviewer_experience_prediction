@@ -21,68 +21,68 @@ if __name__ == '__main__':
     parser = ArgumentParser(usage='python evaluate.py --game_files '
         'GAME_FILE1,GAME_FILE2,... --model MODEL_PREFIX[ --results_path '
         'PATH|--predictions_path PATH|--just_extract_features][ OPTIONS]',
-        description='generate predictions for a data-set\'s test set '
-                    'reviews and output evaluation metrics',
+        description='Generate predictions for a data-set\'s test set '
+                    'reviews and output evaluation metrics.',
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
-        help='comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory)',
+        help='Comma-separated list of file-names or "all" for all of the '
+             'files (the game files should reside in the "data" directory).',
         type=str,
         required=True)
     parser_add_argument('--model', '-m',
-        help='model prefix (this will be the model that is used to generate '
+        help='Model prefix (this will be the model that is used to generate '
              'predictions for all test reviews for the game files input via '
-             'the --game_files option argument)',
+             'the --game_files option argument).',
         type=str,
         required=True)
     parser_add_argument('--results_path', '-r',
-        help='destination directory for results output file',
+        help='Destination directory for results output file.',
         type=str,
         required=False)
     parser_add_argument('--predictions_path', '-p',
-        help='destination directory for predictions file',
+        help='Destination directory for predictions file.',
         type=str,
         required=False)
     parser_add_argument('--do_not_lowercase_text',
-        help='do not make lower-casing part of the review text normalization '
-             'step, which affects word n-gram-related features',
+        help='Do not make lower-casing part of the review text normalization '
+             'step, which affects word n-gram-related features.',
         action='store_true',
         default=False)
     parser_add_argument('--lowercase_cngrams',
-        help='lower-case the review text before extracting character n-gram '
-             'features',
+        help='Lower-case the review text before extracting character n-gram '
+             'features.',
         action='store_true',
         default=False)
     parser_add_argument('--use_original_hours_values',
-        help='use the original, uncollapsed hours played values',
+        help='Use the original, uncollapsed hours played values.',
         action='store_true',
         default=False)
     parser_add_argument('--just_extract_features',
-        help='extract features from all of the test set reviews and insert '
+        help='Extract features from all of the test set reviews and insert '
              'them into the MongoDB database, but quit before generating '
-             'any predictions or results',
+             'any predictions or results.',
         action='store_true',
         default=False)
-    parser_add_argument('--try_to_reuse_extracted_features',
-        help='try to make use of previously-extracted features that reside '
-             'in the MongoDB database',
+    parser_add_argument('--reuse_features',
+        help='Try to make use of previously-extracted features that reside '
+             'in the MongoDB database.',
         action='store_true',
         default=True)
     parser_add_argument('--do_not_binarize_features',
-        help='do not make all non-zero feature frequencies equal to 1',
+        help='Do not make all non-zero feature frequencies equal to 1.',
         action='store_true',
         default=False)
     parser_add_argument('--eval_combined_games',
-        help='print evaluation metrics across all games',
+        help='Print evaluation metrics across all games.',
         action='store_true',
         default=False)
     parser_add_argument('--mongodb_port', '-dbport',
-        help='port that the MongoDB server is running',
+        help='Port that the MongoDB server is running on.',
         type=int,
         default=27017)
     parser_add_argument('--log_file_path', '-log',
-        help='path for log file',
+        help='Destination path for log file.',
         type=str,
         default=join(project_dir,
                      'logs',
@@ -93,16 +93,13 @@ if __name__ == '__main__':
     import logging
     from sys import exit
     from os import listdir
-    from spacy.en import English
     from collections import Counter
     from pymongo import MongoClient
-    from json import JSONEncoder
-    from pymongo.errors import (AutoReconnect,
-                                ConnectionFailure)
-    from util.mongodb import get_review_features_from_db
-    from src.feature_extraction import (Review,
+    from pymongo.errors import ConnectionFailure
+    from src.feature_extraction import (process_features,
                                         extract_features_from_review,
                                         make_confusion_matrix)
+    from src.train import get_game_files
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -113,7 +110,7 @@ if __name__ == '__main__':
     lowercase_cngrams = args.lowercase_cngrams
     use_original_hours_values = args.use_original_hours_values
     just_extract_features = args.just_extract_features
-    try_to_reuse_extracted_features = args.try_to_reuse_extracted_features
+    reuse_features = args.reuse_features
     do_not_binarize_features = args.do_not_binarize_features
     eval_combined_games = args.eval_combined_games
 
@@ -203,7 +200,7 @@ if __name__ == '__main__':
                'the features and putting them in the MondoDB). Exiting.')
         exit(1)
 
-    if (try_to_reuse_extracted_features
+    if (reuse_features
         and (lowercase_cngrams
              or do_not_lowercase_text)):
         logwarn('If trying to reuse previously extracted features, then the '
@@ -218,7 +215,7 @@ if __name__ == '__main__':
              .format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
     logdebug('Try to reuse extracted features? {}'
-             .format(try_to_reuse_extracted_features))
+             .format(reuse_features))
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
@@ -233,25 +230,10 @@ if __name__ == '__main__':
     db = connection['reviews_project']
     reviewdb = db['reviews']
     reviewdb.write_concern['w'] = 0
-    reviewdb_find = reviewdb.find
-    reviewdb_find_one = reviewdb.find_one
-    reviewdb_update = reviewdb.update
-
-    # Initialize an English-language spaCy NLP analyzer instance
-    spaCy_nlp = English()
-
-    # Make local binding to JSONEncoder method attribute
-    json_encoder = JSONEncoder()
-    json_encode = json_encoder.encode
 
     # Iterate over the game files, looking for test set reviews
     # Get list of games
-    if game_files == "all":
-        game_files = [f for f in listdir(data_dir)
-                      if f.endswith('.jsonlines')]
-        del game_files[game_files.index('sample.jsonlines')]
-    else:
-        game_files = game_files.split(',')
+    game_files = get_game_files(game_files)
 
     # If the --eval_combined_games flag was used but there's only one game
     # file to evaluate on, print a warning that the "combined" stats will only
@@ -276,105 +258,43 @@ if __name__ == '__main__':
     # Iterate over game files, generating/fetching features, etc., and putting
     # them in lists
     for game_file in game_files:
-
-        _ids = []
-        _ids_append = _ids.append
-        hours_values = []
-        hours_values_append = hours_values.append
-        reviews = []
-        reviews_append = reviews.append
-        features_dicts = []
-        features_dicts_append = features_dicts.append
-
         game = splitext(game_file)[0]
-
-        # Get test reviews
+        # Get/generate test review features, etc.
         loginfo('Extracting features from the test data for {}'
                 '...'.format(game))
-        game_docs = reviewdb_find({'game': game,
-                                   'partition': 'test'},
-                                  {'features': 0,
-                                   'game': 0,
-                                   'partition': 0})
+        if just_extract_features:
+            process_features(reviewdb,
+                             'test',
+                             game,
+                             just_extract_features=True,
+                             use_bins=bins,
+                             reuse_features=reuse_features,
+                             binarize_feats=binarize,
+                             lowercase_text=lowercase_text,
+                             lowercase_cngrams=lowercase_cngrams)
+            loginfo('Exiting after extracting features and updating the '
+                    'database...')
+            exit(0)
+        else:
+            review_data_dicts = \
+                process_features(reviewdb,
+                                 'test',
+                                 game,
+                                 review_data=True,
+                                 use_bins=bins,
+                                 reuse_features=reuse_features,
+                                 binarize_feats=binarize,
+                                 lowercase_text=lowercase_text,
+                                 lowercase_cngrams=lowercase_cngrams)
 
-        if game_docs.count() == 0:
-            logerr('No matching documents were found in the MongoDB '
-                   'collection in the test partition for game {}. Exiting.'
-                   .format(game))
-            exit(1)
-
-        for game_doc in game_docs:
-
-            _get = game_doc.get
-            hours = _get('total_game_hours_bin' if bins else 'total_game_hours')
-            review_text = _get('review')
-            _id = _get('_id')
-            _binarized = _get('binarized')
-
-            _ids_append(repr(_id))
-            hours_values_append(hours)
-            reviews_append(review_text)
-
-            # Extract features by querying the database (if they are
-            # available and the --try_to_reuse_extracted_features
-            # flag was used); otherwise, extract features from the
-            # review text directly (and try to update the database)
-            found_features = False
-            if (try_to_reuse_extracted_features
-                and _binarized == binarize):
-                features = get_review_features_from_db(reviewdb,
-                                                       _id)
-                found_features = True if features else False
-
-            if not found_features:
-                features = extract_features_from_review(
-                               Review(review_text,
-                                      hours,
-                                      game,
-                                      spaCy_nlp,
-                                      lower=lowercase_text),
-                               lowercase_cngrams=lowercase_cngrams)
-
-            # If binarize is True, make all values 1
-            if (binarize
-                and not (found_features
-                         and _binarized)):
-                features = dict(Counter(list(features)))
-
-            # Update Mongo database game doc with new key "features", which
-            # will be mapped to game_features, and a new key "binarized",
-            # which will be set to True if features were extracted with the --
-            # do_not_binarize_features flag or False otherwise
-            if (not found_features
-                and just_extract_features):
-                tries = 0
-                while tries < 5:
-                    try:
-                        reviewdb_update(
-                            {'_id': _id},
-                            {'$set': {'features': json_encode(features),
-                                      'binarized': binarize}})
-                        break
-                    except AutoReconnect as e:
-                        logwarn('Encountered ConnectionFailure error, '
-                                'attempting to reconnect automatically...')
-                        tries += 1
-                        if tries >= 5:
-                            logerr('Unable to update database even after 5 '
-                                   'tries. Exiting.')
-                            exit(1)
-                        sleep(20)
-
-            # Go to next game document if all that's being done is extracting
-            # features
-            if just_extract_features:
-                continue
-
-            # Append feature dict to end of list
-            features_dicts_append(features)
-
-        # Make all hours values natural numbers (rounding down)
-        hours_values = [int(h) for h in hours_values]
+        # Extract values from review dictionaries
+        hours_values = [int(review_dict.get('hours')) for review_dict
+                        in review_data_dicts]
+        features_dicts = [review_dict.get('features') for review_dict
+                          in review_data_dicts]
+        _ids = [review_dict.get('_id') for review_dict in review_data_dicts]
+        reviews = [review_dict.get('review') for review_dict
+                   in review_data_dicts]
 
         # Make list of FeatureSet instances
         fs = FeatureSet('{}.test'.format(game),

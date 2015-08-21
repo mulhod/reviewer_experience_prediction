@@ -7,6 +7,8 @@ ARFF file generation, etc.
 '''
 import logging
 logger = logging.getLogger()
+logwarn = logger.warning
+logerr = logger.error
 import numpy as np
 from sys import exit
 from re import (sub,
@@ -23,6 +25,8 @@ from data import APPID_DICT
 #from joblib import (Parallel,
 #                    delayed)
 from nltk.util import ngrams
+from spacy.en import English
+spaCy_nlp = English()
 from string import punctuation
 from collections import Counter
 from itertools import combinations
@@ -57,8 +61,7 @@ class Review(object):
     #probs = []
 
 
-    def __init__(self, review_text, float hours_played, game, spaCy_nlp,
-                 lower=True):
+    def __init__(self, review_text, float hours_played, game, lower=True):
         '''
         Initialization method.
 
@@ -68,8 +71,6 @@ class Review(object):
         :type hours_played: float
         :param game: name of game
         :type game: str
-        :param spaCy_nlp: spaCy English analyzer
-        :type spaCy_nlp: spaCy.en.English
         :param lower: include lower-casing as part of the review text
                       normalization step
         :type lower: boolean
@@ -382,10 +383,10 @@ def update_db(db_update, _id, features, _binarize):
     '''
     Update Mongo database document with extracted features.
 
-    :param db_update: Mondo database update function
-    :type db_update: function
-    :param _id: Object ID
-    :type _id: pymongo.objectid.ObjectId
+    :param db_update: bound method Collection.update of Mongo collection
+    :type db_update: method
+    :param _id: database document's Object ID
+    :type _id: bson.objectid.ObjectId object
     :param features: dictionary of features
     :type features: dict
     :param _binarize: whether or not the features are binarized
@@ -401,12 +402,12 @@ def update_db(db_update, _id, features, _binarize):
                                 'binarized': _binarize}})
             break
         except AutoReconnect:
-            logger.warning('Encountered AutoReconnect failure, attempting to '
-                           'reconnect automatically after 20 seconds...')
+            logwarn('Encountered AutoReconnect failure, attempting to '
+                    'reconnect automatically after 20 seconds...')
             tries += 1
             if tries >= 5:
-                logger.error('Unable to update database even after 5 tries. '
-                             'Exiting.')
+                logerr('Unable to update database even after 5 tries. '
+                       'Exiting.')
                 exit(1)
             sleep(20)
 
@@ -415,8 +416,9 @@ def get_steam_features(get_feat):
     '''
     Get features collected from Steam (i.e., the non-NLP features).
 
-    :param get_feat: get function for a database document
-    :type get_feat: function
+    :param get_feat: built-in method get of dictionary object representing a
+                     single Mongo database document
+    :type get_feat: method/function
     :returns: dict
     '''
 
@@ -473,22 +475,31 @@ def binarize_features(_features):
     return _features
 
 
-def process_features(db, game_id, nlp_analyzer, jsonlines_file,
-                     use_bins=False, reuse_features=False,
-                     binarize_feats=True, lowercase_text=True,
-                     lowercase_cngrams=False):
+def process_features(db, data_partition, game_id, jsonlines_file=None,
+                     review_data=False, use_bins=False, reuse_features=False,
+                     binarize_feats=True, just_extract_features=False,
+                     lowercase_text=True, lowercase_cngrams=False):
     '''
     Get or extract features from review entries in the database, update the
-    database's copy of those features, and write features to .jsonlines file.
+    database's copy of those features, and optionally write features to
+    .jsonlines file or compile list of feature dictionaries and return.
 
-    :param db: client to Mongo database of reviews
-    :type db: MongoClient
+    :param db: a Mongo DB collection client
+    :type db: pymongo.collection.Collection
+    :param data_partition: 'training', 'test', etc. (must be valid value for
+                           'partition' key of review collection in Mongo
+                           database)
+    :type data_partition: str
     :param game_id: game ID
     :type game_id: str
-    :param nlp_analyzer: spaCy English analyzer
-    :type nlp_analyzer: spaCy.en.English
-    :param jsonlines_file: writable file for features
-    :type jsonlines_file: file object
+    :param jsonlines_file: writable file used for writing out features to
+    :type jsonlines_file: _io.TextIOWrapper (default: None)
+    :param review_data: whether or not to compile and return a list of
+                        dictionaries corresponding to each review storing:
+                        1) a feature dictionary, 2) an hours value, 3) a
+                        representation of the review document's object id,
+                        and 4) the review text
+    :type review_data: boolean
     :param use_bins: use binned hours values (i.e., not raw values)
     :type use_bins: boolean
     :param reuse_features: try to reuse features from database
@@ -496,6 +507,10 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
     :param binarize_feats: whether or not to binarize features/use
                            binarized features
     :type binarize_feats: boolean
+    :param just_extract_features: just extract features and update the Mongo
+                                  database (and don't return the features or
+                                  write them to a file)
+    :type just_extract_features: boolean
     :param lowercase_text: whether or not to lower-case the review text
     :type lowercase_text: boolean
     :param lowercase_cngrams: whether or not to lower-case the character
@@ -504,18 +519,33 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
     :returns: None
     '''
 
+    if (just_extract_features
+        and (jsonlines_file
+             or review_data)):
+        logerr('Cannot use just_extract_features keyword argument in addition'
+               ' to either the jsonlines_file or review_data keyword '
+               'arguments in feature_extraction.process_features '
+               'method/function. Exiting.')
+        exit(1)
+
     db_update = db.update
-    jsonlines_write = jsonlines_file.write
+
+    if jsonlines_file:
+        jsonlines_write = jsonlines_file.write
+
+    if review_data:
+        review_data_dicts = []
 
     game_docs = db.find({'game': game_id,
-                         'partition': 'training'},
+                         'partition': data_partition},
                         {'features': 0,
                          'game': 0,
                          'partition': 0})
     if game_docs.count() == 0:
-        logger.error('No matching documents were found in the MongoDB '
-                     'collection in the training partition for game {}. '
-                     'Exiting.'.format(game_id))
+        logerr('No matching documents were found in the MongoDB collection in'
+               ' the {} partition for game {}. Exiting.'
+               .format(data_partition,
+                       game_id))
         exit(1)
     for game_doc in iter(game_docs):
         _get = game_doc.get
@@ -535,46 +565,62 @@ def process_features(db, game_id, nlp_analyzer, jsonlines_file,
                                                    _id)
             found_features = True if features else False
 
-            if not found_features:
-                features = extract_features_from_review(
-                               Review(review_text,
-                                      hours,
-                                      game_id,
-                                      nlp_analyzer,
-                                      lower=lowercase_text),
-                               lowercase_cngrams=lowercase_cngrams)
+        if not found_features:
+            features = extract_features_from_review(
+                           Review(review_text,
+                                  hours,
+                                  game_id,
+                                  lower=lowercase_text),
+                           lowercase_cngrams=lowercase_cngrams)
 
-            # If binarize_feats is True, make all NLP feature values 1 (except
-            # for the mean cosine similarity feature and the feature counting
-            # the number of tokens with representation vectors consisting
-            # entirely of zeroes)
-            if (binarize_feats
-                and not (found_features
-                         and _binarized)):
-                 features = binarize_features(features)
+        # If binarize_feats is True, make all NLP feature values 1 (except for
+        # the mean cosine similarity feature and the feature counting the
+        # number of tokens with representation vectors consisting entirely of
+        # zeroes)
+        if (binarize_feats
+            and not (found_features
+                     and _binarized)):
+            features = binarize_features(features)
 
-            # Update Mongo database game doc with new key "features", which
-            # will be mapped to NLP features, and a new key "binarized", which
-            # will be set to True if NLP features were extracted with the
-            # --do_not_binarize_features flag or False otherwise
-            if not found_features:
-                update_db(db_update,
-                          _id,
-                          features,
-                          binarize_feats)
+        # Update Mongo database game doc with new key "features", which will
+        # be mapped to NLP features, and a new key "binarized", which will be
+        # set to True if NLP features were extracted with the
+        # --do_not_binarize_features flag or False otherwise
+        if not found_features:
+            update_db(db_update,
+                      _id,
+                      features,
+                      binarize_feats)
 
-            # Get features collected from Steam (non-NLP features) and add
-            # them to the features dictionary
-            features.update(get_steam_features(_get))
+        if just_extract_features:
+            # Continue to next database review document if the only task is to
+            # update the database's copy of the extracted features
+            continue
 
-            # If any features have a value of None, then turn the values into
-            # zeroes
-            [features.pop(k) for k in features if not features[k]]
+        # Get features collected from Steam (non-NLP features) and add them to
+        # the features dictionary
+        features.update(get_steam_features(_get))
 
-            # Write JSON object to file
+        # If any features have a value of None, then turn the values into
+        # zeroes
+        [features.pop(k) for k in features if not features[k]]
+
+        if jsonlines_file:
+            # Write string representation of JSON object to file
             jsonlines_write('{}\n'.format(dumps({'id': abs(hash(str(_id))),
                                                  'y': hours,
                                                  'x': features})))
+
+        if review_data:
+            # Append feature dictionary to list of feature dictionaries
+            review_data_dicts.append({'hours': hours,
+                                      'review': review_text,
+                                      '_id': _id,
+                                      'features': features})
+
+    if review_data:
+        # Return list of feature dictionaries
+        return review_data_dicts
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,

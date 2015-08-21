@@ -113,7 +113,6 @@ def get_game_files(games_str):
         game_files = [f for f in games_str.split(',')
                       if exists(join(data_dir_path,
                                      f))]
-
     if len(game_files) == 0:
         logerr('No files passed in via --game_files argument were found: {}. '
                'Exiting.'.format(', '.join(games_str.split(','))))
@@ -294,9 +293,9 @@ if __name__ == '__main__':
         # gets executed
         from json import dumps
         from copy import deepcopy
-        from spacy.en import English
         from pymongo import MongoClient
-        from src.feature_extraction import generate_config_file
+        from src.feature_extraction import (generate_config_file,
+                                            process_features)
         from pymongo.errors import ConnectionFailure
         # Establish connection to MongoDB database
         connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
@@ -309,9 +308,6 @@ if __name__ == '__main__':
         db = connection['reviews_project']
         reviewdb = db['reviews']
         reviewdb.write_concern['w'] = 0
-
-        # Initialize an English-language spaCy NLP analyzer instance
-        spaCy_nlp = English()
 
     if not just_extract_features:
         from skll import run_configuration
@@ -369,9 +365,9 @@ if __name__ == '__main__':
                     loginfo('Extracting features from the training data for '
                             '{}...'.format(game))
                     process_features(reviewdb,
+                                     'training',
                                      game,
-                                     spaCy_nlp,
-                                     jsonlines_file,
+                                     jsonlines_file=jsonlines_file,
                                      use_bins=bins,
                                      reuse_features=reuse_features,
                                      binarize_feats=binarize,
@@ -401,7 +397,8 @@ if __name__ == '__main__':
 
         # Run the SKLL configuration, producing a model file
         loginfo('Training combined model {}...'
-                .format('locally' if local else 'on cluster'))
+                .format('locally' if local
+                                  else 'on cluster'))
         run_configuration(cfg_file_path,
                           local=local)
 
@@ -445,9 +442,9 @@ if __name__ == '__main__':
                 with open(jsonlines_file_path,
                           'w') as jsonlines_file:
                     process_features(reviewdb,
+                                     'training',
                                      game,
-                                     spaCy_nlp,
-                                     jsonlines_file,
+                                     jsonlines_file=jsonlines_file,
                                      use_bins=bins,
                                      reuse_features=reuse_features,
                                      binarize_feats=binarize,
@@ -479,7 +476,8 @@ if __name__ == '__main__':
             # Run the SKLL configuration, producing a model file
             loginfo('Training model for {} {}...'
                     .format(game,
-                            'locally' if local else 'on cluster'))
+                            'locally' if local
+                                      else 'on cluster'))
             run_configuration(cfg_file_path,
                               local=local)
 
