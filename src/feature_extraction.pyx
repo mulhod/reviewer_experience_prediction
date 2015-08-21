@@ -22,8 +22,6 @@ json_encoder = JSONEncoder()
 json_encode = json_encoder.encode
 from os.path import join
 from data import APPID_DICT
-#from joblib import (Parallel,
-#                    delayed)
 from nltk.util import ngrams
 from spacy.en import English
 spaCy_nlp = English()
