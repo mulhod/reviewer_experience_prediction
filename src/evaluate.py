@@ -321,7 +321,6 @@ if __name__ == '__main__':
         total_hours_values_extend(hours_values)
 
         if predictions_path:
-            import csv
             from src.feature_extraction import write_predictions_to_file
             # Write predictions file for game
             loginfo('Writing predictions file for {}...'.format(game))

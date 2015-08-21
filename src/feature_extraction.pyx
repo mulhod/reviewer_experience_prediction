@@ -790,6 +790,7 @@ def write_predictions_to_file(path, game_id, model_id, preds_rows):
     :returns: None
     '''
 
+    import csv
     with open(join(path,
                    '{}.test_{}_predictions.csv'.format(game_id,
                                                        model_id)),
