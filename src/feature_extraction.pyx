@@ -601,7 +601,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
 
         # If any features have a value of None, then turn the values into
         # zeroes
-        [features.pop(feat) for feat in list(features) if not features[k]]
+        [features.pop(feat) for feat in list(features) if not features[feat]]
 
         if jsonlines_file:
             # Write string representation of JSON object to file
