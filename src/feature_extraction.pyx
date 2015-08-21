@@ -20,7 +20,8 @@ from json import (dumps,
                   JSONEncoder)
 json_encoder = JSONEncoder()
 json_encode = json_encoder.encode
-from os.path import join
+from os.path import (join,
+                     exists)
 from data import APPID_DICT
 from nltk.util import ngrams
 from spacy.en import English
@@ -745,3 +746,63 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
 
     return dict(data=conf_matrix,
                 string='\n'.join(conf_matrix_rows))
+
+def get_game_files(games_str, data_dir_path):
+    '''
+    Get list of game files (file-names only).
+
+    :param games_str: string representation of list of game files (or "all"
+                      for all game-files)
+    :type games_str: str
+    :param data_dir_path: path to data directory
+    :type data_dir_path: str
+    :returns: list of str
+    '''
+
+    game_files = []
+    if games_str == "all":
+        game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
+    else:
+        game_files = [f for f in games_str.split(',')
+                      if exists(join(data_dir_path,
+                                     f))]
+    if len(game_files) == 0:
+        logerr('No files passed in via --game_files argument were found: {}. '
+               'Exiting.'.format(', '.join(games_str.split(','))))
+        exit(1)
+
+    return game_files
+
+
+def write_predictions_to_file(path, game_id, model_id, preds_rows):
+    '''
+    Write review and predictions data to file.
+
+    :param path: destination path for predictions file
+    :type path: str
+    :param game_id: game ID
+    :type game_id: str
+    :param model_id: model ID
+    :type model_id: str
+    :param preds_rows: list of ID, review text, hours, and prediction values
+    :type preds_rows: list
+    :returns: None
+    '''
+
+    with open(join(path,
+                   '{}.test_{}_predictions.csv'.format(game_id,
+                                                       model_id)),
+              'w') as preds_file:
+        preds_file_csv = csv.writer(preds_file,
+                                    delimiter=',')
+        preds_file_csv_writerow = preds_file_csv.writerow
+        preds_file_csv_writerow(['id',
+                                 'review',
+                                 'hours_played',
+                                 'prediction'])
+        [preds_file_csv_writerow([_id,
+                                  review,
+                                  hours_value,
+                                  pred])
+         for _id, review, hours_value, pred in preds_rows]

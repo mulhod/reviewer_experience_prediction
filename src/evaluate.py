@@ -4,16 +4,14 @@
 
 Script used to make predictions for datasets (or multiple datasets combined) and generate evaluation metrics.
 '''
-from os.path import (realpath,
+from os.path import (join,
+                     exists,
                      dirname,
                      abspath,
-                     join,
-                     exists,
+                     realpath,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
-
-project_dir = dirname(dirname(realpath(__file__)))
 
 
 if __name__ == '__main__':
@@ -77,6 +75,11 @@ if __name__ == '__main__':
         help='Print evaluation metrics across all games.',
         action='store_true',
         default=False)
+    parser_add_argument('--partition',
+        help='Data partition, i.e., "test", "training", etc. Value must be a '
+             'valid "partition" value in the Mongo database.',
+        type=str,
+        default='test')
     parser_add_argument('--mongodb_port', '-dbport',
         help='Port that the MongoDB server is running on.',
         type=int,
@@ -94,12 +97,11 @@ if __name__ == '__main__':
     from sys import exit
     from os import listdir
     from collections import Counter
-    from pymongo import MongoClient
-    from pymongo.errors import ConnectionFailure
-    from src.feature_extraction import (process_features,
-                                        extract_features_from_review,
-                                        make_confusion_matrix)
-    from src.train import get_game_files
+    from util.mongodb import connect_to_db
+    from src.feature_extraction import (get_game_files,
+                                        process_features,
+                                        make_confusion_matrix,
+                                        extract_features_from_review)
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -113,6 +115,13 @@ if __name__ == '__main__':
     reuse_features = args.reuse_features
     do_not_binarize_features = args.do_not_binarize_features
     eval_combined_games = args.eval_combined_games
+    partition = args.partition
+    mongodb_port = args.mongodb_port
+
+    # Get path to project and data directories
+    project_dir = dirname(dirname(realpath(__file__)))
+    data_dir = join(project_dir,
+                    'data')
 
     # Initialize logging system
     logging_debug = logging.DEBUG
@@ -186,8 +195,6 @@ if __name__ == '__main__':
                    'directories for the predictions and/or results output '
                    'files. Exiting.')
             exit(1)
-        if predictions_path:
-            import csv
 
     # Make sure command-line arguments make sense
     if (just_extract_features
@@ -219,21 +226,14 @@ if __name__ == '__main__':
     bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
-    # Establish connection to MongoDB database
-    connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
-    try:
-        connection = MongoClient(connection_string)
-    except ConnectionFailure as e:
-        logerr('Unable to connect to to Mongo server at {}'
-               .format(connection_string))
-        exit(1)
-    db = connection['reviews_project']
-    reviewdb = db['reviews']
+    # Establish connection to MongoDB database collection
+    reviewdb = connect_to_db(mongodb_port)
     reviewdb.write_concern['w'] = 0
 
     # Iterate over the game files, looking for test set reviews
     # Get list of games
-    game_files = get_game_files(game_files)
+    game_files = get_game_files(game_files,
+                                data_dir)
 
     # If the --eval_combined_games flag was used but there's only one game
     # file to evaluate on, print a warning that the "combined" stats will only
@@ -264,7 +264,7 @@ if __name__ == '__main__':
                 '...'.format(game))
         if just_extract_features:
             process_features(reviewdb,
-                             'test',
+                             partition,
                              game,
                              just_extract_features=True,
                              use_bins=bins,
@@ -278,7 +278,7 @@ if __name__ == '__main__':
         else:
             review_data_dicts = \
                 process_features(reviewdb,
-                                 'test',
+                                 partition,
                                  game,
                                  review_data=True,
                                  use_bins=bins,
@@ -314,37 +314,27 @@ if __name__ == '__main__':
                                 reviews,
                                 hours_values,
                                 predicted_labels])))
-            exit()
+            exit(1)
 
         # Save predicted/expected values for final evaluation
         total_predicted_hours_labels_extend(predicted_labels)
         total_hours_values_extend(hours_values)
 
-        # Open predictions/results file(s) (if applicable) for specific game
-        # file
         if predictions_path:
+            import csv
+            from src.feature_extraction import write_predictions_to_file
+            # Write predictions file for game
             loginfo('Writing predictions file for {}...'.format(game))
-            with open(join(predictions_path,
-                           '{}.test_{}_predictions.csv'.format(game,
-                                                               model)),
-                      'w') as preds_file:
-                preds_file_csv = csv.writer(preds_file,
-                                            delimiter=',')
-                preds_file_csv_writerow = preds_file_csv.writerow
-                preds_file_csv_writerow(['id',
-                                        'review',
-                                        'hours_played',
-                                        'prediction'])
-                for _id, review, hours_value, pred in zip(_ids,
-                                                          reviews,
-                                                          hours_values,
-                                                          predicted_labels):
-                    preds_file_csv_writerow([_id,
-                                             review,
-                                             hours_value,
-                                             pred])
+            write_predictions_to_file(predictions_path,
+                                      game,
+                                      model,
+                                      zip(_ids,
+                                          reviews,
+                                          hours_values,
+                                          predicted_labels))
 
         if results_path:
+            # Write results file for game
             loginfo('Writing results file for {}...'.format(game))
             with open(join(results_path,
                            '{}.test_{}_results.txt'.format(game,

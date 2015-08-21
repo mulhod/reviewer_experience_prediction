@@ -17,21 +17,41 @@ logwarn = logger.warning
 logerr = logger.error
 from sys import exit
 from math import ceil
+from random import (seed,
+                    randint,
+                    shuffle)
 from data import APPID_DICT
-from random import (randint,
-                    shuffle,
-                    seed)
 from json import JSONDecoder
-from os.path import (basename,
-                     splitext)
-# Make local binding to JSONEncoder method attribute
 json_decoder = JSONDecoder()
 json_decode = json_decoder.decode
-from pymongo.errors import (DuplicateKeyError,
-                            BulkWriteError)
-from util.datasets import (get_and_describe_dataset,
+from os.path import (basename,
+                     splitext)
+from pymongo import MongoClient
+from util.datasets import (get_bin,
                            get_bin_ranges,
-                           get_bin)
+                           get_and_describe_dataset)
+from pymongo.errors import (BulkWriteError,
+                            DuplicateKeyError)
+from pymongo.errors import ConnectionFailure
+
+def connect_to_db(port):
+    '''
+    Connect to database and return a collection object.
+
+    :param port: Mongo database port
+    :type port: str
+    :returns: pymongo.collection.Collection object
+    '''
+
+    connection_string = 'mongodb://localhost:{}'.format(port)
+    try:
+        connection = MongoClient(connection_string)
+    except ConnectionFailure as e:
+        logerr('Unable to connect to to Mongo server at {}. Exiting.'
+               .format(connection_string))
+        exit(1)
+    db = connection['reviews_project']
+    return db['reviews']
 
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,

@@ -8,11 +8,10 @@ from sys import exit
 from time import sleep
 from os import listdir
 from os.path import (join,
+                     exists,
                      dirname,
                      realpath,
-                     exists,
                      splitext)
-project_dir = dirname(dirname(realpath(__file__)))
 from collections import Counter
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
@@ -93,32 +92,6 @@ def make_train_dirs():
     makedirs(join(project_dir,
                   'outputs'),
              exist_ok=True)
-
-
-def get_game_files(games_str):
-    '''
-    Get list of game files (file-names only).
-
-    :param games_str: string representation of list of game files (or "all"
-                      for all game-files)
-    :type games_str: str
-    :returns: list of str
-    '''
-
-    game_files = []
-    if games_str == "all":
-        game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
-        del game_files[game_files.index('sample.jsonlines')]
-    else:
-        game_files = [f for f in games_str.split(',')
-                      if exists(join(data_dir_path,
-                                     f))]
-    if len(game_files) == 0:
-        logerr('No files passed in via --game_files argument were found: {}. '
-               'Exiting.'.format(', '.join(games_str.split(','))))
-        exit(1)
-
-    return game_files
 
 
 if __name__ == '__main__':
@@ -208,6 +181,11 @@ if __name__ == '__main__':
              'than running everything locally on one machine.',
         action='store_true',
         default=False)
+    parser_add_argument('--partition',
+        help='Data partition, i.e., "training", "test", etc. Value must be a '
+             'valid "partition" value in the Mongo database.',
+        type=str,
+        default='training')
     parser_add_argument('--mongodb_port', '-dbport',
         help='Port that the MongoDB server is running.',
         type=int,
@@ -234,6 +212,8 @@ if __name__ == '__main__':
     _run_configuration = args.run_configuration
     do_not_binarize_features = args.do_not_binarize_features
     local=not args.use_cluster
+    partition = args.partition
+    mongodb_port = args.mongodb_port
 
     # Create logging file handler
     fh = logging.FileHandler(realpath(args.log_file_path))
@@ -243,7 +223,8 @@ if __name__ == '__main__':
 
     # Get paths to directories related to the training/evaluation tasks and
     # make them global variables
-    global cfg_dir_path, working_dir_path, data_dir_path
+    global project_dir, cfg_dir_path, working_dir_path
+    project_dir = dirname(dirname(realpath(__file__)))
     cfg_dir_path = join(project_dir,
                         'config')
     working_dir_path = join(project_dir,
@@ -293,27 +274,21 @@ if __name__ == '__main__':
         # gets executed
         from json import dumps
         from copy import deepcopy
-        from pymongo import MongoClient
-        from src.feature_extraction import (generate_config_file,
-                                            process_features)
-        from pymongo.errors import ConnectionFailure
-        # Establish connection to MongoDB database
-        connection_string = 'mongodb://localhost:{}'.format(args.mongodb_port)
-        try:
-            connection = MongoClient(connection_string)
-        except ConnectionFailure as e:
-            logerr('Unable to connect to to Mongo server at {}. Exiting.'
-                   .format(connection_string))
-            exit(1)
-        db = connection['reviews_project']
-        reviewdb = db['reviews']
+        from util.mongodb import connect_to_db
+        from src.feature_extraction import (get_game_files,
+                                            process_features,
+                                            generate_config_file)
+
+        # Establish connection to MongoDB database collection
+        reviewdb = connect_to_db(mongodb_port)
         reviewdb.write_concern['w'] = 0
 
     if not just_extract_features:
         from skll import run_configuration
 
     # Get list of games
-    game_files = get_game_files(game_files)
+    game_files = get_game_files(game_files,
+                                data_dir_path)
 
     # Get short versions of learner/objective function names
     learner_short = learner_abbrs[learner]
@@ -365,7 +340,7 @@ if __name__ == '__main__':
                     loginfo('Extracting features from the training data for '
                             '{}...'.format(game))
                     process_features(reviewdb,
-                                     'training',
+                                     partition,
                                      game,
                                      jsonlines_file=jsonlines_file,
                                      use_bins=bins,
@@ -442,7 +417,7 @@ if __name__ == '__main__':
                 with open(jsonlines_file_path,
                           'w') as jsonlines_file:
                     process_features(reviewdb,
-                                     'training',
+                                     partition,
                                      game,
                                      jsonlines_file=jsonlines_file,
                                      use_bins=bins,
