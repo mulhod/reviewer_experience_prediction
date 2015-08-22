@@ -98,10 +98,11 @@ if __name__ == '__main__':
     from os import listdir
     from collections import Counter
     from util.mongodb import connect_to_db
-    from src.feature_extraction import (get_game_files,
-                                        process_features,
-                                        make_confusion_matrix,
-                                        extract_features_from_review)
+    from util.datasets import get_game_files
+    from src.features import (process_features,
+                              write_results_file,
+                              make_confusion_matrix,
+                              extract_features_from_review)
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -333,34 +334,13 @@ if __name__ == '__main__':
                                           predicted_labels))
 
         if results_path:
-            # Write results file for game
+            # Write evaluation report for game
             loginfo('Writing results file for {}...'.format(game))
-            with open(join(results_path,
-                           '{}.test_{}_results.txt'.format(game,
-                                                           model)),
-                      'w') as results_file:
-                results_file_write = results_file.write
-                results_file_write('Results Summary\n\n')
-                results_file_write('- Game: {}\n'.format(game))
-                results_file_write('- Model: {}\n\n'.format(model))
-                results_file_write('Evaluation Metrics\n\n')
-                results_file_write('Kappa: {}\n'
-                                   .format(kappa(hours_values,
-                                           predicted_labels)))
-                results_file_write('Kappa (allow off-by-one): {}\n'
-                                   .format(kappa(hours_values,
-                                                 predicted_labels,
-                                                 allow_off_by_one=True)))
-                results_file_write('Pearson: {}\n\n'
-                                   .format(pearson(hours_values,
-                                                   predicted_labels)))
-                results_file_write('Confusion Matrix\n')
-                results_file_write('(predicted along top, actual along side)'
-                                   '\n\n')
-                results_file_write('{}\n'
-                                   .format(make_confusion_matrix(
-                                               hours_values,
-                                               predicted_labels)['string']))
+            write_results_file(results_path,
+                               game,
+                               model,
+                               hours_values,
+                               predicted_labels)
 
     # Do evaluation on all predicted/expected values across all games or exit
     if not eval_combined_games:

@@ -21,18 +21,22 @@ from random import (seed,
                     randint,
                     shuffle)
 from data import APPID_DICT
-from json import JSONDecoder
+from json import (JSONDecoder,
+                  JSONEncoder)
 json_decoder = JSONDecoder()
 json_decode = json_decoder.decode
+json_encoder = JSONEncoder()
+json_encode = json_encoder.encode
 from os.path import (basename,
                      splitext)
 from pymongo import MongoClient
 from util.datasets import (get_bin,
                            get_bin_ranges,
                            get_and_describe_dataset)
-from pymongo.errors import (BulkWriteError,
+from pymongo.errors import (AutoReconnect,
+                            BulkWriteError,
+                            ConnectionFailure,
                             DuplicateKeyError)
-from pymongo.errors import ConnectionFailure
 
 def connect_to_db(port):
     '''
@@ -293,3 +297,36 @@ def get_review_features_from_db(db, _id):
                                {'_id': 0,
                                 'features': 1})
     return json_decode(features_doc.get('features')) if features_doc else None
+
+
+def update_db(db_update, _id, features, _binarize):
+    '''
+    Update Mongo database document with extracted features.
+
+    :param db_update: bound method Collection.update of Mongo collection
+    :type db_update: method
+    :param _id: database document's Object ID
+    :type _id: bson.objectid.ObjectId object
+    :param features: dictionary of features
+    :type features: dict
+    :param _binarize: whether or not the features are binarized
+    :type _binarize: boolean
+    :returns: None
+    '''
+
+    cdef int tries = 0
+    while tries < 5:
+        try:
+            db_update({'_id': _id},
+                      {'$set': {'features': json_encode(features),
+                                'binarized': _binarize}})
+            break
+        except AutoReconnect:
+            logwarn('Encountered AutoReconnect failure, attempting to '
+                    'reconnect automatically after 20 seconds...')
+            tries += 1
+            if tries >= 5:
+                logerr('Unable to update database even after 5 tries. '
+                       'Exiting.')
+                exit(1)
+            sleep(20)

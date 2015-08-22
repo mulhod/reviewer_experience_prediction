@@ -8,12 +8,42 @@ statistics, write ARFF format files for use with Weka, convert raw hours
 played values to a scale of a given number of values, etc.
 '''
 import logging
-from sys import exit
 from re import (sub,
-                compile as recompile,
-                search)
-from time import (strftime,
-                  sleep)
+                search,
+                compile as recompile)
+from sys import exit
+from time import (sleep,
+                  strftime)
+from os.path import (join,
+                     exists)
+
+
+def get_game_files(games_str, data_dir_path):
+    '''
+    Get list of game files (file-names only).
+
+    :param games_str: string representation of list of game files (or "all"
+                      for all game-files)
+    :type games_str: str
+    :param data_dir_path: path to data directory
+    :type data_dir_path: str
+    :returns: list of str
+    '''
+
+    game_files = []
+    if games_str == "all":
+        game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
+        del game_files[game_files.index('sample.jsonlines')]
+    else:
+        game_files = [f for f in games_str.split(',')
+                      if exists(join(data_dir_path,
+                                     f))]
+    if len(game_files) == 0:
+        logerr('No files passed in via --game_files argument were found: {}. '
+               'Exiting.'.format(', '.join(games_str.split(','))))
+        exit(1)
+
+    return game_files
 
 
 def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):

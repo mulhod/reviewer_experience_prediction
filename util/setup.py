@@ -29,13 +29,13 @@ if not root_env:
 python_header_dir = join(root_env,
                          'pkgs/python-3.4.3-0/include/python3.4m')
 
-ext_names = {'feat': 'feature_extraction',
+ext_names = {'features': 'features',
              'data': 'datasets',
              'db': 'mongodb'}
 
-ext_modules = [Extension('feature_extraction',
+ext_modules = [Extension('features',
                          [join(src_dir,
-                               "{0}.pyx".format(ext_names['feat']))],
+                               "{0}.pyx".format(ext_names['features']))],
                          include_dirs=[python_header_dir]),
                Extension('datasets',
                          [join(util_dir,
@@ -82,7 +82,7 @@ if not exists(build_dir) or not build_libs_dir:
         stderr.write('Contents of {}:\n{}\n'.format(_dir,
                                                     '\n'.join(exts)))
         for ext in exts:
-            if ext.startswith('feature_extraction'):
+            if ext.startswith('features'):
                 copy(join(_dir,
                           ext),
                      join(src_dir,
@@ -97,7 +97,7 @@ if not exists(build_dir) or not build_libs_dir:
 else:
     exts = listdir(build_libs_dir)
     for ext in exts:
-        if ext.startswith('feature_extraction'):
+        if ext.startswith('features'):
             copy(join(build_libs_dir,
                       ext),
                  join(src_dir,
