@@ -300,7 +300,7 @@ def get_review_features_from_db(db, _id):
     return json_decode(features_doc.get('features')) if features_doc else None
 
 
-def update_db(db_update, _id, _features, _binarize):
+def update_db(db_update, _id, feats, _binarize):
     '''
     Update Mongo database document with extracted features.
 
@@ -308,8 +308,8 @@ def update_db(db_update, _id, _features, _binarize):
     :type db_update: method
     :param _id: database document's Object ID
     :type _id: bson.objectid.ObjectId object
-    :param _features: dictionary of features
-    :type _features: dict
+    :param feats: dictionary of features
+    :type feats: dict
     :param _binarize: whether or not the features are binarized
     :type _binarize: boolean
     :returns: None
@@ -319,7 +319,7 @@ def update_db(db_update, _id, _features, _binarize):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'features': json_encode(_features),
+                      {'$set': {'features': json_encode(feats),
                                 'binarized': _binarize}})
             break
         except AutoReconnect:
