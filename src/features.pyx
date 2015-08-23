@@ -526,7 +526,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
             and _binarized == binarize_feats):
             feats = get_review_features_from_db(db,
                                                 _id)
-            found_features = True if features else False
+            found_features = True if feats else False
 
         if not found_features:
             feats = extract_features_from_review(
