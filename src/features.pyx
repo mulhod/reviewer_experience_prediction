@@ -21,13 +21,13 @@ from data import APPID_DICT
 from nltk.util import ngrams
 from spacy.en import English
 spaCy_nlp = English()
-from mongodb import (update_db,
-                     get_review_features_from_db)
 from string import punctuation
 from collections import Counter
 from skll.metrics import (kappa,
                           pearson)
 from itertools import combinations
+from util.mongodb import (update_db,
+                          get_review_features_from_db)
 from configparser import ConfigParser
 
 class Review(object):
