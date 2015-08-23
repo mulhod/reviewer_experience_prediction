@@ -44,9 +44,14 @@ echo "Downloading model data for spaCy package...\n"
 python3.4 -m spacy.en.download
 
 # Cythonize .pyx modules and compile
-echo "Cythonizing and compiling *.pyx modules...\n"
-UTIL_DIR=$(dirname $(readlink -f $0))
-python3.4 ${UTIL_DIR}/setup.py build_ext
+echo "Installing \"reviewer_experience_prediction\" package and compiling " \
+     "Cython extensions...\n"
+THIS_DIR=$(dirname $(readlink -f $0))
+python3.4 ${THIS_DIR}/setup.py install
+echo "Package installed!"
+echo "If changes are made to the Cython extensions, run the following to " \
+     "re-compile the extensions for use in the various command-line " \
+     "utilities:\n\tpython setup.py build_ext\n"
 
-echo "Setup complete. Use \"source activate reviews\" to use conda" \
+echo "Setup complete. Use \"source activate reviews\" to activate conda" \
      "environment.\n"

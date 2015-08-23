@@ -1,24 +1,29 @@
 from sys import (exit,
                  stderr)
-from os import (listdir,
-                getcwd)
+from os import (getcwd,
+                listdir)
 from shutil import copy
+from os.path import (join,
+                     exists,
+                     dirname,
+                     realpath)
 from getpass import getuser
-from os.path import (dirname,
-                     realpath,
-                     join,
-                     exists)
 from subprocess import getoutput
 from distutils.core import setup
 from Cython.Build import cythonize
+from setuptools import find_packages
 from Cython.Distutils import build_ext
 from distutils.extension import Extension
 
-util_dir = dirname(realpath(__file__))
-src_dir = join(dirname(util_dir),
+build_dir = dirname(realpath(__file__))
+src_dir = join(build_dir,
                'src')
-build_dir = join(dirname(util_dir),
-                 'build')
+util_dir = join(build_dir,
+                'util')
+
+def readme():
+    with open('README.md') as f:
+        return f.read()
 
 # Hackish way of doing this. Find better way...
 root_env = getoutput("conda info | grep \"root environment :\""
@@ -46,11 +51,41 @@ ext_modules = [Extension('features',
                                "{0}.pyx".format(ext_names['db']))],
                          include_dirs=[python_header_dir])]
 
-setup(
-    name = "reviewer experience prediction system",
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = cythonize(ext_modules)
-)
+setup(name = 'Reviewer Experience Prediction',
+      description='Repository developed for graduate research at Montclair '
+                  'State University as part of the Applied Linguistics '
+                  'program. The main idea is to use video game reviews '
+                  'coupled with the amount of hours the reviewers played '
+                  '(available through the Steam website) to build models of '
+                  'reviewer experience. The original inspiration developed '
+                  'during a deception detection class, the connection being '
+                  'that experience is related to the truth: If a reviewer '
+                  'truly lacks experience of a game, then their review '
+                  '(whether it is intended to deceive or not) might betray '
+                  'signs of that lack of experience.',
+      long_description=readme(),
+      version='0.1',
+      author='Matt Mulholland et al.',
+      author_email='mulhollandm2@lemur.montclair.edu',
+      packages=find_packages(),
+      cmdclass = {'build_ext': build_ext},
+      ext_modules = cythonize(ext_modules),
+      keywords='steam review video game',
+      classifiers=['Intended Audience :: Science/Research',
+                   'Intended Audience :: Developers',
+                   'License :: ',
+                   'Programming Language :: Python',
+                   'Topic :: Software Development',
+                   'Topic :: Scientific/Engineering',
+                   'Operating System :: POSIX',
+                   'Operating System :: Unix',
+                   'Operating System :: MacOS',
+                   'Programming Language :: Python :: 2',
+                   'Programming Language :: Python :: 2.7',
+                   'Programming Language :: Python :: 3',
+                   'Programming Language :: Python :: 3.3',
+                   'Programming Language :: Python :: 3.4'],
+      zip_safe=False)
 
 # Copy files from build/libs* directory (or try to guess where they are)
 build_libs_dirs_list = []
@@ -71,7 +106,8 @@ else:
                  .format(build_dir))
     build_libs_dir = None
 
-if not exists(build_dir) or not build_libs_dir:
+if (not exists(build_dir)
+    or not build_libs_dir):
     stderr.write('Could not find build/libs* directory. Checking to see if '
                  'the shared object files were generated in the project '
                  'directory or the current working directory.\n')
