@@ -15,11 +15,13 @@ from setuptools import find_packages
 from Cython.Distutils import build_ext
 from distutils.extension import Extension
 
-build_dir = dirname(realpath(__file__))
-src_dir = join(build_dir,
+main_dir = dirname(realpath(__file__))
+src_dir = join(main_dir,
                'src')
-util_dir = join(build_dir,
+util_dir = join(main_dir,
                 'util')
+build_dir = join(main_dir,
+                 'build')
 
 def readme():
     with open('README.md') as f:
@@ -88,31 +90,30 @@ setup(name = 'Reviewer Experience Prediction',
       zip_safe=False)
 
 # Copy files from build/libs* directory (or try to guess where they are)
-build_libs_dirs_list = []
-if exists(build_dir):
-    build_libs_dirs_list = [join(build_dir,
-                                 _dir) for _dir in listdir(build_dir)
-                            if _dir.startswith('lib')]
-    if not len(build_libs_dirs_list):
-        stderr.write('Could not find "build" directory...\n')
+build_libs = [join(build_dir,
+                   _dir)
+              for _dir in listdir(build_dir) if _dir.startswith('lib')]
+if not build_libs:
+    stderr.write('Could not find "build" directory...\n')
 
-if len(build_libs_dirs_list) == 1:
-    build_libs_dir = build_libs_dirs_list[0]
-elif len(build_libs_dirs_list) > 1:
-    stderr.write('Found multiple directories in {} that begin with "lib". Not'
-                 ' sure which one to use.\n'.format(build_dir))
+if len(build_libs) == 1:
+    build_lib = build_libs[0]
+elif len(build_libs) > 1:
+    build_lib = build_libs[0]
+    stderr.write('Found multiple directories in {} that begin with "lib". '
+                 'Trying first one: {}\n'.format(build_dir,
+                                                 build_lib))
 else:
+    build_lib = None
     stderr.write('Found no directories in {} that begin with "lib".\n'
                  .format(build_dir))
-    build_libs_dir = None
 
-if (not exists(build_dir)
-    or not build_libs_dir):
+if not build_lib:
     stderr.write('Could not find build/libs* directory. Checking to see if '
                  'the shared object files were generated in the project '
                  'directory or the current working directory.\n')
-    for _dir in [dirname(src_dir),
-                 getcwd()]:
+    for _dir in set([dirname(src_dir),
+                     getcwd()]):
         stderr.write('Checking in {}...\n'.format(_dir))
         exts = [f for f in listdir(_dir) if f.endswith('.so')]
         stderr.write('Contents of {}:\n{}\n'.format(_dir,
@@ -122,28 +123,24 @@ if (not exists(build_dir)
                 copy(join(_dir,
                           ext),
                      join(src_dir,
-                          '{}.so'.format(ext.split('.',
-                                                   1)[0])))
+                          '{}.so'.format(ext.split('.', 1)[0])))
             else:
                 copy(join(_dir,
                           ext),
                      join(util_dir,
-                          '{}.so'.format(ext.split('.',
-                                                   1)[0])))
+                          '{}.so'.format(ext.split('.', 1)[0])))
 else:
-    exts = listdir(build_libs_dir)
+    exts = [f for f in listdir(build_lib) if f.endswith('.so')]
     for ext in exts:
         if ext.startswith('features'):
-            copy(join(build_libs_dir,
+            copy(join(build_lib,
                       ext),
                  join(src_dir,
-                      '{}.so'.format(ext.split('.',
-                                               1)[0])))
+                      '{}.so'.format(ext.split('.', 1)[0])))
         else:
-            copy(join(build_libs_dir,
+            copy(join(build_lib,
                       ext),
                  join(util_dir,
-                      '{}.so'.format(ext.split('.',
-                                               1)[0])))
+                      '{}.so'.format(ext.split('.', 1)[0])))
 
 stderr.write('Complete.\n')

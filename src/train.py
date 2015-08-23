@@ -264,8 +264,8 @@ if __name__ == '__main__':
     if (just_extract_features
         and (combine
              or combined_model_prefix
-             or learner
-             or objective_function
+             or learner != 'RescaledSVR'
+             or objective_function != 'quadratic_weighted_kappa'
              or _run_configuration)):
        logerr('Cannot use --just_extract_features flag in combination with '
               'other options related to training a model. Exiting.')
