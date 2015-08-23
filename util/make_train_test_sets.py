@@ -4,11 +4,6 @@
 
 Script used to create training/test sets in a MongoDB database from review data extracted from flat files.
 '''
-import logging
-from sys import exit
-from os import listdir
-from pymongo import MongoClient
-from util.mongodb import insert_train_test_reviews
 from os.path import (join,
                      abspath,
                      dirname,
@@ -87,6 +82,13 @@ if __name__ == '__main__':
                      'logs',
                      'replog_make_train_test_sets.txt'))
     args = parser.parse_args()
+
+    # Imports
+    import logging
+    from sys import exit
+    from os import listdir
+    from pymongo import MongoClient
+    from util.mongodb import insert_train_test_reviews
 
     # Make local copies of arguments
     game_files = args.game_files

@@ -4,22 +4,14 @@
 
 Script used to generate ARFF files usable in Weka for the video game review data-sets.
 '''
-import os
-import logging
-from re import sub
-from sys import exit
-from pymongo import MongoClient
-from os.path import (realpath,
-                     abspath,
+from os.path import (join,
                      dirname,
-                     join,
+                     abspath,
+                     realpath,
                      basename,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
-from util.datasets import (get_and_describe_dataset,
-                           get_bin_ranges,
-                           write_arff_file)
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -89,6 +81,16 @@ if __name__ == '__main__':
                      'logs',
                      'replog_make_arff.txt'))
     args = parser.parse_args()
+
+    # Imports
+    import os
+    import logging
+    from re import sub
+    from sys import exit
+    from pymongo import MongoClient
+    from util.datasets import (get_bin_ranges,
+                               write_arff_file,
+                               get_and_describe_dataset)
 
     # Make local copies of arguments
     game_files = args.game_files

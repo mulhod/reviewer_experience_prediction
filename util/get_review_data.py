@@ -4,19 +4,10 @@
 
 Script used to run the web scraping tool in order to build the video game review corpus.
 '''
-import sys
-import logging
-from json import dumps
-logger = logging.getLogger()
-from os.path import (dirname,
+from os.path import (join,
+                     dirname,
                      abspath,
-                     realpath,
-                     join)
-project_dir = dirname(dirname(realpath(__file__)))
-sys.path.append(project_dir)
-from data import APPID_DICT
-from util.datasets import (parse_appids,
-                           get_review_data_for_game)
+                     realpath)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -59,7 +50,18 @@ if __name__ == '__main__':
                      'replog_get_review_data.txt'))
     args = parser.parse_args()
 
+    # Imports
+    import sys
+    import logging
+    from json import dumps
+    from data import APPID_DICT
+    project_dir = dirname(dirname(realpath(__file__)))
+    sys.path.append(project_dir)
+    from util.datasets import (parse_appids,
+                               get_review_data_for_game)
+
     # Initialize logging system
+    logger = logging.getLogger()
     logging_info = logging.INFO
     logger = logging.getLogger('get_review_data')
     logger.setLevel(logging_info)
