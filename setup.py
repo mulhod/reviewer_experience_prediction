@@ -28,8 +28,8 @@ def readme():
         return f.read()
 
 # Hackish way of doing this. Find better way...
-root_env = getoutput("conda info | grep \"root environment :\""
-                     " | awk '{print $4}'")
+root_env = getoutput('conda info | grep "root environment :"'
+                     ' | awk '{print $4}'')
 # Try to guess the location of the conda installation
 if not root_env:
     root_env = '/home/{}/conda'.format(getuser())
@@ -42,15 +42,15 @@ ext_names = {'features': 'features',
 
 ext_modules = [Extension('features',
                          [join(src_dir,
-                               "{0}.pyx".format(ext_names['features']))],
+                               '{0}.pyx'.format(ext_names['features']))],
                          include_dirs=[python_header_dir]),
                Extension('datasets',
                          [join(util_dir,
-                               "{0}.pyx".format(ext_names['data']))],
+                               '{0}.pyx'.format(ext_names['data']))],
                          include_dirs=[python_header_dir]),
                Extension('mongodb',
                          [join(util_dir,
-                               "{0}.pyx".format(ext_names['db']))],
+                               '{0}.pyx'.format(ext_names['db']))],
                          include_dirs=[python_header_dir])]
 
 setup(name = 'Reviewer Experience Prediction',
@@ -112,7 +112,7 @@ if not build_lib:
     stderr.write('Could not find build/libs* directory. Checking to see if '
                  'the shared object files were generated in the project '
                  'directory or the current working directory.\n')
-    for _dir in set([dirname(src_dir),
+    for _dir in set([main_dir,
                      getcwd()]):
         stderr.write('Checking in {}...\n'.format(_dir))
         exts = [f for f in listdir(_dir) if f.endswith('.so')]
