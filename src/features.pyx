@@ -21,13 +21,13 @@ from data import APPID_DICT
 from nltk.util import ngrams
 from spacy.en import English
 spaCy_nlp = English()
-from mongodb import (update_db,
-                     get_review_features_from_db)
 from string import punctuation
 from collections import Counter
 from skll.metrics import (kappa,
                           pearson)
 from itertools import combinations
+from util.mongodb import (update_db,
+                          get_review_features_from_db)
 from configparser import ConfigParser
 
 class Review(object):
@@ -441,11 +441,12 @@ def binarize_features(_features):
 def process_features(db, data_partition, game_id, jsonlines_file=None,
                      review_data=False, use_bins=False, reuse_features=False,
                      binarize_feats=True, just_extract_features=False,
-                     lowercase_text=True, lowercase_cngrams=False):
+                     lowercase_text=True, lowercase_cngrams=False,
+                     ids_to_ignore=[]):
     '''
     Get or extract features from review entries in the database, update the
     database's copy of those features, and optionally write features to
-    .jsonlines file or compile list of feature dictionaries and return.
+    .jsonlines file and/or generate feature dictionaries.
 
     :param db: a Mongo DB collection client
     :type db: pymongo.collection.Collection
@@ -479,7 +480,10 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     :param lowercase_cngrams: whether or not to lower-case the character
                               n-grams
     :type lowercase_cngrams: boolean
-    :returns: None
+    :param ids_to_ignore: review IDs to ignore (i.e., skip over
+                          previously-finished reviews)
+    :type ids_to_ignore: list of str
+    :returns: None or generator of dict
     '''
 
     if (just_extract_features
@@ -516,6 +520,10 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                             else 'total_game_hours')
         review_text = _get('review')
         _id = _get('_id')
+        normalized_id = abs(hash(str(_id)))
+        if (not review_data
+            and normalized_id in ids_to_ignore):
+            continue
         _binarized = _get('binarized')
 
         # Extract NLP features by querying the database (if they are available
@@ -568,22 +576,19 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         # zeroes
         [feats.pop(feat) for feat in list(feats) if not feats[feat]]
 
-        if jsonlines_file:
+        if (jsonlines_file
+            and not normalized_id in ids_to_ignore):
             # Write string representation of JSON object to file
-            jsonlines_write('{}\n'.format(dumps({'id': abs(hash(str(_id))),
+            jsonlines_write('{}\n'.format(dumps({'id': normalized_id,
                                                  'y': hours,
                                                  'x': feats})))
 
         if review_data:
-            # Append feature dictionary to list of feature dictionaries
-            review_data_dicts.append({'hours': hours,
-                                      'review': review_text,
-                                      '_id': _id,
-                                      'features': feats})
-
-    if review_data:
-        # Return list of feature dictionaries
-        return review_data_dicts
+            # Yield feature dictionary
+            yield {'hours': hours,
+                   'review': review_text,
+                   '_id': normalized_id,
+                   'features': feats})
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,

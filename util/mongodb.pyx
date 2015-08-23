@@ -31,9 +31,9 @@ json_encode = json_encoder.encode
 from os.path import (basename,
                      splitext)
 from pymongo import MongoClient
-from datasets import (get_bin,
-                      get_bin_ranges,
-                      get_and_describe_dataset)
+from util.datasets import (get_bin,
+                           get_bin_ranges,
+                           get_and_describe_dataset)
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
                             ConnectionFailure,

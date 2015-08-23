@@ -17,21 +17,6 @@ from collections import Counter
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-import logging
-logging_debug = logging.DEBUG
-logger = logging.getLogger('train')
-logger.setLevel(logging_debug)
-sh = logging.StreamHandler()
-sh.setLevel(logging_debug)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                              ' %(message)s')
-sh.setFormatter(formatter)
-logger.addHandler(sh)
-loginfo = logger.info
-logdebug = logger.debug
-logerr = logger.error
-logwarn = logger.warning
-
 project_dir = dirname(dirname(realpath(__file__)))
 
 # Get short names for the learner and objective function to use in the
@@ -168,6 +153,16 @@ if __name__ == '__main__':
              ' the MongoDB database.',
         action='store_true',
         required=False)
+    parser_add_argument('--finish_off_jsonlines_file',
+        help='Read in .jsonlines file and finish it off with reviews that '
+             'were not originally included (due to program crashing, for '
+             'example). Note: Configuration options that were set when '
+             'features were originally extracted from the earlier set of '
+             'reviews are not remembered across sessions. It is up to the '
+             'user to make a note of how features were being extracted, i.e.,'
+             ' whether original hours values were being used, etc.',
+        action='store_true',
+        default=False)
     parser_add_argument('--run_configuration', '-run_cfg',
         help='Assumes feature/config files have already been generated and '
              'attempts to run the configuration; not needed to run training '
@@ -212,16 +207,37 @@ if __name__ == '__main__':
     use_original_hours_values = args.use_original_hours_values
     just_extract_features = args.just_extract_features
     reuse_features = args.reuse_features
+    finish_off_jsonlines_file = args.finish_off_jsonlines_file
     _run_configuration = args.run_configuration
     do_not_binarize_features = args.do_not_binarize_features
     local=not args.use_cluster
     partition = args.partition
     mongodb_port = args.mongodb_port
 
-    # Create logging file handler
+    # Imports
+    from json import (dumps,
+                      JSONDecoder)
+    json_decoder = JSONDecoder()
+    json_decode = json_decoder.decode
+
+    # Setup logger and create logging handlers
+    import logging
+    logger = logging.getLogger('train')
+    logging_debug = logging.DEBUG
+    logger.setLevel(logging_debug)
+    loginfo = logger.info
+    logdebug = logger.debug
+    logerr = logger.error
+    logwarn = logger.warning
+    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
+                                  ' %(message)s')
+    sh = logging.StreamHandler()
+    sh.setLevel(logging_debug)
     fh = logging.FileHandler(realpath(args.log_file_path))
     fh.setLevel(logging_debug)
+    sh.setFormatter(formatter)
     fh.setFormatter(formatter)
+    logger.addHandler(sh)
     logger.addHandler(fh)
 
     # Get paths to directories related to the training/evaluation tasks and
@@ -271,10 +287,16 @@ if __name__ == '__main__':
               'other options related to training a model. Exiting.')
        exit(1)
 
+    if (_run_configuration
+        and finish_off_jsonlines_file):
+        logerr('Cannot use the --finish_off_jsonlines_file option in '
+               'combination with the -run_cfg/--run_configuration option. '
+               'Exiting.')
+        exit(1)
+
     if not _run_configuration:
         # Import some functions, etc., that will only be needed if this code
         # gets executed
-        from json import dumps
         from copy import deepcopy
         from util.mongodb import connect_to_db
         from util.datasets import get_game_files
@@ -313,6 +335,17 @@ if __name__ == '__main__':
         jsonlines_file_path = join(working_dir_path,
                                    jsonlines_file_name)
 
+        finished_reviews_ids = []
+        if finish_off_jsonlines_file:
+            # Compile list of already-complete reviews
+            if exists(jsonlines_file_path):
+                finished_reviews_ids = [json_decode(l).get('id')
+                                        for l in open(jsonlines_file_path)]
+            else:
+                logerr('Could not find .jsonlines file at {}. Exiting.'
+                       .format(jsonlines_file_path))
+                exit(1)
+
         # Get experiment name
         expid = '{}.{}.{}'.format(combined_model_prefix,
                                   learner_short,
@@ -334,7 +367,8 @@ if __name__ == '__main__':
             loginfo('Writing {} to working directory...'
                     .format(jsonlines_file_name))
             with open(jsonlines_file_path,
-                      'w') as jsonlines_file:
+                      'a' if finished_reviews_ids
+                          else 'w') as jsonlines_file:
                 # Get the training reviews for this game from the MongoDB
                 # database
                 for game_file in game_files:
@@ -349,7 +383,8 @@ if __name__ == '__main__':
                                      reuse_features=reuse_features,
                                      binarize_feats=binarize,
                                      lowercase_text=lowercase_text,
-                                     lowercase_cngrams=lowercase_cngrams)
+                                     lowercase_cngrams=lowercase_cngrams,
+                                     ids_to_ignore=finished_reviews_ids)
 
             # Set up the job for training the model
             loginfo('Generating configuration file...')
@@ -396,6 +431,17 @@ if __name__ == '__main__':
             jsonlines_file_path = join(working_dir_path,
                                        jsonlines_file_name)
 
+            finished_reviews_ids = []
+            if finish_off_jsonlines_file:
+                # Compile list of already-complete reviews
+                if exists(jsonlines_file_path):
+                    finished_reviews_ids = [json_decode(l).get('id') for l
+                                            in open(jsonlines_file_path)]
+                else:
+                    logerr('Could not find .jsonlines file at {}. Exiting.'
+                          .format(jsonlines_file_path))
+                    exit(1)
+
             # Get experiment name
             expid = '{}.{}.{}'.format(model_prefix,
                                       learner_short,
@@ -417,7 +463,8 @@ if __name__ == '__main__':
                 loginfo('Writing {} to working directory...'
                         .format(jsonlines_file_name))
                 with open(jsonlines_file_path,
-                          'w') as jsonlines_file:
+                          'a' if finished_reviews_ids
+                              else 'w') as jsonlines_file:
                     process_features(reviewdb,
                                      partition,
                                      game,
@@ -426,7 +473,8 @@ if __name__ == '__main__':
                                      reuse_features=reuse_features,
                                      binarize_feats=binarize,
                                      lowercase_text=lowercase_text,
-                                     lowercase_cngrams=lowercase_cngrams)
+                                     lowercase_cngrams=lowercase_cngrams,
+                                     ids_to_ignore=finished_reviews_ids)
 
                 # Set up the job for training the model
                 loginfo('Generating configuration file...')

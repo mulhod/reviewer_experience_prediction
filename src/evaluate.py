@@ -288,13 +288,15 @@ if __name__ == '__main__':
                                  lowercase_cngrams=lowercase_cngrams)
 
         # Extract values from review dictionaries
-        hours_values = [int(review_dict.get('hours')) for review_dict
-                        in review_data_dicts]
-        features_dicts = [review_dict.get('features') for review_dict
-                          in review_data_dicts]
-        _ids = [review_dict.get('_id') for review_dict in review_data_dicts]
-        reviews = [review_dict.get('review') for review_dict
-                   in review_data_dicts]
+        hours_values = []
+        features_dicts = []
+        _ids = []
+        reviews = []
+        for review_dict in review_data_dicts:
+            hours_values.append(int(review_dict.get('hours')))
+            features_dicts.append(review_dict.get('features'))
+            _ids.append(review_dict.get('_id'))
+            reviews.append(review_dict.get('review'))
 
         # Make list of FeatureSet instances
         fs = FeatureSet('{}.test'.format(game),
