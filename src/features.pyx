@@ -520,7 +520,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                             else 'total_game_hours')
         review_text = _get('review')
         _id = _get('_id')
-        normalized_id = abs(hash(str(_id)))
+        normalized_id = str(abs(hash(str(_id))))
         if (not review_data
             and normalized_id in ids_to_ignore):
             continue
