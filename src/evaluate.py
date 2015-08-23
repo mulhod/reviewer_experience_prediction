@@ -102,12 +102,11 @@ if __name__ == '__main__':
     from sys import exit
     from os import listdir
     from collections import Counter
-    from util.mongodb import connect_to_db
-    from util.datasets import get_game_files
-    from src.features import (process_features,
-                              write_results_file,
-                              make_confusion_matrix,
-                              extract_features_from_review)
+    from mongodb import connect_to_db
+    from datasets import get_game_files
+    from features import (process_features,
+                          make_confusion_matrix,
+                          extract_features_from_review)
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -322,7 +321,7 @@ if __name__ == '__main__':
         total_hours_values_extend(hours_values)
 
         if predictions_path:
-            from src.feature_extraction import write_predictions_to_file
+            from features import write_predictions_to_file
             # Write predictions file for game
             loginfo('Writing predictions file for {}...'.format(game))
             write_predictions_to_file(predictions_path,
@@ -334,6 +333,7 @@ if __name__ == '__main__':
                                           predicted_labels))
 
         if results_path:
+            from features import write_results_file
             # Write evaluation report for game
             loginfo('Writing results file for {}...'.format(game))
             write_results_file(results_path,

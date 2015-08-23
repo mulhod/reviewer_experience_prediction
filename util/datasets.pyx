@@ -1189,11 +1189,6 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     :returns: None
     '''
 
-    # Connect to logger from driver progam
-    logger = logging.getLogger('make_arff_files')
-    logerr = logger.error
-    logwarn = logger.warning
-
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
         and (reviews

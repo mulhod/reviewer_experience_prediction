@@ -55,9 +55,8 @@ if __name__ == '__main__':
     import logging
     from json import dumps
     from data import APPID_DICT
-    sys.path.append(project_dir)
-    from util.datasets import (parse_appids,
-                               get_review_data_for_game)
+    from datasets import (parse_appids,
+                          get_review_data_for_game)
 
     # Initialize logging system
     logger = logging.getLogger()

@@ -31,9 +31,9 @@ json_encode = json_encoder.encode
 from os.path import (basename,
                      splitext)
 from pymongo import MongoClient
-from util.datasets import (get_bin,
-                           get_bin_ranges,
-                           get_and_describe_dataset)
+from datasets import (get_bin,
+                      get_bin_ranges,
+                      get_and_describe_dataset)
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
                             ConnectionFailure,
@@ -300,7 +300,7 @@ def get_review_features_from_db(db, _id):
     return json_decode(features_doc.get('features')) if features_doc else None
 
 
-def update_db(db_update, _id, features, _binarize):
+def update_db(db_update, _id, _features, _binarize):
     '''
     Update Mongo database document with extracted features.
 
@@ -308,8 +308,8 @@ def update_db(db_update, _id, features, _binarize):
     :type db_update: method
     :param _id: database document's Object ID
     :type _id: bson.objectid.ObjectId object
-    :param features: dictionary of features
-    :type features: dict
+    :param _features: dictionary of features
+    :type _features: dict
     :param _binarize: whether or not the features are binarized
     :type _binarize: boolean
     :returns: None
@@ -319,7 +319,7 @@ def update_db(db_update, _id, features, _binarize):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'features': json_encode(features),
+                      {'$set': {'features': json_encode(_features),
                                 'binarized': _binarize}})
             break
         except AutoReconnect:
