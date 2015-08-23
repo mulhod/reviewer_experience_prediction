@@ -588,7 +588,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
             yield {'hours': hours,
                    'review': review_text,
                    '_id': normalized_id,
-                   'features': feats})
+                   'features': feats}
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
