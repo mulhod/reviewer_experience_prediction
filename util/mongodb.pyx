@@ -17,6 +17,7 @@ logwarn = logger.warning
 logerr = logger.error
 from sys import exit
 from math import ceil
+from time import sleep
 from random import (seed,
                     randint,
                     shuffle)

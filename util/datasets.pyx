@@ -8,6 +8,12 @@ statistics, write ARFF format files for use with Weka, convert raw hours
 played values to a scale of a given number of values, etc.
 '''
 import logging
+# Connect to get_review_data logger
+logger = logging.getLogger()
+loginfo = logger.info
+logdebug = logger.debug
+logwarn = logger.warning
+logerr = logger.error
 from re import (sub,
                 search,
                 compile as recompile)
@@ -68,13 +74,6 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
              single review, including the review itself, the number of hours
              the reviewer has played the game, etc.
     '''
-
-    # Connect to get_review_data logger
-    logger = logging.getLogger('get_review_data')
-    loginfo = logger.info
-    logdebug = logger.debug
-    logwarn = logger.warning
-    logerr = logger.error
 
     # Define a couple useful regular expressions, string variables
     SPACE = recompile(r'[\s]+')
