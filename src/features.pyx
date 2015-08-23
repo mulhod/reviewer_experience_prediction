@@ -500,9 +500,6 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     if jsonlines_file:
         jsonlines_write = jsonlines_file.write
 
-    if review_data:
-        review_data_dicts = []
-
     game_docs = db.find({'game': game_id,
                          'partition': data_partition},
                         {'features': 0,
