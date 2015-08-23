@@ -297,6 +297,7 @@ if __name__ == '__main__':
             features_dicts.append(review_dict.get('features'))
             _ids.append(review_dict.get('_id'))
             reviews.append(review_dict.get('review'))
+        review_data_dicts = None
 
         # Make list of FeatureSet instances
         fs = FeatureSet('{}.test'.format(game),

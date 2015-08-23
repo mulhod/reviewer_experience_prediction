@@ -446,7 +446,8 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     '''
     Get or extract features from review entries in the database, update the
     database's copy of those features, and optionally write features to
-    .jsonlines file and/or generate feature dictionaries.
+    .jsonlines file and/or generate feature dictionaries and return a list
+    of them.
 
     :param db: a Mongo DB collection client
     :type db: pymongo.collection.Collection
@@ -483,7 +484,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     :param ids_to_ignore: review IDs to ignore (i.e., skip over
                           previously-finished reviews)
     :type ids_to_ignore: list of str
-    :returns: None or generator of dict
+    :returns: None or list of dict
     '''
 
     if (just_extract_features
@@ -499,6 +500,9 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
 
     if jsonlines_file:
         jsonlines_write = jsonlines_file.write
+
+    if review_data:
+        feature_dicts = []
 
     game_docs = db.find({'game': game_id,
                          'partition': data_partition},
@@ -581,11 +585,13 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                                  'x': feats})))
 
         if review_data:
-            # Yield feature dictionary
-            yield {'hours': hours,
-                   'review': review_text,
-                   '_id': normalized_id,
-                   'features': feats}
+            feature_dicts.append({'hours': hours,
+                                  'review': review_text,
+                                  '_id': normalized_id,
+                                  'features': feats})
+
+    if review_data:
+        return feature_dicts
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
