@@ -13,6 +13,11 @@ from os.path import (join,
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
+# Get path to project and data directories
+project_dir = dirname(dirname(realpath(__file__)))
+data_dir = join(project_dir,
+                'data')
+
 
 if __name__ == '__main__':
 
@@ -118,11 +123,6 @@ if __name__ == '__main__':
     eval_combined_games = args.eval_combined_games
     partition = args.partition
     mongodb_port = args.mongodb_port
-
-    # Get path to project and data directories
-    project_dir = dirname(dirname(realpath(__file__)))
-    data_dir = join(project_dir,
-                    'data')
 
     # Initialize logging system
     logging_debug = logging.DEBUG

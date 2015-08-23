@@ -4,6 +4,7 @@
 
 Script used to train models on datasets (or multiple datasets combined).
 '''
+import sys
 from sys import exit
 from time import sleep
 from os import listdir
@@ -30,6 +31,8 @@ loginfo = logger.info
 logdebug = logger.debug
 logerr = logger.error
 logwarn = logger.warning
+
+project_dir = dirname(dirname(realpath(__file__)))
 
 # Get short names for the learner and objective function to use in the
 # experiment name(s)
@@ -223,8 +226,7 @@ if __name__ == '__main__':
 
     # Get paths to directories related to the training/evaluation tasks and
     # make them global variables
-    global project_dir, cfg_dir_path, working_dir_path
-    project_dir = dirname(dirname(realpath(__file__)))
+    global cfg_dir_path, working_dir_path
     cfg_dir_path = join(project_dir,
                         'config')
     working_dir_path = join(project_dir,

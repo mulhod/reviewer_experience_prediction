@@ -6,11 +6,11 @@ Script used to run the web scraping tool in order to build the video game review
 '''
 from os.path import (join,
                      dirname,
-                     abspath,
                      realpath)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
+project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir,
                 'data')
 
@@ -55,7 +55,6 @@ if __name__ == '__main__':
     import logging
     from json import dumps
     from data import APPID_DICT
-    project_dir = dirname(dirname(realpath(__file__)))
     sys.path.append(project_dir)
     from util.datasets import (parse_appids,
                                get_review_data_for_game)
