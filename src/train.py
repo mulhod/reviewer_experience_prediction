@@ -145,7 +145,8 @@ if __name__ == '__main__':
         default=False)
     parser_add_argument('--just_extract_features',
         help='Extract features from all of the reviews, generate .jsonlines '
-             'files, etc., but quit before training any models.',
+             'files, and generate configuration files, etc., but quit before '
+             'training any models.',
         action='store_true',
         default=False)
     parser_add_argument('--reuse_features',
@@ -488,7 +489,7 @@ if __name__ == '__main__':
 
             if just_extract_features:
                 loginfo('Complete.')
-                exit(0)
+                continue
 
             # Make sure the jsonlines and config files exist
             if not all([exists(fpath) for fpath in [jsonlines_file_path,
