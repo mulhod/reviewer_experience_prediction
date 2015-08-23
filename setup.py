@@ -29,7 +29,7 @@ def readme():
 
 # Hackish way of doing this. Find better way...
 root_env = getoutput('conda info | grep "root environment :"'
-                     ' | awk '{print $4}'')
+                     ' | awk \'{print $4}\'')
 # Try to guess the location of the conda installation
 if not root_env:
     root_env = '/home/{}/conda'.format(getuser())
