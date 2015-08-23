@@ -276,10 +276,10 @@ if __name__ == '__main__':
         # gets executed
         from json import dumps
         from copy import deepcopy
-        from mongodb import connect_to_db
-        from datasets import get_game_files
-        from features import (process_features,
-                              generate_config_file)
+        from util.mongodb import connect_to_db
+        from util.datasets import get_game_files
+        from src.features import (process_features,
+                                  generate_config_file)
 
         # Establish connection to MongoDB database collection
         reviewdb = connect_to_db(mongodb_port)

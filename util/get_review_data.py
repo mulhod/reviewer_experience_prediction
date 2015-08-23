@@ -51,12 +51,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # Imports
-    import sys
     import logging
+    from sys import exit
     from json import dumps
     from data import APPID_DICT
-    from datasets import (parse_appids,
-                          get_review_data_for_game)
+    from util.datasets import (parse_appids,
+                               get_review_data_for_game)
 
     # Initialize logging system
     logger = logging.getLogger()
@@ -86,7 +86,6 @@ if __name__ == '__main__':
     if args.games:
         games = args.games.split(',')
         if not all([game in APPID_DICT for game in games]):
-            from sys import exit
             exit('Could not match in APPID_DICT at least one game in the '
                  'list of passed-in games. Exiting.\n')
     elif args.appids:

@@ -88,7 +88,7 @@ if __name__ == '__main__':
     from sys import exit
     from os import listdir
     from pymongo import MongoClient
-    from mongodb import insert_train_test_reviews
+    from util.mongodb import insert_train_test_reviews
 
     # Make local copies of arguments
     game_files = args.game_files

@@ -102,11 +102,11 @@ if __name__ == '__main__':
     from sys import exit
     from os import listdir
     from collections import Counter
-    from mongodb import connect_to_db
-    from datasets import get_game_files
-    from features import (process_features,
-                          make_confusion_matrix,
-                          extract_features_from_review)
+    from util.mongodb import connect_to_db
+    from util.datasets import get_game_files
+    from src.features import (process_features,
+                              make_confusion_matrix,
+                              extract_features_from_review)
 
     # Make local copies of arguments
     game_files = args.game_files

@@ -88,9 +88,9 @@ if __name__ == '__main__':
     from re import sub
     from sys import exit
     from pymongo import MongoClient
-    from datasets import (get_bin_ranges,
-                          write_arff_file,
-                          get_and_describe_dataset)
+    from util.datasets import (get_bin_ranges,
+                               write_arff_file,
+                               get_and_describe_dataset)
 
     # Make local copies of arguments
     game_files = args.game_files
