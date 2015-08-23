@@ -344,35 +344,35 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return dep_counter
 
     # Extract features
-    features = {}
+    feats = {}
 
     # Get the length feature
     # Note: This feature will always be mapped to a frequency of 1 since
     # it exists for every single review and, thus, a review of this length
     # being mapped to the hours played value that it is mapped to has
     # occurred once.
-    features.update({str(_review.length): 1})
+    feats.update({str(_review.length): 1})
 
     # Extract n-gram features
-    features.update(generate_ngram_fdist())
+    feats.update(generate_ngram_fdist())
 
     # Extract character n-gram features
-    features.update(generate_cngram_fdist())
+    feats.update(generate_cngram_fdist())
 
     # Convert cluster ID values into useable features
-    features.update(generate_cluster_fdist())
+    feats.update(generate_cluster_fdist())
 
     # Generate feature consisting of a counter of all tokens whose
     # represenation vectors are made up entirely of zeroes
-    features.update({'zeroes_repvecs': _review.zeroes_repvecs})
+    feats.update({'zeroes_repvecs': _review.zeroes_repvecs})
 
     # Calculate the mean cosine similarity across all word-pairs
-    features.update(calculate_mean_cos_sim())
+    feats.update(calculate_mean_cos_sim())
 
     # Generate the syntactic dependency features
-    features.update(generate_dep_features())
+    feats.update(generate_dep_features())
 
-    return dict(features)
+    return dict(feats)
 
 
 def get_steam_features(get_feat):
@@ -524,17 +524,17 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         found_features = False
         if (reuse_features
             and _binarized == binarize_feats):
-            features = get_review_features_from_db(db,
-                                                   _id)
-            found_features = True if features else False
+            feats = get_review_features_from_db(db,
+                                                _id)
+            found_features = True if feats else False
 
         if not found_features:
-            features = extract_features_from_review(
-                           Review(review_text,
-                                  hours,
-                                  game_id,
-                                  lower=lowercase_text),
-                           lowercase_cngrams=lowercase_cngrams)
+            feats = extract_features_from_review(
+                        Review(review_text,
+                               hours,
+                               game_id,
+                               lower=lowercase_text),
+                        lowercase_cngrams=lowercase_cngrams)
 
         # If binarize_feats is True, make all NLP feature values 1 (except for
         # the mean cosine similarity feature and the feature counting the
@@ -543,7 +543,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         if (binarize_feats
             and not (found_features
                      and _binarized)):
-            features = binarize_features(features)
+            feats = binarize_features(feats)
 
         # Update Mongo database game doc with new key "features", which will
         # be mapped to NLP features, and a new key "binarized", which will be
@@ -552,7 +552,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         if not found_features:
             update_db(db_update,
                       _id,
-                      features,
+                      feats,
                       binarize_feats)
 
         if just_extract_features:
@@ -562,24 +562,24 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
 
         # Get features collected from Steam (non-NLP features) and add them to
         # the features dictionary
-        features.update(get_steam_features(_get))
+        feats.update(get_steam_features(_get))
 
         # If any features have a value of None, then turn the values into
         # zeroes
-        [features.pop(feat) for feat in list(features) if not features[feat]]
+        [feats.pop(feat) for feat in list(feats) if not feats[feat]]
 
         if jsonlines_file:
             # Write string representation of JSON object to file
             jsonlines_write('{}\n'.format(dumps({'id': abs(hash(str(_id))),
                                                  'y': hours,
-                                                 'x': features})))
+                                                 'x': feats})))
 
         if review_data:
             # Append feature dictionary to list of feature dictionaries
             review_data_dicts.append({'hours': hours,
                                       'review': review_text,
                                       '_id': _id,
-                                      'features': features})
+                                      'features': feats})
 
     if review_data:
         # Return list of feature dictionaries
