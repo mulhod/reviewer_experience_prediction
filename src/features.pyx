@@ -506,12 +506,6 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     if review_data:
         feature_dicts = []
 
-    if (nsamples
-        and ids_to_ignore):
-        nsamples -= len(ids_to_ignore)
-        if nsamples < 1:
-            return {}
-
     if nsamples == 0:
         nsamples = float("inf")
 
@@ -550,11 +544,14 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
             continue
 
         # Extract NLP features by querying the database (if they are available
-        # and the --reuse_features flag was used); otherwise, extract features
-        # from the review text directly (and try to update the database)
+        # and the --reuse_features option was used or the ID is in the list of
+        # IDs for reviews already collected); otherwise, extract features from
+        # the review text directly (and try to update the database)
         found_features = False
-        if (reuse_features
-            and _binarized == binarize_feats):
+        if ((reuse_features
+             and _binarized == binarize_feats)
+            or (normalized_id in ids_to_ignore
+                and _binarized == binarize_feats)):
             feats = get_review_features_from_db(db,
                                                 _id)
             found_features = True if feats else False
