@@ -528,7 +528,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                        game_id))
         exit(1)
 
-    int i = 0
+    cdef int i = 0
     for game_doc in iter(game_docs):
 
         if i > nsamples:
