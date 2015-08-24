@@ -39,23 +39,38 @@ from pymongo.errors import (AutoReconnect,
                             ConnectionFailure,
                             DuplicateKeyError)
 
-def connect_to_db(port):
+def connect_to_db(port, tries=10):
     '''
     Connect to database and return a collection object.
 
     :param port: Mongo database port
-    :type port: str
+    :type port: str:
+    :param tries: number of times to try to connect client (default: 10)
+    :type tries: int
     :returns: pymongo.collection.Collection object
     '''
 
     connection_string = 'mongodb://localhost:{}'.format(port)
-    try:
-        connection = MongoClient(connection_string,
-                                 maxPoolSize=None)
-    except ConnectionFailure as e:
-        logerr('Unable to connect to to Mongo server at {}. Exiting.'
-               .format(connection_string))
-        exit(1)
+    cdef int tries = 10
+    while tries > 0:
+        tries -= 1
+        try:
+            connection = MongoClient(connection_string,
+                                     max_pool_size=None,
+                                     connectTimeoutMS=100000,
+                                     socketKeepAlive=True)
+        except ConnectionFailure as e:
+            if tries == 0:
+                logerr('Unable to connect client to Mongo server at {}. '
+                       'Exiting.'.format(connection_string))
+                exit(1)
+            else:
+                logwarn('Unable to connect client to Mongo server at {}. Will'
+                        ' try {} more time{}...'.format(connection_string,
+                                                        tries,
+                                                        's' if tries > 1
+                                                            else ''))
+
     db = connection['reviews_project']
     return db['reviews']
 
