@@ -442,7 +442,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                      review_data=False, use_bins=False, reuse_features=False,
                      binarize_feats=True, just_extract_features=False,
                      lowercase_text=True, lowercase_cngrams=False,
-                     ids_to_ignore=[]):
+                     ids_to_ignore=[], nsamples=0):
     '''
     Get or extract features from review entries in the database, update the
     database's copy of those features, and optionally write features to
@@ -484,6 +484,8 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     :param ids_to_ignore: review IDs to ignore (i.e., skip over
                           previously-finished reviews)
     :type ids_to_ignore: list of str
+    :param nsamples: database samples limit
+    :type nsamples: int
     :returns: None or list of dict
     '''
 
@@ -504,28 +506,48 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     if review_data:
         feature_dicts = []
 
+    if (nsamples
+        and ids_to_ignore):
+        nsamples -= len(ids_to_ignore)
+        if nsamples < 1:
+            return {}
+
+    if nsamples == 0:
+        nsamples = float("inf")
+
     game_docs = db.find({'game': game_id,
                          'partition': data_partition},
                         {'features': 0,
                          'game': 0,
-                         'partition': 0})
+                         'partition': 0},
+                        timeout=False)
     if game_docs.count() == 0:
         logerr('No matching documents were found in the MongoDB collection in'
                ' the {} partition for game {}. Exiting.'
                .format(data_partition,
                        game_id))
         exit(1)
+
+    int i = 0
     for game_doc in iter(game_docs):
+
+        if i > nsamples:
+            break
+
         _get = game_doc.get
         hours = _get('total_game_hours_bin' if use_bins
                                             else 'total_game_hours')
         review_text = _get('review')
+        _binarized = _get('binarized')
         _id = _get('_id')
         normalized_id = str(abs(hash(str(_id))))
+
+        # Continue to next iteration if the ID is in the list of IDs to ignore
+        # and there's no need to do anything further unless collecting review
+        # data
         if (not review_data
             and normalized_id in ids_to_ignore):
             continue
-        _binarized = _get('binarized')
 
         # Extract NLP features by querying the database (if they are available
         # and the --reuse_features flag was used); otherwise, extract features
@@ -564,9 +586,11 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                       feats,
                       binarize_feats)
 
+        # Continue to next database review document if the only task is to
+        # update the database's copy of the extracted features
         if just_extract_features:
-            # Continue to next database review document if the only task is to
-            # update the database's copy of the extracted features
+            if nsamples != float('inf'):
+                nsamples += 1
             continue
 
         # Get features collected from Steam (non-NLP features) and add them to
@@ -577,9 +601,9 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         # zeroes
         [feats.pop(feat) for feat in list(feats) if not feats[feat]]
 
+        # Write string representation of JSON object to file
         if (jsonlines_file
             and not normalized_id in ids_to_ignore):
-            # Write string representation of JSON object to file
             jsonlines_write('{}\n'.format(dumps({'id': normalized_id,
                                                  'y': hours,
                                                  'x': feats})))
@@ -589,6 +613,12 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                   'review': review_text,
                                   '_id': normalized_id,
                                   'features': feats})
+
+        if nsamples != float('inf'):
+            nsamples += 1
+
+    # Close database cursor
+    game_docs.close()
 
     if review_data:
         return feature_dicts

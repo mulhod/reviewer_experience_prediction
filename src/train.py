@@ -121,7 +121,8 @@ if __name__ == '__main__':
                  'RescaledLinearRegression', 'RescaledRandomForestRegressor',
                  'RescaledRidge', 'RescaledSGDRegressor', 'RescaledSVR'],
         default='RescaledSVR')
-    parser_add_argument('--objective_function', '-obj',
+    parser_add_argument('--objective_function',
+                        '-obj',
         help='Objective function used for tuning.',
         choices=['unweighted_kappa', 'linear_weighted_kappa',
                  'quadratic_weighted_kappa', 'uwk_off_by_one',
@@ -175,6 +176,12 @@ if __name__ == '__main__':
         help='Do not make all non-zero feature frequencies equal to 1.',
         action='store_true',
         default=False)
+    parser_add_argument('--limit_training_samples', '-nsamples',
+        help='Limit training samples to n samples. Will disregard if the '
+             'value n is a value that exceeds the number of samples in the '
+             'database. Defaults to no limit (-1).',
+        type=int,
+        default=-1)
     parser_add_argument('--use_cluster', '-cluster',
         help='If run on a compute cluster, make use of the cluster rather '
              'than running everything locally on one machine.',
@@ -208,6 +215,7 @@ if __name__ == '__main__':
     use_original_hours_values = args.use_original_hours_values
     just_extract_features = args.just_extract_features
     reuse_features = args.reuse_features
+    nsamples = args.limit_training_samples
     finish_off_jsonlines_file = args.finish_off_jsonlines_file
     _run_configuration = args.run_configuration
     do_not_binarize_features = args.do_not_binarize_features
@@ -294,6 +302,18 @@ if __name__ == '__main__':
                'combination with the -run_cfg/--run_configuration option. '
                'Exiting.')
         exit(1)
+
+    if nsamples:
+        if _run_configuration:
+            logerr('Cannot use the --limit_training_samples/-nsamples option '
+                   'in combindation with the -run_cfg/--run_configuration '
+                   'option. Exiting.')
+            exit(1)
+        if nsamples == -1:
+            nsamples = 0
+        elif nsamples == 0:
+            logwarn('Using 0 for the training sample limit is the same as '
+                    'setting it to no limit...')
 
     if not _run_configuration:
         # Import some functions, etc., that will only be needed if this code
@@ -385,7 +405,8 @@ if __name__ == '__main__':
                                      binarize_feats=binarize,
                                      lowercase_text=lowercase_text,
                                      lowercase_cngrams=lowercase_cngrams,
-                                     ids_to_ignore=finished_reviews_ids)
+                                     ids_to_ignore=finished_reviews_ids,
+                                     nsamples=nsamples)
 
             # Set up the job for training the model
             loginfo('Generating configuration file...')
@@ -476,7 +497,8 @@ if __name__ == '__main__':
                                      binarize_feats=binarize,
                                      lowercase_text=lowercase_text,
                                      lowercase_cngrams=lowercase_cngrams,
-                                     ids_to_ignore=finished_reviews_ids)
+                                     ids_to_ignore=finished_reviews_ids,
+                                     nsamples=nsamples)
 
                 # Set up the job for training the model
                 loginfo('Generating configuration file...')

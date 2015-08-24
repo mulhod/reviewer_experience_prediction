@@ -50,7 +50,8 @@ def connect_to_db(port):
 
     connection_string = 'mongodb://localhost:{}'.format(port)
     try:
-        connection = MongoClient(connection_string)
+        connection = MongoClient(connection_string,
+                                 maxPoolSize=None)
     except ConnectionFailure as e:
         logerr('Unable to connect to to Mongo server at {}. Exiting.'
                .format(connection_string))
