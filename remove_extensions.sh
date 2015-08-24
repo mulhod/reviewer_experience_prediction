@@ -4,4 +4,6 @@
 
 # Usage: ./remove_extensions.sh
 
-rm -fR build src/*c src/*so util/*so util/*c &
+THIS_DIR=$(readlink -f $0)
+rm -fR ${THIS_DIR}/build ${THIS_DIR}/src/*.c ${THIS_DIR}/src/*.so \
+    ${THIS_DIR}/util/*so util/*.c ${THIS_DIR}/*.so &
