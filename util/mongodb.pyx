@@ -51,7 +51,6 @@ def connect_to_db(port, tries=10):
     '''
 
     connection_string = 'mongodb://localhost:{}'.format(port)
-    cdef int tries = 10
     while tries > 0:
         tries -= 1
         try:
