@@ -27,6 +27,7 @@ from skll.metrics import (kappa,
                           pearson)
 from itertools import combinations
 from util.mongodb import (update_db,
+                          create_game_cursor,
                           get_review_features_from_db)
 from configparser import ConfigParser
 
@@ -509,22 +510,15 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     if nsamples == 0:
         nsamples = float("inf")
 
-    game_docs = db.find({'game': game_id,
-                         'partition': data_partition},
-                        {'features': 0,
-                         'game': 0,
-                         'partition': 0},
-                        timeout=False)
-    if game_docs.count() == 0:
-        logerr('No matching documents were found in the MongoDB collection in'
-               ' the {} partition for game {}. Exiting.'
-               .format(data_partition,
-                       game_id))
-        exit(1)
+    # Create cursor object and set batch_size to 1,000
+    batch_size = 1000
+    game_cursor = create_game_cursor(db,
+                                     game_id,
+                                     data_partition,
+                                     batch_size)
 
     cdef int i = 0
-    for game_doc in iter(game_docs):
-
+    for game_doc in game_cursor:
         if i > nsamples:
             break
 
@@ -615,7 +609,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
             nsamples += 1
 
     # Close database cursor
-    game_docs.close()
+    game_cursor.close()
 
     if review_data:
         return feature_dicts

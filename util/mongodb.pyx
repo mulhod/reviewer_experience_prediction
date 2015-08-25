@@ -44,7 +44,7 @@ def connect_to_db(port, tries=10):
     Connect to database and return a collection object.
 
     :param port: Mongo database port
-    :type port: str:
+    :type port: int (or str)
     :param tries: number of times to try to connect client (default: 10)
     :type tries: int
     :returns: pymongo.collection.Collection object
@@ -74,6 +74,40 @@ def connect_to_db(port, tries=10):
     return db['reviews']
 
 
+def create_game_cursor(db, game_id, data_partition, int batch_size):
+    '''
+    Create Cursor object with given game and partition to iterate through game
+    documents.
+
+    :param db: Mongo reviews collection
+    :type db: pymongo.collection.Collection
+    :param game_id: game ID
+    :type game_id: str
+    :param data_partition: data partition, i.e., 'training', 'test', etc.
+    :type data_partition: str
+    :param batch_size: size of each batch that the cursor returns
+    :type batch_size: int
+    :returns: pymongo.cursor.Cursor object
+    '''
+
+    game_cursor = db.find({'game': game_id,
+                           'partition': data_partition},
+                          {'features': 0,
+                           'game': 0,
+                           'partition': 0},
+                          timeout=False)
+    game_cursor.batch_size = batch_size
+
+    if game_cursor.count() == 0:
+        logerr('No matching documents were found in the MongoDB collection in'
+               ' the {} partition for game {}. Exiting.'
+               .format(data_partition,
+                       game_id))
+        exit(1)
+
+    return game_cursor
+
+
 def insert_train_test_reviews(reviewdb, file_path, int max_size,
                               float percent_train, bins=0, bin_factor=1.0,
                               describe=False, just_describe=False):
@@ -81,8 +115,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     Insert training/test set reviews into the MongoDB database and optionally
     generate a report and graphs describing the filtering mechanisms.
 
-    :param reviewdb: MongoDB reviews collection
-    :type reviewdb: pymongo.MongoClient object
+    :param reviewdb: Mongo reviews collection
+    :type reviewdb: pymongo.collection.Collection object
     :param file_path: path to game reviews file
     :type file_path: str
     :param max_size: maximum size of training/test set combination (in number
@@ -299,11 +333,11 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
 
 def get_review_features_from_db(db, _id):
     '''
-    Collect the features from the database for a given review and return the
-    decoded value.
+    Collect the features from the database collection for a given review and
+    return the decoded value.
 
-    :param db: database
-    :type db: MongoClient instance
+    :param db: Mongo reviews collection
+    :type db: pymongo.collection.Collection object
     :param _id: ID string for review
     :type _id: pymong.bson.objectid.ObjectId
     :returns: dict if features were found; None otherwise
