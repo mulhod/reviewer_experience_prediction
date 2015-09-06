@@ -88,9 +88,10 @@ class Review(object):
                                            tag=True,
                                            parse=True)
         self.spaCy_sents = []
+        spaCy_sents_append = self.spaCy_sents.append
         for _range in self.spaCy_annotations.sents:
-            self.spaCy_sents.append([self.spaCy_annotations[i]
-                                     for i in range(*_range)])
+            spaCy_sents_append([self.spaCy_annotations[i]
+                                for i in range(*_range)])
         self.get_token_features_from_spaCy()
 
 
@@ -160,14 +161,17 @@ class Review(object):
 
         lemma_set = set()
         cluster_ids = []
+        tokens_append = self.tokens.append
+        lemma_set_update = lemma_set.update
+        cluster_ids_extend = cluster_ids.extend
         for sent in self.spaCy_sents:
             # Get tokens
-            self.tokens.append([t.orth_ for t in sent])
+            tokens_append([t.orth_ for t in sent])
             # Generate set of lemmas (for use in the average cosine similarity
             # calculation)
-            lemma_set.update([t.lemma_ for t in sent])
+            lemma_set_update([t.lemma_ for t in sent])
             # Get clusters
-            cluster_ids.extend([t.cluster for t in sent])
+            cluster_ids_extend([t.cluster for t in sent])
             # Get "probs"
             #self.probs.append([t.prob_ for t in sent])
         self.cluster_id_counter = dict(Counter(cluster_ids))
@@ -175,6 +179,7 @@ class Review(object):
         # Get repvecs for unique lemmas (when they do not consist entirely of
         # zeroes) and store count of all repvecs that consist only of zeroes
         used_up_lemmas = set()
+        repvecs_append = self.repvecs.append
         for sent in self.spaCy_sents:
             for t in sent:
                 if np.array_equal(t.repvec,
@@ -182,7 +187,7 @@ class Review(object):
                     self.zeroes_repvecs += 1
                     continue
                 if not t.lemma_ in used_up_lemmas:
-                    self.repvecs.append(t.repvec)
+                    repvecs_append(t.repvec)
 
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
@@ -220,13 +225,13 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         # Make emtpy Counter
         ngram_counter = Counter()
+        ngram_counter_update = ngram_counter.update
 
         # Count up all n-grams
-        tokenized_sents = _review.tokens
-        for sent in tokenized_sents:
+        for sent in _review.tokens:
             for i in range(_min,
                            _max + 1):
-                ngram_counter.update(list(ngrams(sent,
+                ngram_counter_update(list(ngrams(sent,
                                                  i)))
 
         # Re-represent keys as string representations of specific features
@@ -249,18 +254,16 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: Counter
         '''
 
-        # Text
-        orig_text = _review.orig
-        text = (orig_text.lower() if lowercase_cngrams
-                                     else orig_text)
-
         # Make emtpy Counter
         cngram_counter = Counter()
+        cngram_counter_update = cngram_counter.update
 
         # Count up all character n-grams
         for i in range(_min,
                        _max + 1):
-            cngram_counter.update(list(ngrams(text,
+            cngram_counter_update(list(ngrams(_review.orig.lower()
+                                                  if lowercase_cngrams
+                                                  else _review.orig,
                                               i)))
 
         # Re-represent keys as string representations of specific features
@@ -322,21 +325,20 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         :returns: Counter
         '''
 
-        spaCy_sents = _review.spaCy_sents
-
         # Make emtpy Counter
         dep_counter = Counter()
+        dep_counter_update = dep_counter.update
 
         # Iterate through spaCy annotations for each sentence and then for
         # each token
-        for sent in spaCy_sents:
+        for sent in _review.spaCy_sents:
             for t in sent:
                 # If the number of children to the left and to the right
                 # of the token add up to a value that is not zero, then
                 # get the children and make dependency features with
                 # them
                 if t.n_lefts + t.n_rights:
-                    [dep_counter.update({'{0.lemma_}:{0.dep_}:{1.lemma_}'
+                    [dep_counter_update({'{0.lemma_}:{0.dep_}:{1.lemma_}'
                                          .format(t,
                                                  c): 1})
                      for c in t.children
@@ -347,33 +349,34 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     # Extract features
     feats = {}
 
+    feats_update = feats.update
     # Get the length feature
     # Note: This feature will always be mapped to a frequency of 1 since
     # it exists for every single review and, thus, a review of this length
     # being mapped to the hours played value that it is mapped to has
     # occurred once.
-    feats.update({str(_review.length): 1})
+    feats_update({str(_review.length): 1})
 
     # Extract n-gram features
-    feats.update(generate_ngram_fdist())
+    feats_update(generate_ngram_fdist())
 
     # Extract character n-gram features
-    feats.update(generate_cngram_fdist())
+    feats_update(generate_cngram_fdist())
 
     # Convert cluster ID values into useable features
-    feats.update(generate_cluster_fdist())
+    feats_update(generate_cluster_fdist())
 
     # Generate feature consisting of a counter of all tokens whose
     # represenation vectors are made up entirely of zeroes
-    feats.update({'zeroes_repvecs': _review.zeroes_repvecs})
+    feats_update({'zeroes_repvecs': _review.zeroes_repvecs})
 
     # Calculate the mean cosine similarity across all word-pairs
-    feats.update(calculate_mean_cos_sim())
+    feats_update(calculate_mean_cos_sim())
 
     # Generate the syntactic dependency features
-    feats.update(generate_dep_features())
+    feats_update(generate_dep_features())
 
-    return dict(feats)
+    return feats
 
 
 def get_steam_features(get_feat):
@@ -507,11 +510,12 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
     if review_data:
         feature_dicts = []
 
+    cdef float inf = float("inf")
     if nsamples == 0:
-        nsamples = float("inf")
+        nsamples = inf
 
     # Create cursor object and set batch_size to 1,000
-    batch_size = 1000
+    cdef int batch_size = 1000
     game_cursor = create_game_cursor(db,
                                      game_id,
                                      data_partition,
@@ -522,12 +526,12 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         if i > nsamples:
             break
 
-        _get = game_doc.get
-        hours = _get('total_game_hours_bin' if use_bins
-                                            else 'total_game_hours')
-        review_text = _get('review')
-        _binarized = _get('binarized')
-        _id = _get('_id')
+        game_doc_get = game_doc.get
+        hours = game_doc_get('total_game_hours_bin' if use_bins
+                                                    else 'total_game_hours')
+        review_text = game_doc_get('review')
+        _binarized = game_doc_get('binarized')
+        _id = game_doc_get('_id')
         normalized_id = str(abs(hash(str(_id))))
 
         # Continue to next iteration if the ID is in the list of IDs to ignore
@@ -580,17 +584,19 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         # Continue to next database review document if the only task is to
         # update the database's copy of the extracted features
         if just_extract_features:
-            if nsamples != float('inf'):
+            if nsamples != inf:
                 nsamples += 1
             continue
 
         # Get features collected from Steam (non-NLP features) and add them to
         # the features dictionary
-        feats.update(get_steam_features(_get))
+        feats.update(get_steam_features(game_doc_get))
 
         # If any features have a value of None, then turn the values into
         # zeroes
-        [feats.pop(feat) for feat in list(feats) if not feats[feat]]
+        feats_pop = feats.pop
+        feats_get = feats.get
+        [feats_pop(f) for f in list(feats) if not feats_get(f)]
 
         # Write string representation of JSON object to file
         if (jsonlines_file
@@ -605,7 +611,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                   '_id': normalized_id,
                                   'features': feats})
 
-        if nsamples != float('inf'):
+        if nsamples != inf:
             nsamples += 1
 
     # Close database cursor

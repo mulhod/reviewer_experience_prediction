@@ -36,7 +36,6 @@ def get_game_files(games_str, data_dir_path):
     :returns: list of str
     '''
 
-    game_files = []
     if games_str == "all":
         game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
         del game_files[game_files.index('sample.jsonlines')]
@@ -919,10 +918,7 @@ cdef read_reviews_from_game_file(file_path):
     '''
 
     from json import loads
-    reviews = []
-    for json_line in open(file_path).readlines():
-        reviews.append(loads(json_line))
-    return reviews
+    return [loads(json_line) for json_line in open(file_path)]
 
 
 def get_and_describe_dataset(file_path, report=True):
