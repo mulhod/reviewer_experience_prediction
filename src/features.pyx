@@ -36,27 +36,24 @@ class Review(object):
     Class for objects representing Reviews.
     '''
 
-    # Normalized review text
-    norm = None
-    # appid of the game (string ID code that Steam uses to represent the
-    # game
-    appid = None
-    # Attribute whose value determines whether or not the review text will
-    # be lower-cased as part of the normalization step
-    lower = None
-    # Attribute consisting of the identified sentences, which, in turn
-    # consist of the identified tokens
-    tokens = []
-    # Attributes representing the spaCy text annotations
-    spaCy_annotations = None
-    spaCy_sents = None
-    # Attributes representing the cluster IDs, "repvecs" (representation
-    # vectors), and "probs" (log probabilities) corresponding to tokens
-    cluster_id_counter = None
-    repvecs = []
-    zeroes_repvecs = 0 # Count of repvecs containing all zeroes
-    #probs = []
-
+    __slots__ = ('norm', 'appid', 'lower', 'tokens', 'spaCy_annotations',
+                 'spaCy_sents', 'cluster_id_counter', 'repvecs',
+                 'zeroes_repvecs', 'probs', 'orig', 'hours_played',
+                 'length')
+    # norm: Normalized review text
+    # appid: appid of the game (string ID code that Steam uses to represent
+    #        the game
+    # lower: Attribute whose value determines whether or not the review text
+    #        will be lower-cased as part of the normalization step
+    # tokens: Attribute consisting of the identified sentences, which, in turn
+    #         consist of the identified tokens
+    # spaCy_annotations, spaCy_sents: Attributes representing the spaCy text
+    #                                 annotations
+    # cluster_id_counter, repvecs, probs: Attributes representing the cluster
+    #     IDs, representation vectors, and log probabilities corresponding to
+    #     tokens
+    # zeroes_repvecs: Attribute representing the number of represenation
+    #                 vectores containing only zeroes
 
     def __init__(self, review_text, float hours_played, game, lower=True):
         '''
@@ -94,7 +91,6 @@ class Review(object):
                                 for i in range(*_range)])
         self.get_token_features_from_spaCy()
 
-
     def normalize(self):
         '''
         Perform text preprocessing, i.e., lower-casing, etc., to generate the
@@ -102,10 +98,7 @@ class Review(object):
         '''
 
         # Lower-case text if self.lower is True
-        if self.lower:
-            r = self.orig.lower()
-        else:
-            r = self.orig
+        r = self.orig.lower() if self.lower else self.orig
 
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
@@ -152,7 +145,6 @@ class Review(object):
         # ill ==> i will
         r = sub(r"\bill\b", r"i will", r, IGNORECASE)
         self.norm = r
-
 
     def get_token_features_from_spaCy(self):
         '''
