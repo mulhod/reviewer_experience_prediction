@@ -22,12 +22,8 @@ from random import (seed,
                     randint,
                     shuffle)
 from data import APPID_DICT
-from json import (JSONDecoder,
-                  JSONEncoder)
-json_decoder = JSONDecoder()
-json_decode = json_decoder.decode
-json_encoder = JSONEncoder()
-json_encode = json_encoder.encode
+from json import (loads,
+                  dumps)
 from os.path import (basename,
                      splitext)
 from pymongo import MongoClient
@@ -346,7 +342,7 @@ def get_review_features_from_db(db, _id):
     features_doc = db.find_one({'_id': _id},
                                {'_id': 0,
                                 'features': 1})
-    return json_decode(features_doc.get('features')) if features_doc else None
+    return loads(features_doc.get('features')) if features_doc else None
 
 
 def update_db(db_update, _id, feats, _binarize):
@@ -368,7 +364,7 @@ def update_db(db_update, _id, feats, _binarize):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'features': json_encode(feats),
+                      {'$set': {'features': dumps(feats),
                                 'binarized': _binarize}})
             break
         except AutoReconnect:

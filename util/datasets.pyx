@@ -918,12 +918,10 @@ cdef read_reviews_from_game_file(file_path):
     :returns: list of dict
     '''
 
-    from json import JSONDecoder
-    json_decoder = JSONDecoder()
-    json_decode = json_decoder.decode
+    from json import loads
     reviews = []
     for json_line in open(file_path).readlines():
-        reviews.append(json_decode(json_line))
+        reviews.append(loads(json_line))
     return reviews
 
 

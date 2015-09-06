@@ -224,10 +224,7 @@ if __name__ == '__main__':
     mongodb_port = args.mongodb_port
 
     # Imports
-    from json import (dumps,
-                      JSONDecoder)
-    json_decoder = JSONDecoder()
-    json_decode = json_decoder.decode
+    from json import loads
 
     # Setup logger and create logging handlers
     import logging
@@ -360,7 +357,7 @@ if __name__ == '__main__':
         if finish_off_jsonlines_file:
             # Compile list of already-complete reviews
             if exists(jsonlines_file_path):
-                finished_reviews_ids = [str(json_decode(l).get('id'))
+                finished_reviews_ids = [str(loads(l).get('id'))
                                         for l in open(jsonlines_file_path)]
             else:
                 logerr('Could not find .jsonlines file at {}. Exiting.'
@@ -457,8 +454,7 @@ if __name__ == '__main__':
             if finish_off_jsonlines_file:
                 # Compile list of already-complete reviews
                 if exists(jsonlines_file_path):
-                    finished_reviews_ids = [str(json_decode(l).get('id'))
-                                            for l
+                    finished_reviews_ids = [str(loads(l).get('id')) for l
                                             in open(jsonlines_file_path)]
                 else:
                     logerr('Could not find .jsonlines file at {}. Exiting.'

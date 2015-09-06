@@ -116,8 +116,7 @@ if __name__ == '__main__':
             for review in get_review_data_for_game(APPID_DICT[game],
                                                    time_out=10.0,
                                                    wait=args.wait):
-                jsonlines_file_write('{}\n'.format(dumps(review,
-                                                         jsonlines_file)))
+                jsonlines_file_write('{}\n'.format(dumps(review)))
                 if flush_to_file == 0:
                     jsonlines_file.flush()
                     flush_to_file = 10
