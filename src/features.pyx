@@ -100,10 +100,7 @@ class Review(object):
         '''
 
         # Lower-case text if self.lower is True
-        if self.lower:
-            r = self.orig.lower()
-        else:
-            r = self.orig
+        r = self.orig.lower() if self.lower else self.orig
 
         # Collapse all sequences of one or more whitespace characters, strip
         # whitespace off the ends of the string, and lower-case all characters
@@ -506,6 +503,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
 
     if review_data:
         feature_dicts = []
+        feature_dicts_append = feature_dicts.append
 
     cdef float inf = float("inf")
     if nsamples == 0:
@@ -603,7 +601,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
                                                  'x': feats})))
 
         if review_data:
-            feature_dicts.append({'hours': hours,
+            feature_dicts_append({'hours': hours,
                                   'review': review_text,
                                   '_id': normalized_id,
                                   'features': feats})
