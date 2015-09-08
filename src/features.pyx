@@ -436,6 +436,20 @@ def binarize_features(_features):
     return _features
 
 
+def normalize_id(_id):
+    '''
+    Normalize ID by getting its hash value, converting that integer to an
+    absolute value (so there are no negative ID numbers), and then converting
+    it to a string.
+
+    :param _id: database document's Object ID
+    :type _id: pymongo.bson.objectid.ObjectId
+    :returns: str
+    '''
+
+    return str(abs(hash(str(_id))))
+
+
 def process_features(db, data_partition, game_id, jsonlines_file=None,
                      review_data=False, use_bins=False, reuse_features=False,
                      binarize_feats=True, just_extract_features=False,
@@ -527,7 +541,7 @@ def process_features(db, data_partition, game_id, jsonlines_file=None,
         review_text = game_doc_get('review')
         _binarized = game_doc_get('binarized')
         _id = game_doc_get('_id')
-        normalized_id = str(abs(hash(str(_id))))
+        normalized_id = normalize_id(_id)
 
         # Continue to next iteration if the ID is in the list of IDs to ignore
         # and there's no need to do anything further unless collecting review

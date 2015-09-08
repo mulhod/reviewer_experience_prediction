@@ -334,8 +334,8 @@ def get_review_features_from_db(db, _id):
 
     :param db: Mongo reviews collection
     :type db: pymongo.collection.Collection object
-    :param _id: ID string for review
-    :type _id: pymong.bson.objectid.ObjectId
+    :param _id: database document's Object ID
+    :type _id: pymongo.bson.objectid.ObjectId
     :returns: dict if features were found; None otherwise
     '''
 
@@ -352,7 +352,7 @@ def update_db(db_update, _id, feats, _binarize):
     :param db_update: bound method Collection.update of Mongo collection
     :type db_update: method
     :param _id: database document's Object ID
-    :type _id: bson.objectid.ObjectId object
+    :type _id: pymongo.bson.objectid.ObjectId
     :param feats: dictionary of features
     :type feats: dict
     :param _binarize: whether or not the features are binarized
