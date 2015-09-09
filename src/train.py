@@ -349,7 +349,11 @@ if __name__ == '__main__':
             combined_model_prefix = '{}.orghrs'.format(combined_model_prefix)
         if do_not_binarize_features:
             combined_model_prefix = '{}.nobin'.format(combined_model_prefix)
-        jsonlines_file_name = '{}.jsonlines'.format(combined_model_prefix)
+        jsonlines_file_name = ('{}{}.jsonlines'
+                               .format(combined_model_prefix,
+                                       '.{}'.format(partition)
+                                           if partition != 'training'
+                                           else ''))
         jsonlines_file_path = join(working_dir_path,
                                    jsonlines_file_name)
 
@@ -446,7 +450,13 @@ if __name__ == '__main__':
                 model_prefix = '{}.orghrs'.format(model_prefix)
             if do_not_binarize_features:
                 model_prefix = '{}.nobin'.format(model_prefix)
-            jsonlines_file_name = '{}.jsonlines'.format(model_prefix)
+            # Build the .jsonlines file-name and append a suffix to reflect
+            # the partition if the partition is anything other than "training"
+            jsonlines_file_name = ('{}{}.jsonlines'
+                                   .format(model_prefix,
+                                           '.{}'.format(partition)
+                                               if partition != 'training'
+                                               else ''))
             jsonlines_file_path = join(working_dir_path,
                                        jsonlines_file_name)
 
