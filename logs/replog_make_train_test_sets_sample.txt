@@ -1,6 +1,0 @@
-2015-08-07 03:28:32,866 - make_train_test_sets - INFO - Adding training/test partitions to Mongo DB for the following games: sample
-2015-08-07 03:28:32,866 - make_train_test_sets - INFO - Maximum size for the combined training/test sets: 4000
-2015-08-07 03:28:32,867 - make_train_test_sets - INFO - Percentage split between training and test sets: 80.00/20.00
-2015-08-07 03:28:32,867 - make_train_test_sets - INFO - Converting hours played values to 4 bins.
-2015-08-07 03:28:32,867 - make_train_test_sets - INFO - Getting/inserting reviews for sample...
-2015-08-07 03:28:44,675 - make_train_test_sets - INFO - Complete.

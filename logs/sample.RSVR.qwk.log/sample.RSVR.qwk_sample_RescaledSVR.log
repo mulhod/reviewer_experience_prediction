@@ -1,3 +1,0 @@
-Task: train
-Training on working, feature set ['sample'] ...
-	featurizing and training new RescaledSVR model
