@@ -1,0 +1,6 @@
+2015-09-17 03:55:13,553 - make_train_test_sets - INFO - Adding training/test partitions to Mongo DB for the following games: Arma_3
+2015-09-17 03:55:13,553 - make_train_test_sets - INFO - Maximum size for the combined training/test sets: 5000
+2015-09-17 03:55:13,554 - make_train_test_sets - INFO - Percentage split between training and test sets: 80.00/20.00
+2015-09-17 03:55:13,554 - make_train_test_sets - INFO - Converting hours played values to 3 bins with a bin factor of 1.5.
+2015-09-17 03:55:13,554 - make_train_test_sets - INFO - Getting/inserting reviews for Arma_3...
+2015-09-17 03:55:32,624 - make_train_test_sets - INFO - Complete.

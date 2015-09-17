@@ -1,0 +1,6 @@
+2015-09-17 04:02:13,992 - make_train_test_sets - INFO - Adding training/test partitions to Mongo DB for the following games: Team_Fortress_2
+2015-09-17 04:02:13,993 - make_train_test_sets - INFO - Maximum size for the combined training/test sets: 5000
+2015-09-17 04:02:13,993 - make_train_test_sets - INFO - Percentage split between training and test sets: 80.00/20.00
+2015-09-17 04:02:13,993 - make_train_test_sets - INFO - Converting hours played values to 3 bins with a bin factor of 1.5.
+2015-09-17 04:02:13,993 - make_train_test_sets - INFO - Getting/inserting reviews for Team_Fortress_2...
+2015-09-17 04:02:20,067 - make_train_test_sets - INFO - Complete.
