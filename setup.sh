@@ -46,7 +46,7 @@ python3.4 -m spacy.en.download
 # Compile Cython modules
 echo "Compiling Cython extensions...\n"
 THIS_DIR=$(dirname $(readlink -f $0))
-python3.4 ${THIS_DIR}/setup.py build_ext
+python3.4 ${THIS_DIR}/setup.py install
 echo "Package installed!"
 echo "If changes are made to the Cython extensions, run the following to " \
      "re-compile the extensions for use in the various command-line " \
