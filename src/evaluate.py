@@ -19,8 +19,7 @@ data_dir = join(project_dir,
                 'data')
 
 
-if __name__ == '__main__':
-
+def main():
     parser = ArgumentParser(usage='python evaluate.py --game_files '
         'GAME_FILE1,GAME_FILE2,... --model MODEL_PREFIX[ --results_path '
         'PATH|--predictions_path PATH|--just_extract_features][ OPTIONS]',
@@ -368,3 +367,6 @@ if __name__ == '__main__':
                     total_hours_values,
                     total_predicted_hours_labels)['string']))
     loginfo('Complete.')
+
+if __name__ == '__main__':
+    main()

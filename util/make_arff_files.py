@@ -15,8 +15,7 @@ from argparse import (ArgumentParser,
 
 project_dir = dirname(dirname(realpath(__file__)))
 
-if __name__ == '__main__':
-
+def main():
     parser = ArgumentParser(
         usage='python make_arff_files.py --game_files GAME_FILE1,GAME_FILE2[ '
               'OPTIONS]',
@@ -319,3 +318,6 @@ if __name__ == '__main__':
                                 reviews=review_dicts_list,
                                 bins=bin_ranges)
     loginfo('Complete.')
+
+if __name__ == '__main__':
+    main()

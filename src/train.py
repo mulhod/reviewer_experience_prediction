@@ -82,8 +82,7 @@ def make_train_dirs():
              exist_ok=True)
 
 
-if __name__ == '__main__':
-
+def main():
     parser = ArgumentParser(usage='python train.py --game_files GAME_FILE1,'
                                   'GAME_FILE2,...[ OPTIONS]',
         description='Build a machine learning model based on the features '
@@ -537,3 +536,6 @@ if __name__ == '__main__':
                               local=local)
 
     loginfo('Complete.')
+
+if __name__ == '__main__':
+    main()

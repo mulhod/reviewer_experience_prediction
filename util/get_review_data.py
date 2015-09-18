@@ -14,8 +14,7 @@ project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir,
                 'data')
 
-if __name__ == '__main__':
-
+def main():
     parser = ArgumentParser(usage='./python get_review_data.py[ '
         '--appids APPID1,APPID2,...]',
         description='Make review data files for each game in the APPID_DICT, '
@@ -123,3 +122,6 @@ if __name__ == '__main__':
                 else:
                     flush_to_file -= 1
     loginfo('Complete.')
+
+if __name__ == '__main__':
+    main()

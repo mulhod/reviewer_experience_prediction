@@ -15,8 +15,7 @@ from argparse import (ArgumentParser,
 
 project_dir = dirname(dirname(realpath(__file__)))
 
-if __name__ == '__main__':
-
+def main():
     parser = \
         ArgumentParser(usage='python make_train_test_sets.py --game_files '
                              'GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
@@ -219,3 +218,6 @@ if __name__ == '__main__':
                                   just_describe=just_describe)
 
     loginfo('Complete.')
+
+if __name__ == '__main__':
+    main()
