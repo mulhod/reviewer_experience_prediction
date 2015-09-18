@@ -50,12 +50,8 @@ class Review(object):
     # Attributes representing the spaCy text annotations
     spaCy_annotations = None
     spaCy_sents = None
-    # Attributes representing the cluster IDs, "repvecs" (representation
-    # vectors), and "probs" (log probabilities) corresponding to tokens
+    # Attribute representing the cluster IDs corresponding to tokens
     cluster_id_counter = None
-    repvecs = []
-    zeroes_repvecs = 0 # Count of repvecs containing all zeroes
-    #probs = []
 
     def __init__(self, review_text, float hours_played, game, lower=True):
         '''
@@ -170,19 +166,6 @@ class Review(object):
             #self.probs.append([t.prob_ for t in sent])
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
-        # Get repvecs for unique lemmas (when they do not consist entirely of
-        # zeroes) and store count of all repvecs that consist only of zeroes
-        used_up_lemmas = set()
-        repvecs_append = self.repvecs.append
-        for sent in self.spaCy_sents:
-            for t in sent:
-                if np.array_equal(t.repvec,
-                                  np.zeros(300)):
-                    self.zeroes_repvecs += 1
-                    continue
-                if not t.lemma_ in used_up_lemmas:
-                    repvecs_append(t.repvec)
-
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
@@ -287,29 +270,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         return cluster_fdist
 
 
-    def calculate_mean_cos_sim():
-        '''
-        Calcualte the mean cosine similarity between all pairwise cosine
-        similarity metrics between two words.
-
-        :returns: dict
-        '''
-
-
-        # Calculate the cosine similarity between all unique word-pairs
-        # Note: There's no need to use the transpose of in the dot product of
-        # the vectors below since they only contain one dimension.
-        return {'mean_cos_sim':
-                    float(np.array(
-                        [v1.dot(v2)/v1.dot(v1)/v2.dot(v2)
-                         for v1, v2
-                         in [(_review.repvecs[i],
-                              _review.repvecs[j])
-                             for i, j
-                             in combinations(range(len(_review.repvecs)),
-                                             2)]]).mean())}
-
-
     def generate_dep_features():
         '''
         Generate syntactic dependency features from spaCy text annotations and
@@ -360,13 +320,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     # Convert cluster ID values into useable features
     feats_update(generate_cluster_fdist())
 
-    # Generate feature consisting of a counter of all tokens whose
-    # represenation vectors are made up entirely of zeroes
-    feats_update({'zeroes_repvecs': _review.zeroes_repvecs})
-
-    # Calculate the mean cosine similarity across all word-pairs
-    feats_update(calculate_mean_cos_sim())
-
     # Generate the syntactic dependency features
     feats_update(generate_dep_features())
 
@@ -384,7 +337,9 @@ def get_steam_features(get_feat):
     '''
 
     achievements = get_feat('achievement_progress')
-    steam_feats = {'total_game_hours_last_two_weeks':
+    steam_feats = {'total_game_hours': get_feat('total_game_hours'),
+                   'total_game_hours_bin': get_feat('total_game_hours_bin'),
+                   'total_game_hours_last_two_weeks':
                        get_feat('total_game_hours_last_two_weeks'),
                    'num_found_funny': get_feat('num_found_funny'),
                    'num_found_helpful': get_feat('num_found_helpful'),
@@ -418,22 +373,8 @@ def binarize_features(_features):
     :returns: dict
     '''
 
-    # Get the mean cosine similarity and zero-filled representation vector
-    # features and then delete those keys from the feature dictionary (so
-    # that they don't get set to 1)
-    mean_cos_sim = _features['mean_cos_sim']
-    zeroes_repvecs = _features['zeroes_repvecs']
-    del _features['mean_cos_sim']
-    del _features['zeroes_repvecs']
-
     # Binarize the remaining features
-    _features = dict(Counter(list(_features)))
-
-    # Add the two held-out features back into the feature dictionary
-    _features['mean_cos_sim'] = mean_cos_sim
-    _features['zeroes_repvecs'] = zeroes_repvecs
-
-    return _features
+    return dict(Counter(list(_features)))
 
 
 def normalize_id(_id):
