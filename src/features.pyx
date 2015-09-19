@@ -18,7 +18,6 @@ from time import sleep
 from json import (dumps,
                   loads)
 from os.path import join
-from data import APPID_DICT
 from nltk.util import ngrams
 from spacy.en import English
 spaCy_nlp = English()
@@ -53,14 +52,12 @@ class Review(object):
     # Attribute representing the cluster IDs corresponding to tokens
     cluster_id_counter = None
 
-    def __init__(self, review_text, float hours_played, game, lower=True):
+    def __init__(self, review_text, lower=True):
         '''
         Initialization method.
 
         :param review_text: review text
         :type review_text: str
-        :param hours_played: length of time author spent playing game
-        :type hours_played: float
         :param game: name of game
         :type game: str
         :param lower: include lower-casing as part of the review text
@@ -68,9 +65,8 @@ class Review(object):
         :type lower: boolean
         '''
 
+        # Get review text and lower-casing attributes
         self.orig = review_text
-        self.hours_played = hours_played
-        self.appid = APPID_DICT[game]
         self.lower = lower
 
         # Generate attribute values
@@ -305,10 +301,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     feats_update = feats.update
     # Get the length feature
-    # Note: This feature will always be mapped to a frequency of 1 since
-    # it exists for every single review and, thus, a review of this length
-    # being mapped to the hours played value that it is mapped to has
-    # occurred once.
     feats_update({str(_review.length): 1})
 
     # Extract n-gram features
@@ -338,11 +330,11 @@ def get_nlp_features_from_db(db, _id):
     :returns: dict if features were found; None otherwise
     '''
 
-    nlp_features_doc = db.find_one({'_id': _id},
-                                   {'_id': 0,
-                                    'nlp_features': 1})
-    return (loads(features_doc.get('nlp_features')) if nlp_features_doc
-                                                    else None)
+    nlp_feats_doc = db.find_one({'_id': _id},
+                                {'_id': 0,
+                                 'nlp_features': 1})
+    return (loads(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc
+                                                     else None)
 
 
 def get_steam_features_from_db(get_feat):
@@ -458,9 +450,7 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
             extracted_anew = False
             if not found_nlp_feats:
                 nlp_feats = extract_features_from_review(
-                                Review(review_text,
-                                       hours,
-                                       game_id,
+                                Review(review_text
                                        lower=lowercase_text),
                                 lowercase_cngrams=lowercase_cngrams)
                 extracted_anew = True

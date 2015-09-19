@@ -56,8 +56,11 @@ def main():
                      'replog_train.txt'))
     args = parser.parse_args()
 
-    imports
+    # Imports
+    import logging
     from util.mongodb import connect_to_db
+    from util.datasets import get_game_files
+    from src.features import extract_nlp_features_into_db
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -68,7 +71,6 @@ def main():
     mongodb_port = args.mongodb_port
 
     # Setup logger and create logging handlers
-    import logging
     logger = logging.getLogger('train')
     logging_debug = logging.DEBUG
     logger.setLevel(logging_debug)
