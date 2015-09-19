@@ -22,8 +22,7 @@ from random import (seed,
                     randint,
                     shuffle)
 from data import APPID_DICT
-from json import (loads,
-                  dumps)
+from json import dumps
 from os.path import (basename,
                      splitext)
 from pymongo import MongoClient
@@ -79,26 +78,39 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
     :type db: pymongo.collection.Collection
     :param game_id: game ID
     :type game_id: str
-    :param data_partition: data partition, i.e., 'training', 'test', etc.
+    :param data_partition: data partition, i.e., 'training', 'test', etc.; can
+                           alternatively be the value "all" for all partitions
     :type data_partition: str
     :param batch_size: size of each batch that the cursor returns
     :type batch_size: int
     :returns: pymongo.cursor.Cursor object
     '''
 
-    game_cursor = db.find({'game': game_id,
-                           'partition': data_partition},
-                          {'features': 0,
-                           'game': 0,
-                           'partition': 0},
-                          timeout=False)
+    if data_partition == 'all':
+        game_cursor = db.find({'game': game_id},
+                              {'features': 0,
+                               'game': 0,
+                               'partition': 0},
+                              timeout=False)
+    else:
+        game_cursor = db.find({'game': game_id,
+                               'partition': data_partition},
+                              {'features': 0,
+                               'game': 0,
+                               'partition': 0},
+                              timeout=False)
     game_cursor.batch_size = batch_size
 
     if game_cursor.count() == 0:
-        logerr('No matching documents were found in the MongoDB collection in'
-               ' the {} partition for game {}. Exiting.'
-               .format(data_partition,
-                       game_id))
+        if data_partition == 'all':
+            logerr('No matching documents were found in the MongoDB '
+                   'collection  for game {}. Exiting.'
+                   .format(game_id))
+        else:
+            logerr('No matching documents were found in the MongoDB '
+                   'collection in the {} partition for game {}. Exiting.'
+                   .format(data_partition,
+                           game_id))
         exit(1)
 
     return game_cursor
@@ -327,36 +339,21 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
                     'following review:\n{}'.format(rd))
 
 
-def get_review_features_from_db(db, _id):
+def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
     '''
-    Collect the features from the database collection for a given review and
-    return the decoded value.
-
-    :param db: Mongo reviews collection
-    :type db: pymongo.collection.Collection object
-    :param _id: database document's Object ID
-    :type _id: pymongo.bson.objectid.ObjectId
-    :returns: dict if features were found; None otherwise
-    '''
-
-    features_doc = db.find_one({'_id': _id},
-                               {'_id': 0,
-                                'features': 1})
-    return loads(features_doc.get('features')) if features_doc else None
-
-
-def update_db(db_update, _id, feats, _binarize):
-    '''
-    Update Mongo database document with extracted features.
+    Update Mongo database document with extracted NLP features and keys
+    related to whether or not the NLP features have been binarized and review
+    document IDs.
 
     :param db_update: bound method Collection.update of Mongo collection
     :type db_update: method
     :param _id: database document's Object ID
     :type _id: pymongo.bson.objectid.ObjectId
-    :param feats: dictionary of features
-    :type feats: dict
-    :param _binarize: whether or not the features are binarized
-    :type _binarize: boolean
+    :param nlp_feats: dictionary of features
+    :type nlp_feats: dict
+    :param binarized_nlp_feats: whether or not the NLP features being
+                                updated/inserted are binarized
+    :type binarized_nlp_feats: boolean
     :returns: None
     '''
 
@@ -364,8 +361,9 @@ def update_db(db_update, _id, feats, _binarize):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'features': dumps(feats),
-                                'binarized': _binarize}})
+                      {'$set': {'nlp_features': dumps(nlp_feats),
+                                'binarized': binarized_nlp_feats,
+                                'id_string': str(_id)}})
             break
         except AutoReconnect:
             logwarn('Encountered AutoReconnect failure, attempting to '

@@ -15,7 +15,8 @@ from re import (sub,
                 IGNORECASE)
 from math import ceil
 from time import sleep
-from json import dumps
+from json import (dumps,
+                  loads)
 from os.path import join
 from data import APPID_DICT
 from nltk.util import ngrams
@@ -27,8 +28,7 @@ from skll.metrics import (kappa,
                           pearson)
 from itertools import combinations
 from util.mongodb import (update_db,
-                          create_game_cursor,
-                          get_review_features_from_db)
+                          create_game_cursor)
 from configparser import ConfigParser
 
 class Review(object):
@@ -326,7 +326,26 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     return feats
 
 
-def get_steam_features(get_feat):
+def get_nlp_features_from_db(db, _id):
+    '''
+    Collect the NLP features from the Mongo database collection for a given
+    review and return the decoded value.
+
+    :param db: Mongo reviews collection
+    :type db: pymongo.collection.Collection object
+    :param _id: database document's Object ID
+    :type _id: pymongo.bson.objectid.ObjectId
+    :returns: dict if features were found; None otherwise
+    '''
+
+    nlp_features_doc = db.find_one({'_id': _id},
+                                   {'_id': 0,
+                                    'nlp_features': 1})
+    return (loads(features_doc.get('nlp_features')) if nlp_features_doc
+                                                    else None)
+
+
+def get_steam_features_from_db(get_feat):
     '''
     Get features collected from Steam (i.e., the non-NLP features).
 
@@ -364,211 +383,106 @@ def get_steam_features(get_feat):
     return steam_feats
 
 
-def binarize_features(_features):
+def binarize_nlp_features(nlp_features):
     '''
-    Binarize (most of) the NLP features.
+    Binarize the NLP features.
 
-    :param _features: feature dictionary
-    :type _features: dict
+    :param nlp_features: feature dictionary
+    :type nlp_features: dict
     :returns: dict
     '''
 
-    # Binarize the remaining features
-    return dict(Counter(list(_features)))
+    return dict(Counter(list(nlp_features)))
 
 
-def normalize_id(_id):
+def extract_nlp_features_into_db(db, data_partition, game_id,
+                                 reuse_nlp_feats=True,
+                                 use_binarized_nlp_feats=True,
+                                 lowercase_text=True,
+                                 lowercase_cngrams=False):
     '''
-    Normalize ID by getting its hash value, converting that integer to an
-    absolute value (so there are no negative ID numbers), and then converting
-    it to a string.
-
-    :param _id: database document's Object ID
-    :type _id: pymongo.bson.objectid.ObjectId
-    :returns: str
-    '''
-
-    return str(abs(hash(str(_id))))
-
-
-def process_features(db, data_partition, game_id, jsonlines_file=None,
-                     review_data=False, use_bins=False, reuse_features=False,
-                     binarize_feats=True, just_extract_features=False,
-                     lowercase_text=True, lowercase_cngrams=False,
-                     ids_to_ignore=[], nsamples=0):
-    '''
-    Get or extract features from review entries in the database, update the
-    database's copy of those features, and optionally write features to
-    .jsonlines file and/or generate feature dictionaries and return a list
-    of them.
+    Extract NLP features from reviews in the Mongo database and write the
+    features to the database if features weren't already added and
+    reuse_nlp_feats is false).
 
     :param db: a Mongo DB collection client
     :type db: pymongo.collection.Collection
     :param data_partition: 'training', 'test', etc. (must be valid value for
                            'partition' key of review collection in Mongo
-                           database)
+                           database); alternatively, can be the value "all"
+                           for all partitions
     :type data_partition: str
     :param game_id: game ID
     :type game_id: str
-    :param jsonlines_file: writable file used for writing out features to
-    :type jsonlines_file: _io.TextIOWrapper (default: None)
-    :param review_data: whether or not to compile and return a list of
-                        dictionaries corresponding to each review storing:
-                        1) a feature dictionary, 2) an hours value, 3) a
-                        representation of the review document's object id,
-                        and 4) the review text
-    :type review_data: boolean
-    :param use_bins: use binned hours values (i.e., not raw values)
-    :type use_bins: boolean
-    :param reuse_features: try to reuse features from database
-    :type reuse_features: boolean
-    :param binarize_feats: whether or not to binarize features/use
-                           binarized features
-    :type binarize_feats: boolean
-    :param just_extract_features: just extract features and update the Mongo
-                                  database (and don't return the features or
-                                  write them to a file)
-    :type just_extract_features: boolean
+    :param reuse_nlp_feats: reuse NLP features from database instead of
+                            extracting them all over again
+    :type reuse_nlp_feats: boolean
+    :param use_binarized_nlp_feats: use binarized NLP features
+    :type use_binarized_nlp_feats: boolean
     :param lowercase_text: whether or not to lower-case the review text
     :type lowercase_text: boolean
     :param lowercase_cngrams: whether or not to lower-case the character
                               n-grams
     :type lowercase_cngrams: boolean
-    :param ids_to_ignore: review IDs to ignore (i.e., skip over
-                          previously-finished reviews)
-    :type ids_to_ignore: list of str
-    :param nsamples: database samples limit
-    :type nsamples: int
-    :returns: None or list of dict
+    :returns: None
     '''
-
-    if (just_extract_features
-        and (jsonlines_file
-             or review_data)):
-        logerr('Cannot use just_extract_features keyword argument in addition'
-               ' to either the jsonlines_file or review_data keyword '
-               'arguments in features.process_features method/function. '
-               'Exiting.')
-        exit(1)
 
     db_update = db.update
 
-    if jsonlines_file:
-        jsonlines_write = jsonlines_file.write
-
-    if review_data:
-        feature_dicts = []
-        feature_dicts_append = feature_dicts.append
-
-    cdef float inf = float("inf")
-    if nsamples == 0:
-        nsamples = inf
-
     # Create cursor object and set batch_size to 1,000
     cdef int batch_size = 1000
-    game_cursor = create_game_cursor(db,
-                                     game_id,
-                                     data_partition,
-                                     batch_size)
+    with create_game_cursor(db,
+                            game_id,
+                            data_partition,
+                            batch_size) as game_cursor:
+        for game_doc in game_cursor:
+            game_doc_get = game_doc.get
+            review_text = game_doc_get('review')
+            binarized_nlp_feats = game_doc_get('nlp_features_binarized',
+                                               False)
+            _id = game_doc_get('_id')
 
-    cdef int i = 0
-    for game_doc in game_cursor:
-        if i > nsamples:
-            break
+            # Extract NLP features by querying the database (if they are
+            # available and the --reuse_features option was used or the ID is
+            # in the list of IDs for reviews already collected); otherwise,
+            # extract features from the review text directly (and try to
+            # update the database)
+            found_nlp_feats = False
+            if (reuse_nlp_feats
+                & ((use_binarized_nlp_feats & binarized_nlp_feats)
+                    | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
+                nlp_feats = get_nlp_features_from_db(db,
+                                                     _id)
+                found_nlp_feats = True if nlp_feats else False
 
-        game_doc_get = game_doc.get
-        hours = game_doc_get('total_game_hours_bin' if use_bins
-                                                    else 'total_game_hours')
-        review_text = game_doc_get('review')
-        _binarized = game_doc_get('binarized')
-        _id = game_doc_get('_id')
-        normalized_id = normalize_id(_id)
+            extracted_anew = False
+            if not found_nlp_feats:
+                nlp_feats = extract_features_from_review(
+                                Review(review_text,
+                                       hours,
+                                       game_id,
+                                       lower=lowercase_text),
+                                lowercase_cngrams=lowercase_cngrams)
+                extracted_anew = True
 
-        # Continue to next iteration if the ID is in the list of IDs to ignore
-        # and there's no need to do anything further unless collecting review
-        # data
-        if (not review_data
-            and normalized_id in ids_to_ignore):
-            continue
+            # Make sure features get binarized if need be
+            if (use_binarized_nlp_feats
+                & (((not reuse_nlp_feats)
+                    | (not binarized_nlp_feats))
+                   | extracted_anew)):
+                nlp_feats = binarize_nlp_features(nlp_feats)
 
-        # Extract NLP features by querying the database (if they are available
-        # and the --reuse_features option was used or the ID is in the list of
-        # IDs for reviews already collected); otherwise, extract features from
-        # the review text directly (and try to update the database)
-        found_features = False
-        if ((reuse_features
-             and _binarized == binarize_feats)
-            or (normalized_id in ids_to_ignore
-                and _binarized == binarize_feats)):
-            feats = get_review_features_from_db(db,
-                                                _id)
-            found_features = True if feats else False
-
-        if not found_features:
-            feats = extract_features_from_review(
-                        Review(review_text,
-                               hours,
-                               game_id,
-                               lower=lowercase_text),
-                        lowercase_cngrams=lowercase_cngrams)
-
-        # If binarize_feats is True, make all NLP feature values 1 (except for
-        # the mean cosine similarity feature and the feature counting the
-        # number of tokens with representation vectors consisting entirely of
-        # zeroes)
-        if (binarize_feats
-            and not (found_features
-                     and _binarized)):
-            feats = binarize_features(feats)
-
-        # Update Mongo database game doc with new key "features", which will
-        # be mapped to NLP features, and a new key "binarized", which will be
-        # set to True if NLP features were extracted with the
-        # --do_not_binarize_features flag or False otherwise
-        if not found_features:
-            update_db(db_update,
-                      _id,
-                      feats,
-                      binarize_feats)
-
-        # Continue to next database review document if the only task is to
-        # update the database's copy of the extracted features
-        if just_extract_features:
-            if nsamples != inf:
-                nsamples += 1
-            continue
-
-        # Get features collected from Steam (non-NLP features) and add them to
-        # the features dictionary
-        feats.update(get_steam_features(game_doc_get))
-
-        # If any features have a value of None, then turn the values into
-        # zeroes
-        feats_pop = feats.pop
-        feats_get = feats.get
-        [feats_pop(f) for f in list(feats) if not feats_get(f)]
-
-        # Write string representation of JSON object to file
-        if (jsonlines_file
-            and not normalized_id in ids_to_ignore):
-            jsonlines_write('{}\n'.format(dumps({'id': normalized_id,
-                                                 'y': hours,
-                                                 'x': feats})))
-
-        if review_data:
-            feature_dicts_append({'hours': hours,
-                                  'review': review_text,
-                                  '_id': normalized_id,
-                                  'features': feats})
-
-        if nsamples != inf:
-            nsamples += 1
-
-    # Close database cursor
-    game_cursor.close()
-
-    if review_data:
-        return feature_dicts
+            # Update Mongo database game doc with new key "nlp_features",
+            # update/create a "nlp_features_binarized" key to store a value
+            # indicating whehter or not the NLP features were binarized or
+            # not, and update/create an "id_string" key for storing the string
+            # represenation of the ID
+            if ((not found_nlp_feats)
+                | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
+                update_db(db_update,
+                          _id,
+                          nlp_feats,
+                          use_binarized_nlp_feats)
 
 
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,

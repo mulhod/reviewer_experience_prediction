@@ -40,9 +40,10 @@ def main():
         default=False)
     parser_add_argument('--partition',
         help='Data partition, i.e., "training", "test", etc. Value must be a '
-             'valid "partition" value in the Mongo database.',
+             'valid partition set name in the Mongo database. Alternatively, '
+             'the value "all" can be used to include all partitions.',
         type=str,
-        default='training')
+        default='all')
     parser_add_argument('--mongodb_port', '-dbport',
         help='Port that the MongoDB server is running.',
         type=int,
@@ -107,9 +108,22 @@ def main():
     # to the database
     for game_file in game_files:
         game = splitext(game_file)[0]
-        loginfo('Extracting features from the training data for {}...'
-                .format(game))
-        
+        if partition == 'all':
+            partition_string = (' from the "training", "test", and "extra" '
+                                'data partitions')
+        else:
+            partition_string = (' from the "{}" data partition'
+                                .format(partition))
+        loginfo('Extracting features{} for {}...'
+                .format(partition_string,
+                        game))
+        extract_nlp_features_into_db(reviewdb,
+                                     partition,
+                                     game,
+                                     reuse_nlp_feats=True,
+                                     use_binarized_nlp_feats=True,
+                                     lowercase_text=True,
+                                     lowercase_cngrams=False)
 
 if __name__ == '__main__':
     main()
