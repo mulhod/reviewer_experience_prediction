@@ -450,7 +450,7 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
             extracted_anew = False
             if not found_nlp_feats:
                 nlp_feats = extract_features_from_review(
-                                Review(review_text
+                                Review(review_text,
                                        lower=lowercase_text),
                                 lowercase_cngrams=lowercase_cngrams)
                 extracted_anew = True
