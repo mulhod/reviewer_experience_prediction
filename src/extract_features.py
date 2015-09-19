@@ -45,16 +45,21 @@ def main():
              'the value "all" can be used to include all partitions.',
         type=str,
         default='all')
-    parser_add_argument('--mongodb_port', '-dbport',
+    parser_add_argument('--do_not_reuse_extracted_features',
+        help="Don't make use of previously-extracted features present in the"
+             " Mongo database and instead replace them if they are.",
+        action='store_true',
+        default=False)
+    parser_add_argument('-dbport', '--mongodb_port',
         help='Port that the MongoDB server is running.',
         type=int,
         default=27017)
-    parser_add_argument('--log_file_path', '-log',
-        help='Path to log file.',
+    parser_add_argument('-log', '--log_file_path',
+        help='Path to feature extraction log file.',
         type=str,
         default=join(project_dir,
                      'logs',
-                     'replog_train.txt'))
+                     'replog_extract_features.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -65,14 +70,15 @@ def main():
 
     # Make local copies of arguments
     game_files = args.game_files
-    do_not_lowercase_text = args.do_not_lowercase_text
+    binarize = not args.do_not_binarize_features
+    reuse_features = not do_not_reuse_extracted_features
+    lowercase_text = not args.do_not_lowercase_text
     lowercase_cngrams = args.lowercase_cngrams
-    do_not_binarize_features = args.do_not_binarize_features
     partition = args.partition
     mongodb_port = args.mongodb_port
 
     # Setup logger and create logging handlers
-    logger = logging.getLogger('train')
+    logger = logging.getLogger('extract_features')
     logging_debug = logging.DEBUG
     logger.setLevel(logging_debug)
     loginfo = logger.info
@@ -92,12 +98,13 @@ def main():
 
     # Print out some logging information about the upcoming tasks
     logdebug('Project directory: {}'.format(project_dir))
-    binarize = not do_not_binarize_features
     logdebug('Binarize features? {}'.format(binarize))
-    lowercase_text = not do_not_lowercase_text
+    logdebug('Try to reuse previously-extracted features in the database? {}'
+             .format(reuse_features))
     logdebug('Lower-case text as part of the normalization step? {}'
              .format(lowercase_text))
-    logdebug('Just extract features? {}'.format(just_extract_features))
+    logdebug('Lower-case character n-grams during feature extraction? {}'
+             .format(lowercase_cngrams))
 
     # Establish connection to MongoDB database collection
     reviewdb = connect_to_db(mongodb_port)
@@ -107,7 +114,7 @@ def main():
     game_files = get_game_files(game_files,
                                 data_dir_path)
 
-    # Iterate over the game files, extracting features and adding the features
+    # Iterate over the game files, extracting and adding/replacing features
     # to the database
     for game_file in game_files:
         game = splitext(game_file)[0]
@@ -123,10 +130,10 @@ def main():
         extract_nlp_features_into_db(reviewdb,
                                      partition,
                                      game,
-                                     reuse_nlp_feats=True,
-                                     use_binarized_nlp_feats=True,
-                                     lowercase_text=True,
-                                     lowercase_cngrams=False)
+                                     reuse_nlp_feats=reuse_features,
+                                     use_binarized_nlp_feats=binarize,
+                                     lowercase_text=lowercase_text,
+                                     lowercase_cngrams=lowercase_cngrams)
 
 if __name__ == '__main__':
     main()

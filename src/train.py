@@ -209,15 +209,15 @@ def main():
     combined_model_prefix = args.combined_model_prefix
     learner = args.learner
     objective_function = args.objective_function
-    do_not_lowercase_text = args.do_not_lowercase_text
+    lowercase_text = not args.do_not_lowercase_text
     lowercase_cngrams = args.lowercase_cngrams
-    use_original_hours_values = args.use_original_hours_values
+    bins = not args.use_original_hours_values
     just_extract_features = args.just_extract_features
     reuse_features = args.reuse_features
     nsamples = args.limit_training_samples
     finish_off_jsonlines_file = args.finish_off_jsonlines_file
     _run_configuration = args.run_configuration
-    do_not_binarize_features = args.do_not_binarize_features
+    binarize = not args.do_not_binarize_features
     local=not args.use_cluster
     partition = args.partition
     mongodb_port = args.mongodb_port
@@ -261,15 +261,12 @@ def main():
     logdebug('Learner: {}'.format(learner))
     logdebug('Objective function used for tuning: {}'
              .format(objective_function))
-    binarize = not do_not_binarize_features
     logdebug('Binarize features? {}'.format(binarize))
-    lowercase_text = not do_not_lowercase_text
     logdebug('Lower-case text as part of the normalization step? {}'
              .format(lowercase_text))
     logdebug('Just extract features? {}'.format(just_extract_features))
     logdebug('Try to reuse extracted features? {}'
              .format(reuse_features))
-    bins = not use_original_hours_values
     logdebug('Use original hours values? {}'.format(not bins))
 
     # Make sure that, if --combine is being used, there is also a file prefix
