@@ -4,7 +4,8 @@
 
 Script used to extract features for review documents in the Mongo database.
 '''
-from os.path import (dirname,
+from os.path import (join,
+                     dirname,
                      realpath,
                      splitext)
 from argparse import (ArgumentParser,
