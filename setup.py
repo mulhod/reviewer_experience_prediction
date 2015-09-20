@@ -9,19 +9,26 @@ from os.path import (join,
                      realpath)
 from getpass import getuser
 from subprocess import getoutput
-from distutils.core import setup
-from Cython.Build import cythonize
-from setuptools import find_packages
-from Cython.Distutils import build_ext
+from setuptools import setup
 from distutils.extension import Extension
 
-main_dir = dirname(realpath(__file__))
-src_dir = join(main_dir,
-               'src')
-util_dir = join(main_dir,
-                'util')
-build_dir = join(main_dir,
-                 'build')
+# Set this to True to enable building extensions using Cython.
+# Set it to False to build extensions from the C file (that
+# was previously created using Cython).
+# Set it to 'auto' to build with Cython if available, otherwise
+# from the C file.
+USE_CYTHON = True
+
+if USE_CYTHON:
+    try:
+        from Cython.Distutils import build_ext
+    except ImportError:
+        if USE_CYTHON=='auto':
+            USE_CYTHON=False
+        else:
+            raise
+
+cmdclass = {}
 
 def readme():
     with open('README.md') as f:
@@ -36,22 +43,27 @@ if not root_env:
 python_header_dir = join(root_env,
                          'pkgs/python-3.4.3-0/include/python3.4m')
 
-ext_names = {'features': 'features',
-             'data': 'datasets',
-             'db': 'mongodb'}
-
-ext_modules = [Extension('features',
-                         [join(src_dir,
-                               '{0}.pyx'.format(ext_names['features']))],
-                         include_dirs=[python_header_dir]),
-               Extension('datasets',
-                         [join(util_dir,
-                               '{0}.pyx'.format(ext_names['data']))],
-                         include_dirs=[python_header_dir]),
-               Extension('mongodb',
-                         [join(util_dir,
-                               '{0}.pyx'.format(ext_names['db']))],
-                         include_dirs=[python_header_dir])]
+if USE_CYTHON:
+    ext_modules = [Extension('src.features',
+                             ['src/features.pyx'],
+                             include_dirs=[python_header_dir]),
+                   Extension('util.datasets',
+                             ['util/datasets.pyx'],
+                             include_dirs=[python_header_dir]),
+                   Extension('util.mongodb',
+                             ['util/mongodb.pyx'],
+                             include_dirs=[python_header_dir])]
+    cmdclass.update({'build_ext': build_ext})
+else:
+    ext_modules = [Extension('src.features',
+                             ['src/features.c'],
+                             include_dirs=[python_header_dir]),
+                   Extension('util.datasets',
+                             ['util/datasets.c'],
+                             include_dirs=[python_header_dir]),
+                   Extension('util.mongodb',
+                             ['util/mongodb.c'],
+                             include_dirs=[python_header_dir])]
 
 setup(name = 'Reviewer Experience Prediction',
       description='Repository developed for graduate research at Montclair '
@@ -70,9 +82,10 @@ setup(name = 'Reviewer Experience Prediction',
       version='0.1',
       author='Matt Mulholland et al.',
       author_email='mulhollandm2@montclair.edu',
-      packages=find_packages(),
-      cmdclass = {'build_ext': build_ext},
-      ext_modules = cythonize(ext_modules),
+      packages=['data', 'src', 'util'],
+      include_package_data=True,
+      cmdclass=cmdclass,
+      ext_modules=ext_modules,
       entry_points={'console_scripts':
                     ['evaluate = src.evaluate:main',
                      'extract_features = src.extract_features:main',
@@ -90,59 +103,3 @@ setup(name = 'Reviewer Experience Prediction',
                    'Operating System :: Unix',
                    'Operating System :: MacOS'],
       zip_safe=False)
-
-# Copy files from build/libs* directory (or try to guess where they are)
-build_libs = [join(build_dir,
-                   _dir)
-              for _dir in listdir(build_dir) if _dir.startswith('lib')]
-if not build_libs:
-    stderr.write('Could not find "build" directory...\n')
-
-if len(build_libs) == 1:
-    build_lib = build_libs[0]
-elif len(build_libs) > 1:
-    build_lib = build_libs[0]
-    stderr.write('Found multiple directories in {} that begin with "lib". '
-                 'Trying first one: {}\n'.format(build_dir,
-                                                 build_lib))
-else:
-    build_lib = None
-    stderr.write('Found no directories in {} that begin with "lib".\n'
-                 .format(build_dir))
-
-if not build_lib:
-    stderr.write('Could not find build/libs* directory. Checking to see if '
-                 'the shared object files were generated in the project '
-                 'directory or the current working directory.\n')
-    for _dir in set([main_dir,
-                     getcwd()]):
-        stderr.write('Checking in {}...\n'.format(_dir))
-        exts = [f for f in listdir(_dir) if f.endswith('.so')]
-        stderr.write('Contents of {}:\n{}\n'.format(_dir,
-                                                    '\n'.join(exts)))
-        for ext in exts:
-            if ext.startswith('features'):
-                copy(join(_dir,
-                          ext),
-                     join(src_dir,
-                          '{}.so'.format(ext.split('.', 1)[0])))
-            else:
-                copy(join(_dir,
-                          ext),
-                     join(util_dir,
-                          '{}.so'.format(ext.split('.', 1)[0])))
-else:
-    exts = [f for f in listdir(build_lib) if f.endswith('.so')]
-    for ext in exts:
-        if ext.startswith('features'):
-            copy(join(build_lib,
-                      ext),
-                 join(src_dir,
-                      '{}.so'.format(ext.split('.', 1)[0])))
-        else:
-            copy(join(build_lib,
-                      ext),
-                 join(util_dir,
-                      '{}.so'.format(ext.split('.', 1)[0])))
-
-stderr.write('Complete.\n')
