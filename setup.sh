@@ -5,7 +5,7 @@
 
 # Usage: ./setup.sh
 
-set -e
+set -eu
 
 echo "Make sure that conda (miniconda) is installed before trying to set up" \
      "or else this script will fail...\n"
@@ -21,7 +21,8 @@ source activate reviews
 conda install --yes --file conda_requirements.txt
 if [[ $? -gt 0 ]]; then
     
-    echo "Wouldn't work. Exiting.\n"
+    echo "\"conda install --yes --file conda_requirements.txt\" failed. " \
+         "Exiting.\n"
     exit 1
     
 fi
@@ -50,7 +51,8 @@ python3.4 ${THIS_DIR}/setup.py install
 echo "Package installed!"
 echo "If changes are made to the Cython extensions, run the following to " \
      "re-compile the extensions for use in the various command-line " \
-     "utilities:\n\tpython setup.py build_ext\n"
+     "utilities:\n\tpython setup.py build_ext\n\nOr run the following to " \
+     "reinstall the entire package: python setup.py install\n"
 
 echo "Setup complete. Use \"source activate reviews\" to activate conda" \
      "environment.\n"
