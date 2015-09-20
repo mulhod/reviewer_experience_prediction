@@ -71,7 +71,7 @@ def main():
     # Make local copies of arguments
     game_files = args.game_files
     binarize = not args.do_not_binarize_features
-    reuse_features = not do_not_reuse_extracted_features
+    reuse_features = not args.do_not_reuse_extracted_features
     lowercase_text = not args.do_not_lowercase_text
     lowercase_cngrams = args.lowercase_cngrams
     partition = args.partition
@@ -112,7 +112,8 @@ def main():
 
     # Get list of games
     game_files = get_game_files(game_files,
-                                data_dir_path)
+                                join(dirname(dirname(__file__)),
+                                     'data'))
 
     # Iterate over the game files, extracting and adding/replacing features
     # to the database
