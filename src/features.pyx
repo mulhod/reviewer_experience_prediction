@@ -10,13 +10,14 @@ logger = logging.getLogger()
 logwarn = logger.warning
 logerr = logger.error
 import numpy as np
-from sys import exit
 from re import (sub,
                 IGNORECASE)
+from sys import exit
+from bson import BSON
+bson_decode = BSON.decode
 from math import ceil
 from time import sleep
-from json import (dumps,
-                  loads)
+from json import dumps
 from os.path import join
 from nltk.util import ngrams
 from spacy.en import English
@@ -49,8 +50,6 @@ class Review(object):
     # Attributes representing the spaCy text annotations
     spaCy_annotations = None
     spaCy_sents = None
-    # Attribute representing the cluster IDs corresponding to tokens
-    cluster_id_counter = None
 
     def __init__(self, review_text, lower=True):
         '''
@@ -158,24 +157,19 @@ class Review(object):
             lemma_set_update([t.lemma_ for t in sent])
             # Get clusters
             cluster_ids_extend([t.cluster for t in sent])
-            # Get "probs"
-            #self.probs.append([t.prob_ for t in sent])
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
 
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
-    Extract word/character n-gram, length, cluster ID, number of tokens
-    corresponding to represenation vectors consisting entirely of zeroes,
-    average cosine similarity between word representation vectors, and
-    syntactic dependency features from a Review object and return as
-    dictionary where each feature is represented as a key:value mapping in
-    which the key is a string representation of the feature (e.g. "the dog"
-    for an example n-gram feature, "th" for an example character n-gram
-    feature, "c667" for an example cluster feature, "mean_cos_sim" mapped to a
-    float in the range 0 to 1 for the average cosine similarity feature, and
-    "step:VMOD:forward" for an example syntactic dependency feature) and the
-    value is the frequency with which that feature occurred in the review.
+    Extract word/character n-gram, length, cluster ID, and syntactic
+    dependency features from a Review object and return as dictionary where
+    each feature is represented as a key:value mapping in which the key is a
+    string representation of the feature (e.g. "the dog" for an example
+    n-gram feature, "th" for an example character n-gram feature, "c667" for
+    an example cluster feature, and "step:VMOD:forward" for an example
+    syntactic dependency feature) and the value is the frequency with which
+    that feature occurred in the review.
 
     :param _review: object representing the review
     :type _review: Review object
@@ -215,7 +209,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         return ngram_counter
 
-
     def generate_cngram_fdist(_min=2, _max=5):
         '''
         Generate frequency distribution for the characters in the text.
@@ -248,7 +241,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         return cngram_counter
 
-
     def generate_cluster_fdist():
         '''
         Convert cluster ID frequency distribution to a frequency distribution
@@ -264,7 +256,6 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
             cluster_fdist['cluster{}'.format(cluster_id)] = freq
 
         return cluster_fdist
-
 
     def generate_dep_features():
         '''
@@ -333,8 +324,9 @@ def get_nlp_features_from_db(db, _id):
     nlp_feats_doc = db.find_one({'_id': _id},
                                 {'_id': 0,
                                  'nlp_features': 1})
-    return (loads(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc
-                                                     else None)
+    return (bson_decode(nlp_feats_doc
+                        .get('nlp_features')) if nlp_feats_doc
+                                              else None)
 
 
 def get_steam_features_from_db(get_feat):
@@ -428,6 +420,7 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
                             data_partition,
                             batch_size) as game_cursor:
         for game_doc in game_cursor:
+            nlp_feats = None
             game_doc_get = game_doc.get
             review_text = game_doc_get('review')
             binarized_nlp_feats = game_doc_get('nlp_features_binarized',

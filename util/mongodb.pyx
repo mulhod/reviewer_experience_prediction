@@ -16,6 +16,8 @@ logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
 from sys import exit
+from bson import BSON
+bson_encode = BSON.encode
 from math import ceil
 from time import sleep
 from random import (seed,
@@ -361,7 +363,7 @@ def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
     while tries < 5:
         try:
             db_update({'_id': _id},
-                      {'$set': {'nlp_features': dumps(nlp_feats),
+                      {'$set': {'nlp_features': bson_encode(nlp_feats),
                                 'binarized': binarized_nlp_feats,
                                 'id_string': str(_id)}})
             break

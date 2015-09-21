@@ -120,8 +120,8 @@ def main():
     for game_file in game_files:
         game = splitext(game_file)[0]
         if partition == 'all':
-            partition_string = (' from the "training", "test", and "extra" '
-                                'data partitions')
+            partition_string = (' from the "training" and "test" data '
+                                'partitions')
         else:
             partition_string = (' from the "{}" data partition'
                                 .format(partition))
