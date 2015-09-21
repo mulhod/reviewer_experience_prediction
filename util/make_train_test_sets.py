@@ -13,6 +13,7 @@ from os.path import (join,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
+from pymongo.errors import ConnectionFailure
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -157,8 +158,16 @@ def main():
         exit(1)
 
     # Establish connection to MongoDB database
-    connection = MongoClient('mongodb://localhost:'
-                             '{}'.format(args.mongodb_port))
+    try:
+        connection = MongoClient('mongodb://localhost:{}'
+                                 .format(args.mongodb_port))
+    except ConnectionFailure as e:
+        logerror('Unable to connect to Mongo database at port {}. Consider '
+                 'whether the Mongo server is actually running or not, or if '
+                 'the port number is incorrect, or if the local port needs to'
+                 ' be tunneled to a remote port where the server is actually '
+                 'running.'.format(args.mongodb_port))
+        logerror(str(e))
     db = connection['reviews_project']
     reviewdb = db['reviews']
 
