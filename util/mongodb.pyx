@@ -120,7 +120,8 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
 
 def insert_train_test_reviews(reviewdb, file_path, int max_size,
                               float percent_train, bins=0, bin_factor=1.0,
-                              describe=False, just_describe=False):
+                              describe=False, just_describe=False,
+                              reports_dir=None):
     '''
     Insert training/test set reviews into the MongoDB database and optionally
     generate a report and graphs describing the filtering mechanisms.
@@ -154,6 +155,9 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     :param just_describe: only get the reviews and generate the statistical
                           report
     :type just_describe: boolean
+    :param reports_dir: path to directory to which report files should be
+                        written
+    :type reports_dir: str
     :returns: None
     '''
 
@@ -183,7 +187,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     # 'total_game_hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
                                        report=(describe
-                                               or just_describe))
+                                               or just_describe),
+                                       reports_dir=reports_dir)
     reviews = dataset['reviews']
     logdebug('Number of original, English language reviews collected: {}'
              .format(dataset['orig_total_reviews']))

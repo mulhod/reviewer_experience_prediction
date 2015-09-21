@@ -5,6 +5,7 @@
 Script used to create training/test sets in a MongoDB database from review data extracted from flat files.
 '''
 from os.path import (join,
+                     exists,
                      abspath,
                      dirname,
                      realpath,
@@ -73,6 +74,11 @@ def main():
              'procedure, but then do NOT insert the reviews into the DB.',
         action='store_true',
         default=False)
+    parser_add_argument('--reports_dir',
+        help='If -describe/--make_reports is used, put generated reports in '
+             'the given directory.',
+        type=str,
+        required=False)
     parser_add_argument('--mongodb_port', '-dbport',
         help='Port that the MongoDB server is running.',
         type=int,
@@ -100,6 +106,7 @@ def main():
     bin_factor = args.bin_factor
     make_reports = args.make_reports
     just_describe = args.just_describe
+    reports_dir = args.reports_dir
 
     # Initialize logging system
     logging_info = logging.INFO
@@ -155,9 +162,11 @@ def main():
     db = connection['reviews_project']
     reviewdb = db['reviews']
 
-    # Get path to the data directory
+    # Get path to the directories
     data_dir = join(project_dir,
                     'data')
+    if reports_dir:
+        reports_dir = realpath(reports_dir)
 
     # Make sure args make sense
     if max_size < 50:
@@ -179,6 +188,12 @@ def main():
                 'flags are used, --just_describe wins out, i.e., reports will'
                 ' be generated, but no reviews will be inserted into the '
                 'database.')
+    elif (reports_dir
+          and (make_reports
+               or just_describe)):
+        if not exists(reports_dir):
+            logerror('The given --reports_dir path was invalid. Exiting.')
+            exit(1)
 
     # Get list of games
     if game_files == "all":
@@ -189,13 +204,20 @@ def main():
         game_files = game_files.split(',')
 
     loginfo('Adding training/test partitions to Mongo DB for the following '
-            'games: {}'.format(', '.join([splitext(g)[0]
-                                          for g in game_files])))
+            'games: {}'.format(', '.join([splitext(game)[0]
+                                          for game in game_files])))
     loginfo('Maximum size for the combined training/test sets: {}'
             .format(max_size))
     loginfo('Percentage split between training and test sets: {0:.2f}/{1:.2f}'
             .format(percent_train,
                     100.0 - percent_train))
+    if make_reports:
+        loginfo('Generating reports in {}.'
+            .format(reports_dir if reports_dir
+                                else join(data_dir,
+                                          'reports')))
+    if just_describe:
+        loginfo('Exiting after generating reports.')
     if bins:
         loginfo('Converting hours played values to {} bins with a bin factor '
                 'of {}.'.format(bins,
@@ -215,7 +237,11 @@ def main():
                                   bins=bins,
                                   bin_factor=bin_factor,
                                   describe=make_reports,
-                                  just_describe=just_describe)
+                                  just_describe=just_describe,
+                                  reports_dir=reports_dir
+                                                  if reports_dir
+                                                  else join(data_dir,
+                                                            'reports'))
 
     loginfo('Complete.')
 

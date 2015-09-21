@@ -921,7 +921,7 @@ cdef read_reviews_from_game_file(file_path):
     return [loads(json_line) for json_line in open(file_path)]
 
 
-def get_and_describe_dataset(file_path, report=True):
+def get_and_describe_dataset(file_path, report=True, reports_dir=None):
     '''
     Return dictionary with a list of review dictionaries (filtered in terms of
     the values for maximum/minimum review length and minimum/maximum hours
@@ -933,6 +933,8 @@ def get_and_describe_dataset(file_path, report=True):
     :type file_path: str
     :param report: make a report describing the data-set (defaults to True)
     :type report: boolean
+    :param reports_dir: path to directory where reports should be stored
+    :type reports_dir: str
     :returns: dict containing a 'reviews' key mapped to the list of read-in
               review dictionaries and int values mapped to keys for MAXLEN,
               MINLEN, MAXHOURS, and MINHOURS
@@ -952,8 +954,9 @@ def get_and_describe_dataset(file_path, report=True):
         import seaborn as sns
         import matplotlib.pyplot as plt
         # Get path to reports directory and open report file
-        reports_dir = join(dirname(dirname(realpath(__file__))),
-                           'reports')
+        if not reports_dir:
+            reports_dir = join(dirname(dirname(realpath(__file__))),
+                               'reports')
         game = splitext(basename(file_path))[0]
         output_path = join(reports_dir,
                            '{}_report.txt'.format(game))
