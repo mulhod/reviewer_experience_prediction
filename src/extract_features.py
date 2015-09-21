@@ -21,7 +21,9 @@ def main():
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
         help='Comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory).',
+             'files (the game files should reside in the "data" directory; '
+             'the .jsonlines suffix is not necessary, but the file-names '
+             'should be exact matches otherwise).',
         type=str,
         required=True)
     parser_add_argument('--do_not_binarize_features',

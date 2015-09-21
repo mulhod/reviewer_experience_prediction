@@ -18,6 +18,7 @@ from re import (sub,
                 search,
                 compile as recompile)
 from sys import exit
+from os import listdir
 from time import (sleep,
                   strftime)
 from os.path import (join,
@@ -28,8 +29,9 @@ def get_game_files(games_str, data_dir_path):
     '''
     Get list of game files (file-names only).
 
-    :param games_str: string representation of list of game files (or "all"
-                      for all game-files)
+    :param games_str: comma-separated list of game files (that exist in the
+                      data directory) with or without a .jsonlines suffix (or
+                      "all" for all game files)
     :type games_str: str
     :param data_dir_path: path to data directory
     :type data_dir_path: str
@@ -37,12 +39,17 @@ def get_game_files(games_str, data_dir_path):
     '''
 
     if games_str == "all":
-        game_files = [f for f in data_dir_path if f.endswith('.jsonlines')]
+        game_files = [f for f in listdir(data_dir_path)
+                      if f.endswith('.jsonlines')]
+        # Remove the sample game file from the list
         del game_files[game_files.index('sample.jsonlines')]
     else:
-        game_files = [f for f in games_str.split(',')
+        game_files = [f if f.endswith('.jsonlines')
+                        else '{}.jsonlines'.format(f)
+                      for f in games_str.split(',')
                       if exists(join(data_dir_path,
-                                     f))]
+                                     f if f.endswith('.jsonlines')
+                                       else '{}.jsonlines'.format(f)))]
     if len(game_files) == 0:
         logerr('No files passed in via --game_files argument were found: {}. '
                'Exiting.'.format(', '.join(games_str.split(','))))
