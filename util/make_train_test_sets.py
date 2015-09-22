@@ -97,6 +97,7 @@ def main():
     from sys import exit
     from os import listdir
     from pymongo import MongoClient
+    from util.datasets import get_game_files
     from util.mongodb import insert_train_test_reviews
 
     # Make local copies of arguments

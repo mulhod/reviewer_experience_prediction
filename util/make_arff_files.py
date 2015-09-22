@@ -89,7 +89,8 @@ def main():
     from re import sub
     from sys import exit
     from pymongo import MongoClient
-    from util.datasets import (get_bin_ranges,
+    from util.datasets import (get_game_files,
+                               get_bin_ranges,
                                write_arff_file,
                                get_and_describe_dataset)
 
