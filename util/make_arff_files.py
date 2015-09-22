@@ -24,8 +24,10 @@ def main():
         formatter_class=ArgumentDefaultsHelpFormatter)
     parser_add_argument = parser.add_argument
     parser_add_argument('--game_files',
-        help='comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory)',
+        help='Comma-separated list of file-names or "all" for all of the '
+             'files (the game files should reside in the "data" directory; '
+             'the .jsonlines suffix is not necessary, but the file-names '
+             'should be exact matches otherwise).',
         type=str,
         required=True)
     parser_add_argument('--mode',
@@ -193,12 +195,9 @@ def main():
                 'also used, which means that the MongoDB database is not '
                 'going to be used.')
 
-    if game_files == "all":
-        game_files = [f for f in os.listdir(data_dir)
-                      if f.endswith('.jsonlines')]
-        del game_files[game_files.index('sample.jsonlines')]
-    else:
-        game_files = game_files.split(',')
+    game_files = get_game_files(game_files,
+                                join(dirname(dirname(__file__)),
+                                     'data'))
     if len(game_files) == 1:
         # Print out warning message if --mode was set to "combined" and there
         # was only one file n the list of game files since only a single ARFF

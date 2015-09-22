@@ -205,12 +205,9 @@ def main():
             exit(1)
 
     # Get list of games
-    if game_files == "all":
-        game_files = [f for f in listdir(data_dir)
-                      if f.endswith('.jsonlines')]
-        del game_files[game_files.index('sample.jsonlines')]
-    else:
-        game_files = game_files.split(',')
+    game_files = get_game_files(game_files,
+                                join(dirname(dirname(__file__)),
+                                     'data'))
 
     loginfo('Adding training/test partitions to Mongo DB for the following '
             'games: {}'.format(', '.join([splitext(game)[0]
