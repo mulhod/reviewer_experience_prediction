@@ -90,14 +90,14 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
 
     if data_partition == 'all':
         game_cursor = db.find({'game': game_id},
-                              {'features': 0,
+                              {'nlp_features': 0,
                                'game': 0,
                                'partition': 0},
                               timeout=False)
     else:
         game_cursor = db.find({'game': game_id,
                                'partition': data_partition},
-                              {'features': 0,
+                              {'nlp_features': 0,
                                'game': 0,
                                'partition': 0},
                               timeout=False)
