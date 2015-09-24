@@ -36,10 +36,12 @@ from pymongo.errors import (AutoReconnect,
                             ConnectionFailure,
                             DuplicateKeyError)
 
-def connect_to_db(port, tries=10):
+def connect_to_db(host='localhost', port=27017, tries=10):
     '''
     Connect to database and return a collection object.
 
+    :param host: host-name of MongoDB server
+    :type host: str
     :param port: Mongo database port
     :type port: int (or str)
     :param tries: number of times to try to connect client (default: 10)
@@ -47,7 +49,8 @@ def connect_to_db(port, tries=10):
     :returns: pymongo.collection.Collection object
     '''
 
-    connection_string = 'mongodb://localhost:{}'.format(port)
+    connection_string = 'mongodb://{}:{}'.format(host,
+                                                 port)
     while tries > 0:
         tries -= 1
         try:

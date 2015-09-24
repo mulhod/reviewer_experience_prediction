@@ -52,8 +52,12 @@ def main():
              " Mongo database and instead replace them if they are.",
         action='store_true',
         default=False)
+    parser_add_argument('-dbhost', '--mongodb_host',
+        help='Host that the MongoDB server is running on.',
+        type=str,
+        default='localhost')
     parser_add_argument('-dbport', '--mongodb_port',
-        help='Port that the MongoDB server is running.',
+        help='Port that the MongoDB server is running on.',
         type=int,
         default=27017)
     parser_add_argument('-log', '--log_file_path',
@@ -77,6 +81,7 @@ def main():
     lowercase_text = not args.do_not_lowercase_text
     lowercase_cngrams = args.lowercase_cngrams
     partition = args.partition
+    mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
 
     # Setup logger and create logging handlers
@@ -109,7 +114,11 @@ def main():
              .format(lowercase_cngrams))
 
     # Establish connection to MongoDB database collection
-    reviewdb = connect_to_db(mongodb_port)
+    loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
+            .format(mongodb_host,
+                    mongodb_port))
+    reviewdb = connect_to_db(host=mongodb_host,
+                             port=mongodb_port)
     reviewdb.write_concern['w'] = 0
 
     # Get list of games

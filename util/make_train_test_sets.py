@@ -80,8 +80,12 @@ def main():
              'the given directory.',
         type=str,
         required=False)
+    parser_add_argument('-dbhost', '--mongodb_host',
+        help='Host that the MongoDB server is running on.',
+        type=str,
+        default='localhost')
     parser_add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running.',
+        help='Port that the MongoDB server is running on.',
         type=int,
         default=27017)
     parser_add_argument('--log_file_path', '-log',
@@ -98,7 +102,8 @@ def main():
     from os import listdir
     from pymongo import MongoClient
     from util.datasets import get_game_files
-    from util.mongodb import insert_train_test_reviews
+    from util.mongodb import (connect_to_db,
+                              insert_train_test_reviews)
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -109,6 +114,8 @@ def main():
     make_reports = args.make_reports
     just_describe = args.just_describe
     reports_dir = args.reports_dir
+    mongodb_host = args.mongodb_host
+    mongodb_port = args.mongodb_port
 
     # Initialize logging system
     logging_info = logging.INFO
@@ -159,18 +166,12 @@ def main():
         exit(1)
 
     # Establish connection to MongoDB database
-    try:
-        connection = MongoClient('mongodb://localhost:{}'
-                                 .format(args.mongodb_port))
-    except ConnectionFailure as e:
-        logerror('Unable to connect to Mongo database at port {}. Consider '
-                 'whether the Mongo server is actually running or not, or if '
-                 'the port number is incorrect, or if the local port needs to'
-                 ' be tunneled to a remote port where the server is actually '
-                 'running.'.format(args.mongodb_port))
-        logerror(str(e))
-    db = connection['reviews_project']
-    reviewdb = db['reviews']
+    loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
+            .format(mongodb_host,
+                    mongodb_port))
+    reviewdb = connect_to_db(host=mongodb_host,
+                             port=mongodb_port)
+    reviewdb.write_concern['w'] = 0
 
     # Get path to the directories
     data_dir = join(project_dir,

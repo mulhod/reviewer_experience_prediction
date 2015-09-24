@@ -86,7 +86,11 @@ def main():
              'valid "partition" value in the Mongo database.',
         type=str,
         default='test')
-    parser_add_argument('--mongodb_port', '-dbport',
+    parser_add_argument('-dbhost', '--mongodb_host',
+        help='Host that the MongoDB server is running on.',
+        type=str,
+        default='localhost')
+    parser_add_argument('-dbport', '--mongodb_port',
         help='Port that the MongoDB server is running on.',
         type=int,
         default=27017)
@@ -122,6 +126,7 @@ def main():
     do_not_binarize_features = args.do_not_binarize_features
     eval_combined_games = args.eval_combined_games
     partition = args.partition
+    mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
 
     # Initialize logging system
@@ -228,7 +233,11 @@ def main():
     logdebug('Use original hours values? {}'.format(not bins))
 
     # Establish connection to MongoDB database collection
-    reviewdb = connect_to_db(mongodb_port)
+    loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
+            .format(mongodb_host,
+                    mongodb_port))
+    reviewdb = connect_to_db(host=mongodb_host,
+                             port=mongodb_port)
     reviewdb.write_concern['w'] = 0
 
     # Iterate over the game files, looking for test set reviews

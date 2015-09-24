@@ -193,8 +193,12 @@ def main():
              'valid "partition" value in the Mongo database.',
         type=str,
         default='training')
+    parser_add_argument('-dbhost', '--mongodb_host',
+        help='Host that the MongoDB server is running on.',
+        type=str,
+        default='localhost')
     parser_add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running.',
+        help='Port that the MongoDB server is running on.',
         type=int,
         default=27017)
     parser_add_argument('--log_file_path', '-log',
@@ -222,6 +226,7 @@ def main():
     binarize = not args.do_not_binarize_features
     local=not args.use_cluster
     partition = args.partition
+    mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
 
     # Imports
@@ -320,7 +325,11 @@ def main():
                                   generate_config_file)
 
         # Establish connection to MongoDB database collection
-        reviewdb = connect_to_db(mongodb_port)
+        loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
+                .format(mongodb_host,
+                        mongodb_port))
+        reviewdb = connect_to_db(host=mongodb_host,
+                                 port=mongodb_port)
         reviewdb.write_concern['w'] = 0
 
     if not just_extract_features:
