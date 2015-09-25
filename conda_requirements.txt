@@ -1,8 +1,8 @@
 beautiful-soup=4.3.2
 cython=0.23
-ipython=4.0.0
 jinja2=2.8
 jsonschema=2.4.0
+jupyter=1.0.0
 lxml=3.4.4
 matplotlib=1.4.3
 mistune=0.7
