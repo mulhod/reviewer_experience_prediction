@@ -7,6 +7,10 @@
 
 set -eu
 
+ORIG_DIR=$(pwd)
+THIS_DIR=$(dirname $(readlink -f $0))
+cd ${THIS_DIR}
+
 echo "Make sure that conda (miniconda) is installed before trying to set up" \
      "or else this script will fail...\n"
 
@@ -23,6 +27,7 @@ if [[ $? -gt 0 ]]; then
     
     echo "\"conda install --yes --file conda_requirements.txt\" failed. " \
          "Exiting.\n"
+    cd ${ORIG_DIR}
     exit 1
     
 fi
@@ -36,6 +41,7 @@ pip install skll==1.1.0 langdetect argparse pudb
 if [[ $? -gt 0 ]]; then
     
     echo "pip installation of langdetect and argparse failed. Exiting.\n"
+    cd ${ORIG_DIR}
     exit 1
     
 fi
@@ -46,8 +52,7 @@ python3.4 -m spacy.en.download
 
 # Compile Cython modules
 echo "Compiling Cython extensions...\n"
-THIS_DIR=$(dirname $(readlink -f $0))
-python3.4 ${THIS_DIR}/setup.py install
+python3.4 setup.py install
 echo "Package installed!"
 echo "If changes are made to the Cython extensions, run the following to " \
      "re-compile the extensions for use in the various command-line " \
@@ -56,3 +61,4 @@ echo "If changes are made to the Cython extensions, run the following to " \
 
 echo "Setup complete. Use \"source activate reviews\" to activate conda" \
      "environment.\n"
+cd ${ORIG_DIR}
