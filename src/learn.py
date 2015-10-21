@@ -105,6 +105,23 @@ labels = ['num_guides', 'num_games_owned', 'num_friends',
 time_labels = ['total_game_hours', 'total_game_hours_bin',
                'total_game_hours_last_two_weeks']
 
+
+def _find_default_param_grid(learner):
+    """
+    Finds the default parameter grid for the specified learner.
+
+    :param learner: abbreviated string representation of a learner
+    :type learner: str
+    :returns: dict
+    """
+
+    for key_cls, grid in _DEFAULT_PARAM_GRIDS.items():
+        if issubclass(learner_dict[learner],
+                      key_cls):
+            return grid
+    return None
+
+
 class IncrementalLearning:
     '''
     Class for conducting incremental learning experiments with a
@@ -584,7 +601,7 @@ def main():
                              'out which abbreviations stand for which '
                              'learners. Set of available learners: {}. Use '
                              '"all" to include all available learners.'
-                             .format(', '.join(learners.keys())),
+                             .format(', '.join(learner_dict.keys())),
                         type=str,
                         default='all',
                         required=True)
@@ -688,16 +705,16 @@ def main():
 
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
-    inc_learning = \
-        IncrementalLearning([learner_dict[learner] for learner in learners],
-                            [_DEFAULT_PARAM_GRIDS[learner_dict[learner]]
-                             for learner in learners],
-                            train_cursor,
-                            test_cursor,
-                            samples_per_round,
-                            non_nlp_features,
-                            y_label,
-                            rounds=rounds)
+    inc_learning = IncrementalLearning([learner_dict[learner] for learner
+                                        in learners],
+                                       [_find_default_param_grid(learner)
+                                        for learner in learners],
+                                       train_cursor,
+                                       test_cursor,
+                                       samples_per_round,
+                                       non_nlp_features,
+                                       y_label,
+                                       rounds=rounds)
 
     # Output results files to output directory
     logger.info('Output directory: {}'.format(output_dir))
