@@ -584,7 +584,7 @@ def main():
                              'out which abbreviations stand for which '
                              'learners. Set of available learners: {}. Use '
                              '"all" to include all available learners.'
-                             .format(', '.join(learners.keys()))
+                             .format(', '.join(learners.keys())),
                         type=str,
                         default='all',
                         required=True)
@@ -632,7 +632,7 @@ def main():
                     del non_nlp_features[non_nlp_features.index(feat)]
             else:
                 del non_nlp_features[non_nlp_features.index(y_label)]
-        elif non_nlp_features = "none":
+        elif non_nlp_features == "none":
             non_nlp_features = []
         else:
             non_nlp_features = non_nlp_features.split(',')
@@ -703,7 +703,20 @@ def main():
     logger.info('Output directory: {}'.format(output_dir))
     makedirs(output_dir,
              exist_ok=True)
-    
+
+    # Generate files detailing the various learner/parameter grid combinations
+    logger.info('Generating output files for the incremental learning '
+                'runs...')
+    for learner_name, learner_param_grid_stats \
+        in zip(inc_learning.learner_names,
+               inc_learning.learner_param_grid_stats):
+        for i, stats_df in enumerate(learner_param_grid_stats):
+            stats_df.to_csv(join(output_dir,
+                                 '{}_inc_learning_learner_stats_{}.csv'
+                                 .format(learner_name, i)),
+                            index=False)
+
+    logger.info('Complete.')
 
 
 if __name__ == '__main__':
