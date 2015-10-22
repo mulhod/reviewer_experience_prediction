@@ -569,7 +569,8 @@ class IncrementalLearning:
                                    self.__learner__: learner_name,
                                    self.__params__: learner.get_params(),
                                    self.__training_samples__: samples})
-                self.learner_param_grid_stats[j].append(pd.Series(stats_dict))
+                (self.learner_param_grid_stats[i][j]
+                 .append(pd.Series(stats_dict)))
 
         # Increment the round number
         self.round += 1
