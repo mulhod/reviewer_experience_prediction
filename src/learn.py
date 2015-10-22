@@ -92,7 +92,7 @@ learner_dict = {'mbkm': MiniBatchKMeans,
                 'perc': Perceptron,
                 'sgd': SGDRegressor,
                 'pagr': PassiveAggressiveRegressor}
-learner_dict_keys = set(learner_dict.keys())
+learner_dict_keys = frozenset(learner_dict.keys())
 
 obj_funcs = frozenset({'r', 'significance', 'precision_macro',
                        'precision_weighted', 'f1_macro', 'f1_weighted',
@@ -608,6 +608,7 @@ def main():
                              'combine with the NLP features in creating a '
                              'model. Use "all" to use all available '
                              'features or "none" to use no non-NLP features.',
+                        type=str,
                         default="all")
     parser.add_argument('--learners',
                         help='Comma-separated list of learning algorithms to '
@@ -659,7 +660,7 @@ def main():
     # set of non-NLP features since the information could be duplicated
     if non_nlp_features:
         if non_nlp_features == 'all':
-            non_nlp_features = copy(labels)
+            non_nlp_features = set(copy(labels))
             if y_label in time_labels:
                 for feat in time_labels:
                     del non_nlp_features[non_nlp_features.index(feat)]
@@ -682,14 +683,14 @@ def main():
                              'Exiting.')
                 exit(1)
     else:
-        non_nlp_features = []
+        non_nlp_features = set()
     logger.info('Y label: {}'.format(y_label))
     logger.info('Non-NLP features to use: {}'
                 .format(', '.join(non_nlp_features)))
 
     # Get set of learners to use
     if learners == 'all':
-        learners = learner_dict_keys
+        learners = set(copy(learner_dict_keys))
     else:
         learners = set(learners.split(','))
         if not learners.intersection(learner_dict_keys):
