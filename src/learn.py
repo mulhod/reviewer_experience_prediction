@@ -223,9 +223,8 @@ class IncrementalLearning:
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [(str(learner.__class__)
-                               .rsplit('.', 1)[1]
-                               .strip("'>")) for learner in learners]
+        self.learner_names = [str(learner).rsplit('.', 1)[1].strip("'>")
+                              for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid
                               in zip(learners,
