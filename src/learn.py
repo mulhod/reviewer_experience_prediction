@@ -1,6 +1,7 @@
 #!/usr/env python3.4
 import logging
 from sys import exit
+from copy import copy
 from operator import or_
 from os import (listdir,
                 makedirs)
@@ -91,21 +92,25 @@ learner_dict = {'mbkm': MiniBatchKMeans,
                 'perc': Perceptron,
                 'sgd': SGDRegressor,
                 'pagr': PassiveAggressiveRegressor}
+learner_dict_keys = set(learner_dict.keys())
 
-obj_funcs = ['r', 'significance', 'precision_macro', 'precision_weighted',
-             'f1_macro', 'f1_weighted', 'accuracy', 'uwk', 'uwk_off_by_one',
-             'qwk', 'qwk_off_by_one', 'lwk', 'lwk_off_by_one']
+obj_funcs = frozenset({'r', 'significance', 'precision_macro',
+                       'precision_weighted', 'f1_macro', 'f1_weighted',
+                       'accuracy', 'uwk', 'uwk_off_by_one', 'qwk',
+                       'qwk_off_by_one', 'lwk', 'lwk_off_by_one'})
 
-labels = ['num_guides', 'num_games_owned', 'num_friends',
-          'num_voted_helpfulness', 'num_groups', 'num_workshop_items',
-          'num_reviews', 'num_found_funny', 'friend_player_level',
-          'num_badges', 'num_found_helpful', 'num_screenshots',
-          'num_found_unhelpful', 'found_helpful_percentage', 'num_comments',
-          'total_game_hours', 'total_game_hours_bin',
-          'total_game_hours_last_two_weeks', 'num_achievements_percentage',
-          'num_achievements_possible']
-time_labels = ['total_game_hours', 'total_game_hours_bin',
-               'total_game_hours_last_two_weeks']
+labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
+                    'num_voted_helpfulness', 'num_groups',
+                    'num_workshop_items', 'num_reviews', 'num_found_funny',
+                    'friend_player_level', 'num_badges', 'num_found_helpful',
+                    'num_screenshots', 'num_found_unhelpful',
+                    'found_helpful_percentage', 'num_comments',
+                    'total_game_hours', 'total_game_hours_bin',
+                    'total_game_hours_last_two_weeks',
+                    'num_achievements_percentage',
+                    'num_achievements_possible'})
+time_labels = frozenset({'total_game_hours', 'total_game_hours_bin',
+                         'total_game_hours_last_two_weeks'})
 
 
 def _find_default_param_grid(learner):
@@ -142,8 +147,9 @@ class IncrementalLearning:
     __prediction_label__ = 'prediction_label'
     __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
     __learner__ = 'learner'
-    __learners_requiring_classes__ = ['BernoulliNB', 'MultinomialNB',
-                                      'Perceptron']
+    __learners_requiring_classes__ = frozenset({'BernoulliNB',
+                                                'MultinomialNB',
+                                                'Perceptron'})
     __params__ = 'params'
     __training_samples__ = 'training_samples'
     __r__ = 'pearson_r'
@@ -161,7 +167,7 @@ class IncrementalLearning:
     __qwk_off_by_one__ = 'qwk_off_by_one'
     __lwk__ = 'lwk'
     __lwk_off_by_one__ = 'lwk_off_by_one'
-    __possible_non_nlp_features__ = list(labels)
+    __possible_non_nlp_features__ = copy(labels)
     __tab_join__ = '\t'.join
     __cnfmat_row__ = '{}{}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
@@ -229,8 +235,8 @@ class IncrementalLearning:
             self.learner_param_grid_stats.append([[] for _ in learner_list])
 
         # Information about what features to use for what purposes
-        if all([feat in self.__possible_non_nlp_features__
-                for feat in non_nlp_features]):
+        if all(feat in self.__possible_non_nlp_features__
+               for feat in non_nlp_features):
             self.non_nlp_features = non_nlp_features
         self.prediction_label = prediction_label
 
@@ -615,7 +621,8 @@ def main():
                         required=True)
     parser.add_argument('--obj_func',
                         help='Objective function to use in determining which '
-                             'set of parameters caused the best performance.',
+                             'set of parameters resulted in the best '
+                             'performance.',
                         choices=obj_funcs,
                         default='r')
     parser.add_argument('-dbhost', '--mongodb_host',
@@ -638,6 +645,7 @@ def main():
     port = args.mongodb_host
     test_limit = args.test_limit
     output_dir = realpath(args.output_dir)
+    obj_func = args.obj_func
 
     logger.info('Game: {}'.format(game_id))
     logger.info('Maximum number of learning rounds to conduct: {}'
@@ -651,23 +659,23 @@ def main():
     # set of non-NLP features since the information could be duplicated
     if non_nlp_features:
         if non_nlp_features == 'all':
-            non_nlp_features = list(labels)
+            non_nlp_features = copy(labels)
             if y_label in time_labels:
                 for feat in time_labels:
                     del non_nlp_features[non_nlp_features.index(feat)]
             else:
                 del non_nlp_features[non_nlp_features.index(y_label)]
         elif non_nlp_features == "none":
-            non_nlp_features = []
+            non_nlp_features = set()
         else:
-            non_nlp_features = non_nlp_features.split(',')
-            if any([not feat in labels for feat in non_nlp_features]):
+            non_nlp_features = set(non_nlp_features.split(','))
+            if any(not feat in labels for feat in non_nlp_features):
                 logger.error('Found unrecognized feature in the list of '
                              'passed-in non-NLP features. Available features:'
                              ' {}. Exiting.'.format(', '.join(labels)))
                 exit(1)
             if (y_label in time_labels
-                and any([feat in time_labels for feat in non_nlp_features])):
+                and non_nlp_features.intersection(time_labels)):
                 logger.error('The list of non-NLP features should not contain'
                              ' any of the time-related features if the "y" '
                              'label is itself a time-related feature. '
@@ -681,13 +689,14 @@ def main():
 
     # Get set of learners to use
     if learners == 'all':
-        learners = list(learner_dict.keys())
+        learners = learner_dict_keys
     else:
-        learners = learners.split(',')
-        if any([not learner in learner_dict.keys() for learner in learners]):
-            logger.error('Found unrecognized learner in list of passed-in '
-                         'learners. Available learners: {}. Exiting.'
-                         .format(', '.join(learner_dict.keys())))
+        learners = set(learners.split(','))
+        if not learners.intersection(learner_dict_keys):
+            logger.error('Found unrecognized learner(s) in list of passed-in '
+                         'learners: {}. Available learners: {}. Exiting.'
+                         .format(', '.join(learners),
+                                 ', '.join(learner_dict_keys)))
             exit(1)
     logger.info('Learners: {}'.format(', '.join(learners)))
 
