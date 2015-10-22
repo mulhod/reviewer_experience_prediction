@@ -1,13 +1,39 @@
 #!/usr/env python3.4
+import logging
 from sys import exit
+from operator import or_
 from os import (listdir,
                 makedirs)
 from os.path import (join,
                      exists,
                      dirname,
                      realpath)
-from operator import or_
-import logging
+from warnings import filterwarnings
+
+import numpy as np
+import pandas as pd
+from bson import BSON
+from pymongo import cursor
+from skll.metrics import kappa
+from scipy.stats import pearsonr
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.grid_search import ParameterGrid
+from sklearn.metrics import (precision_score,
+                             f1_score,
+                             accuracy_score,
+                             confusion_matrix)
+from sklearn.naive_bayes import (BernoulliNB,
+                                 MultinomialNB)
+from argparse import (ArgumentParser,
+                      ArgumentDefaultsHelpFormatter)
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.linear_model import (Perceptron,
+                                  SGDRegressor,
+                                  PassiveAggressiveRegressor)
+
+from data import APPID_DICT
+from util.mongodb import connect_to_db
+
 # Set up logger
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -18,38 +44,11 @@ sh.setFormatter(formatter)
 sh.setLevel(logging.INFO)
 logger.addHandler(sh)
 
-from src.features import *
-from util.datasets import *
-from util.mongodb import *
-from data import APPID_DICT
-
-import numpy as np
-import pandas as pd
-from bson import BSON
-from pymongo import cursor
-from argparse import (ArgumentParser,
-                      ArgumentDefaultsHelpFormatter)
-from sklearn.grid_search import ParameterGrid
-from sklearn.feature_extraction import DictVectorizer
-from skll.metrics import kappa
-from scipy.stats import pearsonr
-from sklearn.metrics import (precision_score,
-                             f1_score,
-                             accuracy_score,
-                             confusion_matrix)
-from sklearn.cluster import MiniBatchKMeans
-from sklearn.naive_bayes import (BernoulliNB,
-                                 MultinomialNB)
-from sklearn.linear_model import (Perceptron,
-                                  SGDRegressor,
-                                  PassiveAggressiveRegressor)
-
 project_dir = dirname(dirname(realpath(__file__)))
 
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running IncrementalLearning
-import warnings
-warnings.filterwarnings("ignore")
+filterwarnings("ignore")
 
 seed = 123456789
 
@@ -272,17 +271,21 @@ class IncrementalLearning:
         '''
 
         _get = review_doc.get
+
         # Add in the NLP features
         features = {feat: val for feat, val
                     in BSON.decode(_get(self.__nlp_feats__)).items()
                     if val and val != self.__nan__}
-        # Add in the non-NLP features (except for those that may be in the
-        # 'achievement_progress' sub-dictionary of the review dictionary
+
+        # Add in the non-NLP features (except for those that may be in
+        # the 'achievement_progress' sub-dictionary of the review
+        # dictionary
         features.update({feat: val
                          for feat, val in review_doc.items()
                          if feat in self.__possible_non_nlp_features__
                             and val
                             and val != self.__nan__})
+
         # Add in the features that may be in the 'achievement_progress'
         # sub-dictionary of the review dictionary
         features.update({feat: val for feat, val
@@ -291,8 +294,9 @@ class IncrementalLearning:
                          if feat in self.__possible_non_nlp_features__
                             and val
                             and val != self.__nan__})
-        # Add in the 'id_string' value just to make it easier to process the
-        # results of this function
+
+        # Add in the 'id_string' value just to make it easier to
+        # process the results of this function
         features.update({self.__id_string__: _get(self.__id_string__)})
         return features
 
@@ -421,7 +425,8 @@ class IncrementalLearning:
         r, sig = pearsonr(self.y_test,
                           y_pred)
 
-        # Get confusion matrix (both the np.ndarray and the printable one)
+        # Get confusion matrix (both the np.ndarray and the printable
+        # one)
         printable_cnfmat, cnfmat = \
             self.make_printable_confusion_matrix(y_pred)
 
@@ -721,7 +726,8 @@ def main():
     makedirs(output_dir,
              exist_ok=True)
 
-    # Generate files detailing the various learner/parameter grid combinations
+    # Generate files detailing the various learner/parameter grid
+    # combinations
     logger.info('Generating output files for the incremental learning '
                 'runs...')
     for learner_name, learner_param_grid_stats \
