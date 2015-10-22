@@ -555,7 +555,7 @@ class IncrementalLearning:
 
                 # "Rescale" the values (if necessary), forcing the
                 # values should fit within the original scale
-                y_test_preds = self.fit_preds_in_scale()
+                y_test_preds = self.fit_preds_in_scale(y_test_preds)
 
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
