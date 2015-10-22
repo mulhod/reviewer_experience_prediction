@@ -264,8 +264,10 @@ class IncrementalLearning:
         # Do incremental learning experiments
         logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
-        self.learner_stats = [pd.DataFrame(learner_stats) for learner_stats
-                              in self.learner_stats]
+        self.learner_param_grid_stats = [[pd.DataFrame(param_grid)
+                                          for param_grid in learner]
+                                         for learner
+                                         in self.learner_param_grid_stats]
 
     def get_all_features(self, review_doc: dict) -> dict:
         '''
