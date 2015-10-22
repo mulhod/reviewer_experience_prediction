@@ -90,7 +90,6 @@ learner_dict = {'mbkm': MiniBatchKMeans,
                 'bnb': BernoulliNB,
                 'mnb': MultinomialNB,
                 'perc': Perceptron,
-                'sgd': SGDRegressor,
                 'pagr': PassiveAggressiveRegressor}
 learner_dict_keys = frozenset(learner_dict.keys())
 
@@ -481,6 +480,30 @@ class IncrementalLearning:
                                                weights='linear',
                                                allow_off_by_one=True)}
 
+    def fit_preds_in_scale(self, y_preds):
+        '''
+        Force values at either end of the scale to fit within the scale
+        by adding to or truncating the values.
+
+        :param y_preds: array-like of predicted labels
+        :type y_preds: array-like
+        :returns: array-like
+        '''
+
+        # Get low/high ends of the scale
+        scale = sorted(self.classes)
+        low = scale[0]
+        high = scale[-1]
+
+        i = 0
+        while i < len(y_preds):
+            if y_preds[i] < low:
+                y_preds[i] = low
+            elif y_preds[i] > high:
+                y_preds[i] = high
+            i += 1
+        return y_preds
+
     def learning_round(self) -> None:
         '''
         Do learning rounds.
@@ -513,7 +536,7 @@ class IncrementalLearning:
         # Transform the test features
         X_test = self.vec.transform(self.test_feature_dicts)
 
-        # Update the various models with differing parameters
+        # Conduct a round of learning with each of the various learners
         for i, (learner_list,
                 learner_name) in enumerate(zip(self.learner_lists,
                                                self.learner_names)):
@@ -526,7 +549,13 @@ class IncrementalLearning:
                 else:
                     learner.partial_fit(X_train,
                                         y_train)
+
+                # Make predictions on the test set, rounding the values
                 y_test_preds = np.round(learner.predict(X_test))
+
+                # "Rescale" the values (if necessary), forcing the
+                # values should fit within the original scale
+                y_test_preds = self.fit_preds_in_scale()
 
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
