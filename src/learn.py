@@ -526,7 +526,7 @@ class IncrementalLearning:
                 else:
                     learner.partial_fit(X_train,
                                         y_train)
-                y_test_preds = learner.predict(X_test)
+                y_test_preds = np.round(learner.predict(X_test))
 
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
