@@ -661,10 +661,9 @@ def main():
         if non_nlp_features == 'all':
             non_nlp_features = set(copy(labels))
             if y_label in time_labels:
-                for feat in time_labels:
-                    del non_nlp_features[non_nlp_features.index(feat)]
+                [non_nlp_features.remove(feat) for feat in time_labels]
             else:
-                del non_nlp_features[non_nlp_features.index(y_label)]
+                non_nlp_features.remove(y_label)
         elif non_nlp_features == "none":
             non_nlp_features = set()
         else:
