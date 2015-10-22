@@ -616,10 +616,9 @@ def main():
                              'out which abbreviations stand for which '
                              'learners. Set of available learners: {}. Use '
                              '"all" to include all available learners.'
-                             .format(', '.join(learner_dict.keys())),
+                             .format(', '.join(learner_dict_keys)),
                         type=str,
-                        default='all',
-                        required=True)
+                        default='all')
     parser.add_argument('--obj_func',
                         help='Objective function to use in determining which '
                              'set of parameters resulted in the best '
