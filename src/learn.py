@@ -642,7 +642,7 @@ def main():
     y_label = args.y_label
     learners = args.learners
     host = args.mongodb_host
-    port = args.mongodb_host
+    port = args.mongodb_port
     test_limit = args.test_limit
     output_dir = realpath(args.output_dir)
     obj_func = args.obj_func
