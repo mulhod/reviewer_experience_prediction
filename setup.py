@@ -35,13 +35,13 @@ def readme():
         return f.read()
 
 # Hackish way of doing this. Find better way...
-root_env = getoutput('conda info | grep "root environment :"'
+root_env = getoutput('conda info | grep "package cache :"'
                      ' | awk \'{print $4}\'')
 # Try to guess the location of the conda installation
 if not root_env:
     root_env = '/home/{}/conda'.format(getuser())
 python_header_dir = join(root_env,
-                         'pkgs/python-3.4.3-0/include/python3.4m')
+                         '.pkgs/python-3.4.3-0/include/python3.4m')
 
 if USE_CYTHON:
     ext_modules = [Extension('src.features',
