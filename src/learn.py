@@ -595,7 +595,7 @@ def main():
                         default=1000)
     parser.add_argument('--y_label',
                         help='Label to predict.',
-                        choices=[labels],
+                        choices=labels,
                         default='total_game_hours_bin')
     parser.add_argument('--non_nlp_features',
                         help='Comma-separated list of non-NLP features to '
