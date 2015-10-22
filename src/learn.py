@@ -16,8 +16,8 @@ import pandas as pd
 from bson import BSON
 from pymongo import cursor
 from skll.metrics import kappa
-from scipy.stats import pearsonr
-from sklearn.decomposition import PCA
+from scipy.stats import (mode,
+                         pearsonr)
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.grid_search import ParameterGrid
 from sklearn.metrics import (precision_score,
@@ -30,7 +30,6 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import (Perceptron,
-                                  SGDRegressor,
                                   PassiveAggressiveRegressor)
 from sklearn.decomposition import (IncrementalPCA,
                                    MiniBatchDictionaryLearning)
@@ -58,9 +57,7 @@ seed = 123456789
 
 # Define default parameter grids
 _DEFAULT_PARAM_GRIDS = \
-    {PCA: {'n_components': [None, 'mle'],
-           'whiten': [True, False]},
-     MiniBatchKMeans: {'n_clusters': [4, 6, 8, 12],
+    {MiniBatchKMeans: {'n_clusters': [4, 6, 8, 12],
                        'init' : ['k-means++', 'random'],
                        'random_state': [seed]},
      BernoulliNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
@@ -69,9 +66,6 @@ _DEFAULT_PARAM_GRIDS = \
                   'alpha': [0.0001, 0.001, 0.01, 0.1],
                   'n_iter': [5, 10],
                   'random_state': [seed]},
-     SGDRegressor: {'alpha': [0.000001, 0.00001, 0.0001, 0.001,
-                              0.01],
-                    'penalty': ['l1', 'l2', 'elasticnet']},
      PassiveAggressiveRegressor:
          {'C': [0.01, 0.1, 1.0, 10.0, 100.0],
           'n_iter': [5, 10],
@@ -90,7 +84,9 @@ learner_dict = {'mbkm': MiniBatchKMeans,
                 'bnb': BernoulliNB,
                 'mnb': MultinomialNB,
                 'perc': Perceptron,
-                'pagr': PassiveAggressiveRegressor}
+                'pagr': PassiveAggressiveRegressor,
+                'ipca': IncrementalPCA,
+                'mbdl': MiniBatchDictionaryLearning}
 learner_dict_keys = frozenset(learner_dict.keys())
 
 obj_funcs = frozenset({'r', 'significance', 'precision_macro',
@@ -171,11 +167,13 @@ class IncrementalLearning:
     __cnfmat_row__ = '{}{}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
                          '(row=human, col=machine, labels={}):\n')
+    __majority_label__ = 'majority_label'
+    __majority_baseline_model__ = 'majority_baseline_model'
 
     def __init__(self, learners, param_grids: dict,
                  training_data_cursor: cursor, test_data_cursor: cursor,
                  round_size: int, non_nlp_features: list, prediction_label: str,
-                 rounds=0):
+                 rounds=0, majority_baseline=False):
         '''
         Initialize class.
 
@@ -201,6 +199,8 @@ class IncrementalLearning:
         :param rounds: number of rounds of learning (0 for as many as
                        possible)
         :type rounds: int
+        :param majority_baseline: evaluate a majority baseline model
+        :type majority_baseline: boolean
         :returns: list of dict
         '''
 
@@ -244,7 +244,7 @@ class IncrementalLearning:
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
 
-        # Training/test data variables
+        # Test data-related variables
         self.training_cursor = training_data_cursor
         self.test_cursor = test_data_cursor
         self.test_data = self.get_test_data()
@@ -268,6 +268,12 @@ class IncrementalLearning:
                                           for param_grid in learner]
                                          for learner
                                          in self.learner_param_grid_stats]
+
+        # Generate statistics for the majority baseline model
+        if baseline:
+            self.majority_label = None
+            self.majority_baseline_stats = None
+            self.evaluate_majority_baseline_model()
 
     def get_all_features(self, review_doc: dict) -> dict:
         '''
@@ -400,6 +406,28 @@ class IncrementalLearning:
                              x=feature_dict))
         return data
 
+    def get_majority_baseline(self) -> np.array:
+        '''
+        Generate a majority baseline array of prediction labels.
+
+        :returns: np.array
+        '''
+
+        self.majority_label = mode(self.y_test).mode[1]
+        return np.array([self.majority_label]*len(self.y_test))
+
+    def evaluate_majority_baseline_model(self) -> None:
+        '''
+        Evaluate the majority baseline model predictions.
+        '''
+
+        stats_dict = self.get_stats(self.get_majority_baseline())
+        stats_dict.update({self.__prediction_label__: self.prediction_label,
+                           self.__majority_label__: self.majority_label,
+                           self.__majority_baseline_model__:
+                               self.__majority_baseline_model__})
+        self.majority_baseline_stats = pd.DataFrame(stats_dict)
+
     def make_printable_confusion_matrix(self, y_preds) -> tuple:
         '''
         Produce a printable confusion matrix to use in the evaluation
@@ -419,6 +447,30 @@ class IncrementalLearning:
             row = self.__tab_join__([str(x) for x in [label] + row])
             res = self.__cnfmat_row__(res, row)
         return res, cnfmat
+
+    def fit_preds_in_scale(self, y_preds):
+        '''
+        Force values at either end of the scale to fit within the scale
+        by adding to or truncating the values.
+
+        :param y_preds: array-like of predicted labels
+        :type y_preds: array-like
+        :returns: array-like
+        '''
+
+        # Get low/high ends of the scale
+        scale = sorted(self.classes)
+        low = scale[0]
+        high = scale[-1]
+
+        i = 0
+        while i < len(y_preds):
+            if y_preds[i] < low:
+                y_preds[i] = low
+            elif y_preds[i] > high:
+                y_preds[i] = high
+            i += 1
+        return y_preds
 
     def get_stats(self, y_preds) -> dict:
         """
@@ -481,30 +533,6 @@ class IncrementalLearning:
                                                y_preds,
                                                weights='linear',
                                                allow_off_by_one=True)}
-
-    def fit_preds_in_scale(self, y_preds):
-        '''
-        Force values at either end of the scale to fit within the scale
-        by adding to or truncating the values.
-
-        :param y_preds: array-like of predicted labels
-        :type y_preds: array-like
-        :returns: array-like
-        '''
-
-        # Get low/high ends of the scale
-        scale = sorted(self.classes)
-        low = scale[0]
-        high = scale[-1]
-
-        i = 0
-        while i < len(y_preds):
-            if y_preds[i] < low:
-                y_preds[i] = low
-            elif y_preds[i] > high:
-                y_preds[i] = high
-            i += 1
-        return y_preds
 
     def learning_round(self) -> None:
         '''
@@ -656,6 +684,10 @@ def main():
                              'performance.',
                         choices=obj_funcs,
                         default='r')
+    parser.add_argument('--evaluate_majority_baseline',
+                        help='Evaluate the majority baseline model.',
+                        action='store_true',
+                        default=False)
     parser.add_argument('-dbhost', '--mongodb_host',
         help='Host that the MongoDB server is running on.',
         type=str,
@@ -677,6 +709,7 @@ def main():
     test_limit = args.test_limit
     output_dir = realpath(args.output_dir)
     obj_func = args.obj_func
+    evaluate_majority_baseline = args.evaluate_majority_baseline
 
     logger.info('Game: {}'.format(game_id))
     logger.info('Maximum number of learning rounds to conduct: {}'
@@ -768,10 +801,9 @@ def main():
     makedirs(output_dir,
              exist_ok=True)
 
-    # Generate files detailing the various learner/parameter grid
-    # combinations
-    logger.info('Generating output files for the incremental learning '
-                'runs...')
+    # Generate evaluation reports for the various learner/parameter
+    # grid combinations
+    logger.info('Generating reports for the incremental learning runs...')
     for learner_name, learner_param_grid_stats \
         in zip(inc_learning.learner_names,
                inc_learning.learner_param_grid_stats):
@@ -780,6 +812,15 @@ def main():
                                  '{}_inc_learning_learner_stats_{}.csv'
                                  .format(learner_name, i)),
                             index=False)
+
+    # Generate evaluation report for the majority baseline model, if specified
+    if evaluate_majority_baseline:
+        logger.info('Generating report for the majority baseline model...')
+        logger.info('Majority label: {}'.format(inc_learning.majority_label))
+        (inc_learning.majority_baseline_stats
+         .to_csv(join(output_dir,
+                      'majority_baseline_model_stats.csv'),
+                 index=False))
 
     logger.info('Complete.')
 
