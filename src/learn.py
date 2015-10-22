@@ -113,7 +113,7 @@ time_labels = frozenset({'total_game_hours', 'total_game_hours_bin',
                          'total_game_hours_last_two_weeks'})
 
 
-def _find_default_param_grid(learner):
+def _find_default_param_grid(learner: str) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 
@@ -126,7 +126,7 @@ def _find_default_param_grid(learner):
         if issubclass(learner_dict[learner],
                       key_cls):
             return grid
-    return None
+    raise Exception('Unrecognized learner abbreviation: {}'.format(learner))
 
 
 class IncrementalLearning:
@@ -173,7 +173,7 @@ class IncrementalLearning:
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
                          '(row=human, col=machine, labels={}):\n')
 
-    def __init__(self, learners, param_grid: dict,
+    def __init__(self, learners, param_grids: dict,
                  training_data_cursor: cursor, test_data_cursor: cursor,
                  round_size: int, non_nlp_features: list, prediction_label: str,
                  rounds=0):
@@ -269,7 +269,7 @@ class IncrementalLearning:
         self.learner_stats = [pd.DataFrame(learner_stats) for learner_stats
                               in self.learner_stats]
 
-    def get_all_features(self, review_doc):
+    def get_all_features(self, review_doc: dict) -> dict:
         '''
         Get all the features in a review document and put them together
         in a dictionary.
@@ -309,7 +309,7 @@ class IncrementalLearning:
         features.update({self.__id_string__: _get(self.__id_string__)})
         return features
 
-    def get_train_data_iteration(self):
+    def get_train_data_iteration(self) -> list:
         '''
         Get a list of training data dictionaries to use in model
         training.
@@ -359,7 +359,7 @@ class IncrementalLearning:
             i += 1
         return data
 
-    def get_test_data(self):
+    def get_test_data(self) -> list:
         '''
         Get a list of test data dictionaries to use in model
         evaluation.
@@ -400,18 +400,18 @@ class IncrementalLearning:
                              x=feature_dict))
         return data
 
-    def make_printable_confusion_matrix(self, y_pred):
+    def make_printable_confusion_matrix(self, y_preds) -> tuple:
         '''
         Produce a printable confusion matrix to use in the evaluation
         report.
 
-        :param y_pred: array-like of predicted labels
-        :type y_pred: array-like
-        :returns: str, np.ndarray
+        :param y_preds: array-like of predicted labels
+        :type y_preds: array-like
+        :returns: (str, np.ndarray)
         '''
 
         cnfmat = confusion_matrix(self.y_test,
-                                  np.round(y_pred),
+                                  np.round(y_preds),
                                   labels=self.classes).tolist()
         res = str(self.cnfmat_desc)
         for row, label in zip(cnfmat,
@@ -420,69 +420,69 @@ class IncrementalLearning:
             res = self.__cnfmat_row__(res, row)
         return res, cnfmat
 
-    def get_stats(self, y_pred):
+    def get_stats(self, y_preds) -> dict:
         """
         Get some statistics about the model's performance on the test
         set.
 
-        :param y_pred: predictions
-        :type y_pred: np.array
+        :param y_preds: array-like of predicted labels
+        :type y_preds: array-like
         :returns: dict
         """
 
         # Get Pearson r and significance
         r, sig = pearsonr(self.y_test,
-                          y_pred)
+                          y_preds)
 
         # Get confusion matrix (both the np.ndarray and the printable
         # one)
         printable_cnfmat, cnfmat = \
-            self.make_printable_confusion_matrix(y_pred)
+            self.make_printable_confusion_matrix(y_preds)
 
         return {self.__r__: r,
                 self.__sig__: sig,
                 self.__prec_macro__: precision_score(self.y_test,
-                                                     y_pred,
+                                                     y_preds,
                                                      labels=self.classes,
                                                      average='macro'),
                 self.__prec_weighted__: precision_score(self.y_test,
-                                                        y_pred,
+                                                        y_preds,
                                                         labels=self.classes,
                                                         average='weighted'),
                 self.__f1_macro__: f1_score(self.y_test,
-                                            y_pred,
+                                            y_preds,
                                             labels=self.classes,
                                             average='macro'),
                 self.__f1_weighted__: f1_score(self.y_test,
-                                               y_pred,
+                                               y_preds,
                                                labels=self.classes,
                                                average='weighted'),
                 self.__acc__: accuracy_score(self.y_test,
-                                             y_pred,
+                                             y_preds,
                                              normalize=True),
                 self.__cnfmat__: cnfmat,
                 self.__printable_cnfmat__: printable_cnfmat,
                 self.__uwk__: kappa(self.y_test,
-                                    y_pred),
+                                    y_preds),
                 self.__uwk_off_by_one__: kappa(self.y_test,
-                                               y_pred,
+                                               y_preds,
                                                allow_off_by_one=True),
                 self.__qwk__: kappa(self.y_test,
-                                    y_pred,
+                                    y_preds,
                                     weights='quadratic'),
                 self.__qwk_off_by_one__: kappa(self.y_test,
-                                               y_pred,
+                                               y_preds,
                                                weights='quadratic',
                                                allow_off_by_one=True),
                 self.__lwk__: kappa(self.y_test,
-                                    y_pred,
+                                    y_preds,
                                     weights='linear'),
                 self.__lwk_off_by_one__: kappa(self.y_test,
-                                               y_pred,
+                                               y_preds,
                                                weights='linear',
                                                allow_off_by_one=True)}
 
-    def learning_round(self):
+    def learning_round(self) -> None:
         '''
         Do learning rounds.
         '''
@@ -546,7 +546,7 @@ class IncrementalLearning:
         # Increment the round number
         self.round += 1
 
-    def do_learning_rounds(self):
+    def do_learning_rounds(self) -> None:
         '''
         Do rounds of learning.
         '''
