@@ -16,6 +16,7 @@ from bson import BSON
 from pymongo import cursor
 from skll.metrics import kappa
 from scipy.stats import pearsonr
+from sklearn.decomposition import PCA
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.grid_search import ParameterGrid
 from sklearn.metrics import (precision_score,
@@ -30,6 +31,8 @@ from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import (Perceptron,
                                   SGDRegressor,
                                   PassiveAggressiveRegressor)
+from sklearn.decomposition import (IncrementalPCA,
+                                   MiniBatchDictionaryLearning)
 
 from data import APPID_DICT
 from util.mongodb import connect_to_db
