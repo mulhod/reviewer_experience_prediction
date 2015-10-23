@@ -89,6 +89,11 @@ learner_dict = {'mbkm': MiniBatchKMeans,
                 'mbdl': MiniBatchDictionaryLearning}
 learner_dict_keys = frozenset(learner_dict.keys())
 
+obj_funcs = frozenset({'r', 'significance', 'precision_macro',
+                       'precision_weighted', 'f1_macro', 'f1_weighted',
+                       'accuracy', 'uwk', 'uwk_off_by_one', 'qwk',
+                       'qwk_off_by_one', 'lwk', 'lwk_off_by_one'})
+
 labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'num_voted_helpfulness', 'num_groups',
                     'num_workshop_items', 'num_reviews', 'num_found_funny',
@@ -673,6 +678,12 @@ def main():
                              .format(', '.join(learner_dict_keys)),
                         type=str,
                         default='all')
+    parser.add_argument('--obj_func',
+                        help='Objective function to use in determining which '
+                             'set of parameters resulted in the best '
+                             'performance.',
+                        choices=obj_funcs,
+                        default='r')
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
                         action='store_true',
@@ -697,6 +708,7 @@ def main():
     port = args.mongodb_port
     test_limit = args.test_limit
     output_dir = realpath(args.output_dir)
+    obj_func = args.obj_func
     evaluate_majority_baseline = args.evaluate_majority_baseline
 
     logger.info('Game: {}'.format(game_id))
