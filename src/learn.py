@@ -31,8 +31,6 @@ from argparse import (ArgumentParser,
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
-from sklearn.decomposition import (IncrementalPCA,
-                                   MiniBatchDictionaryLearning)
 
 from data import APPID_DICT
 from util.mongodb import connect_to_db
@@ -71,23 +69,25 @@ _DEFAULT_PARAM_GRIDS = \
           'n_iter': [5, 10],
           'random_state': [seed],
           'loss': ['epsilon_insensitive',
-                   'squared_epsilon_insensitive']},
-     IncrementalPCA: {'whiten': [True, False]},
-     MiniBatchDictionaryLearning:
-         {'n_components': [100, 500, 1000, 10000],
-          'n_iter': [5, 10, 15],
-          'fit_algorithm': ['lars'],
-          'transform_algorithm': ['lasso_lars'],
-          'random_state': [seed]}}
+                   'squared_epsilon_insensitive']}}
 
-learner_dict = {'mbkm': MiniBatchKMeans,
-                'bnb': BernoulliNB,
-                'mnb': MultinomialNB,
-                'perc': Perceptron,
-                'pagr': PassiveAggressiveRegressor,
-                'ipca': IncrementalPCA,
-                'mbdl': MiniBatchDictionaryLearning}
-learner_dict_keys = frozenset(learner_dict.keys())
+learner_names_dict = {MiniBatchKMeans: 'MiniBatchKMeans',
+                      BernoulliNB: 'BernoulliNB',
+                      MultinomialNB: 'MultinomialNB',
+                      Perceptron: 'Perceptron',
+                      PassiveAggressiveRegressor:
+                          'PassiveAggressiveRegressor'}
+learner_abbrs_dict = {'mbkm': 'MiniBatchKMeans',
+                      'bnb': 'BernoulliNB',
+                      'mnb': 'MultinomialNB',
+                      'perc': 'Perceptron',
+                      'pagr': 'PassiveAggressiveRegressor'}
+learner_dict_keys = frozenset(learner_abbrs_dict.keys())
+learner_dict = {k: eval(learner_abbrs_dict[k]) for k in learner_dict_keys}
+learner_abbrs_string = ', '.join(['"{}" ({})'.format(abbr,
+                                                     learner)
+                                  for abbr, learner
+                                  in learner_abbrs_dict.items()])
 
 obj_funcs = frozenset({'r', 'significance', 'precision_macro',
                        'precision_weighted', 'f1_macro', 'f1_weighted',
@@ -222,7 +222,7 @@ class IncrementalLearning:
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [str(learner).rsplit('.', 1)[1].strip("'>")
+        self.learner_names = [learner_names_dict[learner]
                               for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid
@@ -270,7 +270,7 @@ class IncrementalLearning:
                                          in self.learner_param_grid_stats]
 
         # Generate statistics for the majority baseline model
-        if baseline:
+        if majority_baseline:
             self.majority_label = None
             self.majority_baseline_stats = None
             self.evaluate_majority_baseline_model()
@@ -413,7 +413,7 @@ class IncrementalLearning:
         :returns: np.array
         '''
 
-        self.majority_label = mode(self.y_test).mode[1]
+        self.majority_label = mode(self.y_test).mode[0]
         return np.array([self.majority_label]*len(self.y_test))
 
     def evaluate_majority_baseline_model(self) -> None:
@@ -426,7 +426,7 @@ class IncrementalLearning:
                            self.__majority_label__: self.majority_label,
                            self.__majority_baseline_model__:
                                self.__majority_baseline_model__})
-        self.majority_baseline_stats = pd.DataFrame(stats_dict)
+        self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def make_printable_confusion_matrix(self, y_preds) -> tuple:
         '''
@@ -675,7 +675,7 @@ def main():
                              'out which abbreviations stand for which '
                              'learners. Set of available learners: {}. Use '
                              '"all" to include all available learners.'
-                             .format(', '.join(learner_dict_keys)),
+                             .format(learner_abbrs_string),
                         type=str,
                         default='all')
     parser.add_argument('--obj_func',
@@ -755,13 +755,14 @@ def main():
         learners = set(copy(learner_dict_keys))
     else:
         learners = set(learners.split(','))
-        if not learners.intersection(learner_dict_keys):
+        if not learners.issubset(learner_dict_keys):
             logger.error('Found unrecognized learner(s) in list of passed-in '
                          'learners: {}. Available learners: {}. Exiting.'
                          .format(', '.join(learners),
-                                 ', '.join(learner_dict_keys)))
+                                 learner_abbrs_string))
             exit(1)
-    logger.info('Learners: {}'.format(', '.join(learners)))
+    logger.info('Learners: {}'.format(', '.join([learner_abbrs_dict[learner]
+                                                 for learner in learners])))
 
     # Connect to running Mongo server
     logger.info('MongoDB host: {}'.format(host))
@@ -785,16 +786,17 @@ def main():
 
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
-    inc_learning = IncrementalLearning([learner_dict[learner] for learner
-                                        in learners],
-                                       [_find_default_param_grid(learner)
-                                        for learner in learners],
-                                       train_cursor,
-                                       test_cursor,
-                                       samples_per_round,
-                                       non_nlp_features,
-                                       y_label,
-                                       rounds=rounds)
+    inc_learning = \
+        IncrementalLearning([learner_dict[learner] for learner in learners],
+                            [_find_default_param_grid(learner)
+                             for learner in learners],
+                            train_cursor,
+                            test_cursor,
+                            samples_per_round,
+                            non_nlp_features,
+                            y_label,
+                            rounds=rounds,
+                            majority_baseline=evaluate_majority_baseline)
 
     # Output results files to output directory
     logger.info('Output directory: {}'.format(output_dir))
