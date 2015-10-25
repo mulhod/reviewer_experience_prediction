@@ -841,8 +841,6 @@ def main():
                             [learner_dict[learner] for learner in learners],
                             [_find_default_param_grid(learner)
                              for learner in learners],
-                            train_cursor,
-                            test_cursor,
                             samples_per_round,
                             non_nlp_features,
                             y_label,
