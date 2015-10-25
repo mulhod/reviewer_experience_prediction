@@ -758,7 +758,7 @@ def main():
         default=37017)
     args = parser.parse_args()
 
-    game_id = args.game
+    game = args.game
     rounds = args.rounds
     samples_per_round = args.samples_per_round
     non_nlp_features = args.non_nlp_features
@@ -771,7 +771,7 @@ def main():
     obj_func = args.obj_func
     evaluate_majority_baseline = args.evaluate_majority_baseline
 
-    logger.info('Game: {}'.format(game_id))
+    logger.info('Game: {}'.format(game))
     logger.info('Maximum number of learning rounds to conduct: {}'
                 .format(rounds if rounds > 0
                                   else "as many as possible"))
@@ -828,13 +828,10 @@ def main():
     # Connect to running Mongo server
     logger.info('MongoDB host: {}'.format(host))
     logger.info('MongoDB port: {}'.format(port))
-    db = connect_to_db(host=host,
-                       port=port)
-
-    # Log info about data
-    logger.info('Game: {}'.format(game))
     logger.info('Limiting number of test reviews to {} or below'
                 .format(test_limit))
+    db = connect_to_db(host=host,
+                       port=port)
 
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
