@@ -246,11 +246,11 @@ class IncrementalLearning:
         self.game = game
 
         # Objective function
-        self.obj_func = objective
-        if not self.obj_func in obj_funcs:
+        self.objective = objective
+        if not self.objective in obj_funcs:
             raise Exception('Unrecognized objective function used: {}. These '
                             'are the available objective functions: {}.'
-                            .format(objective,
+                            .format(self.objective,
                                     ', '.join(obj_funcs)))
 
         # Learner-related variables
@@ -481,7 +481,8 @@ class IncrementalLearning:
         '''
 
         stats_dict = self.get_stats(self.get_majority_baseline())
-        stats_dict.update({self.__prediction_label__: self.prediction_label,
+        stats_dict.update({self.__game__: self.game,
+                           self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
                            self.__learner__:
                                self.__majority_baseline_model__})
@@ -594,6 +595,32 @@ class IncrementalLearning:
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
+    def rank_experiments(self):
+        '''
+        Rank the experiments in relation to their performance in the
+        objective function.
+        '''
+
+        # Keep track of the performance
+        perfs = []
+        dfs = []
+
+        # Iterate over all experiments
+        for learner_name, learner_param_grid_stats \
+            in zip(self.learner_names,
+                   self.learner_param_grid_stats):
+            for stats_df in learner_param_grid_stats:
+                perfs.append(stats_df[self.objective][len(stats_df) - 1])
+                dfs.append(stats_df)
+
+        # Sort on performance
+        perfs_dfs = sorted(zip(perfs,
+                               dfs),
+                           key=lambda x: x[0],
+                           reverse=True)
+
+        return [perf_df[1] for perf_df in perfs_dfs]
+
     def learning_round(self) -> None:
         '''
         Do learning rounds.
@@ -650,7 +677,8 @@ class IncrementalLearning:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__learning_round__: int(self.round),
+                stats_dict.update({self.__game__: self.game,
+                                   self.__learning_round__: int(self.round),
                                    self.__prediction_label__:
                                        self.prediction_label,
                                    self.__test_labels_and_preds__:
