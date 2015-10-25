@@ -591,7 +591,7 @@ class IncrementalLearning:
                                     weights=self.__linear__),
                 self.__lwk_off_by_one__: kappa(self.y_test,
                                                y_preds,
-                                               weights=self.__linear,
+                                               weights=self.__linear__,
                                                allow_off_by_one=True)}
 
     def learning_round(self) -> None:
