@@ -23,7 +23,7 @@ from warnings import filterwarnings
 import numpy as np
 import pandas as pd
 from bson import BSON
-from pymongo import cursor
+from pymongo import collection
 from skll.metrics import kappa
 from scipy.stats import (mode,
                          pearsonr)
@@ -140,6 +140,10 @@ class IncrementalLearning:
     '''
 
     # Constants
+    __game__ = 'game'
+    __partition__ = 'partition'
+    __training__ = 'training'
+    __test__ = 'test'
     __nlp_feats__ = 'nlp_features'
     __achieve_prog__ = 'achievement_progress'
     __nan__ = float("NaN")
@@ -183,24 +187,23 @@ class IncrementalLearning:
     __majority_label__ = 'majority_label'
     __majority_baseline_model__ = 'majority_baseline_model'
 
-    def __init__(self, learners, param_grids: dict,
-                 training_data_cursor: cursor, test_data_cursor: cursor,
-                 round_size: int, non_nlp_features: list, prediction_label: str,
+    def __init__(self, db: collection, game: str, learners, param_grids: dict,
+                 round_size: int, non_nlp_features: list,
+                 prediction_label: str, objective: str, test_limit=0,
                  rounds=0, majority_baseline=False):
         '''
         Initialize class.
 
+        :param db: MongoDB database collection object
+        :type db: collection
+        :param game: game
+        :type game: str
         :param learners: algorithms to use for learning
         :type learners: list of learners
         :param param_grids: list of dictionaries of parameters mapped
                             to lists of values (must be aligned with
                             list of learners)
         :type param_grids: dict
-        :param training_data_cursor: MongoDB cursor for training
-                                     documents
-        :type training_data_cursor: pymongo cursor object
-        :param test_data_cursor: MongoDB cursor for test documents
-        :type test_data_cursor: pymongo cursor object
         :param round_size: number of training documents to extract in
                            each round
         :type round_size: int
@@ -209,6 +212,11 @@ class IncrementalLearning:
         :type non_nlp_features: list of str
         :param prediction_label: feature to predict
         :type prediction_label: str
+        :param objective: objective function to use in ranking the runs
+        :type objective: str
+        :param test_limit: limit for the number of test samples
+                           (defaults to 0 for no limit)
+        :type test_limit: int
         :param rounds: number of rounds of learning (0 for as many as
                        possible)
         :type rounds: int
@@ -231,6 +239,20 @@ class IncrementalLearning:
                             'features that can be extracted/used, i.e.: {}.'
                             .format(self.__possible_non_nlp_features__))
 
+        # MongoDB database
+        self.db = db
+
+        # Game
+        self.game = game
+
+        # Objective function
+        self.obj_func = objective
+        if not self.obj_func in obj_funcs:
+            raise Exception('Unrecognized objective function used: {}. These '
+                            'are the available objective functions: {}.'
+                            .format(objective,
+                                    ', '.join(obj_funcs)))
+
         # Learner-related variables
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
@@ -251,15 +273,17 @@ class IncrementalLearning:
             self.non_nlp_features = non_nlp_features
         self.prediction_label = prediction_label
 
-        # Information about incremental learning
+        # Incremental learning-related variables
         self.round_size = round_size
         self.rounds = rounds
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
 
         # Test data-related variables
-        self.training_cursor = training_data_cursor
-        self.test_cursor = test_data_cursor
+        self.training_cursor = None
+        self.test_cursor = None
+        self.test_limit = test_limit
+        self.make_cursors()
         self.test_data = self.get_test_data()
         self.test_ids = [_data[self.__id__] for _data in self.test_data]
         self.test_feature_dicts = [_data[self.__x__] for _data
@@ -287,6 +311,28 @@ class IncrementalLearning:
             self.majority_label = None
             self.majority_baseline_stats = None
             self.evaluate_majority_baseline_model()
+
+    def make_cursors(self):
+        '''
+        Make cursor objects for the training/test sets.
+        '''
+
+        # Make training data cursor
+        batch_size = 50
+        self.training_cursor = \
+            self.db.find({self.__game__: self.game,
+                          self.__partition__: self.__training__},
+                         timeout=False)
+        self.training_cursor.batch_size = batch_size
+
+        # Make test data cursor
+        self.test_cursor = \
+            self.db.find({self.__game__: self.game,
+                          self.__partition__: self.__test__},
+                         timeout=False)
+        if self.test_limit:
+            self.test_cursor = self.test_cursor.limit(self.test_limit)
+        self.test_cursor.batch_size = batch_size
 
     def get_all_features(self, review_doc: dict) -> dict:
         '''
@@ -777,6 +823,7 @@ def main():
             exit(1)
     logger.info('Learners: {}'.format(', '.join([learner_abbrs_dict[learner]
                                                  for learner in learners])))
+    logger.info('Using {} as the objective function'.format(obj_func))
 
     # Connect to running Mongo server
     logger.info('MongoDB host: {}'.format(host))
@@ -784,24 +831,17 @@ def main():
     db = connect_to_db(host=host,
                        port=port)
 
-    # Get training/test data cursors
-    batch_size = 50
-    logger.info('Cursor batch size: {}'.format(batch_size))
-    train_cursor = db.find({'game': game_id,
-                            'partition': 'training'},
-                           timeout=False)
-    train_cursor.batch_size = batch_size
-    test_cursor = db.find({'game': game_id,
-                           'partition': 'test'},
-                          timeout=False).limit(test_limit)
-    test_cursor.batch_size = batch_size
+    # Log info about data
+    logger.info('Game: {}'.format(game))
     logger.info('Limiting number of test reviews to {} or below'
                 .format(test_limit))
 
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
     inc_learning = \
-        IncrementalLearning([learner_dict[learner] for learner in learners],
+        IncrementalLearning(db,
+                            game,
+                            [learner_dict[learner] for learner in learners],
                             [_find_default_param_grid(learner)
                              for learner in learners],
                             train_cursor,
@@ -809,6 +849,8 @@ def main():
                             samples_per_round,
                             non_nlp_features,
                             y_label,
+                            obj_func,
+                            test_limit=test_limit,
                             rounds=rounds,
                             majority_baseline=evaluate_majority_baseline)
 
