@@ -1,9 +1,10 @@
 '''
-@author Matt Mulholland, Janette Martinez, Emily Olshefski
-@date 05/05/2015
+:authors: Matt Mulholland (mulhodm@gmail.com), Janette Martinez,
+          Emily Olshefski
+:date: 05/05/2015
 
-Module of functions/classes related to feature extraction, model-building,
-ARFF file generation, etc.
+Module of functions/classes related to feature extraction,
+model-building, ARFF file generation, etc.
 '''
 import logging
 logger = logging.getLogger()
@@ -38,11 +39,11 @@ class Review(object):
 
     # Normalized review text
     norm = None
-    # appid of the game (string ID code that Steam uses to represent the
-    # game
+    # appid of the game (string ID code that Steam uses to represent
+    # the game
     appid = None
-    # Attribute whose value determines whether or not the review text will
-    # be lower-cased as part of the normalization step
+    # Attribute whose value determines whether or not the review text
+    # will be lower-cased as part of the normalization step
     lower = None
     # Attribute consisting of the identified sentences, which, in turn
     # consist of the identified tokens
@@ -69,11 +70,12 @@ class Review(object):
         self.lower = lower
 
         # Generate attribute values
-        self.length = ceil(np.log2(len(self.orig))) # Get base-2 log of the
-            # length of the original version of the review text, not the
-            # normalized version
+        self.length = ceil(np.log2(len(self.orig))) # Get base-2 log of
+            # the length of the original version of the review text,
+            # not the normalized version
         self.normalize()
-        # Use spaCy to analyze the normalized version of the review text
+        # Use spaCy to analyze the normalized version of the review
+        # text
         self.spaCy_annotations = spaCy_nlp(self.norm,
                                            tag=True,
                                            parse=True)
@@ -86,15 +88,16 @@ class Review(object):
 
     def normalize(self):
         '''
-        Perform text preprocessing, i.e., lower-casing, etc., to generate the
-        norm attribute.
+        Perform text preprocessing, i.e., lower-casing, etc., to
+        generate the norm attribute.
         '''
 
         # Lower-case text if self.lower is True
         r = self.orig.lower() if self.lower else self.orig
 
-        # Collapse all sequences of one or more whitespace characters, strip
-        # whitespace off the ends of the string, and lower-case all characters
+        # Collapse all sequences of one or more whitespace characters,
+        # strip whitespace off the ends of the string, and lower-case
+        # all characters
         r = sub(r'[\n\t ]+',
                 r' ',
                 r.strip())
@@ -144,18 +147,12 @@ class Review(object):
         Get tokens-related features from spaCy's text annotations.
         '''
 
-        lemma_set = set()
         cluster_ids = []
         tokens_append = self.tokens.append
-        lemma_set_update = lemma_set.update
         cluster_ids_extend = cluster_ids.extend
         for sent in self.spaCy_sents:
-            # Get tokens
+            # Get tokens and clusters
             tokens_append([t.orth_ for t in sent])
-            # Generate set of lemmas (for use in the average cosine similarity
-            # calculation)
-            lemma_set_update([t.lemma_ for t in sent])
-            # Get clusters
             cluster_ids_extend([t.cluster for t in sent])
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
@@ -163,18 +160,19 @@ class Review(object):
 def extract_features_from_review(_review, lowercase_cngrams=False):
     '''
     Extract word/character n-gram, length, cluster ID, and syntactic
-    dependency features from a Review object and return as dictionary where
-    each feature is represented as a key:value mapping in which the key is a
-    string representation of the feature (e.g. "the dog" for an example
-    n-gram feature, "th" for an example character n-gram feature, "c667" for
-    an example cluster feature, and "step:VMOD:forward" for an example
-    syntactic dependency feature) and the value is the frequency with which
-    that feature occurred in the review.
+    dependency features from a Review object and return as dictionary
+    where each feature is represented as a key:value mapping in which
+    the key is a string representation of the feature (e.g. "the dog"
+    for an example n-gram feature, "th" for an example character n-gram
+    feature, "c667" for an example cluster feature, and
+    "step:VMOD:forward" for an example syntactic dependency feature)
+    and the value is the frequency with which that feature occurred in
+    the review.
 
     :param _review: object representing the review
     :type _review: Review object
-    :param lowercase_cngrams: whether or not to lower-case the review text
-                              before extracting character n-grams
+    :param lowercase_cngrams: whether or not to lower-case the review
+                              text before extracting character n-grams
     :type lowercase_cngrams: boolean (False by default)
     :returns: dict
     '''
@@ -201,8 +199,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                 ngram_counter_update(list(ngrams(sent,
                                                  i)))
 
-        # Re-represent keys as string representations of specific features
-        # of the feature class "ngrams"
+        # Re-represent keys as string representations of specific
+        # features of the feature class "ngrams"
         for ngram in list(ngram_counter):
             ngram_counter[' '.join(ngram)] = ngram_counter[ngram]
             del ngram_counter[ngram]
@@ -232,9 +230,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
                                                   else _review.orig,
                                               i)))
 
-        # Re-represent keys as string representations of specific features
-        # of the feature class "cngrams" (and set all values to 1 if binarize
-        # is True)
+        # Re-represent keys as string representations of specific
+        # features of the feature class "cngrams" (and set all values
+        # to 1 if binarize is True)
         for cngram in list(cngram_counter):
             cngram_counter[''.join(cngram)] = cngram_counter[cngram]
             del cngram_counter[cngram]
@@ -243,9 +241,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     def generate_cluster_fdist():
         '''
-        Convert cluster ID frequency distribution to a frequency distribution
-        where the keys are strings representing "cluster" features (rather
-        than just a number, the cluster ID).
+        Convert cluster ID frequency distribution to a frequency
+        distribution where the keys are strings representing "cluster"
+        features (rather than just a number, the cluster ID).
 
         :returns: Counter
         '''
@@ -259,9 +257,9 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
     def generate_dep_features():
         '''
-        Generate syntactic dependency features from spaCy text annotations and
-        represent the features as token (lemma) + dependency type + child
-        token (lemma).
+        Generate syntactic dependency features from spaCy text
+        annotations and represent the features as token (lemma) +
+        dependency type + child token (lemma).
 
         :returns: Counter
         '''
@@ -270,14 +268,14 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
         dep_counter = Counter()
         dep_counter_update = dep_counter.update
 
-        # Iterate through spaCy annotations for each sentence and then for
-        # each token
+        # Iterate through spaCy annotations for each sentence and then
+        # for each token
         for sent in _review.spaCy_sents:
             for t in sent:
-                # If the number of children to the left and to the right
-                # of the token add up to a value that is not zero, then
-                # get the children and make dependency features with
-                # them
+                # If the number of children to the left and to the
+                # right of the token add up to a value that is not
+                # zero, then get the children and make dependency
+                # features with them
                 if t.n_lefts + t.n_rights:
                     [dep_counter_update({'{0.lemma_}:{0.dep_}:{1.lemma_}'
                                          .format(t,
@@ -311,8 +309,8 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
 def get_nlp_features_from_db(db, _id):
     '''
-    Collect the NLP features from the Mongo database collection for a given
-    review and return the decoded value.
+    Collect the NLP features from the Mongo database collection for a
+    given review and return the decoded value.
 
     :param db: Mongo reviews collection
     :type db: pymongo.collection.Collection object
@@ -333,8 +331,8 @@ def get_steam_features_from_db(get_feat):
     '''
     Get features collected from Steam (i.e., the non-NLP features).
 
-    :param get_feat: built-in method get of dictionary object representing a
-                     single Mongo database document
+    :param get_feat: built-in method get of dictionary object
+                     representing a single Mongo database document
     :type get_feat: method/function
     :returns: dict
     '''
@@ -385,16 +383,17 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
                                  lowercase_text=True,
                                  lowercase_cngrams=False):
     '''
-    Extract NLP features from reviews in the Mongo database and write the
-    features to the database if features weren't already added and
+    Extract NLP features from reviews in the Mongo database and write
+    the features to the database if features weren't already added and
     reuse_nlp_feats is false).
 
     :param db: a Mongo DB collection client
     :type db: pymongo.collection.Collection
-    :param data_partition: 'training', 'test', etc. (must be valid value for
-                           'partition' key of review collection in Mongo
-                           database); alternatively, can be the value "all"
-                           for all partitions
+    :param data_partition: 'training', 'test', etc. (must be valid
+                           value for 'partition' key of review
+                           collection in Mongo database);
+                           alternatively, can be the value "all" for
+                           all partitions
     :type data_partition: str
     :param game_id: game ID
     :type game_id: str
@@ -403,10 +402,11 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
     :type reuse_nlp_feats: boolean
     :param use_binarized_nlp_feats: use binarized NLP features
     :type use_binarized_nlp_feats: boolean
-    :param lowercase_text: whether or not to lower-case the review text
+    :param lowercase_text: whether or not to lower-case the review
+                           text
     :type lowercase_text: boolean
-    :param lowercase_cngrams: whether or not to lower-case the character
-                              n-grams
+    :param lowercase_cngrams: whether or not to lower-case the
+                              character n-grams
     :type lowercase_cngrams: boolean
     :returns: None
     '''
@@ -427,11 +427,11 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
                                                False)
             _id = game_doc_get('_id')
 
-            # Extract NLP features by querying the database (if they are
-            # available and the --reuse_features option was used or the ID is
-            # in the list of IDs for reviews already collected); otherwise,
-            # extract features from the review text directly (and try to
-            # update the database)
+            # Extract NLP features by querying the database (if they
+            # are available and the --reuse_features option was used or
+            # the ID is in the list of IDs for reviews already
+            # collected); otherwise, extract features from the review
+            # text directly (and try to update the database)
             found_nlp_feats = False
             if (reuse_nlp_feats
                 & ((use_binarized_nlp_feats & binarized_nlp_feats)
@@ -455,11 +455,12 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
                    | extracted_anew)):
                 nlp_feats = binarize_nlp_features(nlp_feats)
 
-            # Update Mongo database game doc with new key "nlp_features",
-            # update/create a "nlp_features_binarized" key to store a value
-            # indicating whehter or not the NLP features were binarized or
-            # not, and update/create an "id_string" key for storing the string
-            # represenation of the ID
+            # Update Mongo database game doc with new key
+            # "nlp_features", update/create a "nlp_features_binarized"
+            # key to store a value indicating whehter or not the NLP
+            # features were binarized or not, and update/create an
+            # "id_string" key for storing the string represenation of
+            # the ID
             if ((not found_nlp_feats)
                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
                 update_db(db_update,
@@ -471,15 +472,16 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
 def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
                          project_dir_path, cfg_file_path):
     '''
-    This Creates a configparser config file from a dict and writes it to a
-    file that can be read in by SKLL.  The dict should map keys for the SKLL
-    config sections to dictionaries of key-value pairs for each section.
+    This Creates a configparser config file from a dict and writes it
+    to a file that can be read in by SKLL.  The dict should map keys
+    for the SKLL config sections to dictionaries of key-value pairs for
+    each section.
 
     :param exp_name: name/ID associated with model/experiment
     :type exp_name: str
-    :param feature_set_name: name of feature set (should be the name of the
-                             corresponding JSONLINES file in the 'working'
-                             directory minus the extension)
+    :param feature_set_name: name of feature set (should be the name of
+                             the corresponding JSONLINES file in the
+                             'working' directory minus the extension)
     :type feature_set_name: str
     :param learner_name: name of machine learning algorithm
     :type learner_name: str
@@ -537,8 +539,8 @@ def generate_config_file(exp_name, feature_set_name, learner_name, obj_func,
 
 def make_confusion_matrix(x_true, y_pred, continuous=True):
     '''
-    Return confusion matrix with n rows/columns where n is equal to the number
-    of unique data-points (or points on a scale, if continuous).
+    Return confusion matrix with n rows/columns where n is equal to the
+    number of unique data-points (or points on a scale, if continuous).
 
     :param x_true: np.array of "true" labels
     :type x_true: 1-dimensional np.array with dtype=np.int32
@@ -547,8 +549,8 @@ def make_confusion_matrix(x_true, y_pred, continuous=True):
     :param continuous: if data-points/labels form a continuous scale of
                        natural numbers
     :type continuous: boolean
-    :returns: dictionary consisting of 1) a 'data' key mapped to the confusion
-              matrix itself (a 2-dimensional np.array with
+    :returns: dictionary consisting of 1) a 'data' key mapped to the
+              confusion matrix itself (a 2-dimensional np.array with
               dtype=np.int32) and 2) a 'string' key mapped to a string
               representation of the confusion matrix
     '''
@@ -604,7 +606,8 @@ def write_predictions_to_file(path, game_id, model_id, preds_rows):
     :type game_id: str
     :param model_id: model ID
     :type model_id: str
-    :param preds_rows: list of ID, review text, hours, and prediction values
+    :param preds_rows: list of ID, review text, hours, and prediction
+                       values
     :type preds_rows: list
     :returns: None
     '''

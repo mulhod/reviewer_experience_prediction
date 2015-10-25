@@ -2,7 +2,8 @@
 :author: Matt Mulholland
 :date: April 15, 2015
 
-Script used to generate ARFF files usable in Weka for the video game review data-sets.
+Script used to generate ARFF files usable in Weka for the video game
+review data-sets.
 '''
 from os.path import (join,
                      isdir,
@@ -164,8 +165,8 @@ def main():
                 '--nbins option argument. Exiting.')
         exit(1)
 
-    # Exit if the --bin_factor argument was used despite the fact that the
-    # original hours values are not being binned
+    # Exit if the --bin_factor argument was used despite the fact that
+    # the original hours values are not being binned
     if (not bins
         and bin_factor > 1.0):
         logerror('The --bin_factor argument was specified despite the fact '
@@ -184,8 +185,8 @@ def main():
     loginfo('data directory: {}'.format(data_dir))
     loginfo('arff files directory: {}'.format(output_dir))
 
-    # Make sure there is a combined output file prefix if "combine" is the
-    # value passed in via --mode
+    # Make sure there is a combined output file prefix if "combine" is
+    # the value passed in via --mode
     if (mode == 'combined'
         and not combined_file_prefix):
         logerror('A combined output file prefix must be specified in cases '
@@ -194,11 +195,13 @@ def main():
                  '"combined" is the default value). Exiting.')
         exit(1)
 
-    # See if the --use_mongodb flag was used, in which case we have
-    # to make a connection to the MongoDB collection
-    # And, if it wasn't used, then print out warning if the --mongodb_port
-    # flag was used (since it will be ignored) unless the value is equal to
-    # the default value (since it probably wasn't specified in that case)
+    '''
+    See if the --use_mongodb flag was used, in which case we have to
+    make a connection to the MongoDB collection. And, if it wasn't
+    used, then print out warning if the --mongodb_port flag was used
+    (since it will be ignored) unless the value is equal to the default
+    value (since it probably wasn't specified in that case).
+    '''
     if use_mongodb:
         loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
                 .format(mongodb_host,
@@ -216,9 +219,9 @@ def main():
                                 join(dirname(dirname(__file__)),
                                      'data'))
     if len(game_files) == 1:
-        # Print out warning message if --mode was set to "combined" and there
-        # was only one file n the list of game files since only a single ARFF
-        # file will be created
+        # Print out warning message if --mode was set to "combined" and
+        # there was only one file n the list of game files since only a
+        # single ARFF file will be created
         if mode == 'combined':
             logwarn('The --mode flag was used with the value "combined" (or '
                     'was unspecified) even though only one game file was '
@@ -226,7 +229,8 @@ def main():
                     'be written and it will be named after the game.')
         mode = "separate"
 
-    # Make a list of dicts corresponding to each review and write .arff files
+    # Make a list of dicts corresponding to each review and write .arff
+    # files
     loginfo('Reading in data from reviews files...')
     if mode == "combined":
         review_dicts_list = []
@@ -241,15 +245,15 @@ def main():
                                                         game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
-                # If the hours played values are to be divided into bins,
-                # update the min/max values
+                # If the hours played values are to be divided into
+                # bins, update the min/max values
                 if bins:
                     if dataset['minh'] < minh:
                         minh = dataset['minh']
                     if dataset['max'] > maxh:
                         maxh = dataset['maxh']
-            # If the hours played values are to be divided into bins, get the
-            # range that each bin maps to
+            # If the hours played values are to be divided into bins,
+            # get the range that each bin maps to
             if bins:
                 bin_ranges = get_bin_ranges(minh,
                                             maxh,

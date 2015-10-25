@@ -1,8 +1,9 @@
 '''
-:author: Matt Mulholland
+:author: Matt Mulholland (mulhodm@gmail.com)
 :date: September 18, 2015
 
-Script used to extract features for review documents in the Mongo database.
+Script used to extract features for review documents in the MongoDB
+database.
 '''
 from os.path import (join,
                      dirname,
@@ -126,8 +127,8 @@ def main():
                                 join(dirname(dirname(__file__)),
                                      'data'))
 
-    # Iterate over the game files, extracting and adding/replacing features
-    # to the database
+    # Iterate over the game files, extracting and adding/replacing
+    # features to the database
     for game_file in game_files:
         game = splitext(game_file)[0]
         if partition == 'all':

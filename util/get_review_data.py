@@ -2,7 +2,8 @@
 :author: Matt Mulholland
 :date: April 1, 2015
 
-Script used to run the web scraping tool in order to build the video game review corpus.
+Script used to run the web scraping tool in order to build the video
+game review corpus.
 '''
 from os.path import (join,
                      dirname,

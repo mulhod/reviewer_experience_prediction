@@ -2,7 +2,8 @@
 :author: Matt Mulholland
 :date: April 15, 2015
 
-Script used to create training/test sets in a MongoDB database from review data extracted from flat files.
+Script used to create training/test sets in a MongoDB database from
+review data extracted from flat files.
 '''
 from os.path import (join,
                      exists,
@@ -142,9 +143,9 @@ def main():
     logerror = logger.error
     logwarn = logger.warning
 
-    # Make sure value passed in via the --convert_to_bins/-bins option flag
-    # makes sense and, if so, assign value to variable bins (if not, set bins
-    # equal to 0)
+    # Make sure value passed in via the --convert_to_bins/-bins option
+    # flag makes sense and, if so, assign value to variable bins (if
+    # not, set bins equal to 0)
     if (convert_to_bins
         and convert_to_bins < 2):
         logerror('The value passed in via --convert_to_bins/-bins must be '
@@ -231,9 +232,9 @@ def main():
                 'of {}.'.format(bins,
                                 bin_factor))
 
-    # For each game in our list of games, we will read in the reviews from
-    # the data file and then put entries in our MongoDB collection with a
-    # key that identifies each review as either training or test
+    # For each game in our list of games, we will read in the reviews
+    # from the data file and then put entries in our MongoDB collection
+    # with a key that identifies each review as either training or test
     for game_file in game_files:
         loginfo('Getting/inserting reviews for {}...'
                 .format(splitext(basename(game_file))[0]))

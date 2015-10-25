@@ -2,12 +2,13 @@
 :author: Matt Mulholland
 :date: May 5, 2015
 
-Module of code related to the MongoDB database that holds all of the review
-data.
+Module of code related to the MongoDB database that holds all of the
+review data.
 
-The insert_train_test_reviews function gets all suitable, English-language
-reviews for a given data-set (at the provided file-path) and inserts them into
-the the MongoDB database ('reviews_project') under the 'reviews' collection.
+The insert_train_test_reviews function gets all suitable,
+English-language reviews for a given data-set (at the provided
+file-path) and inserts them into the the MongoDB database
+('reviews_project') under the 'reviews' collection.
 '''
 import logging
 logger = logging.getLogger()
@@ -44,7 +45,8 @@ def connect_to_db(host='localhost', port=27017, tries=10):
     :type host: str
     :param port: Mongo database port
     :type port: int (or str)
-    :param tries: number of times to try to connect client (default: 10)
+    :param tries: number of times to try to connect client (default:
+                  10)
     :type tries: int
     :returns: pymongo.collection.Collection object
     '''
@@ -76,15 +78,16 @@ def connect_to_db(host='localhost', port=27017, tries=10):
 
 def create_game_cursor(db, game_id, data_partition, int batch_size):
     '''
-    Create Cursor object with given game and partition to iterate through game
-    documents.
+    Create Cursor object with given game and partition to iterate
+    through game documents.
 
     :param db: Mongo reviews collection
     :type db: pymongo.collection.Collection
     :param game_id: game ID
     :type game_id: str
-    :param data_partition: data partition, i.e., 'training', 'test', etc.; can
-                           alternatively be the value "all" for all partitions
+    :param data_partition: data partition, i.e., 'training', 'test',
+                           etc.; can alternatively be the value "all"
+                           for all partitions
     :type data_partition: str
     :param batch_size: size of each batch that the cursor returns
     :type batch_size: int
@@ -126,47 +129,48 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                               describe=False, just_describe=False,
                               reports_dir=None):
     '''
-    Insert training/test set reviews into the MongoDB database and optionally
-    generate a report and graphs describing the filtering mechanisms.
+    Insert training/test set reviews into the MongoDB database and
+    optionally generate a report and graphs describing the filtering
+    mechanisms.
 
     :param reviewdb: Mongo reviews collection
     :type reviewdb: pymongo.collection.Collection object
     :param file_path: path to game reviews file
     :type file_path: str
-    :param max_size: maximum size of training/test set combination (in number
-                     of reviews)
+    :param max_size: maximum size of training/test set combination (in
+                     number of reviews)
     :type max_size: int
-    :param percent_train: percent of training/test combination that should be
-                          reserved for the training set
+    :param percent_train: percent of training/test combination that
+                          should be reserved for the training set
     :type percent_train: float/int
     :param bins: number of bins in which to sub-divide the hours played
-                 values (defaults to 0, in which case the values will be left
-                 as they are)
+                 values (defaults to 0, in which case the values will
+                 be left as they are)
     :type bins: int
-    :param bin_factor: if the bins parameter is set to something other than
-                       the default, the size of the bins relative to each
-                       other will be governed by bin_factor, i.e., the size
-                       of the bins in terms of the ranges of values will
-                       be smaller for the bins that have a lot of instances
-                       and will increase in size for the more
-                       sparsely-populated bins
+    :param bin_factor: if the bins parameter is set to something other
+                       than the default, the size of the bins relative
+                       to each other will be governed by bin_factor,
+                       i.e., the size of the bins in terms of the
+                       ranges of values will be smaller for the bins
+                       that have a lot of instances and will increase
+                       in size for the more sparsely-populated bins
     :type bin_factor: float
     :param describe: describe data-set, outputting a report with some
-                     descriptive statistics and histograms representing review
-                     length and hours played distributions
+                     descriptive statistics and histograms representing
+                     review length and hours played distributions
     :type describe: boolean
-    :param just_describe: only get the reviews and generate the statistical
-                          report
+    :param just_describe: only get the reviews and generate the
+                          statistical report
     :type just_describe: boolean
-    :param reports_dir: path to directory to which report files should be
-                        written
+    :param reports_dir: path to directory to which report files should
+                        be written
     :type reports_dir: str
     :returns: None
     '''
 
-    # Seed the random number generator (hopefully ensuring that repeated
-    # iterations will result in the same behavior from random.randint and
-    # random.shuffle)
+    # Seed the random number generator (hopefully ensuring that
+    # repeated iterations will result in the same behavior from
+    # random.randint and random.shuffle)
     seed(1)
 
     game = splitext(basename(file_path))[0]
@@ -186,8 +190,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                 'generated, but no reviews will be inserted into the '
                 'database.')
 
-    # Get list of all reviews represented as dictionaries with 'review' and
-    # 'total_game_hours' keys and get the filter values
+    # Get list of all reviews represented as dictionaries with 'review'
+    # and 'total_game_hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
                                        report=(describe
                                                or just_describe),
@@ -204,9 +208,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     logdebug('Maximum amount of hours played = {}'.format(dataset['maxh']))
     logdebug('Minimum amount of hours played = {}'.format(dataset['minh']))
 
-    # If the hours played values are to be divided into bins, get the range
-    # that each bin maps to and add values for the number of bins, the bin
-    # ranges, and the bin factor to the review dictionaries
+    # If the hours played values are to be divided into bins, get the
+    # range that each bin maps to and add values for the number of
+    # bins, the bin ranges, and the bin factor to the review
+    # dictionaries
     if bins:
         bin_ranges = get_bin_ranges(minh,
                                     maxh,
@@ -222,8 +227,8 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     # Shuffle the list of reviews so that we randomize it
     shuffle(reviews)
 
-    # Get the training and test sets and the set of extra reviews (which
-    # might get pulled in later if necessary)
+    # Get the training and test sets and the set of extra reviews
+    # (which might get pulled in later if necessary)
     cdef int num_reviews = len(reviews)
     if num_reviews > max_size:
         train_test_reviews = reviews[:max_size]
@@ -247,10 +252,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
              '.')
 
     if not just_describe:
-
-        # Initialize a bulk writer and add insertion operations for training,
-        # test, and extra reviews and then execture the operations and print
-        # out some information about how many entries were inserted, etc.
+        # Initialize a bulk writer and add insertion operations for
+        # training, test, and extra reviews and then execture the
+        # operations and print out some information about how many
+        # entries were inserted, etc.
         bulk = reviewdb.initialize_unordered_bulk_op()
 
         # Training set reviews
@@ -302,8 +307,9 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     '''
     Add insert operations to a bulk writer.
 
-    :param bulk_writer: a bulk writer instance, to which we can add insertion
-                        operations that will be executed later on
+    :param bulk_writer: a bulk writer instance, to which we can add
+                        insertion operations that will be executed
+                        later on
     :type bulk_writer: pymongo.bulk.BulkOperationBuilder instance
     :param rdicts: list of review dictionaries
     :type rdicts: list of dict
@@ -311,21 +317,22 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
     :type game: str
     :param appid: appid string, ID number of game
     :type appid: str
-    :param partition_id: name/ID of partition, i.e., 'test', 'training',
-                         'extra'
+    :param partition_id: name/ID of partition, i.e., 'test',
+                         'training', 'extra'
     :type partition_id: str
-    :param bins: False (i.e., if a converted hours value should not also be
-                 inserted) or a list of 2-tuples containing floating point
-                 numbers representing the beginning of a range (actually, the
-                 lower, non-inclusive bound of the range) and the end (the
-                 upper, inclusive bound of the range) (default: False)
+    :param bins: False (i.e., if a converted hours value should not
+                 also be inserted) or a list of 2-tuples containing
+                 floating point numbers representing the beginning of a
+                 range (actually, the lower, non-inclusive bound of the
+                 range) and the end (the upper, inclusive bound of the
+                 range) (default: False)
     :type bins: False or list of 2-tuples of floats
     :returns: None
     '''
 
     for rd in rdicts:
-        # Add keys for the partition (i.e., "extra"), the game's name, and the
-        # appid
+        # Add keys for the partition (i.e., "extra"), the game's name,
+        # and the appid
         rd['game'] = game
         rd['appid'] = appid
         rd['partition'] = partition_id
@@ -352,10 +359,11 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
 def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
     '''
     Update Mongo database document with extracted NLP features and keys
-    related to whether or not the NLP features have been binarized and review
-    document IDs.
+    related to whether or not the NLP features have been binarized and
+    review document IDs.
 
-    :param db_update: bound method Collection.update of Mongo collection
+    :param db_update: bound method Collection.update of MongoDB
+                      collection
     :type db_update: method
     :param _id: database document's Object ID
     :type _id: pymongo.bson.objectid.ObjectId

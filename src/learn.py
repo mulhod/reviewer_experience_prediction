@@ -1,4 +1,13 @@
 #!/usr/env python3.4
+'''
+:author: Matt Mulholland (mulhodm@gmail.com)
+:date: 10/14/2015
+
+Command-line utility for the IncrementalLearning class, which enables
+one to run experiments on subsets of the data with a number of
+different machine learning algorithms and parameter customizations,
+etc.
+'''
 import logging
 from sys import exit
 from copy import copy
@@ -138,6 +147,10 @@ class IncrementalLearning:
     __y__ = 'y'
     __id_string__ = 'id_string'
     __id__ = 'id'
+    __macro__ = 'macro'
+    __weighted__ = 'weighted'
+    __linear__ = 'linear'
+    __quadratic__ = 'quadratic'
     __learning_round__ = 'learning_round'
     __prediction_label__ = 'prediction_label'
     __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
@@ -424,7 +437,7 @@ class IncrementalLearning:
         stats_dict = self.get_stats(self.get_majority_baseline())
         stats_dict.update({self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
-                           self.__majority_baseline_model__:
+                           self.__learner__:
                                self.__majority_baseline_model__})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
@@ -496,19 +509,20 @@ class IncrementalLearning:
                 self.__prec_macro__: precision_score(self.y_test,
                                                      y_preds,
                                                      labels=self.classes,
-                                                     average='macro'),
-                self.__prec_weighted__: precision_score(self.y_test,
-                                                        y_preds,
-                                                        labels=self.classes,
-                                                        average='weighted'),
+                                                     average=self.__macro__),
+                self.__prec_weighted__:
+                    precision_score(self.y_test,
+                                    y_preds,
+                                    labels=self.classes,
+                                    average=self.__weighted__),
                 self.__f1_macro__: f1_score(self.y_test,
                                             y_preds,
                                             labels=self.classes,
-                                            average='macro'),
+                                            average=self.__macro__),
                 self.__f1_weighted__: f1_score(self.y_test,
                                                y_preds,
                                                labels=self.classes,
-                                               average='weighted'),
+                                               average=self.__weighted__),
                 self.__acc__: accuracy_score(self.y_test,
                                              y_preds,
                                              normalize=True),
@@ -521,17 +535,17 @@ class IncrementalLearning:
                                                allow_off_by_one=True),
                 self.__qwk__: kappa(self.y_test,
                                     y_preds,
-                                    weights='quadratic'),
+                                    weights=self.__quadratic__),
                 self.__qwk_off_by_one__: kappa(self.y_test,
                                                y_preds,
-                                               weights='quadratic',
+                                               weights=self.__quadratic__,
                                                allow_off_by_one=True),
                 self.__lwk__: kappa(self.y_test,
                                     y_preds,
-                                    weights='linear'),
+                                    weights=self.__linear__),
                 self.__lwk_off_by_one__: kappa(self.y_test,
                                                y_preds,
-                                               weights='linear',
+                                               weights=self.__linear,
                                                allow_off_by_one=True)}
 
     def learning_round(self) -> None:

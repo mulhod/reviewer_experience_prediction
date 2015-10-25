@@ -2,10 +2,11 @@
 :author: Matt Mulholland
 :date: May 5, 2015
 
-Cython extension for functions that collect review data from Steam, read
-review data from raw text files, describe review data in terms of descriptive
-statistics, write ARFF format files for use with Weka, convert raw hours
-played values to a scale of a given number of values, etc.
+Cython extension for functions that collect review data from Steam,
+read review data from raw text files, describe review data in terms of
+descriptive statistics, write ARFF format files for use with Weka,
+convert raw hours played values to a scale of a given number of values,
+etc.
 '''
 import logging
 # Connect to get_review_data logger
@@ -29,9 +30,9 @@ def get_game_files(games_str, data_dir_path):
     '''
     Get list of game files (file-names only).
 
-    :param games_str: comma-separated list of game files (that exist in the
-                      data directory) with or without a .jsonlines suffix (or
-                      "all" for all game files)
+    :param games_str: comma-separated list of game files (that exist in
+                      the data directory) with or without a .jsonlines
+                      suffix (or "all" for all game files)
     :type games_str: str
     :param data_dir_path: path to data directory
     :type data_dir_path: str
@@ -62,9 +63,10 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
     '''
     Generate dictionaries for each review for a given game.
 
-    The dictionaries will contain keys for the review text, the reviewer ID,
-    the reviewer's user-name, the number of friends the reviewer has, the
-    the number of reviews the reviewer has written, and much more.
+    The dictionaries will contain keys for the review text, the
+    reviewer ID, the reviewer's user-name, the number of friends the
+    reviewer has, the the number of reviews the reviewer has written,
+    and much more.
 
     :param appid: ID corresponding to a given game
     :type appid: str
@@ -73,12 +75,12 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
     :type timeout: float
     :param limit: the maximum number of reviews to collect
     :type limit: int (default: -1, which signifies no limit)
-    :param wait: amount of time to wait between requesting different pages on
-                 the Steam website
+    :param wait: amount of time to wait between requesting different
+                 pages on the Steam website
     :type wait: int/float
-    :yields: dictionary with keys for various pieces of data related to a
-             single review, including the review itself, the number of hours
-             the reviewer has played the game, etc.
+    :yields: dictionary with keys for various pieces of data related to
+             a single review, including the review itself, the number
+             of hours the reviewer has played the game, etc.
     '''
 
     # Define a couple useful regular expressions, string variables
@@ -137,8 +139,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
         # Get the URL content
         base_page = None
         sleep(wait)
-        # Get the HTML page; if there's a timeout error, then catch it and
-        # exit out of the loop, effectively ending the function.
+        # Get the HTML page; if there's a timeout error, then catch it
+        # and exit out of the loop, effectively ending the function.
         try:
             base_page = requests.get(url,
                                      timeout=(0.1,
@@ -165,23 +167,24 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                         breaks += 1
                         continue
                     else:
-                        exit_message = ('Encountered second ConnectionError '
-                                        'in a row. Gracefully exiting program'
-                                        '. Here are the details for '
-                                        'continuing:\nReviews count = {}\n'
-                                        'Range start = {}\nindex = {}\nURL = '
-                                        '{}\n\nExiting.'
-                                        .format(reviews_count,
-                                                range_begin,
-                                                i,
-                                                url))
+                        exit_message = \
+                            ('Encountered second ConnectionError in a row. '
+                             'Gracefully exiting program. Here are the '
+                             'details for continuing:\nReviews count = {}\n'
+                             'Range start = {}\nindex = {}\nURL = {}\n\n'
+                             'Exiting.'.format(reviews_count,
+                                               range_begin,
+                                               i,
+                                               url))
                         logerr(exit_message)
                         exit(exit_message)
-        # If there's nothing at this URL, page might have no value at all,
-        # in which case we should skip the URL
-        # Another situation where we'd want to skip is if page.text contains
-        # only an empty string or a string that has only a sequence of one or
-        # more spaces
+        '''
+        If there's nothing at this URL, page might have no value at
+        all, in which case we should skip the URL.
+        Another situation where we'd want to skip is if page.text
+        contains only an empty string or a string that has only a
+        sequence of one or more spaces.
+        '''
         if not base_page:
             breaks += 1
             continue
@@ -210,8 +213,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
             source_soup.findAll('div',
                                 'apphub_Card modalContentLink interactable')
 
-        # Iterate over the reviews/link blocks in the source HTML and find
-        # data for each review, yielding a dictionary
+        # Iterate over the reviews/link blocks in the source HTML and
+        # find data for each review, yielding a dictionary
         for (review,
              link_block) in zip(reviews,
                                 link_blocks):
@@ -242,46 +245,58 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                        .format(url,
                                stripped_strings))
                 continue
-            # Parsing the stripped_strings attribute depends on its containing
-            # the following items (not all will be collected here, however):
-            #     1) number of people who found the review helpful and/or
-            #        funny
-            #     2) the "recommended" value
-            #     3) the hours on record
-            #     4) the date posted (and updated, if present)
-            #     5+) the review, which can stretch over several elements
-            # All that we are really interested in collecting from here are 1
-            # and 5+
-            # If the first element in stripped_strings has the value "No
-            # ratings yet", then 0s will be assumed for all the values related
-            # to ratings (except found_helpful_percentage, which will be set
-            # to None). And, if the first element in stripped_strings is not
-            # related to the number of ratings by other users, then we can
-            # simply add "No ratings yet" to the beginning of the list
+            '''
+            Parsing the stripped_strings attribute depends on its
+            containing the following items (not all will be collected
+            here, however):
+                 1) number of people who found the review helpful
+                    and/or funny
+                 2) the "recommended" value
+                 3) the hours on record
+                 4) the date posted (and updated, if present)
+                 5+) the review, which can stretch over several
+                     elements
+            All that we are really interested in collecting from here
+            are 1 and 5+
+            If the first element in stripped_strings has the value "No
+            ratings yet", then 0s will be assumed for all the values
+            related to ratings (except found_helpful_percentage, which
+            will be set to None).
+            And, if the first element in stripped_strings is not
+            related to the number of ratings by other users, then we
+            can simply add "No ratings yet" to the beginning of the
+            list
+            '''
             helpful_funny_str = stripped_strings[0].strip()
             if not (HELPFUL_OR_FUNNY.search(helpful_funny_str)
                     or helpful_funny_str == NO_RATINGS):
                 stripped_strings = [NO_RATINGS] + stripped_strings
             if len(stripped_strings) >= 5:
                 helpful_and_funny_list = stripped_strings[0].strip().split()
-                # Extracting data from the text that supplies the number of
-                # users who found the review helpful and/or funny depends on a
-                # couple of facts about what is in this particular string
+                '''
+                Extracting data from the text that supplies the number
+                of users who found the review helpful and/or funny
+                depends on a couple of facts about what is in this
+                particular string.
+                '''
                 num_found_helpful = 0
                 num_voted_helpfulness = 0
                 num_found_unhelpful = 0
                 found_helpful_percentage = None
                 num_found_funny = 0
-                # If there are exactly 15 elements in the split string, then
-                # the string appears to conform to the canonical format, i.e.,
-                # data about how many users found the review both helpful and
-                # funny is supplied; if the string contains exactly 6 or 9
-                # elements, then only data related to the users who found the
-                # review funny or helpful, respectively, is supplied; if the
-                # string is equal to the value "No ratings yet", then the
-                # values defined above can be kept as they are; finally, if
-                # the string does not meet any of the conditions above, then
-                # it is an aberrant string and cannot be processed
+                '''
+                If there are exactly 15 elements in the split string,
+                then the string appears to conform to the canonical
+                format, i.e., data about how many users found the
+                review both helpful and funny is supplied; if the
+                string contains exactly 6 or 9 elements, then only data
+                related to the users who found the review funny or
+                helpful, respectively, is supplied; if the string is
+                equal to the value "No ratings yet", then the values
+                defined above can be kept as they are; finally, if the
+                string does not meet any of the conditions above, then
+                it is an aberrant string and cannot be processed.
+                '''
                 if (len(helpful_and_funny_list) == 15
                     or len(helpful_and_funny_list) == 9
                     or len(helpful_and_funny_list) == 6):
@@ -309,9 +324,9 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                            stripped_strings,
                                            url))
                             continue
-                        # Extract the number of people who voted on whether or
-                        # not the review was helpful (whether it was or
-                        # wasn't)
+                        # Extract the number of people who voted on
+                        # whether or not the review was helpful
+                        # (whether it was or wasn't)
                         num_voted_helpfulness = COMMA.sub(r'',
                                                           helpful[2])
                         try:
@@ -324,14 +339,16 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                            stripped_strings,
                                            url))
                             continue
-                        # Calculate the number of people who must have found
-                        # the review NOT helpful and the percentage of people
-                        # who found the review helpful
+                        # Calculate the number of people who must have
+                        # found the review NOT helpful and the
+                        # percentage of people who found the review
+                        # helpful
                         num_found_unhelpful = \
                             num_voted_helpfulness - num_found_helpful
                         found_helpful_percentage = \
                             float(num_found_helpful)/num_voted_helpfulness
-                    # Extract the number of people who found the review funny
+                    # Extract the number of people who found the review
+                    # funny
                     if funny:
                         num_found_funny = COMMA.sub(r'',
                                                     funny[0])
@@ -356,8 +373,9 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                    stripped_strings[1:],
                                    url))
                     continue
-                # The review text should be located at index 4, but, in some
-                # cases, the review text is split over several indices
+                # The review text should be located at index 4, but, in
+                # some cases, the review text is split over several
+                # indices
                 review_text = ' '.join(stripped_strings[4:]).strip()
 
                 # Skip reviews that don't have any characters
@@ -399,8 +417,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                      steam_id_number=steam_id_number,
                      profile_url=profile_url,
                      orig_url=url)
-            # Follow links to profile and review pages and collect data from
-            # there
+            # Follow links to profile and review pages and collect data
+            # from there
             sleep(wait)
             try:
                 review_page = requests.get(review_dict['review_url'],
@@ -457,9 +475,9 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                     exit(exit_message)
             review_page_html = review_page.text.strip()
             profile_page_html = profile_page.text.strip()
-            # Preprocess HTML and try to decode the HTML to unicode and then
-            # re-encode the text with ASCII, ignoring any characters that
-            # can't be represented with ASCII
+            # Preprocess HTML and try to decode the HTML to unicode and
+            # then re-encode the text with ASCII, ignoring any
+            # characters that can't be represented with ASCII
             review_page_html = \
                 SPACE.sub(r' ',
                           BREAKS_REGEX.sub(r' ',
@@ -481,11 +499,13 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                         'lxml')
             profile_soup = BeautifulSoup(profile_page_html,
                                          'lxml')
-            # Get some information about the review, such as when it was
-            # posted, what the rating summary is (i.e., is the game
-            # recommended or not?), the number of hours the reviewer has
-            # played the game, and the number of hours the reviewer has
-            # played the game in the previous 2 weeks
+            '''
+            Get some information about the review, such as when it was
+            posted, what the rating summary is (i.e., is the game
+            recommended or not?), the number of hours the reviewer has
+            played the game, and the number of hours the reviewer has
+            played the game in the previous two weeks.
+            '''
             rating_summary_block = (review_soup
                                     .find('div',
                                           'ratingSummaryBlock'))
@@ -495,9 +515,9 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                 review_dict['rating'] = (rating_summary_block_list[3]
                                          .string
                                          .strip())
-                # Get date posted string, which will include an original
-                # posted date and maybe an updated date as well (if the post
-                # was updated)
+                # Get date posted string, which will include an
+                # original posted date and maybe an updated date as
+                # well (if the post was updated)
                 date_updated = None
                 date_str_orig = (rating_summary_block_list[7]
                                  .string
@@ -589,7 +609,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                        .format(str(e),
                                review_dict['review_url']))
                 continue
-            # Get the number of comments users made on the review (if any)
+            # Get the number of comments users made on the review (if
+            # any)
             try:
                 comment_match_1 = COMMENT_RE_1.search(review_page
                                                       .text
@@ -698,7 +719,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                          'game_info_achievement_summary'),
                                    review_dict['profile_url']))
                 continue
-            # Get the number of badges the reviewer has earned on the site
+            # Get the number of badges the reviewer has earned on the
+            # site
             try:
                 badges = profile_soup.find('div',
                                            'profile_badges')
@@ -733,8 +755,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                          'profile_badges'),
                                    review_dict['profile_url']))
                 continue
-            # Get the number of reviews the reviewer has written, screenshots
-            # he/she has taken, guides written, etc.
+            # Get the number of reviews the reviewer has written,
+            # screenshots he/she has taken, guides written, etc.
             try:
                 profile_items = profile_soup.find('div',
                                                   'profile_item_links')
@@ -746,7 +768,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                     profile_items_strings_dict = \
                         dict(zip(profile_items_strings_iter,
                                  profile_items_strings_iter))
-                    # Get the number of games the reviewer owns if it exists
+                    # Get the number of games the reviewer owns if it
+                    # exists
                     review_dict['num_games_owned'] = \
                         int(COMMA.sub(r'',
                                       profile_items_strings_dict
@@ -805,7 +828,8 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                          'profile_item_links'),
                                    review_dict['profile_url']))
                 continue
-            # Get the number of groups the reviewer is part of on the site
+            # Get the number of groups the reviewer is part of on the
+            # site
             try:
                 groups = profile_soup.find('div',
                                            'profile_group_links')
@@ -840,7 +864,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                          'profile_group_links'),
                                    review_dict['profile_url']))
                 continue
-            # Get the number of friends the reviwer has on Steam
+            # Get the number of friends the reviwer has on the site
             try:
                 friends = profile_soup.find('div',
                                             'profile_friend_links')
@@ -882,21 +906,22 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                 break
         if reviews_count == limit:
             break
-        # Increment the range_begin and i variables, which will be used in the
-        # generation of the next page of reviews
+        # Increment the range_begin and i variables, which will be used
+        # in the generation of the next page of reviews
         range_begin += 10
         i += 1
 
 
 def parse_appids(appids, logger_name=None):
     '''
-    Parse the command-line argument passed in with the --appids flag, exiting
-    if any of the resulting IDs do not map to games in APPID_DICT.
+    Parse the command-line argument passed in with the --appids flag,
+    exiting if any of the resulting IDs do not map to games in
+    APPID_DICT.
 
     :param appids: game IDs
     :type appids: str
-    :param logger_name: name of logger initialized in driver program (default:
-                        None)
+    :param logger_name: name of logger initialized in driver program
+                        (default: None)
     :type logger_name: str
     :returns: list of game IDs
     '''
@@ -904,8 +929,8 @@ def parse_appids(appids, logger_name=None):
     if logger_name:
         logger = logging.getLogger(logger_name)
 
-    # Import APPID_DICT, containing a mapping between the appid strings and
-    # the names of the video games
+    # Import APPID_DICT, containing a mapping between the appid strings
+    # and the names of the video games
     from data import APPID_DICT
     appids = appids.split(',')
     for appid in appids:
@@ -917,7 +942,8 @@ def parse_appids(appids, logger_name=None):
 
 cdef read_reviews_from_game_file(file_path):
     '''
-    Generate list of review dictionaries from a single game's .jsonlines file.
+    Generate list of review dictionaries from a single game's
+    .jsonlines file.
 
     :param file_path: path to reviews file
     :type file_path: str
@@ -930,21 +956,23 @@ cdef read_reviews_from_game_file(file_path):
 
 def get_and_describe_dataset(file_path, report=True, reports_dir=None):
     '''
-    Return dictionary with a list of review dictionaries (filtered in terms of
-    the values for maximum/minimum review length and minimum/maximum hours
-    played values) and the number of original, English-language reviews
-    (before filtering); also produce a report with some descriptive statistics
-    and graphs.
+    Return dictionary with a list of review dictionaries (filtered in
+    terms of the values for maximum/minimum review length and
+    minimum/maximum hours played values) and the number of original,
+    English-language reviews (before filtering); also produce a report
+    with some descriptive statistics and graphs.
 
     :param file_path: path to game reviews .jsonlines file
     :type file_path: str
-    :param report: make a report describing the data-set (defaults to True)
+    :param report: make a report describing the data-set (defaults to
+                   True)
     :type report: boolean
-    :param reports_dir: path to directory where reports should be stored
+    :param reports_dir: path to directory where reports should be
+                        stored
     :type reports_dir: str
-    :returns: dict containing a 'reviews' key mapped to the list of read-in
-              review dictionaries and int values mapped to keys for MAXLEN,
-              MINLEN, MAXHOURS, and MINHOURS
+    :returns: dict containing a 'reviews' key mapped to the list of
+              read-in review dictionaries and int values mapped to keys
+              for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
     '''
 
     # Imports
@@ -998,10 +1026,12 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
         output.write('Minimum review length = {}\n'.format(min(lengths)))
         output.write('Maximum review length = {}\n'.format(max(lengths)))
         output.write('Standard deviation = {}\n\n\n'.format(stdl))
-    # Use the standard deviation to define the range of acceptable reviews
-    # (in terms of the length only) as within 4 standard deviations of the
-    # mean (but with the added caveat that the reviews be at least 50
-    # characters
+    '''
+    Use the standard deviation to define the range of acceptable
+    reviews (in terms of the length only) as within four standard
+    deviations of the mean (but with the added caveat that the reviews
+    be at least 50 characters.
+    '''
     cdef float minl = 50.0 if (meanl - 4*stdl) < 50 else (meanl - 4*stdl)
     cdef float maxl = meanl + 4*stdl
     if report:
@@ -1027,9 +1057,9 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
         output.write('Minimum experience = {}\n'.format(min(hours)))
         output.write('Maximum experience = {}\n'.format(max(hours)))
         output.write('Standard deviation = {}\n\n\n'.format(stdh))
-    # Use the standard deviation to define the range of acceptable reviews
-    # (in terms of experience) as within 4 standard deviations of the mean
-    # (starting from zero, actually)
+    # Use the standard deviation to define the range of acceptable
+    # reviews (in terms of experience) as within 4 standard deviations
+    # of the mean (starting from zero, actually)
     cdef float minh = 0.0
     cdef float maxh = meanh + 4*stdh
     # Write MAXLEN, MINLEN, etc. values to report
@@ -1070,11 +1100,11 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
 
 def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     '''
-    Return list of floating point number ranges (in increments of 0.1) that
-    correspond to each bin in the distribution.
+    Return list of floating point number ranges (in increments of 0.1)
+    that correspond to each bin in the distribution.
 
-    If the bin sizes should be weighted so that they become larger as they get
-    toward the end of the scale, specify a factor.
+    If the bin sizes should be weighted so that they become larger as
+    they get toward the end of the scale, specify a factor.
 
     :param _min: minimum value of the distribution
     :type _min: float
@@ -1083,20 +1113,23 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     :param nbins: number of bins into which the distribution is being
                   sub-divided (default: 5)
     :type nbins: int
-    :param factor: factor by which to multiply the bin sizes (default: 1.0)
+    :param factor: factor by which to multiply the bin sizes (default:
+                   1.0)
     :type factor: float
-    :returns: list of tuples representing the minimum and maximum values of
-              each bin
+    :returns: list of tuples representing the minimum and maximum
+              values of each bin
     '''
 
-    # Make a list of range units, one for each bin
-    # For example, if nbins = 5 and factor = 1.0, then range_parts will simply
-    # be a list of 1.0 values, i.e., each bin will be equal to one part of the
-    # range, or 1/5th in this case.
-    # If factor = 1.5, however, range_parts will then be [1.0, 1.5, 2.25,
-    # 3.375, 5.0625] and the first bin would be equal to the range divided by
-    # the sum of range_parts, or 1/13th of the range, while the last bin would
-    # be equal to about 5/13ths of the range.
+    '''
+    Make a list of range units, one for each bin. For example, if nbins
+    = 5 and factor = 1.0, then range_parts will simply be a list of 1.0
+    values, i.e., each bin will be equal to one part of the range, or
+    1/5th in this case. If factor = 1.5, however, range_parts will then
+    be [1.0, 1.5, 2.25, 3.375, 5.0625] and the first bin would be equal
+    to the range divided by the sum of range_parts, or 1/13th of the
+    range, while the last bin would be equal to about 5/13ths of the
+    range.
+    '''
     cdef float i = 1.0
     range_parts = [i]
     for _ in list(range(nbins))[1:]:
@@ -1111,9 +1144,9 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
         bin_ranges.append((round(current_min + 0.1, 1),
                            round(current_min + _range, 1)))
         current_min += _range
-    # Subtract 0.1 from the beginning of the first range tuple since 0.1 was
-    # artifically added to every range beginning value to ensure that the
-    # range tuples did not overlap in values
+    # Subtract 0.1 from the beginning of the first range tuple since
+    # 0.1 was artifically added to every range beginning value to
+    # ensure that the range tuples did not overlap in values
     bin_ranges[0] = (bin_ranges[0][0] - 0.1,
                      bin_ranges[0][1])
     return bin_ranges
@@ -1124,8 +1157,8 @@ def get_bin(bin_ranges, float val):
     Return the index of the bin range in which the value falls.
 
     :param bin_ranges: list of ranges that define each bin
-    :type bin_ranges: list of tuples representing the minimum and maximum
-                      values of a range of values
+    :type bin_ranges: list of tuples representing the minimum and
+                      maximum values of a range of values
     :param val: value
     :type val: float
     :returns: int (-1 if val not in any of the bin ranges)
@@ -1136,7 +1169,8 @@ def get_bin(bin_ranges, float val):
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
 
-        # Test if val is almost equal to the beginning or end of the range
+        # Test if val is almost equal to the beginning or end of the
+        # range
         try:
             assert_almost_equal(val,
                                 bin_range[0],
@@ -1163,9 +1197,9 @@ def get_bin(bin_ranges, float val):
 def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     make_train_test=False, bins=False):
     '''
-    Write .arff file either for a list of reviews read in from a file or list
-    of files or for both the training and test partitions in the MongoDB
-    database.
+    Write .arff file either for a list of reviews read in from a file
+    or list of files or for both the training and test partitions in
+    the MongoDB database.
 
     :param reviews: list of dicts with hours/review keys-value mappings
                     representing each data-point (defaults to None)
@@ -1176,19 +1210,20 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     :type dest_path: str
     :param file_names: list of extension-less game file-names
     :type file_names: list of str
-    :param make_train_test: if True, use MongoDB collection to find reviews
-                            that are from the training and test partitions and
-                            make files for them instead of making one big file
-                            (defaults to False)
+    :param make_train_test: if True, use MongoDB collection to find
+                            reviews that are from the training and test
+                            partitions and make files for them instead
+                            of making one big file (defaults to False)
     :type make_train_test: boolean
-    :param bins: if True or a list of bin range tuples, use collapsed hours
-                 played values (if make_train_test was also True, then the
-                 pre-computed collapsed hours values will be used (even if a
-                 list of ranges is passed in for some reason, i.e., the bin
-                 ranges will be ignored); if not, the passed-in value must be
-                 a list of 2-tuples representing the floating-point number
-                 ranges of the bins); if False, the original, unmodified hours
-                 played values will be used (default: False)
+    :param bins: if True or a list of bin range tuples, use collapsed
+                 hours played values (if make_train_test was also True,
+                 then the pre-computed collapsed hours values will be
+                 used (even if a list of ranges is passed in for some
+                 reason, i.e., the bin ranges will be ignored); if not,
+                 the passed-in value must be a list of 2-tuples
+                 representing the floating-point number ranges of the
+                 bins); if False, the original, unmodified hours played
+                 values will be used (default: False)
     :type bins: boolean or list of 2-tuples of floats
     :returns: None
     '''
@@ -1251,8 +1286,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     if make_train_test:
         # Make an ARFF file for each partition
         for partition in ['training', 'test']:
-            # Make empty list of lines to populate with ARFF-style lines,
-            # one per review
+            # Make empty list of lines to populate with ARFF-style
+            # lines, one per review
             reviews_lines = []
             # Get reviews for the given partition from all of the games
             game_docs = reviewdb.find({'partition': partition,
@@ -1300,11 +1335,12 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
         # one per review
         reviews_lines = []
         for rd in reviews:
-            # Remove single/double quotes from the reviews first...
+            # Remove single/double quotes from the reviews first
             review = sub(r'\'|"',
                          r'',
                          rd['review'].lower())
-            # Get rid of backslashes since they only make things confusing
+            # Get rid of backslashes since they only make things
+            # confusing
             review = sub(r'\\',
                          r'',
                          review)
