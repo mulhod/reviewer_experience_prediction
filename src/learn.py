@@ -26,7 +26,8 @@ from bson import BSON
 from pymongo import collection
 from skll.metrics import kappa
 from scipy.stats import (mode,
-                         pearsonr)
+                         pearsonr,
+                         linregress)
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.grid_search import ParameterGrid
 from sklearn.metrics import (precision_score,
@@ -80,6 +81,7 @@ _DEFAULT_PARAM_GRIDS = \
           'loss': ['epsilon_insensitive',
                    'squared_epsilon_insensitive']}}
 
+# Learners
 learner_names_dict = {MiniBatchKMeans: 'MiniBatchKMeans',
                       BernoulliNB: 'BernoulliNB',
                       MultinomialNB: 'MultinomialNB',
@@ -98,11 +100,30 @@ learner_abbrs_string = ', '.join(['"{}" ({})'.format(abbr,
                                   for abbr, learner
                                   in learner_abbrs_dict.items()])
 
-obj_funcs = frozenset({'r', 'significance', 'precision_macro',
-                       'precision_weighted', 'f1_macro', 'f1_weighted',
-                       'accuracy', 'uwk', 'uwk_off_by_one', 'qwk',
-                       'qwk_off_by_one', 'lwk', 'lwk_off_by_one'})
+# Objective functions
+obj_func_abbrs_dict = {'pearson_r': "Pearson's r",
+                       'significance': 'significance',
+                       'precision_macro': 'precision (macro)',
+                       'precision_weighted': 'precision (weighted)',
+                       'f1_macro': 'f1 (macro)',
+                       'f1_weighted': 'f1 (weighted)',
+                       'accuracy': 'accuracy',
+                       'uwk': 'unweighted kappa',
+                       'uwk_off_by_one': 'unweighted kappa (off by one)',
+                       'qwk': 'quadratic weighted kappa',
+                       'qwk_off_by_one':
+                           'quadratic weighted kappa (off by one)',
+                       'lwk': 'linear weighted kappa',
+                       'lwk_off_by_one': 'linear weighted kappa (off by one)'}
+obj_func_abbrs_string = ', '.join(['"{}"{}'
+                                   .format(abbr,
+                                           ' ({})'.format(obj_func)
+                                               if abbr != obj_func
+                                               else '')
+                                   for abbr, obj_func
+                                   in obj_func_abbrs_dict.items()])
 
+# Feature names
 labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'num_voted_helpfulness', 'num_groups',
                     'num_workshop_items', 'num_reviews', 'num_found_funny',
@@ -247,11 +268,11 @@ class IncrementalLearning:
 
         # Objective function
         self.objective = objective
-        if not self.objective in obj_funcs:
+        if not self.objective in obj_func_abbrs_dict:
             raise Exception('Unrecognized objective function used: {}. These '
                             'are the available objective functions: {}.'
                             .format(self.objective,
-                                    ', '.join(obj_funcs)))
+                                    obj_func_abbrs_string))
 
         # Learner-related variables
         self.vec = None
@@ -595,31 +616,60 @@ class IncrementalLearning:
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
-    def rank_experiments(self):
+    def rank_experiments_by_objective(self):
         '''
         Rank the experiments in relation to their performance in the
         objective function.
+
+        :returns: tuple of lists
         '''
 
         # Keep track of the performance
-        perfs = []
+        perfs_last_round = []
+        perfs_best_value = []
         dfs = []
+        slopes = []
 
         # Iterate over all experiments
-        for learner_name, learner_param_grid_stats \
-            in zip(self.learner_names,
-                   self.learner_param_grid_stats):
+        for learner_param_grid_stats in self.learner_param_grid_stats):
             for stats_df in learner_param_grid_stats:
-                perfs.append(stats_df[self.objective][len(stats_df) - 1])
+
+                # Fill "na" values with 0
+                stats_df = stats_df.fillna(value=0)
                 dfs.append(stats_df)
 
-        # Sort on performance
-        perfs_dfs = sorted(zip(perfs,
-                               dfs),
-                           key=lambda x: x[0],
-                           reverse=True)
+                # Get the performance in the last round
+                perf_last_round = stats_df[self.objective][len(stats_df) - 1]
+                perfs_last_round.append(perf)
 
-        return [perf_df[1] for perf_df in perfs_dfs]
+                # Get the best performance (in any round)
+                perf_best_value = stats_df[self.objective].max()
+                perfs_best_value.append(perf_best_value)
+
+                # Get the slope of the performance as the learning round
+                # increases
+                regression = linregress(stats_df[self.__learning_round__],
+                                        stats_df[self.objective])
+                slopes.append(regression.slope)
+
+        # Sort on objective function value in the last learning round, on the
+        # best objective function value (in any round), and on the slope of
+        # the objective function values as the learning round increases
+        perfs_dfs_by_raw_objective_value = sorted(zip(perfs_last_round,
+                                                      dfs),
+                                                  key=lambda x: x[0],
+                                                  reverse=True)
+        perfs_dfs_by_best_objective_value = sorted(zip(perfs_best_value,
+                                                       dfs),
+                                                  key=lambda x: x[0],
+                                                  reverse=True)
+        perfs_dfs_by_objective_slope = sorted(zip(slopes,
+                                                  dfs),
+                                              key=lambda x: x[0])
+
+        return ([perf_df[1] for perf_df in perfs_dfs_by_raw_objective_value],
+                [perf_df[1] for perf_df in perfs_dfs_by_best_objective_value],
+                [perf_df[1] for perf_df in perfs_dfs_by_objective_slope])
 
     def learning_round(self) -> None:
         '''
@@ -768,10 +818,10 @@ def main():
                         default='all')
     parser.add_argument('--obj_func',
                         help='Objective function to use in determining which '
-                             'set of parameters resulted in the best '
+                             'learner/set of parameters resulted in the best '
                              'performance.',
-                        choices=obj_funcs,
-                        default='r')
+                        choices=obj_func_abbrs_dict.keys(),
+                        default='qwk')
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
                         action='store_true',
@@ -889,10 +939,16 @@ def main():
         in zip(inc_learning.learner_names,
                inc_learning.learner_param_grid_stats):
         for i, stats_df in enumerate(learner_param_grid_stats):
+            stats_df = stats_df.fillna(value=0)
             stats_df.to_csv(join(output_dir,
                                  '{}_inc_learning_learner_stats_{}.csv'
                                  .format(learner_name, i)),
                             index=False)
+
+    # Rank experiments in terms of their performance with respect to the
+    (ranked_dfs_last_round,
+     ranked_dfs_best_value,
+     ranked_dfs_slope) = inc_learning.rank_experiments_by_objective()
 
     # Generate evaluation report for the majority baseline model, if
     # specified
