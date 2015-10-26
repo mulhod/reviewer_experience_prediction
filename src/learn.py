@@ -631,7 +631,7 @@ class IncrementalLearning:
         slopes = []
 
         # Iterate over all experiments
-        for learner_param_grid_stats in self.learner_param_grid_stats):
+        for learner_param_grid_stats in self.learner_param_grid_stats:
             for stats_df in learner_param_grid_stats:
 
                 # Fill "na" values with 0
@@ -941,11 +941,14 @@ def main():
         for i, stats_df in enumerate(learner_param_grid_stats):
             stats_df = stats_df.fillna(value=0)
             stats_df.to_csv(join(output_dir,
-                                 '{}_inc_learning_learner_stats_{}.csv'
-                                 .format(learner_name, i)),
+                                 '{}_{}_inc_learning_learner_stats_{}.csv'
+                                 .format(game, learner_name, i)),
                             index=False)
 
     # Rank experiments in terms of their performance with respect to the
+    # objective function in the last round of learning, their best performance
+    # (in any round), and the slope of their performance as the round
+    # increases
     (ranked_dfs_last_round,
      ranked_dfs_best_value,
      ranked_dfs_slope) = inc_learning.rank_experiments_by_objective()
