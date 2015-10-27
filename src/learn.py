@@ -806,7 +806,7 @@ def main():
                              'model. Use "all" to use all available '
                              'features or "none" to use no non-NLP features.',
                         type=str,
-                        default="all")
+                        default='all')
     parser.add_argument('--learners',
                         help='Comma-separated list of learning algorithms to '
                              'try. Refer to list of learners above to find '
@@ -874,7 +874,7 @@ def main():
                 [non_nlp_features.remove(feat) for feat in time_labels]
             else:
                 non_nlp_features.remove(y_label)
-        elif non_nlp_features == "none":
+        elif non_nlp_features == 'none':
             non_nlp_features = set()
         else:
             non_nlp_features = set(non_nlp_features.split(','))
@@ -890,12 +890,11 @@ def main():
                              'label is itself a time-related feature. '
                              'Exiting.')
                 exit(1)
-    else:
-        non_nlp_features = set()
+
     logger.info('Y label: {}'.format(y_label))
     logger.info('Non-NLP features to use: {}'
-                .format(', '.join(non_nlp_features if non_nlp_features
-                                                   else "none")))
+                .format(', '.join(non_nlp_features) if non_nlp_features
+                                                    else 'none'))
 
     # Get set of learners to use
     if learners == 'all':
