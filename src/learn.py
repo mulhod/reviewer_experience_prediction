@@ -649,11 +649,11 @@ class IncrementalLearning:
                 stats_df = stats_df.fillna(value=0)
                 dfs.append(stats_df)
 
-                if ordering = 'objective_last_round':
+                if ordering == 'objective_last_round':
                     # Get the performance in the last round
                     (performances
                      .append(stats_df[self.objective][len(stats_df) - 1]))
-                elif ordering = 'objective_best_round':
+                elif ordering == 'objective_best_round':
                     # Get the best performance (in any round)
                     performances.append(stats_df[self.objective].max())
                 else:
@@ -826,7 +826,7 @@ def main():
                         help='Order output reports by best last round '
                              'objective performance, best learning round '
                              'objective performance, or by best objective '
-                             'slope.'
+                             'slope.',
                         choices=orderings,
                         default='objective_last_round')
     parser.add_argument('--evaluate_majority_baseline',
