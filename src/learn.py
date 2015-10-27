@@ -134,8 +134,13 @@ labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'total_game_hours_last_two_weeks',
                     'num_achievements_percentage',
                     'num_achievements_possible'})
+labels_string = ', '.join(labels)
 time_labels = frozenset({'total_game_hours', 'total_game_hours_bin',
                          'total_game_hours_last_two_weeks'})
+
+# Orderings
+orderings = frozenset({'objective_last_round', 'objective_best_round',
+                       'objective_slope'})
 
 
 def _find_default_param_grid(learner: str) -> dict:
@@ -179,6 +184,7 @@ class IncrementalLearning:
     __learning_round__ = 'learning_round'
     __prediction_label__ = 'prediction_label'
     __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
+    __non_nlp_features__ = 'non-NLP features'
     __learner__ = 'learner'
     __learners_requiring_classes__ = frozenset({'BernoulliNB',
                                                 'MultinomialNB',
@@ -201,6 +207,7 @@ class IncrementalLearning:
     __lwk__ = 'lwk'
     __lwk_off_by_one__ = 'lwk_off_by_one'
     __possible_non_nlp_features__ = copy(labels)
+    __orderings__ = orderings
     __tab_join__ = '\t'.join
     __cnfmat_row__ = '{}{}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
@@ -253,12 +260,13 @@ class IncrementalLearning:
         if prediction_label in non_nlp_features:
             raise Exception('The prediction_label parameter ({}) cannot also '
                             'be in the list of non-NLP features to use in the'
-                            ' model:\n\n{}\n.'.format(prediction_label,
-                                                      non_nlp_features))
+                            ' model:\n\n{}\n.'
+                            .format(prediction_label,
+                                    ', '.join(non_nlp_features)))
         if not prediction_label in self.__possible_non_nlp_features__:
             raise Exception('The prediction label must be in the set of '
                             'features that can be extracted/used, i.e.: {}.'
-                            .format(self.__possible_non_nlp_features__))
+                            .format(labels_string))
 
         # MongoDB database
         self.db = db
@@ -616,19 +624,22 @@ class IncrementalLearning:
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
-    def rank_experiments_by_objective(self):
+    def rank_experiments_by_objective(self, ordering='objective_last_round'):
         '''
         Rank the experiments in relation to their performance in the
         objective function.
 
-        :returns: tuple of lists
+        :returns: list
         '''
 
+        if not ordering in self.__orderings__:
+            raise ValueError('ordering parameter not in the set of possible '
+                             'orderings: {}'
+                             .format(', '.join(self.__orderings__)))
+
         # Keep track of the performance
-        perfs_last_round = []
-        perfs_best_value = []
         dfs = []
-        slopes = []
+        performances = []
 
         # Iterate over all experiments
         for learner_param_grid_stats in self.learner_param_grid_stats:
@@ -638,38 +649,25 @@ class IncrementalLearning:
                 stats_df = stats_df.fillna(value=0)
                 dfs.append(stats_df)
 
-                # Get the performance in the last round
-                perf_last_round = stats_df[self.objective][len(stats_df) - 1]
-                perfs_last_round.append(perf)
+                if ordering = 'objective_last_round':
+                    # Get the performance in the last round
+                    (performances
+                     .append(stats_df[self.objective][len(stats_df) - 1]))
+                elif ordering = 'objective_best_round':
+                    # Get the best performance (in any round)
+                    performances.append(stats_df[self.objective].max())
+                else:
+                    # Get the slope of the performance as the learning round
+                    # increases
+                    regression = linregress(stats_df[self.__learning_round__],
+                                            stats_df[self.objective])
+                    performances.append(regression.slope)
 
-                # Get the best performance (in any round)
-                perf_best_value = stats_df[self.objective].max()
-                perfs_best_value.append(perf_best_value)
-
-                # Get the slope of the performance as the learning round
-                # increases
-                regression = linregress(stats_df[self.__learning_round__],
-                                        stats_df[self.objective])
-                slopes.append(regression.slope)
-
-        # Sort on objective function value in the last learning round, on the
-        # best objective function value (in any round), and on the slope of
-        # the objective function values as the learning round increases
-        perfs_dfs_by_raw_objective_value = sorted(zip(perfs_last_round,
-                                                      dfs),
-                                                  key=lambda x: x[0],
-                                                  reverse=True)
-        perfs_dfs_by_best_objective_value = sorted(zip(perfs_best_value,
-                                                       dfs),
-                                                  key=lambda x: x[0],
-                                                  reverse=True)
-        perfs_dfs_by_objective_slope = sorted(zip(slopes,
-                                                  dfs),
-                                              key=lambda x: x[0])
-
-        return ([perf_df[1] for perf_df in perfs_dfs_by_raw_objective_value],
-                [perf_df[1] for perf_df in perfs_dfs_by_best_objective_value],
-                [perf_df[1] for perf_df in perfs_dfs_by_objective_slope])
+        # Sort dataframes on ordering value and return
+        return [df[1] for df in sorted(zip(performances,
+                                           dfs),
+                                       key=lambda x: x[0],
+                                       reverse=True)]
 
     def learning_round(self) -> None:
         '''
@@ -736,7 +734,9 @@ class IncrementalLearning:
                                                 y_test_preds)),
                                    self.__learner__: learner_name,
                                    self.__params__: learner.get_params(),
-                                   self.__training_samples__: samples})
+                                   self.__training_samples__: samples,
+                                   self.__non_nlp_features__:
+                                       self.non_nlp_features})
                 (self.learner_param_grid_stats[i][j]
                  .append(pd.Series(stats_dict)))
 
@@ -822,6 +822,13 @@ def main():
                              'performance.',
                         choices=obj_func_abbrs_dict.keys(),
                         default='qwk')
+    parser.add_argument('--order_outputs_by',
+                        help='Order output reports by best last round '
+                             'objective performance, best learning round '
+                             'objective performance, or by best objective '
+                             'slope.'
+                        choices=orderings,
+                        default='objective_last_round')
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
                         action='store_true',
@@ -847,6 +854,7 @@ def main():
     test_limit = args.test_limit
     output_dir = realpath(args.output_dir)
     obj_func = args.obj_func
+    ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
 
     logger.info('Game: {}'.format(game))
@@ -886,7 +894,8 @@ def main():
         non_nlp_features = set()
     logger.info('Y label: {}'.format(y_label))
     logger.info('Non-NLP features to use: {}'
-                .format(', '.join(non_nlp_features)))
+                .format(', '.join(non_nlp_features if non_nlp_features
+                                                   else "none")))
 
     # Get set of learners to use
     if learners == 'all':
@@ -932,26 +941,22 @@ def main():
     makedirs(output_dir,
              exist_ok=True)
 
-    # Generate evaluation reports for the various learner/parameter
-    # grid combinations
-    logger.info('Generating reports for the incremental learning runs...')
-    for learner_name, learner_param_grid_stats \
-        in zip(inc_learning.learner_names,
-               inc_learning.learner_param_grid_stats):
-        for i, stats_df in enumerate(learner_param_grid_stats):
-            stats_df = stats_df.fillna(value=0)
-            stats_df.to_csv(join(output_dir,
-                                 '{}_{}_inc_learning_learner_stats_{}.csv'
-                                 .format(game, learner_name, i)),
-                            index=False)
-
     # Rank experiments in terms of their performance with respect to the
     # objective function in the last round of learning, their best performance
     # (in any round), and the slope of their performance as the round
     # increases
-    (ranked_dfs_last_round,
-     ranked_dfs_best_value,
-     ranked_dfs_slope) = inc_learning.rank_experiments_by_objective()
+    ranked_dfs = inc_learning.rank_experiments_by_objective(ordering=ordering)
+
+    # Generate evaluation reports for the various learner/parameter
+    # grid combinations
+    logger.info('Generating reports for the incremental learning runs ordered'
+                ' by {}...'.format(ordering))
+    for i, ranked_df in enumerate(ranked_dfs):
+        learner_name = ranked_df[self.__learner__].irow(0)
+        ranked_df.to_csv(join(output_dir,
+                              '{}_{}_learning_stats_{}.csv'
+                              .format(game, learner_name, i + 1)),
+                         index=False)
 
     # Generate evaluation report for the majority baseline model, if
     # specified
