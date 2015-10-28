@@ -967,7 +967,7 @@ def main():
         logger.info('Majority label: {}'.format(inc_learning.majority_label))
         (inc_learning.majority_baseline_stats
          .to_csv(join(output_dir,
-                      'majority_baseline_model_stats.csv'),
+                      '{}_majority_baseline_model_stats.csv'.format(game)),
                  index=False))
 
     logger.info('Complete.')
