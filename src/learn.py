@@ -954,7 +954,7 @@ def main():
     logger.info('Generating reports for the incremental learning runs ordered'
                 ' by {}...'.format(ordering))
     for i, ranked_df in enumerate(ranked_dfs):
-        learner_name = ranked_df[self.__learner__].irow(0)
+        learner_name = ranked_df[inc_learning.__learner__].irow(0)
         ranked_df.to_csv(join(output_dir,
                               '{}_{}_learning_stats_{}.csv'
                               .format(game, learner_name, i + 1)),
