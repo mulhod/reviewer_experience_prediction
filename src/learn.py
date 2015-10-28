@@ -739,7 +739,7 @@ class IncrementalLearning:
                                    self.__params__: learner.get_params(),
                                    self.__training_samples__: samples,
                                    self.__non_nlp_features__:
-                                       self.non_nlp_features})
+                                       ', '.join(self.non_nlp_features)})
                 (self.learner_param_grid_stats[i][j]
                  .append(pd.Series(stats_dict)))
 
