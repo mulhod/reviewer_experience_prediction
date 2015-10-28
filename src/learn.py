@@ -143,16 +143,19 @@ orderings = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
 
 
-def _find_default_param_grid(learner: str) -> dict:
+def _find_default_param_grid(learner: str, param_grids_dict: dict) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 
     :param learner: abbreviated string representation of a learner
     :type learner: str
+    :param param_grids_dict: dictionary of learner classes mapped to
+                             parameter grids
+    :type param_grids_dict: dict
     :returns: dict
     """
 
-    for key_cls, grid in _DEFAULT_PARAM_GRIDS.items():
+    for key_cls, grid in param_grids_dict.items():
         if issubclass(learner_dict[learner],
                       key_cls):
             return grid
@@ -211,7 +214,7 @@ class IncrementalLearning:
     __tab_join__ = '\t'.join
     __cnfmat_row__ = '{}{}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
-                         '(row=human, col=machine, labels={}):\n')
+                         '(row=actual, col=machine, labels={}):\n')
     __majority_label__ = 'majority_label'
     __majority_baseline_model__ = 'majority_baseline_model'
 
