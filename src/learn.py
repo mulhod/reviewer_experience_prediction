@@ -143,7 +143,8 @@ orderings = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
 
 
-def _find_default_param_grid(learner: str, param_grids_dict: dict) -> dict:
+def _find_default_param_grid(learner: str,
+                             param_grids_dict=_DEFAULT_PARAM_GRIDS) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 
