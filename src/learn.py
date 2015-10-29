@@ -884,10 +884,10 @@ def parse_non_nlp_features_string(features_string: str,
             [non_nlp_features.remove(label) for label in TIME_LABELS]
         else:
             non_nlp_features.remove(prediction_label)
-    elif non_nlp_features == 'none':
+    elif features_string == 'none':
         non_nlp_features = set()
     else:
-        non_nlp_features = set(non_nlp_features.split(','))
+        non_nlp_features = set(features_string.split(','))
         if not non_nlp_features.issubset(LABELS):
             raise Exception('Found unrecognized feature(s) in the list of '
                             'passed-in non-NLP features: {}. Available '
