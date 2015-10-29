@@ -10,7 +10,6 @@ etc.
 '''
 import logging
 from copy import copy
-from operator import or_
 from os import (listdir,
                 makedirs)
 from os.path import (join,
@@ -155,7 +154,11 @@ def _find_default_param_grid(learner: str,
     :param param_grids_dict: dictionary of learner classes mapped to
                              parameter grids
     :type param_grids_dict: dict
-    :returns: dict
+
+    :raises: Exception
+
+    :returns: parameter grid
+    :rtype: dict
     """
 
     for key_cls, grid in param_grids_dict.items():
@@ -371,9 +374,11 @@ class IncrementalLearning:
             self.majority_baseline_stats = None
             self.evaluate_majority_baseline_model()
 
-    def make_cursors(self):
+    def make_cursors(self) -> None:
         '''
         Make cursor objects for the training/test sets.
+
+        :rtype: None
         '''
 
         batch_size = 50
@@ -419,7 +424,9 @@ class IncrementalLearning:
 
         :param review_doc: review document from Mongo database
         :type review_doc: dict
-        :returns: dict
+
+        :returns: feature dictionary
+        :rtype: dict
         '''
 
         _get = review_doc.get
@@ -457,7 +464,8 @@ class IncrementalLearning:
         Get a list of training data dictionaries to use in model
         training.
 
-        :returns: list of dict
+        :returns: list of sample dictionaries
+        :rtype: list
         '''
 
         data = []
@@ -507,7 +515,8 @@ class IncrementalLearning:
         Get a list of test data dictionaries to use in model
         evaluation.
 
-        :returns: list of dict
+        :returns: list of sample dictionaries
+        :rtype: list
         '''
 
         data = []
@@ -547,7 +556,8 @@ class IncrementalLearning:
         '''
         Generate a majority baseline array of prediction labels.
 
-        :returns: np.array
+        :returns: array of prediction labels
+        :rtype: np.array
         '''
 
         self.majority_label = mode(self.y_test).mode[0]
@@ -556,6 +566,8 @@ class IncrementalLearning:
     def evaluate_majority_baseline_model(self) -> None:
         '''
         Evaluate the majority baseline model predictions.
+
+        :rtype: None
         '''
 
         stats_dict = self.get_stats(self.get_majority_baseline())
@@ -577,7 +589,8 @@ class IncrementalLearning:
 
         :param y_preds: array-like of predicted labels
         :type y_preds: array-like
-        :returns: (str, np.ndarray)
+        :returns: (printable confusion matrix: str, confusion matrix: np.ndarray)
+        :rtype: tuple
         '''
 
         cnfmat = confusion_matrix(self.y_test,
@@ -597,7 +610,9 @@ class IncrementalLearning:
 
         :param y_preds: array-like of predicted labels
         :type y_preds: array-like
-        :returns: array-like
+
+        :returns: array of prediction labels
+        :rtype: array-like
         '''
 
         # Get low/high ends of the scale
@@ -621,7 +636,9 @@ class IncrementalLearning:
 
         :param y_preds: array-like of predicted labels
         :type y_preds: array-like
-        :returns: dict
+
+        :returns: statistics dictionary
+        :rtype: dict
         """
 
         # Get Pearson r and significance
@@ -677,12 +694,16 @@ class IncrementalLearning:
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
-    def rank_experiments_by_objective(self, ordering='objective_last_round'):
+    def rank_experiments_by_objective(self, ordering='objective_last_round') -> list:
         '''
         Rank the experiments in relation to their performance in the
         objective function.
 
-        :returns: list
+        :param ordering: ranking method
+        :type ordering: str
+
+        :returns: list of dataframes
+        :rtype: list
         '''
 
         if not ordering in self.__orderings__:
@@ -725,6 +746,8 @@ class IncrementalLearning:
     def learning_round(self) -> None:
         '''
         Do learning rounds.
+
+        :rtype: None
         '''
 
         # Get some training data
@@ -808,6 +831,8 @@ class IncrementalLearning:
     def do_learning_rounds(self) -> None:
         '''
         Do rounds of learning.
+
+        :rtype: None
         '''
 
         # If a certain number of rounds has been specified, try to do
