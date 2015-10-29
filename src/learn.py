@@ -9,7 +9,6 @@ different machine learning algorithms and parameter customizations,
 etc.
 '''
 import logging
-from sys import exit
 from copy import copy
 from operator import or_
 from os import (listdir,
@@ -23,7 +22,8 @@ from warnings import filterwarnings
 import numpy as np
 import pandas as pd
 from bson import BSON
-from pymongo import collection
+from pymongo import (ASCENDING,
+                     collection)
 from skll.metrics import kappa
 from scipy.stats import (mode,
                          pearsonr,
@@ -55,53 +55,51 @@ sh.setFormatter(formatter)
 sh.setLevel(logging.INFO)
 logger.addHandler(sh)
 
-project_dir = dirname(dirname(realpath(__file__)))
-
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running IncrementalLearning
 filterwarnings("ignore")
 
-seed = 123456789
+SEED = 123456789
 
 # Define default parameter grids
 _DEFAULT_PARAM_GRIDS = \
     {MiniBatchKMeans: {'n_clusters': [4, 6, 8, 12],
                        'init' : ['k-means++', 'random'],
-                       'random_state': [seed]},
+                       'random_state': [SEED]},
      BernoulliNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
      MultinomialNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
      Perceptron: {'penalty': [None, 'l2', 'l1', 'elasticnet'],
                   'alpha': [0.0001, 0.001, 0.01, 0.1],
                   'n_iter': [5, 10],
-                  'random_state': [seed]},
+                  'random_state': [SEED]},
      PassiveAggressiveRegressor:
          {'C': [0.01, 0.1, 1.0, 10.0, 100.0],
           'n_iter': [5, 10],
-          'random_state': [seed],
+          'random_state': [SEED],
           'loss': ['epsilon_insensitive',
                    'squared_epsilon_insensitive']}}
 
 # Learners
-learner_names_dict = {MiniBatchKMeans: 'MiniBatchKMeans',
+LEARNER_NAMES_DICT = {MiniBatchKMeans: 'MiniBatchKMeans',
                       BernoulliNB: 'BernoulliNB',
                       MultinomialNB: 'MultinomialNB',
                       Perceptron: 'Perceptron',
                       PassiveAggressiveRegressor:
                           'PassiveAggressiveRegressor'}
-learner_abbrs_dict = {'mbkm': 'MiniBatchKMeans',
+LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'bnb': 'BernoulliNB',
                       'mnb': 'MultinomialNB',
                       'perc': 'Perceptron',
                       'pagr': 'PassiveAggressiveRegressor'}
-learner_dict_keys = frozenset(learner_abbrs_dict.keys())
-learner_dict = {k: eval(learner_abbrs_dict[k]) for k in learner_dict_keys}
-learner_abbrs_string = ', '.join(['"{}" ({})'.format(abbr,
+LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
+LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}
+LEARNER_ABBRS_STRING = ', '.join(['"{}" ({})'.format(abbr,
                                                      learner)
                                   for abbr, learner
-                                  in learner_abbrs_dict.items()])
+                                  in LEARNER_ABBRS_DICT.items()])
 
 # Objective functions
-obj_func_abbrs_dict = {'pearson_r': "Pearson's r",
+OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                        'significance': 'significance',
                        'precision_macro': 'precision (macro)',
                        'precision_weighted': 'precision (weighted)',
@@ -115,16 +113,16 @@ obj_func_abbrs_dict = {'pearson_r': "Pearson's r",
                            'quadratic weighted kappa (off by one)',
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
-obj_func_abbrs_string = ', '.join(['"{}"{}'
+OBJ_FUNC_ABBRS_STRING = ', '.join(['"{}"{}'
                                    .format(abbr,
                                            ' ({})'.format(obj_func)
                                                if abbr != obj_func
                                                else '')
                                    for abbr, obj_func
-                                   in obj_func_abbrs_dict.items()])
+                                   in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
-labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
+LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'num_voted_helpfulness', 'num_groups',
                     'num_workshop_items', 'num_reviews', 'num_found_funny',
                     'friend_player_level', 'num_badges', 'num_found_helpful',
@@ -134,13 +132,17 @@ labels = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'total_game_hours_last_two_weeks',
                     'num_achievements_percentage',
                     'num_achievements_possible'})
-labels_string = ', '.join(labels)
-time_labels = frozenset({'total_game_hours', 'total_game_hours_bin',
+LABELS_STRING = ', '.join(LABELS)
+TIME_LABELS = frozenset({'total_game_hours', 'total_game_hours_bin',
                          'total_game_hours_last_two_weeks'})
 
 # Orderings
-orderings = frozenset({'objective_last_round', 'objective_best_round',
+ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
+
+# Valid games
+VALID_GAMES = frozenset([game for game in list(APPID_DICT)
+                         if game != 'sample'])
 
 
 def _find_default_param_grid(learner: str,
@@ -157,7 +159,7 @@ def _find_default_param_grid(learner: str,
     """
 
     for key_cls, grid in param_grids_dict.items():
-        if issubclass(learner_dict[learner],
+        if issubclass(LEARNER_DICT[learner],
                       key_cls):
             return grid
     raise Exception('Unrecognized learner abbreviation: {}'.format(learner))
@@ -170,12 +172,16 @@ class IncrementalLearning:
     '''
 
     # Constants
-    __game__ = 'game'
+    __games__ = 'games'
+    __test_games__ = 'test_games'
+    __all_games__ = 'all_games'
     __partition__ = 'partition'
     __training__ = 'training'
     __test__ = 'test'
     __nlp_feats__ = 'nlp_features'
     __achieve_prog__ = 'achievement_progress'
+    __steam_id__ = 'steam_id_number'
+    __in_op__ = '$in'
     __nan__ = float("NaN")
     __x__ = 'x'
     __y__ = 'y'
@@ -210,8 +216,8 @@ class IncrementalLearning:
     __qwk_off_by_one__ = 'qwk_off_by_one'
     __lwk__ = 'lwk'
     __lwk_off_by_one__ = 'lwk_off_by_one'
-    __possible_non_nlp_features__ = copy(labels)
-    __orderings__ = orderings
+    __possible_non_nlp_features__ = copy(LABELS)
+    __orderings__ = copy(ORDERINGS)
     __tab_join__ = '\t'.join
     __cnfmat_row__ = '{}{}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
@@ -219,8 +225,8 @@ class IncrementalLearning:
     __majority_label__ = 'majority_label'
     __majority_baseline_model__ = 'majority_baseline_model'
 
-    def __init__(self, db: collection, game: str, learners, param_grids: dict,
-                 round_size: int, non_nlp_features: list,
+    def __init__(self, db: collection, games: set, test_games: set, learners,
+                 param_grids: dict, round_size: int, non_nlp_features: list,
                  prediction_label: str, objective: str, test_limit=0,
                  rounds=0, majority_baseline=False):
         '''
@@ -228,8 +234,10 @@ class IncrementalLearning:
 
         :param db: MongoDB database collection object
         :type db: collection
-        :param game: game
-        :type game: str
+        :param games: set of games to use for training models
+        :type games: set
+        :param test_games: set of games to use for evaluating models
+        :type test_games: set
         :param learners: algorithms to use for learning
         :type learners: list of learners
         :param param_grids: list of dictionaries of parameters mapped
@@ -253,11 +261,15 @@ class IncrementalLearning:
                        possible)
         :type rounds: int
         :param majority_baseline: evaluate a majority baseline model
-        :type majority_baseline: boolean
-        :returns: list of dict
+        :type majority_baseline: bool
+
+        :returns: instance of IncrementalLearning class
+        :rtype: IncrementalLearning
+
+        :raises: Exception
         '''
 
-        # Make sure parameters make some sense
+        # Make sure parameters make sense/are valid
         if round_size < 1:
             raise Exception('The round_size parameter should have a positive'
                             ' value.')
@@ -270,27 +282,41 @@ class IncrementalLearning:
         if not prediction_label in self.__possible_non_nlp_features__:
             raise Exception('The prediction label must be in the set of '
                             'features that can be extracted/used, i.e.: {}.'
-                            .format(labels_string))
+                            .format(LABELS_STRING))
+        if not all(_games.issubset(VALID_GAMES) for _games
+                   in [games, test_games]):
+            raise Exception('Unrecognized game(s)/test game(s): {}. The games'
+                            ' must be in the following list of available '
+                            'games: {}.'
+                            .format(', '.join(games.union(test_games)),
+                                    ', '.join(APPID_DICT)))
 
         # MongoDB database
         self.db = db
 
-        # Game
-        self.game = game
+        # Games
+        self.games = games
+        if not self.games:
+            raise Exception('The set of games must be greater than zero!')
+        self.games_string = ', '.join(self.games)
+        self.test_games = test_games
+        if not self.test_games:
+            raise Exception('The set of games must be greater than zero!')
+        self.test_games_string = ', '.join(self.test_games)
 
         # Objective function
         self.objective = objective
-        if not self.objective in obj_func_abbrs_dict:
+        if not self.objective in OBJ_FUNC_ABBRS_DICT:
             raise Exception('Unrecognized objective function used: {}. These '
                             'are the available objective functions: {}.'
                             .format(self.objective,
-                                    obj_func_abbrs_string))
+                                    OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [learner_names_dict[learner]
+        self.learner_names = [LEARNER_NAMES_DICT[learner]
                               for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid
@@ -350,19 +376,38 @@ class IncrementalLearning:
         Make cursor objects for the training/test sets.
         '''
 
-        # Make training data cursor
         batch_size = 50
-        self.training_cursor = \
-            self.db.find({self.__game__: self.game,
-                          self.__partition__: self.__training__},
-                         timeout=False)
+        sorting_args = [(self.__steam_id__, ASCENDING)]
+
+        # Make training data cursor
+        if len(self.games) == 1:
+            train_query = {self.__game__: self.games[0],
+                           self.__partition__: self.__training__}
+        elif not VALID_GAMES.difference(self.games):
+            train_query = {self.__partition__: self.__training__}
+        else:
+            train_query = {self.__game__: {self.__in_op__: list(self.games)},
+                           self.__partition__: self.__training__}
+        self.training_cursor = (self.db
+                                .find(train_query,
+                                      timeout=False)
+                                .sort(sorting_args))
         self.training_cursor.batch_size = batch_size
 
         # Make test data cursor
-        self.test_cursor = \
-            self.db.find({self.__game__: self.game,
-                          self.__partition__: self.__test__},
-                         timeout=False)
+        if len(self.test_games) == 1:
+            test_query = {self.__game__: self.test_games[0],
+                          self.__partition__: self.__test__}
+        elif not VALID_GAMES.difference(self.test_games):
+            test_query = {self.__partition__: self.__test__}
+        else:
+            test_query = {self.__game__: {self.__in_op__:
+                                              list(self.test_games)},
+                           self.__partition__: self.__test__}
+        self.test_cursor = (self.db
+                            .find(test_query,
+                                  timeout=False)
+                            .sort(sorting_args))
         if self.test_limit:
             self.test_cursor = self.test_cursor.limit(self.test_limit)
         self.test_cursor.batch_size = batch_size
@@ -514,7 +559,11 @@ class IncrementalLearning:
         '''
 
         stats_dict = self.get_stats(self.get_majority_baseline())
-        stats_dict.update({self.__game__: self.game,
+        stats_dict.update({self.__test_games__:
+                               ', '.join(self.test_games)
+                                           if (self.test_games
+                                               .difference(VALID_GAMES))
+                                           else self.__all_games__,
                            self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
                            self.__learner__:
@@ -729,7 +778,16 @@ class IncrementalLearning:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__game__: self.game,
+                stats_dict.update({self.__games__:
+                                       ', '.join(self.games)
+                                           if (self.games
+                                               .difference(VALID_GAMES))
+                                           else self.__all_games__,
+                                   self.__test_games__:
+                                       ', '.join(self.test_games)
+                                           if (self.test_games
+                                               .difference(VALID_GAMES))
+                                           else self.__all_games__,
                                    self.__learning_round__: int(self.round),
                                    self.__prediction_label__:
                                        self.prediction_label,
@@ -767,16 +825,139 @@ class IncrementalLearning:
                 self.learning_round()
 
 
+def parse_learners_string(learners_string) -> set:
+    '''
+    Parse command-line argument consisting of a set of learners to
+    use (or the value "all" for all possible learners).
+
+    :param learners_string: comma-separated list of learner
+                            abbreviations (or "all" for all possible
+                            learners)
+    :type learners_string: str
+
+    :returns: set of learner abbreviations
+    :rtype: set
+
+    :raises: Exception
+    '''
+
+    if learners_string == 'all':
+        learners = set(LEARNER_DICT_KEYS)
+    else:
+        learners = set(learners_string.split(','))
+        if not learners.issubset(LEARNER_DICT_KEYS):
+            raise Exception('Found unrecognized learner(s) in list of '
+                            'passed-in learners: {}. Available learners: {}.'
+                            .format(', '.join(learners),
+                                    LEARNER_ABBRS_STRING))
+
+    return learners
+
+
+def parse_non_nlp_features_string(features_string: str,
+                                  prediction_label: str) -> set:
+    '''
+    Parse command-line argument consisting of a set of non-NLP features
+    (or one of the values "all" or "none" for all or none of the
+    possible non-NLP features).
+
+    If the prediction label is one of the time features, take other
+    time features out of the set of non-NLP features since the
+    information could be duplicated.
+
+    :param features_string: comma-separated list of non-NLP features
+                            (or "all"/"none" for all/none of the
+                            possible non-NLP features)
+    :type features_string: str
+    :param prediction_label: the feature that is being predicted
+    :type prediction_label: str
+
+    :returns: set of non-NLP features to use
+    :rtype: set
+
+    :raises: Exception
+    '''
+
+    if features_string == 'all':
+        non_nlp_features = set(LABELS)
+        if prediction_label in TIME_LABELS:
+            [non_nlp_features.remove(label) for label in TIME_LABELS]
+        else:
+            non_nlp_features.remove(prediction_label)
+    elif non_nlp_features == 'none':
+        non_nlp_features = set()
+    else:
+        non_nlp_features = set(non_nlp_features.split(','))
+        if not non_nlp_features.issubset(LABELS):
+            raise Exception('Found unrecognized feature(s) in the list of '
+                            'passed-in non-NLP features: {}. Available '
+                            'features: {}.'
+                            .format(', '.join(non_nlp_features),
+                                    ', '.join(LABELS)))
+        if (prediction_label in TIME_LABELS
+            and non_nlp_features.intersection(TIME_LABELS)):
+            raise Exception('The list of non-NLP features should not '
+                            'contain any of the time-related features if '
+                            'the prediction label is itself a '
+                            'time-related feature.')
+
+    return non_nlp_features
+
+
+def parse_games_string(games_string: str) -> set:
+    '''
+    Parse games string passed in via the command-line into a set of
+    valid games (or the value "all" for all games).
+
+    :param games_string: comma-separated list of games (or "all")
+    :type games_string: str
+
+    :returns: set of games
+    :rtype: set
+
+    :raises: Exception
+    '''
+
+    # Return empty set for empty string
+    if not games_string:
+        return set()
+
+    # Return the full list of games if 'all' is used
+    if games_string == 'all':
+        return set(VALID_GAMES)
+
+    # Parse string
+    specified_games = games_string.split(',')
+
+    # Raise exception if the list contains unrecognized games
+    if any(game not in VALID_GAMES for game in specified_games):
+        raise Exception('Found unrecognized games in the list of specified '
+                        'games: {}. These are the valid games (in addition to'
+                        ' using "all" for all games): {}.'
+                        .format(', '.join(specified_games),
+                                ', '.join(VALID_GAMES)))
+    return set(specified_games)
+
+
 def main():
     parser = ArgumentParser(description='Run incremental learning '
                                         'experiments.',
                             formatter_class=ArgumentDefaultsHelpFormatter,
                             conflict_handler='resolve')
-    parser.add_argument('--game',
-                        help='Game to use in experiments.',
-                        choices=[game for game in APPID_DICT.keys()
-                                 if not game.startswith('sample')],
+    parser.add_argument('--games',
+                        help='Game(s) to use in experiments; or "all" to use '
+                             'data from all games. If --test_games is not '
+                             'specified, then it is assumed that the '
+                             'evaluation will be against data from the same '
+                             'game(s).',
+                        type=str,
                         required=True)
+    parser.add_argument('--test_games',
+                        help='Game(s) to use for evaluation data (or "all" '
+                             'for data from all games). Only specify if the '
+                             'value is different from that specified via '
+                             '--games.',
+                        type=str)
     parser.add_argument('--output_dir',
                         help='Directory in which to output data related to '
                              'the results of the conducted experiments.',
@@ -800,9 +981,9 @@ def main():
                              ' for evaluation.',
                         type=int,
                         default=1000)
-    parser.add_argument('--y_label',
+    parser.add_argument('--prediction_label',
                         help='Label to predict.',
-                        choices=labels,
+                        choices=LABELS,
                         default='total_game_hours_bin')
     parser.add_argument('--non_nlp_features',
                         help='Comma-separated list of non-NLP features to '
@@ -817,21 +998,21 @@ def main():
                              'out which abbreviations stand for which '
                              'learners. Set of available learners: {}. Use '
                              '"all" to include all available learners.'
-                             .format(learner_abbrs_string),
+                             .format(LEARNER_ABBRS_STRING),
                         type=str,
                         default='all')
     parser.add_argument('--obj_func',
                         help='Objective function to use in determining which '
                              'learner/set of parameters resulted in the best '
                              'performance.',
-                        choices=obj_func_abbrs_dict.keys(),
+                        choices=OBJ_FUNC_ABBRS_DICT.keys(),
                         default='qwk')
     parser.add_argument('--order_outputs_by',
                         help='Order output reports by best last round '
                              'objective performance, best learning round '
                              'objective performance, or by best objective '
                              'slope.',
-                        choices=orderings,
+                        choices=ORDERINGS,
                         default='objective_last_round')
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
@@ -847,12 +1028,16 @@ def main():
         default=37017)
     args = parser.parse_args()
 
-    game = args.game
+    # Command-line arguments and flags
+    games = parse_games_string(args.games)
+    test_games = parse_games_string(args.test_games if args.test_games
+                                                    else args.games)
     rounds = args.rounds
     samples_per_round = args.samples_per_round
-    non_nlp_features = args.non_nlp_features
-    y_label = args.y_label
-    learners = args.learners
+    prediction_label = args.prediction_label
+    non_nlp_features = parse_non_nlp_features_string(args.non_nlp_features,
+                                                     prediction_label)
+    learners = parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
     test_limit = args.test_limit
@@ -861,57 +1046,31 @@ def main():
     ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
 
-    logger.info('Game: {}'.format(game))
+    if games == test_games:
+        logger.info('Game{} to train/evaluate models on: {}'
+                    .format('s' if len(games) > 1 else '',
+                            ', '.join(games) if VALID_GAMES.difference(games)
+                                             else 'all games'))
+    else:
+        logger.info('Game{} to train models on: {}'
+                    .format('s' if len(games) > 1 else '',
+                            ', '.join(games) if VALID_GAMES.difference(games)
+                                             else 'all games'))
+        logger.info('Game{} to evaluate models against: {}'
+                    .format('s' if len(test_games) > 1 else '',
+                            ', '.join(test_games)
+                                if VALID_GAMES.difference(test_games)
+                                else 'all games'))
     logger.info('Maximum number of learning rounds to conduct: {}'
                 .format(rounds if rounds > 0
                                   else "as many as possible"))
-    logger.info('Maximum number of training samples to use in each eround: {}'
+    logger.info('Maximum number of training samples to use in each round: {}'
                 .format(samples_per_round))
-
-    # Get list of non-NLP features to include; if the prediction label
-    # is one of the time features, take other time features out of the
-    # set of non-NLP features since the information could be duplicated
-    if non_nlp_features:
-        if non_nlp_features == 'all':
-            non_nlp_features = set(copy(labels))
-            if y_label in time_labels:
-                [non_nlp_features.remove(feat) for feat in time_labels]
-            else:
-                non_nlp_features.remove(y_label)
-        elif non_nlp_features == 'none':
-            non_nlp_features = set()
-        else:
-            non_nlp_features = set(non_nlp_features.split(','))
-            if any(not feat in labels for feat in non_nlp_features):
-                logger.error('Found unrecognized feature in the list of '
-                             'passed-in non-NLP features. Available features:'
-                             ' {}. Exiting.'.format(', '.join(labels)))
-                exit(1)
-            if (y_label in time_labels
-                and non_nlp_features.intersection(time_labels)):
-                logger.error('The list of non-NLP features should not contain'
-                             ' any of the time-related features if the "y" '
-                             'label is itself a time-related feature. '
-                             'Exiting.')
-                exit(1)
-
-    logger.info('Y label: {}'.format(y_label))
+    logger.info('Prediction label: {}'.format(prediction_label))
     logger.info('Non-NLP features to use: {}'
                 .format(', '.join(non_nlp_features) if non_nlp_features
                                                     else 'none'))
-
-    # Get set of learners to use
-    if learners == 'all':
-        learners = set(copy(learner_dict_keys))
-    else:
-        learners = set(learners.split(','))
-        if not learners.issubset(learner_dict_keys):
-            logger.error('Found unrecognized learner(s) in list of passed-in '
-                         'learners: {}. Available learners: {}. Exiting.'
-                         .format(', '.join(learners),
-                                 learner_abbrs_string))
-            exit(1)
-    logger.info('Learners: {}'.format(', '.join([learner_abbrs_dict[learner]
+    logger.info('Learners: {}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                                  for learner in learners])))
     logger.info('Using {} as the objective function'.format(obj_func))
 
@@ -923,17 +1082,25 @@ def main():
     db = connect_to_db(host=host,
                        port=port)
 
+    # Check to see if the database has the proper index and, if not,
+    # index the database here
+    index_name = 'steam_id_number_1'
+    if not index_name in db.index_information():
+        logger.debug('Creating index on the "steam_id_number" key...')
+        db.create_index('steam_id_number', ASCENDING)
+
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
     inc_learning = \
         IncrementalLearning(db,
-                            game,
-                            [learner_dict[learner] for learner in learners],
+                            games,
+                            test_games,
+                            [LEARNER_DICT[learner] for learner in learners],
                             [_find_default_param_grid(learner)
                              for learner in learners],
                             samples_per_round,
                             non_nlp_features,
-                            y_label,
+                            prediction_label,
                             obj_func,
                             test_limit=test_limit,
                             rounds=rounds,
