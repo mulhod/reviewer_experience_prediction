@@ -10,11 +10,8 @@ etc.
 '''
 import logging
 from copy import copy
-from os import (listdir,
-                makedirs)
+from os import makedirs
 from os.path import (join,
-                     exists,
-                     dirname,
                      realpath)
 from warnings import filterwarnings
 
