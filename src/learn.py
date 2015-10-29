@@ -530,11 +530,9 @@ class IncrementalLearning:
                 y_value = _get(self.prediction_label,
                                None)
                 if y_value == None:
-                    i += 1
                     continue
                 del feature_dict[self.prediction_label]
             else:
-                i += 1
                 continue
 
             # Get ID and remove from feature dictionary
