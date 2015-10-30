@@ -383,7 +383,7 @@ class IncrementalLearning:
 
         # Make training data cursor
         if len(self.games) == 1:
-            train_query = {self.__game__: self.games[0],
+            train_query = {self.__game__: list(self.games)[0],
                            self.__partition__: self.__training__}
         elif not VALID_GAMES.difference(self.games):
             train_query = {self.__partition__: self.__training__}
@@ -398,7 +398,7 @@ class IncrementalLearning:
 
         # Make test data cursor
         if len(self.test_games) == 1:
-            test_query = {self.__game__: self.test_games[0],
+            test_query = {self.__game__: list(self.test_games)[0],
                           self.__partition__: self.__test__}
         elif not VALID_GAMES.difference(self.test_games):
             test_query = {self.__partition__: self.__test__}
@@ -959,7 +959,7 @@ def parse_games_string(games_string: str) -> set:
     return set(specified_games)
 
 
-def main():
+def main(argv=None):
     parser = ArgumentParser(description='Run incremental learning '
                                         'experiments.',
                             formatter_class=ArgumentDefaultsHelpFormatter,
