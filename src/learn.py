@@ -1013,7 +1013,7 @@ def main(argv=None):
                              'model. Use "all" to use all available '
                              'features or "none" to use no non-NLP features.',
                         type=str,
-                        default='all')
+                        default='none')
     parser.add_argument('--learners',
                         help='Comma-separated list of learning algorithms to '
                              'try. Refer to list of learners above to find '
@@ -1039,7 +1039,7 @@ def main(argv=None):
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
                         action='store_true',
-                        default=False)
+                        default=True)
     parser.add_argument('-dbhost', '--mongodb_host',
         help='Host that the MongoDB server is running on.',
         type=str,
