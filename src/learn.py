@@ -172,7 +172,7 @@ class IncrementalLearning:
     '''
 
     # Constants
-    __games__ = 'games'
+    __game__ = 'game'
     __test_games__ = 'test_games'
     __all_games__ = 'all_games'
     __partition__ = 'partition'
@@ -383,12 +383,12 @@ class IncrementalLearning:
 
         # Make training data cursor
         if len(self.games) == 1:
-            train_query = {self.__games__: list(self.games)[0],
+            train_query = {self.__game__: list(self.games)[0],
                            self.__partition__: self.__training__}
         elif not VALID_GAMES.difference(self.games):
             train_query = {self.__partition__: self.__training__}
         else:
-            train_query = {self.__games__: {self.__in_op__: list(self.games)},
+            train_query = {self.__game__: {self.__in_op__: list(self.games)},
                            self.__partition__: self.__training__}
         self.training_cursor = (self.db
                                 .find(train_query,
@@ -398,12 +398,12 @@ class IncrementalLearning:
 
         # Make test data cursor
         if len(self.test_games) == 1:
-            test_query = {self.__games__: list(self.test_games)[0],
+            test_query = {self.__game__: list(self.test_games)[0],
                           self.__partition__: self.__test__}
         elif not VALID_GAMES.difference(self.test_games):
             test_query = {self.__partition__: self.__test__}
         else:
-            test_query = {self.__games__: {self.__in_op__:
+            test_query = {self.__game__: {self.__in_op__:
                                               list(self.test_games)},
                            self.__partition__: self.__test__}
         self.test_cursor = (self.db
