@@ -173,6 +173,7 @@ class IncrementalLearning:
 
     # Constants
     __game__ = 'game'
+    __games__ = 'games'
     __test_games__ = 'test_games'
     __all_games__ = 'all_games'
     __partition__ = 'partition'
@@ -796,7 +797,8 @@ class IncrementalLearning:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__games__:
+                stats_dict.update({self.__games__ if len(self.games) > 1
+                                                  else self.__game__:
                                        ', '.join(self.games)
                                            if (self.games
                                                .difference(VALID_GAMES))
