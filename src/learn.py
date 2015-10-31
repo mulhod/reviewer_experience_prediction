@@ -11,6 +11,7 @@ etc.
 import logging
 from copy import copy
 from os import makedirs
+from itertools import chain
 from os.path import (join,
                      realpath)
 from warnings import filterwarnings
@@ -738,6 +739,32 @@ class IncrementalLearning:
                                            dfs),
                                        key=lambda x: x[0],
                                        reverse=True)]
+
+    def get_sorted_features_for_learner(self, learner, _labels):
+        '''
+        Get the best-performing features in a learner.
+
+        :param learner: learner
+        :type learner: learner instance
+        '''
+
+        # Store feature coefficient tuples
+        coef_features = []
+
+        # Get list of feature coefficient tuples
+        for index, feat in enumerate(self.vec.get_feature_names()):
+
+            # Get list of coefficient arrays for the different classes
+            coef_indices = []
+            for i in range(len(self.classes)):
+                coef_indices.append(learner.coef_[i][index])
+
+            # Append feature coefficient tuple to list of tuples
+            coef_features.append(tuple(list(chain([feat],
+                                                  zip(self.classes,
+                                                      coef_indices)))))
+
+        return coef_features
 
     def learning_round(self) -> None:
         '''
