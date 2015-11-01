@@ -1,5 +1,5 @@
 #!/usr/env python3.4
-'''
+"""
 :author: Matt Mulholland (mulhodm@gmail.com)
 :date: 10/14/2015
 
@@ -7,7 +7,7 @@ Command-line utility for the IncrementalLearning class, which enables
 one to run experiments on subsets of the data with a number of
 different machine learning algorithms and parameter customizations,
 etc.
-'''
+"""
 import logging
 from copy import copy
 from os import makedirs
@@ -90,10 +90,8 @@ LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'pagr': 'PassiveAggressiveRegressor'}
 LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
 LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}
-LEARNER_ABBRS_STRING = ', '.join(['"{}" ({})'.format(abbr,
-                                                     learner)
-                                  for abbr, learner
-                                  in LEARNER_ABBRS_DICT.items()])
+LEARNER_ABBRS_STRING = ', '.join(['"{}" ({})'.format(abbr, learner)
+                                  for abbr, learner in LEARNER_ABBRS_DICT.items()])
 
 # Objective functions
 OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
@@ -110,13 +108,10 @@ OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                            'quadratic weighted kappa (off by one)',
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
-OBJ_FUNC_ABBRS_STRING = ', '.join(['"{}"{}'
-                                   .format(abbr,
-                                           ' ({})'.format(obj_func)
-                                               if abbr != obj_func
-                                               else '')
-                                   for abbr, obj_func
-                                   in OBJ_FUNC_ABBRS_DICT.items()])
+OBJ_FUNC_ABBRS_STRING = \
+    ', '.join(['"{}"{}'.format(abbr,
+                               ' ({})'.format(obj_func) if abbr != obj_func else '')
+               for abbr, obj_func in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
 LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
@@ -160,17 +155,16 @@ def _find_default_param_grid(learner: str,
     """
 
     for key_cls, grid in param_grids_dict.items():
-        if issubclass(LEARNER_DICT[learner],
-                      key_cls):
+        if issubclass(LEARNER_DICT[learner], key_cls):
             return grid
     raise Exception('Unrecognized learner abbreviation: {}'.format(learner))
 
 
 class IncrementalLearning:
-    '''
+    """
     Class for conducting incremental learning experiments with a
     parameter grid and a learner.
-    '''
+    """
 
     # Constants
     __game__ = 'game'
@@ -231,7 +225,7 @@ class IncrementalLearning:
                  param_grids: dict, round_size: int, non_nlp_features: list,
                  prediction_label: str, objective: str, test_limit=0,
                  rounds=0, majority_baseline=False):
-        '''
+        """
         Initialize class.
 
         :param db: MongoDB database collection object
@@ -269,7 +263,7 @@ class IncrementalLearning:
         :rtype: IncrementalLearning
 
         :raises: Exception
-        '''
+        """
 
         # Make sure parameters make sense/are valid
         if round_size < 1:
@@ -279,14 +273,12 @@ class IncrementalLearning:
             raise Exception('The prediction_label parameter ({}) cannot also '
                             'be in the list of non-NLP features to use in the'
                             ' model:\n\n{}\n.'
-                            .format(prediction_label,
-                                    ', '.join(non_nlp_features)))
+                            .format(prediction_label, ', '.join(non_nlp_features)))
         if not prediction_label in self.__possible_non_nlp_features__:
             raise Exception('The prediction label must be in the set of '
                             'features that can be extracted/used, i.e.: {}.'
                             .format(LABELS_STRING))
-        if not all(_games.issubset(VALID_GAMES) for _games
-                   in [games, test_games]):
+        if not all(_games.issubset(VALID_GAMES) for _games in [games, test_games]):
             raise Exception('Unrecognized game(s)/test game(s): {}. The games'
                             ' must be in the following list of available '
                             'games: {}.'
@@ -311,19 +303,16 @@ class IncrementalLearning:
         if not self.objective in OBJ_FUNC_ABBRS_DICT:
             raise Exception('Unrecognized objective function used: {}. These '
                             'are the available objective functions: {}.'
-                            .format(self.objective,
-                                    OBJ_FUNC_ABBRS_STRING))
+                            .format(self.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [LEARNER_NAMES_DICT[learner]
-                              for learner in learners]
+        self.learner_names = [LEARNER_NAMES_DICT[learner] for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid
-                              in zip(learners,
-                                     self.param_grids)]
+                              in zip(learners, self.param_grids)]
         self.learner_param_grid_stats = []
         for learner_list in self.learner_lists:
             self.learner_param_grid_stats.append([[] for _ in learner_list])
@@ -347,25 +336,21 @@ class IncrementalLearning:
         self.make_cursors()
         self.test_data = self.get_test_data()
         self.test_ids = [_data[self.__id__] for _data in self.test_data]
-        self.test_feature_dicts = [_data[self.__x__] for _data
-                                   in self.test_data]
-        self.y_test = np.array([_data[self.__y__] for _data
-                                in self.test_data])
+        self.test_feature_dicts = [_data[self.__x__] for _data in self.test_data]
+        self.y_test = np.array([_data[self.__y__] for _data in self.test_data])
         self.classes = np.unique(self.y_test)
 
         # Useful constants for use in make_printable_confusion_matrix
         self.cnfmat_desc = \
             self.__cnfmat_row__(self.__cnfmat_header__.format(self.classes),
-                                self.__tab_join__([''] + [str(x) for x
-                                                          in self.classes]))
+                                self.__tab_join__([''] + [str(x) for x in self.classes]))
 
         # Do incremental learning experiments
         logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
-        self.learner_param_grid_stats = [[pd.DataFrame(param_grid)
-                                          for param_grid in learner]
-                                         for learner
-                                         in self.learner_param_grid_stats]
+        self.learner_param_grid_stats = \
+            [[pd.DataFrame(param_grid) for param_grid in learner]
+             for learner in self.learner_param_grid_stats]
 
         # Generate statistics for the majority baseline model
         if majority_baseline:
@@ -374,11 +359,11 @@ class IncrementalLearning:
             self.evaluate_majority_baseline_model()
 
     def make_cursors(self) -> None:
-        '''
+        """
         Make cursor objects for the training/test sets.
 
         :rtype: None
-        '''
+        """
 
         batch_size = 50
         sorting_args = [(self.__steam_id__, ASCENDING)]
@@ -393,8 +378,7 @@ class IncrementalLearning:
             train_query = {self.__game__: {self.__in_op__: list(self.games)},
                            self.__partition__: self.__training__}
         self.training_cursor = (self.db
-                                .find(train_query,
-                                      timeout=False)
+                                .find(train_query, timeout=False)
                                 .sort(sorting_args))
         self.training_cursor.batch_size = batch_size
 
@@ -405,19 +389,17 @@ class IncrementalLearning:
         elif not VALID_GAMES.difference(self.test_games):
             test_query = {self.__partition__: self.__test__}
         else:
-            test_query = {self.__game__: {self.__in_op__:
-                                              list(self.test_games)},
+            test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
                            self.__partition__: self.__test__}
         self.test_cursor = (self.db
-                            .find(test_query,
-                                  timeout=False)
+                            .find(test_query, timeout=False)
                             .sort(sorting_args))
         if self.test_limit:
             self.test_cursor = self.test_cursor.limit(self.test_limit)
         self.test_cursor.batch_size = batch_size
 
     def get_all_features(self, review_doc: dict) -> dict:
-        '''
+        """
         Get all the features in a review document and put them together
         in a dictionary.
 
@@ -426,7 +408,7 @@ class IncrementalLearning:
 
         :returns: feature dictionary
         :rtype: dict
-        '''
+        """
 
         _get = review_doc.get
 
@@ -440,18 +422,17 @@ class IncrementalLearning:
         # dictionary
         features.update({feat: val
                          for feat, val in review_doc.items()
-                         if feat in self.__possible_non_nlp_features__
-                            and val
-                            and val != self.__nan__})
+                         if (feat in self.__possible_non_nlp_features__
+                             and val
+                             and val != self.__nan__)})
 
         # Add in the features that may be in the 'achievement_progress'
         # sub-dictionary of the review dictionary
         features.update({feat: val for feat, val
-                         in _get(self.__achieve_prog__,
-                                 dict()).items()
-                         if feat in self.__possible_non_nlp_features__
-                            and val
-                            and val != self.__nan__})
+                         in _get(self.__achieve_prog__, dict()).items()
+                         if (feat in self.__possible_non_nlp_features__
+                             and val
+                             and val != self.__nan__)})
 
         # Add in the 'id_string' value just to make it easier to
         # process the results of this function
@@ -459,13 +440,13 @@ class IncrementalLearning:
         return features
 
     def get_train_data_iteration(self) -> list:
-        '''
+        """
         Get a list of training data dictionaries to use in model
         training.
 
         :returns: list of sample dictionaries
         :rtype: list
-        '''
+        """
 
         data = []
         i = 0
@@ -486,8 +467,7 @@ class IncrementalLearning:
             # dictionary, skipping the document if it's not found or if
             # its value is None
             if _get(self.prediction_label):
-                y_value = _get(self.prediction_label,
-                               None)
+                y_value = _get(self.prediction_label, None)
                 if y_value == None:
                     i += 1
                     continue
@@ -503,20 +483,19 @@ class IncrementalLearning:
             # Put features, prediction label, and ID in a new
             # dictionary and append to list of data samples and then
             # increment the review counter
-            data.append(dict(y=y_value,
-                             id=id_string,
-                             x=feature_dict))
+            data.append(dict(y=y_value, id=id_string, x=feature_dict))
             i += 1
+
         return data
 
     def get_test_data(self) -> list:
-        '''
+        """
         Get a list of test data dictionaries to use in model
         evaluation.
 
         :returns: list of sample dictionaries
         :rtype: list
-        '''
+        """
 
         data = []
         for review_doc in self.test_cursor:
@@ -529,8 +508,7 @@ class IncrementalLearning:
             # dictionary, skipping the document if it's not found or if
             # its value is None
             if _get(self.prediction_label):
-                y_value = _get(self.prediction_label,
-                               None)
+                y_value = _get(self.prediction_label, None)
                 if y_value == None:
                     continue
                 del feature_dict[self.prediction_label]
@@ -544,64 +522,62 @@ class IncrementalLearning:
             # Put features, prediction label, and ID in a new
             # dictionary and append to list of data samples and then
             # increment the review counter
-            data.append(dict(y=y_value,
-                             id=id_string,
-                             x=feature_dict))
+            data.append(dict(y=y_value, id=id_string, x=feature_dict))
+
         return data
 
     def get_majority_baseline(self) -> np.array:
-        '''
+        """
         Generate a majority baseline array of prediction labels.
 
         :returns: array of prediction labels
         :rtype: np.array
-        '''
+        """
 
         self.majority_label = mode(self.y_test).mode[0]
         return np.array([self.majority_label]*len(self.y_test))
 
     def evaluate_majority_baseline_model(self) -> None:
-        '''
+        """
         Evaluate the majority baseline model predictions.
 
         :rtype: None
-        '''
+        """
 
         stats_dict = self.get_stats(self.get_majority_baseline())
         stats_dict.update({self.__test_games__:
                                ', '.join(self.test_games)
-                                           if (self.test_games
-                                               .difference(VALID_GAMES))
-                                           else self.__all_games__,
+                                   if self.test_games.difference(VALID_GAMES)
+                                   else self.__all_games__,
                            self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
-                           self.__learner__:
-                               self.__majority_baseline_model__})
+                           self.__learner__: self.__majority_baseline_model__})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def make_printable_confusion_matrix(self, y_preds) -> tuple:
-        '''
+        """
         Produce a printable confusion matrix to use in the evaluation
         report.
 
         :param y_preds: array-like of predicted labels
         :type y_preds: array-like
-        :returns: (printable confusion matrix: str, confusion matrix: np.ndarray)
-        :rtype: tuple
-        '''
 
-        cnfmat = confusion_matrix(self.y_test,
-                                  np.round(y_preds),
+        :returns: (printable confusion matrix: str, confusion matrix:
+                  np.ndarray)
+        :rtype: tuple
+        """
+
+        cnfmat = confusion_matrix(self.y_test, np.round(y_preds),
                                   labels=self.classes).tolist()
         res = str(self.cnfmat_desc)
-        for row, label in zip(cnfmat,
-                              self.classes):
+        for row, label in zip(cnfmat, self.classes):
             row = self.__tab_join__([str(x) for x in [label] + row])
             res = self.__cnfmat_row__(res, row)
+
         return res, cnfmat
 
     def fit_preds_in_scale(self, y_preds):
-        '''
+        """
         Force values at either end of the scale to fit within the scale
         by adding to or truncating the values.
 
@@ -610,7 +586,7 @@ class IncrementalLearning:
 
         :returns: array of prediction labels
         :rtype: array-like
-        '''
+        """
 
         # Get low/high ends of the scale
         scale = sorted(self.classes)
@@ -624,6 +600,7 @@ class IncrementalLearning:
             elif y_preds[i] > high:
                 y_preds[i] = high
             i += 1
+
         return y_preds
 
     def get_stats(self, y_preds) -> dict:
@@ -639,60 +616,44 @@ class IncrementalLearning:
         """
 
         # Get Pearson r and significance
-        r, sig = pearsonr(self.y_test,
-                          y_preds)
+        r, sig = pearsonr(self.y_test, y_preds)
 
         # Get confusion matrix (both the np.ndarray and the printable
         # one)
-        printable_cnfmat, cnfmat = \
-            self.make_printable_confusion_matrix(y_preds)
+        printable_cnfmat, cnfmat = self.make_printable_confusion_matrix(y_preds)
 
         return {self.__r__: r,
                 self.__sig__: sig,
-                self.__prec_macro__: precision_score(self.y_test,
-                                                     y_preds,
+                self.__prec_macro__: precision_score(self.y_test, y_preds,
                                                      labels=self.classes,
                                                      average=self.__macro__),
                 self.__prec_weighted__:
-                    precision_score(self.y_test,
-                                    y_preds,
-                                    labels=self.classes,
+                    precision_score(self.y_test, y_preds, labels=self.classes,
                                     average=self.__weighted__),
-                self.__f1_macro__: f1_score(self.y_test,
-                                            y_preds,
+                self.__f1_macro__: f1_score(self.y_test, y_preds,
                                             labels=self.classes,
                                             average=self.__macro__),
-                self.__f1_weighted__: f1_score(self.y_test,
-                                               y_preds,
+                self.__f1_weighted__: f1_score(self.y_test, y_preds,
                                                labels=self.classes,
                                                average=self.__weighted__),
-                self.__acc__: accuracy_score(self.y_test,
-                                             y_preds,
-                                             normalize=True),
+                self.__acc__: accuracy_score(self.y_test, y_preds, normalize=True),
                 self.__cnfmat__: cnfmat,
                 self.__printable_cnfmat__: printable_cnfmat,
-                self.__uwk__: kappa(self.y_test,
-                                    y_preds),
-                self.__uwk_off_by_one__: kappa(self.y_test,
-                                               y_preds,
+                self.__uwk__: kappa(self.y_test, y_preds),
+                self.__uwk_off_by_one__: kappa(self.y_test, y_preds,
                                                allow_off_by_one=True),
-                self.__qwk__: kappa(self.y_test,
-                                    y_preds,
+                self.__qwk__: kappa(self.y_test, y_preds,
                                     weights=self.__quadratic__),
-                self.__qwk_off_by_one__: kappa(self.y_test,
-                                               y_preds,
+                self.__qwk_off_by_one__: kappa(self.y_test, y_preds,
                                                weights=self.__quadratic__,
                                                allow_off_by_one=True),
-                self.__lwk__: kappa(self.y_test,
-                                    y_preds,
-                                    weights=self.__linear__),
-                self.__lwk_off_by_one__: kappa(self.y_test,
-                                               y_preds,
+                self.__lwk__: kappa(self.y_test, y_preds, weights=self.__linear__),
+                self.__lwk_off_by_one__: kappa(self.y_test, y_preds,
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
     def rank_experiments_by_objective(self, ordering='objective_last_round') -> list:
-        '''
+        """
         Rank the experiments in relation to their performance in the
         objective function.
 
@@ -701,12 +662,11 @@ class IncrementalLearning:
 
         :returns: list of dataframes
         :rtype: list
-        '''
+        """
 
         if not ordering in self.__orderings__:
             raise ValueError('ordering parameter not in the set of possible '
-                             'orderings: {}'
-                             .format(', '.join(self.__orderings__)))
+                             'orderings: {}'.format(', '.join(self.__orderings__)))
 
         # Keep track of the performance
         dfs = []
@@ -722,31 +682,28 @@ class IncrementalLearning:
 
                 if ordering == 'objective_last_round':
                     # Get the performance in the last round
-                    (performances
-                     .append(stats_df[self.objective][len(stats_df) - 1]))
+                    performances.append(stats_df[self.objective][len(stats_df) - 1])
                 elif ordering == 'objective_best_round':
                     # Get the best performance (in any round)
                     performances.append(stats_df[self.objective].max())
                 else:
-                    # Get the slope of the performance as the learning round
-                    # increases
+                    # Get the slope of the performance as the learning
+                    # round increases
                     regression = linregress(stats_df[self.__learning_round__],
                                             stats_df[self.objective])
                     performances.append(regression.slope)
 
         # Sort dataframes on ordering value and return
-        return [df[1] for df in sorted(zip(performances,
-                                           dfs),
-                                       key=lambda x: x[0],
+        return [df[1] for df in sorted(zip(performances, dfs), key=lambda x: x[0],
                                        reverse=True)]
 
     def get_sorted_features_for_learner(self, learner, _labels):
-        '''
+        """
         Get the best-performing features in a learner.
 
         :param learner: learner
         :type learner: learner instance
-        '''
+        """
 
         # Store feature coefficient tuples
         coef_features = []
@@ -761,17 +718,16 @@ class IncrementalLearning:
 
             # Append feature coefficient tuple to list of tuples
             coef_features.append(tuple(list(chain([feat],
-                                                  zip(self.classes,
-                                                      coef_indices)))))
+                                                  zip(self.classes, coef_indices)))))
 
         return coef_features
 
     def learning_round(self) -> None:
-        '''
+        """
         Do learning rounds.
 
         :rtype: None
-        '''
+        """
 
         # Get some training data
         train_data = self.get_train_data_iteration()
@@ -801,18 +757,14 @@ class IncrementalLearning:
         X_test = self.vec.transform(self.test_feature_dicts)
 
         # Conduct a round of learning with each of the various learners
-        for i, (learner_list,
-                learner_name) in enumerate(zip(self.learner_lists,
-                                               self.learner_names)):
+        for i, (learner_list, learner_name) in enumerate(zip(self.learner_lists,
+                                                             self.learner_names)):
             for j, learner in enumerate(learner_list):
                 if (learner_name in self.__learners_requiring_classes__
                     and self.round == 1):
-                    learner.partial_fit(X_train,
-                                        y_train,
-                                        classes=self.classes)
+                    learner.partial_fit(X_train, y_train, classes=self.classes)
                 else:
-                    learner.partial_fit(X_train,
-                                        y_train)
+                    learner.partial_fit(X_train, y_train)
 
                 # Make predictions on the test set, rounding the values
                 y_test_preds = np.round(learner.predict(X_test))
@@ -827,37 +779,32 @@ class IncrementalLearning:
                 stats_dict.update({self.__games__ if len(self.games) > 1
                                                   else self.__game__:
                                        ', '.join(self.games)
-                                           if (self.games
-                                               .difference(VALID_GAMES))
+                                           if self.games.difference(VALID_GAMES)
                                            else self.__all_games__,
                                    self.__test_games__:
                                        ', '.join(self.test_games)
-                                           if (self.test_games
-                                               .difference(VALID_GAMES))
+                                           if self.test_games.difference(VALID_GAMES)
                                            else self.__all_games__,
                                    self.__learning_round__: int(self.round),
-                                   self.__prediction_label__:
-                                       self.prediction_label,
+                                   self.__prediction_label__: self.prediction_label,
                                    self.__test_labels_and_preds__:
-                                       list(zip(self.y_test,
-                                                y_test_preds)),
+                                       list(zip(self.y_test, y_test_preds)),
                                    self.__learner__: learner_name,
                                    self.__params__: learner.get_params(),
                                    self.__training_samples__: samples,
                                    self.__non_nlp_features__:
                                        ', '.join(self.non_nlp_features)})
-                (self.learner_param_grid_stats[i][j]
-                 .append(pd.Series(stats_dict)))
+                self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
 
         # Increment the round number
         self.round += 1
 
     def do_learning_rounds(self) -> None:
-        '''
+        """
         Do rounds of learning.
 
         :rtype: None
-        '''
+        """
 
         # If a certain number of rounds has been specified, try to do
         # that many rounds; otherwise, do as many as possible
@@ -875,7 +822,7 @@ class IncrementalLearning:
 
 
 def parse_learners_string(learners_string) -> set:
-    '''
+    """
     Parse command-line argument consisting of a set of learners to
     use (or the value "all" for all possible learners).
 
@@ -888,7 +835,7 @@ def parse_learners_string(learners_string) -> set:
     :rtype: set
 
     :raises: Exception
-    '''
+    """
 
     if learners_string == 'all':
         learners = set(LEARNER_DICT_KEYS)
@@ -897,15 +844,14 @@ def parse_learners_string(learners_string) -> set:
         if not learners.issubset(LEARNER_DICT_KEYS):
             raise Exception('Found unrecognized learner(s) in list of '
                             'passed-in learners: {}. Available learners: {}.'
-                            .format(', '.join(learners),
-                                    LEARNER_ABBRS_STRING))
+                            .format(', '.join(learners), LEARNER_ABBRS_STRING))
 
     return learners
 
 
 def parse_non_nlp_features_string(features_string: str,
                                   prediction_label: str) -> set:
-    '''
+    """
     Parse command-line argument consisting of a set of non-NLP features
     (or one of the values "all" or "none" for all or none of the
     possible non-NLP features).
@@ -925,7 +871,7 @@ def parse_non_nlp_features_string(features_string: str,
     :rtype: set
 
     :raises: Exception
-    '''
+    """
 
     if features_string == 'all':
         non_nlp_features = set(LABELS)
@@ -941,8 +887,7 @@ def parse_non_nlp_features_string(features_string: str,
             raise Exception('Found unrecognized feature(s) in the list of '
                             'passed-in non-NLP features: {}. Available '
                             'features: {}.'
-                            .format(', '.join(non_nlp_features),
-                                    ', '.join(LABELS)))
+                            .format(', '.join(non_nlp_features), ', '.join(LABELS)))
         if (prediction_label in TIME_LABELS
             and non_nlp_features.intersection(TIME_LABELS)):
             raise Exception('The list of non-NLP features should not '
@@ -954,7 +899,7 @@ def parse_non_nlp_features_string(features_string: str,
 
 
 def parse_games_string(games_string: str) -> set:
-    '''
+    """
     Parse games string passed in via the command-line into a set of
     valid games (or the value "all" for all games).
 
@@ -965,7 +910,7 @@ def parse_games_string(games_string: str) -> set:
     :rtype: set
 
     :raises: Exception
-    '''
+    """
 
     # Return empty set for empty string
     if not games_string:
@@ -983,8 +928,7 @@ def parse_games_string(games_string: str) -> set:
         raise Exception('Found unrecognized games in the list of specified '
                         'games: {}. These are the valid games (in addition to'
                         ' using "all" for all games): {}.'
-                        .format(', '.join(specified_games),
-                                ', '.join(VALID_GAMES)))
+                        .format(', '.join(specified_games), ', '.join(VALID_GAMES)))
     return set(specified_games)
 
 
@@ -1128,8 +1072,7 @@ def main(argv=None):
     logger.info('MongoDB port: {}'.format(port))
     logger.info('Limiting number of test reviews to {} or below'
                 .format(test_limit))
-    db = connect_to_db(host=host,
-                       port=port)
+    db = connect_to_db(host=host, port=port)
 
     # Check to see if the database has the proper index and, if not,
     # index the database here
@@ -1157,13 +1100,12 @@ def main(argv=None):
 
     # Output results files to output directory
     logger.info('Output directory: {}'.format(output_dir))
-    makedirs(output_dir,
-             exist_ok=True)
+    makedirs(output_dir, exist_ok=True)
 
-    # Rank experiments in terms of their performance with respect to the
-    # objective function in the last round of learning, their best performance
-    # (in any round), and the slope of their performance as the round
-    # increases
+    # Rank experiments in terms of their performance with respect to
+    # the objective function in the last round of learning, their best
+    # performance (in any round), and the slope of their performance as
+    # the round increases
     ranked_dfs = inc_learning.rank_experiments_by_objective(ordering=ordering)
 
     # Generate evaluation reports for the various learner/parameter
@@ -1174,8 +1116,7 @@ def main(argv=None):
         learner_name = ranked_df[inc_learning.__learner__].irow(0)
         ranked_df.to_csv(join(output_dir,
                               '{}_{}_learning_stats_{}.csv'
-                              .format(game, learner_name, i + 1)),
-                         index=False)
+                              .format(game, learner_name, i + 1)), index=False)
 
     # Generate evaluation report for the majority baseline model, if
     # specified

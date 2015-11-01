@@ -21,18 +21,13 @@ def main(argv=None):
     args = parser.parse_args()
 
     # Connect to MongoDB database
-    print('Connecting to MongoDB database at {}:{}...'
-          .format(args.mongodb_host,
-                  args.mongodb_port),
-          file=sys.stderr)
-    db = connect_to_db(args.mongodb_host,
-                       args.mongodb_port)
+    print('Connecting to MongoDB database at {0}:{1}...'
+          .format(args.mongodb_host, args.mongodb_port), file=sys.stderr)
+    db = connect_to_db(args.mongodb_host, args.mongodb_port)
 
     # Create index on 'steam_id_number' so that cursors can be sorted
     # on that particular key
-    print('Creating index on the "steam_id_number" key...',
-          file=sys.stderr)
+    print('Creating index on the "steam_id_number" key...', file=sys.stderr)
     db.create_index('steam_id_number', ASCENDING)
-    print('Created new index "steam_id_number_1" in reviews '
-          'collection.',
+    print('Created new index "steam_id_number_1" in reviews collection.',
           file=sys.stderr)

@@ -1,10 +1,10 @@
-'''
+"""
 :author: Matt Mulholland
 :date: April 1, 2015
 
 Script used to run the web scraping tool in order to build the video
 game review corpus.
-'''
+"""
 from os.path import (join,
                      dirname,
                      realpath)
@@ -12,8 +12,7 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 project_dir = dirname(dirname(realpath(__file__)))
-data_dir = join(project_dir,
-                'data')
+data_dir = join(project_dir, 'data')
 
 def main():
     parser = ArgumentParser(usage='./python get_review_data.py[ '
@@ -86,11 +85,10 @@ def main():
     if args.games:
         games = args.games.split(',')
         if not all([game in APPID_DICT for game in games]):
-            exit('Could not match in APPID_DICT at least one game in the '
-                 'list of passed-in games. Exiting.\n')
+            exit('Could not match in APPID_DICT at least one game in the list'
+                 ' of passed-in games. Exiting.\n')
     elif args.appids:
-        appids = parse_appids(args.appids,
-                              logger_name='get_review_data')
+        appids = parse_appids(args.appids, logger_name='get_review_data')
         games = []
         for appid in appids:
             game = [x[0] for x in APPID_DICT.items() if x[1] == appid]
@@ -98,7 +96,7 @@ def main():
                 games.append(game[0])
             else:
                 exit('Could not find game in APPID_DICT that is associated '
-                     'with the given appid: {}\nExiting.\n'.format(appid))
+                     'with the given appid: {0}\nExiting.\n'.format(appid))
     else:
         games = list(APPID_DICT)
         del games['sample.txt']
@@ -107,16 +105,13 @@ def main():
     loginfo('Scraping review data from the Steam website...')
     for game in games:
         flush_to_file = 10
-        out_path = join(data_dir,
-                        '{}.jsonlines'.format(game))
-        loginfo('Writing to {}...'.format(out_path))
-        with open(out_path,
-                  'w') as jsonlines_file:
+        out_path = join(data_dir, '{0}.jsonlines'.format(game))
+        loginfo('Writing to {0}...'.format(out_path))
+        with open(out_path, 'w') as jsonlines_file:
             jsonlines_file_write = jsonlines_file.write
-            for review in get_review_data_for_game(APPID_DICT[game],
-                                                   time_out=10.0,
+            for review in get_review_data_for_game(APPID_DICT[game], time_out=10.0,
                                                    wait=args.wait):
-                jsonlines_file_write('{}\n'.format(dumps(review)))
+                jsonlines_file_write('{0}\n'.format(dumps(review)))
                 if flush_to_file == 0:
                     jsonlines_file.flush()
                     flush_to_file = 10

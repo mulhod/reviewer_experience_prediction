@@ -1,4 +1,4 @@
-'''
+"""
 :author: Matt Mulholland
 :date: May 5, 2015
 
@@ -9,7 +9,7 @@ The insert_train_test_reviews function gets all suitable,
 English-language reviews for a given data-set (at the provided
 file-path) and inserts them into the the MongoDB database
 ('reviews_project') under the 'reviews' collection.
-'''
+"""
 import logging
 logger = logging.getLogger()
 loginfo = logger.info
@@ -38,7 +38,7 @@ from pymongo.errors import (AutoReconnect,
                             DuplicateKeyError)
 
 def connect_to_db(host='localhost', port=27017, tries=10):
-    '''
+    """
     Connect to database and return a collection object.
 
     :param host: host-name of MongoDB server
@@ -49,35 +49,32 @@ def connect_to_db(host='localhost', port=27017, tries=10):
                   10)
     :type tries: int
     :returns: pymongo.collection.Collection object
-    '''
+    """
 
-    connection_string = 'mongodb://{}:{}'.format(host,
-                                                 port)
+    connection_string = 'mongodb://{0}:{1}'.format(host, port)
     while tries > 0:
         tries -= 1
         try:
-            connection = MongoClient(connection_string,
-                                     max_pool_size=None,
-                                     connectTimeoutMS=100000,
-                                     socketKeepAlive=True)
+            connection = MongoClient(connection_string, max_pool_size=None,
+                                     connectTimeoutMS=100000, socketKeepAlive=True)
         except ConnectionFailure as e:
             if tries == 0:
-                logerr('Unable to connect client to Mongo server at {}. '
+                logerr('Unable to connect client to Mongo server at {0}. '
                        'Exiting.'.format(connection_string))
                 exit(1)
             else:
-                logwarn('Unable to connect client to Mongo server at {}. Will'
-                        ' try {} more time{}...'.format(connection_string,
-                                                        tries,
-                                                        's' if tries > 1
-                                                            else ''))
+                logwarn('Unable to connect client to Mongo server at {0}. '
+                        'Will try {1} more time{}...'.format(connection_string,
+                                                             tries,
+                                                             's' if tries > 1
+                                                                 else ''))
 
     db = connection['reviews_project']
     return db['reviews']
 
 
 def create_game_cursor(db, game_id, data_partition, int batch_size):
-    '''
+    """
     Create Cursor object with given game and partition to iterate
     through game documents.
 
@@ -92,33 +89,27 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
     :param batch_size: size of each batch that the cursor returns
     :type batch_size: int
     :returns: pymongo.cursor.Cursor object
-    '''
+    """
 
     if data_partition == 'all':
         game_cursor = db.find({'game': game_id},
-                              {'nlp_features': 0,
-                               'game': 0,
-                               'partition': 0},
+                              {'nlp_features': 0, 'game': 0, 'partition': 0},
                               timeout=False)
     else:
-        game_cursor = db.find({'game': game_id,
-                               'partition': data_partition},
-                              {'nlp_features': 0,
-                               'game': 0,
-                               'partition': 0},
+        game_cursor = db.find({'game': game_id, 'partition': data_partition},
+                              {'nlp_features': 0, 'game': 0, 'partition': 0},
                               timeout=False)
     game_cursor.batch_size = batch_size
 
     if game_cursor.count() == 0:
         if data_partition == 'all':
             logerr('No matching documents were found in the MongoDB '
-                   'collection  for game {}. Exiting.'
+                   'collection  for game {0}. Exiting.'
                    .format(game_id))
         else:
             logerr('No matching documents were found in the MongoDB '
-                   'collection in the {} partition for game {}. Exiting.'
-                   .format(data_partition,
-                           game_id))
+                   'collection in the {0} partition for game {1}. Exiting.'
+                   .format(data_partition, game_id))
         exit(1)
 
     return game_cursor
@@ -128,7 +119,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                               float percent_train, bins=0, bin_factor=1.0,
                               describe=False, just_describe=False,
                               reports_dir=None):
-    '''
+    """
     Insert training/test set reviews into the MongoDB database and
     optionally generate a report and graphs describing the filtering
     mechanisms.
@@ -166,7 +157,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
                         be written
     :type reports_dir: str
     :returns: None
-    '''
+    """
 
     # Seed the random number generator (hopefully ensuring that
     # repeated iterations will result in the same behavior from
@@ -176,11 +167,10 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     game = splitext(basename(file_path))[0]
     appid = APPID_DICT[game]
 
-    loginfo('Inserting reviews from {}...'.format(game))
+    loginfo('Inserting reviews from {0}...'.format(game))
     if bins:
-        loginfo('Dividing the hours played values into {} bins with a bin '
-                'factor of {}...'.format(bins,
-                                         bin_factor))
+        loginfo('Dividing the hours played values into {0} bins with a bin '
+                'factor of {1}...'.format(bins, bin_factor))
 
     # Make sense of arguments
     if (describe
@@ -193,33 +183,27 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     # Get list of all reviews represented as dictionaries with 'review'
     # and 'total_game_hours' keys and get the filter values
     dataset = get_and_describe_dataset(file_path,
-                                       report=(describe
-                                               or just_describe),
+                                       report=(describe or just_describe),
                                        reports_dir=reports_dir)
     reviews = dataset['reviews']
-    logdebug('Number of original, English language reviews collected: {}'
+    logdebug('Number of original, English language reviews collected: {0}'
              .format(dataset['orig_total_reviews']))
     cdef float maxl = dataset['maxl']
     cdef float minl = dataset['minl']
     cdef float maxh = dataset['maxh']
     cdef float minh = dataset['minh']
-    logdebug('Maximum length = {}'.format(dataset['maxl']))
-    logdebug('Minimum length = {}'.format(dataset['minl']))
-    logdebug('Maximum amount of hours played = {}'.format(dataset['maxh']))
-    logdebug('Minimum amount of hours played = {}'.format(dataset['minh']))
+    logdebug('Maximum length = {0}'.format(dataset['maxl']))
+    logdebug('Minimum length = {0}'.format(dataset['minl']))
+    logdebug('Maximum amount of hours played = {0}'.format(dataset['maxh']))
+    logdebug('Minimum amount of hours played = {0}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the
     # range that each bin maps to and add values for the number of
     # bins, the bin ranges, and the bin factor to the review
     # dictionaries
     if bins:
-        bin_ranges = get_bin_ranges(minh,
-                                    maxh,
-                                    bins,
-                                    bin_factor)
-        bin_dict = dict(nbins=bins,
-                        bin_factor=bin_factor,
-                        bin_ranges=bin_ranges)
+        bin_ranges = get_bin_ranges(minh, maxh, bins, bin_factor)
+        bin_dict = dict(nbins=bins, bin_factor=bin_factor, bin_ranges=bin_ranges)
         [review.update(bin_dict) for review in reviews]
     else:
         bin_ranges = False
@@ -242,10 +226,9 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         <int>ceil(len(train_test_reviews)*(percent_train/100.0))
     training_reviews = train_test_reviews[:training_set_size + 1]
     test_reviews = train_test_reviews[training_set_size + 1:]
-    logdebug('Number of training set reviews: {}'
-             .format(len(training_reviews)))
-    logdebug('Number of test set reviews: {}'.format(len(test_reviews)))
-    logdebug('Number of extra reviews: {}'.format(len(remaining_reviews)))
+    logdebug('Number of training set reviews: {0}'.format(len(training_reviews)))
+    logdebug('Number of test set reviews: {0}'.format(len(test_reviews)))
+    logdebug('Number of extra reviews: {0}'.format(len(remaining_reviews)))
     logdebug('NOTE: It is possible that fewer reviews get inserted into the '
              'DB for the training set or test set if there are errors during '
              'insertion and there are no replacement reviews to substitute in'
@@ -259,27 +242,16 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         bulk = reviewdb.initialize_unordered_bulk_op()
 
         # Training set reviews
-        add_bulk_inserts_for_partition(bulk,
-                                       training_reviews,
-                                       game,
-                                       appid,
-                                       'training',
-                                       bins=bin_ranges)
+        add_bulk_inserts_for_partition(bulk, training_reviews, game, appid,
+                                       'training', bins=bin_ranges)
 
         # Test set reviews
-        add_bulk_inserts_for_partition(bulk,
-                                       test_reviews,
-                                       game, appid,
-                                       'test',
+        add_bulk_inserts_for_partition(bulk, test_reviews, game, appid, 'test',
                                        bins=bin_ranges)
 
         # Extra reviews
-        add_bulk_inserts_for_partition(bulk,
-                                       remaining_reviews,
-                                       game,
-                                       appid,
-                                       'extra',
-                                       bins=bin_ranges)
+        add_bulk_inserts_for_partition(bulk, remaining_reviews, game, appid,
+                                       'extra', bins=bin_ranges)
 
         # Execute bulk insert operations
         try:
@@ -290,21 +262,20 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         logdebug(repr(result))
 
         # Print out some information about how many reviews were added
-        train_inserts = reviewdb.find({'appid': appid,
-                                       'partition': 'training'}).count()
-        test_inserts = reviewdb.find({'appid': appid,
-                                      'partition': 'test'}).count()
-        extra_inserts = reviewdb.find({'appid': appid,
-                                       'partition': 'extra'}).count()
-        logdebug('Inserted {} training set reviews, {} test set reviews, and '
-                 '{} extra reviews...'.format(train_inserts,
-                                              test_inserts,
-                                              extra_inserts))
+        train_inserts = \
+            reviewdb.find({'appid': appid, 'partition': 'training'}).count()
+        test_inserts = \
+            reviewdb.find({'appid': appid, 'partition': 'test'}).count()
+        extra_inserts = \
+            reviewdb.find({'appid': appid, 'partition': 'extra'}).count()
+        logdebug('Inserted {0} training set reviews, {1} test set reviews, '
+                 'and {2} extra reviews...'
+                 .format(train_inserts, test_inserts, extra_inserts))
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
                                     partition_id, bins=False):
-    '''
+    """
     Add insert operations to a bulk writer.
 
     :param bulk_writer: a bulk writer instance, to which we can add
@@ -328,9 +299,10 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
                  range) (default: False)
     :type bins: False or list of 2-tuples of floats
     :returns: None
-    '''
+    """
 
     for rd in rdicts:
+
         # Add keys for the partition (i.e., "extra"), the game's name,
         # and the appid
         rd['game'] = game
@@ -343,21 +315,21 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
             if _bin > -1:
                 rd['total_game_hours_bin'] = _bin
             else:
-                logerr('The hours played value ({}) did not seem to fall '
-                       'within any of the bin ranges.\n\nBin ranges\n{}\n'
-                       'Exiting.'.format(rd['total_game_hours'],
-                                         repr(bins)))
+                logerr('The hours played value ({0}) did not seem to fall '
+                       'within any of the bin ranges.\n\nBin ranges\n{1}\n'
+                       'Exiting.'
+                       .format(rd['total_game_hours'], repr(bins)))
                 exit(1)
 
         try:
             bulk_writer.insert(rd)
         except DuplicateKeyError as e:
             logwarn('Encountered DuplicateKeyError. Throwing out the '
-                    'following review:\n{}'.format(rd))
+                    'following review:\n{0}'.format(rd))
 
 
 def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
-    '''
+    """
     Update Mongo database document with extracted NLP features and keys
     related to whether or not the NLP features have been binarized and
     review document IDs.
@@ -373,7 +345,7 @@ def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
                                 updated/inserted are binarized
     :type binarized_nlp_feats: boolean
     :returns: None
-    '''
+    """
 
     cdef int tries = 0
     while tries < 5:

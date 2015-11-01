@@ -1,10 +1,10 @@
-'''
+"""
 :author: Matt Mulholland (mulhodm@gmail.com)
 :date: September 18, 2015
 
 Script used to extract features for review documents in the MongoDB
 database.
-'''
+"""
 from os.path import (join,
                      dirname,
                      realpath,
@@ -64,9 +64,7 @@ def main():
     parser_add_argument('-log', '--log_file_path',
         help='Path to feature extraction log file.',
         type=str,
-        default=join(project_dir,
-                     'logs',
-                     'replog_extract_features.txt'))
+        default=join(project_dir, 'logs', 'replog_extract_features.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -105,44 +103,36 @@ def main():
     logger.addHandler(fh)
 
     # Print out some logging information about the upcoming tasks
-    logdebug('Project directory: {}'.format(project_dir))
-    logdebug('Binarize features? {}'.format(binarize))
-    logdebug('Try to reuse previously-extracted features in the database? {}'
+    logdebug('Project directory: {0}'.format(project_dir))
+    logdebug('Binarize features? {0}'.format(binarize))
+    logdebug('Try to reuse previously-extracted features in the database? {0}'
              .format(reuse_features))
-    logdebug('Lower-case text as part of the normalization step? {}'
+    logdebug('Lower-case text as part of the normalization step? {0}'
              .format(lowercase_text))
-    logdebug('Lower-case character n-grams during feature extraction? {}'
+    logdebug('Lower-case character n-grams during feature extraction? {0}'
              .format(lowercase_cngrams))
 
     # Establish connection to MongoDB database collection
-    loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
-            .format(mongodb_host,
-                    mongodb_port))
-    reviewdb = connect_to_db(host=mongodb_host,
-                             port=mongodb_port)
+    loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
+            .format(mongodb_host, mongodb_port))
+    reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
     reviewdb.write_concern['w'] = 0
 
     # Get list of games
-    game_files = get_game_files(game_files,
-                                join(dirname(dirname(__file__)),
-                                     'data'))
+    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
+                                                 'data'))
 
     # Iterate over the game files, extracting and adding/replacing
     # features to the database
     for game_file in game_files:
         game = splitext(game_file)[0]
         if partition == 'all':
-            partition_string = (' from the "training" and "test" data '
-                                'partitions')
+            partition_string = (' from the "training" and "test" data partitions')
         else:
-            partition_string = (' from the "{}" data partition'
-                                .format(partition))
-        loginfo('Extracting features{} for {}...'
-                .format(partition_string,
-                        game))
-        extract_nlp_features_into_db(reviewdb,
-                                     partition,
-                                     game,
+            partition_string = ' from the "{0}" data partition'.format(partition)
+        loginfo('Extracting features{} for {0}...'
+                .format(partition_string, game))
+        extract_nlp_features_into_db(reviewdb, partition, game,
                                      reuse_nlp_feats=reuse_features,
                                      use_binarized_nlp_feats=binarize,
                                      lowercase_text=lowercase_text,

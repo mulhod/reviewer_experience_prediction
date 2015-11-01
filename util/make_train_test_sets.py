@@ -1,10 +1,10 @@
-'''
+"""
 :author: Matt Mulholland
 :date: April 15, 2015
 
 Script used to create training/test sets in a MongoDB database from
 review data extracted from flat files.
-'''
+"""
 from os.path import (join,
                      exists,
                      abspath,
@@ -167,16 +167,14 @@ def main():
         exit(1)
 
     # Establish connection to MongoDB database
-    loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
-            .format(mongodb_host,
-                    mongodb_port))
+    loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
+            .format(mongodb_host, mongodb_port))
     reviewdb = connect_to_db(host=mongodb_host,
                              port=mongodb_port)
     reviewdb.write_concern['w'] = 0
 
     # Get path to the directories
-    data_dir = join(project_dir,
-                    'data')
+    data_dir = join(project_dir, 'data')
     if reports_dir:
         reports_dir = realpath(reports_dir)
 
@@ -208,29 +206,24 @@ def main():
             exit(1)
 
     # Get list of games
-    game_files = get_game_files(game_files,
-                                join(dirname(dirname(__file__)),
-                                     'data'))
+    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
+                                                 'data'))
 
     loginfo('Adding training/test partitions to Mongo DB for the following '
-            'games: {}'.format(', '.join([splitext(game)[0]
-                                          for game in game_files])))
-    loginfo('Maximum size for the combined training/test sets: {}'
+            'games: {0}'
+            .format(', '.join([splitext(game)[0] for game in game_files])))
+    loginfo('Maximum size for the combined training/test sets: {0}'
             .format(max_size))
     loginfo('Percentage split between training and test sets: {0:.2f}/{1:.2f}'
-            .format(percent_train,
-                    100.0 - percent_train))
+            .format(percent_train, 100.0 - percent_train))
     if make_reports:
-        loginfo('Generating reports in {}.'
-            .format(reports_dir if reports_dir
-                                else join(data_dir,
-                                          'reports')))
+        loginfo('Generating reports in {0}.'
+            .format(reports_dir if reports_dir else join(data_dir, 'reports')))
     if just_describe:
         loginfo('Exiting after generating reports.')
     if bins:
-        loginfo('Converting hours played values to {} bins with a bin factor '
-                'of {}.'.format(bins,
-                                bin_factor))
+        loginfo('Converting hours played values to {0} bins with a bin factor'
+                ' of {1}.'.format(bins, bin_factor))
 
     # For each game in our list of games, we will read in the reviews
     # from the data file and then put entries in our MongoDB collection
@@ -238,19 +231,13 @@ def main():
     for game_file in game_files:
         loginfo('Getting/inserting reviews for {}...'
                 .format(splitext(basename(game_file))[0]))
-        insert_train_test_reviews(reviewdb,
-                                  abspath(join(data_dir,
-                                               game_file)),
-                                  max_size,
-                                  percent_train,
-                                  bins=bins,
-                                  bin_factor=bin_factor,
-                                  describe=make_reports,
+        insert_train_test_reviews(reviewdb, abspath(join(data_dir, game_file)),
+                                  max_size, percent_train, bins=bins,
+                                  bin_factor=bin_factor, describe=make_reports,
                                   just_describe=just_describe,
-                                  reports_dir=reports_dir
-                                                  if reports_dir
-                                                  else join(data_dir,
-                                                            'reports'))
+                                  reports_dir=reports_dir if reports_dir
+                                                          else join(data_dir,
+                                                                    'reports'))
 
     loginfo('Complete.')
 

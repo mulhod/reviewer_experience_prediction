@@ -1,10 +1,10 @@
-'''
+"""
 :author: Matt Mulholland
 :date: April 15, 2015
 
 Script used to generate ARFF files usable in Weka for the video game
 review data-sets.
-'''
+"""
 from os.path import (join,
                      isdir,
                      dirname,
@@ -141,7 +141,7 @@ def main():
     output_dir = abspath(output_dir)
     if not (exists(output_dir)
             and isdir(output_dir)):
-        logerror('The given output directory, {}, for ARFF files does not '
+        logerror('The given output directory, {0}, for ARFF files does not '
                  'exist or is not a directory. Exiting.'.format(output_dir))
         exit(1)
 
@@ -174,16 +174,13 @@ def main():
         exit(1)
 
     # Get path to the data directory
-    data_dir = join(project_dir,
-                    'data')
+    data_dir = join(project_dir, 'data')
     if bins:
-        arff_files_dir = join(output_dir,
-                              'arff_files_collapsed_values')
+        arff_files_dir = join(output_dir, 'arff_files_collapsed_values')
     else:
-        arff_files_dir = join(output_dir,
-                              'arff_files_original_values')
-    loginfo('data directory: {}'.format(data_dir))
-    loginfo('arff files directory: {}'.format(output_dir))
+        arff_files_dir = join(output_dir, 'arff_files_original_values')
+    loginfo('data directory: {0}'.format(data_dir))
+    loginfo('arff files directory: {0}'.format(output_dir))
 
     # Make sure there is a combined output file prefix if "combine" is
     # the value passed in via --mode
@@ -195,19 +192,17 @@ def main():
                  '"combined" is the default value). Exiting.')
         exit(1)
 
-    '''
+    """
     See if the --use_mongodb flag was used, in which case we have to
     make a connection to the MongoDB collection. And, if it wasn't
     used, then print out warning if the --mongodb_port flag was used
     (since it will be ignored) unless the value is equal to the default
     value (since it probably wasn't specified in that case).
-    '''
+    """
     if use_mongodb:
-        loginfo('Connecting to MongoDB database on mongodb://{}:{}...'
-                .format(mongodb_host,
-                        mongodb_port))
-        reviewdb = connect_to_db(host=mongodb_host,
-                                 port=mongodb_port)
+        loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
+                .format(mongodb_host, mongodb_port))
+        reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
     elif (mongodb_port
           and not mongodb_port == 27017):
         logwarn('Ignoring argument passed in via the --mongodb_port/-dbport '
@@ -215,10 +210,10 @@ def main():
                 'which means that the MongoDB database is not going to be '
                 'used.')
 
-    game_files = get_game_files(game_files,
-                                join(dirname(dirname(__file__)),
-                                     'data'))
+    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
+                                                 'data'))
     if len(game_files) == 1:
+
         # Print out warning message if --mode was set to "combined" and
         # there was only one file n the list of game files since only a
         # single ARFF file will be created
@@ -235,16 +230,17 @@ def main():
     if mode == "combined":
         review_dicts_list = []
         if not use_mongodb:
+
             # Min/max values of hours played (i.e., game experience)
             if bins:
                 minh = 0.0
                 maxh = 0.0
             for game_file in game_files:
-                loginfo('Getting review data from {}...'.format(game_file))
-                dataset = get_and_describe_dataset(join(data_dir,
-                                                        game_file),
+                loginfo('Getting review data from {0}...'.format(game_file))
+                dataset = get_and_describe_dataset(join(data_dir, game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
+
                 # If the hours played values are to be divided into
                 # bins, update the min/max values
                 if bins:
@@ -252,73 +248,56 @@ def main():
                         minh = dataset['minh']
                     if dataset['max'] > maxh:
                         maxh = dataset['maxh']
+
             # If the hours played values are to be divided into bins,
             # get the range that each bin maps to
             if bins:
-                bin_ranges = get_bin_ranges(minh,
-                                            maxh,
-                                            nbins,
-                                            bin_factor)
+                bin_ranges = get_bin_ranges(minh, maxh, nbins, bin_factor)
             else:
                 bin_ranges = False
         file_names = [splitext(game)[0] for game in game_files]
-        arff_file = join(arff_files_dir,
-                         '{}.arff'.format(combined_file_prefix))
+        arff_file = join(arff_files_dir, '{0}.arff'.format(combined_file_prefix))
         if use_mongodb:
             loginfo('Generating ARFF files for the combined training sets and'
                     ' the combined test sets, respectively, of the following '
-                    'games:\n\n{}'.format(', '.join([sub(r'_',
-                                                         r' ',
-                                                         fname) for fname in
-                                                     file_names])))
-            write_arff_file(arff_file,
-                            file_names,
-                            reviewdb=reviewdb,
-                            make_train_test=True,
-                            bins=True)
+                    'games:\n\n{0}'
+                    .format(', '.join([sub(r'_', r' ', fname)
+                                       for fname in file_names])))
+            write_arff_file(arff_file, file_names, reviewdb=reviewdb,
+                            make_train_test=True, bins=True)
         else:
-            loginfo('Generating {}...'.format(arff_file))
-            write_arff_file(arff_file,
-                            file_names,
-                            reviews=review_dicts_list,
+            loginfo('Generating {0}...'.format(arff_file))
+            write_arff_file(arff_file, file_names, reviews=review_dicts_list,
                             bins=bin_ranges)
     else:
         for game_file in game_files:
-            loginfo('Getting review data from {}...'.format(game_file))
+            loginfo('Getting review data from {0}...'.format(game_file))
             if not use_mongodb:
                 review_dicts_list = []
-                dataset = get_and_describe_dataset(join(data_dir,
-                                                        game_file),
+                dataset = get_and_describe_dataset(join(data_dir, game_file),
                                                    report=False)
                 review_dicts_list.extend(dataset['reviews'])
                 if bins:
+
                     # Get min/max hours played values from results of
                     # get_and_describe_dataset() call
                     minh = dataset['minh']
                     maxh = dataset['maxh']
+
                     # Get the range that each bin maps to
-                    bin_ranges = get_bin_ranges(minh,
-                                                maxh,
-                                                nbins,
-                                                bin_factor)
+                    bin_ranges = get_bin_ranges(minh, maxh, nbins, bin_factor)
                 else:
                     bin_ranges = False
             game = splitext(game_file)[0]
-            arff_file = join(arff_files_dir,
-                             '{}.arff'.format(game))
+            arff_file = join(arff_files_dir, '{0}.arff'.format(game))
             if use_mongodb:
                 loginfo('Generating ARFF file for the training and test sets '
-                        'for {}...'.format(game))
-                write_arff_file(arff_file,
-                                [game],
-                                reviewdb=reviewdb,
-                                make_train_test=True,
-                                bins=bins)
+                        'for {0}...'.format(game))
+                write_arff_file(arff_file, [game], reviewdb=reviewdb,
+                                make_train_test=True, bins=bins)
             else:
-                loginfo('Generating {}...'.format(arff_file))
-                write_arff_file(arff_file,
-                                [game],
-                                reviews=review_dicts_list,
+                loginfo('Generating {0}...'.format(arff_file))
+                write_arff_file(arff_file, [game], reviews=review_dicts_list,
                                 bins=bin_ranges)
     loginfo('Complete.')
 

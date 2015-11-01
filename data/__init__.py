@@ -1,3 +1,10 @@
+"""
+Defines the data package, which contains data files for the
+games/appids below.
+
+:author: Matt Mulholland (mulhodm@gmail.com)
+:date: November, 2014
+"""
 APPID_DICT = dict(Dota_2='570',
                   Counter_Strike_Global_Offensive='730',
                   Team_Fortress_2='440',
