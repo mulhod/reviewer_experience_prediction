@@ -3,7 +3,7 @@
 # themselves, respectively) with each model trained on only NLP features. Use
 # -h/--help option to see description and usage details.
 
-set -e
+set -eu
 
 # Variables and default values
 DATA_DIR="$(dirname $(dirname $(readlink -f $0)))/data"
@@ -118,7 +118,7 @@ while [ "$1" != "" ]; do
 done
 
 # Activate conda environment
-#source activate reviews
+source activate reviews
 
 # Make output directory
 mkdir -p ${OUTPUTDIR}

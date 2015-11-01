@@ -1,8 +1,13 @@
 #!/bin/zsh
 
+set -eu
+
 # Usage: ./get_review_data_all_games.sh[ WAIT_TIME]
 # WAIT_TIME: number of seconds to tell the program to sleep in between
 # webpage requests (default: 30)
+
+# Activate conda environment
+source activate reviews
 
 if [[ $# -eq 1 ]]; then
     
