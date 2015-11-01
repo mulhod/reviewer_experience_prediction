@@ -697,12 +697,16 @@ class IncrementalLearning:
         return [df[1] for df in sorted(zip(performances, dfs), key=lambda x: x[0],
                                        reverse=True)]
 
-    def get_sorted_features_for_learner(self, learner, _labels):
+    def get_sorted_features_for_learner(self, learner) -> list:
         """
         Get the best-performing features in a learner.
 
         :param learner: learner
         :type learner: learner instance
+
+        :returns: list of sorted features along with their class
+                  coefficients
+        :rtype: list
         """
 
         # Store feature coefficient tuples
@@ -712,13 +716,13 @@ class IncrementalLearning:
         for index, feat in enumerate(self.vec.get_feature_names()):
 
             # Get list of coefficient arrays for the different classes
-            coef_indices = []
-            for i in range(len(self.classes)):
-                coef_indices.append(learner.coef_[i][index])
+            coef_indices = [learner.coef_[i][index]
+                            for i in range(len(self.classes))]
 
             # Append feature coefficient tuple to list of tuples
             coef_features.append(tuple(list(chain([feat],
-                                                  zip(self.classes, coef_indices)))))
+                                                  zip(self.classes,
+                                                      coef_indices)))))
 
         return coef_features
 
