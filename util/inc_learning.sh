@@ -28,7 +28,7 @@ PREDICTION_LABEL="total_game_hours_bin"
 usage_details () {
     
     cat <<EOF
-Usage: inc_learning_all_games.sh GAMES [OPTIONS]...
+Usage: inc_learning_all.sh GAMES [OPTIONS]...
 
 Run incremental learning experiments on all games.
 
