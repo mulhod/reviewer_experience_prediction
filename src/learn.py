@@ -21,6 +21,7 @@ import pandas as pd
 from bson import BSON
 from pymongo import (ASCENDING,
                      collection)
+pymongo.errors import AutoReconnect
 from skll.metrics import kappa
 from scipy.stats import (mode,
                          pearsonr,
@@ -345,12 +346,14 @@ class IncrementalLearning:
         self.test_feature_dicts = [_data[self.__x__] for _data in self.test_data]
         self.y_test = np.array([_data[self.__y__] for _data in self.test_data])
         self.classes = np.unique(self.y_test)
-        logger.info('Prediction label classes: {0}'.format(', '.join(self.classes)))
+        logger.info('Prediction label classes: {0}'
+                    .format(', '.join([str(x) for x in self.classes])))
 
         # Useful constants for use in make_printable_confusion_matrix
         self.cnfmat_desc = \
             self.__cnfmat_row__(self.__cnfmat_header__.format(self.classes),
-                                self.__tab_join__([''] + [str(x) for x in self.classes]))
+                                self.__tab_join__([''] +
+                                                  [str(x) for x in self.classes]))
 
         # Do incremental learning experiments
         logger.info('Incremental learning experiments initialized...')
