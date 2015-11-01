@@ -122,7 +122,7 @@ LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'found_helpful_percentage', 'num_comments',
                     'total_game_hours', 'total_game_hours_bin',
                     'total_game_hours_last_two_weeks',
-                    'num_achievements_percentage',
+                    'num_achievements_percentage', 'num_achievements_attained',
                     'num_achievements_possible'})
 LABELS_STRING = ', '.join(LABELS)
 TIME_LABELS = frozenset({'total_game_hours', 'total_game_hours_bin',
@@ -270,18 +270,23 @@ class IncrementalLearning:
             raise Exception('The round_size parameter should have a positive'
                             ' value.')
         if prediction_label in non_nlp_features:
-            raise Exception('The prediction_label parameter ({}) cannot also '
-                            'be in the list of non-NLP features to use in the'
-                            ' model:\n\n{}\n.'
+            raise Exception('The prediction_label parameter ({0}) cannot also'
+                            ' be in the list of non-NLP features to use in '
+                            'the model:\n\n{1}\n.'
                             .format(prediction_label, ', '.join(non_nlp_features)))
+        if any(not feat in self.__possible_non_nlp_features__
+               for feat in non_nlp_features):
+            raise Exception('All non-NLP features must be included in the '
+                            'list of available non-NLP features: {0}.'
+                            .format(LABELS_STRING))
         if not prediction_label in self.__possible_non_nlp_features__:
             raise Exception('The prediction label must be in the set of '
-                            'features that can be extracted/used, i.e.: {}.'
+                            'features that can be extracted/used, i.e.: {0}.'
                             .format(LABELS_STRING))
         if not all(_games.issubset(VALID_GAMES) for _games in [games, test_games]):
-            raise Exception('Unrecognized game(s)/test game(s): {}. The games'
-                            ' must be in the following list of available '
-                            'games: {}.'
+            raise Exception('Unrecognized game(s)/test game(s): {0}. The '
+                            'games must be in the following list of available'
+                            ' games: {1}.'
                             .format(', '.join(games.union(test_games)),
                                     ', '.join(APPID_DICT)))
 
@@ -301,8 +306,8 @@ class IncrementalLearning:
         # Objective function
         self.objective = objective
         if not self.objective in OBJ_FUNC_ABBRS_DICT:
-            raise Exception('Unrecognized objective function used: {}. These '
-                            'are the available objective functions: {}.'
+            raise Exception('Unrecognized objective function used: {0}. These'
+                            ' are the available objective functions: {1}.'
                             .format(self.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
@@ -318,9 +323,7 @@ class IncrementalLearning:
             self.learner_param_grid_stats.append([[] for _ in learner_list])
 
         # Information about what features to use for what purposes
-        if all(feat in self.__possible_non_nlp_features__
-               for feat in non_nlp_features):
-            self.non_nlp_features = non_nlp_features
+        self.non_nlp_features = non_nlp_features
         self.prediction_label = prediction_label
 
         # Incremental learning-related variables
@@ -333,12 +336,16 @@ class IncrementalLearning:
         self.training_cursor = None
         self.test_cursor = None
         self.test_limit = test_limit
+        logger.info('Setting up MongoDB cursors for training/evaluation '
+                    'data...')
         self.make_cursors()
+        logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
         self.test_ids = [_data[self.__id__] for _data in self.test_data]
         self.test_feature_dicts = [_data[self.__x__] for _data in self.test_data]
         self.y_test = np.array([_data[self.__y__] for _data in self.test_data])
         self.classes = np.unique(self.y_test)
+        logger.info('Prediction label classes: {0}'.format(', '.join(self.classes)))
 
         # Useful constants for use in make_printable_confusion_matrix
         self.cnfmat_desc = \
@@ -366,6 +373,7 @@ class IncrementalLearning:
         """
 
         batch_size = 50
+        logger.debug('Batch size of MongoDB cursors: {0}'.format(batch_size))
         sorting_args = [(self.__steam_id__, ASCENDING)]
 
         # Make training data cursor
@@ -420,8 +428,7 @@ class IncrementalLearning:
         # Add in the non-NLP features (except for those that may be in
         # the 'achievement_progress' sub-dictionary of the review
         # dictionary
-        features.update({feat: val
-                         for feat, val in review_doc.items()
+        features.update({feat: val for feat, val in review_doc.items()
                          if (feat in self.__possible_non_nlp_features__
                              and val
                              and val != self.__nan__)})
@@ -466,19 +473,22 @@ class IncrementalLearning:
             # Get prediction label feature and remove it from feature
             # dictionary, skipping the document if it's not found or if
             # its value is None
-            if _get(self.prediction_label):
-                y_value = _get(self.prediction_label, None)
-                if y_value == None:
-                    i += 1
-                    continue
-                del feature_dict[self.prediction_label]
-            else:
-                i += 1
+            y_value = _get(self.prediction_label, None)
+            if y_value == None:
                 continue
+            else:
+                del feature_dict[self.prediction_label]
 
             # Get ID and remove from feature dictionary
             id_string = _get(self.__id_string__)
             del feature_dict[self.__id_string__]
+
+            # Only keep the non-NLP features that are supposed to be
+            # kept, if any
+            for feat in self.__possible_non_nlp_features__:
+                if (not feat in self.non_nlp_features
+                    and feature_dict.get(feat, None) != None):
+                    del feature_dict[feat]
 
             # Put features, prediction label, and ID in a new
             # dictionary and append to list of data samples and then
@@ -507,17 +517,22 @@ class IncrementalLearning:
             # Get prediction label feature and remove it from feature
             # dictionary, skipping the document if it's not found or if
             # its value is None
-            if _get(self.prediction_label):
-                y_value = _get(self.prediction_label, None)
-                if y_value == None:
-                    continue
-                del feature_dict[self.prediction_label]
-            else:
+            y_value = _get(self.prediction_label, None)
+            if y_value == None:
                 continue
+            else:
+                del feature_dict[self.prediction_label]
 
             # Get ID and remove from feature dictionary
             id_string = _get(self.__id_string__)
             del feature_dict[self.__id_string__]
+
+            # Only keep the non-NLP features that are supposed to be
+            # kept, if any
+            for feat in self.__possible_non_nlp_features__:
+                if (not feat in self.non_nlp_features
+                    and feature_dict.get(feat, None) != None):
+                    del feature_dict[feat]
 
             # Put features, prediction label, and ID in a new
             # dictionary and append to list of data samples and then
