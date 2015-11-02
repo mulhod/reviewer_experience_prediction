@@ -21,7 +21,7 @@ import pandas as pd
 from bson import BSON
 from pymongo import (ASCENDING,
                      collection)
-pymongo.errors import AutoReconnect
+#from pymongo.errors import AutoReconnect
 from skll.metrics import kappa
 from scipy.stats import (mode,
                          pearsonr,
@@ -47,8 +47,7 @@ from util.mongodb import connect_to_db
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
 sh = logging.StreamHandler()
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                              ' %(message)s')
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 sh.setFormatter(formatter)
 sh.setLevel(logging.INFO)
 logger.addHandler(sh)
@@ -91,7 +90,7 @@ LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'pagr': 'PassiveAggressiveRegressor'}
 LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
 LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}
-LEARNER_ABBRS_STRING = ', '.join(['"{}" ({})'.format(abbr, learner)
+LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
                                   for abbr, learner in LEARNER_ABBRS_DICT.items()])
 
 # Objective functions
@@ -110,8 +109,10 @@ OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
 OBJ_FUNC_ABBRS_STRING = \
-    ', '.join(['"{}"{}'.format(abbr,
-                               ' ({})'.format(obj_func) if abbr != obj_func else '')
+    ', '.join(['"{0}"{1}'.format(abbr,
+                                 ' ({0})'.format(obj_func)
+                                     if abbr != obj_func
+                                     else '')
                for abbr, obj_func in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
@@ -158,7 +159,7 @@ def _find_default_param_grid(learner: str,
     for key_cls, grid in param_grids_dict.items():
         if issubclass(LEARNER_DICT[learner], key_cls):
             return grid
-    raise Exception('Unrecognized learner abbreviation: {}'.format(learner))
+    raise Exception('Unrecognized learner abbreviation: {0}'.format(learner))
 
 
 class IncrementalLearning:
@@ -216,16 +217,16 @@ class IncrementalLearning:
     __possible_non_nlp_features__ = copy(LABELS)
     __orderings__ = copy(ORDERINGS)
     __tab_join__ = '\t'.join
-    __cnfmat_row__ = '{}{}\n'.format
+    __cnfmat_row__ = '{0}{1}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
-                         '(row=actual, col=machine, labels={}):\n')
+                         '(row=actual, col=machine, labels={0}):\n')
     __majority_label__ = 'majority_label'
     __majority_baseline_model__ = 'majority_baseline_model'
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
                  prediction_label: str, objective: str, test_limit=0,
-                 rounds=0, majority_baseline=False):
+                 rounds=0, majority_baseline=True):
         """
         Initialize class.
 
@@ -684,7 +685,8 @@ class IncrementalLearning:
 
         if not ordering in self.__orderings__:
             raise ValueError('ordering parameter not in the set of possible '
-                             'orderings: {}'.format(', '.join(self.__orderings__)))
+                             'orderings: {0}'
+                             .format(', '.join(self.__orderings__)))
 
         # Keep track of the performance
         dfs = []
@@ -762,7 +764,7 @@ class IncrementalLearning:
             or samples < self.round_size/2):
             return
 
-        logger.info('Round {}...'.format(self.round))
+        logger.info('Round {0}...'.format(self.round))
         train_ids = np.array([_data[self.__id__] for _data in train_data])
         y_train = np.array([_data[self.__y__] for _data in train_data])
         train_feature_dicts = [_data[self.__x__] for _data in train_data]
@@ -865,7 +867,7 @@ def parse_learners_string(learners_string) -> set:
         learners = set(learners_string.split(','))
         if not learners.issubset(LEARNER_DICT_KEYS):
             raise Exception('Found unrecognized learner(s) in list of '
-                            'passed-in learners: {}. Available learners: {}.'
+                            'passed-in learners: {0}. Available learners: {1}.'
                             .format(', '.join(learners), LEARNER_ABBRS_STRING))
 
     return learners
@@ -907,8 +909,8 @@ def parse_non_nlp_features_string(features_string: str,
         non_nlp_features = set(features_string.split(','))
         if not non_nlp_features.issubset(LABELS):
             raise Exception('Found unrecognized feature(s) in the list of '
-                            'passed-in non-NLP features: {}. Available '
-                            'features: {}.'
+                            'passed-in non-NLP features: {0}. Available '
+                            'features: {1}.'
                             .format(', '.join(non_nlp_features), ', '.join(LABELS)))
         if (prediction_label in TIME_LABELS
             and non_nlp_features.intersection(TIME_LABELS)):
@@ -948,8 +950,8 @@ def parse_games_string(games_string: str) -> set:
     # Raise exception if the list contains unrecognized games
     if any(game not in VALID_GAMES for game in specified_games):
         raise Exception('Found unrecognized games in the list of specified '
-                        'games: {}. These are the valid games (in addition to'
-                        ' using "all" for all games): {}.'
+                        'games: {0}. These are the valid games (in addition '
+                        'to using "all" for all games): {1}.'
                         .format(', '.join(specified_games), ', '.join(VALID_GAMES)))
     return set(specified_games)
 
@@ -1011,7 +1013,7 @@ def main(argv=None):
                         help='Comma-separated list of learning algorithms to '
                              'try. Refer to list of learners above to find '
                              'out which abbreviations stand for which '
-                             'learners. Set of available learners: {}. Use '
+                             'learners. Set of available learners: {0}. Use '
                              '"all" to include all available learners.'
                              .format(LEARNER_ABBRS_STRING),
                         type=str,
@@ -1034,13 +1036,13 @@ def main(argv=None):
                         action='store_true',
                         default=True)
     parser.add_argument('-dbhost', '--mongodb_host',
-        help='Host that the MongoDB server is running on.',
-        type=str,
-        default='localhost')
+                        help='Host that the MongoDB server is running on.',
+                        type=str,
+                        default='localhost')
     parser.add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running on.',
-        type=int,
-        default=37017)
+                        help='Port that the MongoDB server is running on.',
+                        type=int,
+                        default=37017)
     args = parser.parse_args()
 
     # Command-line arguments and flags
@@ -1062,37 +1064,37 @@ def main(argv=None):
     evaluate_majority_baseline = args.evaluate_majority_baseline
 
     if games == test_games:
-        logger.info('Game{} to train/evaluate models on: {}'
+        logger.info('Game{0} to train/evaluate models on: {1}'
                     .format('s' if len(games) > 1 else '',
                             ', '.join(games) if VALID_GAMES.difference(games)
                                              else 'all games'))
     else:
-        logger.info('Game{} to train models on: {}'
+        logger.info('Game{0} to train models on: {1}'
                     .format('s' if len(games) > 1 else '',
                             ', '.join(games) if VALID_GAMES.difference(games)
                                              else 'all games'))
-        logger.info('Game{} to evaluate models against: {}'
+        logger.info('Game{0} to evaluate models against: {1}'
                     .format('s' if len(test_games) > 1 else '',
                             ', '.join(test_games)
                                 if VALID_GAMES.difference(test_games)
                                 else 'all games'))
-    logger.info('Maximum number of learning rounds to conduct: {}'
+    logger.info('Maximum number of learning rounds to conduct: {0}'
                 .format(rounds if rounds > 0
                                   else "as many as possible"))
-    logger.info('Maximum number of training samples to use in each round: {}'
+    logger.info('Maximum number of training samples to use in each round: {0}'
                 .format(samples_per_round))
-    logger.info('Prediction label: {}'.format(prediction_label))
-    logger.info('Non-NLP features to use: {}'
+    logger.info('Prediction label: {0}'.format(prediction_label))
+    logger.info('Non-NLP features to use: {0}'
                 .format(', '.join(non_nlp_features) if non_nlp_features
                                                     else 'none'))
-    logger.info('Learners: {}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
-                                                 for learner in learners])))
-    logger.info('Using {} as the objective function'.format(obj_func))
+    logger.info('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
+                                                  for learner in learners])))
+    logger.info('Using {0} as the objective function'.format(obj_func))
 
     # Connect to running Mongo server
-    logger.info('MongoDB host: {}'.format(host))
-    logger.info('MongoDB port: {}'.format(port))
-    logger.info('Limiting number of test reviews to {} or below'
+    logger.info('MongoDB host: {0}'.format(host))
+    logger.info('MongoDB port: {0}'.format(port))
+    logger.info('Limiting number of test reviews to {0} or below'
                 .format(test_limit))
     db = connect_to_db(host=host, port=port)
 
@@ -1121,7 +1123,7 @@ def main(argv=None):
                             majority_baseline=evaluate_majority_baseline)
 
     # Output results files to output directory
-    logger.info('Output directory: {}'.format(output_dir))
+    logger.info('Output directory: {0}'.format(output_dir))
     makedirs(output_dir, exist_ok=True)
 
     # Rank experiments in terms of their performance with respect to
@@ -1133,21 +1135,23 @@ def main(argv=None):
     # Generate evaluation reports for the various learner/parameter
     # grid combinations
     logger.info('Generating reports for the incremental learning runs ordered'
-                ' by {}...'.format(ordering))
+                ' by {0}...'.format(ordering))
     for i, ranked_df in enumerate(ranked_dfs):
         learner_name = ranked_df[inc_learning.__learner__].irow(0)
         ranked_df.to_csv(join(output_dir,
-                              '{}_{}_learning_stats_{}.csv'
-                              .format(game, learner_name, i + 1)), index=False)
+                              '{0}_{1}_learning_stats_{2}.csv'
+                              .format('_'.join(games), learner_name, i + 1)),
+                         index=False)
 
     # Generate evaluation report for the majority baseline model, if
     # specified
     if evaluate_majority_baseline:
         logger.info('Generating report for the majority baseline model...')
-        logger.info('Majority label: {}'.format(inc_learning.majority_label))
+        logger.info('Majority label: {0}'.format(inc_learning.majority_label))
         (inc_learning.majority_baseline_stats
          .to_csv(join(output_dir,
-                      '{}_majority_baseline_model_stats.csv'.format(game)),
+                      '{0}_majority_baseline_model_stats.csv'
+                      .format('_'.join(games))),
                  index=False))
 
     logger.info('Complete.')
