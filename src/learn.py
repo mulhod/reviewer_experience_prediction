@@ -9,6 +9,7 @@ different machine learning algorithms and parameter customizations,
 etc.
 """
 import logging
+from json import dump
 from copy import copy
 from os import makedirs
 from itertools import chain
@@ -717,22 +718,26 @@ class IncrementalLearning:
         return [df[1] for df in sorted(zip(performances, dfs), key=lambda x: x[0],
                                        reverse=True)]
 
-    def get_sorted_features_for_learner(self, learner) -> list:
+    def get_sorted_features_for_learner(self, learner,
+                                        filter_zero_features=True) -> list:
         """
         Get the best-performing features in a learner.
 
         :param learner: learner
         :type learner: learner instance
+        :param filter_zero_features: filter out features with
+                                     zero-valued coefficients
+        :type filter_zero_features: bool
 
-        :returns: list of sorted features along with their class
-                  coefficients
-        :rtype: list
+        :returns: dataframe of sorted features
+        :rtype: pd.DataFrame
         """
 
         # Store feature coefficient tuples
-        coef_features = []
+        feature_coefs = []
 
-        # Get list of feature coefficient tuples
+        # Get tuples of feature + label/coefficient tuples, one for
+        # each label
         for index, feat in enumerate(self.vec.get_feature_names()):
 
             # Get list of coefficient arrays for the different classes
@@ -740,11 +745,25 @@ class IncrementalLearning:
                             for i in range(len(self.classes))]
 
             # Append feature coefficient tuple to list of tuples
-            coef_features.append(tuple(list(chain([feat],
+            feature_coefs.append(tuple(list(chain([feat],
                                                   zip(self.classes,
                                                       coef_indices)))))
 
-        return coef_features
+        # Unpack tuples of features and label/coefficient tuples into
+        # one long list of feature/label/coefficient values, sort, and
+        # convert to dataframe
+        features = []
+        for i, _label in enumerate(inc_learning.labels):
+            features.extend([pd.Series(feature=coefs[0], label=coefs[i + 1][0],
+                                       weight=coefs[i + 1][1])
+                             for coefs in feature_coefs])
+
+        # Keep only non-zero features, unless otherwise specified
+        if filter_zero_features:
+            features = [x for x in features if x.weight]
+
+        return pd.DataFrame(sorted(features, key=lambda x: abs(x.weight),
+                                   reverse=True)])
 
     def learning_round(self) -> None:
         """
@@ -1035,6 +1054,11 @@ def main(argv=None):
                         help='Evaluate the majority baseline model.',
                         action='store_true',
                         default=True)
+    parser.add_argument('--save_best_features',
+                        help='Get the best features from each model and write'
+                             ' them out to files.',
+                        action='store_true',
+                        default=True)
     parser.add_argument('-dbhost', '--mongodb_host',
                         help='Host that the MongoDB server is running on.',
                         type=str,
@@ -1062,6 +1086,7 @@ def main(argv=None):
     obj_func = args.obj_func
     ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
+    save_best_features = args.save_best_features
 
     if games == test_games:
         logger.info('Game{0} to train/evaluate models on: {1}'
@@ -1153,6 +1178,37 @@ def main(argv=None):
                       '{0}_majority_baseline_model_stats.csv'
                       .format('_'.join(games))),
                  index=False))
+
+    # Save the best-performing features
+    if save_best_features:
+        logger.info('Generating feature weights output files...')
+
+        # Make directory for model weights
+        model_weights_dir = join(output_dir, 'model_weights')
+        makedirs(model_weights_dir, exist_ok=True)
+
+        # Generate feature weights files and a 
+        params_dict = {}
+        for (learner_list, learner_name) in zip(inc_learning.learner_lists,
+                                                inc_learning.learner_names):
+            for i, learner in enumerate(learner_list):
+
+                # Store the parameter grids to an indexed dictionary
+                # so that a key can be output also
+                if not params_dict.get(learner_name):
+                    params_dict[learner_name] = {}
+                params_dict[learner_name][i] = learner.get_params())
+
+                # Generate feature weights report
+                (inc_learning
+                 .get_sorted_features_for_learner(learner)
+                 .to_csv(join(model_weights_dir,
+                              '{0}_{1}_learning_stats_{2}.csv'
+                              .format('_'.join(games), learner_name, i + 1))))
+
+        # Save parameters file also
+        with open(join(model_weights_dir, 'README.json'), 'w') as params_file:
+            dump(params_dict, params_file, indent=4)
 
     logger.info('Complete.')
 
