@@ -1197,7 +1197,7 @@ def main(argv=None):
                 # so that a key can be output also
                 if not params_dict.get(learner_name):
                     params_dict[learner_name] = {}
-                params_dict[learner_name][i] = learner.get_params())
+                params_dict[learner_name][i] = learner.get_params()
 
                 # Generate feature weights report
                 (inc_learning
