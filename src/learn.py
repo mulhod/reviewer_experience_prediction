@@ -753,7 +753,7 @@ class IncrementalLearning:
         # one long list of feature/label/coefficient values, sort, and
         # convert to dataframe
         features = []
-        for i, _label in enumerate(inc_learning.labels):
+        for i, _label in enumerate(self.labels):
             features.extend([pd.Series(feature=coefs[0], label=coefs[i + 1][0],
                                        weight=coefs[i + 1][1])
                              for coefs in feature_coefs])
@@ -763,7 +763,7 @@ class IncrementalLearning:
             features = [x for x in features if x.weight]
 
         return pd.DataFrame(sorted(features, key=lambda x: abs(x.weight),
-                                   reverse=True)])
+                                   reverse=True))
 
     def learning_round(self) -> None:
         """
