@@ -61,7 +61,7 @@ SEED = 123456789
 
 # Define default parameter grids
 _DEFAULT_PARAM_GRIDS = \
-    {MiniBatchKMeans: {'n_clusters': [4, 6, 8, 12],
+    {MiniBatchKMeans: {'n_clusters': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
                        'init' : ['k-means++', 'random'],
                        'random_state': [SEED]},
      BernoulliNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
@@ -451,6 +451,46 @@ class IncrementalLearning:
         features.update({self.__id_string__: _get(self.__id_string__)})
         return features
 
+    def get_data(self, review_doc: dict) -> dict:
+        """
+        Collect data from a MongoDB review document and return it in
+        format needed for DictVectorizer.
+
+        :param review_doc: document from the MongoDB reviews collection
+        :type review_doc: 
+
+        :returns: training/test sample
+        :rtype: dict
+        """
+
+        # Get dictionary containing all features needed + the ID and
+        # the prediction label
+        feature_dict = self.get_all_features(review_doc)
+        _get = feature_dict.get
+
+        # Get prediction label feature and remove it from feature
+        # dictionary, skipping the document if it's not found or if
+        # its value is None
+        y_value = _get(self.prediction_label, None)
+        if y_value == None:
+            return None
+        else:
+            del feature_dict[self.prediction_label]
+
+        # Get ID and remove from feature dictionary
+        id_string = _get(self.__id_string__)
+        del feature_dict[self.__id_string__]
+
+        # Only keep the non-NLP features that are supposed to be kept,
+        # if any
+        for feat in self.__possible_non_nlp_features__:
+            if (not feat in self.non_nlp_features
+                and feature_dict.get(feat, None) != None):
+                del feature_dict[feat]
+
+        # Return dictionary of features
+        return dict(y=y_value, id=id_string, x=feature_dict)
+
     def get_train_data_iteration(self) -> list:
         """
         Get a list of training data dictionaries to use in model
@@ -470,35 +510,11 @@ class IncrementalLearning:
                 self.NO_MORE_TRAINING_DATA = True
                 break
 
-            # Get dictionary containing all features needed + the ID
-            # and the prediction label
-            feature_dict = self.get_all_features(review_doc)
-            _get = feature_dict.get
-
-            # Get prediction label feature and remove it from feature
-            # dictionary, skipping the document if it's not found or if
-            # its value is None
-            y_value = _get(self.prediction_label, None)
-            if y_value == None:
-                continue
-            else:
-                del feature_dict[self.prediction_label]
-
-            # Get ID and remove from feature dictionary
-            id_string = _get(self.__id_string__)
-            del feature_dict[self.__id_string__]
-
-            # Only keep the non-NLP features that are supposed to be
-            # kept, if any
-            for feat in self.__possible_non_nlp_features__:
-                if (not feat in self.non_nlp_features
-                    and feature_dict.get(feat, None) != None):
-                    del feature_dict[feat]
-
-            # Put features, prediction label, and ID in a new
-            # dictionary and append to list of data samples and then
-            # increment the review counter
-            data.append(dict(y=y_value, id=id_string, x=feature_dict))
+            # Get features, prediction label, and ID in a new
+            # dictionary and append to list of data samples
+            sample = self.get_data(review_doc)
+            if sample:
+                data.append(sample)
             i += 1
 
         return data
@@ -514,35 +530,11 @@ class IncrementalLearning:
 
         data = []
         for review_doc in self.test_cursor:
-            # Get dictionary containing all features needed + the ID
-            # and the prediction label
-            feature_dict = self.get_all_features(review_doc)
-            _get = feature_dict.get
-
-            # Get prediction label feature and remove it from feature
-            # dictionary, skipping the document if it's not found or if
-            # its value is None
-            y_value = _get(self.prediction_label, None)
-            if y_value == None:
-                continue
-            else:
-                del feature_dict[self.prediction_label]
-
-            # Get ID and remove from feature dictionary
-            id_string = _get(self.__id_string__)
-            del feature_dict[self.__id_string__]
-
-            # Only keep the non-NLP features that are supposed to be
-            # kept, if any
-            for feat in self.__possible_non_nlp_features__:
-                if (not feat in self.non_nlp_features
-                    and feature_dict.get(feat, None) != None):
-                    del feature_dict[feat]
-
-            # Put features, prediction label, and ID in a new
-            # dictionary and append to list of data samples and then
-            # increment the review counter
-            data.append(dict(y=y_value, id=id_string, x=feature_dict))
+            # Get features, prediction label, and ID in a new
+            # dictionary and append to list of data samples
+            sample = self.get_data(review_doc)
+            if sample:
+                data.append(sample)
 
         return data
 
@@ -721,7 +713,8 @@ class IncrementalLearning:
     def get_sorted_features_for_learner(self, learner,
                                         filter_zero_features=True) -> list:
         """
-        Get the best-performing features in a learner.
+        Get the best-performing features in a learner (excluding
+        MiniBatchKMeans).
 
         :param learner: learner
         :type learner: learner instance
@@ -803,6 +796,11 @@ class IncrementalLearning:
         for i, (learner_list, learner_name) in enumerate(zip(self.learner_lists,
                                                              self.learner_names)):
             for j, learner in enumerate(learner_list):
+                # If the learner is MiniBatchKMeans, set the batch_size
+                # parameter to the number of training samples
+                if learner_name == 'MiniBatchKMeans':
+                    learner.set_params(batch_size=samples)
+
                 if (learner_name in self.__learners_requiring_classes__
                     and self.round == 1):
                     learner.partial_fit(X_train, y_train, classes=self.classes)
@@ -1191,12 +1189,14 @@ def main(argv=None):
         params_dict = {}
         for (learner_list, learner_name) in zip(inc_learning.learner_lists,
                                                 inc_learning.learner_names):
-            for i, learner in enumerate(learner_list):
+            # Skip MiniBatchKMeans
+            if learner_name == 'MiniBatchKMeans':
+                continue
 
+            for i, learner in enumerate(learner_list):
                 # Store the parameter grids to an indexed dictionary
                 # so that a key can be output also
-                if not params_dict.get(learner_name):
-                    params_dict[learner_name] = {}
+                params_dict.setdefault(learner_name, {})
                 params_dict[learner_name][i] = learner.get_params()
 
                 # Generate feature weights report
