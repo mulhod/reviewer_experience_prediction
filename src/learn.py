@@ -772,8 +772,12 @@ class IncrementalLearning:
         for index, feat in enumerate(self.vec.get_feature_names()):
 
             # Get list of coefficient arrays for the different classes
-            coef_indices = [learner.coef_[i][index]
-                            for i in range(len(self.classes))]
+            try:
+                coef_indices = [learner.coef_[i][index]
+                                for i, _ in enumerate(self.classes)]
+            except IndexError:
+                logger.error('Could not get feature coefficients!')
+                return None
 
             # Append feature coefficient tuple to list of tuples
             feature_coefs.append(tuple(list(chain([feat],
@@ -784,7 +788,7 @@ class IncrementalLearning:
         # one long list of feature/label/coefficient values, sort, and
         # convert to dataframe
         features = []
-        for i, _label in enumerate(self.labels):
+        for i, _label in enumerate(self.classes):
             features.extend([pd.Series(feature=coefs[0], label=coefs[i + 1][0],
                                        weight=coefs[i + 1][1])
                              for coefs in feature_coefs])
@@ -1110,7 +1114,7 @@ def main(argv=None):
                         help='Get the best features from each model and write'
                              ' them out to files.',
                         action='store_true',
-                        default=True)
+                        default=False)
     parser.add_argument('-dbhost', '--mongodb_host',
                         help='Host that the MongoDB server is running on.',
                         type=str,
@@ -1284,12 +1288,19 @@ def main(argv=None):
                 params_dict.setdefault(learner_name, {})
                 params_dict[learner_name][i] = learner.get_params()
 
-                # Generate feature weights report
-                (inc_learning
-                 .get_sorted_features_for_learner(learner)
-                 .to_csv(join(model_weights_dir,
-                              '{0}_{1}_learning_stats_{2}.csv'
-                              .format('_'.join(games), learner_name, i + 1))))
+                # Get dataframe of the features/coefficients
+                df = inc_learning.get_sorted_features_for_learner(learner)
+
+                if df:
+                    # Generate feature weights report
+                    df.to_csv(join(model_weights_dir,
+                                   '{0}_{1}_learning_stats_{2}.csv'
+                                   .format('_'.join(games),
+                                           learner_name, i + 1)))
+                else:
+                    logger.error('Could not generate features/feature '
+                                 'coefficients dataframe for {0}...'
+                                 .format(learner_name))
 
         # Save parameters file also
         with open(join(model_weights_dir, 'README.json'), 'w') as params_file:
