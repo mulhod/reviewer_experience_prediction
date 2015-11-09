@@ -36,7 +36,11 @@ def get_game_files(games_str, data_dir_path):
     :type games_str: str
     :param data_dir_path: path to data directory
     :type data_dir_path: str
-    :returns: list of str
+
+    :returns: list of games
+    :rtype: list
+
+    :raises: ValueError
     """
 
     if games_str == "all":
@@ -52,9 +56,8 @@ def get_game_files(games_str, data_dir_path):
                                      f if f.endswith('.jsonlines')
                                        else '{0}.jsonlines'.format(f)))]
     if len(game_files) == 0:
-        logerr('No files passed in via --game_files argument were found: {}. '
-               'Exiting.'.format(', '.join(games_str.split(','))))
-        exit(1)
+        raise ValueErrror('No files passed in via --game_files argument were '
+                          'found: {}.'.format(', '.join(games_str.split(','))))
 
     return game_files
 
@@ -78,9 +81,13 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
     :param wait: amount of time to wait between requesting different
                  pages on the Steam website
     :type wait: int/float
+
     :yields: dictionary with keys for various pieces of data related to
              a single review, including the review itself, the number
              of hours the reviewer has played the game, etc.
+    :ytype: dict
+
+    :raises: ValueError
     """
 
     # Define a couple useful regular expressions, string variables
@@ -161,8 +168,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                              'Range start = {1}\nindex = {2}\nURL = {3}\n\n'
                              'Exiting.'
                              .format(reviews_count, range_begin, i, url))
-                        logerr(exit_message)
-                        exit(exit_message)
+                        raise ValueError(exit_message)
 
         """
         If there's nothing at this URL, page might have no value at
@@ -413,8 +419,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                     '\n\nExiting.'
                                     .format(reviews_count, range_begin, i, url,
                                             review_dict['review_url']))
-                    logerr(exit_message)
-                    exit(exit_message)
+                    raise ValueError(exit_message)
             sleep(wait)
             try:
                 profile_page = requests.get(review_dict['profile_url'],
@@ -435,8 +440,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
                                     '{4}\n\nExiting.'
                                     .format(reviews_count, range_begin, i, url,
                                             review_dict['profile_url']))
-                    logerr(exit_message)
-                    exit(exit_message)
+                    raise ValueError(exit_message)
             review_page_html = review_page.text.strip()
             profile_page_html = profile_page.text.strip()
 
@@ -797,7 +801,11 @@ def parse_appids(appids, logger_name=None):
     :param logger_name: name of logger initialized in driver program
                         (default: None)
     :type logger_name: str
+
     :returns: list of game IDs
+    :rtype: list
+
+    :raises: ValueError
     """
 
     if logger_name:
@@ -809,8 +817,7 @@ def parse_appids(appids, logger_name=None):
     appids = appids.split(',')
     for appid in appids:
         if not appid in APPID_DICT.values():
-            logger.error('{0} not found in APPID_DICT. Exiting.'.format(appid))
-            exit(1)
+            raise ValueError('{0} not found in APPID_DICT. Exiting.'.format(appid))
     return appids
 
 
@@ -821,7 +828,9 @@ cdef read_reviews_from_game_file(file_path):
 
     :param file_path: path to reviews file
     :type file_path: str
+
     :returns: list of dict
+    :rtype: list
     """
 
     from json import loads
@@ -844,9 +853,11 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
     :param reports_dir: path to directory where reports should be
                         stored
     :type reports_dir: str
+
     :returns: dict containing a 'reviews' key mapped to the list of
               read-in review dictionaries and int values mapped to keys
               for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
+    :rtype: dict
     """
 
     # Imports
@@ -985,8 +996,10 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     :param factor: factor by which to multiply the bin sizes (default:
                    1.0)
     :type factor: float
+
     :returns: list of tuples representing the minimum and maximum
               values of each bin
+    :rtype: list
     """
 
     """
@@ -1031,14 +1044,15 @@ def get_bin(bin_ranges, float val):
                       maximum values of a range of values
     :param val: value
     :type val: float
+
     :returns: int (-1 if val not in any of the bin ranges)
+    :rtype: int
     """
 
     from numpy.testing import assert_almost_equal
 
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
-
         # Test if val is almost equal to the beginning or end of the
         # range
         try:
@@ -1092,21 +1106,25 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                  bins); if False, the original, unmodified hours played
                  values will be used (default: False)
     :type bins: boolean or list of 2-tuples of floats
+
     :returns: None
+    :rtype: None
+
+    :raises: ValueError
     """
 
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
         and (reviews
              or not reviewdb)):
-        logerr('The make_train_test keyword argument was set to True and '
-               'either the reviewdb keyword was left unspecified or the '
-               'reviews keyword was specified (or both). If the '
-               'make_train_test keyword is used, it is expected that training'
-               '/test reviews will be retrieved from the MongoDB database '
-               'rather than a list of reviews passed in via the reviews '
-               'keyword. Exiting.')
-        exit(1)
+        raise ValueError('The make_train_test keyword argument was set to '
+                         'True and either the reviewdb keyword was left '
+                         'unspecified or the reviews keyword was specified '
+                         '(or both). If the make_train_test keyword is used, '
+                         'it is expected that training/test reviews will be '
+                         'retrieved from the MongoDB database rather than a '
+                         'list of reviews passed in via the reviews keyword.')
+
     if (not make_train_test
         and reviewdb):
         if reviews:
@@ -1115,9 +1133,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     'argument, then the reviewdb keyword argument should not '
                     'be used at all since it will not be needed.')
         else:
-            logerr('A list of review dictionaries was not specified. '
-                   'Exiting.')
-            exit(1)
+            raise ValueError('A list of review dictionaries was not '
+                             'specified.')
     if bins:
         if (make_train_test
             and type(bins) == list):
@@ -1128,12 +1145,12 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     'ranges will be ignored.'.format(repr(bins)))
         if (reviews
             and type(bins) == bool):
-            logerr('The write_arff_file method was called with a list of '
-                   'review dictionaries and \'bins\' set to True. If the '
-                   'hours played values are to be collapsed and precomputed '
-                   'values (as from the database, for example) are not being '
-                   'used, then the bin ranges must be specified. Exiting.')
-            exit(1)
+            raise ValueError('The write_arff_file method was called with a '
+                             'list of review dictionaries and \'bins\' set to'
+                             ' True. If the hours played values are to be '
+                             'collapsed and precomputed values (as from the '
+                             'database, for example) are not being used, then'
+                             ' the bin ranges must be specified. Exiting.')
     # ARFF file template
     ARFF_BASE = """% Generated on {}
 % This ARFF file was generated with review data from the following game(s): {}
@@ -1163,11 +1180,10 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             game_docs = reviewdb.find({'partition': partition,
                                        'game': {'$in': file_names}})
             if game_docs.count() == 0:
-                logerr('No matching documents were found in the MongoDB '
-                       'collection for the {0} partition and the following '
-                       'games:\n\n{1}\n\nExiting.'
-                       .format(partition, file_names))
-                exit(1)
+                raise ValueError('No matching documents were found in the '
+                                 'MongoDB collection for the {0} partition '
+                                 'and the following games:\n\n{1}\n\nExiting.'
+                                 .format(partition, file_names))
             for game_doc in game_docs:
 
                 # Remove single/double quotes from the reviews first...
@@ -1196,9 +1212,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
     else:
 
         if not reviews:
-            logerr('Empty list of reviews passed in to the write_arff_file '
-                   'method. Exiting.')
-            exit(1)
+            raise ValueError('Empty list of reviews passed in to the '
+                             'write_arff_file method. Exiting.')
 
         # Make empty list of lines to populate with ARFF-style lines,
         # one per review
@@ -1214,11 +1229,10 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             if bins:
                 hours = get_bin(bins, rd['total_game_hours'])
                 if hours < 0:
-                    logerr('The given hours played value ({0}) was not found '
-                           'in the list of possible bin ranges ({1}). '
-                           'Exiting.'
-                           .format(rd['total_game_hours'], bins))
-                    exit(1)
+                    raise ValueError('The given hours played value ({0}) was '
+                                     'not found in the list of possible bin '
+                                     'ranges ({1}). Exiting.'
+                                     .format(rd['total_game_hours'], bins))
             else:
                 hours = rd['total_game_hours']
             reviews_lines.append('"{0}",{1}'.format(review, hours))
