@@ -1048,8 +1048,8 @@ def get_label_values(db, games: list, label: str, nbins=2, bin_factor=1.0) -> li
 
     # Collect all of the values from the MongoDB for the given
     # label/set of games
-    cursor = db.find({'game': {'$in': games}},
-                     {label: 1, '_id': -1, 'nlp_features': -1})
+    cursor = db.find({'game': {'$in': list(games)}},
+                     {'_id': False, 'nlp_features': False})
     values = {'values': [doc.get(label) for doc in cursor]}
 
     return list(pd.DataFrame(values)
@@ -1245,8 +1245,8 @@ def main(argv=None):
 
     if nbins:
         # Get label values
-        label_values = np.array(get_label_values(db, games, label, nbins,
-                                                 bin_factor))
+        label_values = np.array(get_label_values(db, games, prediction_label,
+                                                 nbins, bin_factor))
 
         # Divide up the distribution of label values
         bin_ranges = get_bin_ranges(label_values.min(), label_values.max(),
