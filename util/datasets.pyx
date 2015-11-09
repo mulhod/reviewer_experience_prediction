@@ -1075,6 +1075,46 @@ def get_bin(bin_ranges, float val):
     return -1
 
 
+def get_label_values(db, games, label, nbins=2, bin_factor=1.0):
+    """
+    Get all of the values for the given label in the data for the
+    given games.
+
+    :param db: MongoDB database collection object
+    :type db: collection
+    :param games: list of games
+    :type games: list
+    :param label: feature label
+    :type label: str
+    :param nbins: number of bins into which to split up the
+                  distribution of values
+    :type nbins: int
+    :param bin_factor: factor by which to multiply each succeeding bin
+    :type bin_factor: float
+
+    :returns: list of label values that are not equal to None or an
+              empty string
+    :rtype: list
+
+    :raises: ValueError
+    """
+
+    # Imports
+    import pandas as pd
+
+    # Make a cursor across all reviews from the given set of games
+    cursor = db.find({'game': {'$in': list(games)}},
+                     {'_id': False, 'nlp_features': False})
+
+    # Collect all of the values from the MongoDB for the given
+    # label/set of games and drop NaNs
+    cdef int column = 0
+    cdef int axis = 1
+    return list(pd.DataFrame([doc.get(label) for doc in cursor])
+                .xs(column, axis=axis)
+                .dropna())
+
+
 def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
                     make_train_test=False, bins=False):
     """

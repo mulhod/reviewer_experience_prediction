@@ -43,7 +43,8 @@ from sklearn.linear_model import (Perceptron,
 from data import APPID_DICT
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
-                           get_bin_ranges)
+                           get_bin_ranges,
+                           get_label_values)
 
 # Set up logger
 logger = logging.getLogger()
@@ -1010,50 +1011,6 @@ def parse_games_string(games_string: str) -> set:
                         'to using "all" for all games): {1}.'
                         .format(', '.join(specified_games), ', '.join(VALID_GAMES)))
     return set(specified_games)
-
-
-def get_label_values(db, games: list, label: str, nbins=2, bin_factor=1.0) -> list:
-    """
-    Get all of the values for the given label in the data for the
-    given games.
-
-    :param db: MongoDB database collection object
-    :type db: collection
-    :param games: list of games
-    :type games: list
-    :param label: feature label
-    :type label: str
-    :param nbins: number of bins into which to split up the
-                  distribution of values
-    :type nbins: int
-    :param bin_factor: factor by which to multiply each succeeding bin
-    :type bin_factor: float
-
-    :returns: list of label values that are not equal to None or an
-              empty string
-    :rtype: list
-
-    :raises: ValueError
-    """
-
-    # Make sure label is in set of feature labels
-    if not label in LABELS:
-        raise ValueError('Label not in the set of feature labels: {}'
-                         .format(', '.join(LABELS)))
-
-    # Make sure game is in set of games
-    if any(not game in VALID_GAMES for game in games):
-        raise ValueError('Game(s) not in the set of available games: {}'
-                         .format(', '.join(VALID_GAMES)))
-
-    # Collect all of the values from the MongoDB for the given
-    # label/set of games
-    cursor = db.find({'game': {'$in': list(games)}},
-                     {'_id': False, 'nlp_features': False})
-    values = {'values': [doc.get(label) for doc in cursor]}
-
-    return list(pd.DataFrame(values)
-                .dropna()['values'])
 
 
 def main(argv=None):
