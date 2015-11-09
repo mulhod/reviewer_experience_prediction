@@ -56,7 +56,7 @@ def get_game_files(games_str, data_dir_path):
                                      f if f.endswith('.jsonlines')
                                        else '{0}.jsonlines'.format(f)))]
     if len(game_files) == 0:
-        raise ValueErrror('No files passed in via --game_files argument were '
+        raise ValueError('No files passed in via --game_files argument were '
                           'found: {}.'.format(', '.join(games_str.split(','))))
 
     return game_files
