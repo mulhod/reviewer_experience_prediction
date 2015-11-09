@@ -1223,8 +1223,8 @@ def main(argv=None):
         logger.info('Number of bins to split up the distribution of '
                     'prediction label values into: {}'
                     .format(nbins))
-        logger.info("Factor by which to multiply each succeeding bin's size: '
-                    '{}".format(bin_factor))
+        logger.info("Factor by which to multiply each succeeding bin's size: "
+                    "{}".format(bin_factor))
     logger.info('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                                   for learner in learners])))
     logger.info('Using {0} as the objective function'.format(obj_func))
