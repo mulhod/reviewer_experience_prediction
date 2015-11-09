@@ -22,7 +22,6 @@ import pandas as pd
 from bson import BSON
 from pymongo import (ASCENDING,
                      collection)
-#from pymongo.errors import AutoReconnect
 from skll.metrics import kappa
 from scipy.stats import (mode,
                          pearsonr,
@@ -43,6 +42,8 @@ from sklearn.linear_model import (Perceptron,
 
 from data import APPID_DICT
 from util.mongodb import connect_to_db
+from util.datasets import (get_bin,
+                           get_bin_ranges)
 
 # Set up logger
 logger = logging.getLogger()
@@ -178,6 +179,7 @@ class IncrementalLearning:
     __training__ = 'training'
     __test__ = 'test'
     __nlp_feats__ = 'nlp_features'
+    __bin_ranges__ = 'bin_ranges'
     __achieve_prog__ = 'achievement_progress'
     __steam_id__ = 'steam_id_number'
     __in_op__ = '$in'
@@ -226,8 +228,8 @@ class IncrementalLearning:
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
-                 prediction_label: str, objective: str, test_limit=0,
-                 rounds=0, majority_baseline=True):
+                 prediction_label: str, objective: str, bin_ranges=None,
+                 test_limit=0, rounds=0, majority_baseline=True):
         """
         Initialize class.
 
@@ -253,6 +255,11 @@ class IncrementalLearning:
         :type prediction_label: str
         :param objective: objective function to use in ranking the runs
         :type objective: str
+        :param bin_ranges: list of tuples representing the maximum and
+                           minimum values corresponding to bins (for
+                           splitting up the distribution of prediction
+                           label values)
+        :type bin_ranges: None or list of tuple
         :param test_limit: limit for the number of test samples
                            (defaults to 0 for no limit)
         :type test_limit: int
@@ -265,33 +272,35 @@ class IncrementalLearning:
         :returns: instance of IncrementalLearning class
         :rtype: IncrementalLearning
 
-        :raises: Exception
+        :raises: ValueError
         """
 
         # Make sure parameters make sense/are valid
         if round_size < 1:
-            raise Exception('The round_size parameter should have a positive'
-                            ' value.')
+            raise ValueError('The round_size parameter should have a positive'
+                             ' value.')
         if prediction_label in non_nlp_features:
-            raise Exception('The prediction_label parameter ({0}) cannot also'
-                            ' be in the list of non-NLP features to use in '
-                            'the model:\n\n{1}\n.'
-                            .format(prediction_label, ', '.join(non_nlp_features)))
+            raise ValueError('The prediction_label parameter ({0}) cannot '
+                             'also be in the list of non-NLP features to use '
+                             'in the model:\n\n{1}\n.'
+                             .format(prediction_label,
+                                     ', '.join(non_nlp_features)))
         if any(not feat in self.__possible_non_nlp_features__
                for feat in non_nlp_features):
-            raise Exception('All non-NLP features must be included in the '
-                            'list of available non-NLP features: {0}.'
-                            .format(LABELS_STRING))
+            raise ValueError('All non-NLP features must be included in the '
+                             'list of available non-NLP features: {0}.'
+                             .format(LABELS_STRING))
         if not prediction_label in self.__possible_non_nlp_features__:
-            raise Exception('The prediction label must be in the set of '
-                            'features that can be extracted/used, i.e.: {0}.'
-                            .format(LABELS_STRING))
-        if not all(_games.issubset(VALID_GAMES) for _games in [games, test_games]):
-            raise Exception('Unrecognized game(s)/test game(s): {0}. The '
-                            'games must be in the following list of available'
-                            ' games: {1}.'
-                            .format(', '.join(games.union(test_games)),
-                                    ', '.join(APPID_DICT)))
+            raise ValueError('The prediction label must be in the set of '
+                             'features that can be extracted/used, i.e.: {0}.'
+                             .format(LABELS_STRING))
+        if not all(_games.issubset(VALID_GAMES) for _games in [games,
+                                                               test_games]):
+            raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
+                             'games must be in the following list of '
+                             'available games: {1}.'
+                             .format(', '.join(games.union(test_games)),
+                                     ', '.join(APPID_DICT)))
 
         # MongoDB database
         self.db = db
@@ -299,19 +308,21 @@ class IncrementalLearning:
         # Games
         self.games = games
         if not self.games:
-            raise Exception('The set of games must be greater than zero!')
+            raise ValueError('The set of games must be greater than zero!')
         self.games_string = ', '.join(self.games)
         self.test_games = test_games
         if not self.test_games:
-            raise Exception('The set of games must be greater than zero!')
+            raise ValueError('The set of games must be greater than zero!')
         self.test_games_string = ', '.join(self.test_games)
+        self.bin_ranges = bin_ranges
 
         # Objective function
         self.objective = objective
         if not self.objective in OBJ_FUNC_ABBRS_DICT:
-            raise Exception('Unrecognized objective function used: {0}. These'
-                            ' are the available objective functions: {1}.'
-                            .format(self.objective, OBJ_FUNC_ABBRS_STRING))
+            raise ValueError('Unrecognized objective function used: {0}. '
+                             'These are the available objective functions: '
+                             '{1}.'
+                             .format(self.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
         self.vec = None
@@ -360,9 +371,10 @@ class IncrementalLearning:
         # Do incremental learning experiments
         logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
-        self.learner_param_grid_stats = \
-            [[pd.DataFrame(param_grid) for param_grid in learner]
-             for learner in self.learner_param_grid_stats]
+        self.learner_param_grid_stats = [[pd.DataFrame(param_grid)
+                                          for param_grid in learner]
+                                         for learner
+                                         in self.learner_param_grid_stats]
 
         # Generate statistics for the majority baseline model
         if majority_baseline:
@@ -414,7 +426,8 @@ class IncrementalLearning:
     def get_all_features(self, review_doc: dict) -> dict:
         """
         Get all the features in a review document and put them together
-        in a dictionary.
+        in a dictionary. If bin_ranges is specified, convert the value
+        of the prediction label to the bin index.
 
         :param review_doc: review document from Mongo database
         :type review_doc: dict
@@ -445,6 +458,13 @@ class IncrementalLearning:
                          if (feat in self.__possible_non_nlp_features__
                              and val
                              and val != self.__nan__)})
+
+        # If bin_ranges was specified, then convert the value of the
+        # prediction label (if present) to the corresponding bin
+        if (self.bin_ranges
+            and features.get(self.prediction_label)):
+            features[self.prediction_label] = \
+                self.convert_value_to_bin(features.get(self.prediction_label))
 
         # Add in the 'id_string' value just to make it easier to
         # process the results of this function
@@ -564,7 +584,24 @@ class IncrementalLearning:
                            self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
                            self.__learner__: self.__majority_baseline_model__})
+        if self.bin_ranges:
+            stats_dict.update({self.__bin_ranges__: self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
+
+    def convert_value_to_bin(self, val) -> int:
+        """
+        Conver the value to the index of the bin in which it resides.
+
+        :param val: 
+        :type val: int or float
+
+        :returns: index of bin containg value
+        :rtype: int
+        """
+
+        if not self.bin_ranges:
+            return val
+        return get_bin(self.bin_ranges, val)
 
     def make_printable_confusion_matrix(self, y_preds) -> tuple:
         """
@@ -835,6 +872,8 @@ class IncrementalLearning:
                                    self.__training_samples__: samples,
                                    self.__non_nlp_features__:
                                        ', '.join(self.non_nlp_features)})
+                if self.bin_ranges:
+                    stats_dict.update({self.__bin_ranges__: self.bin_ranges})
                 self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
 
         # Increment the round number
@@ -973,6 +1012,50 @@ def parse_games_string(games_string: str) -> set:
     return set(specified_games)
 
 
+def get_label_values(db, games: list, label: str, nbins=2, bin_factor=1.0) -> list:
+    """
+    Get all of the values for the given label in the data for the
+    given games.
+
+    :param db: MongoDB database collection object
+    :type db: collection
+    :param games: list of games
+    :type games: list
+    :param label: feature label
+    :type label: str
+    :param nbins: number of bins into which to split up the
+                  distribution of values
+    :type nbins: int
+    :param bin_factor: factor by which to multiply each succeeding bin
+    :type bin_factor: float
+
+    :returns: list of label values that are not equal to None or an
+              empty string
+    :rtype: list
+
+    :raises: ValueError
+    """
+
+    # Make sure label is in set of feature labels
+    if not label in LABELS:
+        raise ValueError('Label not in the set of feature labels: {}'
+                         .format(', '.join(LABELS)))
+
+    # Make sure game is in set of games
+    if any(not game in VALID_GAMES for game in games):
+        raise ValueError('Game(s) not in the set of available games: {}'
+                         .format(', '.join(VALID_GAMES)))
+
+    # Collect all of the values from the MongoDB for the given
+    # label/set of games
+    cursor = db.find({'game': {'$in': games}},
+                     {label: 1, '_id': -1, 'nlp_features': -1})
+    values = {'values': [doc.get(label) for doc in cursor]}
+
+    return list(pd.DataFrame(values)
+                .dropna()['values'])
+
+
 def main(argv=None):
     parser = ArgumentParser(description='Run incremental learning '
                                         'experiments.',
@@ -1035,6 +1118,20 @@ def main(argv=None):
                              .format(LEARNER_ABBRS_STRING),
                         type=str,
                         default='all')
+    parser.add_argument('--nbins',
+                        help='Number of bins to split up the distribution of '
+                             'prediction label values into. Use 0 (or don\'t '
+                             'specify) if the values should not be collapsed '
+                             'into bins. Note: Only use this option (and '
+                             '--bin_factor below) if the prediction labels '
+                             'are numeric.',
+                        type=int,
+                        default=0)
+    parser.add_argument('--bin_factor',
+                        help='Factor by which to multiply the size of each '
+                             'bin. Defaults to 1.0.',
+                        type=float,
+                        required=False)
     parser.add_argument('--obj_func',
                         help='Objective function to use in determining which '
                              'learner/set of parameters resulted in the best '
@@ -1076,6 +1173,8 @@ def main(argv=None):
     prediction_label = args.prediction_label
     non_nlp_features = parse_non_nlp_features_string(args.non_nlp_features,
                                                      prediction_label)
+    nbins = args.nbins
+    bin_factor = args.bin_factor
     learners = parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
@@ -1110,6 +1209,22 @@ def main(argv=None):
     logger.info('Non-NLP features to use: {0}'
                 .format(', '.join(non_nlp_features) if non_nlp_features
                                                     else 'none'))
+    if nbins == 0:
+        if bin_factor:
+            raise ValueError('--bin_factor should not be specified if --nbins'
+                             ' is not specified or set to 0.')
+    else:
+        if (bin_factor
+            and bin_factor <= 0):
+            raise ValueError('--bin_factor should be set to a positive, '
+                             'non-zero value.')
+        elif not bin_factor:
+            bin_factor = 1.0
+        logger.info('Number of bins to split up the distribution of '
+                    'prediction label values into: {}'
+                    .format(nbins))
+        logger.info("Factor by which to multiply each succeeding bin's size: '
+                    '{}".format(bin_factor))
     logger.info('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                                   for learner in learners])))
     logger.info('Using {0} as the objective function'.format(obj_func))
@@ -1128,6 +1243,18 @@ def main(argv=None):
         logger.debug('Creating index on the "steam_id_number" key...')
         db.create_index('steam_id_number', ASCENDING)
 
+    if nbins:
+        # Get label values
+        label_values = np.array(get_label_values(db, games, label, nbins,
+                                                 bin_factor))
+
+        # Divide up the distribution of label values
+        bin_ranges = get_bin_ranges(label_values.min(), label_values.max(),
+                                    nbins, bin_factor)
+        logger.info('Bin ranges (nbins = {0}): {1}'.format(nbins, bin_ranges))
+    else:
+        bin_ranges = None
+
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
     inc_learning = \
@@ -1141,6 +1268,7 @@ def main(argv=None):
                             non_nlp_features,
                             prediction_label,
                             obj_func,
+                            bin_ranges=bin_ranges,
                             test_limit=test_limit,
                             rounds=rounds,
                             majority_baseline=evaluate_majority_baseline)
