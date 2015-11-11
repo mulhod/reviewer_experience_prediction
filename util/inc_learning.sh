@@ -18,11 +18,14 @@ LABELS=( "num_guides" "num_games_owned" "num_friends" "num_voted_helpfulness" \
          "num_comments" "total_game_hours" "total_game_hours_bin" \
          "total_game_hours_last_two_weeks" "num_achievements_percentage" \
          "num_achievements_possible" )
-OUTPUTDIR="$(pwd)/inc_learning_experiments"
+NON_NLP_FEATURES="none"
+OUTPUT_DIR="$(pwd)/inc_learning_experiments"
 SAMPLES_PER_ROUND="100"
 TEST_LIMIT="1000"
 ROUNDS="25"
 PREDICTION_LABEL="total_game_hours_bin"
+N_BINS="NULL"
+BIN_FACTOR="NULL"
 
 # Function for printing usage details
 usage_details () {
@@ -34,15 +37,18 @@ Run incremental learning experiments on all games.
 
 positional arguments:
 
- GAMES                     comma-separated list of games: $(echo ${GAME_FILES} | sed 's: :, :g')
+ GAMES                          comma-separated list of games: $(echo ${GAME_FILES} | sed 's: :, :g')
 
 optional arguments:
 
- --out_dir=PATH            PATH to directory to output incremental learning reports (default: ${OUTPUTDIR})
- --samples_per_round       N_SAMPLES, number of training samples to use per round (default: 100)
- --test_limit              N_SAMPLES, number of samples to use for evaluation (default: 1000)
- --prediction_label=LABEL  LABEL to use for prediction label (defaults to "total_game_hours_bin"): $(echo ${LABELS} | sed 's: :, :g')
- --help/-h                 print help
+ --out_dir=PATH                 PATH to directory to output incremental learning reports (default: ${OUTPUT_DIR})
+ --samples_per_round=N_SAMPLES  N_SAMPLES, number of training samples to use per round (default: 100)
+ --test_limit=N_SAMPLES         N_SAMPLES, number of samples to use for evaluation (default: 1000)
+ --prediction_label=LABEL       LABEL to use for prediction label (defaults to "total_game_hours_bin"): $(echo ${LABELS} | sed 's: :, :g')
+ --non_nlp_features=ALL_OR_NONE use "all" to use all non-NLP features or "none" to use none of them (default: "none")
+ --nbins=NUMBER                 NUMBER of bins to divide the distribution of values corresponding to the prediction label into
+ --bin_factor=FACTOR            floating point FACTOR (> 0) by which the sizes of the bins (set above) decrease or increase in terms of their range as the prediction label value increases (to set all bins to the same size, the default behavior, set this to 1.0)
+ --help/-h                      print help
 EOF
     
 }
@@ -73,12 +79,12 @@ while [ "$1" != "" ]; do
         exit 0
         ;;
     --out_dir=*)
-        OUTPUTDIR=$(echo $1 | awk -F= '{print $2}')
+        OUTPUT_DIR=$(echo $1 | awk -F= '{print $2}')
         ;;
     --samples_per_round=*)
         SAMPLES_PER_ROUND=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${SAMPLES_PER_ROUND} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
-            echo "ERROR: ${SAMPLES_PER_ROUND} not an integer. Exiting."
+            echo "ERROR: ${SAMPLES_PER_ROUND} not an integer. Exiting.\n"
             usage_details
             exit 1
         }
@@ -87,7 +93,7 @@ while [ "$1" != "" ]; do
     --test_limit=*)
         TEST_LIMIT=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${TEST_LIMIT} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
-            echo "ERROR: ${TEST_LIMIT} not an integer. Exiting."
+            echo "ERROR: ${TEST_LIMIT} not an integer. Exiting.\n"
             usage_details
             exit 1
         }
@@ -99,6 +105,7 @@ while [ "$1" != "" ]; do
             if [[ $(echo ${LABELS} | grep -P "\b${label}\b" | wc -l) -ne 1 ]]; then
                 
                 echo "Unrecognized label: ${label}\n"
+                echo "Exiting.\n"
                 usage_details
                 exit 1
                 
@@ -106,9 +113,36 @@ while [ "$1" != "" ]; do
             
         done
         ;;
+    --non_nlp_features=*)
+        NON_NLP_FEATURES=$(echo $1 | awk -F= '{print $2}')
+        [[  ${NON_NLP_FEATURES} != "all" && ${NON_NLP_FEATURES} != "none" ]] && {
+            echo "ERROR: --non_nlp_features must be set to either \"all\" " \
+                 "or \"none\". You specified: ${NON_NLP_FEATURES}. Exiting.\n"
+            usage_details
+            exit 1
+        }
+        ;;
+    --nbins=*)
+        N_BINS=$(echo $1 | awk -F= '{print $2}')
+        [[ $(echo ${N_BINS} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
+            echo "ERROR: ${N_BINS} not an integer. Exiting.\n"
+            usage_details
+            exit 1
+        }
+        ;;
+    --bin_factor=*)
+        BIN_FACTOR=$(echo $1 | awk -F= '{print $2}')
+        [[ $(echo ${BIN_FACTOR} | grep -P "^[0-9]+\.[0-9]+$" | wc -l) -ne 1 \
+            && ${BIN_FACTOR} -gt 0 ]] && {
+            echo "ERROR: ${BIN_FACTOR} not a positive, non-zero floating " \
+                 "point number. Exiting.\n"
+            usage_details
+            exit 1
+        }
+        ;;
     *)
-        echo "ERROR: Unrecognized option: $1"
-        echo "Exiting."
+        echo "ERROR: Unrecognized option: $1\n"
+        echo "Exiting.\n"
         usage_details
         exit 1
         ;;
@@ -121,15 +155,37 @@ done
 source activate reviews
 
 # Make output directory
-mkdir -p ${OUTPUTDIR}
+mkdir -p ${OUTPUT_DIR}
 
 for game in ${GAMES}; do
     
     echo "Conducting experiments with ${game}...\n"
     
-    LOG="${OUTPUTDIR}/log_inc_learning_${game}.txt"
-    eval "learn --games ${game} --output_dir ${OUTPUTDIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL}" >! ${LOG}
-    
+    NON_NLP_FEATURES_STRING="non_nlp_features"
+    if [[ ${NON_NLP_FEATURES} == "all" ]]; then
+        
+        NON_NLP_FEATURES_STRING="all_${NON_NLP_FEATURES_STRING}"
+        
+    else
+        
+        NON_NLP_FEATURES_STRING="no_${NON_NLP_FEATURES_STRING}"
+        
+    fi
+    LOG="${OUTPUT_DIR}/${game}_${N_BINS}_bins_${BIN_FACTOR}_factor_${NON_NLP_FEATURES_STRING}.txt"
+    CMD="learn --games ${game} --non_nlp_features ${NON_NLP_FEATURES} --output_dir ${OUTPUT_DIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL} --nbins ${N_BINS} --bin_factor ${BIN_FACTOR} 2>! ${LOG}"
+    # Get rid of --nbins/--bin_factor arguments if unspecified
+    if [[ ${N_BINS} == "NULL" ]]; then
+        
+        CMD=$(echo ${CMD} | sed 's: --nbins::' | sed 's: NULL::')
+        
+    fi
+    if [[ ${BIN_FACTOR} == "NULL" ]]; then
+        
+        CMD=$(echo ${CMD} | sed 's: --bin_factor::' | sed 's: NULL::')
+        
+    fi
+    echo "${CMD}"
+    eval "${CMD}"
     echo "Finished experiments with ${game}.\n"
     
 done
