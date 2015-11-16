@@ -6,6 +6,7 @@ jupyter=1.0.0
 lxml=3.4.4
 matplotlib=1.4.3
 mistune=0.7
+murmurhash=0.24
 nltk=3.0.4
 pandas=0.16.2
 pip=7.1.2

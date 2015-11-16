@@ -16,8 +16,8 @@ echo "Make sure that conda (miniconda) is installed before trying to set up" \
 
 echo "Creating conda environment...\n"
 conda config --add channels pypi
-# Create environment first and force python=3.5 (for some reason, just
-# adding python=3.5 to the list of packages in conda_requirements.txt
+# Create environment first and force python=3.4 (for some reason, just
+# adding python=3.4 to the list of packages in conda_requirements.txt
 # does not work as it is not recognized as a valid package name)
 conda create --yes -n reviews python=3.4
 # And now install all of the packages we need
