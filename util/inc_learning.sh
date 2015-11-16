@@ -115,7 +115,7 @@ while [ "$1" != "" ]; do
         ;;
     --non_nlp_features=*)
         NON_NLP_FEATURES=$(echo $1 | awk -F= '{print $2}')
-        [[  ${NON_NLP_FEATURES} != "all" && ${NON_NLP_FEATURES} != "none" ]] && {
+        [[ ${NON_NLP_FEATURES} != "all" && ${NON_NLP_FEATURES} != "none" ]] && {
             echo "ERROR: --non_nlp_features must be set to either \"all\" " \
                  "or \"none\". You specified: ${NON_NLP_FEATURES}. Exiting.\n"
             usage_details
