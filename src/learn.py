@@ -112,10 +112,8 @@ OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
 OBJ_FUNC_ABBRS_STRING = \
-    ', '.join(['"{0}"{1}'.format(abbr,
-                                 ' ({0})'.format(obj_func)
-                                     if abbr != obj_func
-                                     else '')
+    ', '.join(['"{0}"{1}'
+               .format(abbr, ' ({0})'.format(obj_func) if abbr != obj_func else '')
                for abbr, obj_func in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
@@ -138,8 +136,7 @@ ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
 
 # Valid games
-VALID_GAMES = frozenset([game for game in list(APPID_DICT)
-                         if game != 'sample'])
+VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
 
 
 def _find_default_param_grid(learner: str,
@@ -189,6 +186,7 @@ class IncrementalLearning:
     __y__ = 'y'
     __id_string__ = 'id_string'
     __id__ = 'id'
+    __obj_id__ = '_id'
     __macro__ = 'macro'
     __weighted__ = 'weighted'
     __linear__ = 'linear'
@@ -197,9 +195,9 @@ class IncrementalLearning:
     __prediction_label__ = 'prediction_label'
     __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
     __non_nlp_features__ = 'non-NLP features'
+    __no_nlp_features__ = 'no NLP features'
     __learner__ = 'learner'
-    __learners_requiring_classes__ = frozenset({'BernoulliNB',
-                                                'MultinomialNB',
+    __learners_requiring_classes__ = frozenset({'BernoulliNB', 'MultinomialNB',
                                                 'Perceptron'})
     __params__ = 'params'
     __training_samples__ = 'training_samples'
@@ -229,8 +227,8 @@ class IncrementalLearning:
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
-                 prediction_label: str, objective: str, bin_ranges=None,
-                 test_limit=0, rounds=0, majority_baseline=True):
+                 prediction_label: str, objective: str, no_nlp_features=False,
+                 bin_ranges=None, test_limit=0, rounds=0, majority_baseline=True):
         """
         Initialize class.
 
@@ -256,6 +254,8 @@ class IncrementalLearning:
         :type prediction_label: str
         :param objective: objective function to use in ranking the runs
         :type objective: str
+        :param no_nlp_features: leave out NLP features
+        :type no_nlp_features: boolean
         :param bin_ranges: list of tuples representing the maximum and
                            minimum values corresponding to bins (for
                            splitting up the distribution of prediction
@@ -284,8 +284,7 @@ class IncrementalLearning:
             raise ValueError('The prediction_label parameter ({0}) cannot '
                              'also be in the list of non-NLP features to use '
                              'in the model:\n\n{1}\n.'
-                             .format(prediction_label,
-                                     ', '.join(non_nlp_features)))
+                             .format(prediction_label, ', '.join(non_nlp_features)))
         if any(not feat in self.__possible_non_nlp_features__
                for feat in non_nlp_features):
             raise ValueError('All non-NLP features must be included in the '
@@ -295,8 +294,7 @@ class IncrementalLearning:
             raise ValueError('The prediction label must be in the set of '
                              'features that can be extracted/used, i.e.: {0}.'
                              .format(LABELS_STRING))
-        if not all(_games.issubset(VALID_GAMES) for _games in [games,
-                                                               test_games]):
+        if not all(_games.issubset(VALID_GAMES) for _games in [games, test_games]):
             raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
                              'games must be in the following list of '
                              'available games: {1}.'
@@ -321,8 +319,7 @@ class IncrementalLearning:
         self.objective = objective
         if not self.objective in OBJ_FUNC_ABBRS_DICT:
             raise ValueError('Unrecognized objective function used: {0}. '
-                             'These are the available objective functions: '
-                             '{1}.'
+                             'These are the available objective functions: {1}.'
                              .format(self.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
@@ -330,15 +327,16 @@ class IncrementalLearning:
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
         self.learner_names = [LEARNER_NAMES_DICT[learner] for learner in learners]
-        self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
-                              for learner, param_grid
-                              in zip(learners, self.param_grids)]
+        self.learner_lists = \
+            [[learner(**kwparams) for kwparams in param_grid]
+             for learner, param_grid in zip(learners, self.param_grids)]
         self.learner_param_grid_stats = []
         for learner_list in self.learner_lists:
             self.learner_param_grid_stats.append([[] for _ in learner_list])
 
         # Information about what features to use for what purposes
         self.non_nlp_features = non_nlp_features
+        self.no_nlp_features = no_nlp_features
         self.prediction_label = prediction_label
 
         # Incremental learning-related variables
@@ -351,8 +349,7 @@ class IncrementalLearning:
         self.training_cursor = None
         self.test_cursor = None
         self.test_limit = test_limit
-        logger.info('Setting up MongoDB cursors for training/evaluation '
-                    'data...')
+        logger.info('Setting up MongoDB cursors for training/evaluation data...')
         self.make_cursors()
         logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
@@ -365,17 +362,17 @@ class IncrementalLearning:
 
         # Useful constants for use in make_printable_confusion_matrix
         self.cnfmat_desc = \
-            self.__cnfmat_row__(self.__cnfmat_header__.format(self.classes),
-                                self.__tab_join__([''] +
-                                                  [str(x) for x in self.classes]))
+            self.__cnfmat_row__(
+                self.__cnfmat_header__.format(self.classes),
+                self.__tab_join__([''] + [str(x) for x in self.classes])
+                )
 
         # Do incremental learning experiments
         logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
-        self.learner_param_grid_stats = [[pd.DataFrame(param_grid)
-                                          for param_grid in learner]
-                                         for learner
-                                         in self.learner_param_grid_stats]
+        self.learner_param_grid_stats = \
+            [[pd.DataFrame(param_grid) for param_grid in learner]
+             for learner in self.learner_param_grid_stats]
 
         # Generate statistics for the majority baseline model
         if majority_baseline:
@@ -394,6 +391,12 @@ class IncrementalLearning:
         logger.debug('Batch size of MongoDB cursors: {0}'.format(batch_size))
         sorting_args = [(self.__steam_id__, ASCENDING)]
 
+        # Leave out the '_id' value and the 'nlp_features' value if
+        # `self.no_nlp_features` is true
+        projection = {self.__obj_id__: 0}
+        if self.no_nlp_features:
+            projection.update({self.__nlp_feats__: 0})
+
         # Make training data cursor
         if len(self.games) == 1:
             train_query = {self.__game__: list(self.games)[0],
@@ -404,7 +407,7 @@ class IncrementalLearning:
             train_query = {self.__game__: {self.__in_op__: list(self.games)},
                            self.__partition__: self.__training__}
         self.training_cursor = (self.db
-                                .find(train_query, timeout=False)
+                                .find(train_query, projection, timeout=False)
                                 .sort(sorting_args))
         self.training_cursor.batch_size = batch_size
 
@@ -418,61 +421,68 @@ class IncrementalLearning:
             test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
                            self.__partition__: self.__test__}
         self.test_cursor = (self.db
-                            .find(test_query, timeout=False)
+                            .find(test_query, projection, timeout=False)
                             .sort(sorting_args))
         if self.test_limit:
             self.test_cursor = self.test_cursor.limit(self.test_limit)
         self.test_cursor.batch_size = batch_size
 
-    def get_all_features(self, review_doc: dict) -> dict:
+    def get_all_features(self, review_doc: dict):
         """
         Get all the features in a review document and put them together
-        in a dictionary. If bin_ranges is specified, convert the value
-        of the prediction label to the bin index.
+        in a dictionary. If `self.no_nlp_features` is true, leave out
+        NLP features. If bin_ranges is specified, convert the value of
+        the prediction label to the bin index.
 
         :param review_doc: review document from Mongo database
         :type review_doc: dict
 
         :returns: feature dictionary
-        :rtype: dict
+        :rtype: dict or None
         """
 
         _get = review_doc.get
+        features = {}
+        features.update = _update
 
         # Add in the NLP features
-        features = {feat: val for feat, val
-                    in BSON.decode(_get(self.__nlp_feats__)).items()
-                    if val and val != self.__nan__}
+        if not self.no_nlp_features:
+            _update({feat: val for feat, val
+                     in BSON.decode(_get(self.__nlp_feats__)).items()
+                     if val and val != self.__nan__})
 
         # Add in the non-NLP features (except for those that may be in
         # the 'achievement_progress' sub-dictionary of the review
-        # dictionary
-        features.update({feat: val for feat, val in review_doc.items()
-                         if (feat in self.__possible_non_nlp_features__
-                             and val
-                             and val != self.__nan__)})
+        # dictionary)
+        _update({feat: val for feat, val in review_doc.items()
+                 if (feat in self.__possible_non_nlp_features__
+                     and val and val != self.__nan__)})
 
         # Add in the features that may be in the 'achievement_progress'
-        # sub-dictionary of the review dictionary
-        features.update({feat: val for feat, val
-                         in _get(self.__achieve_prog__, dict()).items()
-                         if (feat in self.__possible_non_nlp_features__
-                             and val
-                             and val != self.__nan__)})
+        # sub-dictionary of the review document
+        _update({feat: val for feat, val
+                 in _get(self.__achieve_prog__, dict()).items()
+                 if (feat in self.__possible_non_nlp_features__
+                     and val and val != self.__nan__)})
 
-        # If bin_ranges was specified, then convert the value of the
-        # prediction label (if present) to the corresponding bin
-        if (self.bin_ranges
-            and features.get(self.prediction_label)):
-            features[self.prediction_label] = \
-                self.convert_value_to_bin(features.get(self.prediction_label))
+        # Convert prediction label if `self.bin_ranges` is specified
+        # and the prediction label is in the features dictionary;
+        # if the prediction label is not in the dictionary, return
+        _label = features.get(self.prediction_label)
+        if _label:
+            # If `self.bin_ranges` was specified, convert the value of the
+            # prediction label (if present) to the corresponding bin
+            if self.bin_ranges:
+                features[self.prediction_label] = self.convert_value_to_bin(_label)
+        else:
+            return
 
         # Add in the 'id_string' value just to make it easier to
         # process the results of this function
-        features.update({self.__id_string__: _get(self.__id_string__)})
+        _update({self.__id_string__: _get(self.__id_string__)})
         return features
 
-    def get_data(self, review_doc: dict) -> dict:
+    def get_data(self, review_doc: dict):
         """
         Collect data from a MongoDB review document and return it in
         format needed for DictVectorizer.
@@ -481,25 +491,26 @@ class IncrementalLearning:
         :type review_doc: 
 
         :returns: training/test sample
-        :rtype: dict
+        :rtype: dict or None
         """
 
         # Get dictionary containing all features needed + the ID and
         # the prediction label
         feature_dict = self.get_all_features(review_doc)
-        _get = feature_dict.get
 
-        # Get prediction label feature and remove it from feature
-        # dictionary, skipping the document if it's not found or if
-        # its value is None
-        y_value = _get(self.prediction_label, None)
-        if y_value == None:
-            return None
-        else:
-            del feature_dict[self.prediction_label]
+        # Skip over any feature dictionaries that are empty (i.e., due
+        # to the absence of the prediction label, or if for some reason
+        # the dictionary is otherwise empty)
+        if not feature_dict:
+            return
+
+        # Get prediction label and remove it from the feature
+        # dictionary
+        y_value = feature_dict[self.prediction_label]
+        del feature_dict[self.prediction_label]
 
         # Get ID and remove from feature dictionary
-        id_string = _get(self.__id_string__)
+        id_string = feature_dict[self.__id_string__]
         del feature_dict[self.__id_string__]
 
         # Only keep the non-NLP features that are supposed to be kept,
@@ -508,6 +519,11 @@ class IncrementalLearning:
             if (not feat in self.non_nlp_features
                 and feature_dict.get(feat, None) != None):
                 del feature_dict[feat]
+
+        # If, after taking out the prediction label and the ID, there
+        # are no remaining features, return None
+        if not feature_dict:
+            return
 
         # Return dictionary of features
         return dict(y=y_value, id=id_string, x=feature_dict)
@@ -536,7 +552,7 @@ class IncrementalLearning:
             sample = self.get_data(review_doc)
             if sample:
                 data.append(sample)
-            i += 1
+                i += 1
 
         return data
 
@@ -580,8 +596,8 @@ class IncrementalLearning:
         stats_dict = self.get_stats(self.get_majority_baseline())
         stats_dict.update({self.__test_games__:
                                ', '.join(self.test_games)
-                                   if self.test_games.difference(VALID_GAMES)
-                                   else self.__all_games__,
+                               if self.test_games.difference(VALID_GAMES)
+                               else self.__all_games__,
                            self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
                            self.__learner__: self.__majority_baseline_model__})
@@ -773,8 +789,8 @@ class IncrementalLearning:
 
             # Get list of coefficient arrays for the different classes
             try:
-                coef_indices = [learner.coef_[i][index]
-                                for i, _ in enumerate(self.classes)]
+                coef_indices = \
+                    [learner.coef_[i][index] for i, _ in enumerate(self.classes)]
             except IndexError:
                 logger.error('Could not get feature coefficients!')
                 return None
@@ -789,9 +805,11 @@ class IncrementalLearning:
         # convert to dataframe
         features = []
         for i, _label in enumerate(self.classes):
-            features.extend([pd.Series(feature=coefs[0], label=coefs[i + 1][0],
-                                       weight=coefs[i + 1][1])
-                             for coefs in feature_coefs])
+            features.extend(
+                [pd.Series(feature=coefs[0], label=coefs[i + 1][0],
+                           weight=coefs[i + 1][1])
+                 for coefs in feature_coefs]
+                )
 
         # Keep only non-zero features, unless otherwise specified
         if filter_zero_features:
@@ -876,7 +894,8 @@ class IncrementalLearning:
                                    self.__params__: learner.get_params(),
                                    self.__training_samples__: samples,
                                    self.__non_nlp_features__:
-                                       ', '.join(self.non_nlp_features)})
+                                       ', '.join(self.non_nlp_features),
+                                   self.__no_nlp_features__: self.no_nlp_features})
                 if self.bin_ranges:
                     stats_dict.update({self.__bin_ranges__: self.bin_ranges})
                 self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
@@ -919,7 +938,7 @@ def parse_learners_string(learners_string) -> set:
     :returns: set of learner abbreviations
     :rtype: set
 
-    :raises: Exception
+    :raises: ValueError
     """
 
     if learners_string == 'all':
@@ -927,9 +946,9 @@ def parse_learners_string(learners_string) -> set:
     else:
         learners = set(learners_string.split(','))
         if not learners.issubset(LEARNER_DICT_KEYS):
-            raise Exception('Found unrecognized learner(s) in list of '
-                            'passed-in learners: {0}. Available learners: {1}.'
-                            .format(', '.join(learners), LEARNER_ABBRS_STRING))
+            raise ValueError('Found unrecognized learner(s) in list of '
+                             'passed-in learners: {0}. Available learners: {1}.'
+                             .format(', '.join(learners), LEARNER_ABBRS_STRING))
 
     return learners
 
@@ -955,7 +974,7 @@ def parse_non_nlp_features_string(features_string: str,
     :returns: set of non-NLP features to use
     :rtype: set
 
-    :raises: Exception
+    :raises: ValueError
     """
 
     if features_string == 'all':
@@ -969,16 +988,17 @@ def parse_non_nlp_features_string(features_string: str,
     else:
         non_nlp_features = set(features_string.split(','))
         if not non_nlp_features.issubset(LABELS):
-            raise Exception('Found unrecognized feature(s) in the list of '
-                            'passed-in non-NLP features: {0}. Available '
-                            'features: {1}.'
-                            .format(', '.join(non_nlp_features), ', '.join(LABELS)))
+            raise ValueError('Found unrecognized feature(s) in the list of '
+                             'passed-in non-NLP features: {0}. Available '
+                             'features: {1}.'
+                             .format(', '.join(non_nlp_features),
+                                     ', '.join(LABELS)))
         if (prediction_label in TIME_LABELS
             and non_nlp_features.intersection(TIME_LABELS)):
-            raise Exception('The list of non-NLP features should not '
-                            'contain any of the time-related features if '
-                            'the prediction label is itself a '
-                            'time-related feature.')
+            raise ValueError('The list of non-NLP features should not '
+                             'contain any of the time-related features if '
+                             'the prediction label is itself a '
+                             'time-related feature.')
 
     return non_nlp_features
 
@@ -994,7 +1014,7 @@ def parse_games_string(games_string: str) -> set:
     :returns: set of games
     :rtype: set
 
-    :raises: Exception
+    :raises: ValueError
     """
 
     # Return empty set for empty string
@@ -1010,10 +1030,11 @@ def parse_games_string(games_string: str) -> set:
 
     # Raise exception if the list contains unrecognized games
     if any(game not in VALID_GAMES for game in specified_games):
-        raise Exception('Found unrecognized games in the list of specified '
-                        'games: {0}. These are the valid games (in addition '
-                        'to using "all" for all games): {1}.'
-                        .format(', '.join(specified_games), ', '.join(VALID_GAMES)))
+        raise ValueError('Found unrecognized games in the list of specified '
+                         'games: {0}. These are the valid games (in addition '
+                         'to using "all" for all games): {1}.'
+                         .format(', '.join(specified_games),
+                                 ', '.join(VALID_GAMES)))
     return set(specified_games)
 
 
@@ -1067,9 +1088,15 @@ def main(argv=None):
                         help='Comma-separated list of non-NLP features to '
                              'combine with the NLP features in creating a '
                              'model. Use "all" to use all available '
-                             'features or "none" to use no non-NLP features.',
+                             'features, "none" to use no non-NLP features. '
+                             'If --only_non_nlp_features is used, NLP '
+                             'features will be left out entirely.',
                         type=str,
                         default='none')
+    parser.add_argument('--only_non_nlp_features',
+                        help="Don't use any NLP features.",
+                        action='store_true',
+                        default=False)
     parser.add_argument('--learners',
                         help='Comma-separated list of learning algorithms to '
                              'try. Refer to list of learners above to find '
@@ -1134,6 +1161,7 @@ def main(argv=None):
     prediction_label = args.prediction_label
     non_nlp_features = parse_non_nlp_features_string(args.non_nlp_features,
                                                      prediction_label)
+    only_non_nlp_features = args.only_non_nlp_features
     nbins = args.nbins
     bin_factor = args.bin_factor
     learners = parse_learners_string(args.learners)
@@ -1146,6 +1174,7 @@ def main(argv=None):
     evaluate_majority_baseline = args.evaluate_majority_baseline
     save_best_features = args.save_best_features
 
+    # Log a bunch of job attributes
     if games == test_games:
         logger.info('Game{0} to train/evaluate models on: {1}'
                     .format('s' if len(games) > 1 else '',
@@ -1159,8 +1188,8 @@ def main(argv=None):
         logger.info('Game{0} to evaluate models against: {1}'
                     .format('s' if len(test_games) > 1 else '',
                             ', '.join(test_games)
-                                if VALID_GAMES.difference(test_games)
-                                else 'all games'))
+                            if VALID_GAMES.difference(test_games)
+                            else 'all games'))
     logger.info('Maximum number of learning rounds to conduct: {0}'
                 .format(rounds if rounds > 0
                                   else "as many as possible"))
@@ -1170,6 +1199,8 @@ def main(argv=None):
     logger.info('Non-NLP features to use: {0}'
                 .format(', '.join(non_nlp_features) if non_nlp_features
                                                     else 'none'))
+    if only_non_nlp_features:
+        logger.info('Leaving out all NLP features.')
     if nbins == 0:
         if bin_factor:
             raise ValueError('--bin_factor should not be specified if --nbins'
@@ -1229,6 +1260,7 @@ def main(argv=None):
                             non_nlp_features,
                             prediction_label,
                             obj_func,
+                            no_nlp_features=only_non_nlp_features,
                             bin_ranges=bin_ranges,
                             test_limit=test_limit,
                             rounds=rounds,
