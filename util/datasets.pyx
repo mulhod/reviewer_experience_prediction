@@ -1028,6 +1028,39 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     return bin_ranges
 
 
+def get_bin_ranges_helper(db, games, label, int nbins, float factor):
+    """
+    
+
+    :param db: MongoDB database collection object
+    :type db: collection
+    :param games: list of games
+    :type games: list
+    :param label: prediction label
+    :type label: str
+    :param nbins: number of bins into which the distribution is being
+                  sub-divided
+    :type nbins: int
+    :param factor: factor by which to multiply the bin sizes
+                   (default: 1.0)
+    :type factor: float
+
+    :returns: list of tuples representing the minimum and maximum
+              values of each bin or None if `nbins` is 0
+    :rtype: list or None
+    """
+
+    # Return None if `nbins` is 0
+    if not nbins:
+        return
+
+    # Get label values
+    values = np.array(get_label_values(db, games, label, nbins, factor))
+
+    # Divide up the distribution of label values
+    return get_bin_ranges(values.min(), values.max(), nbins, factor)
+
+
 def get_bin(bin_ranges, float val):
     """
     Return the index of the bin range in which the value falls.

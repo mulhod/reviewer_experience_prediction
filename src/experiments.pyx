@@ -35,12 +35,6 @@ DEFAULT_PARAM_GRIDS = \
                    'squared_epsilon_insensitive']}}
 
 # Learners
-LEARNER_NAMES_DICT = {MiniBatchKMeans: 'MiniBatchKMeans',
-                      BernoulliNB: 'BernoulliNB',
-                      MultinomialNB: 'MultinomialNB',
-                      Perceptron: 'Perceptron',
-                      PassiveAggressiveRegressor:
-                          'PassiveAggressiveRegressor'}
 LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'bnb': 'BernoulliNB',
                       'mnb': 'MultinomialNB',
@@ -50,8 +44,6 @@ LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
 LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}
 LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
                                   for abbr, learner in LEARNER_ABBRS_DICT.items()])
-LEARNERS_REQUIRING_CLASSES = frozenset({'BernoulliNB', 'MultinomialNB',
-                                        'Perceptron'})
 
 # Objective functions
 OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
@@ -68,10 +60,12 @@ OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                            'quadratic weighted kappa (off by one)',
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
-OBJ_FUNC_ABBRS_STRING = \
-    ', '.join(['"{0}"{1}'
-               .format(abbr, ' ({0})'.format(obj_func) if abbr != obj_func else '')
-               for abbr, obj_func in OBJ_FUNC_ABBRS_DICT.items()])
+OBJ_FUNC_ABBRS_STRING = ', '.join(['"{0}"{1}'.format(abbr,
+                                                     ' ({0})'.format(obj_func)
+                                                     if abbr != obj_func
+                                                     else '')
+                                   for abbr, obj_func
+                                   in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
 LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
@@ -84,13 +78,8 @@ LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'total_game_hours_last_two_weeks',
                     'num_achievements_percentage', 'num_achievements_attained',
                     'num_achievements_possible'})
-LABELS_STRING = ', '.join(LABELS)
 TIME_LABELS = frozenset({'total_game_hours', 'total_game_hours_bin',
                          'total_game_hours_last_two_weeks'})
-
-# Orderings
-ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
-                       'objective_slope'})
 
 # Valid games
 VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
@@ -228,36 +217,3 @@ def parse_games_string(games_string):
                          .format(', '.join(specified_games),
                                  ', '.join(VALID_GAMES)))
     return set(specified_games)
-
-
-def generate_learning_reports(exps, dfs, games, output_path):
-    """
-    Generate experimental reports for each run represented in the lists
-    of input dataframes.
-
-    The output files will have indices in their names, which simply
-    correspond to the sequence in which they occur in the list of input
-    dataframes.
-
-    :param exps: object representing a set of experimental machine
-                 learning tasks
-    :type exps: RunExperiments
-    :param dfs: list of dataframes
-    :type dfs: list
-    :param games: list of games
-    :type games: list
-    :param output_path: path to destination directory
-    :type output_path: str
-
-    :rtype: None
-    """
-
-    cdef int i
-    cdef int zero = 0
-    cdef int one = 1
-    for i, df in enumerate(dfs):
-        learner_name = df[exps.__learner__].irow(zero)
-        df.to_csv(join(output_path,
-                       '{0}_{1}_learning_stats_{2}.csv'
-                       .format('_'.join(games), learner_name, i + one)),
-                  index=False)

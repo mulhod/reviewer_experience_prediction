@@ -43,8 +43,7 @@ from src import log_format_string
 from src import experiments as ex
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
-                           get_bin_ranges,
-                           get_label_values)
+                           get_bin_ranges_helper)
 
 # Set up logger
 logger = logging.getLogger()
@@ -54,6 +53,9 @@ formatter = logging.Formatter(log_format_string)
 sh.setFormatter(formatter)
 sh.setLevel(logging.INFO)
 logger.addHandler(sh)
+
+ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
+                       'objective_slope'})
 
 class RunExperiments:
     """
@@ -89,7 +91,13 @@ class RunExperiments:
     __non_nlp_features__ = 'non-NLP features'
     __no_nlp_features__ = 'no NLP features'
     __learner__ = 'learner'
-    __learners_requiring_classes__ = ex.LEARNERS_REQUIRING_CLASSES
+    __learners_requiring_classes__ = frozenset({'BernoulliNB', 'MultinomialNB',
+                                                'Perceptron'})
+    __learner_names__ = {MiniBatchKMeans: 'MiniBatchKMeans',
+                         BernoulliNB: 'BernoulliNB',
+                         MultinomialNB: 'MultinomialNB',
+                         Perceptron: 'Perceptron',
+                         PassiveAggressiveRegressor: 'PassiveAggressiveRegressor'}
     __params__ = 'params'
     __training_samples__ = 'training_samples'
     __r__ = 'pearson_r'
@@ -108,13 +116,16 @@ class RunExperiments:
     __lwk__ = 'lwk'
     __lwk_off_by_one__ = 'lwk_off_by_one'
     __possible_non_nlp_features__ = set(ex.LABELS)
-    __orderings__ = set(ex.ORDERINGS)
+    __orderings__ = ORDERINGS
     __tab_join__ = '\t'.join
     __cnfmat_row__ = '{0}{1}\n'.format
     __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
                          '(row=actual, col=machine, labels={0}):\n')
     __majority_label__ = 'majority_label'
+    __labels_string__ = ', '.join(ex.LABELS)
     __majority_baseline_model__ = 'majority_baseline_model'
+    __zero__ = 0
+    __one__ = 1
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
@@ -181,11 +192,11 @@ class RunExperiments:
                for feat in non_nlp_features):
             raise ValueError('All non-NLP features must be included in the '
                              'list of available non-NLP features: {0}.'
-                             .format(ex.LABELS_STRING))
+                             .format(self.__labels_string__))
         if not prediction_label in self.__possible_non_nlp_features__:
             raise ValueError('The prediction label must be in the set of '
                              'features that can be extracted/used, i.e.: {0}.'
-                             .format(ex.LABELS_STRING))
+                             .format(self.__labels_string__))
         if not all(_games.issubset(ex.VALID_GAMES) for _games
                    in [games, test_games]):
             raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
@@ -201,11 +212,18 @@ class RunExperiments:
         self.games = games
         if not self.games:
             raise ValueError('The set of games must be greater than zero!')
-        self.games_string = ', '.join(self.games)
+        self.__games_string__ = ', '.join(self.games)
+        self.__report_name_template__ = ('{0}_{1}_learning_stats_{2}.csv'
+                                         .format(self.__games_string__, '{0}',
+                                                 '{1}'))
+        if majority_baseline:
+            self.__majority_baseline_report_name__ = \
+                ('{0}_majority_baseline_model_stats.csv'
+                 .format(self.__games_string__))
         self.test_games = test_games
         if not self.test_games:
             raise ValueError('The set of games must be greater than zero!')
-        self.test_games_string = ', '.join(self.test_games)
+        self.__test_games_string__ = ', '.join(self.test_games)
         self.bin_ranges = bin_ranges
 
         # Objective function
@@ -219,8 +237,7 @@ class RunExperiments:
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [ex.LEARNER_NAMES_DICT[learner]
-                              for learner in learners]
+        self.learner_names = [__learner_names__[learner] for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid in zip(learners,
                                                              self.param_grids)]
@@ -499,6 +516,54 @@ class RunExperiments:
             stats_dict.update({self.__bin_ranges__: self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
+    def generate_majority_baseline_report(self, output_path) -> None:
+        """
+        Generate a CSV file reporting on the performance of the
+        majority baseline model.
+
+        :param output_path: path to destination directory
+        :type str:
+
+        :returns: None
+        :rtype: None
+        """
+
+        (self.majority_baseline_stats
+         .to_csv(join(output_path, self.__majority_baseline_report_name__),
+                 index=False))
+
+    def generate_learning_reports(output_path,
+                                  ordering='objective_last_round') -> None:
+        """
+        Generate experimental reports for each run represented in the
+        lists of input dataframes.
+
+        The output files will have indices in their names, which simply
+        correspond to the sequence in which they occur in the list of
+        input dataframes.
+
+        :param output_path: path to destination directory
+        :type output_path: str
+        :param ordering: ordering type for ranking the reports (see
+                         `ORDERINGS`)
+        :type ordering: str
+
+        :rtype: None
+        """
+
+        # Rank the experiments by the given ordering type
+        try:
+            dfs = self.rank_experiments_by_objective(ordering=ordering)
+        except ValueError:
+            raise e
+
+        for i, df in enumerate(dfs):
+            learner_name = df[self.__learner__].iloc[self.__zero__]
+            df.to_csv(join(output_path,
+                           self.__report_name_template__.format(learner_name,
+                                                                i + self.__one__)),
+                      index=False)
+
     def convert_value_to_bin(self, val) -> int:
         """
         Conver the value to the index of the bin in which it resides.
@@ -612,12 +677,12 @@ class RunExperiments:
                                                weights=self.__linear__,
                                                allow_off_by_one=True)}
 
-    def rank_experiments_by_objective(self, ordering='objective_last_round') -> list:
+    def rank_experiments_by_objective(self, ordering: str) -> list:
         """
         Rank the experiments in relation to their performance in the
         objective function.
 
-        :param ordering: ranking method
+        :param ordering: ordering type (see `ORDERINGS`)
         :type ordering: str
 
         :returns: list of dataframes
@@ -912,7 +977,7 @@ def main(argv=None):
                              'objective performance, best learning round '
                              'objective performance, or by best objective '
                              'slope.',
-                        choices=ex.ORDERINGS,
+                        choices=ORDERINGS,
                         default='objective_last_round')
     parser.add_argument('--evaluate_majority_baseline',
                         help='Evaluate the majority baseline model.',
@@ -1021,17 +1086,10 @@ def main(argv=None):
         logger.debug('Creating index on the "steam_id_number" key...')
         db.create_index('steam_id_number', ASCENDING)
 
-    if nbins:
-        # Get label values
-        label_values = np.array(get_label_values(db, games, prediction_label,
-                                                 nbins, bin_factor))
-
-        # Divide up the distribution of label values
-        bin_ranges = get_bin_ranges(label_values.min(), label_values.max(),
-                                    nbins, bin_factor)
-        logger.info('Bin ranges (nbins = {0}): {1}'.format(nbins, bin_ranges))
-    else:
-        bin_ranges = None
+    bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
+                                       bin_factor)
+    if bin_ranges:
+        loginfo('Bin ranges (nbins = {0}): {1}'.format(nbins, bin_ranges))
 
     # Do learning experiments
     logger.info('Starting incremental learning experiments...')
@@ -1055,28 +1113,21 @@ def main(argv=None):
     logger.info('Output directory: {0}'.format(output_dir))
     makedirs(output_dir, exist_ok=True)
 
-    # Rank experiments in terms of their performance with respect to
-    # the objective function in the last round of learning, their best
-    # performance (in any round), and the slope of their performance as
-    # the round increases
-    ranked_dfs = experiments.rank_experiments_by_objective(ordering=ordering)
-
     # Generate evaluation reports for the various learner/parameter
-    # grid combinations
+    # grid combinations, ranking experiments in terms of their
+    # performance with respect to the objective function in the last
+    # round of learning, their best performance (in any round), or the
+    # slope of their performance as the round increases
     logger.info('Generating reports for the incremental learning runs ordered'
                 ' by {0}...'.format(ordering))
-    ex.generate_learning_reports(experiments, ranked_dfs, games, output_dir)
+    experiments.generate_learning_reports(output_dir, ordering)
 
     # Generate evaluation report for the majority baseline model, if
     # specified
     if evaluate_majority_baseline:
         logger.info('Generating report for the majority baseline model...')
         logger.info('Majority label: {0}'.format(experiments.majority_label))
-        (experiments.majority_baseline_stats
-         .to_csv(join(output_dir,
-                      '{0}_majority_baseline_model_stats.csv'
-                      .format('_'.join(games))),
-                 index=False))
+        experiments.generate_majority_baseline_report(output_dir)
 
     # Save the best-performing features
     if save_best_features:
@@ -1086,7 +1137,8 @@ def main(argv=None):
         model_weights_dir = join(output_dir, 'model_weights')
         makedirs(model_weights_dir, exist_ok=True)
 
-        # Generate feature weights files and a 
+        # Generate feature weights files and a README.json providing
+        # the parameters corresponding to each set of feature weights
         params_dict = {}
         for (learner_list, learner_name) in zip(experiments.learner_lists,
                                                 experiments.learner_names):
