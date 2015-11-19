@@ -53,7 +53,9 @@ def main():
     import logging
     from sys import exit
     from json import dumps
+
     from data import APPID_DICT
+    from src import log_format_string
     from util.datasets import (parse_appids,
                                get_review_data_for_game)
 
@@ -72,8 +74,7 @@ def main():
     sh.setLevel(logging_info)
 
     # Add nicer formatting
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                                  ' %(message)s')
+    formatter = logging.Formatter(log_format_string)
     fh.setFormatter(formatter)
     sh.setFormatter(formatter)
     logger.addHandler(fh)

@@ -69,6 +69,7 @@ def main():
 
     # Imports
     import logging
+    from src import log_format_string
     from util.mongodb import connect_to_db
     from util.datasets import get_game_files
     from src.features import extract_nlp_features_into_db
@@ -91,8 +92,7 @@ def main():
     logdebug = logger.debug
     logerr = logger.error
     logwarn = logger.warning
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                                  ' %(message)s')
+    formatter = logging.Formatter(log_format_string)
     sh = logging.StreamHandler()
     sh.setLevel(logging_debug)
     fh = logging.FileHandler(realpath(args.log_file_path))

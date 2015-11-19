@@ -11,31 +11,37 @@ file-path) and inserts them into the the MongoDB database
 ('reviews_project') under the 'reviews' collection.
 """
 import logging
-logger = logging.getLogger()
-loginfo = logger.info
-logdebug = logger.debug
-logwarn = logger.warning
-logerr = logger.error
 from sys import exit
 from bson import BSON
-bson_encode = BSON.encode
 from math import ceil
 from time import sleep
 from random import (seed,
                     randint,
                     shuffle)
-from data import APPID_DICT
 from json import dumps
 from os.path import (basename,
                      splitext)
+
 from pymongo import MongoClient
-from util.datasets import (get_bin,
-                           get_bin_ranges,
-                           get_and_describe_dataset)
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
                             ConnectionFailure,
                             DuplicateKeyError)
+
+from data import APPID_DICT
+from util.datasets import (get_bin,
+                           get_bin_ranges,
+                           get_and_describe_dataset)
+
+# Logging
+logger = logging.getLogger()
+loginfo = logger.info
+logdebug = logger.debug
+logwarn = logger.warning
+logerr = logger.error
+
+# BSON encoding
+bson_encode = BSON.encode
 
 def connect_to_db(host='localhost', port=27017, tries=10):
     """

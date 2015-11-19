@@ -98,6 +98,7 @@ def main():
     import logging
     from re import sub
     from sys import exit
+
     from util.mongodb import connect_to_db
     from util.datasets import (get_game_files,
                                get_bin_ranges,

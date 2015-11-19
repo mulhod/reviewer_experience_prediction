@@ -1,7 +1,4 @@
 #!/usr/env python3.4
-import sys
-from pymongo import ASCENDING
-from util.mongodb import connect_to_db
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -19,6 +16,13 @@ def main(argv=None):
         type=int,
         default=37017)
     args = parser.parse_args()
+
+    # Imports
+    import sys
+
+    from pymongo import ASCENDING
+
+    from util.mongodb import connect_to_db
 
     # Connect to MongoDB database
     print('Connecting to MongoDB database at {0}:{1}...'

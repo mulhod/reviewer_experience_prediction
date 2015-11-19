@@ -9,22 +9,42 @@ convert raw hours played values to a scale of a given number of values,
 etc.
 """
 import logging
+from sys import exit
+from os import listdir
+from json import loads
+from time import (sleep,
+                  strftime)
+from os.path import (join,
+                     exists,
+                     dirname,
+                     basename,
+                     realpath,
+                     splitext)
+from re import (sub,
+                search,
+                compile as recompile)
+
+import requests
+import numpy as np
+import pandas as pd
+import seaborn as sns
+from langdetect import detect
+from bs4 import (BeautifulSoup,
+                 UnicodeDammit)
+import matplotlib.pyplot as plt
+from numpy.testing import assert_almost_equal
+from requests.exceptions import (Timeout,
+                                 ConnectionError)
+from langdetect.lang_detect_exception import LangDetectException
+
+from data import APPID_DICT
+
 # Connect to get_review_data logger
 logger = logging.getLogger()
 loginfo = logger.info
 logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
-from re import (sub,
-                search,
-                compile as recompile)
-from sys import exit
-from os import listdir
-from time import (sleep,
-                  strftime)
-from os.path import (join,
-                     exists)
-
 
 def get_game_files(games_str, data_dir_path):
     """
@@ -107,16 +127,6 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
 
     # Base URL for pages of reviews
     BASE_URL = 'http://steamcommunity.com/app/{2}/homecontent/?userreviewsoffset={0}&p=1&itemspage={1}&screenshotspage={1}&videospage={1}&artpage={1}&allguidepage={1}&webguidepage={1}&integratedguidepage={1}&discussionspage={1}&appid={2}&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1'
-
-    # Imports
-    import requests
-    from requests.exceptions import (Timeout,
-                                     ConnectionError)
-    from data import APPID_DICT
-    from langdetect import detect
-    from bs4 import (BeautifulSoup,
-                     UnicodeDammit)
-    from langdetect.lang_detect_exception import LangDetectException
 
     loginfo('Collecting review data for {0} ({1})...'
             .format([x[0] for x in APPID_DICT.items() if x[1] == appid][0], appid))
@@ -811,9 +821,6 @@ def parse_appids(appids, logger_name=None):
     if logger_name:
         logger = logging.getLogger(logger_name)
 
-    # Import APPID_DICT, containing a mapping between the appid strings
-    # and the names of the video games
-    from data import APPID_DICT
     appids = appids.split(',')
     for appid in appids:
         if not appid in APPID_DICT.values():
@@ -833,7 +840,6 @@ cdef read_reviews_from_game_file(file_path):
     :rtype: list
     """
 
-    from json import loads
     return [loads(json_line) for json_line in open(file_path)]
 
 
@@ -860,20 +866,7 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
     :rtype: dict
     """
 
-    # Imports
-    import numpy as np
-    from os.path import (basename,
-                         dirname,
-                         realpath,
-                         join,
-                         splitext)
-
     if report:
-        # Imports
-        import pandas as pd
-        import seaborn as sns
-        import matplotlib.pyplot as plt
-
         # Get path to reports directory and open report file
         reports_dir = (reports_dir if reports_dir
                                    else join(dirname(dirname(realpath(__file__))),
@@ -1049,8 +1042,6 @@ def get_bin(bin_ranges, float val):
     :rtype: int
     """
 
-    from numpy.testing import assert_almost_equal
-
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
         # Test if val is almost equal to the beginning or end of the
@@ -1098,9 +1089,6 @@ def get_label_values(db, games, label, nbins=2, bin_factor=1.0):
 
     :raises: ValueError
     """
-
-    # Imports
-    import pandas as pd
 
     # Make a cursor across all reviews from the given set of games
     cursor = db.find({'game': {'$in': list(games)}},

@@ -101,7 +101,9 @@ def main():
     import logging
     from sys import exit
     from os import listdir
+
     from pymongo import MongoClient
+
     from util.datasets import get_game_files
     from util.mongodb import (connect_to_db,
                               insert_train_test_reviews)
