@@ -4,6 +4,15 @@
 
 Module of functions/classes related to learning experiments.
 """
+from os.path import join
+
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.naive_bayes import (BernoulliNB,
+                                 MultinomialNB)
+from sklearn.linear_model import (Perceptron,
+                                  PassiveAggressiveRegressor)
+
+from data import APPID_DICT
 
 SEED = 123456789
 
@@ -245,6 +254,7 @@ def generate_learning_reports(exps, dfs, games, output_path):
 
     cdef int i
     cdef int zero = 0
+    cdef int one = 1
     for i, df in enumerate(dfs):
         learner_name = df[exps.__learner__].irow(zero)
         df.to_csv(join(output_path,
