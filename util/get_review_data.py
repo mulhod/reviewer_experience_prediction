@@ -85,7 +85,7 @@ def main():
     # Make list of games for which to generate review data files
     if args.games:
         games = args.games.split(',')
-        if not all([game in APPID_DICT for game in games]):
+        if not all(game in APPID_DICT for game in games):
             exit('Could not match in APPID_DICT at least one game in the list'
                  ' of passed-in games. Exiting.\n')
     elif args.appids:
