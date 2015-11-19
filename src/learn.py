@@ -1200,6 +1200,10 @@ def main(argv=None):
                 .format(', '.join(non_nlp_features) if non_nlp_features
                                                     else 'none'))
     if only_non_nlp_features:
+        if not non_nlp_features:
+            raise ValueError('No features to train a model on since the '
+                             '--only_non_nlp_features flag was used and the '
+                             'set of non-NLP features being used is empty.')
         logger.info('Leaving out all NLP features.')
     if nbins == 0:
         if bin_factor:

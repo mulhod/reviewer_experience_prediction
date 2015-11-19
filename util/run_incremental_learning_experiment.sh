@@ -19,6 +19,7 @@ LABELS=( "num_guides" "num_games_owned" "num_friends" "num_voted_helpfulness" \
          "total_game_hours_last_two_weeks" "num_achievements_percentage" \
          "num_achievements_possible" )
 NON_NLP_FEATURES="none"
+ONLY_NON_NLP_FEATURES=0
 OUTPUT_DIR="$(pwd)/inc_learning_experiments"
 SAMPLES_PER_ROUND="100"
 TEST_LIMIT="1000"
@@ -31,9 +32,9 @@ BIN_FACTOR="NULL"
 usage_details () {
     
     cat <<EOF
-Usage: inc_learning_all.sh GAMES [OPTIONS]...
+Usage: run_incremental_learning_experiment.sh GAMES [OPTIONS]...
 
-Run incremental learning experiments on all games.
+Run incremental learning experiments on a set of games individually.
 
 positional arguments:
 
@@ -46,6 +47,7 @@ optional arguments:
  --test_limit=N_SAMPLES         N_SAMPLES, number of samples to use for evaluation (default: 1000)
  --prediction_label=LABEL       LABEL to use for prediction label (defaults to "total_game_hours_bin"): $(echo ${LABELS} | sed 's: :, :g')
  --non_nlp_features=ALL_OR_NONE use "all" to use all non-NLP features or "none" to use none of them (default: "none")
+ --only_non_nlp_features        use only non-NLP features
  --nbins=NUMBER                 NUMBER of bins to divide the distribution of values corresponding to the prediction label into
  --bin_factor=FACTOR            floating point FACTOR (> 0) by which the sizes of the bins (set above) decrease or increase in terms of their range as the prediction label value increases (to set all bins to the same size, the default behavior, set this to 1.0)
  --help/-h                      print help
@@ -122,6 +124,9 @@ while [ "$1" != "" ]; do
             exit 1
         }
         ;;
+    --only_non_nlp_features)
+        ONLY_NON_NLP_FEATURES=1
+        ;;
     --nbins=*)
         N_BINS=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${N_BINS} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
@@ -172,8 +177,10 @@ for game in ${GAMES}; do
         
     fi
     LOG="${OUTPUT_DIR}/${game}_${N_BINS}_bins_${BIN_FACTOR}_factor_${NON_NLP_FEATURES_STRING}.txt"
-    CMD="learn --games ${game} --non_nlp_features ${NON_NLP_FEATURES} --output_dir ${OUTPUT_DIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL} --nbins ${N_BINS} --bin_factor ${BIN_FACTOR} 2>! ${LOG}"
-    # Get rid of --nbins/--bin_factor arguments if unspecified
+    CMD="learn --games ${game} --non_nlp_features ${NON_NLP_FEATURES} --output_dir ${OUTPUT_DIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL} --nbins ${N_BINS} --bin_factor ${BIN_FACTOR} --only_non_nlp_features 2>! ${LOG}"
+    
+    # Get rid of --nbins/--bin_factor/--only_non_nlp_features arguments if
+    # unspecified
     if [[ ${N_BINS} == "NULL" ]]; then
         
         CMD=$(echo ${CMD} | sed 's: --nbins::' | sed 's: NULL::')
@@ -182,6 +189,11 @@ for game in ${GAMES}; do
     if [[ ${BIN_FACTOR} == "NULL" ]]; then
         
         CMD=$(echo ${CMD} | sed 's: --bin_factor::' | sed 's: NULL::')
+        
+    fi
+    if [[ ${ONLY_NON_NLP_FEATURES} == "0" ]]; then
+        
+        CMD=$(echo ${CMD} | sed 's: --only_non_nlp_features::')
         
     fi
     echo "${CMD}"
