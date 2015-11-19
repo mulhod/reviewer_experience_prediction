@@ -124,8 +124,6 @@ class RunExperiments:
     __majority_label__ = 'majority_label'
     __labels_string__ = ', '.join(ex.LABELS)
     __majority_baseline_model__ = 'majority_baseline_model'
-    __zero__ = 0
-    __one__ = 1
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
@@ -558,10 +556,10 @@ class RunExperiments:
             raise e
 
         for i, df in enumerate(dfs):
-            learner_name = df[self.__learner__].iloc[self.__zero__]
+            learner_name = df[self.__learner__].iloc[0]
             df.to_csv(join(output_path,
                            self.__report_name_template__.format(learner_name,
-                                                                i + self.__one__)),
+                                                                i + 1)),
                       index=False)
 
     def convert_value_to_bin(self, val) -> int:
