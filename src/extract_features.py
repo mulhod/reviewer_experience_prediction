@@ -130,7 +130,7 @@ def main():
             partition_string = (' from the "training" and "test" data partitions')
         else:
             partition_string = ' from the "{0}" data partition'.format(partition)
-        loginfo('Extracting features{} for {0}...'
+        loginfo('Extracting features{0} for {1}...'
                 .format(partition_string, game))
         extract_nlp_features_into_db(reviewdb, partition, game,
                                      reuse_nlp_feats=reuse_features,
