@@ -33,68 +33,70 @@ def main():
                                    ' hosted on lemur.montclair.edu on port '
                                    '27017).',
         formatter_class=ArgumentDefaultsHelpFormatter)
-    parser_add_argument = parser.add_argument
-    parser_add_argument('--game_files',
-        help='Comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory).',
-        type=str,
-        required=True)
-    parser_add_argument('--max_size', '-m',
-        help='Maximum number of reviews to get for training/testing (if '
-             'possible).',
-        type=int,
-        default=4000)
-    parser_add_argument('--percent_train', '-%',
-        help='Percent of selected reviews for which to use for the training '
-             'set, the rest going to the test set.',
-        type=float,
-        default=80.0)
-    parser_add_argument('--convert_to_bins', '-bins',
-        help='Number of sub-divisions of the hours-played values, e.g. if 10 '
-             'and the hours values range from 0 up to 1000, then hours values'
-             ' 0-99 will become 1, 100-199 will become 2, etc. (will '
-             'probably be necessay to train a model that actually is '
-             'predictive to an acceptable degree); note that both hours '
-             'values will be retained, the original under the name "hours" '
-             'and the converted value under the name "hours_bin".',
-        type=int,
-        required=False)
-    parser_add_argument('--bin_factor',
-        help='If the --convert_to_bins/-bins argument is specified, increase '
-             'the sizes of the bins by the given factor so that bins in which'
-             ' there will be lots of instances will be smaller in terms of '
-             'range than bins that are more spasely-populated.',
-        type=float,
-        required=False)
-    parser_add_argument('--make_reports', '-describe',
-        help='Generate reports and histograms describing the data filtering '
-             'procedure.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--just_describe',
-        help='Generate reports and histograms describing the data filtering '
-             'procedure, but then do NOT insert the reviews into the DB.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--reports_dir',
-        help='If -describe/--make_reports is used, put generated reports in '
-             'the given directory.',
-        type=str,
-        required=False)
-    parser_add_argument('-dbhost', '--mongodb_host',
-        help='Host that the MongoDB server is running on.',
-        type=str,
-        default='localhost')
-    parser_add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running on.',
-        type=int,
-        default=27017)
-    parser_add_argument('--log_file_path', '-log',
-        help='Path for log file.',
-        type=str,
-        default=join(project_dir,
-                     'logs',
-                     'replog_make_train_test_sets.txt'))
+    _add_arg = parser.add_argument
+    _add_arg('--game_files',
+             help='Comma-separated list of file-names or "all" for all of the'
+                  ' files (the game files should reside in the "data" '
+                  'directory).',
+             type=str,
+             required=True)
+    _add_arg('--max_size', '-m',
+             help='Maximum number of reviews to get for training/testing (if '
+                  'possible).',
+             type=int,
+             default=4000)
+    _add_arg('--percent_train', '-%',
+             help='Percent of selected reviews for which to use for the '
+                  'training set, the rest going to the test set.',
+             type=float,
+             default=80.0)
+    _add_arg('--convert_to_bins', '-bins',
+             help='Number of sub-divisions of the hours-played values, e.g. '
+                  'if 10 and the hours values range from 0 up to 1000, then '
+                  'hours values 0-99 will become 1, 100-199 will become 2, '
+                  'etc. (will probably be necessay to train a model that '
+                  'actually is predictive to an acceptable degree); note that'
+                  ' both hours values will be retained, the original under '
+                  'the name "hours" and the converted value under the name '
+                  '"hours_bin".',
+             type=int,
+             required=False)
+    _add_arg('--bin_factor',
+             help='If the --convert_to_bins/-bins argument is specified, '
+                  'increase the sizes of the bins by the given factor so that'
+                  ' bins in which there will be lots of instances will be '
+                  'smaller in terms of range than bins that are more '
+                  'sparsely-populated.',
+             type=float,
+             required=False)
+    _add_arg('--make_reports', '-describe',
+             help='Generate reports and histograms describing the data '
+                  'filtering procedure.',
+             action='store_true',
+             default=False)
+    _add_arg('--just_describe',
+             help='Generate reports and histograms describing the data '
+                  'filtering procedure, but then do NOT insert the reviews '
+                  'into the MongoDB database.',
+             action='store_true',
+             default=False)
+    _add_arg('--reports_dir',
+             help='If -describe/--make_reports is used, put generated reports'
+                  ' in the given directory.',
+             type=str,
+             required=False)
+    _add_arg('-dbhost', '--mongodb_host',
+             help='Host that the MongoDB server is running on.',
+             type=str,
+             default='localhost')
+    _add_arg('--mongodb_port', '-dbport',
+             help='Port that the MongoDB server is running on.',
+             type=int,
+             default=27017)
+    _add_arg('--log_file_path', '-log',
+             help='Path for log file.',
+             type=str,
+             default=join(project_dir, 'logs', 'replog_make_train_test_sets.txt'))
     args = parser.parse_args()
 
     # Imports
