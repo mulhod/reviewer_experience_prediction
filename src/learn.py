@@ -1050,7 +1050,7 @@ def main(argv=None):
                   'specified, then a "logs" directory will be created within '
                   'the directory specified via the --output_dir argument.',
              type=str,
-             default=None)
+             required=False)
     args = parser.parse_args()
 
     # Command-line arguments and flags
