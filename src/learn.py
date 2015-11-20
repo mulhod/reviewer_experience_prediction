@@ -543,7 +543,7 @@ class RunExperiments:
          .to_csv(join(output_path, self.__majority_baseline_report_name__),
                  index=False))
 
-    def generate_learning_reports(output_path,
+    def generate_learning_reports(self, output_path,
                                   ordering='objective_last_round') -> None:
         """
         Generate experimental reports for each run represented in the
