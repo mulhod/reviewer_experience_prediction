@@ -18,6 +18,7 @@ from os.path import (join,
                      exists,
                      dirname,
                      realpath)
+from warnings import filterwarnings
 
 import numpy as np
 import pandas as pd
@@ -48,6 +49,10 @@ from src import experiments as ex
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
+
+# Filter out warnings since there will be a lot of
+# "UndefinedMetricWarning" warnings when running IncrementalLearning
+filterwarnings("ignore")
 
 ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
