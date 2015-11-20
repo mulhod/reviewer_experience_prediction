@@ -1172,10 +1172,15 @@ def main(argv=None):
         logdebug('Creating index on the "steam_id_number" key...')
         db.create_index('steam_id_number', ASCENDING)
 
-    bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
-                                       bin_factor)
+    if nbins:
+        # Get ranges of prediction label distribution bins given the
+        # number of bins and the factor by which they should be
+        # multiplied as the index increases
+        bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
+                                           bin_factor)
     if bin_ranges:
-        loginfo('Bin ranges (nbins = {0}): {1}'.format(nbins, bin_ranges))
+        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}): {2}'
+                .format(nbins, bin_factor, bin_ranges))
 
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')

@@ -1030,7 +1030,9 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
 
 def get_bin_ranges_helper(db, games, label, int nbins, float factor):
     """
-    
+    Get bin ranges given a set of games, a label, the desired number of
+    bins, and the factor by which the bin sizes will be multiplied as
+    the index of the bins increase.
 
     :param db: MongoDB database collection object
     :type db: collection
@@ -1041,8 +1043,8 @@ def get_bin_ranges_helper(db, games, label, int nbins, float factor):
     :param nbins: number of bins into which the distribution is being
                   sub-divided
     :type nbins: int
-    :param factor: factor by which to multiply the bin sizes
-                   (default: 1.0)
+    :param factor: factor by which to multiply the bin sizes (default:
+                   1.0)
     :type factor: float
 
     :returns: list of tuples representing the minimum and maximum
