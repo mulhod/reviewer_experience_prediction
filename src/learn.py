@@ -746,8 +746,8 @@ class RunExperiments:
                                      zero-valued coefficients
         :type filter_zero_features: bool
 
-        :returns: dataframe of sorted features
-        :rtype: pd.DataFrame
+        :returns: list of sorted features (in dictionaries)
+        :rtype: list
         """
 
         # Store feature coefficient tuples
@@ -776,13 +776,12 @@ class RunExperiments:
         features = []
         for i, _label in enumerate(self.classes):
             features.extend(
-                [pd.Series(dict(feature=coefs[0], label=coefs[i + 1][0],
-                                weight=coefs[i + 1][1]))
+                [dict(feature=coefs[0], label=coefs[i + 1][0],
+                      weight=coefs[i + 1][1])
                  for coefs in feature_coefs if coefs[i + 1][1]]
                 )
 
-        return pd.DataFrame(sorted(features, key=lambda x: abs(x.weight),
-                                   reverse=True))
+        return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
 
     def store_sorted_features(self, model_weights_path):
         """
@@ -819,7 +818,7 @@ class RunExperiments:
                 params_dict[learner_name][i] = learner.get_params()
 
                 # Get dataframe of the features/coefficients
-                df = self.get_sorted_features_for_learner(learner)
+                df = pd.DataFrame(self.get_sorted_features_for_learner(learner))
 
                 if not df.empty:
                     # Generate feature weights report
