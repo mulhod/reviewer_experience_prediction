@@ -821,7 +821,7 @@ class RunExperiments:
                 # Get dataframe of the features/coefficients
                 df = self.get_sorted_features_for_learner(learner)
 
-                if df:
+                if not df.empty:
                     # Generate feature weights report
                     df.to_csv(join(model_weights_path,
                                    self.__model_weights_name_template__
