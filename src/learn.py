@@ -763,7 +763,7 @@ class RunExperiments:
                                 in enumerate(self.classes)]
             except IndexError:
                 self.logger.error('Could not get feature coefficients!')
-                return None
+                return []
 
             # Append feature coefficient tuple to list of tuples
             feature_coefs.append(tuple(list(chain([feat],
@@ -818,13 +818,14 @@ class RunExperiments:
                 params_dict[learner_name][i] = learner.get_params()
 
                 # Get dataframe of the features/coefficients
-                df = pd.DataFrame(self.get_sorted_features_for_learner(learner))
+                sorted_features = self.get_sorted_features_for_learner(learner)
 
-                if not df.empty:
+                if not sorted_features:
                     # Generate feature weights report
-                    df.to_csv(join(model_weights_path,
-                                   self.__model_weights_name_template__
-                                   .format(learner_name, i + 1)))
+                    (pd.DataFrame(sorted_features)
+                     .to_csv(join(model_weights_path,
+                                  self.__model_weights_name_template__
+                                  .format(learner_name, i + 1))))
                 else:
                     self.logger.error('Could not generate features/feature '
                                       'coefficients dataframe for {0}...'
