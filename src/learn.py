@@ -360,7 +360,7 @@ class RunExperiments:
 
         _get = review_doc.get
         features = {}
-        features.update = _update
+        _update = features.update
 
         # Add in the NLP features
         if not self.no_nlp_features:
