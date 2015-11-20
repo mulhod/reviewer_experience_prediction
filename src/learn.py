@@ -759,8 +759,8 @@ class RunExperiments:
 
             # Get list of coefficient arrays for the different classes
             try:
-                coef_indices = \
-                    [learner.coef_[i][index] for i, _ in enumerate(self.classes)]
+                coef_indices = [learner.coef_[i][index] for i, _
+                                in enumerate(self.classes)]
             except IndexError:
                 self.logger.error('Could not get feature coefficients!')
                 return None
@@ -772,18 +772,14 @@ class RunExperiments:
 
         # Unpack tuples of features and label/coefficient tuples into
         # one long list of feature/label/coefficient values, sort, and
-        # convert to dataframe
+        # filter out any tuples with zero weight
         features = []
         for i, _label in enumerate(self.classes):
             features.extend(
-                [pd.Series(feature=coefs[0], label=coefs[i + 1][0],
-                           weight=coefs[i + 1][1])
-                 for coefs in feature_coefs]
+                [pd.Series(dict(feature=coefs[0], label=coefs[i + 1][0],
+                                weight=coefs[i + 1][1]))
+                 for coefs in feature_coefs if coefs[i + 1][1]]
                 )
-
-        # Keep only non-zero features, unless otherwise specified
-        if filter_zero_features:
-            features = [x for x in features if x.weight]
 
         return pd.DataFrame(sorted(features, key=lambda x: abs(x.weight),
                                    reverse=True))
