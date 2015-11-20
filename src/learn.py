@@ -1090,7 +1090,6 @@ def main(argv=None):
     log_dir = dirname(log_file_path)
 
     # Output results files to output directory
-    loginfo('Output directory: {0}'.format(output_dir))
     makedirs(output_dir, exist_ok=True)
     makedirs(log_dir, exist_ok=True)
 
@@ -1111,6 +1110,7 @@ def main(argv=None):
     logger.addHandler(fh)
 
     # Log a bunch of job attributes
+    loginfo('Output directory: {0}'.format(output_dir))
     if games == test_games:
         loginfo('Game{0} to train/evaluate models on: {1}'
                 .format('s' if len(games) > 1 else '',
