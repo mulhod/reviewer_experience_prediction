@@ -18,79 +18,81 @@ from argparse import (ArgumentParser,
 project_dir = dirname(dirname(realpath(__file__)))
 
 def main():
-    parser = ArgumentParser(
-        usage='python make_arff_files.py --game_files GAME_FILE1,GAME_FILE2[ '
-              'OPTIONS]',
-        description='Build .arff files for a specific game file, all game '
-                    'files combined, or for each game file separately.',
+    parser = ArgumentParser(usage='python make_arff_files.py --game_files '
+                                  'GAME_FILE1,GAME_FILE2[ OPTIONS]',
+                            description='Build .arff files for a specific '
+                                        'game file, all game files combined, '
+                                        'or for each game file separately.',
         formatter_class=ArgumentDefaultsHelpFormatter)
-    parser_add_argument = parser.add_argument
-    parser_add_argument('--game_files',
-        help='Comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory; '
-             'the .jsonlines suffix is not necessary, but the file-names '
-             'should be exact matches otherwise).',
-        type=str,
-        required=True)
-    parser_add_argument('--output_dir', '-o',
-        help='Destination directory for ARFF files.',
-        type=str,
-        required=True)
-    parser_add_argument('--mode',
-        help='Make .arff file for each game file separately ("separate") or '
-             'for all game files combined ("combined").',
-        choices=["separate", "combined"],
-        default="combined")
-    parser_add_argument('--combined_file_prefix',
-        help='If the "combined" value was passed in via the --mode flag '
-             '(which happens by default unless specified otherwise), an '
-             'output file prefix must be passed in via this option flag.',
-        type=str,
-        required=False)
-    parser_add_argument('--use_original_hours_values',
-        help='Use the unmodified hours played values; otherwise, use the '
-             'collapsed values.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--use_mongodb',
-        help='Search the MongoDB collection for training/test set reviews and'
-             ' make ARFF files using them only (the file suffix ".train"/'
-             '".test" will be appended onto the end of the output file name '
-             'to distinguish the different files); note that, by default, '
-             'collapsed hours played values will be used (if this is not '
-             'desired, use the --use_original_hours_values flag).',
-        action='store_true',
-        default=False)
-    parser_add_argument('--nbins',
-        help='Specify the number of bins in which to collapse hours played '
-             'values; to be used if the --make_train_test_sets flag is not '
-             'being used, in which case pre-computed hours played values will'
-             ' not be read in from the database, but you still want the '
-             'values to be in the form of bins (i.e., 1 for 0-100, 2 for '
-             '101-200, etc., depending on the minimum and maximum values and '
-             'the number of bins specified).',
-        type=int,
-        required=False)
-    parser_add_argument('--bin_factor',
-        help='Factor by which to multiply the sizes of the bins, such that '
-             'the bins with lots of values will be smaller and the more '
-             'sparsely-populated bins will be smaller in terms of range.',
-        type=float,
-        default=1.0)
-    parser_add_argument('-dbhost', '--mongodb_host',
-        help='Host that the MongoDB server is running on.',
-        type=str,
-        default='localhost')
-    parser_add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running on.',
-        type=int,
-        default=27017)
-    parser_add_argument('--log_file_path', '-log',
-        help='Path for log file.',
-        type=str,
-        default=join(project_dir,
-                     'logs',
-                     'replog_make_arff.txt'))
+    _add_arg = parser.add_argument
+    _add_arg('--game_files',
+             help='Comma-separated list of file-names or "all" for all of the'
+                  ' files (the game files should reside in the "data" '
+                  'directory; the .jsonlines suffix is not necessary, but the'
+                  ' file-names should be exact matches otherwise).',
+             type=str,
+             required=True)
+    _add_arg('--output_dir', '-o',
+             help='Destination directory for ARFF files.',
+             type=str,
+             required=True)
+    _add_arg('--mode',
+             help='Make .arff file for each game file separately ("separate")'
+                  ' or for all game files combined ("combined").',
+             choices=["separate", "combined"],
+             default="combined")
+    _add_arg('--combined_file_prefix',
+             help='If the "combined" value was passed in via the --mode flag '
+                  '(which happens by default unless specified otherwise), an '
+                  'output file prefix must be passed in via this option '
+                  'flag.',
+             type=str,
+             required=False)
+    _add_arg('--use_original_hours_values',
+             help='Use the unmodified hours played values; otherwise, use the'
+                  ' collapsed values.',
+             action='store_true',
+             default=False)
+    _add_arg('--use_mongodb',
+             help='Search the MongoDB collection for training/test set '
+                  'reviews and make ARFF files using them only (the file '
+                  'suffix ".train"/".test" will be appended onto the end of '
+                  'the output file name to distinguish the different files); '
+                  'note that, by default, collapsed hours played values will '
+                  'be used (if this is not desired, use the '
+                  '--use_original_hours_values flag).',
+             action='store_true',
+             default=False)
+    _add_arg('--nbins',
+             help='Specify the number of bins in which to collapse hours '
+                  'played values; to be used if the --make_train_test_sets '
+                  'flag is not being used, in which case pre-computed hours '
+                  'played values will not be read in from the database, but '
+                  'you still want the values to be in the form of bins (i.e.,'
+                  ' 1 for 0-100, 2 for 101-200, etc., depending on the '
+                  'minimum and maximum values and the number of bins '
+                  'specified).',
+             type=int,
+             required=False)
+    _add_arg('--bin_factor',
+             help='Factor by which to multiply the sizes of the bins, such '
+                  'that the bins with lots of values will be smaller and the '
+                  'more sparsely-populated bins will be smaller in terms of '
+                  'range.',
+             type=float,
+             default=1.0)
+    _add_arg('-dbhost', '--mongodb_host',
+             help='Host that the MongoDB server is running on.',
+             type=str,
+             default='localhost')
+    _add_arg('--mongodb_port', '-dbport',
+             help='Port that the MongoDB server is running on.',
+             type=int,
+             default=27017)
+    _add_arg('--log_file_path', '-log',
+             help='Path for log file.',
+             type=str,
+             default=join(project_dir, 'logs', 'replog_make_arff.txt'))
     args = parser.parse_args()
 
     # Imports

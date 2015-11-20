@@ -7,14 +7,15 @@ def main(argv=None):
                                         'experiments.',
                             formatter_class=ArgumentDefaultsHelpFormatter,
                             conflict_handler='resolve')
-    parser.add_argument('-dbhost', '--mongodb_host',
-        help='Host that the MongoDB server is running on.',
-        type=str,
-        default='localhost')
-    parser.add_argument('--mongodb_port', '-dbport',
-        help='Port that the MongoDB server is running on.',
-        type=int,
-        default=37017)
+    _add_arg = parser.add_argument
+    _add_arg('-dbhost', '--mongodb_host',
+             help='Host that the MongoDB server is running on.',
+             type=str,
+             default='localhost')
+    _add_arg('--mongodb_port', '-dbport',
+             help='Port that the MongoDB server is running on.',
+             type=int,
+             default=37017)
     args = parser.parse_args()
 
     # Imports

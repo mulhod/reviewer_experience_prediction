@@ -15,38 +15,39 @@ project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir, 'data')
 
 def main():
-    parser = ArgumentParser(usage='./python get_review_data.py[ '
-        '--appids APPID1,APPID2,...]',
-        description='Make review data files for each game in the APPID_DICT, '
-                    'which is specified in the __init__.py module in the '
-                    '"data" directory. A specific list of games or game IDs '
-                    '(same as "appid") can also be specified instead, but '
-                    'they must map to games in APPID_DICT.',
-        formatter_class=ArgumentDefaultsHelpFormatter)
-    parser_add_argument = parser.add_argument
-    parser_add_argument('--games',
-        help='comma-separated list of game names (underscores replacing all '
-             'spaces) for which to generate review data files (all games '
-             'should be included in APPID_DICT)',
-        type=str,
-        default='')
-    parser_add_argument('--appids',
-        help='comma-separated list of game IDs for which to generate review '
-             'data files (all IDs should map to games in APPID_DICT) (can be '
-             'specified instead of the game names)',
-        type=str,
-        default='')
-    parser_add_argument('--wait',
-        help='amount of time in seconds to wait between making requests for '
-             'pages',
-        type=int,
-        default=30)
-    parser_add_argument('--log_file_path', '-log',
-        help='path for log file',
-        type=str,
-        default=join(project_dir,
-                     'logs',
-                     'replog_get_review_data.txt'))
+    parser = ArgumentParser(usage='./python get_review_data.py[ --appids '
+                                  'APPID1,APPID2,...]',
+                            description='Make review data files for each game'
+                                        ' in the APPID_DICT, which is '
+                                        'specified in the __init__.py module '
+                                        'in the "data" directory. A specific '
+                                        'list of games or game IDs (same as '
+                                        '"appid") can also be specified '
+                                        'instead, but they must map to games '
+                                        'in APPID_DICT.',
+                            formatter_class=ArgumentDefaultsHelpFormatter)
+    _add_arg = parser.add_argument
+    _add_arg('--games',
+             help='comma-separated list of game names (underscores replacing '
+                  'all spaces) for which to generate review data files (all '
+                  'games should be included in APPID_DICT)',
+             type=str,
+             default='')
+    _add_arg('--appids',
+             help='comma-separated list of game IDs for which to generate '
+                  'review data files (all IDs should map to games in '
+                  'APPID_DICT) (can be specified instead of the game names)',
+             type=str,
+             default='')
+    _add_arg('--wait',
+             help='amount of time in seconds to wait between making requests '
+                  'for pages',
+             type=int,
+             default=30)
+    _add_arg('--log_file_path', '-log',
+             help='path for log file',
+             type=str,
+             default=join(project_dir, 'logs', 'replog_get_review_data.txt'))
     args = parser.parse_args()
 
     # Imports

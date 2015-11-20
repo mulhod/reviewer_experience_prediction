@@ -19,52 +19,53 @@ def main():
                                   'GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
         description='Extract features and add them to the Mongo database.',
         formatter_class=ArgumentDefaultsHelpFormatter)
-    parser_add_argument = parser.add_argument
-    parser_add_argument('--game_files',
-        help='Comma-separated list of file-names or "all" for all of the '
-             'files (the game files should reside in the "data" directory; '
-             'the .jsonlines suffix is not necessary, but the file-names '
-             'should be exact matches otherwise).',
-        type=str,
-        required=True)
-    parser_add_argument('--do_not_binarize_features',
-        help='Do not make all non-zero feature frequencies equal to 1.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--do_not_lowercase_text',
-        help='Do not make lower-casing part of the review text '
-             'normalization step, which affects word n-gram-related '
-             'features.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--lowercase_cngrams',
-        help='Lower-case the review text before extracting character n-gram '
-             'features.',
-        action='store_true',
-        default=False)
-    parser_add_argument('--partition',
-        help='Data partition, i.e., "training", "test", etc. Value must be a '
-             'valid partition set name in the Mongo database. Alternatively, '
-             'the value "all" can be used to include all partitions.',
-        type=str,
-        default='all')
-    parser_add_argument('--do_not_reuse_extracted_features',
-        help="Don't make use of previously-extracted features present in the"
-             " Mongo database and instead replace them if they are.",
-        action='store_true',
-        default=False)
-    parser_add_argument('-dbhost', '--mongodb_host',
-        help='Host that the MongoDB server is running on.',
-        type=str,
-        default='localhost')
-    parser_add_argument('-dbport', '--mongodb_port',
-        help='Port that the MongoDB server is running on.',
-        type=int,
-        default=27017)
-    parser_add_argument('-log', '--log_file_path',
-        help='Path to feature extraction log file.',
-        type=str,
-        default=join(project_dir, 'logs', 'replog_extract_features.txt'))
+    _add_arg = parser.add_argument
+    _add_arg('--game_files',
+             help='Comma-separated list of file-names or "all" for all of the'
+                  ' files (the game files should reside in the "data" '
+                  'directory; the .jsonlines suffix is not necessary, but the'
+                  ' file-names should be exact matches otherwise).',
+             type=str,
+             required=True)
+    _add_arg('--do_not_binarize_features',
+             help='Do not make all non-zero feature frequencies equal to 1.',
+             action='store_true',
+             default=False)
+    _add_arg('--do_not_lowercase_text',
+             help='Do not make lower-casing part of the review text '
+                  'normalization step, which affects word n-gram-related '
+                  'features.',
+             action='store_true',
+             default=False)
+    _add_arg('--lowercase_cngrams',
+             help='Lower-case the review text before extracting character '
+                  'n-gram features.',
+             action='store_true',
+             default=False)
+    _add_arg('--partition',
+             help='Data partition, i.e., "training", "test", etc. Value must '
+                  'be a valid partition set name in the Mongo database. '
+                  'Alternatively, the value "all" can be used to include all '
+                  'partitions.',
+             type=str,
+             default='all')
+    _add_arg('--do_not_reuse_extracted_features',
+             help="Don't make use of previously-extracted features present in"
+                  " the Mongo database and instead replace them if they are.",
+             action='store_true',
+             default=False)
+    _add_arg('-dbhost', '--mongodb_host',
+             help='Host that the MongoDB server is running on.',
+             type=str,
+             default='localhost')
+    _add_arg('-dbport', '--mongodb_port',
+             help='Port that the MongoDB server is running on.',
+             type=int,
+             default=27017)
+    _add_arg('-log', '--log_file_path',
+             help='Path to feature extraction log file.',
+             type=str,
+             default=join(project_dir, 'logs', 'replog_extract_features.txt'))
     args = parser.parse_args()
 
     # Imports

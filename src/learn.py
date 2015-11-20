@@ -13,6 +13,10 @@ from json import dump
 from os import makedirs
 from itertools import chain
 from os.path import (join,
+                     isdir,
+                     isfile,
+                     exists,
+                     dirname,
                      realpath)
 
 import numpy as np
@@ -44,15 +48,6 @@ from src import experiments as ex
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
-
-# Set up logger
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-sh = logging.StreamHandler()
-formatter = logging.Formatter(log_format_string)
-sh.setFormatter(formatter)
-sh.setLevel(logging.INFO)
-logger.addHandler(sh)
 
 ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
                        'objective_slope'})
@@ -127,8 +122,10 @@ class RunExperiments:
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
-                 prediction_label: str, objective: str, no_nlp_features=False,
-                 bin_ranges=None, test_limit=0, rounds=0, majority_baseline=True):
+                 prediction_label: str, objective: str,
+                 logger: logging.RootLogger, no_nlp_features=False,
+                 bin_ranges=None, test_limit=0, rounds=0,
+                 majority_baseline=True):
         """
         Initialize class.
 
@@ -154,6 +151,8 @@ class RunExperiments:
         :type prediction_label: str
         :param objective: objective function to use in ranking the runs
         :type objective: str
+        :param logger: logger instance
+        :type logger: logging.RootLogger
         :param no_nlp_features: leave out NLP features
         :type no_nlp_features: boolean
         :param bin_ranges: list of tuples representing the maximum and
@@ -175,6 +174,8 @@ class RunExperiments:
 
         :raises: ValueError
         """
+
+        self.logger = logger
 
         # Make sure parameters make sense/are valid
         if round_size < 1:
@@ -211,9 +212,14 @@ class RunExperiments:
         if not self.games:
             raise ValueError('The set of games must be greater than zero!')
         self.__games_string__ = ', '.join(self.games)
-        self.__report_name_template__ = ('{0}_{1}_learning_stats_{2}.csv'
-                                         .format(self.__games_string__, '{0}',
-                                                 '{1}'))
+        self.__file_name_template__ = ('{0}_{1}_{2}_{3}.csv'
+                                       .format(self.__games_string__, '{0}',
+                                               '{1}', '{2}'))
+        self.__report_name_template__ = (self.__file_name_template__
+                                         .format('{0}', 'learning_stats', '{1}'))
+        self.__model_weights_name_template__ = (self.__file_name_template__
+                                                .format('{0}', 'model_weights',
+                                                        '{1}'))
         if majority_baseline:
             self.__majority_baseline_report_name__ = \
                 ('{0}_majority_baseline_model_stats.csv'
@@ -258,16 +264,17 @@ class RunExperiments:
         self.training_cursor = None
         self.test_cursor = None
         self.test_limit = test_limit
-        logger.info('Setting up MongoDB cursors for training/evaluation data...')
+        self.logger.info('Setting up MongoDB cursors for training/evaluation '
+                         'data...')
         self.make_cursors()
-        logger.info('Extracting evaluation dataset...')
+        self.logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
         self.test_ids = [_data[self.__id__] for _data in self.test_data]
         self.test_feature_dicts = [_data[self.__x__] for _data in self.test_data]
         self.y_test = np.array([_data[self.__y__] for _data in self.test_data])
         self.classes = np.unique(self.y_test)
-        logger.info('Prediction label classes: {0}'
-                    .format(', '.join([str(x) for x in self.classes])))
+        self.logger.info('Prediction label classes: {0}'
+                         .format(', '.join([str(x) for x in self.classes])))
 
         # Useful constants for use in make_printable_confusion_matrix
         self.cnfmat_desc = \
@@ -277,7 +284,7 @@ class RunExperiments:
                 )
 
         # Do incremental learning experiments
-        logger.info('Incremental learning experiments initialized...')
+        self.logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
         self.learner_param_grid_stats = \
             [[pd.DataFrame(param_grid) for param_grid in learner]
@@ -297,7 +304,7 @@ class RunExperiments:
         """
 
         batch_size = 50
-        logger.debug('Batch size of MongoDB cursors: {0}'.format(batch_size))
+        self.logger.debug('Batch size of MongoDB cursors: {0}'.format(batch_size))
         sorting_args = [(self.__steam_id__, ASCENDING)]
 
         # Leave out the '_id' value and the 'nlp_features' value if
@@ -749,7 +756,7 @@ class RunExperiments:
                 coef_indices = \
                     [learner.coef_[i][index] for i, _ in enumerate(self.classes)]
             except IndexError:
-                logger.error('Could not get feature coefficients!')
+                self.logger.error('Could not get feature coefficients!')
                 return None
 
             # Append feature coefficient tuple to list of tuples
@@ -775,6 +782,57 @@ class RunExperiments:
         return pd.DataFrame(sorted(features, key=lambda x: abs(x.weight),
                                    reverse=True))
 
+    def store_sorted_features(self, model_weights_path):
+        """
+        Store files with sorted lists of features and their associated
+        coefficients from each model (for which introspection like this
+        can be done, at least).
+
+        :param model_weights_path: path to directory for model weights
+                                   files
+        :type model_weights_path: str
+        :param : 
+        :type : 
+
+        :returns: 
+        :rtype: 
+        """
+
+        makedirs(model_weights_path, exist_ok=True)
+
+        # Generate feature weights files and a README.json providing
+        # the parameters corresponding to each set of feature weights
+        params_dict = {}
+        for (learner_list, learner_name) in zip(self.learner_lists,
+                                                self.learner_names):
+            # Skip MiniBatchKMeans models
+            if learner_name == 'MiniBatchKMeans':
+                continue
+
+            for i, learner in enumerate(learner_list):
+
+                # Store the parameter grids to an indexed dictionary
+                # so that a key can be output also
+                params_dict.setdefault(learner_name, {})
+                params_dict[learner_name][i] = learner.get_params()
+
+                # Get dataframe of the features/coefficients
+                df = self.get_sorted_features_for_learner(learner)
+
+                if df:
+                    # Generate feature weights report
+                    df.to_csv(join(model_weights_path,
+                                   self.__model_weights_name_template__
+                                   .format(learner_name, i + 1)))
+                else:
+                    self.logger.error('Could not generate features/feature '
+                                      'coefficients dataframe for {0}...'
+                                      .format(learner_name))
+
+        # Save parameters file also
+        dump(params_dict, open(join(model_weights_path, 'README.json'), 'w'),
+             indent=4)
+
     def learning_round(self) -> None:
         """
         Do learning rounds.
@@ -793,7 +851,7 @@ class RunExperiments:
             or samples < self.round_size/2):
             return
 
-        logger.info('Round {0}...'.format(self.round))
+        self.logger.info('Round {0}...'.format(self.round))
         train_ids = np.array([_data[self.__id__] for _data in train_data])
         y_train = np.array([_data[self.__y__] for _data in train_data])
         train_feature_dicts = [_data[self.__x__] for _data in train_data]
@@ -887,113 +945,112 @@ def main(argv=None):
                                         'experiments.',
                             formatter_class=ArgumentDefaultsHelpFormatter,
                             conflict_handler='resolve')
-    parser.add_argument('--games',
-                        help='Game(s) to use in experiments; or "all" to use '
-                             'data from all games. If --test_games is not '
-                             'specified, then it is assumed that the '
-                             'evaluation will be against data from the same '
-                             'game(s).',
-                        type=str,
-                        required=True)
-    parser.add_argument('--test_games',
-                        help='Game(s) to use for evaluation data (or "all" '
-                             'for data from all games). Only specify if the '
-                             'value is different from that specified via '
-                             '--games.',
-                        type=str)
-    parser.add_argument('--output_dir',
-                        help='Directory in which to output data related to '
-                             'the results of the conducted experiments.',
-                        type=str,
-                        required=True)
-    parser.add_argument('--rounds',
-                        help='The maximum number of rounds of learning to '
-                             'conduct (the number of rounds will necessarily '
-                             'be limited by the amount of training data and '
-                             'the number of samples used per round). Use "0" '
-                             'to do as many rounds as possible.',
-                        type=int,
-                        default=0)
-    parser.add_argument('--samples_per_round',
-                        help='The maximum number of training samples '
-                             'to use in each round.',
-                        type=int,
-                        default=100)
-    parser.add_argument('--test_limit',
-                        help='Cap to set on the number of test reviews to use'
-                             ' for evaluation.',
-                        type=int,
-                        default=1000)
-    parser.add_argument('--prediction_label',
-                        help='Label to predict.',
-                        choices=ex.LABELS,
-                        default='total_game_hours_bin')
-    parser.add_argument('--non_nlp_features',
-                        help='Comma-separated list of non-NLP features to '
-                             'combine with the NLP features in creating a '
-                             'model. Use "all" to use all available '
-                             'features, "none" to use no non-NLP features. '
-                             'If --only_non_nlp_features is used, NLP '
-                             'features will be left out entirely.',
-                        type=str,
-                        default='none')
-    parser.add_argument('--only_non_nlp_features',
-                        help="Don't use any NLP features.",
-                        action='store_true',
-                        default=False)
-    parser.add_argument('--learners',
-                        help='Comma-separated list of learning algorithms to '
-                             'try. Refer to list of learners above to find '
-                             'out which abbreviations stand for which '
-                             'learners. Set of available learners: {0}. Use '
-                             '"all" to include all available learners.'
-                             .format(ex.LEARNER_ABBRS_STRING),
-                        type=str,
-                        default='all')
-    parser.add_argument('--nbins',
-                        help='Number of bins to split up the distribution of '
-                             'prediction label values into. Use 0 (or don\'t '
-                             'specify) if the values should not be collapsed '
-                             'into bins. Note: Only use this option (and '
-                             '--bin_factor below) if the prediction labels '
-                             'are numeric.',
-                        type=int,
-                        default=0)
-    parser.add_argument('--bin_factor',
-                        help='Factor by which to multiply the size of each '
-                             'bin. Defaults to 1.0.',
-                        type=float,
-                        required=False)
-    parser.add_argument('--obj_func',
-                        help='Objective function to use in determining which '
-                             'learner/set of parameters resulted in the best '
-                             'performance.',
-                        choices=ex.OBJ_FUNC_ABBRS_DICT.keys(),
-                        default='qwk')
-    parser.add_argument('--order_outputs_by',
-                        help='Order output reports by best last round '
-                             'objective performance, best learning round '
-                             'objective performance, or by best objective '
-                             'slope.',
-                        choices=ORDERINGS,
-                        default='objective_last_round')
-    parser.add_argument('--evaluate_majority_baseline',
-                        help='Evaluate the majority baseline model.',
-                        action='store_true',
-                        default=True)
-    parser.add_argument('--save_best_features',
-                        help='Get the best features from each model and write'
-                             ' them out to files.',
-                        action='store_true',
-                        default=False)
-    parser.add_argument('-dbhost', '--mongodb_host',
-                        help='Host that the MongoDB server is running on.',
-                        type=str,
-                        default='localhost')
-    parser.add_argument('--mongodb_port', '-dbport',
-                        help='Port that the MongoDB server is running on.',
-                        type=int,
-                        default=37017)
+    _add_arg = parser.add_argument
+    _add_arg('--games',
+             help='Game(s) to use in experiments; or "all" to use data from '
+                  'all games. If --test_games is not specified, then it is '
+                  'assumed that the evaluation will be against data from the '
+                  'same game(s).',
+             type=str,
+             required=True)
+    _add_arg('--test_games',
+             help='Game(s) to use for evaluation data (or "all" for data from'
+                  ' all games). Only specify if the value is different from '
+                  'that specified via --games.',
+             type=str)
+    _add_arg('--output_dir',
+             help='Directory in which to output data related to the results '
+                  'of the conducted experiments.',
+             type=str,
+             required=True)
+    _add_arg('--rounds',
+             help='The maximum number of rounds of learning to conduct (the '
+                  'number of rounds will necessarily be limited by the amount'
+                  ' of training data and the number of samples used per '
+                  'round). Use "0" to do as many rounds as possible.',
+             type=int,
+             default=0)
+    _add_arg('--samples_per_round',
+             help='The maximum number of training samples to use in each '
+                  'round.',
+             type=int,
+             default=100)
+    _add_arg('--test_limit',
+             help='Cap to set on the number of test reviews to use for '
+                  'evaluation.',
+             type=int,
+             default=1000)
+    _add_arg('--prediction_label',
+             help='Label to predict.',
+             choices=ex.LABELS,
+             default='total_game_hours_bin')
+    _add_arg('--non_nlp_features',
+             help='Comma-separated list of non-NLP features to combine with '
+                  'the NLP features in creating a model. Use "all" to use all'
+                  ' available features, "none" to use no non-NLP features. If'
+                  ' --only_non_nlp_features is used, NLP features will be '
+                  'left out entirely.',
+             type=str,
+             default='none')
+    _add_arg('--only_non_nlp_features',
+             help="Don't use any NLP features.",
+             action='store_true',
+             default=False)
+    _add_arg('--learners',
+             help='Comma-separated list of learning algorithms to try. Refer '
+                  'to list of learners above to find out which abbreviations '
+                  'stand for which learners. Set of available learners: {0}. '
+                  'Use "all" to include all available learners.'
+                  .format(ex.LEARNER_ABBRS_STRING),
+             type=str,
+             default='all')
+    _add_arg('--nbins',
+             help='Number of bins to split up the distribution of prediction '
+                  'label values into. Use 0 (or don\'t specify) if the values'
+                  ' should not be collapsed into bins. Note: Only use this '
+                  'option (and --bin_factor below) if the prediction labels '
+                  'are numeric.',
+             type=int,
+             default=0)
+    _add_arg('--bin_factor',
+             help='Factor by which to multiply the size of each bin. Defaults'
+                  ' to 1.0.',
+             type=float,
+             required=False)
+    _add_arg('--obj_func',
+             help='Objective function to use in determining which learner/set'
+                  ' of parameters resulted in the best performance.',
+             choices=ex.OBJ_FUNC_ABBRS_DICT.keys(),
+             default='qwk')
+    _add_arg('--order_outputs_by',
+             help='Order output reports by best last round objective '
+                  'performance, best learning round objective performance, or'
+                  ' by best objective slope.',
+             choices=ORDERINGS,
+             default='objective_last_round')
+    _add_arg('--evaluate_majority_baseline',
+             help='Evaluate the majority baseline model.',
+             action='store_true',
+             default=True)
+    _add_arg('--save_best_features',
+             help='Get the best features from each model and write them out '
+                  'to files.',
+             action='store_true',
+             default=False)
+    _add_arg('-dbhost', '--mongodb_host',
+             help='Host that the MongoDB server is running on.',
+             type=str,
+             default='localhost')
+    _add_arg('--mongodb_port', '-dbport',
+             help='Port that the MongoDB server is running on.',
+             type=int,
+             default=37017)
+    _add_arg('-log', '--log_file_path',
+             help='Path to feature extraction log file. If no path is '
+                  'specified, then a "logs" directory will be created within '
+                  'the directory specified via the --output_dir argument.',
+             type=str,
+             default=None)
     args = parser.parse_args()
 
     # Command-line arguments and flags
@@ -1013,43 +1070,75 @@ def main(argv=None):
     host = args.mongodb_host
     port = args.mongodb_port
     test_limit = args.test_limit
-    output_dir = realpath(args.output_dir)
+    if not isfile(realpath(args.output_dir)):
+        output_dir = realpath(args.output_dir)
+    else:
+        raise FileExistsError('The specified output destination is the name '
+                              'of a currently existing file.')
     obj_func = args.obj_func
     ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
     save_best_features = args.save_best_features
+    if args.log_file_path:
+        if isdir(realpath(args.log_file_path)):
+            raise FileExistsError('The specified log file path is the name of'
+                                  ' a currently existing directory.')
+        else:
+            log_file_path = realpath(args.log_file_path)
+    else:
+        log_file_path = join(output_dir, 'logs', 'learn.log')
+    log_dir = dirname(log_file_path)
+
+    # Set up logger
+    logger = logging.getLogger('learn')
+    logging_debug = logging.DEBUG
+    logger.setLevel(logging_debug)
+    loginfo = logger.info
+    logdebug = logger.debug
+    formatter = logging.Formatter(log_format_string)
+    sh = logging.StreamHandler()
+    sh.setLevel(logging_debug)
+    fh = logging.FileHandler(log_file_path)
+    fh.setLevel(logging_debug)
+    sh.setFormatter(formatter)
+    fh.setFormatter(formatter)
+    logger.addHandler(sh)
+    logger.addHandler(fh)
+
+    # Output results files to output directory
+    loginfo('Output directory: {0}'.format(output_dir))
+    makedirs(output_dir, exist_ok=True)
+    makedirs(log_dir, exist_ok=True)
 
     # Log a bunch of job attributes
     if games == test_games:
-        logger.info('Game{0} to train/evaluate models on: {1}'
-                    .format('s' if len(games) > 1 else '',
-                            ', '.join(games) if ex.VALID_GAMES.difference(games)
-                                             else 'all games'))
+        loginfo('Game{0} to train/evaluate models on: {1}'
+                .format('s' if len(games) > 1 else '',
+                        ', '.join(games) if ex.VALID_GAMES.difference(games)
+                                         else 'all games'))
     else:
-        logger.info('Game{0} to train models on: {1}'
-                    .format('s' if len(games) > 1 else '',
-                            ', '.join(games) if ex.VALID_GAMES.difference(games)
-                                             else 'all games'))
-        logger.info('Game{0} to evaluate models against: {1}'
-                    .format('s' if len(test_games) > 1 else '',
-                            ', '.join(test_games)
-                            if ex.VALID_GAMES.difference(test_games)
-                            else 'all games'))
-    logger.info('Maximum number of learning rounds to conduct: {0}'
-                .format(rounds if rounds > 0
-                                  else "as many as possible"))
-    logger.info('Maximum number of training samples to use in each round: {0}'
-                .format(samples_per_round))
-    logger.info('Prediction label: {0}'.format(prediction_label))
-    logger.info('Non-NLP features to use: {0}'
-                .format(', '.join(non_nlp_features) if non_nlp_features
-                                                    else 'none'))
+        loginfo('Game{0} to train models on: {1}'
+                .format('s' if len(games) > 1 else '',
+                        ', '.join(games) if ex.VALID_GAMES.difference(games)
+                                         else 'all games'))
+        loginfo('Game{0} to evaluate models against: {1}'
+                .format('s' if len(test_games) > 1 else '',
+                        ', '.join(test_games)
+                        if ex.VALID_GAMES.difference(test_games)
+                        else 'all games'))
+    loginfo('Maximum number of learning rounds to conduct: {0}'
+            .format(rounds if rounds > 0 else "as many as possible"))
+    loginfo('Maximum number of training samples to use in each round: {0}'
+            .format(samples_per_round))
+    loginfo('Prediction label: {0}'.format(prediction_label))
+    loginfo('Non-NLP features to use: {0}'
+            .format(', '.join(non_nlp_features) if non_nlp_features else 'none'))
     if only_non_nlp_features:
         if not non_nlp_features:
             raise ValueError('No features to train a model on since the '
                              '--only_non_nlp_features flag was used and the '
                              'set of non-NLP features being used is empty.')
-        logger.info('Leaving out all NLP features.')
+        loginfo('Leaving out all NLP features.')
     if nbins == 0:
         if bin_factor:
             raise ValueError('--bin_factor should not be specified if --nbins'
@@ -1061,19 +1150,18 @@ def main(argv=None):
                              'non-zero value.')
         elif not bin_factor:
             bin_factor = 1.0
-        logger.info('Number of bins to split up the distribution of '
-                    'prediction label values into: {}'
-                    .format(nbins))
-        logger.info("Factor by which to multiply each succeeding bin's size: "
-                    "{}".format(bin_factor))
-    logger.info('Learners: {0}'.format(', '.join([ex.LEARNER_ABBRS_DICT[learner]
-                                                  for learner in learners])))
-    logger.info('Using {0} as the objective function'.format(obj_func))
+        loginfo('Number of bins to split up the distribution of prediction '
+                'label values into: {}'.format(nbins))
+        loginfo("Factor by which to multiply each succeeding bin's size: {}"
+                .format(bin_factor))
+    loginfo('Learners: {0}'.format(', '.join([ex.LEARNER_ABBRS_DICT[learner]
+                                              for learner in learners])))
+    loginfo('Using {0} as the objective function'.format(obj_func))
 
     # Connect to running Mongo server
-    logger.info('MongoDB host: {0}'.format(host))
-    logger.info('MongoDB port: {0}'.format(port))
-    logger.info('Limiting number of test reviews to {0} or below'
+    loginfo('MongoDB host: {0}'.format(host))
+    loginfo('MongoDB port: {0}'.format(port))
+    loginfo('Limiting number of test reviews to {0} or below'
                 .format(test_limit))
     db = connect_to_db(host=host, port=port)
 
@@ -1081,7 +1169,7 @@ def main(argv=None):
     # index the database here
     index_name = 'steam_id_number_1'
     if not index_name in db.index_information():
-        logger.debug('Creating index on the "steam_id_number" key...')
+        logdebug('Creating index on the "steam_id_number" key...')
         db.create_index('steam_id_number', ASCENDING)
 
     bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
@@ -1090,7 +1178,7 @@ def main(argv=None):
         loginfo('Bin ranges (nbins = {0}): {1}'.format(nbins, bin_ranges))
 
     # Do learning experiments
-    logger.info('Starting incremental learning experiments...')
+    loginfo('Starting incremental learning experiments...')
     experiments = RunExperiments(db,
                                  games,
                                  test_games,
@@ -1101,74 +1189,37 @@ def main(argv=None):
                                  non_nlp_features,
                                  prediction_label,
                                  obj_func,
+                                 logger,
                                  no_nlp_features=only_non_nlp_features,
                                  bin_ranges=bin_ranges,
                                  test_limit=test_limit,
                                  rounds=rounds,
                                  majority_baseline=evaluate_majority_baseline)
 
-    # Output results files to output directory
-    logger.info('Output directory: {0}'.format(output_dir))
-    makedirs(output_dir, exist_ok=True)
-
     # Generate evaluation reports for the various learner/parameter
     # grid combinations, ranking experiments in terms of their
     # performance with respect to the objective function in the last
     # round of learning, their best performance (in any round), or the
     # slope of their performance as the round increases
-    logger.info('Generating reports for the incremental learning runs ordered'
-                ' by {0}...'.format(ordering))
+    loginfo('Generating reports for the incremental learning runs ordered by '
+            '{0}...'.format(ordering))
     experiments.generate_learning_reports(output_dir, ordering)
 
     # Generate evaluation report for the majority baseline model, if
     # specified
     if evaluate_majority_baseline:
-        logger.info('Generating report for the majority baseline model...')
-        logger.info('Majority label: {0}'.format(experiments.majority_label))
+        loginfo('Generating report for the majority baseline model...')
+        loginfo('Majority label: {0}'.format(experiments.majority_label))
         experiments.generate_majority_baseline_report(output_dir)
 
     # Save the best-performing features
     if save_best_features:
-        logger.info('Generating feature weights output files...')
-
-        # Make directory for model weights
+        loginfo('Generating feature weights output files...')
         model_weights_dir = join(output_dir, 'model_weights')
         makedirs(model_weights_dir, exist_ok=True)
+        experiments.store_sorted_features(model_weights_dir)
 
-        # Generate feature weights files and a README.json providing
-        # the parameters corresponding to each set of feature weights
-        params_dict = {}
-        for (learner_list, learner_name) in zip(experiments.learner_lists,
-                                                experiments.learner_names):
-            # Skip MiniBatchKMeans
-            if learner_name == 'MiniBatchKMeans':
-                continue
-
-            for i, learner in enumerate(learner_list):
-                # Store the parameter grids to an indexed dictionary
-                # so that a key can be output also
-                params_dict.setdefault(learner_name, {})
-                params_dict[learner_name][i] = learner.get_params()
-
-                # Get dataframe of the features/coefficients
-                df = experiments.get_sorted_features_for_learner(learner)
-
-                if df:
-                    # Generate feature weights report
-                    df.to_csv(join(model_weights_dir,
-                                   '{0}_{1}_learning_stats_{2}.csv'
-                                   .format('_'.join(games),
-                                           learner_name, i + 1)))
-                else:
-                    logger.error('Could not generate features/feature '
-                                 'coefficients dataframe for {0}...'
-                                 .format(learner_name))
-
-        # Save parameters file also
-        with open(join(model_weights_dir, 'README.json'), 'w') as params_file:
-            dump(params_dict, params_file, indent=4)
-
-    logger.info('Complete.')
+    loginfo('Complete.')
 
 
 if __name__ == '__main__':
