@@ -124,6 +124,7 @@ class RunExperiments:
     __majority_label__ = 'majority_label'
     __labels_string__ = ', '.join(ex.LABELS)
     __majority_baseline_model__ = 'majority_baseline_model'
+    __report_name_template__ = '{0}_{1}_{2}_{3}.csv'
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, round_size: int, non_nlp_features: list,
@@ -217,12 +218,14 @@ class RunExperiments:
         if not self.games:
             raise ValueError('The set of games must be greater than zero!')
         self.__games_string__ = ', '.join(self.games)
-        self.__file_name_template__ = ('{0}_{1}_{2}_{3}.csv'
-                                       .format(self.__games_string__, '{0}',
-                                               '{1}', '{2}'))
-        self.__report_name_template__ = (self.__file_name_template__
-                                         .format('{0}', 'learning_stats', '{1}'))
-        self.__model_weights_name_template__ = (self.__file_name_template__
+
+        # Templates for report file names
+        self.__report_name_template__ = ('{0}_{1}_{2}_{3}.csv'
+                                         .format(self.__games_string__, '{0}',
+                                                 '{1}', '{2}'))
+        self.__stats_name_template__ = (self.__report_name_template__
+                                        .format('{0}', 'stats', '{1}'))
+        self.__model_weights_name_template__ = (self.__report_name_template__
                                                 .format('{0}', 'model_weights',
                                                         '{1}'))
         if majority_baseline:
@@ -571,8 +574,8 @@ class RunExperiments:
         for i, df in enumerate(dfs):
             learner_name = df[self.__learner__].iloc[0]
             df.to_csv(join(output_path,
-                           self.__report_name_template__.format(learner_name,
-                                                                i + 1)),
+                           self.__stats_name_template__.format(learner_name,
+                                                               i + 1)),
                       index=False)
 
     def convert_value_to_bin(self, val) -> int:
@@ -820,7 +823,7 @@ class RunExperiments:
                 # Get dataframe of the features/coefficients
                 sorted_features = self.get_sorted_features_for_learner(learner)
 
-                if not sorted_features:
+                if sorted_features:
                     # Generate feature weights report
                     (pd.DataFrame(sorted_features)
                      .to_csv(join(model_weights_path,
@@ -1222,7 +1225,8 @@ def main(argv=None):
 
     # Save the best-performing features
     if save_best_features:
-        loginfo('Generating feature weights output files...')
+        loginfo('Generating feature coefficient output files for each model '
+                '(after all learning rounds)...')
         model_weights_dir = join(output_dir, 'model_weights')
         makedirs(model_weights_dir, exist_ok=True)
         experiments.store_sorted_features(model_weights_dir)
