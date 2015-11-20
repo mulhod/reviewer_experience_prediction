@@ -241,7 +241,8 @@ class RunExperiments:
         self.vec = None
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [__learner_names__[learner] for learner in learners]
+        self.learner_names = [self.__learner_names__[learner] for learner
+                              in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid in zip(learners,
                                                              self.param_grids)]
