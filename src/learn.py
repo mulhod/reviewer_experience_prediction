@@ -1143,6 +1143,7 @@ def main(argv=None):
         if bin_factor:
             raise ValueError('--bin_factor should not be specified if --nbins'
                              ' is not specified or set to 0.')
+        bin_ranges = None
     else:
         if (bin_factor
             and bin_factor <= 0):
