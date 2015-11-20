@@ -1019,7 +1019,7 @@ def main(argv=None):
              default=0)
     _add_arg('--bin_factor',
              help='Factor by which to multiply the size of each bin. Defaults'
-                  ' to 1.0.',
+                  ' to 1.0 if --nbins is specified.',
              type=float,
              required=False)
     _add_arg('--obj_func',
@@ -1053,7 +1053,8 @@ def main(argv=None):
     _add_arg('-log', '--log_file_path',
              help='Path to feature extraction log file. If no path is '
                   'specified, then a "logs" directory will be created within '
-                  'the directory specified via the --output_dir argument.',
+                  'the directory specified via the --output_dir argument and '
+                  'a log will automatically be stored.',
              type=str,
              required=False)
     args = parser.parse_args()
@@ -1150,8 +1151,7 @@ def main(argv=None):
                              ' is not specified or set to 0.')
         bin_ranges = None
     else:
-        if (bin_factor
-            and bin_factor <= 0):
+        if bin_factor and bin_factor <= 0:
             raise ValueError('--bin_factor should be set to a positive, '
                              'non-zero value.')
         elif not bin_factor:

@@ -18,21 +18,22 @@ LABELS=( "num_guides" "num_games_owned" "num_friends" "num_voted_helpfulness" \
          "num_comments" "total_game_hours" "total_game_hours_bin" \
          "total_game_hours_last_two_weeks" "num_achievements_percentage" \
          "num_achievements_possible" )
-NON_NLP_FEATURES="none"
-ONLY_NON_NLP_FEATURES=0
+NON_NLP_FEATURES=""
+NON_NLP_FEATURES_STRING="non_nlp_features"
+ONLY_NON_NLP_FEATURES="false"
 OUTPUT_DIR="$(pwd)/inc_learning_experiments"
 SAMPLES_PER_ROUND="100"
 TEST_LIMIT="1000"
 ROUNDS="25"
 PREDICTION_LABEL="total_game_hours_bin"
-N_BINS="NULL"
-BIN_FACTOR="NULL"
+N_BINS=""
+BIN_FACTOR=""
 
 # Function for printing usage details
 usage_details () {
     
     cat <<EOF
-Usage: run_incremental_learning_experiment.sh GAMES [OPTIONS]...
+Usage: run_learning_experiments.sh GAMES [OPTIONS]...
 
 Run incremental learning experiments on a set of games individually.
 
@@ -86,8 +87,9 @@ while [ "$1" != "" ]; do
     --samples_per_round=*)
         SAMPLES_PER_ROUND=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${SAMPLES_PER_ROUND} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
-            echo "ERROR: ${SAMPLES_PER_ROUND} not an integer. Exiting.\n"
+            echo "ERROR: ${SAMPLES_PER_ROUND} not an integer.\n"
             usage_details
+            echo "Exiting.\n"
             exit 1
         }
         ;;
@@ -95,8 +97,9 @@ while [ "$1" != "" ]; do
     --test_limit=*)
         TEST_LIMIT=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${TEST_LIMIT} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
-            echo "ERROR: ${TEST_LIMIT} not an integer. Exiting.\n"
+            echo "ERROR: ${TEST_LIMIT} not an integer.\n"
             usage_details
+            echo "Exiting.\n"
             exit 1
         }
         ;;
@@ -107,8 +110,8 @@ while [ "$1" != "" ]; do
             if [[ $(echo ${LABELS} | grep -P "\b${label}\b" | wc -l) -ne 1 ]]; then
                 
                 echo "Unrecognized label: ${label}\n"
-                echo "Exiting.\n"
                 usage_details
+                echo "Exiting.\n"
                 exit 1
                 
             fi
@@ -118,20 +121,22 @@ while [ "$1" != "" ]; do
     --non_nlp_features=*)
         NON_NLP_FEATURES=$(echo $1 | awk -F= '{print $2}')
         [[ ${NON_NLP_FEATURES} != "all" && ${NON_NLP_FEATURES} != "none" ]] && {
-            echo "ERROR: --non_nlp_features must be set to either \"all\" " \
-                 "or \"none\". You specified: ${NON_NLP_FEATURES}. Exiting.\n"
+            echo "ERROR: --non_nlp_features must be set to either \"all\"" \
+                 "or \"none\". You specified: ${NON_NLP_FEATURES}.\n"
             usage_details
+            echo "Exiting.\n"
             exit 1
         }
         ;;
     --only_non_nlp_features)
-        ONLY_NON_NLP_FEATURES=1
+        ONLY_NON_NLP_FEATURES="true"
         ;;
     --nbins=*)
         N_BINS=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${N_BINS} | grep -P "^[1-9][0-9]*$" | wc -l) -ne 1 ]] && {
-            echo "ERROR: ${N_BINS} not an integer. Exiting.\n"
+            echo "ERROR: ${N_BINS} not an integer.\n"
             usage_details
+            echo "Exiting.\n"
             exit 1
         }
         ;;
@@ -139,9 +144,10 @@ while [ "$1" != "" ]; do
         BIN_FACTOR=$(echo $1 | awk -F= '{print $2}')
         [[ $(echo ${BIN_FACTOR} | grep -P "^[0-9]+\.[0-9]+$" | wc -l) -ne 1 \
             && ${BIN_FACTOR} -gt 0 ]] && {
-            echo "ERROR: ${BIN_FACTOR} not a positive, non-zero floating " \
-                 "point number. Exiting.\n"
+            echo "ERROR: ${BIN_FACTOR} not a positive, non-zero floating" \
+                 "point number.\n"
             usage_details
+            echo "Exiting.\n"
             exit 1
         }
         ;;
@@ -156,6 +162,15 @@ while [ "$1" != "" ]; do
     
 done
 
+# Exit if BIN_FACTOR is set, but not N_BINS
+if [[ -n ${BIN_FACTOR} && ! -n ${N_BINS} ]]; then
+    
+    echo "ERROR: If --bin_factor is specified, --nbins must also be specified.\n"
+    echo "Exiting.\n"
+    exit 1
+    
+fi
+
 # Activate conda environment
 source activate reviews
 
@@ -166,7 +181,6 @@ for game in ${GAMES}; do
     
     echo "Conducting experiments with ${game}...\n"
     
-    NON_NLP_FEATURES_STRING="non_nlp_features"
     if [[ ${NON_NLP_FEATURES} == "all" ]]; then
         
         NON_NLP_FEATURES_STRING="all_${NON_NLP_FEATURES_STRING}"
@@ -176,26 +190,50 @@ for game in ${GAMES}; do
         NON_NLP_FEATURES_STRING="no_${NON_NLP_FEATURES_STRING}"
         
     fi
-    LOG="${OUTPUT_DIR}/${game}_${N_BINS}_bins_${BIN_FACTOR}_factor_${NON_NLP_FEATURES_STRING}.txt"
-    CMD="learn --games ${game} --non_nlp_features ${NON_NLP_FEATURES} --output_dir ${OUTPUT_DIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL} --nbins ${N_BINS} --bin_factor ${BIN_FACTOR} --only_non_nlp_features 2>! ${LOG}"
+    CMD="learn --games ${game} --non_nlp_features ${NON_NLP_FEATURES} --output_dir ${OUTPUT_DIR} --rounds ${ROUNDS} --samples_per_round ${SAMPLES_PER_ROUND} --test_limit ${TEST_LIMIT} --prediction_label ${PREDICTION_LABEL}"
     
     # Get rid of --nbins/--bin_factor/--only_non_nlp_features arguments if
     # unspecified
-    if [[ ${N_BINS} == "NULL" ]]; then
+    if [[ -n ${N_BINS} ]]; then
         
-        CMD=$(echo ${CMD} | sed 's: --nbins::' | sed 's: NULL::')
+        CMD="${CMD} --nbins ${N_BINS}"
         
     fi
-    if [[ ${BIN_FACTOR} == "NULL" ]]; then
+    if [[ -n ${BIN_FACTOR} ]]; then
         
+        CMD="${CMD} --bin_factor ${BIN_FACTOR}"
         CMD=$(echo ${CMD} | sed 's: --bin_factor::' | sed 's: NULL::')
         
     fi
-    if [[ ${ONLY_NON_NLP_FEATURES} == "0" ]]; then
+    if [[ ${ONLY_NON_NLP_FEATURES} == "true" ]]; then
         
-        CMD=$(echo ${CMD} | sed 's: --only_non_nlp_features::')
+        CMD="${CMD} --only_non_nlp_features"
         
     fi
+    
+    # Add in a log file path
+    if [[ -n ${N_BINS} && -n ${BIN_FACTOR} ]]; then
+    
+        LOG="${OUTPUT_DIR}/logs/${game}_${N_BINS}_bins_${BIN_FACTOR}_factor_${NON_NLP_FEATURES_STRING}"
+        
+    elif [[ -n ${N_BINS} ]]; then
+        
+        LOG="${OUTPUT_DIR}/logs/${game}_${N_BINS}_bins_${NON_NLP_FEATURES_STRING}"
+        
+    else
+        
+        LOG="${OUTPUT_DIR}/logs/${game}_${NON_NLP_FEATURES_STRING}"
+        
+    fi
+    if [[ ${ONLY_NON_NLP_FEATURES} == "true" ]]; then
+        
+        LOG="${LOG}_only_non_nlp_features"
+        
+    fi
+    LOG="${LOG}.log"
+    
+    # Run command
+    CMD="${CMD} -log ${LOG}"
     echo "${CMD}"
     eval "${CMD}"
     echo "Finished experiments with ${game}.\n"
