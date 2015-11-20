@@ -815,11 +815,6 @@ class RunExperiments:
 
             for i, learner in enumerate(learner_list):
 
-                # Store the parameter grids to an indexed dictionary
-                # so that a key can be output also
-                params_dict.setdefault(learner_name, {})
-                params_dict[learner_name][i] = learner.get_params()
-
                 # Get dataframe of the features/coefficients
                 sorted_features = self.get_sorted_features_for_learner(learner)
 
@@ -828,14 +823,21 @@ class RunExperiments:
                     (pd.DataFrame(sorted_features)
                      .to_csv(join(model_weights_path,
                                   self.__model_weights_name_template__
-                                  .format(learner_name, i + 1))))
+                                  .format(learner_name, i + 1)),
+                             index=False))
+
+                    # Store the parameter grids to an indexed
+                    # dictionary so that a key can be output also
+                    params_dict.setdefault(learner_name, {})
+                    params_dict[learner_name][i] = learner.get_params()
                 else:
                     self.logger.error('Could not generate features/feature '
                                       'coefficients dataframe for {0}...'
                                       .format(learner_name))
 
         # Save parameters file also
-        dump(params_dict, open(join(model_weights_path, 'README.json'), 'w'),
+        dump(params_dict,
+             open(join(model_weights_path, 'model_params_readme.json'), 'w'),
              indent=4)
 
     def learning_round(self) -> None:
