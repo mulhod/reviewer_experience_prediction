@@ -1089,6 +1089,11 @@ def main(argv=None):
         log_file_path = join(output_dir, 'logs', 'learn.log')
     log_dir = dirname(log_file_path)
 
+    # Output results files to output directory
+    loginfo('Output directory: {0}'.format(output_dir))
+    makedirs(output_dir, exist_ok=True)
+    makedirs(log_dir, exist_ok=True)
+
     # Set up logger
     logger = logging.getLogger('learn')
     logging_debug = logging.DEBUG
@@ -1104,11 +1109,6 @@ def main(argv=None):
     fh.setFormatter(formatter)
     logger.addHandler(sh)
     logger.addHandler(fh)
-
-    # Output results files to output directory
-    loginfo('Output directory: {0}'.format(output_dir))
-    makedirs(output_dir, exist_ok=True)
-    makedirs(log_dir, exist_ok=True)
 
     # Log a bunch of job attributes
     if games == test_games:
