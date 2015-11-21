@@ -999,7 +999,7 @@ def main(argv=None):
                   'left out entirely.',
              type=str,
              default='none')
-    _add_arg('-no_nlp', '--only_non_nlp_features',
+    _add_arg('-only_non_nlp', '--only_non_nlp_features',
              help="Don't use any NLP features.",
              action='store_true',
              default=False)
