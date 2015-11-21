@@ -130,7 +130,7 @@ class RunExperiments:
                  param_grids: dict, round_size: int, non_nlp_features: list,
                  prediction_label: str, objective: str,
                  logger: logging.RootLogger, no_nlp_features=False,
-                 bin_ranges=None, max_test_samples=0, rounds=0,
+                 bin_ranges=None, max_test_samples=0, max_rounds=0,
                  majority_baseline=True):
         """
         Initialize class.
@@ -169,9 +169,9 @@ class RunExperiments:
         :param max_test_samples: limit for the number of test samples
                                  (defaults to 0 for no limit)
         :type max_test_samples: int
-        :param rounds: number of rounds of learning (0 for as many as
-                       possible)
-        :type rounds: int
+        :param max_rounds: number of rounds of learning (0 for as many
+                           as possible)
+        :type max_rounds: int
         :param majority_baseline: evaluate a majority baseline model
         :type majority_baseline: bool
 
@@ -265,7 +265,7 @@ class RunExperiments:
 
         # Incremental learning-related variables
         self.round_size = round_size
-        self.rounds = rounds
+        self.max_rounds = max_rounds
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
 
@@ -934,8 +934,8 @@ class RunExperiments:
 
         # If a certain number of rounds has been specified, try to do
         # that many rounds; otherwise, do as many as possible
-        if self.rounds > 0:
-            while self.round <= self.rounds:
+        if self.max_rounds > 0:
+            while self.round <= self.max_rounds:
                 if self.NO_MORE_TRAINING_DATA:
                     break
                 else:
@@ -1066,8 +1066,8 @@ def main(argv=None):
     test_games = ex.parse_games_string(args.test_games
                                        if args.test_games
                                        else args.games)
-    rounds = args.rounds
-    samples_per_round = args.samples_per_round
+    max_rounds = args.max_rounds
+    max_samples_per_round = args.max_samples_per_round
     prediction_label = args.prediction_label
     non_nlp_features = ex.parse_non_nlp_features_string(args.non_nlp_features,
                                                         prediction_label)
@@ -1135,9 +1135,9 @@ def main(argv=None):
                         if ex.VALID_GAMES.difference(test_games)
                         else 'all games'))
     loginfo('Maximum number of learning rounds to conduct: {0}'
-            .format(rounds if rounds > 0 else "as many as possible"))
+            .format(max_rounds if max_rounds > 0 else "as many as possible"))
     loginfo('Maximum number of training samples to use in each round: {0}'
-            .format(samples_per_round))
+            .format(max_samples_per_round))
     loginfo('Prediction label: {0}'.format(prediction_label))
     loginfo('Non-NLP features to use: {0}'
             .format(', '.join(non_nlp_features) if non_nlp_features else 'none'))
@@ -1198,7 +1198,7 @@ def main(argv=None):
                                  [ex.LEARNER_DICT[learner] for learner in learners],
                                  [ex.find_default_param_grid(learner)
                                  for learner in learners],
-                                 samples_per_round,
+                                 max_samples_per_round,
                                  non_nlp_features,
                                  prediction_label,
                                  obj_func,
@@ -1206,7 +1206,7 @@ def main(argv=None):
                                  no_nlp_features=only_non_nlp_features,
                                  bin_ranges=bin_ranges,
                                  max_test_samples=max_test_samples,
-                                 rounds=rounds,
+                                 max_rounds=max_rounds,
                                  majority_baseline=evaluate_majority_baseline)
 
     # Generate evaluation reports for the various learner/parameter
