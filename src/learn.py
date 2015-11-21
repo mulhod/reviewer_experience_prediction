@@ -130,7 +130,7 @@ class RunExperiments:
                  param_grids: dict, round_size: int, non_nlp_features: list,
                  prediction_label: str, objective: str,
                  logger: logging.RootLogger, no_nlp_features=False,
-                 bin_ranges=None, test_limit=0, rounds=0,
+                 bin_ranges=None, max_test_samples=0, rounds=0,
                  majority_baseline=True):
         """
         Initialize class.
@@ -166,9 +166,9 @@ class RunExperiments:
                            splitting up the distribution of prediction
                            label values)
         :type bin_ranges: None or list of tuple
-        :param test_limit: limit for the number of test samples
-                           (defaults to 0 for no limit)
-        :type test_limit: int
+        :param max_test_samples: limit for the number of test samples
+                                 (defaults to 0 for no limit)
+        :type max_test_samples: int
         :param rounds: number of rounds of learning (0 for as many as
                        possible)
         :type rounds: int
@@ -272,7 +272,7 @@ class RunExperiments:
         # Test data-related variables
         self.training_cursor = None
         self.test_cursor = None
-        self.test_limit = test_limit
+        self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursors for training/evaluation '
                          'data...')
         self.make_cursors()
@@ -348,8 +348,8 @@ class RunExperiments:
         self.test_cursor = (self.db
                             .find(test_query, projection, timeout=False)
                             .sort(sorting_args))
-        if self.test_limit:
-            self.test_cursor = self.test_cursor.limit(self.test_limit)
+        if self.max_test_samples:
+            self.test_cursor = self.test_cursor.limit(self.max_test_samples)
         self.test_cursor.batch_size = batch_size
 
     def get_all_features(self, review_doc: dict):
@@ -953,45 +953,45 @@ def main(argv=None):
                             formatter_class=ArgumentDefaultsHelpFormatter,
                             conflict_handler='resolve')
     _add_arg = parser.add_argument
-    _add_arg('--games',
+    _add_arg('-g', '--games',
              help='Game(s) to use in experiments; or "all" to use data from '
                   'all games. If --test_games is not specified, then it is '
                   'assumed that the evaluation will be against data from the '
                   'same game(s).',
              type=str,
              required=True)
-    _add_arg('--test_games',
+    _add_arg('-test', '--test_games',
              help='Game(s) to use for evaluation data (or "all" for data from'
                   ' all games). Only specify if the value is different from '
                   'that specified via --games.',
              type=str)
-    _add_arg('--output_dir',
+    _add_arg('-out', '--output_dir',
              help='Directory in which to output data related to the results '
                   'of the conducted experiments.',
              type=str,
              required=True)
-    _add_arg('--rounds',
+    _add_arg('-nrounds', '--max_rounds',
              help='The maximum number of rounds of learning to conduct (the '
                   'number of rounds will necessarily be limited by the amount'
                   ' of training data and the number of samples used per '
                   'round). Use "0" to do as many rounds as possible.',
              type=int,
              default=0)
-    _add_arg('--samples_per_round',
+    _add_arg('-ntrain', '--max_samples_per_round',
              help='The maximum number of training samples to use in each '
                   'round.',
              type=int,
              default=100)
-    _add_arg('--test_limit',
-             help='Cap to set on the number of test reviews to use for '
+    _add_arg('-ntest', '--max_test_samples',
+             help='Cap to set on the number of test samples to use for '
                   'evaluation.',
              type=int,
              default=1000)
-    _add_arg('--prediction_label',
+    _add_arg('-label', '--prediction_label',
              help='Label to predict.',
              choices=ex.LABELS,
              default='total_game_hours_bin')
-    _add_arg('--non_nlp_features',
+    _add_arg('-non_nlp', '--non_nlp_features',
              help='Comma-separated list of non-NLP features to combine with '
                   'the NLP features in creating a model. Use "all" to use all'
                   ' available features, "none" to use no non-NLP features. If'
@@ -999,11 +999,11 @@ def main(argv=None):
                   'left out entirely.',
              type=str,
              default='none')
-    _add_arg('--only_non_nlp_features',
+    _add_arg('-no_nlp', '--only_non_nlp_features',
              help="Don't use any NLP features.",
              action='store_true',
              default=False)
-    _add_arg('--learners',
+    _add_arg('-l', '--learners',
              help='Comma-separated list of learning algorithms to try. Refer '
                   'to list of learners above to find out which abbreviations '
                   'stand for which learners. Set of available learners: {0}. '
@@ -1011,7 +1011,7 @@ def main(argv=None):
                   .format(ex.LEARNER_ABBRS_STRING),
              type=str,
              default='all')
-    _add_arg('--nbins',
+    _add_arg('-bin', '--nbins',
              help='Number of bins to split up the distribution of prediction '
                   'label values into. Use 0 (or don\'t specify) if the values'
                   ' should not be collapsed into bins. Note: Only use this '
@@ -1019,27 +1019,27 @@ def main(argv=None):
                   'are numeric.',
              type=int,
              default=0)
-    _add_arg('--bin_factor',
+    _add_arg('-factor', '--bin_factor',
              help='Factor by which to multiply the size of each bin. Defaults'
                   ' to 1.0 if --nbins is specified.',
              type=float,
              required=False)
-    _add_arg('--obj_func',
+    _add_arg('-obj', '--obj_func',
              help='Objective function to use in determining which learner/set'
                   ' of parameters resulted in the best performance.',
              choices=ex.OBJ_FUNC_ABBRS_DICT.keys(),
              default='qwk')
-    _add_arg('--order_outputs_by',
+    _add_arg('-order_by', '--order_outputs_by',
              help='Order output reports by best last round objective '
                   'performance, best learning round objective performance, or'
                   ' by best objective slope.',
              choices=ORDERINGS,
              default='objective_last_round')
-    _add_arg('--evaluate_majority_baseline',
+    _add_arg('-baseline', '--evaluate_majority_baseline',
              help='Evaluate the majority baseline model.',
              action='store_true',
              default=True)
-    _add_arg('--save_best_features',
+    _add_arg('-save_best', '--save_best_features',
              help='Get the best features from each model and write them out '
                   'to files.',
              action='store_true',
@@ -1048,7 +1048,7 @@ def main(argv=None):
              help='Host that the MongoDB server is running on.',
              type=str,
              default='localhost')
-    _add_arg('--mongodb_port', '-dbport',
+    _add_arg('-dbport', '--mongodb_port',
              help='Port that the MongoDB server is running on.',
              type=int,
              default=37017)
@@ -1077,7 +1077,7 @@ def main(argv=None):
     learners = ex.parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
-    test_limit = args.test_limit
+    max_test_samples = args.max_test_samples
     if not isfile(realpath(args.output_dir)):
         output_dir = realpath(args.output_dir)
     else:
@@ -1170,7 +1170,7 @@ def main(argv=None):
     loginfo('MongoDB host: {0}'.format(host))
     loginfo('MongoDB port: {0}'.format(port))
     loginfo('Limiting number of test reviews to {0} or below'
-                .format(test_limit))
+            .format(max_test_samples))
     db = connect_to_db(host=host, port=port)
 
     # Check to see if the database has the proper index and, if not,
@@ -1205,7 +1205,7 @@ def main(argv=None):
                                  logger,
                                  no_nlp_features=only_non_nlp_features,
                                  bin_ranges=bin_ranges,
-                                 test_limit=test_limit,
+                                 max_test_samples=max_test_samples,
                                  rounds=rounds,
                                  majority_baseline=evaluate_majority_baseline)
 
