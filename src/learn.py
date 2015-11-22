@@ -127,11 +127,10 @@ class RunExperiments:
     __report_name_template__ = '{0}_{1}_{2}_{3}.csv'
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
-                 param_grids: dict, round_size: int, non_nlp_features: list,
-                 prediction_label: str, objective: str,
-                 logger: logging.RootLogger, no_nlp_features=False,
-                 bin_ranges=None, max_test_samples=0, max_rounds=0,
-                 majority_baseline=True):
+                 param_grids: dict, samples_per_round: int, non_nlp_features: list,
+                 prediction_label: str, objective: str, logger: logging.RootLogger,
+                 no_nlp_features=False, bin_ranges=None, max_test_samples=0,
+                 max_rounds=0, majority_baseline=True):
         """
         Initialize class.
 
@@ -147,9 +146,9 @@ class RunExperiments:
                             to lists of values (must be aligned with
                             list of learners)
         :type param_grids: dict
-        :param round_size: number of training documents to extract in
-                           each round
-        :type round_size: int
+        :param samples_per_round: number of training documents to
+                                  extract in each round
+        :type samples_per_round: int
         :param non_nlp_features: list of non-NLP features to add into
                                  the feature dictionaries 
         :type non_nlp_features: list of str
@@ -184,9 +183,9 @@ class RunExperiments:
         self.logger = logger
 
         # Make sure parameters make sense/are valid
-        if round_size < 1:
-            raise ValueError('The round_size parameter should have a positive'
-                             ' value.')
+        if samples_per_round < 1:
+            raise ValueError('The samples_per_round parameter should have a '
+                             'positive value.')
         if prediction_label in non_nlp_features:
             raise ValueError('The prediction_label parameter ({0}) cannot '
                              'also be in the list of non-NLP features to use '
@@ -209,6 +208,16 @@ class RunExperiments:
                              'available games: {1}.'
                              .format(', '.join(games.union(test_games)),
                                      ', '.join(APPID_DICT)))
+
+        # Incremental learning-related attributes
+        self.samples_per_round = samples_per_round
+        self.max_rounds = max_rounds
+        self.round = 1
+        self.NO_MORE_TRAINING_DATA = False
+        default_cursor_batch_size = 50
+        self.batch_size = (default_cursor_batch_size
+                           if samples_per_round <= default_cursor_batch_size
+                           else samples_per_round)
 
         # MongoDB database
         self.db = db
@@ -263,12 +272,6 @@ class RunExperiments:
         self.no_nlp_features = no_nlp_features
         self.prediction_label = prediction_label
 
-        # Incremental learning-related variables
-        self.round_size = round_size
-        self.max_rounds = max_rounds
-        self.round = 1
-        self.NO_MORE_TRAINING_DATA = False
-
         # Test data-related variables
         self.training_cursor = None
         self.test_cursor = None
@@ -312,8 +315,8 @@ class RunExperiments:
         :rtype: None
         """
 
-        batch_size = 50
-        self.logger.debug('Batch size of MongoDB cursors: {0}'.format(batch_size))
+        self.logger.debug('Batch size of MongoDB cursors: {0}'
+                          .format(self.batch_size))
         sorting_args = [(self.__steam_id__, ASCENDING)]
 
         # Leave out the '_id' value and the 'nlp_features' value if
@@ -334,7 +337,7 @@ class RunExperiments:
         self.training_cursor = (self.db
                                 .find(train_query, projection, timeout=False)
                                 .sort(sorting_args))
-        self.training_cursor.batch_size = batch_size
+        self.training_cursor.batch_size = self.batch_size
 
         # Make test data cursor
         if len(self.test_games) == 1:
@@ -350,7 +353,7 @@ class RunExperiments:
                             .sort(sorting_args))
         if self.max_test_samples:
             self.test_cursor = self.test_cursor.limit(self.max_test_samples)
-        self.test_cursor.batch_size = batch_size
+        self.test_cursor.batch_size = self.batch_size
 
     def get_all_features(self, review_doc: dict):
         """
@@ -464,7 +467,7 @@ class RunExperiments:
 
         data = []
         i = 0
-        while i < self.round_size:
+        while i < self.samples_per_round:
             # Get a review document from the Mongo database
             try:
                 review_doc = next(self.training_cursor)
@@ -855,7 +858,7 @@ class RunExperiments:
         # from or if the number remaining is less than half the size of
         # the intended number of samples to be used in each round
         if (not samples
-            or samples < self.round_size/2):
+            or samples < self.samples_per_round/2):
             return
 
         self.logger.info('Round {0}...'.format(self.round))
