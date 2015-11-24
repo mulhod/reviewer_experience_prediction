@@ -21,6 +21,7 @@ from random import (seed,
 from json import dumps
 from os.path import (basename,
                      splitext)
+from collections import Counter
 
 from pymongo import MongoClient
 from pymongo.errors import (AutoReconnect,
@@ -370,3 +371,47 @@ def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
                        'Exiting.')
                 exit(1)
             sleep(20)
+
+
+def generate_id_strings_labels_dict(db, label, games):
+    """
+    Generate a mapping between ID srings and label values and also a
+    frequency distribution of label values.
+
+    :param db: Mongo reviews collection
+    :type db: pymongo.collection.Collection
+    :param label: label to use for prediction
+    :type label: str
+    :param games: list or set of game ID(s)
+    :type games: list or set
+
+    :returns: tuple consisting of a dictionary of ID strings mapped to
+              labels and a Counter object representing the frequency
+              distribution of the label values
+    :rtype: tuple
+
+    :raises: ValueError
+    """
+
+    # Make sure the games are in the list of valid games
+    if any(not game in APPID_DICT for game in games):
+        raise ValueError('All or some of the games in the given list of '
+                         'games, {0}, are not in list of available games'
+                         .format(', '.join(games)))
+
+    if len(games) == 1:
+        query = {'partition': 'test', 'game': games[0]}
+    else:
+        query = {'partition': 'test', 'game': {'$in': games}}
+    cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
+
+    # Get review documents (only including label + ID string)
+    reviews = [doc for doc in cursor if doc.get(label)]
+
+    # Raise exception if no review documents were found
+    if not reviews:
+        raise ValueError('No review documents were found!')
+
+    # Return dictionary of ID strings mapped to label values
+    return ({doc['id_string']: doc[label] for doc in reviews},
+            Counter([doc[label] for doc in reviews]))

@@ -93,6 +93,9 @@ class RunExperiments:
     __learner__ = 'learner'
     __learners_requiring_classes__ = frozenset({'BernoulliNB', 'MultinomialNB',
                                                 'Perceptron'})
+    __no_introspection_learners_dict__ = \
+        {'MiniBatchKMeans': MiniBatchKMeans,
+         'PassiveAggressiveRegressor': PassiveAggressiveRegressor}
     __learner_names__ = {MiniBatchKMeans: 'MiniBatchKMeans',
                          BernoulliNB: 'BernoulliNB',
                          MultinomialNB: 'MultinomialNB',
@@ -746,7 +749,8 @@ class RunExperiments:
         Get the best-performing features in a learner (excluding
         MiniBatchKMeans).
 
-        :param learner: learner
+        :param learner: learner (can not be of type MiniBatchKMeans or
+                        PassiveAggressiveRegressor, among others)
         :type learner: learner instance
         :param filter_zero_features: filter out features with
                                      zero-valued coefficients
@@ -754,7 +758,15 @@ class RunExperiments:
 
         :returns: list of sorted features (in dictionaries)
         :rtype: list
+
+        :raises: ValueError
         """
+
+        # Raise exception if learner class is not supported
+        if any(issubclass(type(learner), cls) for cls
+               in self.__no_introspection_learners_dict__.values()):
+            raise ValueError('Can not get feature weights for learners of '
+                             'type {0}'.format(type(learner)))
 
         # Store feature coefficient tuples
         feature_coefs = []
@@ -812,8 +824,8 @@ class RunExperiments:
         params_dict = {}
         for (learner_list, learner_name) in zip(self.learner_lists,
                                                 self.learner_names):
-            # Skip MiniBatchKMeans models
-            if learner_name == 'MiniBatchKMeans':
+            # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
+            if learner_name in self.__no_introspection_learners_dict__:
                 continue
 
             for i, learner in enumerate(learner_list):
