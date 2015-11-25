@@ -48,7 +48,7 @@ from data import APPID_DICT
 from src import log_format_string
 from src import experiments as ex
 from util.mongodb import (connect_to_db,
-                          generate_evenly_distributed_test_samples)
+                          evenly_distributed_test_samples)
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
 
@@ -67,6 +67,7 @@ class RunExperiments:
     # Constants
     __game__ = 'game'
     __games__ = 'games'
+    __test_game__ = 'test_game'
     __test_games__ = 'test_games'
     __all_games__ = 'all_games'
     __partition__ = 'partition'
@@ -281,8 +282,7 @@ class RunExperiments:
         self.training_cursor = None
         self.test_cursor = None
         self.max_test_samples = max_test_samples
-        self.logger.info('Setting up MongoDB cursors for training/evaluation '
-                         'data...')
+        self.logger.info('Setting up MongoDB cursor for training data...')
         self.sorting_args = None
         self.projection = None
         self.make_train_cursor()
@@ -322,7 +322,7 @@ class RunExperiments:
         :rtype: None
         """
 
-        self.logger.debug('Batch size of MongoDB cursors: {0}'
+        self.logger.debug('Batch size of MongoDB training cursor: {0}'
                           .format(self.batch_size))
         self.sorting_args = [(self.__steam_id__, ASCENDING)]
 
@@ -333,13 +333,12 @@ class RunExperiments:
             self.projection.update({self.__nlp_feats__: 0})
 
         # Make training data cursor
-        if len(self.games) == 1:
-            train_query = {self.__game__: list(self.games)[0],
+        games = list(self.games)
+        if len(games) == 1:
+            train_query = {self.__game__: games[0],
                            self.__partition__: self.__training__}
-        elif not ex.VALID_GAMES.difference(self.games):
-            train_query = {self.__partition__: self.__training__}
         else:
-            train_query = {self.__game__: {self.__in_op__: list(self.games)},
+            train_query = {self.__game__: {self.__in_op__: games},
                            self.__partition__: self.__training__}
         self.training_cursor = (self.db
                                 .find(train_query, self.projection, timeout=False)
@@ -485,21 +484,19 @@ class RunExperiments:
         """
 
         # Generate the base query
-        if len(self.test_games) == 1:
-            test_query = {self.__game__: list(self.test_games)[0],
+        games = list(self.test_games)
+        if len(games) == 1:
+            test_query = {self.__game__: games[0],
                           self.__partition__: self.__test__}
-        elif not ex.VALID_GAMES.difference(self.test_games):
-            test_query = {self.__partition__: self.__test__}
         else:
-            test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
+            test_query = {self.__game__: {self.__in_op__: games},
                           self.__partition__: self.__test__}
 
         data = []
         j = 0
-        for id_string in \
-            generate_evenly_distributed_test_samples(self.db,
-                                                     self.prediction_label,
-                                                     list(self.test_games)):
+        for id_string in evenly_distributed_test_samples(self.db,
+                                                         self.prediction_label,
+                                                         games):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
             _test_query.update({self.__id_string__: id_string})
@@ -540,7 +537,7 @@ class RunExperiments:
         stats_dict = self.get_stats(self.get_majority_baseline())
         stats_dict.update({self.__test_games__:
                                ', '.join(self.test_games)
-                               if self.test_games.difference(ex.VALID_GAMES)
+                               if ex.VALID_GAMES.difference(self.test_games)
                                else self.__all_games__,
                            self.__prediction_label__: self.prediction_label,
                            self.__majority_label__: self.majority_label,
@@ -927,14 +924,17 @@ class RunExperiments:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__games__ if len(self.games) > 1
-                                                  else self.__game__:
+                stats_dict.update({self.__games__
+                                   if len(self.games) > 1
+                                   else self.__game__:
                                        ', '.join(self.games)
-                                           if self.games.difference(ex.VALID_GAMES)
-                                           else self.__all_games__,
-                                   self.__test_games__:
+                                       if ex.VALID_GAMES.difference(self.games)
+                                       else self.__all_games__,
+                                   self.__test_games__
+                                   if len(self.test_games) > 1
+                                   else self.__test_game__:
                                        ', '.join(self.test_games)
-                                       if self.test_games.difference(ex.VALID_GAMES)
+                                       if ex.VALID_GAMES.difference(self.test_games)
                                        else self.__all_games__,
                                    self.__learning_round__: int(self.round),
                                    self.__prediction_label__: self.prediction_label,
@@ -1091,9 +1091,9 @@ def main(argv=None):
 
     # Command-line arguments and flags
     games = ex.parse_games_string(args.games)
-    test_games = ex.parse_games_string(args.test_games
-                                       if args.test_games
-                                       else args.games)
+    test_games = (ex.parse_games_string(args.test_games)
+                  if args.test_games
+                  else games)
     max_rounds = args.max_rounds
     max_samples_per_round = args.max_samples_per_round
     prediction_label = args.prediction_label
@@ -1174,7 +1174,7 @@ def main(argv=None):
             raise ValueError('No features to train a model on since the '
                              '--only_non_nlp_features flag was used and the '
                              'set of non-NLP features being used is empty.')
-        loginfo('Leaving out all NLP features.')
+        loginfo('Leaving out all NLP features')
     if nbins == 0:
         if bin_factor:
             raise ValueError('--bin_factor should not be specified if --nbins'

@@ -450,7 +450,7 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_obj_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict;
 struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr;
-struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples;
+struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples;
 struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition;
 
 /* "util/mongodb.pyx":291
@@ -495,11 +495,11 @@ struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr {
 /* "util/mongodb.pyx":438
  * 
  * 
- * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
- *                                              games: list) -> str:
+ * def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:             # <<<<<<<<<<<<<<
  *     """
+ *     Generate ID strings from test data samples that, altogether, form a
  */
-struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples {
+struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples {
   PyObject_HEAD
   PyObject *__pyx_v__id;
   PyObject *__pyx_v__label;
@@ -894,7 +894,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 /* Module declarations from 'util.mongodb' */
 static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict = 0;
 static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct_1_genexpr = 0;
-static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = 0;
+static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples = 0;
 static PyObject *__pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "util.mongodb"
 int __pyx_module_is_main_util__mongodb = 0;
@@ -1068,6 +1068,7 @@ static char __pyx_k_No_review_documents_were_found[] = "No review documents were
 static char __pyx_k_All_or_some_of_the_games_in_the[] = "All or some of the games in the given list of games, {0}, are not in list of available games";
 static char __pyx_k_Inserted_0_training_set_reviews[] = "Inserted {0} training set reviews, {1} test set reviews, and {2} extra reviews...";
 static char __pyx_k_author_Matt_Mulholland_date_May[] = "\n:author: Matt Mulholland\n:date: May 5, 2015\n\nModule of code related to the MongoDB database that holds all of the\nreview data.\n\nThe insert_train_test_reviews function gets all suitable,\nEnglish-language reviews for a given data-set (at the provided\nfile-path) and inserts them into the the MongoDB database\n('reviews_project') under the 'reviews' collection.\n";
+static char __pyx_k_evenly_distributed_test_samples[] = "evenly_distributed_test_samples";
 static char __pyx_k_generate_test_id_strings_labels[] = "generate_test_id_strings_labels_dict.<locals>.genexpr";
 static char __pyx_k_home_nlp_text_dynamic_mmulholla[] = "/home/nlp-text/dynamic/mmulholland/reviewer_experience_prediction/util/mongodb.pyx";
 static char __pyx_k_Dividing_the_hours_played_values[] = "Dividing the hours played values into {0} bins with a bin factor of {1}...";
@@ -1083,7 +1084,6 @@ static char __pyx_k_Number_of_training_set_reviews_0[] = "Number of training set
 static char __pyx_k_The_hours_played_value_0_did_not[] = "The hours played value ({0}) did not seem to fall within any of the bin ranges.\n\nBin ranges\n{1}\nExiting.";
 static char __pyx_k_Unable_to_connect_client_to_Mong[] = "Unable to connect client to Mongo server at {0}. Exiting.";
 static char __pyx_k_Unable_to_update_database_even_a[] = "Unable to update database even after 5 tries. Exiting.";
-static char __pyx_k_generate_evenly_distributed_test[] = "generate_evenly_distributed_test_samples";
 static char __pyx_k_generate_test_id_strings_labels_2[] = "generate_test_id_strings_labels_dict";
 static char __pyx_k_No_matching_documents_were_found_2[] = "No matching documents were found in the MongoDB collection in the {0} partition for game {1}. Exiting.";
 static char __pyx_k_Unable_to_connect_client_to_Mong_2[] = "Unable to connect client to Mongo server at {0}. Will try {1} more time{}...";
@@ -1163,6 +1163,7 @@ static PyObject *__pyx_n_s_dumps;
 static PyObject *__pyx_n_s_e;
 static PyObject *__pyx_n_s_encode;
 static PyObject *__pyx_n_s_error;
+static PyObject *__pyx_n_s_evenly_distributed_test_samples;
 static PyObject *__pyx_n_s_execute;
 static PyObject *__pyx_n_s_exit;
 static PyObject *__pyx_n_s_extra;
@@ -1174,7 +1175,6 @@ static PyObject *__pyx_n_s_game;
 static PyObject *__pyx_n_s_game_cursor;
 static PyObject *__pyx_n_s_game_id;
 static PyObject *__pyx_n_s_games;
-static PyObject *__pyx_n_s_generate_evenly_distributed_test;
 static PyObject *__pyx_n_s_generate_test_id_strings_labels;
 static PyObject *__pyx_n_s_generate_test_id_strings_labels_2;
 static PyObject *__pyx_n_s_genexpr;
@@ -1278,10 +1278,10 @@ static PyObject *__pyx_pf_4util_7mongodb_4insert_train_test_reviews(CYTHON_UNUSE
 static PyObject *__pyx_pf_4util_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db_update, PyObject *__pyx_v__id, PyObject *__pyx_v_nlp_feats, PyObject *__pyx_v_binarized_nlp_feats); /* proto */
 static PyObject *__pyx_pf_4util_7mongodb_36generate_test_id_strings_labels_dict_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games); /* proto */
-static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games); /* proto */
+static PyObject *__pyx_pf_4util_7mongodb_10evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games); /* proto */
 static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
-static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_int_0;
@@ -6363,16 +6363,16 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
 /* "util/mongodb.pyx":438
  * 
  * 
- * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
- *                                              games: list) -> str:
+ * def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:             # <<<<<<<<<<<<<<
  *     """
+ *     Generate ID strings from test data samples that, altogether, form a
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_7mongodb_10generate_evenly_distributed_test_samples[] = "\n    Generate ID strings from test data samples that, altogether, form a\n    maximally evenly-distributed set of test samples, specifically for\n    cases when a small subset of the total test partition is being used.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param label: label used for prediction\n    :type label: str\n    :param games: list or set of game IDs\n    :type games: list/set\n\n    :yields: ID string\n    :ytype: str\n    ";
-static PyMethodDef __pyx_mdef_4util_7mongodb_11generate_evenly_distributed_test_samples = {"generate_evenly_distributed_test_samples", (PyCFunction)__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_10generate_evenly_distributed_test_samples};
-static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4util_7mongodb_11evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_7mongodb_10evenly_distributed_test_samples[] = "\n    Generate ID strings from test data samples that, altogether, form a\n    maximally evenly-distributed set of test samples, specifically for\n    cases when a small subset of the total test partition is being used.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param label: label used for prediction\n    :type label: str\n    :param games: list or set of game IDs\n    :type games: list/set\n\n    :yields: ID string\n    :ytype: str\n    ";
+static PyMethodDef __pyx_mdef_4util_7mongodb_11evenly_distributed_test_samples = {"evenly_distributed_test_samples", (PyCFunction)__pyx_pw_4util_7mongodb_11evenly_distributed_test_samples, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_10evenly_distributed_test_samples};
+static PyObject *__pyx_pw_4util_7mongodb_11evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
   PyObject *__pyx_v_label = 0;
   PyObject *__pyx_v_games = 0;
@@ -6381,7 +6381,7 @@ static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samp
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generate_evenly_distributed_test_samples (wrapper)", 0);
+  __Pyx_RefNannySetupContext("evenly_distributed_test_samples (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_db,&__pyx_n_s_label,&__pyx_n_s_games,0};
     PyObject* values[3] = {0,0,0};
@@ -6403,16 +6403,16 @@ static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samp
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_label)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evenly_distributed_test_samples", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_games)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("evenly_distributed_test_samples", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_evenly_distributed_test_samples") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "evenly_distributed_test_samples") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -6427,28 +6427,28 @@ static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samp
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("evenly_distributed_test_samples", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("util.mongodb.generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("util.mongodb.evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(__pyx_self, __pyx_v_db, __pyx_v_label, __pyx_v_games);
+  __pyx_r = __pyx_pf_4util_7mongodb_10evenly_distributed_test_samples(__pyx_self, __pyx_v_db, __pyx_v_label, __pyx_v_games);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games) {
-  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_cur_scope;
+static PyObject *__pyx_pf_4util_7mongodb_10evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games) {
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *__pyx_cur_scope;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("generate_evenly_distributed_test_samples", 0);
-  __pyx_cur_scope = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, __pyx_empty_tuple, NULL);
+  __Pyx_RefNannySetupContext("evenly_distributed_test_samples", 0);
+  __pyx_cur_scope = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples, __pyx_empty_tuple, NULL);
   if (unlikely(!__pyx_cur_scope)) {
     __Pyx_RefNannyFinishContext();
     return NULL;
@@ -6464,7 +6464,7 @@ static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samp
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_games);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_games);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_4util_7mongodb_12generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_generate_evenly_distributed_test, __pyx_n_s_generate_evenly_distributed_test); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_4util_7mongodb_12generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_evenly_distributed_test_samples, __pyx_n_s_evenly_distributed_test_samples); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -6472,7 +6472,7 @@ static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samp
 
   /* function exit code */
   __pyx_L1_error:;
-  __Pyx_AddTraceback("util.mongodb.generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("util.mongodb.evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
@@ -6482,7 +6482,7 @@ static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samp
 
 static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
 {
-  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_cur_scope = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)__pyx_generator->closure);
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *__pyx_cur_scope = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
   PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
@@ -6512,14 +6512,14 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   __pyx_L3_first_run:;
   if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "util/mongodb.pyx":459
+  /* "util/mongodb.pyx":458
  *     # distribution of the labels
  *     id_strings_labels_dict, labels_counter = \
  *         generate_test_id_strings_labels_dict(db, label, games)             # <<<<<<<<<<<<<<
  * 
  *     # Create a maximally evenly-distributed list of samples with
  */
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_generate_test_id_strings_labels_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_generate_test_id_strings_labels_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   __pyx_t_4 = 0;
@@ -6533,7 +6533,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       __pyx_t_4 = 1;
     }
   }
-  __pyx_t_5 = PyTuple_New(3+__pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = PyTuple_New(3+__pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   if (__pyx_t_3) {
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -6547,7 +6547,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   __Pyx_INCREF(__pyx_cur_scope->__pyx_v_games);
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_games);
   PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_4, __pyx_cur_scope->__pyx_v_games);
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -6561,7 +6561,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     if (unlikely(size != 2)) {
       if (size > 2) __Pyx_RaiseTooManyValuesError(2);
       else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     #if CYTHON_COMPILING_IN_CPYTHON
     if (likely(PyTuple_CheckExact(sequence))) {
@@ -6574,15 +6574,15 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     __Pyx_INCREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_t_5);
     #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
     #endif
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
     Py_ssize_t index = -1;
-    __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext;
@@ -6590,7 +6590,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     __Pyx_GOTREF(__pyx_t_2);
     index = 1; __pyx_t_5 = __pyx_t_6(__pyx_t_3); if (unlikely(!__pyx_t_5)) goto __pyx_L4_unpacking_failed;
     __Pyx_GOTREF(__pyx_t_5);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_3), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_3), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_6 = NULL;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     goto __pyx_L5_unpacking_done;
@@ -6598,11 +6598,11 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_t_6 = NULL;
     if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 457; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_L5_unpacking_done:;
   }
 
-  /* "util/mongodb.pyx":458
+  /* "util/mongodb.pyx":457
  *     # Get dictionary of ID strings mapped to labels and a frequency
  *     # distribution of the labels
  *     id_strings_labels_dict, labels_counter = \             # <<<<<<<<<<<<<<
@@ -6616,20 +6616,20 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   __pyx_cur_scope->__pyx_v_labels_counter = __pyx_t_5;
   __pyx_t_5 = 0;
 
-  /* "util/mongodb.pyx":463
+  /* "util/mongodb.pyx":462
  *     # Create a maximally evenly-distributed list of samples with
  *     # respect to label
  *     labels_id_strings_lists_dict = dict()             # <<<<<<<<<<<<<<
  *     for label_value in labels_counter:
  *         labels_id_strings_lists_dict[label_value] = \
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 462; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_GIVEREF(__pyx_t_1);
   __pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "util/mongodb.pyx":464
+  /* "util/mongodb.pyx":463
  *     # respect to label
  *     labels_id_strings_lists_dict = dict()
  *     for label_value in labels_counter:             # <<<<<<<<<<<<<<
@@ -6640,26 +6640,26 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     __pyx_t_1 = __pyx_cur_scope->__pyx_v_labels_counter; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_7 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   for (;;) {
     if (likely(!__pyx_t_7)) {
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       } else {
         if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_COMPILING_IN_CPYTHON
-        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         #else
-        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_5);
         #endif
       }
@@ -6669,7 +6669,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         break;
       }
@@ -6680,16 +6680,16 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     __Pyx_GIVEREF(__pyx_t_5);
     __pyx_t_5 = 0;
 
-    /* "util/mongodb.pyx":466
+    /* "util/mongodb.pyx":465
  *     for label_value in labels_counter:
  *         labels_id_strings_lists_dict[label_value] = \
  *             [_id for _id, _label in id_strings_labels_dict.items()             # <<<<<<<<<<<<<<
  *              if _label == label_value]
  *     i = 0
  */
-    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_id_strings_labels_dict, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_cur_scope->__pyx_v_id_strings_labels_dict, __pyx_n_s_items); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_8 = NULL;
     if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_3))) {
@@ -6702,10 +6702,10 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       }
     }
     if (__pyx_t_8) {
-      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_8); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     } else {
-      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_CallNoArg(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -6713,9 +6713,9 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       __pyx_t_3 = __pyx_t_2; __Pyx_INCREF(__pyx_t_3); __pyx_t_9 = 0;
       __pyx_t_10 = NULL;
     } else {
-      __pyx_t_9 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_9 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_10 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_10 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     for (;;) {
@@ -6723,17 +6723,17 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         if (likely(PyList_CheckExact(__pyx_t_3))) {
           if (__pyx_t_9 >= PyList_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_2 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         } else {
           if (__pyx_t_9 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_2 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_9); __Pyx_INCREF(__pyx_t_2); __pyx_t_9++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_2 = PySequence_ITEM(__pyx_t_3, __pyx_t_9); __pyx_t_9++; if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_2);
           #endif
         }
@@ -6743,7 +6743,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+            else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           }
           break;
         }
@@ -6759,7 +6759,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         if (unlikely(size != 2)) {
           if (size > 2) __Pyx_RaiseTooManyValuesError(2);
           else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         }
         #if CYTHON_COMPILING_IN_CPYTHON
         if (likely(PyTuple_CheckExact(sequence))) {
@@ -6772,15 +6772,15 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         __Pyx_INCREF(__pyx_t_8);
         __Pyx_INCREF(__pyx_t_11);
         #else
-        __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_8 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_11 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_11 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_11);
         #endif
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       } else {
         Py_ssize_t index = -1;
-        __pyx_t_12 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_12 = PyObject_GetIter(__pyx_t_2); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_12);
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __pyx_t_6 = Py_TYPE(__pyx_t_12)->tp_iternext;
@@ -6788,7 +6788,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         __Pyx_GOTREF(__pyx_t_8);
         index = 1; __pyx_t_11 = __pyx_t_6(__pyx_t_12); if (unlikely(!__pyx_t_11)) goto __pyx_L10_unpacking_failed;
         __Pyx_GOTREF(__pyx_t_11);
-        if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_12), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_12), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __pyx_t_6 = NULL;
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         goto __pyx_L11_unpacking_done;
@@ -6796,7 +6796,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         __pyx_t_6 = NULL;
         if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __pyx_L11_unpacking_done:;
       }
       __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v__id);
@@ -6808,28 +6808,28 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       __Pyx_GIVEREF(__pyx_t_11);
       __pyx_t_11 = 0;
 
-      /* "util/mongodb.pyx":467
+      /* "util/mongodb.pyx":466
  *         labels_id_strings_lists_dict[label_value] = \
  *             [_id for _id, _label in id_strings_labels_dict.items()
  *              if _label == label_value]             # <<<<<<<<<<<<<<
  *     i = 0
  *     while i < len(id_strings_labels_dict):
  */
-      __pyx_t_2 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v__label, __pyx_cur_scope->__pyx_v_label_value, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v__label, __pyx_cur_scope->__pyx_v_label_value, Py_EQ); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       if (__pyx_t_13) {
 
-        /* "util/mongodb.pyx":466
+        /* "util/mongodb.pyx":465
  *     for label_value in labels_counter:
  *         labels_id_strings_lists_dict[label_value] = \
  *             [_id for _id, _label in id_strings_labels_dict.items()             # <<<<<<<<<<<<<<
  *              if _label == label_value]
  *     i = 0
  */
-        if (unlikely(__Pyx_ListComp_Append(__pyx_t_5, (PyObject*)__pyx_cur_scope->__pyx_v__id))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_5, (PyObject*)__pyx_cur_scope->__pyx_v__id))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "util/mongodb.pyx":467
+        /* "util/mongodb.pyx":466
  *         labels_id_strings_lists_dict[label_value] = \
  *             [_id for _id, _label in id_strings_labels_dict.items()
  *              if _label == label_value]             # <<<<<<<<<<<<<<
@@ -6838,7 +6838,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
  */
       }
 
-      /* "util/mongodb.pyx":466
+      /* "util/mongodb.pyx":465
  *     for label_value in labels_counter:
  *         labels_id_strings_lists_dict[label_value] = \
  *             [_id for _id, _label in id_strings_labels_dict.items()             # <<<<<<<<<<<<<<
@@ -6848,17 +6848,17 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
     }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "util/mongodb.pyx":465
+    /* "util/mongodb.pyx":464
  *     labels_id_strings_lists_dict = dict()
  *     for label_value in labels_counter:
  *         labels_id_strings_lists_dict[label_value] = \             # <<<<<<<<<<<<<<
  *             [_id for _id, _label in id_strings_labels_dict.items()
  *              if _label == label_value]
  */
-    if (unlikely(PyDict_SetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value, __pyx_t_5) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (unlikely(PyDict_SetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value, __pyx_t_5) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-    /* "util/mongodb.pyx":464
+    /* "util/mongodb.pyx":463
  *     # respect to label
  *     labels_id_strings_lists_dict = dict()
  *     for label_value in labels_counter:             # <<<<<<<<<<<<<<
@@ -6868,7 +6868,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "util/mongodb.pyx":468
+  /* "util/mongodb.pyx":467
  *             [_id for _id, _label in id_strings_labels_dict.items()
  *              if _label == label_value]
  *     i = 0             # <<<<<<<<<<<<<<
@@ -6879,7 +6879,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   __Pyx_GIVEREF(__pyx_int_0);
   __pyx_cur_scope->__pyx_v_i = __pyx_int_0;
 
-  /* "util/mongodb.pyx":469
+  /* "util/mongodb.pyx":468
  *              if _label == label_value]
  *     i = 0
  *     while i < len(id_strings_labels_dict):             # <<<<<<<<<<<<<<
@@ -6887,16 +6887,16 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
  *         # For each label value, pop off an ID string, if available
  */
   while (1) {
-    __pyx_t_4 = PyObject_Length(__pyx_cur_scope->__pyx_v_id_strings_labels_dict); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyObject_Length(__pyx_cur_scope->__pyx_v_id_strings_labels_dict); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_5 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_i, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_5 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_i, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (!__pyx_t_13) break;
 
-    /* "util/mongodb.pyx":472
+    /* "util/mongodb.pyx":471
  * 
  *         # For each label value, pop off an ID string, if available
  *         for label_value in labels_counter:             # <<<<<<<<<<<<<<
@@ -6907,26 +6907,26 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       __pyx_t_5 = __pyx_cur_scope->__pyx_v_labels_counter; __Pyx_INCREF(__pyx_t_5); __pyx_t_4 = 0;
       __pyx_t_7 = NULL;
     } else {
-      __pyx_t_4 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = -1; __pyx_t_5 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     }
     for (;;) {
       if (likely(!__pyx_t_7)) {
         if (likely(PyList_CheckExact(__pyx_t_5))) {
           if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         } else {
           if (__pyx_t_4 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
           #if CYTHON_COMPILING_IN_CPYTHON
-          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           #else
-          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_1);
           #endif
         }
@@ -6936,7 +6936,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+            else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           }
           break;
         }
@@ -6947,28 +6947,28 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
       __Pyx_GIVEREF(__pyx_t_1);
       __pyx_t_1 = 0;
 
-      /* "util/mongodb.pyx":473
+      /* "util/mongodb.pyx":472
  *         # For each label value, pop off an ID string, if available
  *         for label_value in labels_counter:
  *             if labels_id_strings_lists_dict[label_value]:             # <<<<<<<<<<<<<<
  *                 yield labels_id_strings_lists_dict[label_value].pop()
  *                 i += 1
  */
-      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_13) {
 
-        /* "util/mongodb.pyx":474
+        /* "util/mongodb.pyx":473
  *         for label_value in labels_counter:
  *             if labels_id_strings_lists_dict[label_value]:
  *                 yield labels_id_strings_lists_dict[label_value].pop()             # <<<<<<<<<<<<<<
  *                 i += 1
  */
-        __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+        __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_3 = __Pyx_PyObject_Pop(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_3 = __Pyx_PyObject_Pop(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __pyx_r = __pyx_t_3;
@@ -6988,21 +6988,21 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
         __pyx_cur_scope->__pyx_t_1 = 0;
         __Pyx_XGOTREF(__pyx_t_5);
         __pyx_t_7 = __pyx_cur_scope->__pyx_t_2;
-        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "util/mongodb.pyx":475
+        /* "util/mongodb.pyx":474
  *             if labels_id_strings_lists_dict[label_value]:
  *                 yield labels_id_strings_lists_dict[label_value].pop()
  *                 i += 1             # <<<<<<<<<<<<<<
  */
-        __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_i, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_i, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_i);
         __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_i, __pyx_t_3);
         __Pyx_GIVEREF(__pyx_t_3);
         __pyx_t_3 = 0;
 
-        /* "util/mongodb.pyx":473
+        /* "util/mongodb.pyx":472
  *         # For each label value, pop off an ID string, if available
  *         for label_value in labels_counter:
  *             if labels_id_strings_lists_dict[label_value]:             # <<<<<<<<<<<<<<
@@ -7011,7 +7011,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
  */
       }
 
-      /* "util/mongodb.pyx":472
+      /* "util/mongodb.pyx":471
  * 
  *         # For each label value, pop off an ID string, if available
  *         for label_value in labels_counter:             # <<<<<<<<<<<<<<
@@ -7025,9 +7025,9 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   /* "util/mongodb.pyx":438
  * 
  * 
- * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
- *                                              games: list) -> str:
+ * def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:             # <<<<<<<<<<<<<<
  *     """
+ *     Generate ID strings from test data samples that, altogether, form a
  */
 
   /* function exit code */
@@ -7041,7 +7041,7 @@ static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__py
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_AddTraceback("generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
   __pyx_generator->resume_label = -1;
@@ -7265,14 +7265,14 @@ static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr = {
   #endif
 };
 
-static struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[8];
-static int __pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = 0;
+static struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples[8];
+static int __pyx_freecount_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples = 0;
 
-static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
   PyObject *o;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples)))) {
-    o = (PyObject*)__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[--__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples];
-    memset(o, 0, sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples));
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples)))) {
+    o = (PyObject*)__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples[--__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples];
+    memset(o, 0, sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples));
     (void) PyObject_INIT(o, t);
     PyObject_GC_Track(o);
   } else {
@@ -7282,8 +7282,8 @@ static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenl
   return o;
 }
 
-static void __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o) {
-  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+static void __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(PyObject *o) {
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)o;
   PyObject_GC_UnTrack(o);
   Py_CLEAR(p->__pyx_v__id);
   Py_CLEAR(p->__pyx_v__label);
@@ -7296,16 +7296,16 @@ static void __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_generate_evenly
   Py_CLEAR(p->__pyx_v_labels_counter);
   Py_CLEAR(p->__pyx_v_labels_id_strings_lists_dict);
   Py_CLEAR(p->__pyx_t_1);
-  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples)))) {
-    __pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples++] = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples)))) {
+    __pyx_freelist_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples[__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples++] = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)o);
   } else {
     (*Py_TYPE(o)->tp_free)(o);
   }
 }
 
-static int __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o, visitproc v, void *a) {
+static int __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(PyObject *o, visitproc v, void *a) {
   int e;
-  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)o;
   if (p->__pyx_v__id) {
     e = (*v)(p->__pyx_v__id, a); if (e) return e;
   }
@@ -7342,9 +7342,9 @@ static int __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_generate_evenly
   return 0;
 }
 
-static int __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o) {
+static int __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples(PyObject *o) {
   PyObject* tmp;
-  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples *)o;
   tmp = ((PyObject*)p->__pyx_v__id);
   p->__pyx_v__id = Py_None; Py_INCREF(Py_None);
   Py_XDECREF(tmp);
@@ -7381,12 +7381,12 @@ static int __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_generate_evenly_di
   return 0;
 }
 
-static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = {
+static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples = {
   PyVarObject_HEAD_INIT(0, 0)
-  "util.mongodb.__pyx_scope_struct_2_generate_evenly_distributed_test_samples", /*tp_name*/
-  sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples), /*tp_basicsize*/
+  "util.mongodb.__pyx_scope_struct_2_evenly_distributed_test_samples", /*tp_name*/
+  sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_dealloc*/
+  __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -7408,8 +7408,8 @@ static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_even
   0, /*tp_as_buffer*/
   Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
   0, /*tp_doc*/
-  __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_traverse*/
-  __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_clear*/
+  __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples, /*tp_traverse*/
+  __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
@@ -7424,7 +7424,7 @@ static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_even
   0, /*tp_dictoffset*/
   0, /*tp_init*/
   0, /*tp_alloc*/
-  __pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_new*/
+  __pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -7538,6 +7538,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
   {&__pyx_n_s_encode, __pyx_k_encode, sizeof(__pyx_k_encode), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
+  {&__pyx_n_s_evenly_distributed_test_samples, __pyx_k_evenly_distributed_test_samples, sizeof(__pyx_k_evenly_distributed_test_samples), 0, 0, 1, 1},
   {&__pyx_n_s_execute, __pyx_k_execute, sizeof(__pyx_k_execute), 0, 0, 1, 1},
   {&__pyx_n_s_exit, __pyx_k_exit, sizeof(__pyx_k_exit), 0, 0, 1, 1},
   {&__pyx_n_s_extra, __pyx_k_extra, sizeof(__pyx_k_extra), 0, 0, 1, 1},
@@ -7549,7 +7550,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_game_cursor, __pyx_k_game_cursor, sizeof(__pyx_k_game_cursor), 0, 0, 1, 1},
   {&__pyx_n_s_game_id, __pyx_k_game_id, sizeof(__pyx_k_game_id), 0, 0, 1, 1},
   {&__pyx_n_s_games, __pyx_k_games, sizeof(__pyx_k_games), 0, 0, 1, 1},
-  {&__pyx_n_s_generate_evenly_distributed_test, __pyx_k_generate_evenly_distributed_test, sizeof(__pyx_k_generate_evenly_distributed_test), 0, 0, 1, 1},
   {&__pyx_n_s_generate_test_id_strings_labels, __pyx_k_generate_test_id_strings_labels, sizeof(__pyx_k_generate_test_id_strings_labels), 0, 0, 1, 1},
   {&__pyx_n_s_generate_test_id_strings_labels_2, __pyx_k_generate_test_id_strings_labels_2, sizeof(__pyx_k_generate_test_id_strings_labels_2), 0, 0, 1, 1},
   {&__pyx_n_s_genexpr, __pyx_k_genexpr, sizeof(__pyx_k_genexpr), 0, 0, 1, 1},
@@ -7855,14 +7855,14 @@ static int __Pyx_InitCachedConstants(void) {
   /* "util/mongodb.pyx":438
  * 
  * 
- * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
- *                                              games: list) -> str:
+ * def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:             # <<<<<<<<<<<<<<
  *     """
+ *     Generate ID strings from test data samples that, altogether, form a
  */
   __pyx_tuple__25 = PyTuple_Pack(10, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_id_strings_labels_dict, __pyx_n_s_labels_counter, __pyx_n_s_labels_id_strings_lists_dict, __pyx_n_s_label_value, __pyx_n_s_i, __pyx_n_s_id, __pyx_n_s_label_2); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__25);
   __Pyx_GIVEREF(__pyx_tuple__25);
-  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_generate_evenly_distributed_test, 438, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_evenly_distributed_test_samples, 438, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -7980,9 +7980,9 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   if (PyType_Ready(&__pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 415; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr.tp_print = 0;
   __pyx_ptype_4util_7mongodb___pyx_scope_struct_1_genexpr = &__pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr;
-  if (PyType_Ready(&__pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples.tp_print = 0;
-  __pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = &__pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples;
+  if (PyType_Ready(&__pyx_type_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples.tp_print = 0;
+  __pyx_ptype_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples = &__pyx_type_4util_7mongodb___pyx_scope_struct_2_evenly_distributed_test_samples;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
@@ -8538,13 +8538,13 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   /* "util/mongodb.pyx":438
  * 
  * 
- * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
- *                                              games: list) -> str:
+ * def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:             # <<<<<<<<<<<<<<
  *     """
+ *     Generate ID strings from test data samples that, altogether, form a
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_11generate_evenly_distributed_test_samples, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_11evenly_distributed_test_samples, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_evenly_distributed_test, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_evenly_distributed_test_samples, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "util/mongodb.pyx":1

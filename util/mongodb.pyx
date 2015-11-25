@@ -435,8 +435,7 @@ def generate_test_id_strings_labels_dict(db: collection, label: str,
             Counter([doc[label] for doc in reviews]))
 
 
-def generate_evenly_distributed_test_samples(db: collection, label: str,
-                                             games: list) -> str:
+def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:
     """
     Generate ID strings from test data samples that, altogether, form a
     maximally evenly-distributed set of test samples, specifically for
