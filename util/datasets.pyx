@@ -29,6 +29,7 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 from langdetect import detect
+from pymongo import collection
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
 import matplotlib.pyplot as plt
@@ -46,7 +47,7 @@ logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
 
-def get_game_files(games_str, data_dir_path):
+def get_game_files(games_str: str, data_dir_path: str) -> list:
     """
     Get list of game files (file-names only).
 
@@ -82,7 +83,7 @@ def get_game_files(games_str, data_dir_path):
     return game_files
 
 
-def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
+def get_review_data_for_game(appid: str, time_out=10.0, limit=-1, wait=10) -> dict:
     """
     Generate dictionaries for each review for a given game.
 
@@ -800,7 +801,7 @@ def get_review_data_for_game(appid, time_out=10.0, limit=-1, wait=10):
         i += 1
 
 
-def parse_appids(appids, logger_name=None):
+def parse_appids(appids: list, logger_name=None) -> list:
     """
     Parse the command-line argument passed in with the --appids flag,
     exiting if any of the resulting IDs do not map to games in
@@ -828,7 +829,7 @@ def parse_appids(appids, logger_name=None):
     return appids
 
 
-cdef read_reviews_from_game_file(file_path):
+cdef read_reviews_from_game_file(file_path: str):
     """
     Generate list of review dictionaries from a single game's
     .jsonlines file.
@@ -843,7 +844,7 @@ cdef read_reviews_from_game_file(file_path):
     return [loads(json_line) for json_line in open(file_path)]
 
 
-def get_and_describe_dataset(file_path, report=True, reports_dir=None):
+def get_and_describe_dataset(file_path: str, report=True, reports_dir=None) -> dict:
     """
     Return dictionary with a list of review dictionaries (filtered in
     terms of the values for maximum/minimum review length and
@@ -855,10 +856,10 @@ def get_and_describe_dataset(file_path, report=True, reports_dir=None):
     :type file_path: str
     :param report: make a report describing the data-set (defaults to
                    True)
-    :type report: boolean
+    :type report: bool
     :param reports_dir: path to directory where reports should be
                         stored
-    :type reports_dir: str
+    :type reports_dir: str or None
 
     :returns: dict containing a 'reviews' key mapped to the list of
               read-in review dictionaries and int values mapped to keys
@@ -1028,13 +1029,14 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     return bin_ranges
 
 
-def get_bin_ranges_helper(db, games, label, int nbins, float factor):
+def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
+                          float factor):
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
     the index of the bins increase.
 
-    :param db: MongoDB database collection object
+    :param db: MongoDB collection
     :type db: collection
     :param games: list of games
     :type games: list
@@ -1063,7 +1065,7 @@ def get_bin_ranges_helper(db, games, label, int nbins, float factor):
     return get_bin_ranges(values.min(), values.max(), nbins, factor)
 
 
-def get_bin(bin_ranges, float val):
+def get_bin(bin_ranges: list, float val) -> int:
     """
     Return the index of the bin range in which the value falls.
 
@@ -1101,12 +1103,13 @@ def get_bin(bin_ranges, float val):
     return -1
 
 
-def get_label_values(db, games, label, nbins=2, bin_factor=1.0):
+def get_label_values(db: collection, games: list, label: str, nbins=2,
+                     bin_factor=1.0) -> list:
     """
     Get all of the values for the given label in the data for the
     given games.
 
-    :param db: MongoDB database collection object
+    :param db: MongoDB collection
     :type db: collection
     :param games: list of games
     :type games: list
@@ -1138,8 +1141,8 @@ def get_label_values(db, games, label, nbins=2, bin_factor=1.0):
                 .dropna())
 
 
-def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
-                    make_train_test=False, bins=False):
+def write_arff_file(dest_path: str, file_names: list, reviews=None,
+                    db=None, make_train_test=False, bins=False) -> None:
     """
     Write .arff file either for a list of reviews read in from a file
     or list of files or for both the training and test partitions in
@@ -1147,13 +1150,13 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 
     :param reviews: list of dicts with hours/review keys-value mappings
                     representing each data-point (defaults to None)
-    :type reviews: list of dict
-    :param reviewdb: MongoDB reviews collection
-    :type reviewdb: pymongo.MongoClient object (None by default)
+    :type reviews: list
+    :param db: MongoDB reviews collection (None by default)
+    :type db: collection
     :param dest_path: path for .arff output file
     :type dest_path: str
     :param file_names: list of extension-less game file-names
-    :type file_names: list of str
+    :type file_names: list
     :param make_train_test: if True, use MongoDB collection to find
                             reviews that are from the training and test
                             partitions and make files for them instead
@@ -1178,36 +1181,32 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
 
     # Make sure that the passed-in keyword arguments make sense
     if (make_train_test
-        and (reviews
-             or not reviewdb)):
+        and (reviews or not db)):
         raise ValueError('The make_train_test keyword argument was set to '
-                         'True and either the reviewdb keyword was left '
+                         'True and either the `db` keyword was left '
                          'unspecified or the reviews keyword was specified '
                          '(or both). If the make_train_test keyword is used, '
                          'it is expected that training/test reviews will be '
                          'retrieved from the MongoDB database rather than a '
                          'list of reviews passed in via the reviews keyword.')
 
-    if (not make_train_test
-        and reviewdb):
+    if not make_train_test and db:
         if reviews:
-            logwarn('Ignoring passed-in reviewdb keyword value. Reason: If a '
+            logwarn('Ignoring passed-in `db` keyword value. Reason: If a '
                     'list of reviews is passed in via the reviews keyword '
-                    'argument, then the reviewdb keyword argument should not '
-                    'be used at all since it will not be needed.')
+                    'argument, then the `db` keyword argument should not be '
+                    'used at all since it will not be needed.')
         else:
             raise ValueError('A list of review dictionaries was not '
                              'specified.')
     if bins:
-        if (make_train_test
-            and type(bins) == list):
+        if make_train_test and type(bins) == list:
             logwarn('The write_arff_file method was called with '
                     '\'make_train_test\' set to True and \'bins\' set to a '
                     'list of bin ranges ({0}). Because the bin values in the '
                     'database were precomputed, the passed-in list of bin '
                     'ranges will be ignored.'.format(repr(bins)))
-        if (reviews
-            and type(bins) == bool):
+        if reviews and type(bins) == bool:
             raise ValueError('The write_arff_file method was called with a '
                              'list of review dictionaries and \'bins\' set to'
                              ' True. If the hours played values are to be '
@@ -1240,8 +1239,8 @@ def write_arff_file(dest_path, file_names, reviews=None, reviewdb=None,
             reviews_lines = []
 
             # Get reviews for the given partition from all of the games
-            game_docs = reviewdb.find({'partition': partition,
-                                       'game': {'$in': file_names}})
+            game_docs = db.find({'partition': partition,
+                                 'game': {'$in': file_names}})
             if game_docs.count() == 0:
                 raise ValueError('No matching documents were found in the '
                                  'MongoDB collection for the {0} partition '

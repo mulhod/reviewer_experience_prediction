@@ -12,7 +12,6 @@ file-path) and inserts them into the the MongoDB database
 """
 import logging
 from sys import exit
-from bson import BSON
 from math import ceil
 from time import sleep
 from random import (seed,
@@ -23,7 +22,12 @@ from os.path import (basename,
                      splitext)
 from collections import Counter
 
-from pymongo import MongoClient
+from bson import BSON
+from pymongo import (cursor,
+                     collection,
+                     MongoClient)
+from bson.objectid import ObjectId
+from pymongo.bulk import BulkOperationBuilder
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
                             ConnectionFailure,
@@ -44,7 +48,7 @@ logerr = logger.error
 # BSON encoding
 bson_encode = BSON.encode
 
-def connect_to_db(host='localhost', port=27017, tries=10):
+def connect_to_db(host='localhost', port=27017, tries=10) -> collection:
     """
     Connect to database and return a collection object.
 
@@ -55,7 +59,9 @@ def connect_to_db(host='localhost', port=27017, tries=10):
     :param tries: number of times to try to connect client (default:
                   10)
     :type tries: int
-    :returns: pymongo.collection.Collection object
+
+    :rtype: MongoDB collection
+    :returns: collection
     """
 
     connection_string = 'mongodb://{0}:{1}'.format(host, port)
@@ -80,13 +86,14 @@ def connect_to_db(host='localhost', port=27017, tries=10):
     return db['reviews']
 
 
-def create_game_cursor(db, game_id, data_partition, int batch_size):
+def create_game_cursor(db: collection, game_id: str, data_partition: str,
+                       int batch_size) -> cursor:
     """
     Create Cursor object with given game and partition to iterate
     through game documents.
 
     :param db: Mongo reviews collection
-    :type db: pymongo.collection.Collection
+    :type db: collection
     :param game_id: game ID
     :type game_id: str
     :param data_partition: data partition, i.e., 'training', 'test',
@@ -95,7 +102,9 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
     :type data_partition: str
     :param batch_size: size of each batch that the cursor returns
     :type batch_size: int
-    :returns: pymongo.cursor.Cursor object
+
+    :returns: cursor on a MongoDB collection
+    :returns: cursor
     """
 
     if data_partition == 'all':
@@ -122,17 +131,17 @@ def create_game_cursor(db, game_id, data_partition, int batch_size):
     return game_cursor
 
 
-def insert_train_test_reviews(reviewdb, file_path, int max_size,
+def insert_train_test_reviews(db: collection, file_path: str, int max_size,
                               float percent_train, bins=0, bin_factor=1.0,
                               describe=False, just_describe=False,
-                              reports_dir=None):
+                              reports_dir=None) -> None:
     """
     Insert training/test set reviews into the MongoDB database and
     optionally generate a report and graphs describing the filtering
     mechanisms.
 
-    :param reviewdb: Mongo reviews collection
-    :type reviewdb: pymongo.collection.Collection object
+    :param db: MongoDB collection
+    :type db: collection
     :param file_path: path to game reviews file
     :type file_path: str
     :param max_size: maximum size of training/test set combination (in
@@ -156,14 +165,16 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
     :param describe: describe data-set, outputting a report with some
                      descriptive statistics and histograms representing
                      review length and hours played distributions
-    :type describe: boolean
+    :type describe: bool
     :param just_describe: only get the reviews and generate the
                           statistical report
-    :type just_describe: boolean
+    :type just_describe: bool
     :param reports_dir: path to directory to which report files should
                         be written
     :type reports_dir: str
+
     :returns: None
+    :rtype: None
     """
 
     # Seed the random number generator (hopefully ensuring that
@@ -246,7 +257,7 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         # training, test, and extra reviews and then execture the
         # operations and print out some information about how many
         # entries were inserted, etc.
-        bulk = reviewdb.initialize_unordered_bulk_op()
+        bulk = db.initialize_unordered_bulk_op()
 
         # Training set reviews
         add_bulk_inserts_for_partition(bulk, training_reviews, game, appid,
@@ -269,28 +280,26 @@ def insert_train_test_reviews(reviewdb, file_path, int max_size,
         logdebug(repr(result))
 
         # Print out some information about how many reviews were added
-        train_inserts = \
-            reviewdb.find({'appid': appid, 'partition': 'training'}).count()
-        test_inserts = \
-            reviewdb.find({'appid': appid, 'partition': 'test'}).count()
-        extra_inserts = \
-            reviewdb.find({'appid': appid, 'partition': 'extra'}).count()
+        train_inserts = db.find({'appid': appid, 'partition': 'training'}).count()
+        test_inserts = db.find({'appid': appid, 'partition': 'test'}).count()
+        extra_inserts = db.find({'appid': appid, 'partition': 'extra'}).count()
         logdebug('Inserted {0} training set reviews, {1} test set reviews, '
-                 'and {2} extra reviews...'
-                 .format(train_inserts, test_inserts, extra_inserts))
+                 'and {2} extra reviews...'.format(train_inserts, test_inserts,
+                                                   extra_inserts))
 
 
-cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
-                                    partition_id, bins=False):
+cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
+                                    rdicts: list, game: str, appid: str,
+                                    partition_id: str, bins=False):
     """
     Add insert operations to a bulk writer.
 
     :param bulk_writer: a bulk writer instance, to which we can add
                         insertion operations that will be executed
                         later on
-    :type bulk_writer: pymongo.bulk.BulkOperationBuilder instance
+    :type bulk_writer: BulkOperationBuilder
     :param rdicts: list of review dictionaries
-    :type rdicts: list of dict
+    :type rdicts: list
     :param game: name of game
     :type game: str
     :param appid: appid string, ID number of game
@@ -304,8 +313,10 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
                  range (actually, the lower, non-inclusive bound of the
                  range) and the end (the upper, inclusive bound of the
                  range) (default: False)
-    :type bins: False or list of 2-tuples of floats
+    :type bins: False or list
+
     :returns: None
+    :rtype: None
     """
 
     for rd in rdicts:
@@ -335,7 +346,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer, rdicts, game, appid,
                     'following review:\n{0}'.format(rd))
 
 
-def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
+def update_db(db_update, _id: ObjectId, nlp_feats: dict,
+              binarized_nlp_feats=True) -> None:
     """
     Update Mongo database document with extracted NLP features and keys
     related to whether or not the NLP features have been binarized and
@@ -344,14 +356,16 @@ def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
     :param db_update: bound method Collection.update of MongoDB
                       collection
     :type db_update: method
-    :param _id: database document's Object ID
-    :type _id: pymongo.bson.objectid.ObjectId
+    :param _id: MongoDB document's ObjectId
+    :type _id: ObjectId
     :param nlp_feats: dictionary of features
     :type nlp_feats: dict
     :param binarized_nlp_feats: whether or not the NLP features being
                                 updated/inserted are binarized
-    :type binarized_nlp_feats: boolean
+    :type binarized_nlp_feats: bool
+
     :returns: None
+    :rtype: None
     """
 
     cdef int tries = 0
@@ -373,17 +387,18 @@ def update_db(db_update, _id, nlp_feats, binarized_nlp_feats=True):
             sleep(20)
 
 
-def generate_id_strings_labels_dict(db, label, games):
+def generate_id_strings_labels_dict(db: collection, label: str,
+                                    games: list) -> tuple:
     """
     Generate a mapping between ID srings and label values and also a
     frequency distribution of label values.
 
-    :param db: Mongo reviews collection
-    :type db: pymongo.collection.Collection
+    :param db: MongoDB collection
+    :type db: collection
     :param label: label to use for prediction
     :type label: str
-    :param games: list or set of game ID(s)
-    :type games: list or set
+    :param games: list or set of game IDs
+    :type games: list/set
 
     :returns: tuple consisting of a dictionary of ID strings mapped to
               labels and a Counter object representing the frequency

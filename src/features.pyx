@@ -7,30 +7,37 @@ Module of functions/classes related to feature extraction, ARFF file
 generation, etc.
 """
 import logging
-logger = logging.getLogger()
-logwarn = logger.warning
-logerr = logger.error
-import numpy as np
-from re import (sub,
-                IGNORECASE)
 from sys import exit
-from bson import BSON
-bson_decode = BSON.decode
 from math import ceil
 from time import sleep
 from json import dumps
 from os.path import join
-from nltk.util import ngrams
-from spacy.en import English
-spaCy_nlp = English()
+from re import (sub,
+                IGNORECASE)
 from string import punctuation
 from collections import Counter
+from itertools import combinations
+
+import numpy as np
+from bson import BSON
+from nltk.util import ngrams
+from spacy.en import English
+from pymongo import collection
 from skll.metrics import (kappa,
                           pearson)
-from itertools import combinations
+from bson.objectid import ObjectId
+from configparser import ConfigParser
+
 from util.mongodb import (update_db,
                           create_game_cursor)
-from configparser import ConfigParser
+
+bson_decode = BSON.decode
+spaCy_nlp = English()
+
+# Logger
+logger = logging.getLogger()
+logwarn = logger.warning
+logerr = logger.error
 
 class Review(object):
     """
@@ -52,7 +59,7 @@ class Review(object):
     spaCy_annotations = None
     spaCy_sents = None
 
-    def __init__(self, review_text, lower=True):
+    def __init__(self, review_text: str, lower=True) -> Review:
         """
         Initialization method.
 
@@ -62,7 +69,7 @@ class Review(object):
         :type game: str
         :param lower: include lower-casing as part of the review text
                       normalization step
-        :type lower: boolean
+        :type lower: bool
         """
 
         # Get review text and lower-casing attributes
@@ -154,7 +161,7 @@ class Review(object):
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
 
-def extract_features_from_review(_review, lowercase_cngrams=False):
+def extract_features_from_review(_review: Review, lowercase_cngrams=False) -> dict:
     """
     Extract word/character n-gram, length, Brown corpus cluster ID,
     and syntactic dependency features from a Review object and return
@@ -170,11 +177,14 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     :type _review: Review object
     :param lowercase_cngrams: whether or not to lower-case the review
                               text before extracting character n-grams
-    :type lowercase_cngrams: boolean (False by default)
-    :returns: dict
+                              (False by default)
+    :type lowercase_cngrams: bool
+
+    :returns: feature dictionary
+    :rtype: dict
     """
 
-    def generate_ngram_fdist(_min=1, _max=2):
+    def generate_ngram_fdist(_min=1, _max=2) -> Counter:
         """
         Generate frequency distribution for the tokens in the text.
 
@@ -204,7 +214,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         return ngram_counter
 
-    def generate_cngram_fdist(_min=2, _max=5):
+    def generate_cngram_fdist(_min=2, _max=5) -> Counter:
         """
         Generate frequency distribution for the characters in the text.
 
@@ -236,7 +246,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         return cngram_counter
 
-    def generate_cluster_fdist():
+    def generate_cluster_fdist() -> Counter:
         """
         Convert Brown corpus cluster ID frequency distribution to a
         frequency distribution where the keys are strings representing
@@ -253,7 +263,7 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
 
         return cluster_fdist
 
-    def generate_dep_features():
+    def generate_dep_features() -> Counter:
         """
         Generate syntactic dependency features from spaCy text
         annotations and represent the features as token (lemma) +
@@ -305,15 +315,15 @@ def extract_features_from_review(_review, lowercase_cngrams=False):
     return feats
 
 
-def get_nlp_features_from_db(db, _id):
+def get_nlp_features_from_db(db: collection, _id: ObjectId):
     """
     Collect the NLP features from the Mongo database collection for a
     given review and return the decoded value.
 
-    :param db: Mongo reviews collection
-    :type db: pymongo.collection.Collection object
-    :param _id: database document's Object ID
-    :type _id: pymongo.bson.objectid.ObjectId
+    :param db: MongoDB collection
+    :type db: collection
+    :param _id: MongoDB document's ObjectId
+    :type _id: ObjectId
 
     :returns: dict if features were found; None otherwise
     :rtype: dict or None
@@ -324,7 +334,7 @@ def get_nlp_features_from_db(db, _id):
                                                            else None)
 
 
-def get_steam_features_from_db(get_feat):
+def get_steam_features_from_db(get_feat) -> dict:
     """
     Get features collected from Steam (i.e., the non-NLP features).
 
@@ -364,7 +374,7 @@ def get_steam_features_from_db(get_feat):
     return steam_feats
 
 
-def binarize_nlp_features(nlp_features):
+def binarize_nlp_features(nlp_features: dict) -> dict:
     """
     Binarize the NLP features.
 
@@ -378,18 +388,19 @@ def binarize_nlp_features(nlp_features):
     return dict(Counter(list(nlp_features)))
 
 
-def extract_nlp_features_into_db(db, data_partition, game_id,
+def extract_nlp_features_into_db(db: collection, data_partition: str,
+                                 game_id: str,
                                  reuse_nlp_feats=True,
                                  use_binarized_nlp_feats=True,
                                  lowercase_text=True,
-                                 lowercase_cngrams=False):
+                                 lowercase_cngrams=False) -> None:
     """
     Extract NLP features from reviews in the Mongo database and write
     the features to the database if features weren't already added and
     reuse_nlp_feats is false).
 
-    :param db: a Mongo DB collection client
-    :type db: pymongo.collection.Collection
+    :param db: MongoDB collection
+    :type db: collection
     :param data_partition: 'training', 'test', etc. (must be valid
                            value for 'partition' key of review
                            collection in Mongo database);
@@ -400,15 +411,15 @@ def extract_nlp_features_into_db(db, data_partition, game_id,
     :type game_id: str
     :param reuse_nlp_feats: reuse NLP features from database instead of
                             extracting them all over again
-    :type reuse_nlp_feats: boolean
+    :type reuse_nlp_feats: bool
     :param use_binarized_nlp_feats: use binarized NLP features
-    :type use_binarized_nlp_feats: boolean
+    :type use_binarized_nlp_feats: bool
     :param lowercase_text: whether or not to lower-case the review
                            text
-    :type lowercase_text: boolean
+    :type lowercase_text: bool
     :param lowercase_cngrams: whether or not to lower-case the
                               character n-grams
-    :type lowercase_cngrams: boolean
+    :type lowercase_cngrams: bool
 
     :returns: None
     :rtype: None

@@ -85,7 +85,8 @@ TIME_LABELS = frozenset({'total_game_hours', 'total_game_hours_bin',
 VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
 
 
-def find_default_param_grid(learner, param_grids_dict=DEFAULT_PARAM_GRIDS):
+def find_default_param_grid(learner: str,
+                            param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 
@@ -107,7 +108,7 @@ def find_default_param_grid(learner, param_grids_dict=DEFAULT_PARAM_GRIDS):
     raise ValueError('Unrecognized learner abbreviation: {0}'.format(learner))
 
 
-def parse_learners_string(learners_string):
+def parse_learners_string(learners_string: str) -> set:
     """
     Parse command-line argument consisting of a set of learners to
     use (or the value "all" for all possible learners).
@@ -135,7 +136,8 @@ def parse_learners_string(learners_string):
     return learners
 
 
-def parse_non_nlp_features_string(features_string, prediction_label):
+def parse_non_nlp_features_string(features_string: str,
+                                  prediction_label: str) -> set:
     """
     Parse command-line argument consisting of a set of non-NLP features
     (or one of the values "all" or "none" for all or none of the
@@ -184,7 +186,7 @@ def parse_non_nlp_features_string(features_string, prediction_label):
     return non_nlp_features
 
 
-def parse_games_string(games_string):
+def parse_games_string(games_string: str) -> set:
     """
     Parse games string passed in via the command-line into a set of
     valid games (or the value "all" for all games).
