@@ -460,16 +460,16 @@ def generate_evenly_distributed_test_samples(db: collection, label: str,
 
     # Create a maximally evenly-distributed list of samples with
     # respect to label
-    label_values = list(labels_counter)
     labels_id_strings_lists_dict = dict()
-    for label_value in label_values:
+    for label_value in labels_counter:
         labels_id_strings_lists_dict[label_value] = \
-            [_id for _id, _label in labels_counter if _label == label_value]
+            [_id for _id, _label in id_strings_labels_dict.items()
+             if _label == label_value]
     i = 0
     while i < len(id_strings_labels_dict):
 
         # For each label value, pop off an ID string, if available
-        for label_value in label_values:
+        for label_value in labels_counter:
             if labels_id_strings_lists_dict[label_value]:
                 yield labels_id_strings_lists_dict[label_value].pop()
                 i += 1
