@@ -450,6 +450,7 @@ static const char *__pyx_f[] = {
 /*--- Type declarations ---*/
 struct __pyx_obj_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict;
 struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr;
+struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples;
 struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition;
 
 /* "util/mongodb.pyx":291
@@ -488,6 +489,31 @@ struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr {
   PyObject_HEAD
   struct __pyx_obj_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict *__pyx_outer_scope;
   PyObject *__pyx_v_game;
+};
+
+
+/* "util/mongodb.pyx":438
+ * 
+ * 
+ * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
+ *                                              games: list) -> str:
+ *     """
+ */
+struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples {
+  PyObject_HEAD
+  PyObject *__pyx_v__id;
+  PyObject *__pyx_v__label;
+  PyObject *__pyx_v_db;
+  PyObject *__pyx_v_games;
+  PyObject *__pyx_v_i;
+  PyObject *__pyx_v_id_strings_labels_dict;
+  PyObject *__pyx_v_label;
+  PyObject *__pyx_v_label_value;
+  PyObject *__pyx_v_label_values;
+  PyObject *__pyx_v_labels_counter;
+  PyObject *__pyx_v_labels_id_strings_lists_dict;
+  Py_ssize_t __pyx_t_0;
+  PyObject *__pyx_t_1;
 };
 
 
@@ -721,6 +747,73 @@ static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyOb
 
 static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
 
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected);
+
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index);
+
+static CYTHON_INLINE int __Pyx_IterFinish(void);
+
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected);
+
+#if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
+static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
+    PyObject *value;
+    value = PyDict_GetItemWithError(d, key);
+    if (unlikely(!value)) {
+        if (!PyErr_Occurred()) {
+            PyObject* args = PyTuple_Pack(1, key);
+            if (likely(args))
+                PyErr_SetObject(PyExc_KeyError, args);
+            Py_XDECREF(args);
+        }
+        return NULL;
+    }
+    Py_INCREF(value);
+    return value;
+}
+#else
+    #define __Pyx_PyDict_GetItem(d, key) PyObject_GetItem(d, key)
+#endif
+
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name);
+
+static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L);
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L);
+#define __Pyx_PyObject_Pop(L) (likely(PyList_CheckExact(L)) ?\
+    __Pyx_PyList_Pop(L) : __Pyx__PyObject_Pop(L))
+#else
+#define __Pyx_PyList_Pop(L)  __Pyx__PyObject_Pop(L)
+#define __Pyx_PyObject_Pop(L)  __Pyx__PyObject_Pop(L)
+#endif
+
+typedef struct {
+    PyObject *type;
+    PyObject **method_name;
+    PyCFunction func;   // set on first access (direct C function pointer)
+    PyObject *method;   // set on first access (fallback)
+    int flag;
+} __Pyx_CachedCFunction;
+
+static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObject* self);
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_CallUnboundCMethod0(cfunc, self)\
+    ((likely((cfunc)->func)) ?\
+        (likely((cfunc)->flag == METH_NOARGS) ?  (*((cfunc)->func))(self, NULL) :\
+         (likely((cfunc)->flag == (METH_VARARGS | METH_KEYWORDS)) ?  ((*(PyCFunctionWithKeywords)(cfunc)->func)(self, __pyx_empty_tuple, NULL)) :\
+             ((cfunc)->flag == METH_VARARGS ?  (*((cfunc)->func))(self, __pyx_empty_tuple) : __Pyx__CallUnboundCMethod0(cfunc, self)))) :\
+        __Pyx__CallUnboundCMethod0(cfunc, self))
+#else
+#define __Pyx_CallUnboundCMethod0(cfunc, self)  __Pyx__CallUnboundCMethod0(cfunc, self)
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, long intval, int inplace);
+#else
+#define __Pyx_PyInt_AddObjC(op1, op2, intval, inplace)\
+    (inplace ? PyNumber_InPlaceAdd(op1, op2) : PyNumber_Add(op1, op2))
+#endif
+
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
@@ -801,6 +894,7 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 /* Module declarations from 'util.mongodb' */
 static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict = 0;
 static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct_1_genexpr = 0;
+static PyTypeObject *__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = 0;
 static PyObject *__pyx_f_4util_7mongodb_add_bulk_inserts_for_partition(PyObject *, PyObject *, PyObject *, PyObject *, PyObject *, struct __pyx_opt_args_4util_7mongodb_add_bulk_inserts_for_partition *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "util.mongodb"
 int __pyx_module_is_main_util__mongodb = 0;
@@ -808,6 +902,7 @@ int __pyx_module_is_main_util__mongodb = 0;
 /* Implementation of 'util.mongodb' */
 static PyObject *__pyx_builtin_ValueError;
 static char __pyx_k_e[] = "e";
+static char __pyx_k_i[] = "i";
 static char __pyx_k_s[] = "s";
 static char __pyx_k__2[] = "";
 static char __pyx_k_db[] = "db";
@@ -818,6 +913,7 @@ static char __pyx_k_all[] = "all";
 static char __pyx_k_bwe[] = "bwe";
 static char __pyx_k_doc[] = "doc";
 static char __pyx_k_get[] = "get";
+static char __pyx_k_pop[] = "pop";
 static char __pyx_k_set[] = "$set";
 static char __pyx_k_sys[] = "sys";
 static char __pyx_k_BSON[] = "BSON";
@@ -879,6 +975,7 @@ static char __pyx_k_execute[] = "execute";
 static char __pyx_k_game_id[] = "game_id";
 static char __pyx_k_genexpr[] = "genexpr";
 static char __pyx_k_get_bin[] = "get_bin";
+static char __pyx_k_label_2[] = "_label";
 static char __pyx_k_logging[] = "logging";
 static char __pyx_k_loginfo[] = "loginfo";
 static char __pyx_k_logwarn[] = "logwarn";
@@ -917,9 +1014,11 @@ static char __pyx_k_MongoClient[] = "MongoClient";
 static char __pyx_k_bson_encode[] = "bson_encode";
 static char __pyx_k_collections[] = "collections";
 static char __pyx_k_game_cursor[] = "game_cursor";
+static char __pyx_k_label_value[] = "label_value";
 static char __pyx_k_mongodb_0_1[] = "mongodb://{0}:{1}";
 static char __pyx_k_num_reviews[] = "num_reviews";
 static char __pyx_k_reports_dir[] = "reports_dir";
+static char __pyx_k_label_values[] = "label_values";
 static char __pyx_k_nlp_features[] = "nlp_features";
 static char __pyx_k_pymongo_bulk[] = "pymongo.bulk";
 static char __pyx_k_test_inserts[] = "test_inserts";
@@ -937,6 +1036,7 @@ static char __pyx_k_util_datasets[] = "util.datasets";
 static char __pyx_k_BulkWriteError[] = "BulkWriteError";
 static char __pyx_k_data_partition[] = "data_partition";
 static char __pyx_k_get_bin_ranges[] = "get_bin_ranges";
+static char __pyx_k_labels_counter[] = "labels_counter";
 static char __pyx_k_pymongo_errors[] = "pymongo.errors";
 static char __pyx_k_reviews_project[] = "reviews_project";
 static char __pyx_k_socketKeepAlive[] = "socketKeepAlive";
@@ -956,12 +1056,14 @@ static char __pyx_k_train_test_reviews[] = "train_test_reviews";
 static char __pyx_k_binarized_nlp_feats[] = "binarized_nlp_feats";
 static char __pyx_k_BulkOperationBuilder[] = "BulkOperationBuilder";
 static char __pyx_k_total_game_hours_bin[] = "total_game_hours_bin";
+static char __pyx_k_id_strings_labels_dict[] = "id_strings_labels_dict";
 static char __pyx_k_Inserting_reviews_from_0[] = "Inserting reviews from {0}...";
 static char __pyx_k_get_and_describe_dataset[] = "get_and_describe_dataset";
 static char __pyx_k_Number_of_extra_reviews_0[] = "Number of extra reviews: {0}";
 static char __pyx_k_insert_train_test_reviews[] = "insert_train_test_reviews";
 static char __pyx_k_Number_of_test_set_reviews_0[] = "Number of test set reviews: {0}";
 static char __pyx_k_initialize_unordered_bulk_op[] = "initialize_unordered_bulk_op";
+static char __pyx_k_labels_id_strings_lists_dict[] = "labels_id_strings_lists_dict";
 static char __pyx_k_No_review_documents_were_found[] = "No review documents were found!";
 static char __pyx_k_All_or_some_of_the_games_in_the[] = "All or some of the games in the given list of games, {0}, are not in list of available games";
 static char __pyx_k_Inserted_0_training_set_reviews[] = "Inserted {0} training set reviews, {1} test set reviews, and {2} extra reviews...";
@@ -981,6 +1083,7 @@ static char __pyx_k_Number_of_training_set_reviews_0[] = "Number of training set
 static char __pyx_k_The_hours_played_value_0_did_not[] = "The hours played value ({0}) did not seem to fall within any of the bin ranges.\n\nBin ranges\n{1}\nExiting.";
 static char __pyx_k_Unable_to_connect_client_to_Mong[] = "Unable to connect client to Mongo server at {0}. Exiting.";
 static char __pyx_k_Unable_to_update_database_even_a[] = "Unable to update database even after 5 tries. Exiting.";
+static char __pyx_k_generate_evenly_distributed_test[] = "generate_evenly_distributed_test_samples";
 static char __pyx_k_generate_test_id_strings_labels_2[] = "generate_test_id_strings_labels_dict";
 static char __pyx_k_No_matching_documents_were_found_2[] = "No matching documents were found in the MongoDB collection in the {0} partition for game {1}. Exiting.";
 static char __pyx_k_Unable_to_connect_client_to_Mong_2[] = "Unable to connect client to Mongo server at {0}. Will try {1} more time{}...";
@@ -1071,6 +1174,7 @@ static PyObject *__pyx_n_s_game;
 static PyObject *__pyx_n_s_game_cursor;
 static PyObject *__pyx_n_s_game_id;
 static PyObject *__pyx_n_s_games;
+static PyObject *__pyx_n_s_generate_evenly_distributed_test;
 static PyObject *__pyx_n_s_generate_test_id_strings_labels;
 static PyObject *__pyx_n_s_generate_test_id_strings_labels_2;
 static PyObject *__pyx_n_s_genexpr;
@@ -1081,8 +1185,10 @@ static PyObject *__pyx_n_s_get_bin;
 static PyObject *__pyx_n_s_get_bin_ranges;
 static PyObject *__pyx_kp_s_home_nlp_text_dynamic_mmulholla;
 static PyObject *__pyx_n_s_host;
+static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_id;
 static PyObject *__pyx_n_s_id_string;
+static PyObject *__pyx_n_s_id_strings_labels_dict;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_kp_s_in;
 static PyObject *__pyx_n_s_info;
@@ -1093,6 +1199,11 @@ static PyObject *__pyx_n_s_join;
 static PyObject *__pyx_n_s_json;
 static PyObject *__pyx_n_s_just_describe;
 static PyObject *__pyx_n_s_label;
+static PyObject *__pyx_n_s_label_2;
+static PyObject *__pyx_n_s_label_value;
+static PyObject *__pyx_n_s_label_values;
+static PyObject *__pyx_n_s_labels_counter;
+static PyObject *__pyx_n_s_labels_id_strings_lists_dict;
 static PyObject *__pyx_n_s_localhost;
 static PyObject *__pyx_n_s_logdebug;
 static PyObject *__pyx_n_s_logerr;
@@ -1117,6 +1228,7 @@ static PyObject *__pyx_n_s_orig_total_reviews;
 static PyObject *__pyx_n_s_os_path;
 static PyObject *__pyx_n_s_partition;
 static PyObject *__pyx_n_s_percent_train;
+static PyObject *__pyx_n_s_pop;
 static PyObject *__pyx_n_s_port;
 static PyObject *__pyx_n_s_pymongo;
 static PyObject *__pyx_n_s_pymongo_bulk;
@@ -1166,8 +1278,11 @@ static PyObject *__pyx_pf_4util_7mongodb_4insert_train_test_reviews(CYTHON_UNUSE
 static PyObject *__pyx_pf_4util_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db_update, PyObject *__pyx_v__id, PyObject *__pyx_v_nlp_feats, PyObject *__pyx_v_binarized_nlp_feats); /* proto */
 static PyObject *__pyx_pf_4util_7mongodb_36generate_test_id_strings_labels_dict_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games); /* proto */
+static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games); /* proto */
 static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct__generate_test_id_strings_labels_dict(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_float_1_0;
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -1193,11 +1308,13 @@ static PyObject *__pyx_tuple__17;
 static PyObject *__pyx_tuple__19;
 static PyObject *__pyx_tuple__21;
 static PyObject *__pyx_tuple__23;
+static PyObject *__pyx_tuple__25;
 static PyObject *__pyx_codeobj__16;
 static PyObject *__pyx_codeobj__18;
 static PyObject *__pyx_codeobj__20;
 static PyObject *__pyx_codeobj__22;
 static PyObject *__pyx_codeobj__24;
+static PyObject *__pyx_codeobj__26;
 
 /* "util/mongodb.pyx":51
  * bson_encode = BSON.encode
@@ -5520,7 +5637,7 @@ static PyObject *__pyx_pf_4util_7mongodb_6update_db(CYTHON_UNUSED PyObject *__py
 
 /* Python wrapper */
 static PyObject *__pyx_pw_4util_7mongodb_9generate_test_id_strings_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_7mongodb_8generate_test_id_strings_labels_dict[] = "\n    Generate a mapping between ID strings and label values and also a\n    frequency distribution of label values across all review documents\n    in the \"test\" partition of the given MongoDB collection.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param label: label to use for prediction\n    :type label: str\n    :param games: list or set of game IDs\n    :type games: list/set\n\n    :returns: tuple consisting of a dictionary of ID strings mapped to\n              labels and a Counter object representing the frequency\n              distribution of the label values\n    :rtype: tuple\n\n    :raises: ValueError\n    ";
+static char __pyx_doc_4util_7mongodb_8generate_test_id_strings_labels_dict[] = "\n    Generate a mapping between ID strings and label values and also a\n    frequency distribution of label values across all review documents\n    in the \"test\" partition of the given MongoDB collection.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param label: label used for prediction\n    :type label: str\n    :param games: list or set of game IDs\n    :type games: list/set\n\n    :returns: tuple consisting of a dictionary of ID strings mapped to\n              labels and a Counter object representing the frequency\n              distribution of the label values\n    :rtype: tuple\n\n    :raises: ValueError\n    ";
 static PyMethodDef __pyx_mdef_4util_7mongodb_9generate_test_id_strings_labels_dict = {"generate_test_id_strings_labels_dict", (PyCFunction)__pyx_pw_4util_7mongodb_9generate_test_id_strings_labels_dict, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_8generate_test_id_strings_labels_dict};
 static PyObject *__pyx_pw_4util_7mongodb_9generate_test_id_strings_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -5589,7 +5706,7 @@ static PyObject *__pyx_pw_4util_7mongodb_9generate_test_id_strings_labels_dict(P
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
-static PyObject *__pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
+static PyObject *__pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator1(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
 
 /* "util/mongodb.pyx":415
  * 
@@ -5617,7 +5734,7 @@ static PyObject *__pyx_pf_4util_7mongodb_36generate_test_id_strings_labels_dict_
   __Pyx_INCREF(((PyObject *)__pyx_cur_scope->__pyx_outer_scope));
   __Pyx_GIVEREF(__pyx_cur_scope->__pyx_outer_scope);
   {
-    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_generate_test_id_strings_labels); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 415; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator1, (PyObject *) __pyx_cur_scope, __pyx_n_s_genexpr, __pyx_n_s_generate_test_id_strings_labels); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 415; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_cur_scope);
     __Pyx_RefNannyFinishContext();
     return (PyObject *) gen;
@@ -5633,7 +5750,7 @@ static PyObject *__pyx_pf_4util_7mongodb_36generate_test_id_strings_labels_dict_
   return __pyx_r;
 }
 
-static PyObject *__pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
+static PyObject *__pyx_gb_4util_7mongodb_36generate_test_id_strings_labels_dict_2generator1(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
 {
   struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr *__pyx_cur_scope = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_1_genexpr *)__pyx_generator->closure);
   PyObject *__pyx_r = NULL;
@@ -6103,6 +6220,7 @@ static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(C
  *     # Return dictionary of ID strings mapped to label values
  *     return ({doc['id_string']: doc[label] for doc in reviews},             # <<<<<<<<<<<<<<
  *             Counter([doc[label] for doc in reviews]))
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
   { /* enter inner scope */
@@ -6141,6 +6259,8 @@ static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(C
  *     # Return dictionary of ID strings mapped to label values
  *     return ({doc['id_string']: doc[label] for doc in reviews},
  *             Counter([doc[label] for doc in reviews]))             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_Counter); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 435; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -6195,6 +6315,7 @@ static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(C
  *     # Return dictionary of ID strings mapped to label values
  *     return ({doc['id_string']: doc[label] for doc in reviews},             # <<<<<<<<<<<<<<
  *             Counter([doc[label] for doc in reviews]))
+ * 
  */
   __pyx_t_6 = PyTuple_New(2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 434; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -6234,6 +6355,594 @@ static PyObject *__pyx_pf_4util_7mongodb_8generate_test_id_strings_labels_dict(C
   __Pyx_XDECREF(__pyx_v_doc);
   __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
   __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value); /* proto */
+
+/* "util/mongodb.pyx":438
+ * 
+ * 
+ * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
+ *                                              games: list) -> str:
+ *     """
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_7mongodb_10generate_evenly_distributed_test_samples[] = "\n    Generate ID strings from test data samples that, altogether, form a\n    maximally evenly-distributed set of test samples, specifically for\n    cases when a small subset of the total test partition is being used.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param label: label used for prediction\n    :type label: str\n    :param games: list or set of game IDs\n    :type games: list/set\n\n    :yields: ID string\n    :ytype: str\n    ";
+static PyMethodDef __pyx_mdef_4util_7mongodb_11generate_evenly_distributed_test_samples = {"generate_evenly_distributed_test_samples", (PyCFunction)__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_7mongodb_10generate_evenly_distributed_test_samples};
+static PyObject *__pyx_pw_4util_7mongodb_11generate_evenly_distributed_test_samples(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_db = 0;
+  PyObject *__pyx_v_label = 0;
+  PyObject *__pyx_v_games = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("generate_evenly_distributed_test_samples (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_db,&__pyx_n_s_label,&__pyx_n_s_games,0};
+    PyObject* values[3] = {0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_db)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_label)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_games)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_evenly_distributed_test_samples") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+      values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+      values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+    }
+    __pyx_v_db = values[0];
+    __pyx_v_label = values[1];
+    __pyx_v_games = values[2];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("generate_evenly_distributed_test_samples", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("util.mongodb.generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(__pyx_self, __pyx_v_db, __pyx_v_label, __pyx_v_games);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4util_7mongodb_10generate_evenly_distributed_test_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games) {
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_cur_scope;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("generate_evenly_distributed_test_samples", 0);
+  __pyx_cur_scope = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(__pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, __pyx_empty_tuple, NULL);
+  if (unlikely(!__pyx_cur_scope)) {
+    __Pyx_RefNannyFinishContext();
+    return NULL;
+  }
+  __Pyx_GOTREF(__pyx_cur_scope);
+  __pyx_cur_scope->__pyx_v_db = __pyx_v_db;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_db);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_db);
+  __pyx_cur_scope->__pyx_v_label = __pyx_v_label;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_label);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_label);
+  __pyx_cur_scope->__pyx_v_games = __pyx_v_games;
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_games);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_games);
+  {
+    __pyx_CoroutineObject *gen = __Pyx_Generator_New((__pyx_coroutine_body_t) __pyx_gb_4util_7mongodb_12generator, (PyObject *) __pyx_cur_scope, __pyx_n_s_generate_evenly_distributed_test, __pyx_n_s_generate_evenly_distributed_test); if (unlikely(!gen)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_cur_scope);
+    __Pyx_RefNannyFinishContext();
+    return (PyObject *) gen;
+  }
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_AddTraceback("util.mongodb.generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __Pyx_DECREF(((PyObject *)__pyx_cur_scope));
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_gb_4util_7mongodb_12generator(__pyx_CoroutineObject *__pyx_generator, PyObject *__pyx_sent_value) /* generator body */
+{
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_cur_scope = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)__pyx_generator->closure);
+  PyObject *__pyx_r = NULL;
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  Py_ssize_t __pyx_t_4;
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *(*__pyx_t_6)(PyObject *);
+  Py_ssize_t __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
+  PyObject *__pyx_t_9 = NULL;
+  PyObject *__pyx_t_10 = NULL;
+  PyObject *__pyx_t_11 = NULL;
+  int __pyx_t_12;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("None", 0);
+  switch (__pyx_generator->resume_label) {
+    case 0: goto __pyx_L3_first_run;
+    case 1: goto __pyx_L18_resume_from_yield;
+    default: /* CPython raises the right error here */
+    __Pyx_RefNannyFinishContext();
+    return NULL;
+  }
+  __pyx_L3_first_run:;
+  if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "util/mongodb.pyx":459
+ *     # distribution of the labels
+ *     id_strings_labels_dict, labels_counter = \
+ *         generate_test_id_strings_labels_dict(db, label, games)             # <<<<<<<<<<<<<<
+ * 
+ *     # Create a maximally evenly-distributed list of samples with
+ */
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_generate_test_id_strings_labels_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = NULL;
+  __pyx_t_4 = 0;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_3 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_3)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_3);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+      __pyx_t_4 = 1;
+    }
+  }
+  __pyx_t_5 = PyTuple_New(3+__pyx_t_4); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_5);
+  if (__pyx_t_3) {
+    __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_3); __pyx_t_3 = NULL;
+  }
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_db);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_db);
+  PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_4, __pyx_cur_scope->__pyx_v_db);
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_label);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_label);
+  PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_4, __pyx_cur_scope->__pyx_v_label);
+  __Pyx_INCREF(__pyx_cur_scope->__pyx_v_games);
+  __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_games);
+  PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_4, __pyx_cur_scope->__pyx_v_games);
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 459; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
+    PyObject* sequence = __pyx_t_1;
+    #if CYTHON_COMPILING_IN_CPYTHON
+    Py_ssize_t size = Py_SIZE(sequence);
+    #else
+    Py_ssize_t size = PySequence_Size(sequence);
+    #endif
+    if (unlikely(size != 2)) {
+      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+    #if CYTHON_COMPILING_IN_CPYTHON
+    if (likely(PyTuple_CheckExact(sequence))) {
+      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
+      __pyx_t_5 = PyTuple_GET_ITEM(sequence, 1); 
+    } else {
+      __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
+      __pyx_t_5 = PyList_GET_ITEM(sequence, 1); 
+    }
+    __Pyx_INCREF(__pyx_t_2);
+    __Pyx_INCREF(__pyx_t_5);
+    #else
+    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_5 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    #endif
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  } else {
+    Py_ssize_t index = -1;
+    __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_6 = Py_TYPE(__pyx_t_3)->tp_iternext;
+    index = 0; __pyx_t_2 = __pyx_t_6(__pyx_t_3); if (unlikely(!__pyx_t_2)) goto __pyx_L4_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_2);
+    index = 1; __pyx_t_5 = __pyx_t_6(__pyx_t_3); if (unlikely(!__pyx_t_5)) goto __pyx_L4_unpacking_failed;
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_3), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = NULL;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    goto __pyx_L5_unpacking_done;
+    __pyx_L4_unpacking_failed:;
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __pyx_t_6 = NULL;
+    if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 458; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_L5_unpacking_done:;
+  }
+
+  /* "util/mongodb.pyx":458
+ *     # Get dictionary of ID strings mapped to labels and a frequency
+ *     # distribution of the labels
+ *     id_strings_labels_dict, labels_counter = \             # <<<<<<<<<<<<<<
+ *         generate_test_id_strings_labels_dict(db, label, games)
+ * 
+ */
+  __Pyx_GIVEREF(__pyx_t_2);
+  __pyx_cur_scope->__pyx_v_id_strings_labels_dict = __pyx_t_2;
+  __pyx_t_2 = 0;
+  __Pyx_GIVEREF(__pyx_t_5);
+  __pyx_cur_scope->__pyx_v_labels_counter = __pyx_t_5;
+  __pyx_t_5 = 0;
+
+  /* "util/mongodb.pyx":463
+ *     # Create a maximally evenly-distributed list of samples with
+ *     # respect to label
+ *     label_values = list(labels_counter)             # <<<<<<<<<<<<<<
+ *     labels_id_strings_lists_dict = dict()
+ *     for label_value in label_values:
+ */
+  __pyx_t_1 = PySequence_List(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_cur_scope->__pyx_v_label_values = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "util/mongodb.pyx":464
+ *     # respect to label
+ *     label_values = list(labels_counter)
+ *     labels_id_strings_lists_dict = dict()             # <<<<<<<<<<<<<<
+ *     for label_value in label_values:
+ *         labels_id_strings_lists_dict[label_value] = \
+ */
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_1);
+  __pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict = ((PyObject*)__pyx_t_1);
+  __pyx_t_1 = 0;
+
+  /* "util/mongodb.pyx":465
+ *     label_values = list(labels_counter)
+ *     labels_id_strings_lists_dict = dict()
+ *     for label_value in label_values:             # <<<<<<<<<<<<<<
+ *         labels_id_strings_lists_dict[label_value] = \
+ *             [_id for _id, _label in labels_counter if _label == label_value]
+ */
+  __pyx_t_1 = __pyx_cur_scope->__pyx_v_label_values; __Pyx_INCREF(__pyx_t_1); __pyx_t_4 = 0;
+  for (;;) {
+    if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_1)) break;
+    #if CYTHON_COMPILING_IN_CPYTHON
+    __pyx_t_5 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_4); __Pyx_INCREF(__pyx_t_5); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    #else
+    __pyx_t_5 = PySequence_ITEM(__pyx_t_1, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    #endif
+    __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_label_value);
+    __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_label_value, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_5);
+    __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":467
+ *     for label_value in label_values:
+ *         labels_id_strings_lists_dict[label_value] = \
+ *             [_id for _id, _label in labels_counter if _label == label_value]             # <<<<<<<<<<<<<<
+ *     i = 0
+ *     while i < len(id_strings_labels_dict):
+ */
+    __pyx_t_5 = PyList_New(0); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    if (likely(PyList_CheckExact(__pyx_cur_scope->__pyx_v_labels_counter)) || PyTuple_CheckExact(__pyx_cur_scope->__pyx_v_labels_counter)) {
+      __pyx_t_2 = __pyx_cur_scope->__pyx_v_labels_counter; __Pyx_INCREF(__pyx_t_2); __pyx_t_7 = 0;
+      __pyx_t_8 = NULL;
+    } else {
+      __pyx_t_7 = -1; __pyx_t_2 = PyObject_GetIter(__pyx_cur_scope->__pyx_v_labels_counter); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_2);
+      __pyx_t_8 = Py_TYPE(__pyx_t_2)->tp_iternext; if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    }
+    for (;;) {
+      if (likely(!__pyx_t_8)) {
+        if (likely(PyList_CheckExact(__pyx_t_2))) {
+          if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_2)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_3 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          #else
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_GOTREF(__pyx_t_3);
+          #endif
+        } else {
+          if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_2)) break;
+          #if CYTHON_COMPILING_IN_CPYTHON
+          __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_2, __pyx_t_7); __Pyx_INCREF(__pyx_t_3); __pyx_t_7++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          #else
+          __pyx_t_3 = PySequence_ITEM(__pyx_t_2, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_GOTREF(__pyx_t_3);
+          #endif
+        }
+      } else {
+        __pyx_t_3 = __pyx_t_8(__pyx_t_2);
+        if (unlikely(!__pyx_t_3)) {
+          PyObject* exc_type = PyErr_Occurred();
+          if (exc_type) {
+            if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+            else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          }
+          break;
+        }
+        __Pyx_GOTREF(__pyx_t_3);
+      }
+      if ((likely(PyTuple_CheckExact(__pyx_t_3))) || (PyList_CheckExact(__pyx_t_3))) {
+        PyObject* sequence = __pyx_t_3;
+        #if CYTHON_COMPILING_IN_CPYTHON
+        Py_ssize_t size = Py_SIZE(sequence);
+        #else
+        Py_ssize_t size = PySequence_Size(sequence);
+        #endif
+        if (unlikely(size != 2)) {
+          if (size > 2) __Pyx_RaiseTooManyValuesError(2);
+          else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
+          {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        }
+        #if CYTHON_COMPILING_IN_CPYTHON
+        if (likely(PyTuple_CheckExact(sequence))) {
+          __pyx_t_9 = PyTuple_GET_ITEM(sequence, 0); 
+          __pyx_t_10 = PyTuple_GET_ITEM(sequence, 1); 
+        } else {
+          __pyx_t_9 = PyList_GET_ITEM(sequence, 0); 
+          __pyx_t_10 = PyList_GET_ITEM(sequence, 1); 
+        }
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(__pyx_t_10);
+        #else
+        __pyx_t_9 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_9);
+        __pyx_t_10 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_10);
+        #endif
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      } else {
+        Py_ssize_t index = -1;
+        __pyx_t_11 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_11);
+        __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+        __pyx_t_6 = Py_TYPE(__pyx_t_11)->tp_iternext;
+        index = 0; __pyx_t_9 = __pyx_t_6(__pyx_t_11); if (unlikely(!__pyx_t_9)) goto __pyx_L10_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_9);
+        index = 1; __pyx_t_10 = __pyx_t_6(__pyx_t_11); if (unlikely(!__pyx_t_10)) goto __pyx_L10_unpacking_failed;
+        __Pyx_GOTREF(__pyx_t_10);
+        if (__Pyx_IternextUnpackEndCheck(__pyx_t_6(__pyx_t_11), 2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = NULL;
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        goto __pyx_L11_unpacking_done;
+        __pyx_L10_unpacking_failed:;
+        __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+        __pyx_t_6 = NULL;
+        if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_L11_unpacking_done:;
+      }
+      __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v__id);
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v__id, __pyx_t_9);
+      __Pyx_GIVEREF(__pyx_t_9);
+      __pyx_t_9 = 0;
+      __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v__label);
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v__label, __pyx_t_10);
+      __Pyx_GIVEREF(__pyx_t_10);
+      __pyx_t_10 = 0;
+      __pyx_t_3 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v__label, __pyx_cur_scope->__pyx_v_label_value, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+      if (__pyx_t_12) {
+        if (unlikely(__Pyx_ListComp_Append(__pyx_t_5, (PyObject*)__pyx_cur_scope->__pyx_v__id))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      }
+    }
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+
+    /* "util/mongodb.pyx":466
+ *     labels_id_strings_lists_dict = dict()
+ *     for label_value in label_values:
+ *         labels_id_strings_lists_dict[label_value] = \             # <<<<<<<<<<<<<<
+ *             [_id for _id, _label in labels_counter if _label == label_value]
+ *     i = 0
+ */
+    if (unlikely(PyDict_SetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value, __pyx_t_5) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+
+    /* "util/mongodb.pyx":465
+ *     label_values = list(labels_counter)
+ *     labels_id_strings_lists_dict = dict()
+ *     for label_value in label_values:             # <<<<<<<<<<<<<<
+ *         labels_id_strings_lists_dict[label_value] = \
+ *             [_id for _id, _label in labels_counter if _label == label_value]
+ */
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "util/mongodb.pyx":468
+ *         labels_id_strings_lists_dict[label_value] = \
+ *             [_id for _id, _label in labels_counter if _label == label_value]
+ *     i = 0             # <<<<<<<<<<<<<<
+ *     while i < len(id_strings_labels_dict):
+ * 
+ */
+  __Pyx_INCREF(__pyx_int_0);
+  __Pyx_GIVEREF(__pyx_int_0);
+  __pyx_cur_scope->__pyx_v_i = __pyx_int_0;
+
+  /* "util/mongodb.pyx":469
+ *             [_id for _id, _label in labels_counter if _label == label_value]
+ *     i = 0
+ *     while i < len(id_strings_labels_dict):             # <<<<<<<<<<<<<<
+ * 
+ *         # For each label value, pop off an ID string, if available
+ */
+  while (1) {
+    __pyx_t_4 = PyObject_Length(__pyx_cur_scope->__pyx_v_id_strings_labels_dict); if (unlikely(__pyx_t_4 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_5 = PyObject_RichCompare(__pyx_cur_scope->__pyx_v_i, __pyx_t_1, Py_LT); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    if (!__pyx_t_12) break;
+
+    /* "util/mongodb.pyx":472
+ * 
+ *         # For each label value, pop off an ID string, if available
+ *         for label_value in label_values:             # <<<<<<<<<<<<<<
+ *             if labels_id_strings_lists_dict[label_value]:
+ *                 yield labels_id_strings_lists_dict[label_value].pop()
+ */
+    __pyx_t_5 = __pyx_cur_scope->__pyx_v_label_values; __Pyx_INCREF(__pyx_t_5); __pyx_t_4 = 0;
+    for (;;) {
+      if (__pyx_t_4 >= PyList_GET_SIZE(__pyx_t_5)) break;
+      #if CYTHON_COMPILING_IN_CPYTHON
+      __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_4); __Pyx_INCREF(__pyx_t_1); __pyx_t_4++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      #else
+      __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_4); __pyx_t_4++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      #endif
+      __Pyx_XGOTREF(__pyx_cur_scope->__pyx_v_label_value);
+      __Pyx_XDECREF_SET(__pyx_cur_scope->__pyx_v_label_value, __pyx_t_1);
+      __Pyx_GIVEREF(__pyx_t_1);
+      __pyx_t_1 = 0;
+
+      /* "util/mongodb.pyx":473
+ *         # For each label value, pop off an ID string, if available
+ *         for label_value in label_values:
+ *             if labels_id_strings_lists_dict[label_value]:             # <<<<<<<<<<<<<<
+ *                 yield labels_id_strings_lists_dict[label_value].pop()
+ *                 i += 1
+ */
+      __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      if (__pyx_t_12) {
+
+        /* "util/mongodb.pyx":474
+ *         for label_value in label_values:
+ *             if labels_id_strings_lists_dict[label_value]:
+ *                 yield labels_id_strings_lists_dict[label_value].pop()             # <<<<<<<<<<<<<<
+ *                 i += 1
+ */
+        __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_labels_id_strings_lists_dict, __pyx_cur_scope->__pyx_v_label_value); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+        __Pyx_GOTREF(__pyx_t_1);
+        __pyx_t_2 = __Pyx_PyObject_Pop(__pyx_t_1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+        __pyx_r = __pyx_t_2;
+        __pyx_t_2 = 0;
+        __pyx_cur_scope->__pyx_t_0 = __pyx_t_4;
+        __Pyx_XGIVEREF(__pyx_t_5);
+        __pyx_cur_scope->__pyx_t_1 = __pyx_t_5;
+        __Pyx_XGIVEREF(__pyx_r);
+        __Pyx_RefNannyFinishContext();
+        /* return from generator, yielding value */
+        __pyx_generator->resume_label = 1;
+        return __pyx_r;
+        __pyx_L18_resume_from_yield:;
+        __pyx_t_4 = __pyx_cur_scope->__pyx_t_0;
+        __pyx_t_5 = __pyx_cur_scope->__pyx_t_1;
+        __pyx_cur_scope->__pyx_t_1 = 0;
+        __Pyx_XGOTREF(__pyx_t_5);
+        if (unlikely(!__pyx_sent_value)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+        /* "util/mongodb.pyx":475
+ *             if labels_id_strings_lists_dict[label_value]:
+ *                 yield labels_id_strings_lists_dict[label_value].pop()
+ *                 i += 1             # <<<<<<<<<<<<<<
+ */
+        __pyx_t_2 = __Pyx_PyInt_AddObjC(__pyx_cur_scope->__pyx_v_i, __pyx_int_1, 1, 1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_2);
+        __Pyx_GOTREF(__pyx_cur_scope->__pyx_v_i);
+        __Pyx_DECREF_SET(__pyx_cur_scope->__pyx_v_i, __pyx_t_2);
+        __Pyx_GIVEREF(__pyx_t_2);
+        __pyx_t_2 = 0;
+
+        /* "util/mongodb.pyx":473
+ *         # For each label value, pop off an ID string, if available
+ *         for label_value in label_values:
+ *             if labels_id_strings_lists_dict[label_value]:             # <<<<<<<<<<<<<<
+ *                 yield labels_id_strings_lists_dict[label_value].pop()
+ *                 i += 1
+ */
+      }
+
+      /* "util/mongodb.pyx":472
+ * 
+ *         # For each label value, pop off an ID string, if available
+ *         for label_value in label_values:             # <<<<<<<<<<<<<<
+ *             if labels_id_strings_lists_dict[label_value]:
+ *                 yield labels_id_strings_lists_dict[label_value].pop()
+ */
+    }
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+
+  /* "util/mongodb.pyx":438
+ * 
+ * 
+ * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
+ *                                              games: list) -> str:
+ *     """
+ */
+
+  /* function exit code */
+  PyErr_SetNone(PyExc_StopIteration);
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_9);
+  __Pyx_XDECREF(__pyx_t_10);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_AddTraceback("generate_evenly_distributed_test_samples", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_r); __pyx_r = 0;
+  __pyx_generator->resume_label = -1;
+  __Pyx_Coroutine_clear((PyObject*)__pyx_generator);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -6453,6 +7162,187 @@ static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr = {
   #endif
 };
 
+static struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[8];
+static int __pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = 0;
+
+static PyObject *__pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyTypeObject *t, CYTHON_UNUSED PyObject *a, CYTHON_UNUSED PyObject *k) {
+  PyObject *o;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples > 0) & (t->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples)))) {
+    o = (PyObject*)__pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[--__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples];
+    memset(o, 0, sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples));
+    (void) PyObject_INIT(o, t);
+    PyObject_GC_Track(o);
+  } else {
+    o = (*t->tp_alloc)(t, 0);
+    if (unlikely(!o)) return 0;
+  }
+  return o;
+}
+
+static void __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o) {
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->__pyx_v__id);
+  Py_CLEAR(p->__pyx_v__label);
+  Py_CLEAR(p->__pyx_v_db);
+  Py_CLEAR(p->__pyx_v_games);
+  Py_CLEAR(p->__pyx_v_i);
+  Py_CLEAR(p->__pyx_v_id_strings_labels_dict);
+  Py_CLEAR(p->__pyx_v_label);
+  Py_CLEAR(p->__pyx_v_label_value);
+  Py_CLEAR(p->__pyx_v_label_values);
+  Py_CLEAR(p->__pyx_v_labels_counter);
+  Py_CLEAR(p->__pyx_v_labels_id_strings_lists_dict);
+  Py_CLEAR(p->__pyx_t_1);
+  if (CYTHON_COMPILING_IN_CPYTHON && ((__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples < 8) & (Py_TYPE(o)->tp_basicsize == sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples)))) {
+    __pyx_freelist_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples[__pyx_freecount_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples++] = ((struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o);
+  } else {
+    (*Py_TYPE(o)->tp_free)(o);
+  }
+}
+
+static int __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+  if (p->__pyx_v__id) {
+    e = (*v)(p->__pyx_v__id, a); if (e) return e;
+  }
+  if (p->__pyx_v__label) {
+    e = (*v)(p->__pyx_v__label, a); if (e) return e;
+  }
+  if (p->__pyx_v_db) {
+    e = (*v)(p->__pyx_v_db, a); if (e) return e;
+  }
+  if (p->__pyx_v_games) {
+    e = (*v)(p->__pyx_v_games, a); if (e) return e;
+  }
+  if (p->__pyx_v_i) {
+    e = (*v)(p->__pyx_v_i, a); if (e) return e;
+  }
+  if (p->__pyx_v_id_strings_labels_dict) {
+    e = (*v)(p->__pyx_v_id_strings_labels_dict, a); if (e) return e;
+  }
+  if (p->__pyx_v_label) {
+    e = (*v)(p->__pyx_v_label, a); if (e) return e;
+  }
+  if (p->__pyx_v_label_value) {
+    e = (*v)(p->__pyx_v_label_value, a); if (e) return e;
+  }
+  if (p->__pyx_v_label_values) {
+    e = (*v)(p->__pyx_v_label_values, a); if (e) return e;
+  }
+  if (p->__pyx_v_labels_counter) {
+    e = (*v)(p->__pyx_v_labels_counter, a); if (e) return e;
+  }
+  if (p->__pyx_v_labels_id_strings_lists_dict) {
+    e = (*v)(p->__pyx_v_labels_id_strings_lists_dict, a); if (e) return e;
+  }
+  if (p->__pyx_t_1) {
+    e = (*v)(p->__pyx_t_1, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *p = (struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples *)o;
+  tmp = ((PyObject*)p->__pyx_v__id);
+  p->__pyx_v__id = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v__label);
+  p->__pyx_v__label = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_db);
+  p->__pyx_v_db = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_games);
+  p->__pyx_v_games = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_i);
+  p->__pyx_v_i = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_id_strings_labels_dict);
+  p->__pyx_v_id_strings_labels_dict = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_label);
+  p->__pyx_v_label = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_label_value);
+  p->__pyx_v_label_value = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_label_values);
+  p->__pyx_v_label_values = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_labels_counter);
+  p->__pyx_v_labels_counter = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_v_labels_id_strings_lists_dict);
+  p->__pyx_v_labels_id_strings_lists_dict = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->__pyx_t_1);
+  p->__pyx_t_1 = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
+}
+
+static PyTypeObject __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "util.mongodb.__pyx_scope_struct_2_generate_evenly_distributed_test_samples", /*tp_name*/
+  sizeof(struct __pyx_obj_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  0, /*tp_doc*/
+  __pyx_tp_traverse_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_traverse*/
+  __pyx_tp_clear_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  0, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+
 static PyMethodDef __pyx_methods[] = {
   {0, 0, 0, 0}
 };
@@ -6563,6 +7453,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_game_cursor, __pyx_k_game_cursor, sizeof(__pyx_k_game_cursor), 0, 0, 1, 1},
   {&__pyx_n_s_game_id, __pyx_k_game_id, sizeof(__pyx_k_game_id), 0, 0, 1, 1},
   {&__pyx_n_s_games, __pyx_k_games, sizeof(__pyx_k_games), 0, 0, 1, 1},
+  {&__pyx_n_s_generate_evenly_distributed_test, __pyx_k_generate_evenly_distributed_test, sizeof(__pyx_k_generate_evenly_distributed_test), 0, 0, 1, 1},
   {&__pyx_n_s_generate_test_id_strings_labels, __pyx_k_generate_test_id_strings_labels, sizeof(__pyx_k_generate_test_id_strings_labels), 0, 0, 1, 1},
   {&__pyx_n_s_generate_test_id_strings_labels_2, __pyx_k_generate_test_id_strings_labels_2, sizeof(__pyx_k_generate_test_id_strings_labels_2), 0, 0, 1, 1},
   {&__pyx_n_s_genexpr, __pyx_k_genexpr, sizeof(__pyx_k_genexpr), 0, 0, 1, 1},
@@ -6573,8 +7464,10 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_bin_ranges, __pyx_k_get_bin_ranges, sizeof(__pyx_k_get_bin_ranges), 0, 0, 1, 1},
   {&__pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_k_home_nlp_text_dynamic_mmulholla, sizeof(__pyx_k_home_nlp_text_dynamic_mmulholla), 0, 0, 1, 0},
   {&__pyx_n_s_host, __pyx_k_host, sizeof(__pyx_k_host), 0, 0, 1, 1},
+  {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
   {&__pyx_n_s_id_string, __pyx_k_id_string, sizeof(__pyx_k_id_string), 0, 0, 1, 1},
+  {&__pyx_n_s_id_strings_labels_dict, __pyx_k_id_strings_labels_dict, sizeof(__pyx_k_id_strings_labels_dict), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_kp_s_in, __pyx_k_in, sizeof(__pyx_k_in), 0, 0, 1, 0},
   {&__pyx_n_s_info, __pyx_k_info, sizeof(__pyx_k_info), 0, 0, 1, 1},
@@ -6585,6 +7478,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_json, __pyx_k_json, sizeof(__pyx_k_json), 0, 0, 1, 1},
   {&__pyx_n_s_just_describe, __pyx_k_just_describe, sizeof(__pyx_k_just_describe), 0, 0, 1, 1},
   {&__pyx_n_s_label, __pyx_k_label, sizeof(__pyx_k_label), 0, 0, 1, 1},
+  {&__pyx_n_s_label_2, __pyx_k_label_2, sizeof(__pyx_k_label_2), 0, 0, 1, 1},
+  {&__pyx_n_s_label_value, __pyx_k_label_value, sizeof(__pyx_k_label_value), 0, 0, 1, 1},
+  {&__pyx_n_s_label_values, __pyx_k_label_values, sizeof(__pyx_k_label_values), 0, 0, 1, 1},
+  {&__pyx_n_s_labels_counter, __pyx_k_labels_counter, sizeof(__pyx_k_labels_counter), 0, 0, 1, 1},
+  {&__pyx_n_s_labels_id_strings_lists_dict, __pyx_k_labels_id_strings_lists_dict, sizeof(__pyx_k_labels_id_strings_lists_dict), 0, 0, 1, 1},
   {&__pyx_n_s_localhost, __pyx_k_localhost, sizeof(__pyx_k_localhost), 0, 0, 1, 1},
   {&__pyx_n_s_logdebug, __pyx_k_logdebug, sizeof(__pyx_k_logdebug), 0, 0, 1, 1},
   {&__pyx_n_s_logerr, __pyx_k_logerr, sizeof(__pyx_k_logerr), 0, 0, 1, 1},
@@ -6609,6 +7507,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_os_path, __pyx_k_os_path, sizeof(__pyx_k_os_path), 0, 0, 1, 1},
   {&__pyx_n_s_partition, __pyx_k_partition, sizeof(__pyx_k_partition), 0, 0, 1, 1},
   {&__pyx_n_s_percent_train, __pyx_k_percent_train, sizeof(__pyx_k_percent_train), 0, 0, 1, 1},
+  {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
   {&__pyx_n_s_port, __pyx_k_port, sizeof(__pyx_k_port), 0, 0, 1, 1},
   {&__pyx_n_s_pymongo, __pyx_k_pymongo, sizeof(__pyx_k_pymongo), 0, 0, 1, 1},
   {&__pyx_n_s_pymongo_bulk, __pyx_k_pymongo_bulk, sizeof(__pyx_k_pymongo_bulk), 0, 0, 1, 1},
@@ -6856,6 +7755,18 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__23);
   __Pyx_GIVEREF(__pyx_tuple__23);
   __pyx_codeobj__24 = (PyObject*)__Pyx_PyCode_New(3, 0, 10, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__23, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_generate_test_id_strings_labels_2, 390, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__24)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "util/mongodb.pyx":438
+ * 
+ * 
+ * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
+ *                                              games: list) -> str:
+ *     """
+ */
+  __pyx_tuple__25 = PyTuple_Pack(11, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_id_strings_labels_dict, __pyx_n_s_labels_counter, __pyx_n_s_label_values, __pyx_n_s_labels_id_strings_lists_dict, __pyx_n_s_label_value, __pyx_n_s_i, __pyx_n_s_id, __pyx_n_s_label_2); if (unlikely(!__pyx_tuple__25)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__25);
+  __Pyx_GIVEREF(__pyx_tuple__25);
+  __pyx_codeobj__26 = (PyObject*)__Pyx_PyCode_New(3, 0, 11, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__25, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_generate_evenly_distributed_test, 438, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__26)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6864,6 +7775,7 @@ static int __Pyx_InitCachedConstants(void) {
 }
 
 static int __Pyx_InitGlobals(void) {
+  __pyx_umethod_PyList_Type_pop.type = (PyObject*)&PyList_Type;
   if (__Pyx_InitStrings(__pyx_string_tab) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __pyx_float_1_0 = PyFloat_FromDouble(1.0); if (unlikely(!__pyx_float_1_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -6972,6 +7884,9 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   if (PyType_Ready(&__pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 415; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr.tp_print = 0;
   __pyx_ptype_4util_7mongodb___pyx_scope_struct_1_genexpr = &__pyx_type_4util_7mongodb___pyx_scope_struct_1_genexpr;
+  if (PyType_Ready(&__pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples.tp_print = 0;
+  __pyx_ptype_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples = &__pyx_type_4util_7mongodb___pyx_scope_struct_2_generate_evenly_distributed_test_samples;
   /*--- Type import code ---*/
   /*--- Variable import code ---*/
   /*--- Function import code ---*/
@@ -7522,6 +8437,18 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_9generate_test_id_strings_labels_dict, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_test_id_strings_labels_2, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "util/mongodb.pyx":438
+ * 
+ * 
+ * def generate_evenly_distributed_test_samples(db: collection, label: str,             # <<<<<<<<<<<<<<
+ *                                              games: list) -> str:
+ *     """
+ */
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_4util_7mongodb_11generate_evenly_distributed_test_samples, NULL, __pyx_n_s_util_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_generate_evenly_distributed_test, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 438; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "util/mongodb.pyx":1
@@ -8600,6 +9527,235 @@ static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject 
 bad:
     Py_XDECREF(owned_instance);
     return;
+}
+#endif
+
+static CYTHON_INLINE void __Pyx_RaiseTooManyValuesError(Py_ssize_t expected) {
+    PyErr_Format(PyExc_ValueError,
+                 "too many values to unpack (expected %" CYTHON_FORMAT_SSIZE_T "d)", expected);
+}
+
+static CYTHON_INLINE void __Pyx_RaiseNeedMoreValuesError(Py_ssize_t index) {
+    PyErr_Format(PyExc_ValueError,
+                 "need more than %" CYTHON_FORMAT_SSIZE_T "d value%.1s to unpack",
+                 index, (index == 1) ? "" : "s");
+}
+
+static CYTHON_INLINE int __Pyx_IterFinish(void) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    PyThreadState *tstate = PyThreadState_GET();
+    PyObject* exc_type = tstate->curexc_type;
+    if (unlikely(exc_type)) {
+        if (likely(exc_type == PyExc_StopIteration) || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration)) {
+            PyObject *exc_value, *exc_tb;
+            exc_value = tstate->curexc_value;
+            exc_tb = tstate->curexc_traceback;
+            tstate->curexc_type = 0;
+            tstate->curexc_value = 0;
+            tstate->curexc_traceback = 0;
+            Py_DECREF(exc_type);
+            Py_XDECREF(exc_value);
+            Py_XDECREF(exc_tb);
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#else
+    if (unlikely(PyErr_Occurred())) {
+        if (likely(PyErr_ExceptionMatches(PyExc_StopIteration))) {
+            PyErr_Clear();
+            return 0;
+        } else {
+            return -1;
+        }
+    }
+    return 0;
+#endif
+}
+
+static int __Pyx_IternextUnpackEndCheck(PyObject *retval, Py_ssize_t expected) {
+    if (unlikely(retval)) {
+        Py_DECREF(retval);
+        __Pyx_RaiseTooManyValuesError(expected);
+        return -1;
+    } else {
+        return __Pyx_IterFinish();
+    }
+    return 0;
+}
+
+static PyObject* __Pyx_PyObject_CallMethod0(PyObject* obj, PyObject* method_name) {
+    PyObject *method, *result = NULL;
+    method = __Pyx_PyObject_GetAttrStr(obj, method_name);
+    if (unlikely(!method)) goto bad;
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (likely(PyMethod_Check(method))) {
+        PyObject *self = PyMethod_GET_SELF(method);
+        if (likely(self)) {
+            PyObject *function = PyMethod_GET_FUNCTION(method);
+            result = __Pyx_PyObject_CallOneArg(function, self);
+            Py_DECREF(method);
+            return result;
+        }
+    }
+#endif
+    result = __Pyx_PyObject_CallNoArg(method);
+    Py_DECREF(method);
+bad:
+    return result;
+}
+
+static int __Pyx_TryUnpackUnboundCMethod(__Pyx_CachedCFunction* target) {
+    PyObject *method;
+    method = __Pyx_PyObject_GetAttrStr(target->type, *target->method_name);
+    if (unlikely(!method))
+        return -1;
+    target->method = method;
+#if CYTHON_COMPILING_IN_CPYTHON
+    #if PY_MAJOR_VERSION >= 3
+    if (likely(PyObject_TypeCheck(method, &PyMethodDescr_Type)))
+    #endif
+    {
+        PyMethodDescrObject *descr = (PyMethodDescrObject*) method;
+        target->func = descr->d_method->ml_meth;
+        target->flag = descr->d_method->ml_flags & (METH_VARARGS | METH_KEYWORDS | METH_O | METH_NOARGS);
+    }
+#endif
+    return 0;
+}
+
+static PyObject* __Pyx__CallUnboundCMethod0(__Pyx_CachedCFunction* cfunc, PyObject* self) {
+    PyObject *args, *result = NULL;
+    if (unlikely(!cfunc->method) && unlikely(__Pyx_TryUnpackUnboundCMethod(cfunc) < 0)) return NULL;
+#if CYTHON_COMPILING_IN_CPYTHON
+    args = PyTuple_New(1);
+    if (unlikely(!args)) goto bad;
+    Py_INCREF(self);
+    PyTuple_SET_ITEM(args, 0, self);
+#else
+    args = PyTuple_Pack(1, self);
+    if (unlikely(!args)) goto bad;
+#endif
+    result = __Pyx_PyObject_Call(cfunc->method, args, NULL);
+    Py_DECREF(args);
+bad:
+    return result;
+}
+
+static CYTHON_INLINE PyObject* __Pyx__PyObject_Pop(PyObject* L) {
+#if CYTHON_COMPILING_IN_CPYTHON
+    if (Py_TYPE(L) == &PySet_Type) {
+        return PySet_Pop(L);
+    }
+#endif
+    return __Pyx_PyObject_CallMethod0(L, __pyx_n_s_pop);
+}
+#if CYTHON_COMPILING_IN_CPYTHON
+static CYTHON_INLINE PyObject* __Pyx_PyList_Pop(PyObject* L) {
+    if (likely(PyList_GET_SIZE(L) > (((PyListObject*)L)->allocated >> 1))) {
+        Py_SIZE(L) -= 1;
+        return PyList_GET_ITEM(L, PyList_GET_SIZE(L));
+    }
+    return __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyList_Type_pop, L);
+}
+#endif
+
+#if CYTHON_COMPILING_IN_CPYTHON
+static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED long intval, CYTHON_UNUSED int inplace) {
+    #if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_CheckExact(op1))) {
+        const long b = intval;
+        long x;
+        long a = PyInt_AS_LONG(op1);
+            x = (long)((unsigned long)a + b);
+            if (likely((x^a) >= 0 || (x^b) >= 0))
+                return PyInt_FromLong(x);
+            return PyLong_Type.tp_as_number->nb_add(op1, op2);
+    }
+    #endif
+    #if CYTHON_USE_PYLONG_INTERNALS && PY_MAJOR_VERSION >= 3
+    if (likely(PyLong_CheckExact(op1))) {
+        const long b = intval;
+        long a, x;
+        const PY_LONG_LONG llb = intval;
+        PY_LONG_LONG lla, llx;
+        const digit* digits = ((PyLongObject*)op1)->ob_digit;
+        const Py_ssize_t size = Py_SIZE(op1);
+        if (likely(__Pyx_sst_abs(size) <= 1)) {
+            a = likely(size) ? digits[0] : 0;
+            if (size == -1) a = -a;
+        } else {
+            switch (size) {
+                case -2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                case 2:
+                    if (8 * sizeof(long) - 1 > 2 * PyLong_SHIFT) {
+                        a = (long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 2 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((unsigned PY_LONG_LONG)digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                case -3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                case 3:
+                    if (8 * sizeof(long) - 1 > 3 * PyLong_SHIFT) {
+                        a = (long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 3 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((unsigned PY_LONG_LONG)digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                case -4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = -(PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                case 4:
+                    if (8 * sizeof(long) - 1 > 4 * PyLong_SHIFT) {
+                        a = (long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        break;
+                    } else if (8 * sizeof(PY_LONG_LONG) - 1 > 4 * PyLong_SHIFT) {
+                        lla = (PY_LONG_LONG) (((((((((unsigned PY_LONG_LONG)digits[3]) << PyLong_SHIFT) | digits[2]) << PyLong_SHIFT) | digits[1]) << PyLong_SHIFT) | digits[0]));
+                        goto long_long;
+                    }
+                default: return PyLong_Type.tp_as_number->nb_add(op1, op2);
+            }
+        }
+                x = a + b;
+            return PyLong_FromLong(x);
+        long_long:
+                llx = lla + llb;
+            return PyLong_FromLongLong(llx);
+    }
+    #endif
+    if (PyFloat_CheckExact(op1)) {
+        const long b = intval;
+        double a = PyFloat_AS_DOUBLE(op1);
+            double result;
+            PyFPE_START_PROTECT("add", return NULL)
+            result = ((double)a) + (double)b;
+            PyFPE_END_PROTECT(result)
+            return PyFloat_FromDouble(result);
+    }
+    return (inplace ? PyNumber_InPlaceAdd : PyNumber_Add)(op1, op2);
 }
 #endif
 

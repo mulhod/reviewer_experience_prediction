@@ -48,7 +48,7 @@ from data import APPID_DICT
 from src import log_format_string
 from src import experiments as ex
 from util.mongodb import (connect_to_db,
-                          generate_test_id_strings_labels_dict)
+                          generate_evenly_distributed_test_samples)
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
 
@@ -494,46 +494,22 @@ class RunExperiments:
             test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
                           self.__partition__: self.__test__}
 
-        # Get dictionary of ID strings mapped to labels and a frequency
-        # distribution of the labels
-        id_strings_labels_dict, labels_counter = \
-            generate_test_id_strings_labels_dict(self.db, self.prediction_label,
-                                                 self.test_games)
-
-        # Create a maximally evenly-distributed list of samples with
-        # respect to label
-        ids = []
-        labels = list(labels_counter.keys())
-        labels_id_strings_lists_dict = dict()
-        for label in labels:
-            labels_id_strings_lists_dict[label] = \
-                [_id for _id, _label in labels_counter if _label == label]
-        i = 0
-        while i < len(id_strings_labels_dict):
-            # For each label, pop off an ID string, if available
-            for label in labels:
-                if labels_id_strings_lists_dict[label]:
-                    ids.append(labels_id_strings_lists_dict[label].pop())
-                    i += 1
-
         data = []
         j = 0
-        for id_string in ids:
+        for id_string in \
+            generate_evenly_distributed_test_samples(self.db,
+                                                     self.prediction_label,
+                                                     self.test_games):
             # Get a review document from the Mongo database
-            try:
-                _test_query = copy(test_query)
-                _test_query.update({self.__id_string__: id_string})
-                review_doc = next(self.db
-                                  .find(_test_query,
-                                        self.projection,
-                                        timeout=False)
-                                  .sort(self.sorting_args))
-            except StopIteration:
-                break
+            _test_query = copy(test_query)
+            _test_query.update({self.__id_string__: id_string})
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
-            sample = self.get_data(review_doc)
+            sample = self.get_data(next(self.db
+                                        .find(_test_query, self.projection,
+                                              timeout=False)
+                                        .sort(self.sorting_args)))
             if sample:
                 data.append(sample)
                 j += 1

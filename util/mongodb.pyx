@@ -396,7 +396,7 @@ def generate_test_id_strings_labels_dict(db: collection, label: str,
 
     :param db: MongoDB collection
     :type db: collection
-    :param label: label to use for prediction
+    :param label: label used for prediction
     :type label: str
     :param games: list or set of game IDs
     :type games: list/set
@@ -433,3 +433,43 @@ def generate_test_id_strings_labels_dict(db: collection, label: str,
     # Return dictionary of ID strings mapped to label values
     return ({doc['id_string']: doc[label] for doc in reviews},
             Counter([doc[label] for doc in reviews]))
+
+
+def generate_evenly_distributed_test_samples(db: collection, label: str,
+                                             games: list) -> str:
+    """
+    Generate ID strings from test data samples that, altogether, form a
+    maximally evenly-distributed set of test samples, specifically for
+    cases when a small subset of the total test partition is being used.
+
+    :param db: MongoDB collection
+    :type db: collection
+    :param label: label used for prediction
+    :type label: str
+    :param games: list or set of game IDs
+    :type games: list/set
+
+    :yields: ID string
+    :ytype: str
+    """
+
+    # Get dictionary of ID strings mapped to labels and a frequency
+    # distribution of the labels
+    id_strings_labels_dict, labels_counter = \
+        generate_test_id_strings_labels_dict(db, label, games)
+
+    # Create a maximally evenly-distributed list of samples with
+    # respect to label
+    label_values = list(labels_counter)
+    labels_id_strings_lists_dict = dict()
+    for label_value in label_values:
+        labels_id_strings_lists_dict[label_value] = \
+            [_id for _id, _label in labels_counter if _label == label_value]
+    i = 0
+    while i < len(id_strings_labels_dict):
+
+        # For each label value, pop off an ID string, if available
+        for label_value in label_values:
+            if labels_id_strings_lists_dict[label_value]:
+                yield labels_id_strings_lists_dict[label_value].pop()
+                i += 1
