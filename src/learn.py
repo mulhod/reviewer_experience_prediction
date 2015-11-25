@@ -499,7 +499,7 @@ class RunExperiments:
         for id_string in \
             generate_evenly_distributed_test_samples(self.db,
                                                      self.prediction_label,
-                                                     self.test_games):
+                                                     list(self.test_games)):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
             _test_query.update({self.__id_string__: id_string})
