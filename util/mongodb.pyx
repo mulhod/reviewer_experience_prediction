@@ -387,11 +387,12 @@ def update_db(db_update, _id: ObjectId, nlp_feats: dict,
             sleep(20)
 
 
-def generate_id_strings_labels_dict(db: collection, label: str,
-                                    games: list) -> tuple:
+def generate_test_id_strings_labels_dict(db: collection, label: str,
+                                         games: list) -> tuple:
     """
-    Generate a mapping between ID srings and label values and also a
-    frequency distribution of label values.
+    Generate a mapping between ID strings and label values and also a
+    frequency distribution of label values across all review documents
+    in the "test" partition of the given MongoDB collection.
 
     :param db: MongoDB collection
     :type db: collection
@@ -408,6 +409,8 @@ def generate_id_strings_labels_dict(db: collection, label: str,
     :raises: ValueError
     """
 
+    partition = 'test'
+
     # Make sure the games are in the list of valid games
     if any(not game in APPID_DICT for game in games):
         raise ValueError('All or some of the games in the given list of '
@@ -415,9 +418,9 @@ def generate_id_strings_labels_dict(db: collection, label: str,
                          .format(', '.join(games)))
 
     if len(games) == 1:
-        query = {'partition': 'test', 'game': games[0]}
+        query = {'partition': partition, 'game': games[0]}
     else:
-        query = {'partition': 'test', 'game': {'$in': games}}
+        query = {'partition': partition, 'game': {'$in': games}}
     cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
 
     # Get review documents (only including label + ID string)

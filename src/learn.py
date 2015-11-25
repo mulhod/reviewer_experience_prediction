@@ -9,6 +9,7 @@ different machine learning algorithms and parameter customizations,
 etc.
 """
 import logging
+from copy import copy
 from json import dump
 from os import makedirs
 from itertools import chain
@@ -46,7 +47,8 @@ from sklearn.linear_model import (Perceptron,
 from data import APPID_DICT
 from src import log_format_string
 from src import experiments as ex
-from util.mongodb import connect_to_db
+from util.mongodb import (connect_to_db,
+                          generate_test_id_strings_labels_dict)
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
 
@@ -275,13 +277,15 @@ class RunExperiments:
         self.no_nlp_features = no_nlp_features
         self.prediction_label = prediction_label
 
-        # Test data-related variables
+        # Data- and database-related variables
         self.training_cursor = None
         self.test_cursor = None
         self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursors for training/evaluation '
                          'data...')
-        self.make_cursors()
+        self.sorting_args = None
+        self.projection = None
+        self.make_train_cursor()
         self.logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
         self.test_ids = [_data[self.__id__] for _data in self.test_data]
@@ -311,22 +315,22 @@ class RunExperiments:
             self.majority_baseline_stats = None
             self.evaluate_majority_baseline_model()
 
-    def make_cursors(self) -> None:
+    def make_train_cursor(self) -> None:
         """
-        Make cursor objects for the training/test sets.
+        Make cursor for the training sets.
 
         :rtype: None
         """
 
         self.logger.debug('Batch size of MongoDB cursors: {0}'
                           .format(self.batch_size))
-        sorting_args = [(self.__steam_id__, ASCENDING)]
+        self.sorting_args = [(self.__steam_id__, ASCENDING)]
 
         # Leave out the '_id' value and the 'nlp_features' value if
         # `self.no_nlp_features` is true
-        projection = {self.__obj_id__: 0}
+        self.projection = {self.__obj_id__: 0}
         if self.no_nlp_features:
-            projection.update({self.__nlp_feats__: 0})
+            self.projection.update({self.__nlp_feats__: 0})
 
         # Make training data cursor
         if len(self.games) == 1:
@@ -338,25 +342,9 @@ class RunExperiments:
             train_query = {self.__game__: {self.__in_op__: list(self.games)},
                            self.__partition__: self.__training__}
         self.training_cursor = (self.db
-                                .find(train_query, projection, timeout=False)
-                                .sort(sorting_args))
+                                .find(train_query, self.projection, timeout=False)
+                                .sort(self.sorting_args))
         self.training_cursor.batch_size = self.batch_size
-
-        # Make test data cursor
-        if len(self.test_games) == 1:
-            test_query = {self.__game__: list(self.test_games)[0],
-                          self.__partition__: self.__test__}
-        elif not ex.VALID_GAMES.difference(self.test_games):
-            test_query = {self.__partition__: self.__test__}
-        else:
-            test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
-                           self.__partition__: self.__test__}
-        self.test_cursor = (self.db
-                            .find(test_query, projection, timeout=False)
-                            .sort(sorting_args))
-        if self.max_test_samples:
-            self.test_cursor = self.test_cursor.limit(self.max_test_samples)
-        self.test_cursor.batch_size = self.batch_size
 
     def get_all_features(self, review_doc: dict):
         """
@@ -496,13 +484,62 @@ class RunExperiments:
         :rtype: list
         """
 
+        # Generate the base query
+        if len(self.test_games) == 1:
+            test_query = {self.__game__: list(self.test_games)[0],
+                          self.__partition__: self.__test__}
+        elif not ex.VALID_GAMES.difference(self.test_games):
+            test_query = {self.__partition__: self.__test__}
+        else:
+            test_query = {self.__game__: {self.__in_op__: list(self.test_games)},
+                          self.__partition__: self.__test__}
+
+        # Get dictionary of ID strings mapped to labels and a frequency
+        # distribution of the labels
+        id_strings_labels_dict, labels_counter = \
+            generate_test_id_strings_labels_dict(self.db, self.prediction_label,
+                                                 self.test_games)
+
+        # Create a maximally evenly-distributed list of samples with
+        # respect to label
+        ids = []
+        labels = list(labels_counter.keys())
+        labels_id_strings_lists_dict = dict()
+        for label in labels:
+            labels_id_strings_lists_dict[label] = \
+                [_id for _id, _label in labels_counter if _label == label]
+        i = 0
+        while i < len(id_strings_labels_dict):
+            # For each label, pop off an ID string, if available
+            for label in labels:
+                if labels_id_strings_lists_dict[label]:
+                    ids.append(labels_id_strings_lists_dict[label].pop())
+                    i += 1
+
         data = []
-        for review_doc in self.test_cursor:
+        j = 0
+        for id_string in ids:
+            # Get a review document from the Mongo database
+            try:
+                _test_query = copy(test_query)
+                _test_query.update({self.__id_string__: id_string})
+                review_doc = next(self.db
+                                  .find(_test_query,
+                                        self.projection,
+                                        timeout=False)
+                                  .sort(self.sorting_args))
+            except StopIteration:
+                break
+
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
             sample = self.get_data(review_doc)
             if sample:
                 data.append(sample)
+                j += 1
+
+            if j == self.max_test_samples:
+                break
 
         return data
 
@@ -1201,7 +1238,6 @@ def main(argv=None):
         # multiplied as the index increases
         bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
                                            bin_factor)
-    if bin_ranges:
         loginfo('Bin ranges (nbins = {0}, bin_factor = {1}): {2}'
                 .format(nbins, bin_factor, bin_ranges))
 
