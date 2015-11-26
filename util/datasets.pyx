@@ -983,7 +983,7 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
                 orig_total_reviews=orig_total_reviews)
 
 
-cdef get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
+def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:
     """
     Return list of floating point number ranges (in increments of 0.1)
     that correspond to each bin in the distribution.

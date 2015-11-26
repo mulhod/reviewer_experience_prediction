@@ -449,20 +449,6 @@ static const char *__pyx_f[] = {
 
 /*--- Type declarations ---*/
 struct __pyx_obj_4util_8datasets___pyx_scope_struct__get_review_data_for_game;
-struct __pyx_opt_args_4util_8datasets_get_bin_ranges;
-
-/* "util/datasets.pyx":986
- * 
- * 
- * cdef get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):             # <<<<<<<<<<<<<<
- *     """
- *     Return list of floating point number ranges (in increments of 0.1)
- */
-struct __pyx_opt_args_4util_8datasets_get_bin_ranges {
-  int __pyx_n;
-  int nbins;
-  float factor;
-};
 
 /* "util/datasets.pyx":92
  * 
@@ -954,7 +940,6 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 /* Module declarations from 'util.datasets' */
 static PyTypeObject *__pyx_ptype_4util_8datasets___pyx_scope_struct__get_review_data_for_game = 0;
 static PyObject *__pyx_f_4util_8datasets_read_reviews_from_game_file(PyObject *); /*proto*/
-static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float, float, struct __pyx_opt_args_4util_8datasets_get_bin_ranges *__pyx_optional_args); /*proto*/
 #define __Pyx_MODULE_NAME "util.datasets"
 int __pyx_module_is_main_util__datasets = 0;
 
@@ -1089,8 +1074,10 @@ static char __pyx_k_label[] = "label";
 static char __pyx_k_limit[] = "limit";
 static char __pyx_k_loads[] = "loads";
 static char __pyx_k_lower[] = "lower";
+static char __pyx_k_max_2[] = "_max";
 static char __pyx_k_meanh[] = "meanh";
 static char __pyx_k_meanl[] = "meanl";
+static char __pyx_k_min_2[] = "_min";
 static char __pyx_k_nbins[] = "nbins";
 static char __pyx_k_numpy[] = "numpy";
 static char __pyx_k_range[] = "range";
@@ -1157,6 +1144,7 @@ static char __pyx_k_loginfo[] = "loginfo";
 static char __pyx_k_logwarn[] = "logwarn";
 static char __pyx_k_os_path[] = "os.path";
 static char __pyx_k_pymongo[] = "pymongo";
+static char __pyx_k_range_2[] = "_range";
 static char __pyx_k_reports[] = "reports";
 static char __pyx_k_reviews[] = "reviews";
 static char __pyx_k_savefig[] = "savefig";
@@ -1221,6 +1209,8 @@ static char __pyx_k_mac_latin2[] = "mac_latin2";
 static char __pyx_k_num_badges[] = "num_badges";
 static char __pyx_k_num_groups[] = "num_groups";
 static char __pyx_k_num_guides[] = "num_guides";
+static char __pyx_k_range_part[] = "range_part";
+static char __pyx_k_range_unit[] = "range_unit";
 static char __pyx_k_review_url[] = "review_url";
 static char __pyx_k_set_xlabel[] = "set_xlabel";
 static char __pyx_k_set_ylabel[] = "set_ylabel";
@@ -1229,6 +1219,7 @@ static char __pyx_k_0_bins_arff[] = "{0}bins.arff";
 static char __pyx_k_0_jsonlines[] = "{0}.jsonlines";
 static char __pyx_k_Screenshots[] = "Screenshots";
 static char __pyx_k_add_subplot[] = "add_subplot";
+static char __pyx_k_current_min[] = "current_min";
 static char __pyx_k_date_posted[] = "date_posted";
 static char __pyx_k_dest_path_2[] = "_dest_path";
 static char __pyx_k_hours_total[] = "hours_total";
@@ -1239,6 +1230,7 @@ static char __pyx_k_num_reviews[] = "num_reviews";
 static char __pyx_k_output_path[] = "output_path";
 static char __pyx_k_profile_url[] = "profile_url";
 static char __pyx_k_range_begin[] = "range_begin";
+static char __pyx_k_range_parts[] = "range_parts";
 static char __pyx_k_replacement[] = "replacement";
 static char __pyx_k_reports_dir[] = "reports_dir";
 static char __pyx_k_review_dict[] = "review_dict";
@@ -1280,6 +1272,7 @@ static char __pyx_k_AttributeError[] = "AttributeError";
 static char __pyx_k_No_ratings_yet[] = "No ratings yet";
 static char __pyx_k_Workshop_Items[] = "Workshop Items";
 static char __pyx_k_figure_figsize[] = "figure.figsize";
+static char __pyx_k_get_bin_ranges[] = "get_bin_ranges";
 static char __pyx_k_get_game_files[] = "get_game_files";
 static char __pyx_k_profile_badges[] = "profile_badges";
 static char __pyx_k_unicode_markup[] = "unicode_markup";
@@ -1577,6 +1570,7 @@ static PyObject *__pyx_n_s_cp500;
 static PyObject *__pyx_n_s_cp850;
 static PyObject *__pyx_n_s_cp852;
 static PyObject *__pyx_n_s_cp858;
+static PyObject *__pyx_n_s_current_min;
 static PyObject *__pyx_n_s_cursor;
 static PyObject *__pyx_kp_s_d;
 static PyObject *__pyx_kp_s_d_4;
@@ -1644,6 +1638,7 @@ static PyObject *__pyx_n_s_get;
 static PyObject *__pyx_n_s_getLogger;
 static PyObject *__pyx_n_s_get_and_describe_dataset;
 static PyObject *__pyx_n_s_get_bin;
+static PyObject *__pyx_n_s_get_bin_ranges;
 static PyObject *__pyx_n_s_get_bin_ranges_helper;
 static PyObject *__pyx_n_s_get_game_files;
 static PyObject *__pyx_n_s_get_label_values;
@@ -1703,12 +1698,14 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_make_train_test;
 static PyObject *__pyx_n_s_matplotlib_pyplot;
 static PyObject *__pyx_n_s_max;
+static PyObject *__pyx_n_s_max_2;
 static PyObject *__pyx_n_s_maxh;
 static PyObject *__pyx_n_s_maxl;
 static PyObject *__pyx_n_s_mean;
 static PyObject *__pyx_n_s_meanh;
 static PyObject *__pyx_n_s_meanl;
 static PyObject *__pyx_n_s_min;
+static PyObject *__pyx_n_s_min_2;
 static PyObject *__pyx_n_s_minh;
 static PyObject *__pyx_n_s_minl;
 static PyObject *__pyx_n_s_nbins;
@@ -1762,7 +1759,11 @@ static PyObject *__pyx_n_s_profile_url;
 static PyObject *__pyx_n_s_pymongo;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
+static PyObject *__pyx_n_s_range_2;
 static PyObject *__pyx_n_s_range_begin;
+static PyObject *__pyx_n_s_range_part;
+static PyObject *__pyx_n_s_range_parts;
+static PyObject *__pyx_n_s_range_unit;
 static PyObject *__pyx_n_s_rating;
 static PyObject *__pyx_n_s_ratingSummaryBlock;
 static PyObject *__pyx_n_s_rating_summary_block;
@@ -1858,10 +1859,11 @@ static PyObject *__pyx_pf_4util_8datasets_get_game_files(CYTHON_UNUSED PyObject 
 static PyObject *__pyx_pf_4util_8datasets_2get_review_data_for_game(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_appid, PyObject *__pyx_v_time_out, PyObject *__pyx_v_limit, PyObject *__pyx_v_wait); /* proto */
 static PyObject *__pyx_pf_4util_8datasets_5parse_appids(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_appids, PyObject *__pyx_v_logger_name); /* proto */
 static PyObject *__pyx_pf_4util_8datasets_7get_and_describe_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_file_path, PyObject *__pyx_v_report, PyObject *__pyx_v_reports_dir); /* proto */
-static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, int __pyx_v_nbins, float __pyx_v_factor); /* proto */
-static PyObject *__pyx_pf_4util_8datasets_11get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, float __pyx_v_val); /* proto */
-static PyObject *__pyx_pf_4util_8datasets_13get_label_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, CYTHON_UNUSED PyObject *__pyx_v_nbins, CYTHON_UNUSED PyObject *__pyx_v_bin_factor); /* proto */
-static PyObject *__pyx_pf_4util_8datasets_15write_arff_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dest_path, PyObject *__pyx_v_file_names, PyObject *__pyx_v_reviews, PyObject *__pyx_v_db, PyObject *__pyx_v_make_train_test, PyObject *__pyx_v_bins); /* proto */
+static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges(CYTHON_UNUSED PyObject *__pyx_self, float __pyx_v__min, float __pyx_v__max, int __pyx_v_nbins, float __pyx_v_factor); /* proto */
+static PyObject *__pyx_pf_4util_8datasets_11get_bin_ranges_helper(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, int __pyx_v_nbins, float __pyx_v_factor); /* proto */
+static PyObject *__pyx_pf_4util_8datasets_13get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, float __pyx_v_val); /* proto */
+static PyObject *__pyx_pf_4util_8datasets_15get_label_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, CYTHON_UNUSED PyObject *__pyx_v_nbins, CYTHON_UNUSED PyObject *__pyx_v_bin_factor); /* proto */
+static PyObject *__pyx_pf_4util_8datasets_17write_arff_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dest_path, PyObject *__pyx_v_file_names, PyObject *__pyx_v_reviews, PyObject *__pyx_v_db, PyObject *__pyx_v_make_train_test, PyObject *__pyx_v_bins); /* proto */
 static PyObject *__pyx_tp_new_4util_8datasets___pyx_scope_struct__get_review_data_for_game(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_float__6;
 static PyObject *__pyx_float_0_1;
@@ -1967,6 +1969,7 @@ static PyObject *__pyx_tuple__100;
 static PyObject *__pyx_tuple__102;
 static PyObject *__pyx_tuple__104;
 static PyObject *__pyx_tuple__106;
+static PyObject *__pyx_tuple__108;
 static PyObject *__pyx_codeobj__93;
 static PyObject *__pyx_codeobj__95;
 static PyObject *__pyx_codeobj__97;
@@ -1975,6 +1978,7 @@ static PyObject *__pyx_codeobj__101;
 static PyObject *__pyx_codeobj__103;
 static PyObject *__pyx_codeobj__105;
 static PyObject *__pyx_codeobj__107;
+static PyObject *__pyx_codeobj__109;
 
 /* "util/datasets.pyx":50
  * logerr = logger.error
@@ -17860,14 +17864,103 @@ static PyObject *__pyx_pf_4util_8datasets_7get_and_describe_dataset(CYTHON_UNUSE
 /* "util/datasets.pyx":986
  * 
  * 
- * cdef get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):             # <<<<<<<<<<<<<<
+ * def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:             # <<<<<<<<<<<<<<
  *     """
  *     Return list of floating point number ranges (in increments of 0.1)
  */
 
-static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float __pyx_v__min, float __pyx_v__max, struct __pyx_opt_args_4util_8datasets_get_bin_ranges *__pyx_optional_args) {
-  int __pyx_v_nbins = ((int)5);
-  float __pyx_v_factor = ((float)1.0);
+/* Python wrapper */
+static PyObject *__pyx_pw_4util_8datasets_10get_bin_ranges(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_8datasets_9get_bin_ranges[] = "\n    Return list of floating point number ranges (in increments of 0.1)\n    that correspond to each bin in the distribution.\n\n    If the bin sizes should be weighted so that they become larger as\n    they get toward the end of the scale, specify a factor.\n\n    :param _min: minimum value of the distribution\n    :type _min: float\n    :param _max: maximum value of the distribution\n    :type _max: float\n    :param nbins: number of bins into which the distribution is being\n                  sub-divided (default: 5)\n    :type nbins: int\n    :param factor: factor by which to multiply the bin sizes (default:\n                   1.0)\n    :type factor: float\n\n    :returns: list of tuples representing the minimum and maximum\n              values of each bin\n    :rtype: list\n    ";
+static PyMethodDef __pyx_mdef_4util_8datasets_10get_bin_ranges = {"get_bin_ranges", (PyCFunction)__pyx_pw_4util_8datasets_10get_bin_ranges, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_9get_bin_ranges};
+static PyObject *__pyx_pw_4util_8datasets_10get_bin_ranges(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  float __pyx_v__min;
+  float __pyx_v__max;
+  int __pyx_v_nbins;
+  float __pyx_v_factor;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_bin_ranges (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_min_2,&__pyx_n_s_max_2,&__pyx_n_s_nbins,&__pyx_n_s_factor,0};
+    PyObject* values[4] = {0,0,0,0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_min_2)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_max_2)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("get_bin_ranges", 0, 2, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nbins);
+          if (value) { values[2] = value; kw_args--; }
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_factor);
+          if (value) { values[3] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_bin_ranges") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v__min = __pyx_PyFloat_AsFloat(values[0]); if (unlikely((__pyx_v__min == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    __pyx_v__max = __pyx_PyFloat_AsFloat(values[1]); if (unlikely((__pyx_v__max == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    if (values[2]) {
+      __pyx_v_nbins = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_nbins == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_nbins = ((int)5);
+    }
+    if (values[3]) {
+      __pyx_v_factor = __pyx_PyFloat_AsFloat(values[3]); if (unlikely((__pyx_v_factor == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+    } else {
+      __pyx_v_factor = ((float)1.0);
+    }
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("get_bin_ranges", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("util.datasets.get_bin_ranges", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_4util_8datasets_9get_bin_ranges(__pyx_self, __pyx_v__min, __pyx_v__max, __pyx_v_nbins, __pyx_v_factor);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges(CYTHON_UNUSED PyObject *__pyx_self, float __pyx_v__min, float __pyx_v__max, int __pyx_v_nbins, float __pyx_v_factor) {
   float __pyx_v_i;
   PyObject *__pyx_v_range_parts = NULL;
   CYTHON_UNUSED PyObject *__pyx_v__ = NULL;
@@ -17889,14 +17982,6 @@ static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float __pyx_v__min, floa
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("get_bin_ranges", 0);
-  if (__pyx_optional_args) {
-    if (__pyx_optional_args->__pyx_n > 0) {
-      __pyx_v_nbins = __pyx_optional_args->nbins;
-      if (__pyx_optional_args->__pyx_n > 1) {
-        __pyx_v_factor = __pyx_optional_args->factor;
-      }
-    }
-  }
 
   /* "util/datasets.pyx":1020
  *     range.
@@ -18214,7 +18299,7 @@ static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float __pyx_v__min, floa
   /* "util/datasets.pyx":986
  * 
  * 
- * cdef get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):             # <<<<<<<<<<<<<<
+ * def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:             # <<<<<<<<<<<<<<
  *     """
  *     Return list of floating point number ranges (in increments of 0.1)
  */
@@ -18226,7 +18311,7 @@ static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float __pyx_v__min, floa
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_AddTraceback("util.datasets.get_bin_ranges", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = 0;
+  __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_range_parts);
   __Pyx_XDECREF(__pyx_v__);
@@ -18247,10 +18332,10 @@ static PyObject *__pyx_f_4util_8datasets_get_bin_ranges(float __pyx_v__min, floa
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4util_8datasets_10get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_8datasets_9get_bin_ranges_helper[] = "\n    Get bin ranges given a set of games, a label, the desired number of\n    bins, and the factor by which the bin sizes will be multiplied as\n    the index of the bins increase.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: prediction label\n    :type label: str\n    :param nbins: number of bins into which the distribution is being\n                  sub-divided\n    :type nbins: int\n    :param factor: factor by which to multiply the bin sizes (default:\n                   1.0)\n    :type factor: float\n\n    :returns: list of tuples representing the minimum and maximum\n              values of each bin or None if `nbins` is 0\n    :rtype: list\n\n    :raises ValueError: if `nbins` is not greater than 1\n    ";
-static PyMethodDef __pyx_mdef_4util_8datasets_10get_bin_ranges_helper = {"get_bin_ranges_helper", (PyCFunction)__pyx_pw_4util_8datasets_10get_bin_ranges_helper, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_9get_bin_ranges_helper};
-static PyObject *__pyx_pw_4util_8datasets_10get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4util_8datasets_12get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_8datasets_11get_bin_ranges_helper[] = "\n    Get bin ranges given a set of games, a label, the desired number of\n    bins, and the factor by which the bin sizes will be multiplied as\n    the index of the bins increase.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: prediction label\n    :type label: str\n    :param nbins: number of bins into which the distribution is being\n                  sub-divided\n    :type nbins: int\n    :param factor: factor by which to multiply the bin sizes (default:\n                   1.0)\n    :type factor: float\n\n    :returns: list of tuples representing the minimum and maximum\n              values of each bin or None if `nbins` is 0\n    :rtype: list\n\n    :raises ValueError: if `nbins` is not greater than 1\n    ";
+static PyMethodDef __pyx_mdef_4util_8datasets_12get_bin_ranges_helper = {"get_bin_ranges_helper", (PyCFunction)__pyx_pw_4util_8datasets_12get_bin_ranges_helper, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_11get_bin_ranges_helper};
+static PyObject *__pyx_pw_4util_8datasets_12get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
   PyObject *__pyx_v_games = 0;
   PyObject *__pyx_v_label = 0;
@@ -18329,14 +18414,14 @@ static PyObject *__pyx_pw_4util_8datasets_10get_bin_ranges_helper(PyObject *__py
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_8datasets_9get_bin_ranges_helper(__pyx_self, __pyx_v_db, __pyx_v_games, __pyx_v_label, __pyx_v_nbins, __pyx_v_factor);
+  __pyx_r = __pyx_pf_4util_8datasets_11get_bin_ranges_helper(__pyx_self, __pyx_v_db, __pyx_v_games, __pyx_v_label, __pyx_v_nbins, __pyx_v_factor);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, int __pyx_v_nbins, float __pyx_v_factor) {
+static PyObject *__pyx_pf_4util_8datasets_11get_bin_ranges_helper(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, int __pyx_v_nbins, float __pyx_v_factor) {
   PyObject *__pyx_v_values = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -18351,9 +18436,6 @@ static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED P
   PyObject *__pyx_t_9 = NULL;
   Py_ssize_t __pyx_t_10;
   PyObject *__pyx_t_11 = NULL;
-  float __pyx_t_12;
-  float __pyx_t_13;
-  struct __pyx_opt_args_4util_8datasets_get_bin_ranges __pyx_t_14;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -18490,55 +18572,85 @@ static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED P
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_n_s_min); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin_ranges); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_11 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_11);
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_n_s_min); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_6 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_6)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_6);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  if (__pyx_t_11) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (__pyx_t_6) {
+    __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   } else {
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_11 = __Pyx_PyObject_CallNoArg(__pyx_t_4); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_12 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_12 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_n_s_max); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_11 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_5);
-    if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-      __Pyx_INCREF(__pyx_t_11);
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_v_values, __pyx_n_s_max); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_8 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
+    __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
+    if (likely(__pyx_t_8)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+      __Pyx_INCREF(__pyx_t_8);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __Pyx_DECREF_SET(__pyx_t_6, function);
     }
   }
-  if (__pyx_t_11) {
-    __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_11); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (__pyx_t_8) {
+    __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_8); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   } else {
-    __pyx_t_3 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_nbins); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_8 = PyFloat_FromDouble(__pyx_v_factor); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = NULL;
+  __pyx_t_10 = 0;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+      __pyx_t_10 = 1;
+    }
+  }
+  __pyx_t_9 = PyTuple_New(4+__pyx_t_10); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_9);
+  if (__pyx_t_7) {
+    __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
+  }
+  __Pyx_GIVEREF(__pyx_t_11);
+  PyTuple_SET_ITEM(__pyx_t_9, 0+__pyx_t_10, __pyx_t_11);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_10, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_6);
+  PyTuple_SET_ITEM(__pyx_t_9, 2+__pyx_t_10, __pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_8);
+  PyTuple_SET_ITEM(__pyx_t_9, 3+__pyx_t_10, __pyx_t_8);
+  __pyx_t_11 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_6 = 0;
+  __pyx_t_8 = 0;
+  __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_9, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_13 = __pyx_PyFloat_AsFloat(__pyx_t_3); if (unlikely((__pyx_t_13 == (float)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_14.__pyx_n = 2;
-  __pyx_t_14.nbins = __pyx_v_nbins;
-  __pyx_t_14.factor = __pyx_v_factor;
-  __pyx_t_3 = __pyx_f_4util_8datasets_get_bin_ranges(__pyx_t_12, __pyx_t_13, &__pyx_t_14); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1078; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_3);
   __pyx_r = __pyx_t_3;
   __pyx_t_3 = 0;
   goto __pyx_L0;
@@ -18579,10 +18691,10 @@ static PyObject *__pyx_pf_4util_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED P
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4util_8datasets_12get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_8datasets_11get_bin[] = "\n    Return the index of the bin range in which the value falls.\n\n    :param bin_ranges: list of ranges that define each bin\n    :type bin_ranges: list of tuples representing the minimum and\n                      maximum values of a range of values\n    :param val: value\n    :type val: float\n\n    :returns: int (-1 if val not in any of the bin ranges)\n    :rtype: int\n    ";
-static PyMethodDef __pyx_mdef_4util_8datasets_12get_bin = {"get_bin", (PyCFunction)__pyx_pw_4util_8datasets_12get_bin, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_11get_bin};
-static PyObject *__pyx_pw_4util_8datasets_12get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4util_8datasets_14get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_8datasets_13get_bin[] = "\n    Return the index of the bin range in which the value falls.\n\n    :param bin_ranges: list of ranges that define each bin\n    :type bin_ranges: list of tuples representing the minimum and\n                      maximum values of a range of values\n    :param val: value\n    :type val: float\n\n    :returns: int (-1 if val not in any of the bin ranges)\n    :rtype: int\n    ";
+static PyMethodDef __pyx_mdef_4util_8datasets_14get_bin = {"get_bin", (PyCFunction)__pyx_pw_4util_8datasets_14get_bin, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_13get_bin};
+static PyObject *__pyx_pw_4util_8datasets_14get_bin(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_bin_ranges = 0;
   float __pyx_v_val;
   int __pyx_lineno = 0;
@@ -18634,14 +18746,14 @@ static PyObject *__pyx_pw_4util_8datasets_12get_bin(PyObject *__pyx_self, PyObje
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_8datasets_11get_bin(__pyx_self, __pyx_v_bin_ranges, __pyx_v_val);
+  __pyx_r = __pyx_pf_4util_8datasets_13get_bin(__pyx_self, __pyx_v_bin_ranges, __pyx_v_val);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4util_8datasets_11get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, float __pyx_v_val) {
+static PyObject *__pyx_pf_4util_8datasets_13get_bin(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_bin_ranges, float __pyx_v_val) {
   int __pyx_v_i;
   PyObject *__pyx_v_bin_range = NULL;
   int __pyx_v_almost_equal_begin;
@@ -19122,10 +19234,10 @@ static PyObject *__pyx_pf_4util_8datasets_11get_bin(CYTHON_UNUSED PyObject *__py
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4util_8datasets_14get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_8datasets_13get_label_values[] = "\n    Get all of the values for the given label in the data for the\n    given games.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: feature label\n    :type label: str\n    :param nbins: number of bins into which to split up the\n                  distribution of values\n    :type nbins: int\n    :param bin_factor: factor by which to multiply each succeeding bin\n    :type bin_factor: float\n\n    :returns: list of label values that are not equal to None or an\n              empty string\n    :rtype: list\n    ";
-static PyMethodDef __pyx_mdef_4util_8datasets_14get_label_values = {"get_label_values", (PyCFunction)__pyx_pw_4util_8datasets_14get_label_values, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_13get_label_values};
-static PyObject *__pyx_pw_4util_8datasets_14get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4util_8datasets_16get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_8datasets_15get_label_values[] = "\n    Get all of the values for the given label in the data for the\n    given games.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: feature label\n    :type label: str\n    :param nbins: number of bins into which to split up the\n                  distribution of values\n    :type nbins: int\n    :param bin_factor: factor by which to multiply each succeeding bin\n    :type bin_factor: float\n\n    :returns: list of label values that are not equal to None or an\n              empty string\n    :rtype: list\n    ";
+static PyMethodDef __pyx_mdef_4util_8datasets_16get_label_values = {"get_label_values", (PyCFunction)__pyx_pw_4util_8datasets_16get_label_values, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_15get_label_values};
+static PyObject *__pyx_pw_4util_8datasets_16get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
   PyObject *__pyx_v_games = 0;
   PyObject *__pyx_v_label = 0;
@@ -19208,14 +19320,14 @@ static PyObject *__pyx_pw_4util_8datasets_14get_label_values(PyObject *__pyx_sel
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_8datasets_13get_label_values(__pyx_self, __pyx_v_db, __pyx_v_games, __pyx_v_label, __pyx_v_nbins, __pyx_v_bin_factor);
+  __pyx_r = __pyx_pf_4util_8datasets_15get_label_values(__pyx_self, __pyx_v_db, __pyx_v_games, __pyx_v_label, __pyx_v_nbins, __pyx_v_bin_factor);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4util_8datasets_13get_label_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, CYTHON_UNUSED PyObject *__pyx_v_nbins, CYTHON_UNUSED PyObject *__pyx_v_bin_factor) {
+static PyObject *__pyx_pf_4util_8datasets_15get_label_values(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_label, CYTHON_UNUSED PyObject *__pyx_v_nbins, CYTHON_UNUSED PyObject *__pyx_v_bin_factor) {
   PyObject *__pyx_v_cursor = NULL;
   int __pyx_v_column;
   int __pyx_v_axis;
@@ -19557,10 +19669,10 @@ static PyObject *__pyx_pf_4util_8datasets_13get_label_values(CYTHON_UNUSED PyObj
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_4util_8datasets_16write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_4util_8datasets_15write_arff_file[] = "\n    Write .arff file either for a list of reviews read in from a file\n    or list of files or for both the training and test partitions in\n    the MongoDB database.\n\n    :param reviews: list of dicts with hours/review keys-value mappings\n                    representing each data-point (defaults to None)\n    :type reviews: list\n    :param db: MongoDB reviews collection (None by default)\n    :type db: collection\n    :param dest_path: path for .arff output file\n    :type dest_path: str\n    :param file_names: list of extension-less game file-names\n    :type file_names: list\n    :param make_train_test: if True, use MongoDB collection to find\n                            reviews that are from the training and test\n                            partitions and make files for them instead\n                            of making one big file (defaults to False)\n    :type make_train_test: boolean\n    :param bins: if True or a list of bin range tuples, use collapsed\n                 hours played values (if `make_train_test` was also\n                 True, then the pre-computed collapsed hours values\n                 will be used (even if a list of ranges is passed in\n                 for some reason, i.e., the bin ranges will be\n                 ignored); if not, the passed-in value must be a list\n                 of 2-tuples representing the floating-point number\n                 ranges of the bins); if False, the original,\n                 unmodified hours played values will be used (default:\n                 False)\n    :type bins: boolean or list\n\n    :returns: None\n    :rtype: None\n\n    :raises ValueError: if the arguments conflict with each other, if\n                        arguments are missing, or if various other\n                        types of issues occur\n    ";
-static PyMethodDef __pyx_mdef_4util_8datasets_16write_arff_file = {"write_arff_file", (PyCFunction)__pyx_pw_4util_8datasets_16write_arff_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_15write_arff_file};
-static PyObject *__pyx_pw_4util_8datasets_16write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_4util_8datasets_18write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_4util_8datasets_17write_arff_file[] = "\n    Write .arff file either for a list of reviews read in from a file\n    or list of files or for both the training and test partitions in\n    the MongoDB database.\n\n    :param reviews: list of dicts with hours/review keys-value mappings\n                    representing each data-point (defaults to None)\n    :type reviews: list\n    :param db: MongoDB reviews collection (None by default)\n    :type db: collection\n    :param dest_path: path for .arff output file\n    :type dest_path: str\n    :param file_names: list of extension-less game file-names\n    :type file_names: list\n    :param make_train_test: if True, use MongoDB collection to find\n                            reviews that are from the training and test\n                            partitions and make files for them instead\n                            of making one big file (defaults to False)\n    :type make_train_test: boolean\n    :param bins: if True or a list of bin range tuples, use collapsed\n                 hours played values (if `make_train_test` was also\n                 True, then the pre-computed collapsed hours values\n                 will be used (even if a list of ranges is passed in\n                 for some reason, i.e., the bin ranges will be\n                 ignored); if not, the passed-in value must be a list\n                 of 2-tuples representing the floating-point number\n                 ranges of the bins); if False, the original,\n                 unmodified hours played values will be used (default:\n                 False)\n    :type bins: boolean or list\n\n    :returns: None\n    :rtype: None\n\n    :raises ValueError: if the arguments conflict with each other, if\n                        arguments are missing, or if various other\n                        types of issues occur\n    ";
+static PyMethodDef __pyx_mdef_4util_8datasets_18write_arff_file = {"write_arff_file", (PyCFunction)__pyx_pw_4util_8datasets_18write_arff_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_4util_8datasets_17write_arff_file};
+static PyObject *__pyx_pw_4util_8datasets_18write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_dest_path = 0;
   PyObject *__pyx_v_file_names = 0;
   PyObject *__pyx_v_reviews = 0;
@@ -19670,7 +19782,7 @@ static PyObject *__pyx_pw_4util_8datasets_16write_arff_file(PyObject *__pyx_self
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_4util_8datasets_15write_arff_file(__pyx_self, __pyx_v_dest_path, __pyx_v_file_names, __pyx_v_reviews, __pyx_v_db, __pyx_v_make_train_test, __pyx_v_bins);
+  __pyx_r = __pyx_pf_4util_8datasets_17write_arff_file(__pyx_self, __pyx_v_dest_path, __pyx_v_file_names, __pyx_v_reviews, __pyx_v_db, __pyx_v_make_train_test, __pyx_v_bins);
 
   /* "util/datasets.pyx":1155
  * 
@@ -19685,7 +19797,7 @@ static PyObject *__pyx_pw_4util_8datasets_16write_arff_file(PyObject *__pyx_self
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_4util_8datasets_15write_arff_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dest_path, PyObject *__pyx_v_file_names, PyObject *__pyx_v_reviews, PyObject *__pyx_v_db, PyObject *__pyx_v_make_train_test, PyObject *__pyx_v_bins) {
+static PyObject *__pyx_pf_4util_8datasets_17write_arff_file(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_dest_path, PyObject *__pyx_v_file_names, PyObject *__pyx_v_reviews, PyObject *__pyx_v_db, PyObject *__pyx_v_make_train_test, PyObject *__pyx_v_bins) {
   PyObject *__pyx_v_ARFF_BASE = NULL;
   PyObject *__pyx_v_TIMEF = NULL;
   PyObject *__pyx_v__file_names = NULL;
@@ -22687,6 +22799,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cp850, __pyx_k_cp850, sizeof(__pyx_k_cp850), 0, 0, 1, 1},
   {&__pyx_n_s_cp852, __pyx_k_cp852, sizeof(__pyx_k_cp852), 0, 0, 1, 1},
   {&__pyx_n_s_cp858, __pyx_k_cp858, sizeof(__pyx_k_cp858), 0, 0, 1, 1},
+  {&__pyx_n_s_current_min, __pyx_k_current_min, sizeof(__pyx_k_current_min), 0, 0, 1, 1},
   {&__pyx_n_s_cursor, __pyx_k_cursor, sizeof(__pyx_k_cursor), 0, 0, 1, 1},
   {&__pyx_kp_s_d, __pyx_k_d, sizeof(__pyx_k_d), 0, 0, 1, 0},
   {&__pyx_kp_s_d_4, __pyx_k_d_4, sizeof(__pyx_k_d_4), 0, 0, 1, 0},
@@ -22754,6 +22867,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_getLogger, __pyx_k_getLogger, sizeof(__pyx_k_getLogger), 0, 0, 1, 1},
   {&__pyx_n_s_get_and_describe_dataset, __pyx_k_get_and_describe_dataset, sizeof(__pyx_k_get_and_describe_dataset), 0, 0, 1, 1},
   {&__pyx_n_s_get_bin, __pyx_k_get_bin, sizeof(__pyx_k_get_bin), 0, 0, 1, 1},
+  {&__pyx_n_s_get_bin_ranges, __pyx_k_get_bin_ranges, sizeof(__pyx_k_get_bin_ranges), 0, 0, 1, 1},
   {&__pyx_n_s_get_bin_ranges_helper, __pyx_k_get_bin_ranges_helper, sizeof(__pyx_k_get_bin_ranges_helper), 0, 0, 1, 1},
   {&__pyx_n_s_get_game_files, __pyx_k_get_game_files, sizeof(__pyx_k_get_game_files), 0, 0, 1, 1},
   {&__pyx_n_s_get_label_values, __pyx_k_get_label_values, sizeof(__pyx_k_get_label_values), 0, 0, 1, 1},
@@ -22813,12 +22927,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_make_train_test, __pyx_k_make_train_test, sizeof(__pyx_k_make_train_test), 0, 0, 1, 1},
   {&__pyx_n_s_matplotlib_pyplot, __pyx_k_matplotlib_pyplot, sizeof(__pyx_k_matplotlib_pyplot), 0, 0, 1, 1},
   {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
+  {&__pyx_n_s_max_2, __pyx_k_max_2, sizeof(__pyx_k_max_2), 0, 0, 1, 1},
   {&__pyx_n_s_maxh, __pyx_k_maxh, sizeof(__pyx_k_maxh), 0, 0, 1, 1},
   {&__pyx_n_s_maxl, __pyx_k_maxl, sizeof(__pyx_k_maxl), 0, 0, 1, 1},
   {&__pyx_n_s_mean, __pyx_k_mean, sizeof(__pyx_k_mean), 0, 0, 1, 1},
   {&__pyx_n_s_meanh, __pyx_k_meanh, sizeof(__pyx_k_meanh), 0, 0, 1, 1},
   {&__pyx_n_s_meanl, __pyx_k_meanl, sizeof(__pyx_k_meanl), 0, 0, 1, 1},
   {&__pyx_n_s_min, __pyx_k_min, sizeof(__pyx_k_min), 0, 0, 1, 1},
+  {&__pyx_n_s_min_2, __pyx_k_min_2, sizeof(__pyx_k_min_2), 0, 0, 1, 1},
   {&__pyx_n_s_minh, __pyx_k_minh, sizeof(__pyx_k_minh), 0, 0, 1, 1},
   {&__pyx_n_s_minl, __pyx_k_minl, sizeof(__pyx_k_minl), 0, 0, 1, 1},
   {&__pyx_n_s_nbins, __pyx_k_nbins, sizeof(__pyx_k_nbins), 0, 0, 1, 1},
@@ -22872,7 +22988,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_pymongo, __pyx_k_pymongo, sizeof(__pyx_k_pymongo), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
+  {&__pyx_n_s_range_2, __pyx_k_range_2, sizeof(__pyx_k_range_2), 0, 0, 1, 1},
   {&__pyx_n_s_range_begin, __pyx_k_range_begin, sizeof(__pyx_k_range_begin), 0, 0, 1, 1},
+  {&__pyx_n_s_range_part, __pyx_k_range_part, sizeof(__pyx_k_range_part), 0, 0, 1, 1},
+  {&__pyx_n_s_range_parts, __pyx_k_range_parts, sizeof(__pyx_k_range_parts), 0, 0, 1, 1},
+  {&__pyx_n_s_range_unit, __pyx_k_range_unit, sizeof(__pyx_k_range_unit), 0, 0, 1, 1},
   {&__pyx_n_s_rating, __pyx_k_rating, sizeof(__pyx_k_rating), 0, 0, 1, 1},
   {&__pyx_n_s_ratingSummaryBlock, __pyx_k_ratingSummaryBlock, sizeof(__pyx_k_ratingSummaryBlock), 0, 0, 1, 1},
   {&__pyx_n_s_rating_summary_block, __pyx_k_rating_summary_block, sizeof(__pyx_k_rating_summary_block), 0, 0, 1, 1},
@@ -23910,6 +24030,18 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__98);
   __pyx_codeobj__99 = (PyObject*)__Pyx_PyCode_New(3, 0, 22, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__98, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_and_describe_dataset, 857, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__99)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 857; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
+  /* "util/datasets.pyx":986
+ * 
+ * 
+ * def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:             # <<<<<<<<<<<<<<
+ *     """
+ *     Return list of floating point number ranges (in increments of 0.1)
+ */
+  __pyx_tuple__100 = PyTuple_Pack(12, __pyx_n_s_min_2, __pyx_n_s_max_2, __pyx_n_s_nbins, __pyx_n_s_factor, __pyx_n_s_i, __pyx_n_s_range_parts, __pyx_n_s__67, __pyx_n_s_range_unit, __pyx_n_s_bin_ranges, __pyx_n_s_current_min, __pyx_n_s_range_part, __pyx_n_s_range_2); if (unlikely(!__pyx_tuple__100)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__100);
+  __Pyx_GIVEREF(__pyx_tuple__100);
+  __pyx_codeobj__101 = (PyObject*)__Pyx_PyCode_New(4, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__100, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_bin_ranges, 986, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__101)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
   /* "util/datasets.pyx":1043
  * 
  * 
@@ -23917,10 +24049,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                           float factor) -> list:
  *     """
  */
-  __pyx_tuple__100 = PyTuple_Pack(6, __pyx_n_s_db, __pyx_n_s_games, __pyx_n_s_label, __pyx_n_s_nbins, __pyx_n_s_factor, __pyx_n_s_values); if (unlikely(!__pyx_tuple__100)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__100);
-  __Pyx_GIVEREF(__pyx_tuple__100);
-  __pyx_codeobj__101 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__100, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_bin_ranges_helper, 1043, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__101)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__102 = PyTuple_Pack(6, __pyx_n_s_db, __pyx_n_s_games, __pyx_n_s_label, __pyx_n_s_nbins, __pyx_n_s_factor, __pyx_n_s_values); if (unlikely(!__pyx_tuple__102)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__102);
+  __Pyx_GIVEREF(__pyx_tuple__102);
+  __pyx_codeobj__103 = (PyObject*)__Pyx_PyCode_New(5, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__102, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_bin_ranges_helper, 1043, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__103)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "util/datasets.pyx":1081
  * 
@@ -23929,10 +24061,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Return the index of the bin range in which the value falls.
  */
-  __pyx_tuple__102 = PyTuple_Pack(6, __pyx_n_s_bin_ranges, __pyx_n_s_val, __pyx_n_s_i, __pyx_n_s_bin_range, __pyx_n_s_almost_equal_begin, __pyx_n_s_almost_equal_end); if (unlikely(!__pyx_tuple__102)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__102);
-  __Pyx_GIVEREF(__pyx_tuple__102);
-  __pyx_codeobj__103 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__102, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_bin, 1081, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__103)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__104 = PyTuple_Pack(6, __pyx_n_s_bin_ranges, __pyx_n_s_val, __pyx_n_s_i, __pyx_n_s_bin_range, __pyx_n_s_almost_equal_begin, __pyx_n_s_almost_equal_end); if (unlikely(!__pyx_tuple__104)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__104);
+  __Pyx_GIVEREF(__pyx_tuple__104);
+  __pyx_codeobj__105 = (PyObject*)__Pyx_PyCode_New(2, 0, 6, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__104, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_bin, 1081, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__105)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "util/datasets.pyx":1119
  * 
@@ -23941,10 +24073,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                      bin_factor: float = 1.0) -> list:
  *     """
  */
-  __pyx_tuple__104 = PyTuple_Pack(9, __pyx_n_s_db, __pyx_n_s_games, __pyx_n_s_label, __pyx_n_s_nbins, __pyx_n_s_bin_factor, __pyx_n_s_cursor, __pyx_n_s_column, __pyx_n_s_axis, __pyx_n_s_doc); if (unlikely(!__pyx_tuple__104)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__104);
-  __Pyx_GIVEREF(__pyx_tuple__104);
-  __pyx_codeobj__105 = (PyObject*)__Pyx_PyCode_New(5, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__104, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_label_values, 1119, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__105)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__106 = PyTuple_Pack(9, __pyx_n_s_db, __pyx_n_s_games, __pyx_n_s_label, __pyx_n_s_nbins, __pyx_n_s_bin_factor, __pyx_n_s_cursor, __pyx_n_s_column, __pyx_n_s_axis, __pyx_n_s_doc); if (unlikely(!__pyx_tuple__106)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__106);
+  __Pyx_GIVEREF(__pyx_tuple__106);
+  __pyx_codeobj__107 = (PyObject*)__Pyx_PyCode_New(5, 0, 9, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__106, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_label_values, 1119, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__107)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "util/datasets.pyx":1155
  * 
@@ -23953,10 +24085,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                     db: collection = None, make_train_test: bool = False,
  *                     bins=False) -> None:
  */
-  __pyx_tuple__106 = PyTuple_Pack(21, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_db, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_dest_path_2, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f); if (unlikely(!__pyx_tuple__106)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__106);
-  __Pyx_GIVEREF(__pyx_tuple__106);
-  __pyx_codeobj__107 = (PyObject*)__Pyx_PyCode_New(6, 0, 21, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__106, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_write_arff_file, 1155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__107)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__108 = PyTuple_Pack(21, __pyx_n_s_dest_path, __pyx_n_s_file_names, __pyx_n_s_reviews, __pyx_n_s_db, __pyx_n_s_make_train_test, __pyx_n_s_bins, __pyx_n_s_ARFF_BASE, __pyx_n_s_TIMEF, __pyx_n_s_file_names_2, __pyx_n_s_partition, __pyx_n_s_reviews_lines, __pyx_n_s_game_docs, __pyx_n_s_game_doc, __pyx_n_s_review, __pyx_n_s_hours, __pyx_n_s_suffix, __pyx_n_s_replacement, __pyx_n_s_dest_path_2, __pyx_n_s_out, __pyx_n_s_rd, __pyx_n_s_f); if (unlikely(!__pyx_tuple__108)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__108);
+  __Pyx_GIVEREF(__pyx_tuple__108);
+  __pyx_codeobj__109 = (PyObject*)__Pyx_PyCode_New(6, 0, 21, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__108, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_write_arff_file, 1155, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__109)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -24648,6 +24780,18 @@ PyMODINIT_FUNC PyInit_datasets(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_and_describe_dataset, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 857; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
+  /* "util/datasets.pyx":986
+ * 
+ * 
+ * def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:             # <<<<<<<<<<<<<<
+ *     """
+ *     Return list of floating point number ranges (in increments of 0.1)
+ */
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_10get_bin_ranges, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin_ranges, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 986; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
   /* "util/datasets.pyx":1043
  * 
  * 
@@ -24655,7 +24799,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
  *                           float factor) -> list:
  *     """
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_10get_bin_ranges_helper, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_12get_bin_ranges_helper, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin_ranges_helper, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1043; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24667,7 +24811,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
  *     """
  *     Return the index of the bin range in which the value falls.
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_12get_bin, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_14get_bin, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_bin, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1081; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24679,7 +24823,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
  *                      bin_factor: float = 1.0) -> list:
  *     """
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_14get_label_values, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_16get_label_values, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_label_values, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1119; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -24691,7 +24835,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
  *                     db: collection = None, make_train_test: bool = False,
  *                     bins=False) -> None:
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_16write_arff_file, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_4util_8datasets_18write_arff_file, NULL, __pyx_n_s_util_datasets); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_write_arff_file, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1155; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
