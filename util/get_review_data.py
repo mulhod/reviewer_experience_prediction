@@ -19,33 +19,34 @@ def main():
                                   'APPID1,APPID2,...]',
                             description='Make review data files for each game'
                                         ' in the APPID_DICT, which is '
-                                        'specified in the __init__.py module '
-                                        'in the "data" directory. A specific '
+                                        'specified in the `__init__.py` file '
+                                        'in the `data` package. A specific '
                                         'list of games or game IDs (same as '
-                                        '"appid") can also be specified '
+                                        '`appid`) can also be specified '
                                         'instead, but they must map to games '
-                                        'in APPID_DICT.',
+                                        'in `APPID_DICT`.',
                             formatter_class=ArgumentDefaultsHelpFormatter)
     _add_arg = parser.add_argument
     _add_arg('--games',
-             help='comma-separated list of game names (underscores replacing '
+             help='Comma-separated list of game names (underscores replacing '
                   'all spaces) for which to generate review data files (all '
-                  'games should be included in APPID_DICT)',
+                  'games should be included in `APPID_DICT`)',
              type=str,
              default='')
     _add_arg('--appids',
-             help='comma-separated list of game IDs for which to generate '
+             help='Comma-separated list of game IDs for which to generate '
                   'review data files (all IDs should map to games in '
-                  'APPID_DICT) (can be specified instead of the game names)',
+                  '`APPID_DICT`) (can be specified instead of the game '
+                  'names).',
              type=str,
              default='')
     _add_arg('--wait',
-             help='amount of time in seconds to wait between making requests '
-                  'for pages',
+             help='Amount of time in seconds to wait between making requests '
+                  'for pages.',
              type=int,
              default=30)
     _add_arg('--log_file_path', '-log',
-             help='path for log file',
+             help='Path for log file',
              type=str,
              default=join(project_dir, 'logs', 'replog_get_review_data.txt'))
     args = parser.parse_args()
@@ -112,7 +113,7 @@ def main():
         with open(out_path, 'w') as jsonlines_file:
             jsonlines_file_write = jsonlines_file.write
             for review in get_review_data_for_game(APPID_DICT[game], time_out=10.0,
-                                                   wait=args.wait):
+                                                   wait=float(args.wait)):
                 jsonlines_file_write('{0}\n'.format(dumps(review)))
                 if flush_to_file == 0:
                     jsonlines_file.flush()

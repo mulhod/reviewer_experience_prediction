@@ -135,8 +135,9 @@ class RunExperiments:
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
                  prediction_label: str, objective: str, logger: logging.RootLogger,
-                 no_nlp_features=False, bin_ranges=None, max_test_samples=0,
-                 max_rounds=0, majority_baseline=True):
+                 no_nlp_features: bool = False, bin_ranges: list = None,
+                 max_test_samples: int = 0, max_rounds: int = 0,
+                 majority_baseline: bool = True) -> 'RunExperiments':
         """
         Initialize class.
 
@@ -157,7 +158,7 @@ class RunExperiments:
         :type samples_per_round: int
         :param non_nlp_features: list of non-NLP features to add into
                                  the feature dictionaries 
-        :type non_nlp_features: list of str
+        :type non_nlp_features: list
         :param prediction_label: feature to predict
         :type prediction_label: str
         :param objective: objective function to use in ranking the runs
@@ -165,12 +166,12 @@ class RunExperiments:
         :param logger: logger instance
         :type logger: logging.RootLogger
         :param no_nlp_features: leave out NLP features
-        :type no_nlp_features: boolean
+        :type no_nlp_features: bool
         :param bin_ranges: list of tuples representing the maximum and
                            minimum values corresponding to bins (for
                            splitting up the distribution of prediction
                            label values)
-        :type bin_ranges: None or list of tuple
+        :type bin_ranges: list or None
         :param max_test_samples: limit for the number of test samples
                                  (defaults to 0 for no limit)
         :type max_test_samples: int
@@ -180,8 +181,8 @@ class RunExperiments:
         :param majority_baseline: evaluate a majority baseline model
         :type majority_baseline: bool
 
-        :returns: instance of IncrementalLearning class
-        :rtype: IncrementalLearning
+        :returns: instance of RunExperiments class
+        :rtype: RunExperiments
 
         :raises: ValueError
         """
@@ -345,7 +346,7 @@ class RunExperiments:
                                 .sort(self.sorting_args))
         self.training_cursor.batch_size = self.batch_size
 
-    def get_all_features(self, review_doc: dict):
+    def get_all_features(self, review_doc: dict) -> dict:
         """
         Get all the features in a review document and put them together
         in a dictionary. If `self.no_nlp_features` is true, leave out
@@ -383,10 +384,11 @@ class RunExperiments:
                  if (feat in self.__possible_non_nlp_features__
                      and val and val != self.__nan__)})
 
-        # Convert prediction label if `self.bin_ranges` is specified
-        # and the prediction label is in the features dictionary;
-        # if the prediction label is not in the dictionary, return
-        _label = features.get(self.prediction_label)
+        # Convert prediction label vale if `self.bin_ranges` is
+        # specified and the prediction label is in the features
+        # dictionary; if the prediction label is not in the
+        # dictionary, return
+        _label = float(features.get(self.prediction_label))
         if _label:
             # If `self.bin_ranges` was specified, convert the value of the
             # prediction label (if present) to the corresponding bin
@@ -400,13 +402,13 @@ class RunExperiments:
         _update({self.__id_string__: _get(self.__id_string__)})
         return features
 
-    def get_data(self, review_doc: dict):
+    def get_data(self, review_doc: dict) -> dict:
         """
         Collect data from a MongoDB review document and return it in
         format needed for DictVectorizer.
 
         :param review_doc: document from the MongoDB reviews collection
-        :type review_doc: 
+        :type review_doc: dict
 
         :returns: training/test sample
         :rtype: dict or None
@@ -531,6 +533,7 @@ class RunExperiments:
         """
         Evaluate the majority baseline model predictions.
 
+        :returns: None
         :rtype: None
         """
 
@@ -546,13 +549,13 @@ class RunExperiments:
             stats_dict.update({self.__bin_ranges__: self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
-    def generate_majority_baseline_report(self, output_path) -> None:
+    def generate_majority_baseline_report(self, output_path: str) -> None:
         """
         Generate a CSV file reporting on the performance of the
         majority baseline model.
 
         :param output_path: path to destination directory
-        :type str:
+        :type: str
 
         :returns: None
         :rtype: None
@@ -562,8 +565,8 @@ class RunExperiments:
          .to_csv(join(output_path, self.__majority_baseline_report_name__),
                  index=False))
 
-    def generate_learning_reports(self, output_path,
-                                  ordering='objective_last_round') -> None:
+    def generate_learning_reports(self, output_path: str,
+                                  ordering: str = 'objective_last_round') -> None:
         """
         Generate experimental reports for each run represented in the
         lists of input dataframes.
@@ -578,6 +581,7 @@ class RunExperiments:
                          `ORDERINGS`)
         :type ordering: str
 
+        :returns: None
         :rtype: None
         """
 
@@ -594,14 +598,14 @@ class RunExperiments:
                                                                i + 1)),
                       index=False)
 
-    def convert_value_to_bin(self, val) -> int:
+    def convert_value_to_bin(self, val: float) -> int:
         """
-        Conver the value to the index of the bin in which it resides.
+        Convert the value to the index of the bin in which it resides.
 
-        :param val: 
-        :type val: int or float
+        :param val: raw value
+        :type val: float
 
-        :returns: index of bin containg value
+        :returns: index of bin containing value
         :rtype: int
         """
 
@@ -609,16 +613,16 @@ class RunExperiments:
             return val
         return get_bin(self.bin_ranges, val)
 
-    def make_printable_confusion_matrix(self, y_preds) -> tuple:
+    def make_printable_confusion_matrix(self, y_preds: np.array) -> tuple:
         """
         Produce a printable confusion matrix to use in the evaluation
         report.
 
-        :param y_preds: array-like of predicted labels
-        :type y_preds: array-like
+        :param y_preds: array of predicted labels
+        :type y_preds: np.array
 
-        :returns: (printable confusion matrix: str, confusion matrix:
-                  np.ndarray)
+        :returns: tuple consisting of a confusion matrix string and a
+                  confusion matrix multi-dimensional array
         :rtype: tuple
         """
 
@@ -631,16 +635,16 @@ class RunExperiments:
 
         return res, cnfmat
 
-    def fit_preds_in_scale(self, y_preds):
+    def fit_preds_in_scale(self, y_preds: np.array) -> np.array:
         """
         Force values at either end of the scale to fit within the scale
         by adding to or truncating the values.
 
-        :param y_preds: array-like of predicted labels
-        :type y_preds: array-like
+        :param y_preds: array of predicted labels
+        :type y_preds: np.array
 
-        :returns: array of prediction labels
-        :rtype: array-like
+        :returns: array of predicted labels
+        :rtype: np.array
         """
 
         # Get low/high ends of the scale
@@ -658,13 +662,13 @@ class RunExperiments:
 
         return y_preds
 
-    def get_stats(self, y_preds) -> dict:
+    def get_stats(self, y_preds: np.array) -> dict:
         """
         Get some statistics about the model's performance on the test
         set.
 
-        :param y_preds: array-like of predicted labels
-        :type y_preds: array-like
+        :param y_preds: array of predicted labels
+        :type y_preds: np.array
 
         :returns: statistics dictionary
         :rtype: dict
@@ -754,7 +758,7 @@ class RunExperiments:
                                        reverse=True)]
 
     def get_sorted_features_for_learner(self, learner,
-                                        filter_zero_features=True) -> list:
+                                        filter_zero_features: bool = True) -> list:
         """
         Get the best-performing features in a learner (excluding
         MiniBatchKMeans).
@@ -811,7 +815,7 @@ class RunExperiments:
 
         return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
 
-    def store_sorted_features(self, model_weights_path):
+    def store_sorted_features(self, model_weights_path: str) -> None:
         """
         Store files with sorted lists of features and their associated
         coefficients from each model (for which introspection like this
@@ -820,11 +824,9 @@ class RunExperiments:
         :param model_weights_path: path to directory for model weights
                                    files
         :type model_weights_path: str
-        :param : 
-        :type : 
 
-        :returns: 
-        :rtype: 
+        :returns: None
+        :rtype: None
         """
 
         makedirs(model_weights_path, exist_ok=True)
@@ -869,6 +871,7 @@ class RunExperiments:
         """
         Do learning rounds.
 
+        :returns: None
         :rtype: None
         """
 
@@ -957,6 +960,7 @@ class RunExperiments:
         """
         Do rounds of learning.
 
+        :returns: None
         :rtype: None
         """
 

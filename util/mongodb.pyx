@@ -5,7 +5,7 @@
 Module of code related to the MongoDB database that holds all of the
 review data.
 
-The insert_train_test_reviews function gets all suitable,
+The `insert_train_test_reviews` function gets all suitable,
 English-language reviews for a given data-set (at the provided
 file-path) and inserts them into the the MongoDB database
 ('reviews_project') under the 'reviews' collection.
@@ -48,14 +48,15 @@ logerr = logger.error
 # BSON encoding
 bson_encode = BSON.encode
 
-def connect_to_db(host='localhost', port=27017, tries=10) -> collection:
+def connect_to_db(host: str = 'localhost', port: int = 27017,
+                  tries: int = 10) -> collection:
     """
     Connect to database and return a collection object.
 
     :param host: host-name of MongoDB server
     :type host: str
     :param port: Mongo database port
-    :type port: int (or str)
+    :type port: int
     :param tries: number of times to try to connect client (default:
                   10)
     :type tries: int
@@ -77,10 +78,8 @@ def connect_to_db(host='localhost', port=27017, tries=10) -> collection:
                 exit(1)
             else:
                 logwarn('Unable to connect client to Mongo server at {0}. '
-                        'Will try {1} more time{}...'.format(connection_string,
-                                                             tries,
-                                                             's' if tries > 1
-                                                                 else ''))
+                        'Will try {1} more time{}...'
+                        .format(connection_string, tries, 's' if tries > 1 else ''))
 
     db = connection['reviews_project']
     return db['reviews']
@@ -132,9 +131,10 @@ def create_game_cursor(db: collection, game_id: str, data_partition: str,
 
 
 def insert_train_test_reviews(db: collection, file_path: str, int max_size,
-                              float percent_train, bins=0, bin_factor=1.0,
-                              describe=False, just_describe=False,
-                              reports_dir=None) -> None:
+                              float percent_train, bins: int = 0,
+                              bin_factor: float = 1.0, describe: bool = False,
+                              just_describe: bool = False,
+                              reports_dir: str = None) -> None:
     """
     Insert training/test set reviews into the MongoDB database and
     optionally generate a report and graphs describing the filtering
@@ -149,7 +149,7 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
     :type max_size: int
     :param percent_train: percent of training/test combination that
                           should be reserved for the training set
-    :type percent_train: float/int
+    :type percent_train: float
     :param bins: number of bins in which to sub-divide the hours played
                  values (defaults to 0, in which case the values will
                  be left as they are)
@@ -290,7 +290,7 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
 
 cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
                                     rdicts: list, game: str, appid: str,
-                                    partition_id: str, bins=False):
+                                    partition_id: str, bins: bool = False):
     """
     Add insert operations to a bulk writer.
 
@@ -347,7 +347,7 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
 
 
 def update_db(db_update, _id: ObjectId, nlp_feats: dict,
-              binarized_nlp_feats=True) -> None:
+              binarized_nlp_feats: bool = True) -> None:
     """
     Update Mongo database document with extracted NLP features and keys
     related to whether or not the NLP features have been binarized and
@@ -398,8 +398,8 @@ def generate_test_id_strings_labels_dict(db: collection, label: str,
     :type db: collection
     :param label: label used for prediction
     :type label: str
-    :param games: list or set of game IDs
-    :type games: list/set
+    :param games: list of game IDs
+    :type games: list
 
     :returns: tuple consisting of a dictionary of ID strings mapped to
               labels and a Counter object representing the frequency
@@ -445,8 +445,8 @@ def evenly_distributed_test_samples(db: collection, label: str, games: list) -> 
     :type db: collection
     :param label: label used for prediction
     :type label: str
-    :param games: list or set of game IDs
-    :type games: list/set
+    :param games: list of game IDs
+    :type games: list
 
     :yields: ID string
     :ytype: str

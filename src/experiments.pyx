@@ -86,7 +86,7 @@ VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
 
 
 def find_default_param_grid(learner: str,
-                            param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
+                            param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 

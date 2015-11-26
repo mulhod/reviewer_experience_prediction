@@ -59,7 +59,7 @@ class Review(object):
     spaCy_annotations = None
     spaCy_sents = None
 
-    def __init__(self, review_text: str, lower=True) -> Review:
+    def __init__(self, review_text: str, lower: bool = True) -> 'Review':
         """
         Initialization method.
 
@@ -90,10 +90,13 @@ class Review(object):
             spaCy_sents_append([self.spaCy_annotations[i] for i in range(*_range)])
         self.get_token_features_from_spaCy()
 
-    def normalize(self):
+    def normalize(self) -> None:
         """
         Perform text preprocessing, i.e., lower-casing, etc., to
         generate the norm attribute.
+
+        :returns: None
+        :rtype: None
         """
 
         # Lower-case text if self.lower is True
@@ -149,6 +152,9 @@ class Review(object):
         """
         Get tokens-related features from spaCy's text annotations,
         including Brown corpus cluster IDs.
+
+        :returns: None
+        :rtype: None
         """
 
         cluster_ids = []
@@ -161,7 +167,8 @@ class Review(object):
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
 
-def extract_features_from_review(_review: Review, lowercase_cngrams=False) -> dict:
+def extract_features_from_review(_review: Review,
+                                 lowercase_cngrams: bool = False) -> dict:
     """
     Extract word/character n-gram, length, Brown corpus cluster ID,
     and syntactic dependency features from a Review object and return
@@ -184,7 +191,7 @@ def extract_features_from_review(_review: Review, lowercase_cngrams=False) -> di
     :rtype: dict
     """
 
-    def generate_ngram_fdist(_min=1, _max=2) -> Counter:
+    def generate_ngram_fdist(_min: int = 1, _max: int = 2) -> Counter:
         """
         Generate frequency distribution for the tokens in the text.
 
@@ -214,7 +221,7 @@ def extract_features_from_review(_review: Review, lowercase_cngrams=False) -> di
 
         return ngram_counter
 
-    def generate_cngram_fdist(_min=2, _max=5) -> Counter:
+    def generate_cngram_fdist(_min: int = 2, _max: int = 5) -> Counter:
         """
         Generate frequency distribution for the characters in the text.
 
@@ -315,7 +322,7 @@ def extract_features_from_review(_review: Review, lowercase_cngrams=False) -> di
     return feats
 
 
-def get_nlp_features_from_db(db: collection, _id: ObjectId):
+def get_nlp_features_from_db(db: collection, _id: ObjectId) -> dict:
     """
     Collect the NLP features from the Mongo database collection for a
     given review and return the decoded value.
@@ -325,13 +332,14 @@ def get_nlp_features_from_db(db: collection, _id: ObjectId):
     :param _id: MongoDB document's ObjectId
     :type _id: ObjectId
 
-    :returns: dict if features were found; None otherwise
-    :rtype: dict or None
+    :returns: dictionary of features if features were found; otherwise,
+              an empty dictionary
+    :rtype: dict
     """
 
     nlp_feats_doc = db.find_one({'_id': _id}, {'_id': 0, 'nlp_features': 1})
     return (bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc
-                                                           else None)
+                                                           else {})
 
 
 def get_steam_features_from_db(get_feat) -> dict:
@@ -389,11 +397,10 @@ def binarize_nlp_features(nlp_features: dict) -> dict:
 
 
 def extract_nlp_features_into_db(db: collection, data_partition: str,
-                                 game_id: str,
-                                 reuse_nlp_feats=True,
-                                 use_binarized_nlp_feats=True,
-                                 lowercase_text=True,
-                                 lowercase_cngrams=False) -> None:
+                                 game_id: str, reuse_nlp_feats: bool = True,
+                                 use_binarized_nlp_feats: bool = True,
+                                 lowercase_text: bool = True,
+                                 lowercase_cngrams: bool = False) -> None:
     """
     Extract NLP features from reviews in the Mongo database and write
     the features to the database if features weren't already added and

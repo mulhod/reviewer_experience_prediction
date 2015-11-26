@@ -1102,7 +1102,7 @@ static PyObject *__pyx_codeobj__16;
  * 
  * 
  * def find_default_param_grid(learner: str,             # <<<<<<<<<<<<<<
- *                             param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
+ *                             param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
  *     """
  */
 
@@ -1413,7 +1413,7 @@ static PyObject *__pyx_pf_3src_11experiments_find_default_param_grid(CYTHON_UNUS
  * 
  * 
  * def find_default_param_grid(learner: str,             # <<<<<<<<<<<<<<
- *                             param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
+ *                             param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
  *     """
  */
 
@@ -3131,7 +3131,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  * def find_default_param_grid(learner: str,             # <<<<<<<<<<<<<<
- *                             param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
+ *                             param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
  *     """
  */
   __pyx_tuple__9 = PyTuple_Pack(4, __pyx_n_s_learner, __pyx_n_s_param_grids_dict, __pyx_n_s_key_cls, __pyx_n_s_grid); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -4553,7 +4553,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":89
  * 
  * def find_default_param_grid(learner: str,
- *                             param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:             # <<<<<<<<<<<<<<
+ *                             param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:             # <<<<<<<<<<<<<<
  *     """
  *     Finds the default parameter grid for the specified learner.
  */
@@ -4567,7 +4567,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  * 
  * 
  * def find_default_param_grid(learner: str,             # <<<<<<<<<<<<<<
- *                             param_grids_dict=DEFAULT_PARAM_GRIDS) -> dict:
+ *                             param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
  *     """
  */
   __pyx_t_8 = PyCFunction_NewEx(&__pyx_mdef_3src_11experiments_1find_default_param_grid, NULL, __pyx_n_s_src_experiments); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 88; __pyx_clineno = __LINE__; goto __pyx_L1_error;}

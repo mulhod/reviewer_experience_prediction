@@ -27,7 +27,7 @@ def main(argv=None):
 
     # Connect to MongoDB database
     print('Connecting to MongoDB database at {0}:{1}...'
-          .format(args.mongodb_host, args.mongodb_port), file=sys.stderr)
+          .format(host=args.mongodb_host, port=args.mongodb_port), file=sys.stderr)
     db = connect_to_db(args.mongodb_host, args.mongodb_port)
 
     # Create index on 'steam_id_number' so that cursors can be sorted

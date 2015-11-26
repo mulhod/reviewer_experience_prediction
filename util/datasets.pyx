@@ -83,7 +83,8 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
     return game_files
 
 
-def get_review_data_for_game(appid: str, time_out=10.0, limit=-1, wait=10) -> dict:
+def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1,
+                             wait: float = 10.0) -> dict:
     """
     Generate dictionaries for each review for a given game.
 
@@ -94,14 +95,15 @@ def get_review_data_for_game(appid: str, time_out=10.0, limit=-1, wait=10) -> di
 
     :param appid: ID corresponding to a given game
     :type appid: str
-    :param timeout: amount of time allowed to go by without hearing
-                    response while using requests.get() method
-    :type timeout: float
-    :param limit: the maximum number of reviews to collect
-    :type limit: int (default: -1, which signifies no limit)
+    :param time_out: amount of time allowed to go by without hearing
+                     response while using requests.get() method
+    :type time_out: float
+    :param limit: the maximum number of reviews to collect (defaults to
+                  -1, which signifies no limit)
+    :type limit: int
     :param wait: amount of time to wait between requesting different
                  pages on the Steam website
-    :type wait: int/float
+    :type wait: float
 
     :yields: dictionary with keys for various pieces of data related to
              a single review, including the review itself, the number
@@ -801,7 +803,7 @@ def get_review_data_for_game(appid: str, time_out=10.0, limit=-1, wait=10) -> di
         i += 1
 
 
-def parse_appids(appids: list, logger_name=None) -> list:
+def parse_appids(appids: list, logger_name: str = None) -> list:
     """
     Parse the command-line argument passed in with the --appids flag,
     exiting if any of the resulting IDs do not map to games in
@@ -844,7 +846,8 @@ cdef read_reviews_from_game_file(file_path: str):
     return [loads(json_line) for json_line in open(file_path)]
 
 
-def get_and_describe_dataset(file_path: str, report=True, reports_dir=None) -> dict:
+def get_and_describe_dataset(file_path: str, report: bool = True,
+                             reports_dir: str = None) -> dict:
     """
     Return dictionary with a list of review dictionaries (filtered in
     terms of the values for maximum/minimum review length and
@@ -859,7 +862,7 @@ def get_and_describe_dataset(file_path: str, report=True, reports_dir=None) -> d
     :type report: bool
     :param reports_dir: path to directory where reports should be
                         stored
-    :type reports_dir: str or None
+    :type reports_dir: str
 
     :returns: dict containing a 'reviews' key mapped to the list of
               read-in review dictionaries and int values mapped to keys
@@ -972,7 +975,7 @@ def get_and_describe_dataset(file_path: str, report=True, reports_dir=None) -> d
                 orig_total_reviews=orig_total_reviews)
 
 
-def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
+cdef get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
     """
     Return list of floating point number ranges (in increments of 0.1)
     that correspond to each bin in the distribution.
@@ -1030,7 +1033,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0):
 
 
 def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
-                          float factor):
+                          float factor) -> list:
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
@@ -1051,12 +1054,14 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
 
     :returns: list of tuples representing the minimum and maximum
               values of each bin or None if `nbins` is 0
-    :rtype: list or None
+    :rtype: list
+
+    :raises: ValueError
     """
 
     # Return None if `nbins` is 0
-    if not nbins:
-        return
+    if not nbins or nbins < 2:
+        raise ValueError('"nbins" must be positive integer greater than 1.')
 
     # Get label values
     values = np.array(get_label_values(db, games, label, nbins, factor))
@@ -1103,8 +1108,8 @@ def get_bin(bin_ranges: list, float val) -> int:
     return -1
 
 
-def get_label_values(db: collection, games: list, label: str, nbins=2,
-                     bin_factor=1.0) -> list:
+def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
+                     bin_factor: float = 1.0) -> list:
     """
     Get all of the values for the given label in the data for the
     given games.
@@ -1141,8 +1146,9 @@ def get_label_values(db: collection, games: list, label: str, nbins=2,
                 .dropna())
 
 
-def write_arff_file(dest_path: str, file_names: list, reviews=None,
-                    db=None, make_train_test=False, bins=False) -> None:
+def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
+                    db: collection = None, make_train_test: bool = False,
+                    bins=False) -> None:
     """
     Write .arff file either for a list of reviews read in from a file
     or list of files or for both the training and test partitions in
@@ -1163,15 +1169,16 @@ def write_arff_file(dest_path: str, file_names: list, reviews=None,
                             of making one big file (defaults to False)
     :type make_train_test: boolean
     :param bins: if True or a list of bin range tuples, use collapsed
-                 hours played values (if make_train_test was also True,
-                 then the pre-computed collapsed hours values will be
-                 used (even if a list of ranges is passed in for some
-                 reason, i.e., the bin ranges will be ignored); if not,
-                 the passed-in value must be a list of 2-tuples
-                 representing the floating-point number ranges of the
-                 bins); if False, the original, unmodified hours played
-                 values will be used (default: False)
-    :type bins: boolean or list of 2-tuples of floats
+                 hours played values (if `make_train_test` was also
+                 True, then the pre-computed collapsed hours values
+                 will be used (even if a list of ranges is passed in
+                 for some reason, i.e., the bin ranges will be
+                 ignored); if not, the passed-in value must be a list
+                 of 2-tuples representing the floating-point number
+                 ranges of the bins); if False, the original,
+                 unmodified hours played values will be used (default:
+                 False)
+    :type bins: boolean or list
 
     :returns: None
     :rtype: None
