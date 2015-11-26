@@ -406,7 +406,9 @@ def generate_test_id_strings_labels_dict(db: collection, label: str,
               distribution of the label values
     :rtype: tuple
 
-    :raises: ValueError
+    :raises ValueError: if unrecognized games were found in the input
+                        or new reviews were found for the combination
+                        of game, partition, etc.
     """
 
     partition = 'test'

@@ -99,7 +99,7 @@ def find_default_param_grid(learner: str,
     :returns: parameter grid
     :rtype: dict
 
-    :raises: ValueError
+    :raises ValueError: if an unrecognized learner abbreviation is used
     """
 
     for key_cls, grid in param_grids_dict.items():
@@ -121,7 +121,8 @@ def parse_learners_string(learners_string: str) -> set:
     :returns: set of learner abbreviations
     :rtype: set
 
-    :raises: ValueError
+    :raises ValueError: if unrecognized learner(s) are included in the
+                        input
     """
 
     if learners_string == 'all':
@@ -157,7 +158,10 @@ def parse_non_nlp_features_string(features_string: str,
     :returns: set of non-NLP features to use
     :rtype: set
 
-    :raises: ValueError
+    :raises ValueError: if unrecognized features are found in the input
+                        or there is a conflict between features
+                        included in the input and the feature used as
+                        the prediction label
     """
 
     if features_string == 'all':
@@ -197,7 +201,7 @@ def parse_games_string(games_string: str) -> set:
     :returns: set of games
     :rtype: set
 
-    :raises: ValueError
+    :raises ValueError: if unrecognized game IDs are found in the input
     """
 
     # Return empty set for empty string

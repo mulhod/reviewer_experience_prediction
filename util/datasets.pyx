@@ -61,24 +61,30 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
     :returns: list of games
     :rtype: list
 
-    :raises: ValueError
+    :raises ValueError: no games were included in the list of games
+    :raises FileNotFoundError: if file(s) corresponding to games in the
+                               input cannot be found
     """
 
-    if games_str == "all":
-        game_files = [f for f in listdir(data_dir_path)
-                      if f.endswith('.jsonlines')]
+    if not games_str:
+        raise ValueError('No files passed in via --game_files argument were '
+                         'found: {}.'.format(', '.join(games_str.split(','))))
+    elif games_str == "all":
+        game_files = [f for f in listdir(data_dir_path) if f.endswith('.jsonlines')]
 
         # Remove the sample game file from the list
         del game_files[game_files.index('sample.jsonlines')]
     else:
-        game_files = [f if f.endswith('.jsonlines') else '{0}.jsonlines'.format(f)
-                      for f in games_str.split(',')
-                      if exists(join(data_dir_path,
-                                     f if f.endswith('.jsonlines')
-                                       else '{0}.jsonlines'.format(f)))]
-    if len(game_files) == 0:
-        raise ValueError('No files passed in via --game_files argument were '
-                          'found: {}.'.format(', '.join(games_str.split(','))))
+        game_files = []
+        for f in games_str.split(','):
+            f_path = join(data_dir_path,
+                          f if f.endswith('.jsonlines')
+                            else '{0}.jsonlines'.format(f))
+            if not exists(f_path):
+                raise FileNotFoundError('{0} does not exist (input string: '
+                                        '{1}).'.format(f_path, games_str))
+            game_files.append(f if f.endswith('.jsonlines')
+                                else '{0}.jsonlines'.format(f))
 
     return game_files
 
@@ -110,7 +116,9 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
              of hours the reviewer has played the game, etc.
     :ytype: dict
 
-    :raises: ValueError
+    :raises ValueError: encounterd connection error, any of various
+                        types of errors while trying to parse HTML,
+                        etc.
     """
 
     # Define a couple useful regular expressions, string variables
@@ -818,7 +826,7 @@ def parse_appids(appids: list, logger_name: str = None) -> list:
     :returns: list of game IDs
     :rtype: list
 
-    :raises: ValueError
+    :raises ValueError: if unrecognized `appid` found in input
     """
 
     if logger_name:
@@ -1056,7 +1064,7 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
               values of each bin or None if `nbins` is 0
     :rtype: list
 
-    :raises: ValueError
+    :raises ValueError: if `nbins` is not greater than 1
     """
 
     # Return None if `nbins` is 0
@@ -1129,8 +1137,6 @@ def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
     :returns: list of label values that are not equal to None or an
               empty string
     :rtype: list
-
-    :raises: ValueError
     """
 
     # Make a cursor across all reviews from the given set of games
@@ -1183,7 +1189,9 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
     :returns: None
     :rtype: None
 
-    :raises: ValueError
+    :raises ValueError: if the arguments conflict with each other, if
+                        arguments are missing, or if various other
+                        types of issues occur
     """
 
     # Make sure that the passed-in keyword arguments make sense
