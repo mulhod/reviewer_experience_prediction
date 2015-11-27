@@ -79,12 +79,12 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
         for f in games_str.split(','):
             f_path = join(data_dir_path,
                           f if f.endswith('.jsonlines')
-                            else '{0}.jsonlines'.format(f))
+                          else '{0}.jsonlines'.format(f))
             if not exists(f_path):
                 raise FileNotFoundError('{0} does not exist (input string: '
                                         '{1}).'.format(f_path, games_str))
             game_files.append(f if f.endswith('.jsonlines')
-                                else '{0}.jsonlines'.format(f))
+                              else '{0}.jsonlines'.format(f))
 
     return game_files
 
@@ -881,8 +881,7 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
     if report:
         # Get path to reports directory and open report file
         reports_dir = (reports_dir if reports_dir
-                                   else join(dirname(dirname(realpath(__file__))),
-                                             'reports'))
+                       else join(dirname(dirname(realpath(__file__))), 'reports'))
         game = splitext(basename(file_path))[0]
         output_path = join(reports_dir, '{0}_report.txt'.format(game))
         output = open(output_path, 'w')
@@ -1269,9 +1268,8 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
                 # Get rid of backslashes since they only make things
                 # confusing
                 review = sub(r'\\', r'', review)
-                hours = (game_doc['total_game_hours_bin']
-                             if bins
-                             else game_doc['total_game_hours'])
+                hours = (game_doc['total_game_hours_bin'] if bins
+                         else game_doc['total_game_hours'])
                 reviews_lines.append('"{0}",{1}'.format(review, hours))
 
             # Modify file-path by adding suffix(es)

@@ -47,8 +47,7 @@ from sklearn.linear_model import (Perceptron,
 from data import APPID_DICT
 from src import log_format_string
 from src import experiments as ex
-from util.mongodb import (connect_to_db,
-                          evenly_distributed_test_samples)
+from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
                            get_bin_ranges_helper)
 
@@ -496,9 +495,10 @@ class RunExperiments:
 
         data = []
         j = 0
-        for id_string in evenly_distributed_test_samples(self.db,
-                                                         self.prediction_label,
-                                                         games):
+        for id_string \
+            in ex.evenly_distribute_test_samples(self.db, self.prediction_label,
+                                                 games,
+                                                 bin_ranges=self.bin_ranges):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
             _test_query.update({self.__id_string__: id_string})
@@ -927,14 +927,12 @@ class RunExperiments:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__games__
-                                   if len(self.games) > 1
+                stats_dict.update({self.__games__ if len(self.games) > 1
                                    else self.__game__:
                                        ', '.join(self.games)
                                        if ex.VALID_GAMES.difference(self.games)
                                        else self.__all_games__,
-                                   self.__test_games__
-                                   if len(self.test_games) > 1
+                                   self.__test_games__ if len(self.test_games) > 1
                                    else self.__test_game__:
                                        ', '.join(self.test_games)
                                        if ex.VALID_GAMES.difference(self.test_games)
@@ -1095,8 +1093,7 @@ def main(argv=None):
 
     # Command-line arguments and flags
     games = ex.parse_games_string(args.games)
-    test_games = (ex.parse_games_string(args.test_games)
-                  if args.test_games
+    test_games = (ex.parse_games_string(args.test_games) if args.test_games
                   else games)
     max_rounds = args.max_rounds
     max_samples_per_round = args.max_samples_per_round
@@ -1155,12 +1152,12 @@ def main(argv=None):
         loginfo('Game{0} to train/evaluate models on: {1}'
                 .format('s' if len(games) > 1 else '',
                         ', '.join(games) if ex.VALID_GAMES.difference(games)
-                                         else 'all games'))
+                        else 'all games'))
     else:
         loginfo('Game{0} to train models on: {1}'
                 .format('s' if len(games) > 1 else '',
                         ', '.join(games) if ex.VALID_GAMES.difference(games)
-                                         else 'all games'))
+                        else 'all games'))
         loginfo('Game{0} to evaluate models against: {1}'
                 .format('s' if len(test_games) > 1 else '',
                         ', '.join(test_games)

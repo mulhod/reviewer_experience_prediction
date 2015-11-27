@@ -20,7 +20,6 @@ from random import (seed,
 from json import dumps
 from os.path import (basename,
                      splitext)
-from collections import Counter
 
 from bson import BSON
 from pymongo import (cursor,
@@ -385,92 +384,3 @@ def update_db(db_update, _id: ObjectId, nlp_feats: dict,
                        'Exiting.')
                 exit(1)
             sleep(20)
-
-
-def generate_test_id_strings_labels_dict(db: collection, label: str,
-                                         games: list) -> tuple:
-    """
-    Generate a mapping between ID strings and label values and also a
-    frequency distribution of label values across all review documents
-    in the "test" partition of the given MongoDB collection.
-
-    :param db: MongoDB collection
-    :type db: collection
-    :param label: label used for prediction
-    :type label: str
-    :param games: list of game IDs
-    :type games: list
-
-    :returns: tuple consisting of a dictionary of ID strings mapped to
-              labels and a Counter object representing the frequency
-              distribution of the label values
-    :rtype: tuple
-
-    :raises ValueError: if unrecognized games were found in the input
-                        or new reviews were found for the combination
-                        of game, partition, etc.
-    """
-
-    partition = 'test'
-
-    # Make sure the games are in the list of valid games
-    if any(not game in APPID_DICT for game in games):
-        raise ValueError('All or some of the games in the given list of '
-                         'games, {0}, are not in list of available games'
-                         .format(', '.join(games)))
-
-    if len(games) == 1:
-        query = {'partition': partition, 'game': games[0]}
-    else:
-        query = {'partition': partition, 'game': {'$in': games}}
-    cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
-
-    # Get review documents (only including label + ID string)
-    reviews = [doc for doc in cursor if doc.get(label)]
-
-    # Raise exception if no review documents were found
-    if not reviews:
-        raise ValueError('No review documents were found!')
-
-    # Return dictionary of ID strings mapped to label values
-    return ({doc['id_string']: doc[label] for doc in reviews},
-            Counter([doc[label] for doc in reviews]))
-
-
-def evenly_distributed_test_samples(db: collection, label: str, games: list) -> str:
-    """
-    Generate ID strings from test data samples that, altogether, form a
-    maximally evenly-distributed set of test samples, specifically for
-    cases when a small subset of the total test partition is being used.
-
-    :param db: MongoDB collection
-    :type db: collection
-    :param label: label used for prediction
-    :type label: str
-    :param games: list of game IDs
-    :type games: list
-
-    :yields: ID string
-    :ytype: str
-    """
-
-    # Get dictionary of ID strings mapped to labels and a frequency
-    # distribution of the labels
-    id_strings_labels_dict, labels_counter = \
-        generate_test_id_strings_labels_dict(db, label, games)
-
-    # Create a maximally evenly-distributed list of samples with
-    # respect to label
-    labels_id_strings_lists_dict = dict()
-    for label_value in labels_counter:
-        labels_id_strings_lists_dict[label_value] = \
-            [_id for _id, _label in id_strings_labels_dict.items()
-             if _label == label_value]
-    i = 0
-    while i < len(id_strings_labels_dict):
-
-        # For each label value, pop off an ID string, if available
-        for label_value in labels_counter:
-            if labels_id_strings_lists_dict[label_value]:
-                yield labels_id_strings_lists_dict[label_value].pop()
-                i += 1

@@ -241,8 +241,8 @@ def extract_features_from_review(_review: Review,
         # Count up all character n-grams
         for i in range(_min, _max + 1):
             cngram_counter_update(list(ngrams(_review.orig.lower()
-                                                  if lowercase_cngrams
-                                                  else _review.orig, i)))
+                                              if lowercase_cngrams
+                                              else _review.orig, i)))
 
         # Re-represent keys as string representations of specific
         # features of the feature class "cngrams" (and set all values
@@ -338,8 +338,7 @@ def get_nlp_features_from_db(db: collection, _id: ObjectId) -> dict:
     """
 
     nlp_feats_doc = db.find_one({'_id': _id}, {'_id': 0, 'nlp_features': 1})
-    return (bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc
-                                                           else {})
+    return bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc else {}
 
 
 def get_steam_features_from_db(get_feat) -> dict:

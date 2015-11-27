@@ -240,8 +240,7 @@ def main():
                                   bin_factor=bin_factor, describe=make_reports,
                                   just_describe=just_describe,
                                   reports_dir=reports_dir if reports_dir
-                                                          else join(data_dir,
-                                                                    'reports'))
+                                              else join(data_dir, 'reports'))
 
     loginfo('Complete.')
 

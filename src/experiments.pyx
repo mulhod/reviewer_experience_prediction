@@ -5,7 +5,9 @@
 Module of functions/classes related to learning experiments.
 """
 from os.path import join
+from collections import Counter
 
+from pymongo import collection
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -13,6 +15,7 @@ from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
 from data import APPID_DICT
+from util.datasets import get_bin
 
 SEED = 123456789
 
@@ -223,3 +226,118 @@ def parse_games_string(games_string: str) -> set:
                          .format(', '.join(specified_games),
                                  ', '.join(VALID_GAMES)))
     return set(specified_games)
+
+
+def test_data_distributional_info(db: collection, label: str, games: list,
+                                  bin_ranges: list = None) -> dict:
+    """
+    Generate some distributional information regarding the given label
+    (or for the implicit labels given a list of label bin ranges) for
+    the test data partition(s) for the given list of games.
+
+    Returns a dictionary containing keys whose values are: a mapping
+    between ID strings and label values and a frequency distribution of
+    label values. If `bin_ranges` is specified, all labels will be
+    converted using that information.
+
+    :param db: MongoDB collection
+    :type db: collection
+    :param label: label used for prediction
+    :type label: str
+    :param games: list of game IDs
+    :type games: list
+    :param bin_ranges: list of ranges
+    :type bin_ranges: list or None
+
+    :returns: dictionary containing `id_strings_labels_dict` and
+              `labels_counter` keys, which are mapped to a dictionary
+              of ID strings mapped to labels and a Counter object
+              representing the frequency distribution of the label
+              values, respectively
+    :rtype: dict
+
+    :raises ValueError: if unrecognized games were found in the input
+                        or new reviews were found for the combination
+                        of game, partition, etc.
+    """
+
+    partition = 'test'
+
+    # Make sure the games are in the list of valid games
+    if any(not game in APPID_DICT for game in games):
+        raise ValueError('All or some of the games in the given list of '
+                         'games, {0}, are not in list of available games'
+                         .format(', '.join(games)))
+
+    if len(games) == 1:
+        query = {'partition': partition, 'game': games[0]}
+    else:
+        query = {'partition': partition, 'game': {'$in': games}}
+    cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
+
+    # Get review documents (only including label + ID string)
+    reviews = [doc for doc in cursor if doc.get(label)]
+
+    # Raise exception if no review documents were found
+    if not reviews:
+        raise ValueError('No review documents were found!')
+
+    id_strings_labels_dict = {doc['id_string']: get_bin(bin_ranges, doc[label])
+                                                if bin_ranges else doc[label]
+                              for doc in reviews}
+    if bin_ranges:
+        labels_counter = Counter([get_bin(bin_ranges, doc[label]) if bin_ranges
+                                  else doc[label]
+                                  for doc in reviews])
+    else:
+        labels_counter = Counter([doc[label] for doc in reviews])
+
+    # Return dictionary of ID strings mapped to label values
+    return dict(id_strings_labels_dict=id_strings_labels_dict,
+                labels_counter=labels_counter)
+
+
+def evenly_distribute_test_samples(db: collection, label: str, games: list,
+                                   bin_ranges: list = None) -> str:
+    """
+    Generate ID strings from test data samples that, altogether, form a
+    maximally evenly-distributed set of test samples with respect to
+    the prediction label or to binned prediction label, specifically
+    for cases when a small subset of the total test partition is being
+    used. If `bin_ranges` is specified, all labels will be converted
+    using it.
+
+    :param db: MongoDB collection
+    :type db: collection
+    :param label: label used for prediction
+    :type label: str
+    :param games: list of game IDs
+    :type games: list
+    :param bin_ranges: list of ranges
+    :type bin_ranges: list or None
+
+    :yields: ID string
+    :ytype: str
+    """
+
+    # Get dictionary of ID strings mapped to labels and a frequency
+    # distribution of the labels
+    distribution_dict = test_data_distributional_info(db, label, games,
+                                                      bin_ranges=bin_ranges)
+
+    # Create a maximally evenly-distributed list of samples with
+    # respect to label
+    labels_id_strings_lists_dict = dict()
+    for label_value in distribution_dict['labels_counter']:
+        labels_id_strings_lists_dict[label_value] = \
+            [_id for _id, _label
+             in distribution_dict['id_strings_labels_dict'].items()
+             if _label == label_value]
+    i = 0
+    while i < len(distribution_dict['id_strings_labels_dict']):
+
+        # For each label value, pop off an ID string, if available
+        for label_value in distribution_dict['labels_counter']:
+            if labels_id_strings_lists_dict[label_value]:
+                yield labels_id_strings_lists_dict[label_value].pop()
+                i += 1
