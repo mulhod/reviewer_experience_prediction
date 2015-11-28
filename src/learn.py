@@ -1075,7 +1075,7 @@ def main(argv=None):
                   ' to 1.0 if --nbins is specified.',
              type=float,
              required=False)
-    _add_arg('--use_featurehashing',
+    _add_arg('-feature_hasher', '--use_feature_hasher',
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
              default=False)
@@ -1128,7 +1128,7 @@ def main(argv=None):
     only_non_nlp_features = args.only_non_nlp_features
     nbins = args.nbins
     bin_factor = args.bin_factor
-    feature_hashing = args.use_featurehashing
+    feature_hashing = args.use_feature_hasher
     learners = ex.parse_learners_string(args.learners)
     # If any Naive Bayes learners are used and feature_hashing is set,
     # then raise an error since those learners do not work with feature
@@ -1155,6 +1155,11 @@ def main(argv=None):
                     'current way of extracting features from models and, '
                     'thus, -save_best/--save_best_features, will be ignored.')
             save_best_features = False
+        if feature_hashing:
+            raise ValueError('The --save_best_features/-save_best option '
+                             'cannot be used in conjunction with the '
+                             '--use_feature_hasher/-feature_hasher option. '
+                             'Exiting.')
     if args.log_file_path:
         if isdir(realpath(args.log_file_path)):
             raise FileExistsError('The specified log file path is the name of'
