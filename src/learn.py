@@ -135,7 +135,7 @@ class RunExperiments:
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
                  prediction_label: str, objective: str, logger: logging.RootLogger,
-                 hashed_features: int = None no_nlp_features: bool = False,
+                 hashed_features: int = None, no_nlp_features: bool = False,
                  bin_ranges: list = None, max_test_samples: int = 0,
                  max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
