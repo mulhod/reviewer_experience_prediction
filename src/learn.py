@@ -915,7 +915,7 @@ class RunExperiments:
                 self.vec = DictVectorizer(sparse=True)
             else:
                 self.vec = FeatureHasher(n_features=self.hashed_features,
-                                         input_type="string")
+                                         non_negative=True)
             X_train = self.vec.fit_transform(train_feature_dicts)
         else:
             X_train = self.vec.transform(train_feature_dicts)
@@ -1130,13 +1130,6 @@ def main(argv=None):
     bin_factor = args.bin_factor
     feature_hashing = args.use_feature_hasher
     learners = ex.parse_learners_string(args.learners)
-    # If any Naive Bayes learners are used and feature_hashing is set,
-    # then raise an error since those learners do not work with feature
-    # hashing (apparently)
-    if (any(learner.endswith('nb') for learner in learners)
-        and feature_hashing):
-        raise ValueError('Naive Bayes-based learners do not work with feature'
-                         ' hashing. Exiting.')
     host = args.mongodb_host
     port = args.mongodb_port
     max_test_samples = args.max_test_samples
