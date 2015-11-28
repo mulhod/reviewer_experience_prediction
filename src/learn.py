@@ -229,7 +229,7 @@ class RunExperiments:
                                  .format(hashed_features))
             else:
                 if hashed_features == 0:
-                    hashed_features = __n_features_feature_hashing__
+                    hashed_features = self.__n_features_feature_hashing__
 
         # Incremental learning-related attributes
         self.samples_per_round = samples_per_round
@@ -1142,6 +1142,12 @@ def main(argv=None):
     ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
     save_best_features = args.save_best_features
+    if save_best_features:
+        if learners.issubset(RunExperiments.__no_introspection_learners_dict__):
+            loginfo('The specified set of learners do not work with the '
+                    'current way of extracting features from models and, '
+                    'thus, -save_best/--save_best_features, will be ignored.')
+            save_best_features = False
     if args.log_file_path:
         if isdir(realpath(args.log_file_path)):
             raise FileExistsError('The specified log file path is the name of'
