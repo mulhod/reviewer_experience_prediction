@@ -134,10 +134,10 @@ class RunExperiments:
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
-                 prediction_label: str, feature_hashing: int = None,
-                 objective: str, logger: logging.RootLogger,
-                 no_nlp_features: bool = False, bin_ranges: list = None,
-                 max_test_samples: int = 0, max_rounds: int = 0,
+                 prediction_label: str, objective: str, logger: logging.RootLogger,
+                 hashed_features: int = None no_nlp_features: bool = False,
+                 bin_ranges: list = None, max_test_samples: int = 0,
+                 max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
         """
         Initialize class.
@@ -162,16 +162,16 @@ class RunExperiments:
         :type non_nlp_features: list
         :param prediction_label: feature to predict
         :type prediction_label: str
+        :param objective: objective function to use in ranking the runs
+        :type objective: str
+        :param logger: logger instance
+        :type logger: logging.RootLogger
         :param hashed_features: use FeatureHasher in place of
                                 DictVectorizer and use the given number
                                 of features (must be positive number or
                                 0, which will set it to the default
                                 number of features for feature hashing)
         :type hashed_features: int
-        :param objective: objective function to use in ranking the runs
-        :type objective: str
-        :param logger: logger instance
-        :type logger: logging.RootLogger
         :param no_nlp_features: leave out NLP features
         :type no_nlp_features: bool
         :param bin_ranges: list of tuples representing the maximum and
@@ -1257,9 +1257,9 @@ def main(argv=None):
                                  max_samples_per_round,
                                  non_nlp_features,
                                  prediction_label,
-                                 feature_hashing=0 if feature_hashing else None,
                                  obj_func,
                                  logger,
+                                 hashed_features=0 if feature_hashing else None,
                                  no_nlp_features=only_non_nlp_features,
                                  bin_ranges=bin_ranges,
                                  max_test_samples=max_test_samples,
