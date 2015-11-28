@@ -40,7 +40,7 @@ from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
-from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction import DictVectorizer, FeatureHasher
 from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
@@ -92,6 +92,7 @@ class RunExperiments:
     __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
     __non_nlp_features__ = 'non-NLP features'
     __no_nlp_features__ = 'no NLP features'
+    __n_features_feature_hashing__ = 2 ** 18
     __learner__ = 'learner'
     __learners_requiring_classes__ = frozenset({'BernoulliNB', 'MultinomialNB',
                                                 'Perceptron'})
@@ -133,7 +134,8 @@ class RunExperiments:
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
-                 prediction_label: str, objective: str, logger: logging.RootLogger,
+                 prediction_label: str, feature_hashing: int = None,
+                 objective: str, logger: logging.RootLogger,
                  no_nlp_features: bool = False, bin_ranges: list = None,
                  max_test_samples: int = 0, max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
@@ -160,6 +162,12 @@ class RunExperiments:
         :type non_nlp_features: list
         :param prediction_label: feature to predict
         :type prediction_label: str
+        :param hashed_features: use FeatureHasher in place of
+                                DictVectorizer and use the given number
+                                of features (must be positive number or
+                                0, which will set it to the default
+                                number of features for feature hashing)
+        :type hashed_features: int
         :param objective: objective function to use in ranking the runs
         :type objective: str
         :param logger: logger instance
@@ -214,6 +222,14 @@ class RunExperiments:
                              'available games: {1}.'
                              .format(', '.join(games.union(test_games)),
                                      ', '.join(APPID_DICT)))
+        if hashed_features != None:
+            if hashed_features < 0:
+                raise ValueError('Cannot use non-positive value, {0}, for the'
+                                 ' "hashed_features" parameter.'
+                                 .format(hashed_features))
+            else:
+                if hashed_features == 0:
+                    hashed_features = __n_features_feature_hashing__
 
         # Incremental learning-related attributes
         self.samples_per_round = samples_per_round
@@ -262,6 +278,7 @@ class RunExperiments:
 
         # Learner-related variables
         self.vec = None
+        self.hashed_features = hashed_features
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
         self.learner_names = [self.__learner_names__[learner] for learner
@@ -891,10 +908,14 @@ class RunExperiments:
         y_train = np.array([_data[self.__y__] for _data in train_data])
         train_feature_dicts = [_data[self.__x__] for _data in train_data]
 
-        # Set _vec if not already set and fit it it the training
+        # Set `vec` if not already set and fit it it the training
         # features, which will only need to be done the first time
         if self.vec == None:
-            self.vec = DictVectorizer(sparse=True)
+            if not self.hashed_features:
+                self.vec = DictVectorizer(sparse=True)
+            else:
+                self.vec = FeatureHasher(n_features=self.hashed_features,
+                                         input_type="string")
             X_train = self.vec.fit_transform(train_feature_dicts)
         else:
             X_train = self.vec.transform(train_feature_dicts)
@@ -1054,6 +1075,10 @@ def main(argv=None):
                   ' to 1.0 if --nbins is specified.',
              type=float,
              required=False)
+    _add_arg('--use_featurehashing',
+             help='Use FeatureHasher to be more memory-efficient.',
+             action='store_true',
+             default=False)
     _add_arg('-obj', '--obj_func',
              help='Objective function to use in determining which learner/set'
                   ' of parameters resulted in the best performance.',
@@ -1103,6 +1128,7 @@ def main(argv=None):
     only_non_nlp_features = args.only_non_nlp_features
     nbins = args.nbins
     bin_factor = args.bin_factor
+    feature_hashing = args.use_featurehashing
     learners = ex.parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
@@ -1191,6 +1217,8 @@ def main(argv=None):
                 'label values into: {}'.format(nbins))
         loginfo("Factor by which to multiply each succeeding bin's size: {}"
                 .format(bin_factor))
+    if feature_hashing:
+        loginfo('Using feature hashing to increase memory efficiency')
     loginfo('Learners: {0}'.format(', '.join([ex.LEARNER_ABBRS_DICT[learner]
                                               for learner in learners])))
     loginfo('Using {0} as the objective function'.format(obj_func))
@@ -1229,6 +1257,7 @@ def main(argv=None):
                                  max_samples_per_round,
                                  non_nlp_features,
                                  prediction_label,
+                                 feature_hashing=0 if feature_hashing else None,
                                  obj_func,
                                  logger,
                                  no_nlp_features=only_non_nlp_features,
