@@ -300,7 +300,7 @@ class RunExperiments:
         self.test_cursor = None
         self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursor for training data...')
-        self.sorting_args = None
+        self.sorting_args = [(self.__steam_id__, ASCENDING)]
         self.projection = None
         self.make_train_cursor()
         self.logger.info('Extracting evaluation dataset...')
@@ -341,7 +341,6 @@ class RunExperiments:
 
         self.logger.debug('Batch size of MongoDB training cursor: {0}'
                           .format(self.batch_size))
-        self.sorting_args = [(self.__steam_id__, ASCENDING)]
 
         # Leave out the '_id' value and the 'nlp_features' value if
         # `self.no_nlp_features` is true
@@ -524,8 +523,7 @@ class RunExperiments:
             # dictionary and append to list of data samples
             sample = self.get_data(next(self.db
                                         .find(_test_query, self.projection,
-                                              timeout=False)
-                                        .sort(self.sorting_args)))
+                                              timeout=False)))
             if sample:
                 data.append(sample)
                 j += 1
