@@ -55,82 +55,88 @@ from util.datasets import (get_bin,
 # "UndefinedMetricWarning" warnings when running IncrementalLearning
 filterwarnings("ignore")
 
-ORDERINGS = frozenset({'objective_last_round', 'objective_best_round',
-                       'objective_slope'})
 
 class RunExperiments:
     """
     Class for conducting sets of incremental learning experiments.
     """
 
-    # Constants
-    __game__ = 'game'
-    __games__ = 'games'
-    __test_game__ = 'test_game'
-    __test_games__ = 'test_games'
-    __all_games__ = 'all_games'
-    __partition__ = 'partition'
-    __training__ = 'training'
-    __test__ = 'test'
-    __nlp_feats__ = 'nlp_features'
-    __bin_ranges__ = 'bin_ranges'
-    __achieve_prog__ = 'achievement_progress'
-    __steam_id__ = 'steam_id_number'
-    __in_op__ = '$in'
-    __nan__ = float("NaN")
-    __x__ = 'x'
-    __y__ = 'y'
-    __id_string__ = 'id_string'
-    __id__ = 'id'
-    __obj_id__ = '_id'
-    __macro__ = 'macro'
-    __weighted__ = 'weighted'
-    __linear__ = 'linear'
-    __quadratic__ = 'quadratic'
-    __learning_round__ = 'learning_round'
-    __prediction_label__ = 'prediction_label'
-    __test_labels_and_preds__ = 'test_set_labels/test_set_predictions'
-    __non_nlp_features__ = 'non-NLP features'
-    __no_nlp_features__ = 'no NLP features'
-    __n_features_feature_hashing__ = 2 ** 18
-    __learner__ = 'learner'
-    __learners_requiring_classes__ = frozenset({'BernoulliNB', 'MultinomialNB',
-                                                'Perceptron'})
-    __no_introspection_learners_dict__ = \
-        {'MiniBatchKMeans': MiniBatchKMeans,
+    # Constant strings
+    _game = 'game'
+    _games = 'games'
+    _test_game = 'test_game'
+    _test_games = 'test_games'
+    _all_games = 'all_games'
+    _partition = 'partition'
+    _training = 'training'
+    _test = 'test'
+    _nlp_feats = 'nlp_features'
+    _bin_ranges = 'bin_ranges'
+    _achieve_prog = 'achievement_progress'
+    _steam_id = 'steam_id_number'
+    _in_op = '$in'
+    _x = 'x'
+    _y = 'y'
+    _id_string = 'id_string'
+    _id = 'id'
+    _obj_id = '_id'
+    _macro = 'macro'
+    _weighted = 'weighted'
+    _linear = 'linear'
+    _quadratic = 'quadratic'
+    _learning_round = 'learning_round'
+    _prediction_label = 'prediction_label'
+    _test_labels_and_preds = 'test_set_labels/test_set_predictions'
+    _non_nlp_features = 'non-NLP features'
+    _no_nlp_features = 'no NLP features'
+    _learner = 'learner'
+    _params = 'params'
+    _training_samples = 'training_samples'
+    _r = 'pearson_r'
+    _sig = 'significance'
+    _prec_macro = 'precision_macro'
+    _prec_weighted = 'precision_weighted'
+    _f1_macro = 'f1_macro'
+    _f1_weighted = 'f1_weighted'
+    _acc = 'accuracy'
+    _cnfmat = 'confusion_matrix'
+    _printable_cnfmat = 'printable_confusion_matrix'
+    _uwk = 'uwk'
+    _uwk_off_by_one = 'uwk_off_by_one'
+    _qwk = 'qwk'
+    _qwk_off_by_one = 'qwk_off_by_one'
+    _lwk = 'lwk'
+    _lwk_off_by_one = 'lwk_off_by_one'
+    _majority_label = 'majority_label'
+    _majority_baseline_model = 'majority_baseline_model'
+    _cnfmat_header = ('confusion_matrix (rounded predictions) '
+                      '(row=actual, col=machine, labels={0}):\n')
+    _report_name_template = '{0}_{1}_{2}_{3}.csv'
+    _available_labels_string = ', '.join(ex.LABELS)
+    _labels_list = None
+
+    # Constant values
+    _nan = float("NaN")
+    _n_features_feature_hashing = 2 ** 18
+    _default_cursor_batch_size = 50
+
+    # Constant methods
+    _tab_join = '\t'.join
+    _cnfmat_row = '{0}{1}\n'.format
+
+    # Available learners, labels, orderings
+    _learners_requiring_classes = frozenset({'BernoulliNB', 'MultinomialNB',
+                                             'Perceptron'})
+    _no_introspection_learners_dict = {'MiniBatchKMeans': MiniBatchKMeans,
          'PassiveAggressiveRegressor': PassiveAggressiveRegressor}
-    __learner_names__ = {MiniBatchKMeans: 'MiniBatchKMeans',
-                         BernoulliNB: 'BernoulliNB',
-                         MultinomialNB: 'MultinomialNB',
-                         Perceptron: 'Perceptron',
-                         PassiveAggressiveRegressor: 'PassiveAggressiveRegressor'}
-    __params__ = 'params'
-    __training_samples__ = 'training_samples'
-    __r__ = 'pearson_r'
-    __sig__ = 'significance'
-    __prec_macro__ = 'precision_macro'
-    __prec_weighted__ = 'precision_weighted'
-    __f1_macro__ = 'f1_macro'
-    __f1_weighted__ = 'f1_weighted'
-    __acc__ = 'accuracy'
-    __cnfmat__ = 'confusion_matrix'
-    __printable_cnfmat__ = 'printable_confusion_matrix'
-    __uwk__ = 'uwk'
-    __uwk_off_by_one__ = 'uwk_off_by_one'
-    __qwk__ = 'qwk'
-    __qwk_off_by_one__ = 'qwk_off_by_one'
-    __lwk__ = 'lwk'
-    __lwk_off_by_one__ = 'lwk_off_by_one'
-    __possible_non_nlp_features__ = set(ex.LABELS)
-    __orderings__ = ORDERINGS
-    __tab_join__ = '\t'.join
-    __cnfmat_row__ = '{0}{1}\n'.format
-    __cnfmat_header__ = ('confusion_matrix (rounded predictions) '
-                         '(row=actual, col=machine, labels={0}):\n')
-    __majority_label__ = 'majority_label'
-    __labels_string__ = ', '.join(ex.LABELS)
-    __majority_baseline_model__ = 'majority_baseline_model'
-    __report_name_template__ = '{0}_{1}_{2}_{3}.csv'
+    _learner_names = {MiniBatchKMeans: 'MiniBatchKMeans',
+                      BernoulliNB: 'BernoulliNB',
+                      MultinomialNB: 'MultinomialNB',
+                      Perceptron: 'Perceptron',
+                      PassiveAggressiveRegressor: 'PassiveAggressiveRegressor'}
+    _orderings = frozenset({'objective_last_round', 'objective_best_round',
+                            'objective_slope'})
+    _possible_non_nlp_features = set(ex.LABELS)
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
@@ -206,16 +212,16 @@ class RunExperiments:
                              'in the model:\n\n{1}\n.'
                              .format(prediction_label,
                                      ', '.join(non_nlp_features)))
-        if any(not feat in self.__possible_non_nlp_features__
-               for feat in non_nlp_features):
+        if any(not feat in self._possible_non_nlp_features for feat
+               in non_nlp_features):
             raise ValueError('All non-NLP features must be included in the '
                              'list of available non-NLP features: {0}.'
-                             .format(self.__labels_string__))
-        if not prediction_label in self.__possible_non_nlp_features__:
+                             .format(self._available_labels_string))
+        if not prediction_label in self._possible_non_nlp_features:
             raise ValueError('The prediction label must be in the set of '
                              'features that can be extracted/used, i.e.: {0}.'
-                             .format(self.__labels_string__))
-        if not all(_games.issubset(ex.VALID_GAMES) for _games
+                             .format(self._available_labels_string))
+        if not all(games_.issubset(ex.VALID_GAMES) for games_
                    in [games, test_games]):
             raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
                              'games must be in the following list of '
@@ -229,17 +235,16 @@ class RunExperiments:
                                  .format(hashed_features))
             else:
                 if hashed_features == 0:
-                    hashed_features = self.__n_features_feature_hashing__
+                    hashed_features = self._n_features_feature_hashing
 
         # Incremental learning-related attributes
         self.samples_per_round = samples_per_round
         self.max_rounds = max_rounds
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
-        default_cursor_batch_size = 50
-        self.batch_size = (default_cursor_batch_size
-                           if samples_per_round <= default_cursor_batch_size
-                           else samples_per_round)
+        self.batch_size = (samples_per_round
+                           if samples_per_round < self.default_cursor_batch_size
+                           else self.default_cursor_batch_size)
 
         # MongoDB database
         self.db = db
@@ -248,25 +253,24 @@ class RunExperiments:
         self.games = games
         if not self.games:
             raise ValueError('The set of games must be greater than zero!')
-        self.__games_string__ = ', '.join(self.games)
+        self._games_string = ', '.join(self.games)
 
         # Templates for report file names
-        self.__report_name_template__ = ('{0}_{1}_{2}_{3}.csv'
-                                         .format(self.__games_string__, '{0}',
-                                                 '{1}', '{2}'))
-        self.__stats_name_template__ = (self.__report_name_template__
-                                        .format('{0}', 'stats', '{1}'))
-        self.__model_weights_name_template__ = (self.__report_name_template__
-                                                .format('{0}', 'model_weights',
-                                                        '{1}'))
+        self._report_name_template = ('{0}_{1}_{2}_{3}.csv'
+                                      .format(self._games_string,
+                                              '{0}', '{1}', '{2}'))
+        self._stats_name_template = (self._report_name_template
+                                     .format('{0}', 'stats', '{1}'))
+        self._model_weights_name_template = (self._report_name_template
+                                             .format('{0}', 'model_weights', '{1}'))
         if majority_baseline:
-            self.__majority_baseline_report_name__ = \
+            self._majority_baseline_report_name = \
                 ('{0}_majority_baseline_model_stats.csv'
-                 .format(self.__games_string__))
+                 .format(self._games_string))
         self.test_games = test_games
         if not self.test_games:
             raise ValueError('The set of games must be greater than zero!')
-        self.__test_games_string__ = ', '.join(self.test_games)
+        self._test_games_string = ', '.join(self.test_games)
         self.bin_ranges = bin_ranges
 
         # Objective function
@@ -281,8 +285,7 @@ class RunExperiments:
         self.hashed_features = hashed_features
         self.param_grids = [list(ParameterGrid(param_grid)) for param_grid
                             in param_grids]
-        self.learner_names = [self.__learner_names__[learner] for learner
-                              in learners]
+        self.learner_names = [self._learner_names[learner] for learner in learners]
         self.learner_lists = [[learner(**kwparams) for kwparams in param_grid]
                               for learner, param_grid in zip(learners,
                                                              self.param_grids)]
@@ -300,24 +303,22 @@ class RunExperiments:
         self.test_cursor = None
         self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursor for training data...')
-        self.sorting_args = [(self.__steam_id__, ASCENDING)]
+        self.sorting_args = [(self._steam_id, ASCENDING)]
         self.projection = None
         self.make_train_cursor()
         self.logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
-        self.test_ids = [_data[self.__id__] for _data in self.test_data]
-        self.test_feature_dicts = [_data[self.__x__] for _data in self.test_data]
-        self.y_test = np.array([_data[self.__y__] for _data in self.test_data])
+        self.test_ids = [data_[self._id] for data_ in self.test_data]
+        self.test_feature_dicts = [data_[self._x] for data_ in self.test_data]
+        self.y_test = np.array([data_[self._y] for data_ in self.test_data])
         self.classes = np.unique(self.y_test)
+        self._labels_list = [str(cls) for cls in self.classes]
         self.logger.info('Prediction label classes: {0}'
-                         .format(', '.join([str(x) for x in self.classes])))
+                         .format(', '.join(self._labels_list)))
 
         # Useful constants for use in make_printable_confusion_matrix
-        self.cnfmat_desc = \
-            self.__cnfmat_row__(
-                self.__cnfmat_header__.format(self.classes),
-                self.__tab_join__([''] + [str(x) for x in self.classes])
-                )
+        self.cnfmat_desc = self._cnfmat_row(self._cnfmat_header.format(self.classes),
+                                            self._tab_join([''] + self._labels_list))
 
         # Do incremental learning experiments
         self.logger.info('Incremental learning experiments initialized...')
@@ -344,18 +345,18 @@ class RunExperiments:
 
         # Leave out the '_id' value and the 'nlp_features' value if
         # `self.no_nlp_features` is true
-        self.projection = {self.__obj_id__: 0}
+        self.projection = {self._obj_id: 0}
         if self.no_nlp_features:
-            self.projection.update({self.__nlp_feats__: 0})
+            self.projection.update({self._nlp_feats: 0})
 
         # Make training data cursor
         games = list(self.games)
         if len(games) == 1:
-            train_query = {self.__game__: games[0],
-                           self.__partition__: self.__training__}
+            train_query = {self._game: games[0],
+                           self._partition: self._training}
         else:
-            train_query = {self.__game__: {self.__in_op__: games},
-                           self.__partition__: self.__training__}
+            train_query = {self._game: {self._in_op: games},
+                           self._partition: self._training}
         self.training_cursor = (self.db
                                 .find(train_query, self.projection, timeout=False)
                                 .sort(self.sorting_args))
@@ -382,22 +383,22 @@ class RunExperiments:
         # Add in the NLP features
         if not self.no_nlp_features:
             _update({feat: val for feat, val
-                     in BSON.decode(_get(self.__nlp_feats__)).items()
-                     if val and val != self.__nan__})
+                     in BSON.decode(_get(self._nlp_feats)).items()
+                     if val and val != self._nan})
 
         # Add in the non-NLP features (except for those that may be in
         # the 'achievement_progress' sub-dictionary of the review
         # dictionary)
         _update({feat: val for feat, val in review_doc.items()
-                 if (feat in self.__possible_non_nlp_features__
-                     and val and val != self.__nan__)})
+                 if (feat in self._possible_non_nlp_features
+                     and val and val != self._nan)})
 
         # Add in the features that may be in the 'achievement_progress'
         # sub-dictionary of the review document
         _update({feat: val for feat, val
-                 in _get(self.__achieve_prog__, dict()).items()
-                 if (feat in self.__possible_non_nlp_features__
-                     and val and val != self.__nan__)})
+                 in _get(self._achieve_prog, dict()).items()
+                 if (feat in self._possible_non_nlp_features
+                     and val and val != self._nan)})
 
         # Convert prediction label vale if `self.bin_ranges` is
         # specified and the prediction label is in the features
@@ -414,7 +415,7 @@ class RunExperiments:
 
         # Add in the 'id_string' value just to make it easier to
         # process the results of this function
-        _update({self.__id_string__: _get(self.__id_string__)})
+        _update({self._id_string: _get(self._id_string)})
         return features
 
     def get_data(self, review_doc: dict) -> dict:
@@ -445,12 +446,12 @@ class RunExperiments:
         del feature_dict[self.prediction_label]
 
         # Get ID and remove from feature dictionary
-        id_string = feature_dict[self.__id_string__]
-        del feature_dict[self.__id_string__]
+        id_string = feature_dict[self._id_string]
+        del feature_dict[self._id_string]
 
         # Only keep the non-NLP features that are supposed to be kept,
         # if any
-        for feat in self.__possible_non_nlp_features__:
+        for feat in self._possible_non_nlp_features:
             if (not feat in self.non_nlp_features
                 and feature_dict.get(feat, None) != None):
                 del feature_dict[feat]
@@ -503,11 +504,10 @@ class RunExperiments:
         # Generate the base query
         games = list(self.test_games)
         if len(games) == 1:
-            test_query = {self.__game__: games[0],
-                          self.__partition__: self.__test__}
+            test_query = {self._game_: games[0], self._partition: self._test}
         else:
-            test_query = {self.__game__: {self.__in_op__: games},
-                          self.__partition__: self.__test__}
+            test_query = {self._game_: {self._in_op: games},
+                          self._partition: self._test}
 
         data = []
         j = 0
@@ -517,7 +517,7 @@ class RunExperiments:
                                                  bin_ranges=self.bin_ranges):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
-            _test_query.update({self.__id_string__: id_string})
+            _test_query.update({self._id_string: id_string})
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
@@ -553,15 +553,15 @@ class RunExperiments:
         """
 
         stats_dict = self.get_stats(self.get_majority_baseline())
-        stats_dict.update({self.__test_games__:
+        stats_dict.update({self._test_games:
                                ', '.join(self.test_games)
                                if ex.VALID_GAMES.difference(self.test_games)
-                               else self.__all_games__,
-                           self.__prediction_label__: self.prediction_label,
-                           self.__majority_label__: self.majority_label,
-                           self.__learner__: self.__majority_baseline_model__})
+                               else self._all_games,
+                           self._prediction_label: self.prediction_label,
+                           self._majority_label: self.majority_label,
+                           self._learner: self._majority_baseline_model})
         if self.bin_ranges:
-            stats_dict.update({self.__bin_ranges__: self.bin_ranges})
+            stats_dict.update({self._bin_ranges: self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
@@ -577,8 +577,7 @@ class RunExperiments:
         """
 
         (self.majority_baseline_stats
-         .to_csv(join(output_path, self.__majority_baseline_report_name__),
-                 index=False))
+         .to_csv(join(output_path, self._majority_baseline_report_name), index=False))
 
     def generate_learning_reports(self, output_path: str,
                                   ordering: str = 'objective_last_round') -> None:
@@ -593,7 +592,7 @@ class RunExperiments:
         :param output_path: path to destination directory
         :type output_path: str
         :param ordering: ordering type for ranking the reports (see
-                         `ORDERINGS`)
+                         `RunExperiments._orderings`)
         :type ordering: str
 
         :returns: None
@@ -607,10 +606,9 @@ class RunExperiments:
             raise e
 
         for i, df in enumerate(dfs):
-            learner_name = df[self.__learner__].iloc[0]
+            learner_name = df[self._learner].iloc[0]
             df.to_csv(join(output_path,
-                           self.__stats_name_template__.format(learner_name,
-                                                               i + 1)),
+                           self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
 
     def convert_value_to_bin(self, val: float) -> int:
@@ -645,8 +643,8 @@ class RunExperiments:
                                   labels=self.classes).tolist()
         res = str(self.cnfmat_desc)
         for row, label in zip(cnfmat, self.classes):
-            row = self.__tab_join__([str(x) for x in [label] + row])
-            res = self.__cnfmat_row__(res, row)
+            row = self._tab_join([str(x) for x in [label] + row])
+            res = self._cnfmat_row(res, row)
 
         return res, cnfmat
 
@@ -696,52 +694,52 @@ class RunExperiments:
         # one)
         printable_cnfmat, cnfmat = self.make_printable_confusion_matrix(y_preds)
 
-        return {self.__r__: r,
-                self.__sig__: sig,
-                self.__prec_macro__: precision_score(self.y_test, y_preds,
-                                                     labels=self.classes,
-                                                     average=self.__macro__),
-                self.__prec_weighted__:
+        return {self._r: r,
+                self._sig: sig,
+                self._prec_macro: precision_score(self.y_test, y_preds,
+                                                  labels=self.classes,
+                                                  average=self._macro),
+                self._prec_weighted:
                     precision_score(self.y_test, y_preds, labels=self.classes,
-                                    average=self.__weighted__),
-                self.__f1_macro__: f1_score(self.y_test, y_preds,
+                                    average=self._weighted),
+                self._f1_macro: f1_score(self.y_test, y_preds,
+                                         labels=self.classes,
+                                         average=self._macro),
+                self._f1_weighted: f1_score(self.y_test, y_preds,
                                             labels=self.classes,
-                                            average=self.__macro__),
-                self.__f1_weighted__: f1_score(self.y_test, y_preds,
-                                               labels=self.classes,
-                                               average=self.__weighted__),
-                self.__acc__: accuracy_score(self.y_test, y_preds, normalize=True),
-                self.__cnfmat__: cnfmat,
-                self.__printable_cnfmat__: printable_cnfmat,
-                self.__uwk__: kappa(self.y_test, y_preds),
-                self.__uwk_off_by_one__: kappa(self.y_test, y_preds,
-                                               allow_off_by_one=True),
-                self.__qwk__: kappa(self.y_test, y_preds,
-                                    weights=self.__quadratic__),
-                self.__qwk_off_by_one__: kappa(self.y_test, y_preds,
-                                               weights=self.__quadratic__,
-                                               allow_off_by_one=True),
-                self.__lwk__: kappa(self.y_test, y_preds, weights=self.__linear__),
-                self.__lwk_off_by_one__: kappa(self.y_test, y_preds,
-                                               weights=self.__linear__,
-                                               allow_off_by_one=True)}
+                                            average=self._weighted),
+                self._acc: accuracy_score(self.y_test, y_preds, normalize=True),
+                self._cnfmat: cnfmat,
+                self._printable_cnfmat: printable_cnfmat,
+                self._uwk: kappa(self.y_test, y_preds),
+                self._uwk_off_by_one: kappa(self.y_test, y_preds,
+                                            allow_off_by_one=True),
+                self._qwk: kappa(self.y_test, y_preds,
+                                 weights=self._quadratic),
+                self._qwk_off_by_one: kappa(self.y_test, y_preds,
+                                            weights=self._quadratic,
+                                            allow_off_by_one=True),
+                self._lwk: kappa(self.y_test, y_preds, weights=self._linear),
+                self._lwk_off_by_one: kappa(self.y_test, y_preds,
+                                            weights=self._linear,
+                                            allow_off_by_one=True)}
 
     def rank_experiments_by_objective(self, ordering: str) -> list:
         """
         Rank the experiments in relation to their performance in the
         objective function.
 
-        :param ordering: ordering type (see `ORDERINGS`)
+        :param ordering: ordering type (see
+                         `RunExperiments._orderings`)
         :type ordering: str
 
         :returns: list of dataframes
         :rtype: list
         """
 
-        if not ordering in self.__orderings__:
+        if not ordering in self._orderings:
             raise ValueError('ordering parameter not in the set of possible '
-                             'orderings: {0}'
-                             .format(', '.join(self.__orderings__)))
+                             'orderings: {0}'.format(', '.join(self._orderings)))
 
         # Keep track of the performance
         dfs = []
@@ -764,13 +762,13 @@ class RunExperiments:
                 else:
                     # Get the slope of the performance as the learning
                     # round increases
-                    regression = linregress(stats_df[self.__learning_round__],
+                    regression = linregress(stats_df[self._learning_round],
                                             stats_df[self.objective])
                     performances.append(regression.slope)
 
         # Sort dataframes on ordering value and return
-        return [df[1] for df in sorted(zip(performances, dfs), key=lambda x: x[0],
-                                       reverse=True)]
+        return [df[1] for df
+                in sorted(zip(performances, dfs), key=lambda x: x[0], reverse=True)]
 
     def get_sorted_features_for_learner(self, learner,
                                         filter_zero_features: bool = True) -> list:
@@ -793,7 +791,7 @@ class RunExperiments:
 
         # Raise exception if learner class is not supported
         if any(issubclass(type(learner), cls) for cls
-               in self.__no_introspection_learners_dict__.values()):
+               in self._no_introspection_learners_dict.values()):
             raise ValueError('Can not get feature weights for learners of '
                              'type {0}'.format(type(learner)))
 
@@ -821,12 +819,10 @@ class RunExperiments:
         # one long list of feature/label/coefficient values, sort, and
         # filter out any tuples with zero weight
         features = []
-        for i, _label in enumerate(self.classes):
-            features.extend(
-                [dict(feature=coefs[0], label=coefs[i + 1][0],
-                      weight=coefs[i + 1][1])
-                 for coefs in feature_coefs if coefs[i + 1][1]]
-                )
+        for i in range(1, len(self.classes) + 1):
+            features.extend([dict(feature=coefs[0], label=coefs[i][0],
+                                  weight=coefs[i][1])
+                             for coefs in feature_coefs if coefs[i][1]])
 
         return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
 
@@ -852,7 +848,7 @@ class RunExperiments:
         for (learner_list, learner_name) in zip(self.learner_lists,
                                                 self.learner_names):
             # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
-            if learner_name in self.__no_introspection_learners_dict__:
+            if learner_name in self._no_introspection_learners_dict:
                 continue
 
             for i, learner in enumerate(learner_list):
@@ -864,7 +860,7 @@ class RunExperiments:
                     # Generate feature weights report
                     (pd.DataFrame(sorted_features)
                      .to_csv(join(model_weights_path,
-                                  self.__model_weights_name_template__
+                                  self._model_weights_name_template
                                   .format(learner_name, i + 1)),
                              index=False))
 
@@ -902,9 +898,9 @@ class RunExperiments:
             return
 
         self.logger.info('Round {0}...'.format(self.round))
-        train_ids = np.array([_data[self.__id__] for _data in train_data])
-        y_train = np.array([_data[self.__y__] for _data in train_data])
-        train_feature_dicts = [_data[self.__x__] for _data in train_data]
+        train_ids = np.array([data_[self._id] for data_ in train_data])
+        y_train = np.array([data_[self._y] for data_ in train_data])
+        train_feature_dicts = [data_[self._x] for data_ in train_data]
 
         # Set `vec` if not already set and fit it it the training
         # features, which will only need to be done the first time
@@ -930,7 +926,7 @@ class RunExperiments:
                 if learner_name == 'MiniBatchKMeans':
                     learner.set_params(batch_size=samples)
 
-                if (learner_name in self.__learners_requiring_classes__
+                if (learner_name in self._learners_requiring_classes
                     and self.round == 1):
                     learner.partial_fit(X_train, y_train, classes=self.classes)
                 else:
@@ -946,28 +942,28 @@ class RunExperiments:
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
                 stats_dict = self.get_stats(y_test_preds)
-                stats_dict.update({self.__games__ if len(self.games) > 1
-                                   else self.__game__:
+                stats_dict.update({self._games if len(self.games) > 1
+                                   else self._game:
                                        ', '.join(self.games)
                                        if ex.VALID_GAMES.difference(self.games)
-                                       else self.__all_games__,
-                                   self.__test_games__ if len(self.test_games) > 1
-                                   else self.__test_game__:
+                                       else self._all_games,
+                                   self._test_games if len(self.test_games) > 1
+                                   else self._test_game:
                                        ', '.join(self.test_games)
                                        if ex.VALID_GAMES.difference(self.test_games)
-                                       else self.__all_games__,
-                                   self.__learning_round__: int(self.round),
-                                   self.__prediction_label__: self.prediction_label,
-                                   self.__test_labels_and_preds__:
+                                       else self._all_games,
+                                   self._learning_round: int(self.round),
+                                   self._prediction_label: self.prediction_label,
+                                   self._test_labels_and_preds:
                                        list(zip(self.y_test, y_test_preds)),
-                                   self.__learner__: learner_name,
-                                   self.__params__: learner.get_params(),
-                                   self.__training_samples__: samples,
-                                   self.__non_nlp_features__:
+                                   self._learner: learner_name,
+                                   self._params: learner.get_params(),
+                                   self._training_samples: samples,
+                                   self._non_nlp_features:
                                        ', '.join(self.non_nlp_features),
-                                   self.__no_nlp_features__: self.no_nlp_features})
+                                   self._no_nlp_features: self.no_nlp_features})
                 if self.bin_ranges:
-                    stats_dict.update({self.__bin_ranges__: self.bin_ranges})
+                    stats_dict.update({self._bin_ranges: self.bin_ranges})
                 self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
 
         # Increment the round number
@@ -1086,7 +1082,7 @@ def main(argv=None):
              help='Order output reports by best last round objective '
                   'performance, best learning round objective performance, or'
                   ' by best objective slope.',
-             choices=ORDERINGS,
+             choices=RunExperiments._orderings,
              default='objective_last_round')
     _add_arg('-baseline', '--evaluate_majority_baseline',
              help='Evaluate the majority baseline model.',
@@ -1141,7 +1137,7 @@ def main(argv=None):
     evaluate_majority_baseline = args.evaluate_majority_baseline
     save_best_features = args.save_best_features
     if save_best_features:
-        if learners.issubset(RunExperiments.__no_introspection_learners_dict__):
+        if learners.issubset(RunExperiments._no_introspection_learners_dict):
             loginfo('The specified set of learners do not work with the '
                     'current way of extracting features from models and, '
                     'thus, -save_best/--save_best_features, will be ignored.')
