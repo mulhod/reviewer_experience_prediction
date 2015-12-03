@@ -278,12 +278,20 @@ def parse_games_string(games_string: str) -> set:
     return set(specified_games)
 
 
-def test_data_distributional_info(db: collection, label: str, games: list,
-                                  bin_ranges: list = None) -> dict:
+def distributional_info(db: collection, label: str, games: list,
+                        partition: str = 'test', bin_ranges: list = None,
+                        limit: int = 0) -> dict:
     """
     Generate some distributional information regarding the given label
     (or for the implicit labels given a list of label bin ranges) for
-    the test data partition(s) for the given list of games.
+    the for the given list of games.
+
+    By default, the 'test' partition is used, but the 'train' partition
+    can be specified via the `partition` parameter. If 'all' is
+    specified for the `partition` parameter, the partition is left
+    unspecified (i.e., all of the data is used). Also, a limit
+    (concerning the cursor that is created) can be specified via the
+    `limit` parameter.
 
     Returns a dictionary containing keys whose values are: a mapping
     between ID strings and label values and a frequency distribution of
@@ -296,8 +304,14 @@ def test_data_distributional_info(db: collection, label: str, games: list,
     :type label: str
     :param games: list of game IDs
     :type games: list
+    :param partition: data partition, i.e., 'train', 'test', or 'all'
+                      to use all of the data (default: 'test')
+    :type partition: str
     :param bin_ranges: list of ranges
     :type bin_ranges: list or None
+    :param limit: cursor limit (defaults to 0, which signifies no
+                                limit)
+    :type limit: int
 
     :returns: dictionary containing `id_strings_labels_dict` and
               `labels_counter` keys, which are mapped to a dictionary
@@ -311,7 +325,13 @@ def test_data_distributional_info(db: collection, label: str, games: list,
                         of game, partition, etc.
     """
 
-    partition = 'test'
+    # Check `partition` and `limit` parameter values
+    if partition != 'test' and not partition in ['train', 'all']:
+        raise ValueError('The only values recognized for the "partition" '
+                         'parameter are "test", "train", and "all" (for no '
+                         'partition, i.e., all of the data).')
+    if limit != 0 and (type(limit) != int or limit < 0):
+        raise ValueError('"limit" must be a positive integer.')
 
     # Make sure the games are in the list of valid games
     if any(not game in APPID_DICT for game in games):
@@ -319,11 +339,19 @@ def test_data_distributional_info(db: collection, label: str, games: list,
                          'games, {0}, are not in list of available games'
                          .format(', '.join(games)))
 
+    # Generate a query
     if len(games) == 1:
-        query = {'partition': partition, 'game': games[0]}
+        query = {'game': games[0]}
     else:
-        query = {'partition': partition, 'game': {'$in': games}}
-    cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
+        query = {'game': {'$in': games}}
+    if partition != 'all':
+        query['partition'] = partition
+
+    # Create a MongoDB cursor on the collection
+    if limit:
+        cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0}, limit=limit)
+    else:
+        cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
 
     # Get review documents (only including label + ID string)
     reviews = [doc for doc in cursor if doc.get(label)]
@@ -347,15 +375,21 @@ def test_data_distributional_info(db: collection, label: str, games: list,
                 labels_counter=labels_counter)
 
 
-def evenly_distribute_test_samples(db: collection, label: str, games: list,
-                                   bin_ranges: list = None) -> str:
+def evenly_distribute_samples(db: collection, label: str, games: list,
+                              partition: str = 'test',
+                              bin_ranges: list = None) -> str:
     """
-    Generate ID strings from test data samples that, altogether, form a
-    maximally evenly-distributed set of test samples with respect to
-    the prediction label or to binned prediction label, specifically
-    for cases when a small subset of the total test partition is being
-    used. If `bin_ranges` is specified, all labels will be converted
-    using it.
+    Generate ID strings from data samples that, altogether, form a
+    maximally evenly-distributed set of samples with respect to the
+    the prediction label or to the "binned" prediction label,
+    specifically for cases when a small subset of the total data is
+    being used. If `bin_ranges` is specified, all labels will be
+    converted using it.
+
+    By default, the 'test' partition is used, but the 'train' partition
+    can be specified via the `partition` parameter. If 'all' is
+    specified for the `partition` parameter, the partition is left
+    unspecified (i.e., all of the data is used).
 
     :param db: MongoDB collection
     :type db: collection
@@ -363,6 +397,9 @@ def evenly_distribute_test_samples(db: collection, label: str, games: list,
     :type label: str
     :param games: list of game IDs
     :type games: list
+    :param partition: data partition, i.e., 'train', 'test', or 'all'
+                      to use all of the data (default: 'test')
+    :type partition: str
     :param bin_ranges: list of ranges
     :type bin_ranges: list or None
 
@@ -370,10 +407,17 @@ def evenly_distribute_test_samples(db: collection, label: str, games: list,
     :ytype: str
     """
 
+    # Check `partition` parameter value
+    if partition != 'test' and not partition in ['train', 'all']:
+        raise ValueError('The only values recognized for the "partition" '
+                         'parameter are "test", "train", and "all" (for no '
+                         'partition, i.e., all of the data).')
+
     # Get dictionary of ID strings mapped to labels and a frequency
     # distribution of the labels
-    distribution_dict = test_data_distributional_info(db, label, games,
-                                                      bin_ranges=bin_ranges)
+    distribution_dict = distributional_info(db, label, games,
+                                            partition=partition,
+                                            bin_ranges=bin_ranges)
 
     # Create a maximally evenly-distributed list of samples with
     # respect to label

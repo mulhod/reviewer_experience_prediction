@@ -512,12 +512,11 @@ class RunExperiments:
         data = []
         j = 0
         for id_string \
-            in ex.evenly_distribute_test_samples(self.db, self.prediction_label,
-                                                 games,
-                                                 bin_ranges=self.bin_ranges):
+            in ex.evenly_distribute_samples(self.db, self.prediction_label,
+                                            games, bin_ranges=self.bin_ranges):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
-            _test_query.update({self._id_string: id_string})
+            _test_query[self._id_string] = id_string
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
