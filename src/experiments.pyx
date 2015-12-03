@@ -83,6 +83,12 @@ LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
                     'num_achievements_possible'})
 TIME_LABELS = frozenset({'total_game_hours', 'total_game_hours_bin',
                          'total_game_hours_last_two_weeks'})
+FRIENDS_LABELS = frozenset({'num_friends', 'friend_player_level'})
+HELPFUL_LABELS = frozenset({'num_voted_helpfulness', 'num_found_helpful',
+                            'found_helpful_percentage', 'num_found_unhelpful'})
+ACHIEVEMENTS_LABELS = frozenset({'num_achievements_percentage',
+                                 'num_achievements_attained',
+                                 'num_achievements_possible'})
 
 # Valid games
 VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
@@ -169,26 +175,70 @@ def parse_non_nlp_features_string(features_string: str,
 
     if features_string == 'all':
         non_nlp_features = set(LABELS)
+
+        # Remove time-related labels if the prediction label is also
+        # time-related
         if prediction_label in TIME_LABELS:
             [non_nlp_features.remove(label) for label in TIME_LABELS]
+
+        # Remove friends-related labels if the prediction label is also
+        # friends-related
+        elif prediction_label in FRIENDS_LABELS:
+            [non_nlp_features.remove(label) for label in FRIENDS_LABELS]
+
+        # Remove helpful-related labels if the prediction label is also
+        # helpful-related
+        elif prediction_label in HELPFUL_LABELS:
+            [non_nlp_features.remove(label) for label in HELPFUL_LABELS]
+
+        # Remove achievements-related labels if the prediction label is
+        # also achievements-related
+        elif prediction_label in ACHIEVEMENTS_LABELS:
+            [non_nlp_features.remove(label) for label in ACHIEVEMENTS_LABELS]
+
+        # Otherwise, just remove the prediction label
         else:
             non_nlp_features.remove(prediction_label)
+
     elif features_string == 'none':
         non_nlp_features = set()
     else:
         non_nlp_features = set(features_string.split(','))
+
+        # Raise an exception if unrecognized labels are found
         if not non_nlp_features.issubset(LABELS):
             raise ValueError('Found unrecognized feature(s) in the list of '
                              'passed-in non-NLP features: {0}. Available '
                              'features: {1}.'
                              .format(', '.join(non_nlp_features),
                                      ', '.join(LABELS)))
+
+        # Raise an exception if there are conflicts between the
+        # prediction label and the set of non-NLP labels to use
         if (prediction_label in TIME_LABELS
             and non_nlp_features.intersection(TIME_LABELS)):
             raise ValueError('The list of non-NLP features should not '
                              'contain any of the time-related features if '
                              'the prediction label is itself a '
                              'time-related feature.')
+        elif (prediction_label in FRIENDS_LABELS
+              and non_nlp_features.intersection(FRIENDS_LABELS)):
+            raise ValueError('The list of non-NLP features should not '
+                             'contain any of the friends-related features if '
+                             'the prediction label is itself a '
+                             'friends-related feature.')
+        elif (prediction_label in HELPFUL_LABELS
+              and non_nlp_features.intersection(HELPFUL_LABELS)):
+            raise ValueError('The list of non-NLP features should not '
+                             'contain any of the helpful-related features if '
+                             'the prediction label is itself a '
+                             'helpful-related feature.')
+        elif (prediction_label in ACHIEVEMENTS_LABELS
+              and non_nlp_features.intersection(ACHIEVEMENTS_LABELS)):
+            raise ValueError('The list of non-NLP features should not '
+                             'contain any of the achievements-related '
+                             'features if the prediction label is itself an '
+                             'achievements-related feature.')
 
     return non_nlp_features
 
