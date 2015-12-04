@@ -325,11 +325,13 @@ def distributional_info(db: collection, label: str, games: list,
                         of game, partition, etc.
     """
 
-    # Check `partition` and `limit` parameter values
+    # Check `partition`, `label`, and `limit` parameter values
     if partition != 'test' and not partition in ['train', 'all']:
         raise ValueError('The only values recognized for the "partition" '
                          'parameter are "test", "train", and "all" (for no '
                          'partition, i.e., all of the data).')
+    if not label in LABELS:
+        raise ValueError('Unrecognized label: {0}'.format(label))
     if limit != 0 and (type(limit) != int or limit < 0):
         raise ValueError('"limit" must be a positive integer.')
 
@@ -348,31 +350,67 @@ def distributional_info(db: collection, label: str, games: list,
         query['partition'] = partition
 
     # Create a MongoDB cursor on the collection
-    if limit:
-        cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0}, limit=limit)
-    else:
-        cursor = db.find(query, {label: 1, 'id_string': 1, '_id': 0})
+    kwargs = {'limit': limit}
+    proj = {'nlp_features': 0}
+    cursor = db.find(query, proj, **kwargs)
 
     # Get review documents (only including label + ID string)
-    reviews = [doc for doc in cursor if doc.get(label)]
+    samples = []
+    for doc in cursor:
+        label_value = get_label_in_doc(doc, label)
+        if label_value != None:
+            samples.append({'id_string': doc['id_string'], label: label_value})
 
     # Raise exception if no review documents were found
-    if not reviews:
+    if not samples:
         raise ValueError('No review documents were found!')
 
-    id_strings_labels_dict = {doc['id_string']: get_bin(bin_ranges, doc[label])
-                                                if bin_ranges else doc[label]
-                              for doc in reviews}
+    id_strings_labels_dict = \
+        {doc['id_string']: get_bin(bin_ranges, doc[label]) if bin_ranges
+                           else doc[label]
+         for doc in samples}
     if bin_ranges:
-        labels_counter = Counter([get_bin(bin_ranges, doc[label]) if bin_ranges
-                                  else doc[label]
-                                  for doc in reviews])
+        labels_counter = \
+            Counter([get_bin(bin_ranges, doc[label]) if bin_ranges else doc[label]
+                     for doc in samples])
     else:
-        labels_counter = Counter([doc[label] for doc in reviews])
+        labels_counter = Counter([doc[label] for doc in samples])
 
-    # Return dictionary of ID strings mapped to label values
+    # Return dictionary containing a key 'id_strings_labels_dict'
+    # mapped to a dictionary mapping ID strings to label values and a
+    # key 'labels_counter' mapped to a Counter object of the label
+    # values
     return dict(id_strings_labels_dict=id_strings_labels_dict,
                 labels_counter=labels_counter)
+
+
+def get_label_in_doc(doc: dict, label: str):
+    """
+    Return the value for a label in a sample document and return None
+    if not in the document.
+
+    :param doc: sample document dictionary
+    :type doc: dict
+    :param label: document key that functions as a label
+    :type label: str
+
+    :returns: label value
+    :rtype: int/float/str/None
+
+    :raises ValueError: if the label is not in `LABELS`
+    """
+
+    if not label in LABELS:
+        raise ValueError('Unrecognized label: {0}'.format(label))
+
+    if label in doc:
+        return doc[label]
+
+    achievement_progress_string = 'achievement_progress'
+    if achievement_progress_string in doc:
+        achievement_progress = doc[achievement_progress_string]
+        if label in achievement_progress:
+            return achievement_progress[label]
 
 
 def evenly_distribute_samples(db: collection, label: str, games: list,
