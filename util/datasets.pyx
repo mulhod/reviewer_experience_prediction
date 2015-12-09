@@ -1040,7 +1040,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
 
 
 def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
-                          float factor) -> list:
+                          float factor, lognormal: bool = False) -> list:
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
@@ -1058,6 +1058,9 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
     :param factor: factor by which to multiply the bin sizes (default:
                    1.0)
     :type factor: float
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
 
     :returns: list of tuples representing the minimum and maximum
               values of each bin or None if `nbins` is 0
@@ -1071,7 +1074,8 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
         raise ValueError('"nbins" must be positive integer greater than 1.')
 
     # Get label values
-    values = np.array(get_label_values(db, games, label, nbins, factor))
+    values = np.array(get_label_values(db, games, label, nbins, factor,
+                                       lognormal=lognormal))
 
     # Divide up the distribution of label values
     return get_bin_ranges(values.min(), values.max(), nbins, factor)
@@ -1116,7 +1120,7 @@ def get_bin(bin_ranges: list, float val) -> int:
 
 
 def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
-                     bin_factor: float = 1.0) -> list:
+                     bin_factor: float = 1.0, lognormal: bool = False) -> list:
     """
     Get all of the values for the given label in the data for the
     given games.
@@ -1132,6 +1136,9 @@ def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
     :type nbins: int
     :param bin_factor: factor by which to multiply each succeeding bin
     :type bin_factor: float
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
 
     :returns: list of label values that are not equal to None or an
               empty string
@@ -1142,13 +1149,21 @@ def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
     cursor = db.find({'game': {'$in': list(games)}},
                      {'_id': False, 'nlp_features': False})
 
-    # Collect all of the values from the MongoDB for the given
-    # label/set of games and drop NaNs
+    # Collect all of the values from the MongoDB collection for the
+    # given label/set of games and drop NaNs
     cdef int column = 0
     cdef int axis = 1
-    return list(pd.DataFrame([doc.get(label) for doc in cursor])
-                .xs(column, axis=axis)
-                .dropna())
+    if lognormal:
+        label_values = []
+        for doc in cursor:
+            value = doc.get(label)
+            if value > 1:
+                label_values.append(np.log(value))
+            else:
+                label_values.append(0)
+    else:
+        label_values = [doc.get(label) for doc in cursor]
+    return list(pd.DataFrame(label_values).xs(column, axis=axis).dropna())
 
 
 def write_arff_file(dest_path: str, file_names: list, reviews: list = None,

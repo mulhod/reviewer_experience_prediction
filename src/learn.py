@@ -142,8 +142,8 @@ class RunExperiments:
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
                  prediction_label: str, objective: str, logger: logging.RootLogger,
                  hashed_features: int = None, no_nlp_features: bool = False,
-                 bin_ranges: list = None, max_test_samples: int = 0,
-                 max_rounds: int = 0,
+                 bin_ranges: list = None, lognormal: bool = False,
+                 max_test_samples: int = 0, max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
         """
         Initialize class.
@@ -185,6 +185,9 @@ class RunExperiments:
                            splitting up the distribution of prediction
                            label values)
         :type bin_ranges: list or None
+        :param lognormal: transform raw label values using `ln` (default:
+                          False)
+        :type lognormal: bool
         :param max_test_samples: limit for the number of test samples
                                  (defaults to 0 for no limit)
         :type max_test_samples: int
@@ -272,6 +275,7 @@ class RunExperiments:
             raise ValueError('The set of games must be greater than zero!')
         self._test_games_string = ', '.join(self.test_games)
         self.bin_ranges = bin_ranges
+        self.lognormal = lognormal
 
         # Objective function
         self.objective = objective
@@ -443,6 +447,8 @@ class RunExperiments:
         # Get prediction label and remove it from the feature
         # dictionary
         y_value = feature_dict[self.prediction_label]
+        if self.lognormal and y_value < 1:
+            y_value = np.log(y_value)
         del feature_dict[self.prediction_label]
 
         # Get ID and remove from feature dictionary
@@ -1068,6 +1074,12 @@ def main(argv=None):
                   ' to 1.0 if --nbins is specified.',
              type=float,
              required=False)
+    _add_arg('--lognormal',
+             help='Transform raw label values with log before doing anything '
+                  'else, whether it be binning the values or learning from '
+                  'them.',
+             action='store_true',
+             default=False)
     _add_arg('-feature_hasher', '--use_feature_hasher',
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
@@ -1121,6 +1133,7 @@ def main(argv=None):
     only_non_nlp_features = args.only_non_nlp_features
     nbins = args.nbins
     bin_factor = args.bin_factor
+    lognormal = args.lognormal
     feature_hashing = args.use_feature_hasher
     learners = ex.parse_learners_string(args.learners)
     host = args.mongodb_host
@@ -1198,6 +1211,7 @@ def main(argv=None):
     loginfo('Maximum number of training samples to use in each round: {0}'
             .format(max_samples_per_round))
     loginfo('Prediction label: {0}'.format(prediction_label))
+    loginfo('Lognormal transformation: {0}'.format(lognormal))
     loginfo('Non-NLP features to use: {0}'
             .format(', '.join(non_nlp_features) if non_nlp_features else 'none'))
     if only_non_nlp_features:
@@ -1246,7 +1260,7 @@ def main(argv=None):
         # number of bins and the factor by which they should be
         # multiplied as the index increases
         bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
-                                           bin_factor)
+                                           bin_factor, lognormal=lognormal)
         loginfo('Bin ranges (nbins = {0}, bin_factor = {1}): {2}'
                 .format(nbins, bin_factor, bin_ranges))
 
@@ -1266,6 +1280,7 @@ def main(argv=None):
                                  hashed_features=0 if feature_hashing else None,
                                  no_nlp_features=only_non_nlp_features,
                                  bin_ranges=bin_ranges,
+                                 lognormal=lognormal,
                                  max_test_samples=max_test_samples,
                                  max_rounds=max_rounds,
                                  majority_baseline=evaluate_majority_baseline)
