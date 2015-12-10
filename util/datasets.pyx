@@ -1074,8 +1074,7 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
         raise ValueError('"nbins" must be positive integer greater than 1.')
 
     # Get label values
-    values = np.array(get_label_values(db, games, label, nbins, factor,
-                                       lognormal=lognormal))
+    values = np.array(get_label_values(db, games, label, lognormal=lognormal))
 
     # Divide up the distribution of label values
     return get_bin_ranges(values.min(), values.max(), nbins, factor)
@@ -1110,20 +1109,24 @@ def get_bin(bin_ranges: list, float val) -> int:
         except AssertionError:
             almost_equal_end = False
 
-        if ((val > bin_range[0]
-             or almost_equal_begin)
-            and (val < bin_range[1]
-                 or almost_equal_end)):
+        if ((val > bin_range[0] or almost_equal_begin)
+            and (val < bin_range[1] or almost_equal_end)):
             return i + 1
 
     return -1
 
 
-def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
-                     bin_factor: float = 1.0, lognormal: bool = False) -> list:
+def get_label_values(db: collection, games: list, label: str,
+                     lognormal: bool = False) -> list:
     """
     Get all of the values for the given label in the data for the
-    given games.
+    given list of game(s). Optionally transform raw values with
+    `np.log` if lognormal is set to True (False by default).
+
+    The raw values of either `num_achievements_percentage` or
+    `found_helpful_percentage` labels (i.e., that have percentage
+    values between 0.0 and 1.0, inclusive) will be multiplied by 100
+    before doing any other transformation (if any).
 
     :param db: MongoDB collection
     :type db: collection
@@ -1131,11 +1134,6 @@ def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
     :type games: list
     :param label: feature label
     :type label: str
-    :param nbins: number of bins into which to split up the
-                  distribution of values
-    :type nbins: int
-    :param bin_factor: factor by which to multiply each succeeding bin
-    :type bin_factor: float
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
@@ -1153,17 +1151,49 @@ def get_label_values(db: collection, games: list, label: str, nbins: int = 2,
     # given label/set of games and drop NaNs
     cdef int column = 0
     cdef int axis = 1
-    if lognormal:
-        label_values = []
-        for doc in cursor:
-            value = doc.get(label)
-            if value > 1:
-                label_values.append(np.log(value))
-            else:
-                label_values.append(0)
-    else:
-        label_values = [doc.get(label) for doc in cursor]
+    label_values = [compute_label_value(doc.get(label),
+                                        label,
+                                        lognormal=lognormal)
+                    for doc in cursor]
     return list(pd.DataFrame(label_values).xs(column, axis=axis).dropna())
+
+
+def compute_label_value(value, label, lognormal: bool = False):
+    """
+    :param value: label value (always a positive value)
+    :type value: int/float
+    :param label: feature label
+    :type label: str
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
+
+    :returns: the value of the label, after applying transformations
+              (if any)
+    :rtype: float
+
+    :raises ValueError: if `value` is not positive
+    """
+
+    # Check if value is positive
+    if value < 0.0:
+        raise ValueError('Received invalid "value" value: {}. "value" should '
+                         'be positive.'.format(value))
+
+    # If the label has percentage values, i.e., values between 0.0 and
+    # 1.0 (inclusive), multiply the value by 100 before doing anything
+    # else
+    if label in {'num_achievements_percentage', 'found_helpful_percentage'}:
+        value *= 100.0
+
+    # Apply natural log transformation to values above greater than or
+    # equal to 1 (positive values less than 1 are very small, so they
+    # are just converted to 0)
+    if lognormal:
+        if value > 1.0:
+            return np.log(value)
+        else:
+            return value
 
 
 def write_arff_file(dest_path: str, file_names: list, reviews: list = None,

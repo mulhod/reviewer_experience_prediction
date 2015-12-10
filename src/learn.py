@@ -404,17 +404,8 @@ class RunExperiments:
                  if (feat in self._possible_non_nlp_features
                      and val and val != self._nan)})
 
-        # Convert prediction label vale if `self.bin_ranges` is
-        # specified and the prediction label is in the features
-        # dictionary; if the prediction label is not in the
-        # dictionary, return
-        _label = float(features.get(self.prediction_label))
-        if _label:
-            # If `self.bin_ranges` was specified, convert the value of the
-            # prediction label (if present) to the corresponding bin
-            if self.bin_ranges:
-                features[self.prediction_label] = self.convert_value_to_bin(_label)
-        else:
+        # Return None if the prediction label isn't present
+        if not features.get(self.prediction_label):
             return
 
         # Add in the 'id_string' value just to make it easier to
@@ -444,11 +435,9 @@ class RunExperiments:
         if not feature_dict:
             return
 
-        # Get prediction label and remove it from the feature
-        # dictionary
-        y_value = feature_dict[self.prediction_label]
-        if self.lognormal and y_value < 1:
-            y_value = np.log(y_value)
+        # Get prediction label, apply transformations, and remove it
+        # from the feature dictionary
+        y_value = self.transform_value(feature_dict[self.prediction_label])
         del feature_dict[self.prediction_label]
 
         # Get ID and remove from feature dictionary
@@ -467,8 +456,9 @@ class RunExperiments:
         if not feature_dict:
             return
 
-        # Return dictionary of features
-        return dict(y=y_value, id=id_string, x=feature_dict)
+        # Return dictionary of prediction label value, ID string, and
+        # features
+        return {self._y: y_value, self._id: id_string, self._x: feature_dict}
 
     def get_train_data_iteration(self) -> list:
         """
@@ -519,7 +509,8 @@ class RunExperiments:
         j = 0
         for id_string \
             in ex.evenly_distribute_samples(self.db, self.prediction_label,
-                                            games, bin_ranges=self.bin_ranges):
+                                            games, bin_ranges=self.bin_ranges,
+                                            lognormal=self.lognormal):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
             _test_query[self._id_string] = id_string
@@ -616,7 +607,7 @@ class RunExperiments:
                            self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
 
-    def convert_value_to_bin(self, val: float) -> int:
+    def transform_value(self, val: float) -> int:
         """
         Convert the value to the index of the bin in which it resides.
 
@@ -627,6 +618,12 @@ class RunExperiments:
         :rtype: int
         """
 
+        # Apply transformations (multiplpy by 100 if percentage and/or
+        # natural log) if specified
+        val = compute_label_value(val, self.prediction_label,
+                                  lognormal=self.lognormal)
+
+        # Convert value to bin-transformed value
         if not self.bin_ranges:
             return val
         return get_bin(self.bin_ranges, val)

@@ -15,7 +15,8 @@ from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
 from data import APPID_DICT
-from util.datasets import get_bin
+from util.datasets import (get_bin,
+                           compute_label_value)
 
 SEED = 123456789
 
@@ -280,11 +281,12 @@ def parse_games_string(games_string: str) -> set:
 
 def distributional_info(db: collection, label: str, games: list,
                         partition: str = 'test', bin_ranges: list = None,
-                        limit: int = 0) -> dict:
+                        lognormal: bool = False, limit: int = 0) -> dict:
     """
     Generate some distributional information regarding the given label
-    (or for the implicit labels given a list of label bin ranges) for
-    the for the given list of games.
+    (or for the implicit/transformed labels given a list of label bin
+    ranges and/or setting `lognormal` to True) for the for the given
+    list of games.
 
     By default, the 'test' partition is used, but the 'train' partition
     can be specified via the `partition` parameter. If 'all' is
@@ -309,6 +311,9 @@ def distributional_info(db: collection, label: str, games: list,
     :type partition: str
     :param bin_ranges: list of ranges
     :type bin_ranges: list or None
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
     :param limit: cursor limit (defaults to 0, which signifies no
                                 limit)
     :type limit: int
@@ -357,7 +362,11 @@ def distributional_info(db: collection, label: str, games: list,
     # Get review documents (only including label + ID string)
     samples = []
     for doc in cursor:
-        label_value = get_label_in_doc(doc, label)
+        label_value = compute_label_value(get_label_in_doc(doc, label),
+                                          label, lognormal=lognormal)
+        if bin_ranges:
+            label_value = get_bin(bin_ranges, label_value)
+
         if label_value != None:
             samples.append({'id_string': doc['id_string'], label: label_value})
 
@@ -365,21 +374,12 @@ def distributional_info(db: collection, label: str, games: list,
     if not samples:
         raise ValueError('No review documents were found!')
 
-    id_strings_labels_dict = \
-        {doc['id_string']: get_bin(bin_ranges, doc[label]) if bin_ranges
-                           else doc[label]
-         for doc in samples}
-    if bin_ranges:
-        labels_counter = \
-            Counter([get_bin(bin_ranges, doc[label]) if bin_ranges else doc[label]
-                     for doc in samples])
-    else:
-        labels_counter = Counter([doc[label] for doc in samples])
-
     # Return dictionary containing a key 'id_strings_labels_dict'
     # mapped to a dictionary mapping ID strings to label values and a
     # key 'labels_counter' mapped to a Counter object of the label
     # values
+    id_strings_labels_dict = {doc['id_string']: doc[label] for doc in samples}
+    labels_counter = Counter([doc[label] for doc in samples])
     return dict(id_strings_labels_dict=id_strings_labels_dict,
                 labels_counter=labels_counter)
 
