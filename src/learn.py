@@ -49,6 +49,7 @@ from src import log_format_string
 from src import experiments as ex
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
+                           compute_label_value,
                            get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
@@ -620,8 +621,8 @@ class RunExperiments:
 
         # Apply transformations (multiplpy by 100 if percentage and/or
         # natural log) if specified
-        val = compute_label_values(val, self.prediction_label,
-                                   lognormal=self.lognormal)
+        val = compute_label_value(val, self.prediction_label,
+                                  lognormal=self.lognormal)
 
         # Convert value to bin-transformed value
         if not self.bin_ranges:
