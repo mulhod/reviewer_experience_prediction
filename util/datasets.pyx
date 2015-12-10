@@ -1198,6 +1198,8 @@ def compute_label_value(value, label, lognormal: bool = False):
             return np.log(value)
         else:
             return value
+    else:
+        return value
 
 
 def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
