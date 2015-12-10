@@ -620,8 +620,8 @@ class RunExperiments:
 
         # Apply transformations (multiplpy by 100 if percentage and/or
         # natural log) if specified
-        val = compute_label_value(val, self.prediction_label,
-                                  lognormal=self.lognormal)
+        val = compute_label_values(val, self.prediction_label,
+                                   lognormal=self.lognormal)
 
         # Convert value to bin-transformed value
         if not self.bin_ranges:
