@@ -246,8 +246,8 @@ class RunExperiments:
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
         self.batch_size = (samples_per_round
-                           if samples_per_round < self.default_cursor_batch_size
-                           else self.default_cursor_batch_size)
+                           if samples_per_round < self._default_cursor_batch_size
+                           else self._default_cursor_batch_size)
 
         # MongoDB database
         self.db = db
