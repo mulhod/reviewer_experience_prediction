@@ -362,13 +362,19 @@ def distributional_info(db: collection, label: str, games: list,
     # Get review documents (only including label + ID string)
     samples = []
     for doc in cursor:
+        # Apply lognormal transformation and/or multiplication by 100
+        # if this is a percentage value
         label_value = compute_label_value(get_label_in_doc(doc, label),
                                           label, lognormal=lognormal)
+
+        # Skip label values that are equal to None
+        if label_value == None:
+            continue
+
         if bin_ranges:
             label_value = get_bin(bin_ranges, label_value)
 
-        if label_value != None:
-            samples.append({'id_string': doc['id_string'], label: label_value})
+        samples.append({'id_string': doc['id_string'], label: label_value})
 
     # Raise exception if no review documents were found
     if not samples:

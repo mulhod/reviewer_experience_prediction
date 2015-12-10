@@ -1170,7 +1170,7 @@ def compute_label_value(value, label, lognormal: bool = False):
 
     :returns: the value of the label, after applying transformations
               (if any)
-    :rtype: float
+    :rtype: float or None
 
     :raises ValueError: if `value` is not positive
     """
@@ -1178,6 +1178,8 @@ def compute_label_value(value, label, lognormal: bool = False):
     # Return None if value is None
     if value == None:
         return None
+
+    value = float(value)
 
     # Check if value is positive
     if value < 0.0:
