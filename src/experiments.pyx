@@ -415,7 +415,8 @@ def get_label_in_doc(doc: dict, label: str):
 
 def evenly_distribute_samples(db: collection, label: str, games: list,
                               partition: str = 'test',
-                              bin_ranges: list = None) -> str:
+                              bin_ranges: list = None,
+                              lognormal: bool = False) -> str:
     """
     Generate ID strings from data samples that, altogether, form a
     maximally evenly-distributed set of samples with respect to the
@@ -440,6 +441,9 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
     :type partition: str
     :param bin_ranges: list of ranges
     :type bin_ranges: list or None
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
 
     :yields: ID string
     :ytype: str
@@ -455,7 +459,8 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
     # distribution of the labels
     distribution_dict = distributional_info(db, label, games,
                                             partition=partition,
-                                            bin_ranges=bin_ranges)
+                                            bin_ranges=bin_ranges,
+                                            lognormal=lognormal)
 
     # Create a maximally evenly-distributed list of samples with
     # respect to label
