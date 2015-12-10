@@ -49,6 +49,7 @@ from src import log_format_string
 from src import experiments as ex
 from util.mongodb import connect_to_db
 from util.datasets import (get_bin,
+                           compute_label_value,
                            get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
