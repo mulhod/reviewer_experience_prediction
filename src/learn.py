@@ -500,9 +500,9 @@ class RunExperiments:
         # Generate the base query
         games = list(self.test_games)
         if len(games) == 1:
-            test_query = {self._game_: games[0], self._partition: self._test}
+            test_query = {self._game: games[0], self._partition: self._test}
         else:
-            test_query = {self._game_: {self._in_op: games},
+            test_query = {self._game: {self._in_op: games},
                           self._partition: self._test}
 
         data = []
