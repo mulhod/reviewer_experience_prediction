@@ -1155,13 +1155,13 @@ def get_label_values(db: collection, games: list, label: str,
                                         label,
                                         lognormal=lognormal)
                     for doc in cursor]
-    return list(pd.DataFrame(label_values).xs(column, axis=axis).dropna())
+    return list(filter(lambda x: not x == None, label_values))
 
 
 def compute_label_value(value, label, lognormal: bool = False):
     """
     :param value: label value (always a positive value)
-    :type value: int/float
+    :type value: int/float/None
     :param label: feature label
     :type label: str
     :param lognormal: transform raw label values using `ln` (default:
@@ -1174,6 +1174,10 @@ def compute_label_value(value, label, lognormal: bool = False):
 
     :raises ValueError: if `value` is not positive
     """
+
+    # Return None if value is None
+    if value == None:
+        return None
 
     # Check if value is positive
     if value < 0.0:
