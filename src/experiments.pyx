@@ -326,8 +326,8 @@ def distributional_info(db: collection, label: str, games: list,
     :rtype: dict
 
     :raises ValueError: if unrecognized games were found in the input
-                        or new reviews were found for the combination
-                        of game, partition, etc.
+                        or no reviews were found for the combination of
+                        game, partition, etc.
     """
 
     # Check `partition`, `label`, and `limit` parameter values
