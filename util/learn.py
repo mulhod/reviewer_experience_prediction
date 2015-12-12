@@ -48,6 +48,11 @@ from data import APPID_DICT
 from src import log_format_string
 from src import experiments as ex
 from src.mongodb import connect_to_db
+from src import (LABELS,
+                 VALID_GAMES,
+                 LEARNER_DICT,
+                 OBJ_FUNC_ABBRS_DICT,
+                 OBJ_FUNC_ABBRS_STRING)
 from src.datasets import (get_bin,
                           compute_label_value,
                           get_bin_ranges_helper)
@@ -113,7 +118,7 @@ class RunExperiments:
     _cnfmat_header = ('confusion_matrix (rounded predictions) '
                       '(row=actual, col=machine, labels={0}):\n')
     _report_name_template = '{0}_{1}_{2}_{3}.csv'
-    _available_labels_string = ', '.join(ex.LABELS)
+    _available_labels_string = ', '.join(LABELS)
     _labels_list = None
 
     # Constant values
@@ -137,7 +142,7 @@ class RunExperiments:
                       PassiveAggressiveRegressor: 'PassiveAggressiveRegressor'}
     _orderings = frozenset({'objective_last_round', 'objective_best_round',
                             'objective_slope'})
-    _possible_non_nlp_features = set(ex.LABELS)
+    _possible_non_nlp_features = set(LABELS)
 
     def __init__(self, db: collection, games: set, test_games: set, learners,
                  param_grids: dict, samples_per_round: int, non_nlp_features: list,
@@ -225,8 +230,7 @@ class RunExperiments:
             raise ValueError('The prediction label must be in the set of '
                              'features that can be extracted/used, i.e.: {0}.'
                              .format(self._available_labels_string))
-        if not all(games_.issubset(ex.VALID_GAMES) for games_
-                   in [games, test_games]):
+        if not all(games_.issubset(VALID_GAMES) for games_ in [games, test_games]):
             raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
                              'games must be in the following list of '
                              'available games: {1}.'
@@ -280,10 +284,10 @@ class RunExperiments:
 
         # Objective function
         self.objective = objective
-        if not self.objective in ex.OBJ_FUNC_ABBRS_DICT:
+        if not self.objective in OBJ_FUNC_ABBRS_DICT:
             raise ValueError('Unrecognized objective function used: {0}. '
                              'These are the available objective functions: {1}.'
-                             .format(self.objective, ex.OBJ_FUNC_ABBRS_STRING))
+                             .format(self.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Learner-related variables
         self.vec = None
@@ -552,7 +556,7 @@ class RunExperiments:
         stats_dict = self.get_stats(self.get_majority_baseline())
         stats_dict.update({self._test_games:
                                ', '.join(self.test_games)
-                               if ex.VALID_GAMES.difference(self.test_games)
+                               if VALID_GAMES.difference(self.test_games)
                                else self._all_games,
                            self._prediction_label: self.prediction_label,
                            self._majority_label: self.majority_label,
@@ -948,12 +952,12 @@ class RunExperiments:
                 stats_dict.update({self._games if len(self.games) > 1
                                    else self._game:
                                        ', '.join(self.games)
-                                       if ex.VALID_GAMES.difference(self.games)
+                                       if VALID_GAMES.difference(self.games)
                                        else self._all_games,
                                    self._test_games if len(self.test_games) > 1
                                    else self._test_game:
                                        ', '.join(self.test_games)
-                                       if ex.VALID_GAMES.difference(self.test_games)
+                                       if VALID_GAMES.difference(self.test_games)
                                        else self._all_games,
                                    self._learning_round: int(self.round),
                                    self._prediction_label: self.prediction_label,
@@ -1037,7 +1041,7 @@ def main(argv=None):
              default=1000)
     _add_arg('-label', '--prediction_label',
              help='Label to predict.',
-             choices=ex.LABELS,
+             choices=LABELS,
              default='total_game_hours_bin')
     _add_arg('-non_nlp', '--non_nlp_features',
              help='Comma-separated list of non-NLP features to combine with '
@@ -1056,7 +1060,7 @@ def main(argv=None):
                   'to list of learners above to find out which abbreviations '
                   'stand for which learners. Set of available learners: {0}. '
                   'Use "all" to include all available learners.'
-                  .format(ex.LEARNER_ABBRS_STRING),
+                  .format(LEARNER_ABBRS_STRING),
              type=str,
              default='all')
     _add_arg('-bin', '--nbins',
@@ -1085,7 +1089,7 @@ def main(argv=None):
     _add_arg('-obj', '--obj_func',
              help='Objective function to use in determining which learner/set'
                   ' of parameters resulted in the best performance.',
-             choices=ex.OBJ_FUNC_ABBRS_DICT.keys(),
+             choices=OBJ_FUNC_ABBRS_DICT.keys(),
              default='qwk')
     _add_arg('-order_by', '--order_outputs_by',
              help='Order output reports by best last round objective '
@@ -1192,17 +1196,17 @@ def main(argv=None):
     if games == test_games:
         loginfo('Game{0} to train/evaluate models on: {1}'
                 .format('s' if len(games) > 1 else '',
-                        ', '.join(games) if ex.VALID_GAMES.difference(games)
+                        ', '.join(games) if VALID_GAMES.difference(games)
                         else 'all games'))
     else:
         loginfo('Game{0} to train models on: {1}'
                 .format('s' if len(games) > 1 else '',
-                        ', '.join(games) if ex.VALID_GAMES.difference(games)
+                        ', '.join(games) if VALID_GAMES.difference(games)
                         else 'all games'))
         loginfo('Game{0} to evaluate models against: {1}'
                 .format('s' if len(test_games) > 1 else '',
                         ', '.join(test_games)
-                        if ex.VALID_GAMES.difference(test_games)
+                        if VALID_GAMES.difference(test_games)
                         else 'all games'))
     loginfo('Maximum number of learning rounds to conduct: {0}'
             .format(max_rounds if max_rounds > 0 else "as many as possible"))
@@ -1235,7 +1239,7 @@ def main(argv=None):
                 .format(bin_factor))
     if feature_hashing:
         loginfo('Using feature hashing to increase memory efficiency')
-    loginfo('Learners: {0}'.format(', '.join([ex.LEARNER_ABBRS_DICT[learner]
+    loginfo('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                               for learner in learners])))
     loginfo('Using {0} as the objective function'.format(obj_func))
 
@@ -1267,9 +1271,9 @@ def main(argv=None):
     experiments = RunExperiments(db,
                                  games,
                                  test_games,
-                                 [ex.LEARNER_DICT[learner] for learner in learners],
-                                 [ex.find_default_param_grid(learner)
-                                  for learner in learners],
+                                 [LEARNER_DICT[learner] for learner in learners],
+                                 [find_default_param_grid(learner) for learner
+                                  in learners],
                                  max_samples_per_round,
                                  non_nlp_features,
                                  prediction_label,

@@ -39,6 +39,7 @@ from requests.exceptions import (Timeout,
 from langdetect.lang_detect_exception import LangDetectException
 
 from data import APPID_DICT
+from src import LABELS_WITH_PCT_VALUES
 
 # Connect to get_review_data logger
 logger = logging.getLogger()
@@ -1189,7 +1190,7 @@ def compute_label_value(value, label, lognormal: bool = False):
     # If the label has percentage values, i.e., values between 0.0 and
     # 1.0 (inclusive), multiply the value by 100 before doing anything
     # else
-    if label in {'num_achievements_percentage', 'found_helpful_percentage'}:
+    if label in LABELS_WITH_PCT_VALUES:
         value *= 100.0
 
     # Apply natural log transformation to values above greater than or
