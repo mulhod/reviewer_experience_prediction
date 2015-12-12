@@ -71,8 +71,8 @@ def main():
     # Imports
     import logging
     from src import log_format_string
-    from util.mongodb import connect_to_db
-    from util.datasets import get_game_files
+    from src.mongodb import connect_to_db
+    from src.datasets import get_game_files
     from src.features import extract_nlp_features_into_db
 
     # Make local copies of arguments

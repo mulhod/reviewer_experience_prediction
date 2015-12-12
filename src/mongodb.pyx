@@ -33,9 +33,9 @@ from pymongo.errors import (AutoReconnect,
                             DuplicateKeyError)
 
 from data import APPID_DICT
-from util.datasets import (get_bin,
-                           get_bin_ranges,
-                           get_and_describe_dataset)
+from src.datasets import (get_bin,
+                          get_bin_ranges,
+                          get_and_describe_dataset)
 
 # Logging
 logger = logging.getLogger()

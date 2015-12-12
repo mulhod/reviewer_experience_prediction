@@ -106,9 +106,9 @@ def main():
 
     from pymongo import MongoClient
 
-    from util.datasets import get_game_files
-    from util.mongodb import (connect_to_db,
-                              insert_train_test_reviews)
+    from src.datasets import get_game_files
+    from src.mongodb import (connect_to_db,
+                             insert_train_test_reviews)
 
     # Make local copies of arguments
     game_files = args.game_files

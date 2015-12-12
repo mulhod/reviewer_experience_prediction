@@ -23,7 +23,7 @@ def main(argv=None):
 
     from pymongo import ASCENDING
 
-    from util.mongodb import connect_to_db
+    from src.mongodb import connect_to_db
 
     # Connect to MongoDB database
     print('Connecting to MongoDB database at {0}:{1}...'

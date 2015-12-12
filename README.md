@@ -27,9 +27,9 @@
 - MongoDB, which can be found [here](https://www.mongodb.org/downloads)
 
 ## Set-up
-- Run ```util/setup.sh``` to create the conda environment (must have conda installed, see `Dependencies` section above), which will also run setup.py on the Cython modules so that they get compiled from source.
+- Run ```setup.sh``` to create the conda environment (must have conda installed, see `Dependencies` section above), which will also run ```setup.py```.
 - Activate the newly-created "reviews" environment: ```source activate reviews```
-- Optional: If making changes to the Cython modules or to re-compile them, run ```python util/setup.py build_ext``` (or ```util/cythonize.sh``` if you want to run the commands directly). If a "build" directory already exists in the root of the repository clone, setup.py sometimes does not work correctly, even with the --inplace flag. Simply deletng the "build" directory should solve the problem.
+- Optional: If making changes to the Cython modules or to re-compile them, run ```python util/setup.py develop```.
 - Optional: Start a MondoDB server by, for example, creating a screen session and running ```mongod```. To specify a path for the database, use the ```--dbpath``` option flag followed by the desired path. If in a screen session, press CTRL+a+d (not at the same time, but in a row) in order to "detach" from the session.
 - You're all set up!
 

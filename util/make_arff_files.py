@@ -101,11 +101,11 @@ def main():
     from re import sub
     from sys import exit
 
-    from util.mongodb import connect_to_db
-    from util.datasets import (get_game_files,
-                               get_bin_ranges,
-                               write_arff_file,
-                               get_and_describe_dataset)
+    from src.mongodb import connect_to_db
+    from src.datasets import (get_game_files,
+                              get_bin_ranges,
+                              write_arff_file,
+                              get_and_describe_dataset)
 
     # Make local copies of arguments
     game_files = args.game_files

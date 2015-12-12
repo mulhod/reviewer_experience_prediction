@@ -28,8 +28,8 @@ from skll.metrics import (kappa,
 from bson.objectid import ObjectId
 from configparser import ConfigParser
 
-from util.mongodb import (update_db,
-                          create_game_cursor)
+from src.mongodb import (update_db,
+                         create_game_cursor)
 
 bson_decode = BSON.decode
 spaCy_nlp = English()

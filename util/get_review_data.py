@@ -58,8 +58,8 @@ def main():
 
     from data import APPID_DICT
     from src import log_format_string
-    from util.datasets import (parse_appids,
-                               get_review_data_for_game)
+    from src.datasets import (parse_appids,
+                              get_review_data_for_game)
 
     # Initialize logging system
     logger = logging.getLogger()

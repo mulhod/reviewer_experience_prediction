@@ -15,8 +15,8 @@ from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
 from data import APPID_DICT
-from util.datasets import (get_bin,
-                           compute_label_value)
+from src.datasets import (get_bin,
+                          compute_label_value)
 
 SEED = 123456789
 
