@@ -22,6 +22,7 @@ from src import (LABELS,
                  LEARNER_ABBRS_STRING,
                  LABELS_WITH_PCT_VALUES)
 from src.datasets import (get_bin,
+                          validate_bin_ranges,
                           compute_label_value)
 
 
@@ -257,7 +258,8 @@ def distributional_info(db: collection, label: str, games: list,
 
     :raises ValueError: if unrecognized games were found in the input
                         or no reviews were found for the combination of
-                        game, partition, etc.
+                        game, partition, etc., or the `bin_ranges`
+                        value is invalid
     """
 
     # Check `partition`, `label`, and `limit` parameter values
@@ -302,7 +304,11 @@ def distributional_info(db: collection, label: str, games: list,
             continue
 
         if bin_ranges:
-            label_value = get_bin(bin_ranges, label_value)
+            # Validate `bin_ranges`
+            if validate_bin_ranges(bin_ranges):
+                label_value = get_bin(bin_ranges, label_value)
+            else:
+                raise ValueError('"bin_ranges" is invalid: {0}'.format(bin_ranges))
 
         samples.append({'id_string': doc['id_string'], label: label_value})
 

@@ -33,7 +33,6 @@ from pymongo import collection
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
 import matplotlib.pyplot as plt
-from numpy.testing import assert_almost_equal
 from requests.exceptions import (Timeout,
                                  ConnectionError)
 from langdetect.lang_detect_exception import LangDetectException
@@ -1081,11 +1080,77 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
     return get_bin_ranges(values.min(), values.max(), nbins, factor)
 
 
+def validate_bin_ranges(bin_ranges: list) -> bool:
+    """
+    Validate a list of tuples representing bins that make up a
+    continuous range.
+
+    :param bin_ranges: list of ranges that define each bin, where each
+                       bin should be represented as a tuple with the
+                       first value, a float that is precise to one
+                       decimal place, as the lower bound and the
+                       second, also a float with the same type of
+                       precision, the upper bound, but both limits are
+                       technically soft since label values will be
+                       compared to see if they are equal at the same
+                       precision and so they can end up being
+                       larger/smaller and still be in a given bin;
+                       the bins should also make up a continuous range
+                       such that every first bin value should be
+                       less than the second bin value and every bin's
+                       values should be less than the succeeding bin's
+                       values
+    :type bin_ranges: list of tuples representing the minimum and
+                      maximum values of a range of values
+
+    :returns: True if `bin_ranges` is valid, False otherwise
+    :rtype: bool
+    """
+
+    if len(bin_ranges) == 1:
+        return False
+
+    cdef int i
+    current_value = None
+    for i, bin_range in enumerate(bin_ranges):
+        try:
+            bin_range[1] == bin_ranges[i + 1][0] + 0.1
+        except IndexError:
+            pass
+        for end_point in bin_range:
+            value_string_split = str(end_point).split('.')
+            try:
+                if len(value_string_split[1]) != 1:
+                    return False
+            except IndexError:
+                return False
+            if current_value == None:
+                current_value = end_point
+            elif current_value >= end_point:
+                return False
+
+    return True
+
+
 def get_bin(bin_ranges: list, float val) -> int:
     """
     Return the index of the bin range in which the value falls.
 
-    :param bin_ranges: list of ranges that define each bin
+    :param bin_ranges: list of ranges that define each bin, where each
+                       bin should be represented as a tuple with the
+                       first value, a float that is precise to one
+                       decimal place, as the lower bound and the
+                       second, also a float with the same type of
+                       precision, the upper bound, but both limits are
+                       technically soft since label values will be
+                       compared to see if they are equal at the same
+                       precision and so they can end up being
+                       larger/smaller and still be in a given bin;
+                       the bins should also make up a continuous range
+                       such that every first bin value should be
+                       less than the second bin value and every bin's
+                       values should be less than the succeeding bin's
+                       values
     :type bin_ranges: list of tuples representing the minimum and
                       maximum values of a range of values
     :param val: value
@@ -1100,12 +1165,12 @@ def get_bin(bin_ranges: list, float val) -> int:
         # Test if val is almost equal to the beginning or end of the
         # range
         try:
-            assert_almost_equal(val, bin_range[0], decimal=1)
+            np.testing.assert_almost_equal(val, bin_range[0], decimal=1)
             almost_equal_begin = True
         except AssertionError:
             almost_equal_begin = False
         try:
-            assert_almost_equal(val, bin_range[1], decimal=1)
+            np.testing.assert_almost_equal(val, bin_range[1], decimal=1)
             almost_equal_end = True
         except AssertionError:
             almost_equal_end = False

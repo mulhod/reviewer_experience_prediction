@@ -35,6 +35,7 @@ from pymongo.errors import (AutoReconnect,
 from data import APPID_DICT
 from src.datasets import (get_bin,
                           get_bin_ranges,
+                          validate_bin_ranges,
                           get_and_describe_dataset)
 
 # Logging
@@ -327,8 +328,12 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
         rd['partition'] = partition_id
 
         if bins:
-            _bin = get_bin(bins,
-                           rd['total_game_hours'])
+            # Validate `bin_ranges`
+            if validate_bin_ranges(bins):
+                _bin = get_bin(bins,
+                               rd['total_game_hours'])
+            else:
+                raise ValueError('"bins" is invalid: {0}'.format(bins))
             if _bin > -1:
                 rd['total_game_hours_bin'] = _bin
             else:
