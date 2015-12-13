@@ -375,8 +375,8 @@ class RunExperiments:
         """
         Get all the features in a review document and put them together
         in a dictionary. If `self.no_nlp_features` is true, leave out
-        NLP features. If bin_ranges is specified, convert the value of
-        the prediction label to the bin index.
+        NLP features. If `bin_ranges` is specified, convert the value
+        of the prediction label to the bin index.
 
         :param review_doc: review document from Mongo database
         :type review_doc: dict

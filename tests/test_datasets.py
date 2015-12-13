@@ -1,6 +1,7 @@
 from src.datasets import (get_bin,
                           validate_bin_ranges)
-from nose.tools import assert_equal
+from nose.tools import (assert_equal,
+                        assert_raises)
 
 def test_get_bin():
     """
@@ -21,17 +22,24 @@ def test_validate_bin_ranges_invalid():
     values.
     """
 
-    bin_ranges_invalid = [[(0.0, 19.9)], [(0.0, 1.1), (2.1, 2.9)],
-                          [(5.1, 2.1), (2.0, 1.3)]]
+    bin_ranges_invalid = [
+        [(0.0, 19.9)], # One bin only
+        [(0.1, 2.9), (3.0, 3.0)], # 3.0 == 3.0
+        [(0.0, 1.1), (2.1, 2.9)], # 2.1 - 1.1 > 0.1
+        [(5.1, 2.1), (2.0, 4.9)], # 5.1 > 2.1
+        [(0, 1.0), (1.1, 2.0)], # 0 is int, not float
+        [(0.1, 0.9), (1.0, 1.45)] # 1.45 has more than one decimal
+                                  # place precision
+        ]
     for bin_ranges in bin_ranges_invalid:
-        assert_equal(validate_bin_ranges(bin_ranges), False)
+        assert_raises(ValueError, validate_bin_ranges, bin_ranges)
 
 
-def test_validate_bin_ranges_invalid():
+def test_validate_bin_ranges_valid():
     """
     Test the `validate_bin_ranges` function given valid `bin_ranges`
     values.
     """
 
     bin_ranges_valid = [(0.0, 90.1), (90.2, 104.5), (104.6, 150.9)]
-    assert_equal(validate_bin_ranges(bin_ranges_valid), True)
+    validate_bin_ranges(bin_ranges_valid)

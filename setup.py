@@ -109,4 +109,5 @@ setup(name = 'Reviewer Experience Prediction',
                    'Operating System :: POSIX',
                    'Operating System :: Unix',
                    'Operating System :: MacOS'],
+      test_suite='nose2.collector.collector',
       zip_safe=False)

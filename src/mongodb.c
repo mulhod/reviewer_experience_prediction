@@ -525,6 +525,15 @@ struct __pyx_opt_args_3src_7mongodb_add_bulk_inserts_for_partition {
 #define __Pyx_CLEAR(r)    do { PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);} while(0)
 #define __Pyx_XCLEAR(r)   do { if((r) != NULL) {PyObject* tmp = ((PyObject*)(r)); r = NULL; __Pyx_DECREF(tmp);}} while(0)
 
+static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
+
+static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
+    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
+    const char* function_name);
+
+static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
+    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
+
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject* attr_name) {
     PyTypeObject* tp = Py_TYPE(obj);
@@ -540,17 +549,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetAttrStr(PyObject* obj, PyObject
 #define __Pyx_PyObject_GetAttrStr(o,n) PyObject_GetAttr(o,n)
 #endif
 
-static PyObject *__Pyx_GetBuiltinName(PyObject *name);
-
-static void __Pyx_RaiseDoubleKeywordsError(const char* func_name, PyObject* kw_name);
-
-static int __Pyx_ParseOptionalKeywords(PyObject *kwds, PyObject **argnames[],\
-    PyObject *kwds2, PyObject *values[], Py_ssize_t num_pos_args,\
-    const char* function_name);
-
-static void __Pyx_RaiseArgtupleInvalid(const char* func_name, int exact,
-    Py_ssize_t num_min, Py_ssize_t num_max, Py_ssize_t num_found);
-
 #if CYTHON_COMPILING_IN_CPYTHON
 static CYTHON_INLINE PyObject* __Pyx_PyObject_Call(PyObject *func, PyObject *arg, PyObject *kw);
 #else
@@ -563,6 +561,8 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, long int
 #define __Pyx_PyInt_SubtractObjC(op1, op2, intval, inplace)\
     (inplace ? PyNumber_InPlaceSubtract(op1, op2) : PyNumber_Subtract(op1, op2))
 #endif
+
+static PyObject *__Pyx_GetBuiltinName(PyObject *name);
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name);
 
@@ -663,11 +663,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(
         PyObject** py_start, PyObject** py_stop, PyObject** py_slice,
         int has_cstart, int has_cstop, int wraparound);
 
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb);
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb);
-
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause);
-
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level);
 
 static PyObject* __Pyx_ImportFrom(PyObject* module, PyObject* name);
@@ -708,7 +703,6 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
 int __pyx_module_is_main_src__mongodb = 0;
 
 /* Implementation of 'src.mongodb' */
-static PyObject *__pyx_builtin_ValueError;
 static char __pyx_k_e[] = "e";
 static char __pyx_k_s[] = "s";
 static char __pyx_k__2[] = "";
@@ -795,7 +789,6 @@ static char __pyx_k_nlp_feats[] = "nlp_feats";
 static char __pyx_k_partition[] = "partition";
 static char __pyx_k_update_db[] = "update_db";
 static char __pyx_k_APPID_DICT[] = "APPID_DICT";
-static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_batch_size[] = "batch_size";
 static char __pyx_k_bin_factor[] = "bin_factor";
 static char __pyx_k_bin_ranges[] = "bin_ranges";
@@ -834,7 +827,6 @@ static char __pyx_k_total_game_hours[] = "total_game_hours";
 static char __pyx_k_training_reviews[] = "training_reviews";
 static char __pyx_k_ConnectionFailure[] = "ConnectionFailure";
 static char __pyx_k_DuplicateKeyError[] = "DuplicateKeyError";
-static char __pyx_k_bins_is_invalid_0[] = "\"bins\" is invalid: {0}";
 static char __pyx_k_connection_string[] = "connection_string";
 static char __pyx_k_remaining_reviews[] = "remaining_reviews";
 static char __pyx_k_training_set_size[] = "training_set_size";
@@ -899,7 +891,6 @@ static PyObject *__pyx_kp_s_The_hours_played_value_0_did_not;
 static PyObject *__pyx_kp_s_Unable_to_connect_client_to_Mong;
 static PyObject *__pyx_kp_s_Unable_to_connect_client_to_Mong_2;
 static PyObject *__pyx_kp_s_Unable_to_update_database_even_a;
-static PyObject *__pyx_n_s_ValueError;
 static PyObject *__pyx_kp_s__2;
 static PyObject *__pyx_n_s_all;
 static PyObject *__pyx_n_s_appid;
@@ -911,7 +902,6 @@ static PyObject *__pyx_n_s_bin_ranges;
 static PyObject *__pyx_n_s_binarized;
 static PyObject *__pyx_n_s_binarized_nlp_feats;
 static PyObject *__pyx_n_s_bins;
-static PyObject *__pyx_kp_s_bins_is_invalid_0;
 static PyObject *__pyx_n_s_bson;
 static PyObject *__pyx_n_s_bson_encode;
 static PyObject *__pyx_n_s_bson_objectid;
@@ -4481,20 +4471,20 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
  *         rd['partition'] = partition_id
  * 
  *         if bins:             # <<<<<<<<<<<<<<
- *             # Validate `bin_ranges`
- *             if validate_bin_ranges(bins):
+ * 
+ *             # Validate `bins`
  */
     __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_bins); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 330; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_5) {
 
-      /* "src/mongodb.pyx":332
- *         if bins:
- *             # Validate `bin_ranges`
- *             if validate_bin_ranges(bins):             # <<<<<<<<<<<<<<
- *                 _bin = get_bin(bins,
- *                                rd['total_game_hours'])
+      /* "src/mongodb.pyx":333
+ * 
+ *             # Validate `bins`
+ *             validate_bin_ranges(bins)             # <<<<<<<<<<<<<<
+ *             _bin = get_bin(bins, rd['total_game_hours'])
+ * 
  */
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_validate_bin_ranges); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_validate_bin_ranges); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_7 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
@@ -4507,200 +4497,131 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
         }
       }
       if (!__pyx_t_7) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_bins); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_bins); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
       } else {
-        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_7); __pyx_t_7 = NULL;
         __Pyx_INCREF(__pyx_v_bins);
         __Pyx_GIVEREF(__pyx_v_bins);
         PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_bins);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       }
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 332; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (__pyx_t_5) {
 
-        /* "src/mongodb.pyx":333
- *             # Validate `bin_ranges`
- *             if validate_bin_ranges(bins):
- *                 _bin = get_bin(bins,             # <<<<<<<<<<<<<<
- *                                rd['total_game_hours'])
- *             else:
+      /* "src/mongodb.pyx":334
+ *             # Validate `bins`
+ *             validate_bin_ranges(bins)
+ *             _bin = get_bin(bins, rd['total_game_hours'])             # <<<<<<<<<<<<<<
+ * 
+ *             if _bin > -1:
  */
-        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
-
-        /* "src/mongodb.pyx":334
- *             if validate_bin_ranges(bins):
- *                 _bin = get_bin(bins,
- *                                rd['total_game_hours'])             # <<<<<<<<<<<<<<
- *             else:
- *                 raise ValueError('"bins" is invalid: {0}'.format(bins))
- */
-        __pyx_t_8 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_total_game_hours); if (unlikely(__pyx_t_8 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-        __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_7 = NULL;
-        __pyx_t_9 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_7)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_7);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_6, function);
-            __pyx_t_9 = 1;
-          }
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_bin); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_6);
+      __pyx_t_8 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_total_game_hours); if (unlikely(__pyx_t_8 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_7 = NULL;
+      __pyx_t_9 = 0;
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+        if (likely(__pyx_t_7)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_6, function);
+          __pyx_t_9 = 1;
         }
-        __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_10);
-        if (__pyx_t_7) {
-          __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_7); __pyx_t_7 = NULL;
-        }
-        __Pyx_INCREF(__pyx_v_bins);
-        __Pyx_GIVEREF(__pyx_v_bins);
-        PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_v_bins);
-        __Pyx_GIVEREF(__pyx_t_8);
-        PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_8);
-        __pyx_t_8 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 333; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_4);
-        __pyx_t_4 = 0;
-
-        /* "src/mongodb.pyx":332
- *         if bins:
- *             # Validate `bin_ranges`
- *             if validate_bin_ranges(bins):             # <<<<<<<<<<<<<<
- *                 _bin = get_bin(bins,
- *                                rd['total_game_hours'])
- */
-        goto __pyx_L6;
       }
+      __pyx_t_10 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_10);
+      if (__pyx_t_7) {
+        __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_7); __pyx_t_7 = NULL;
+      }
+      __Pyx_INCREF(__pyx_v_bins);
+      __Pyx_GIVEREF(__pyx_v_bins);
+      PyTuple_SET_ITEM(__pyx_t_10, 0+__pyx_t_9, __pyx_v_bins);
+      __Pyx_GIVEREF(__pyx_t_8);
+      PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_9, __pyx_t_8);
+      __pyx_t_8 = 0;
+      __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_10, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 334; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_4);
+      __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+      __Pyx_XDECREF_SET(__pyx_v__bin, __pyx_t_4);
+      __pyx_t_4 = 0;
 
       /* "src/mongodb.pyx":336
- *                                rd['total_game_hours'])
- *             else:
- *                 raise ValueError('"bins" is invalid: {0}'.format(bins))             # <<<<<<<<<<<<<<
- *             if _bin > -1:
- *                 rd['total_game_hours_bin'] = _bin
- */
-      /*else*/ {
-        __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_bins_is_invalid_0, __pyx_n_s_format); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_10 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_10)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_10);
-            __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_6, function);
-          }
-        }
-        if (!__pyx_t_10) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_bins); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-        } else {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_8);
-          __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_10); __pyx_t_10 = NULL;
-          __Pyx_INCREF(__pyx_v_bins);
-          __Pyx_GIVEREF(__pyx_v_bins);
-          PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_bins);
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_8, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_GOTREF(__pyx_t_4);
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        }
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __pyx_t_6 = PyTuple_New(1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GIVEREF(__pyx_t_4);
-        PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4);
-        __pyx_t_4 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_6, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-        __Pyx_Raise(__pyx_t_4, 0, 0, 0);
-        __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      }
-      __pyx_L6:;
-
-      /* "src/mongodb.pyx":337
- *             else:
- *                 raise ValueError('"bins" is invalid: {0}'.format(bins))
+ *             _bin = get_bin(bins, rd['total_game_hours'])
+ * 
  *             if _bin > -1:             # <<<<<<<<<<<<<<
  *                 rd['total_game_hours_bin'] = _bin
  *             else:
  */
-      __pyx_t_4 = PyObject_RichCompare(__pyx_v__bin, __pyx_int_neg_1, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = PyObject_RichCompare(__pyx_v__bin, __pyx_int_neg_1, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       if (__pyx_t_5) {
 
-        /* "src/mongodb.pyx":338
- *                 raise ValueError('"bins" is invalid: {0}'.format(bins))
+        /* "src/mongodb.pyx":337
+ * 
  *             if _bin > -1:
  *                 rd['total_game_hours_bin'] = _bin             # <<<<<<<<<<<<<<
  *             else:
  *                 logerr('The hours played value ({0}) did not seem to fall '
  */
-        if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_total_game_hours_bin, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 338; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (unlikely(PyObject_SetItem(__pyx_v_rd, __pyx_n_s_total_game_hours_bin, __pyx_v__bin) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 337; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-        /* "src/mongodb.pyx":337
- *             else:
- *                 raise ValueError('"bins" is invalid: {0}'.format(bins))
+        /* "src/mongodb.pyx":336
+ *             _bin = get_bin(bins, rd['total_game_hours'])
+ * 
  *             if _bin > -1:             # <<<<<<<<<<<<<<
  *                 rd['total_game_hours_bin'] = _bin
  *             else:
  */
-        goto __pyx_L7;
+        goto __pyx_L6;
       }
 
-      /* "src/mongodb.pyx":340
+      /* "src/mongodb.pyx":339
  *                 rd['total_game_hours_bin'] = _bin
  *             else:
  *                 logerr('The hours played value ({0}) did not seem to fall '             # <<<<<<<<<<<<<<
  *                        'within any of the bin ranges.\n\nBin ranges\n{1}\n'
- *                        'Exiting.'
+ *                        'Exiting.'.format(rd['total_game_hours'], repr(bins)))
  */
       /*else*/ {
-        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 339; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_6);
 
-        /* "src/mongodb.pyx":343
+        /* "src/mongodb.pyx":341
+ *                 logerr('The hours played value ({0}) did not seem to fall '
  *                        'within any of the bin ranges.\n\nBin ranges\n{1}\n'
- *                        'Exiting.'
- *                        .format(rd['total_game_hours'], repr(bins)))             # <<<<<<<<<<<<<<
+ *                        'Exiting.'.format(rd['total_game_hours'], repr(bins)))             # <<<<<<<<<<<<<<
  *                 exit(1)
  * 
  */
-        __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_The_hours_played_value_0_did_not, __pyx_n_s_format); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_10);
-        __pyx_t_7 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_total_game_hours); if (unlikely(__pyx_t_7 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_The_hours_played_value_0_did_not, __pyx_n_s_format); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_7 = PyObject_GetItem(__pyx_v_rd, __pyx_n_s_total_game_hours); if (unlikely(__pyx_t_7 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_11 = PyObject_Repr(__pyx_v_bins); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_11 = PyObject_Repr(__pyx_v_bins); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_11);
         __pyx_t_12 = NULL;
         __pyx_t_9 = 0;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_10))) {
-          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_10);
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_12 = PyMethod_GET_SELF(__pyx_t_8);
           if (likely(__pyx_t_12)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
             __Pyx_INCREF(__pyx_t_12);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_10, function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
             __pyx_t_9 = 1;
           }
         }
-        __pyx_t_13 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_13 = PyTuple_New(2+__pyx_t_9); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_13);
         if (__pyx_t_12) {
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -4711,64 +4632,64 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
         PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_9, __pyx_t_11);
         __pyx_t_7 = 0;
         __pyx_t_11 = 0;
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_13, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 343; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 341; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        __pyx_t_10 = NULL;
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        __pyx_t_8 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-          __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_6);
-          if (likely(__pyx_t_10)) {
+          __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_6);
+          if (likely(__pyx_t_8)) {
             PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-            __Pyx_INCREF(__pyx_t_10);
+            __Pyx_INCREF(__pyx_t_8);
             __Pyx_INCREF(function);
             __Pyx_DECREF_SET(__pyx_t_6, function);
           }
         }
-        if (!__pyx_t_10) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_8); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+        if (!__pyx_t_8) {
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_10); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 339; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
           __Pyx_GOTREF(__pyx_t_4);
         } else {
-          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 339; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_13);
-          __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_10); __pyx_t_10 = NULL;
-          __Pyx_GIVEREF(__pyx_t_8);
-          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_8);
-          __pyx_t_8 = 0;
-          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 340; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+          __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_8); __pyx_t_8 = NULL;
+          __Pyx_GIVEREF(__pyx_t_10);
+          PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_10);
+          __pyx_t_10 = 0;
+          __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 339; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
           __Pyx_GOTREF(__pyx_t_4);
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         }
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-        /* "src/mongodb.pyx":344
- *                        'Exiting.'
- *                        .format(rd['total_game_hours'], repr(bins)))
+        /* "src/mongodb.pyx":342
+ *                        'within any of the bin ranges.\n\nBin ranges\n{1}\n'
+ *                        'Exiting.'.format(rd['total_game_hours'], repr(bins)))
  *                 exit(1)             # <<<<<<<<<<<<<<
  * 
  *         try:
  */
-        __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_exit); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_exit); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_tuple__8, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
-      __pyx_L7:;
+      __pyx_L6:;
 
       /* "src/mongodb.pyx":330
  *         rd['partition'] = partition_id
  * 
  *         if bins:             # <<<<<<<<<<<<<<
- *             # Validate `bin_ranges`
- *             if validate_bin_ranges(bins):
+ * 
+ *             # Validate `bins`
  */
     }
 
-    /* "src/mongodb.pyx":346
+    /* "src/mongodb.pyx":344
  *                 exit(1)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -4782,14 +4703,14 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
       __Pyx_XGOTREF(__pyx_t_16);
       /*try:*/ {
 
-        /* "src/mongodb.pyx":347
+        /* "src/mongodb.pyx":345
  * 
  *         try:
  *             bulk_writer.insert(rd)             # <<<<<<<<<<<<<<
  *         except DuplicateKeyError as e:
  *             logwarn('Encountered DuplicateKeyError. Throwing out the '
  */
-        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk_writer, __pyx_n_s_insert); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L8_error;}
+        __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk_writer, __pyx_n_s_insert); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __pyx_t_13 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_4))) {
@@ -4802,23 +4723,23 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
           }
         }
         if (!__pyx_t_13) {
-          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_rd); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L8_error;}
+          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_rd); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
           __Pyx_GOTREF(__pyx_t_6);
         } else {
-          __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L8_error;}
-          __Pyx_GOTREF(__pyx_t_8);
-          __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_13); __pyx_t_13 = NULL;
+          __pyx_t_10 = PyTuple_New(1+1); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+          __Pyx_GOTREF(__pyx_t_10);
+          __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_13); __pyx_t_13 = NULL;
           __Pyx_INCREF(__pyx_v_rd);
           __Pyx_GIVEREF(__pyx_v_rd);
-          PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_v_rd);
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_8, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L8_error;}
+          PyTuple_SET_ITEM(__pyx_t_10, 0+1, __pyx_v_rd);
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_10, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 345; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
           __Pyx_GOTREF(__pyx_t_6);
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
         }
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "src/mongodb.pyx":346
+        /* "src/mongodb.pyx":344
  *                 exit(1)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -4829,55 +4750,55 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
       __Pyx_XDECREF(__pyx_t_14); __pyx_t_14 = 0;
       __Pyx_XDECREF(__pyx_t_15); __pyx_t_15 = 0;
       __Pyx_XDECREF(__pyx_t_16); __pyx_t_16 = 0;
-      goto __pyx_L15_try_end;
-      __pyx_L8_error:;
+      goto __pyx_L14_try_end;
+      __pyx_L7_error:;
       __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
-      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
+      __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-      /* "src/mongodb.pyx":348
+      /* "src/mongodb.pyx":346
  *         try:
  *             bulk_writer.insert(rd)
  *         except DuplicateKeyError as e:             # <<<<<<<<<<<<<<
  *             logwarn('Encountered DuplicateKeyError. Throwing out the '
  *                     'following review:\n{0}'.format(rd))
  */
-      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+      __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DuplicateKeyError); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 346; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
       __Pyx_GOTREF(__pyx_t_6);
       __pyx_t_17 = PyErr_ExceptionMatches(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       if (__pyx_t_17) {
         __Pyx_AddTraceback("src.mongodb.add_bulk_inserts_for_partition", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_4, &__pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+        if (__Pyx_GetException(&__pyx_t_6, &__pyx_t_4, &__pyx_t_10) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 346; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_GOTREF(__pyx_t_8);
+        __Pyx_GOTREF(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_4);
         __Pyx_XDECREF_SET(__pyx_v_e, __pyx_t_4);
 
-        /* "src/mongodb.pyx":349
+        /* "src/mongodb.pyx":347
  *             bulk_writer.insert(rd)
  *         except DuplicateKeyError as e:
  *             logwarn('Encountered DuplicateKeyError. Throwing out the '             # <<<<<<<<<<<<<<
  *                     'following review:\n{0}'.format(rd))
  * 
  */
-        __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_logwarn); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
-        __Pyx_GOTREF(__pyx_t_10);
+        __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_logwarn); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
+        __Pyx_GOTREF(__pyx_t_8);
 
-        /* "src/mongodb.pyx":350
+        /* "src/mongodb.pyx":348
  *         except DuplicateKeyError as e:
  *             logwarn('Encountered DuplicateKeyError. Throwing out the '
  *                     'following review:\n{0}'.format(rd))             # <<<<<<<<<<<<<<
  * 
  * 
  */
-        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Encountered_DuplicateKeyError_Th, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+        __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Encountered_DuplicateKeyError_Th, __pyx_n_s_format); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
         __Pyx_GOTREF(__pyx_t_7);
         __pyx_t_12 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_7))) {
@@ -4890,56 +4811,56 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
           }
         }
         if (!__pyx_t_12) {
-          __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_rd); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_11 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_v_rd); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_11);
         } else {
-          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_18);
           __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_12); __pyx_t_12 = NULL;
           __Pyx_INCREF(__pyx_v_rd);
           __Pyx_GIVEREF(__pyx_v_rd);
           PyTuple_SET_ITEM(__pyx_t_18, 0+1, __pyx_v_rd);
-          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_18, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 350; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_18, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 348; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_11);
           __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
         }
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __pyx_t_7 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
-          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+        if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_8);
           if (likely(__pyx_t_7)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
             __Pyx_INCREF(__pyx_t_7);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_10, function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
           }
         }
         if (!__pyx_t_7) {
-          __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_11); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
           __Pyx_GOTREF(__pyx_t_13);
         } else {
-          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_18 = PyTuple_New(1+1); if (unlikely(!__pyx_t_18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_18);
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_t_7); __pyx_t_7 = NULL;
           __Pyx_GIVEREF(__pyx_t_11);
           PyTuple_SET_ITEM(__pyx_t_18, 0+1, __pyx_t_11);
           __pyx_t_11 = 0;
-          __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_18, NULL); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 349; __pyx_clineno = __LINE__; goto __pyx_L10_except_error;}
+          __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_18, NULL); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 347; __pyx_clineno = __LINE__; goto __pyx_L9_except_error;}
           __Pyx_GOTREF(__pyx_t_13);
           __Pyx_DECREF(__pyx_t_18); __pyx_t_18 = 0;
         }
-        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-        goto __pyx_L9_exception_handled;
+        __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+        goto __pyx_L8_exception_handled;
       }
-      goto __pyx_L10_except_error;
-      __pyx_L10_except_error:;
+      goto __pyx_L9_except_error;
+      __pyx_L9_except_error:;
 
-      /* "src/mongodb.pyx":346
+      /* "src/mongodb.pyx":344
  *                 exit(1)
  * 
  *         try:             # <<<<<<<<<<<<<<
@@ -4951,12 +4872,12 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
       __Pyx_XGIVEREF(__pyx_t_16);
       __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
       goto __pyx_L1_error;
-      __pyx_L9_exception_handled:;
+      __pyx_L8_exception_handled:;
       __Pyx_XGIVEREF(__pyx_t_14);
       __Pyx_XGIVEREF(__pyx_t_15);
       __Pyx_XGIVEREF(__pyx_t_16);
       __Pyx_ExceptionReset(__pyx_t_14, __pyx_t_15, __pyx_t_16);
-      __pyx_L15_try_end:;
+      __pyx_L14_try_end:;
     }
 
     /* "src/mongodb.pyx":322
@@ -5002,7 +4923,7 @@ static PyObject *__pyx_f_3src_7mongodb_add_bulk_inserts_for_partition(PyObject *
   return __pyx_r;
 }
 
-/* "src/mongodb.pyx":353
+/* "src/mongodb.pyx":351
  * 
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,             # <<<<<<<<<<<<<<
@@ -5029,7 +4950,7 @@ static PyObject *__pyx_pw_3src_7mongodb_7update_db(PyObject *__pyx_self, PyObjec
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_db_update,&__pyx_n_s_id,&__pyx_n_s_nlp_feats,&__pyx_n_s_binarized_nlp_feats,0};
     PyObject* values[4] = {0,0,0,0};
 
-    /* "src/mongodb.pyx":354
+    /* "src/mongodb.pyx":352
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,
  *               binarized_nlp_feats: bool = True) -> None:             # <<<<<<<<<<<<<<
@@ -5056,12 +4977,12 @@ static PyObject *__pyx_pw_3src_7mongodb_7update_db(PyObject *__pyx_self, PyObjec
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_id)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlp_feats)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  3:
         if (kw_args > 0) {
@@ -5070,7 +4991,7 @@ static PyObject *__pyx_pw_3src_7mongodb_7update_db(PyObject *__pyx_self, PyObjec
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update_db") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "update_db") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5089,7 +5010,7 @@ static PyObject *__pyx_pw_3src_7mongodb_7update_db(PyObject *__pyx_self, PyObjec
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("update_db", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
   __Pyx_AddTraceback("src.mongodb.update_db", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -5097,7 +5018,7 @@ static PyObject *__pyx_pw_3src_7mongodb_7update_db(PyObject *__pyx_self, PyObjec
   __pyx_L4_argument_unpacking_done:;
   __pyx_r = __pyx_pf_3src_7mongodb_6update_db(__pyx_self, __pyx_v_db_update, __pyx_v__id, __pyx_v_nlp_feats, __pyx_v_binarized_nlp_feats);
 
-  /* "src/mongodb.pyx":353
+  /* "src/mongodb.pyx":351
  * 
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,             # <<<<<<<<<<<<<<
@@ -5133,7 +5054,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("update_db", 0);
 
-  /* "src/mongodb.pyx":375
+  /* "src/mongodb.pyx":373
  *     """
  * 
  *     cdef int tries = 0             # <<<<<<<<<<<<<<
@@ -5142,7 +5063,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
  */
   __pyx_v_tries = 0;
 
-  /* "src/mongodb.pyx":376
+  /* "src/mongodb.pyx":374
  * 
  *     cdef int tries = 0
  *     while tries < 5:             # <<<<<<<<<<<<<<
@@ -5153,7 +5074,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
     __pyx_t_1 = ((__pyx_v_tries < 5) != 0);
     if (!__pyx_t_1) break;
 
-    /* "src/mongodb.pyx":377
+    /* "src/mongodb.pyx":375
  *     cdef int tries = 0
  *     while tries < 5:
  *         try:             # <<<<<<<<<<<<<<
@@ -5167,29 +5088,29 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
       __Pyx_XGOTREF(__pyx_t_4);
       /*try:*/ {
 
-        /* "src/mongodb.pyx":378
+        /* "src/mongodb.pyx":376
  *     while tries < 5:
  *         try:
  *             db_update({'_id': _id},             # <<<<<<<<<<<<<<
  *                       {'$set': {'nlp_features': bson_encode(nlp_feats),
  *                                 'binarized': binarized_nlp_feats,
  */
-        __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 378; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 376; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_6);
-        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_id, __pyx_v__id) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 378; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_id, __pyx_v__id) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 376; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
 
-        /* "src/mongodb.pyx":379
+        /* "src/mongodb.pyx":377
  *         try:
  *             db_update({'_id': _id},
  *                       {'$set': {'nlp_features': bson_encode(nlp_feats),             # <<<<<<<<<<<<<<
  *                                 'binarized': binarized_nlp_feats,
  *                                 'id_string': str(_id)}})
  */
-        __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_8);
-        __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_bson_encode); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_bson_encode); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_10);
         __pyx_t_11 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
@@ -5202,50 +5123,50 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
           }
         }
         if (!__pyx_t_11) {
-          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_v_nlp_feats); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+          __pyx_t_9 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_v_nlp_feats); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
           __Pyx_GOTREF(__pyx_t_9);
         } else {
-          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+          __pyx_t_12 = PyTuple_New(1+1); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
           __Pyx_GOTREF(__pyx_t_12);
           __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_11); __pyx_t_11 = NULL;
           __Pyx_INCREF(__pyx_v_nlp_feats);
           __Pyx_GIVEREF(__pyx_v_nlp_feats);
           PyTuple_SET_ITEM(__pyx_t_12, 0+1, __pyx_v_nlp_feats);
-          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+          __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_12, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
           __Pyx_GOTREF(__pyx_t_9);
           __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
         }
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_nlp_features, __pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_nlp_features, __pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-        /* "src/mongodb.pyx":380
+        /* "src/mongodb.pyx":378
  *             db_update({'_id': _id},
  *                       {'$set': {'nlp_features': bson_encode(nlp_feats),
  *                                 'binarized': binarized_nlp_feats,             # <<<<<<<<<<<<<<
  *                                 'id_string': str(_id)}})
  *             break
  */
-        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_binarized, __pyx_v_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_binarized, __pyx_v_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
 
-        /* "src/mongodb.pyx":381
+        /* "src/mongodb.pyx":379
  *                       {'$set': {'nlp_features': bson_encode(nlp_feats),
  *                                 'binarized': binarized_nlp_feats,
  *                                 'id_string': str(_id)}})             # <<<<<<<<<<<<<<
  *             break
  *         except AutoReconnect:
  */
-        __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_INCREF(__pyx_v__id);
         __Pyx_GIVEREF(__pyx_v__id);
         PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v__id);
-        __pyx_t_10 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_10 = __Pyx_PyObject_Call(((PyObject *)(&PyString_Type)), __pyx_t_9, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_10);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_id_string, __pyx_t_10) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_id_string, __pyx_t_10) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-        if (PyDict_SetItem(__pyx_t_7, __pyx_kp_s_set, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 379; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        if (PyDict_SetItem(__pyx_t_7, __pyx_kp_s_set, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 377; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_INCREF(__pyx_v_db_update);
         __pyx_t_8 = __pyx_v_db_update; __pyx_t_10 = NULL;
@@ -5260,7 +5181,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
             __pyx_t_13 = 1;
           }
         }
-        __pyx_t_9 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 378; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_9 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 376; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_9);
         if (__pyx_t_10) {
           __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -5271,13 +5192,13 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
         PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_13, __pyx_t_7);
         __pyx_t_6 = 0;
         __pyx_t_7 = 0;
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 378; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 376; __pyx_clineno = __LINE__; goto __pyx_L5_error;}
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-        /* "src/mongodb.pyx":382
+        /* "src/mongodb.pyx":380
  *                                 'binarized': binarized_nlp_feats,
  *                                 'id_string': str(_id)}})
  *             break             # <<<<<<<<<<<<<<
@@ -5286,7 +5207,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
  */
         goto __pyx_L10_try_break;
 
-        /* "src/mongodb.pyx":377
+        /* "src/mongodb.pyx":375
  *     cdef int tries = 0
  *     while tries < 5:
  *         try:             # <<<<<<<<<<<<<<
@@ -5304,39 +5225,39 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
       __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-      /* "src/mongodb.pyx":383
+      /* "src/mongodb.pyx":381
  *                                 'id_string': str(_id)}})
  *             break
  *         except AutoReconnect:             # <<<<<<<<<<<<<<
  *             logwarn('Encountered AutoReconnect failure, attempting to '
  *                     'reconnect automatically after 20 seconds...')
  */
-      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_AutoReconnect); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_AutoReconnect); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_14 = PyErr_ExceptionMatches(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       if (__pyx_t_14) {
         __Pyx_AddTraceback("src.mongodb.update_db", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_8, &__pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 383; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+        if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_8, &__pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 381; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GOTREF(__pyx_t_9);
 
-        /* "src/mongodb.pyx":384
+        /* "src/mongodb.pyx":382
  *             break
  *         except AutoReconnect:
  *             logwarn('Encountered AutoReconnect failure, attempting to '             # <<<<<<<<<<<<<<
  *                     'reconnect automatically after 20 seconds...')
  *             tries += 1
  */
-        __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_logwarn); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 384; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+        __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_logwarn); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
         __Pyx_GOTREF(__pyx_t_7);
-        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 384; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+        __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__9, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "src/mongodb.pyx":386
+        /* "src/mongodb.pyx":384
  *             logwarn('Encountered AutoReconnect failure, attempting to '
  *                     'reconnect automatically after 20 seconds...')
  *             tries += 1             # <<<<<<<<<<<<<<
@@ -5345,7 +5266,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
  */
         __pyx_v_tries = (__pyx_v_tries + 1);
 
-        /* "src/mongodb.pyx":387
+        /* "src/mongodb.pyx":385
  *                     'reconnect automatically after 20 seconds...')
  *             tries += 1
  *             if tries >= 5:             # <<<<<<<<<<<<<<
@@ -5355,34 +5276,34 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
         __pyx_t_1 = ((__pyx_v_tries >= 5) != 0);
         if (__pyx_t_1) {
 
-          /* "src/mongodb.pyx":388
+          /* "src/mongodb.pyx":386
  *             tries += 1
  *             if tries >= 5:
  *                 logerr('Unable to update database even after 5 tries. '             # <<<<<<<<<<<<<<
  *                        'Exiting.')
  *                 exit(1)
  */
-          __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+          __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
           __Pyx_GOTREF(__pyx_t_6);
-          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+          __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__10, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
           __Pyx_GOTREF(__pyx_t_7);
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-          /* "src/mongodb.pyx":390
+          /* "src/mongodb.pyx":388
  *                 logerr('Unable to update database even after 5 tries. '
  *                        'Exiting.')
  *                 exit(1)             # <<<<<<<<<<<<<<
  *             sleep(20)
  */
-          __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_exit); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+          __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_exit); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
           __Pyx_GOTREF(__pyx_t_7);
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__11, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
           __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-          /* "src/mongodb.pyx":387
+          /* "src/mongodb.pyx":385
  *                     'reconnect automatically after 20 seconds...')
  *             tries += 1
  *             if tries >= 5:             # <<<<<<<<<<<<<<
@@ -5391,14 +5312,14 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
  */
         }
 
-        /* "src/mongodb.pyx":391
+        /* "src/mongodb.pyx":389
  *                        'Exiting.')
  *                 exit(1)
  *             sleep(20)             # <<<<<<<<<<<<<<
  */
-        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sleep); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 391; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+        __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_sleep); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 391; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
+        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_tuple__12, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L7_except_error;}
         __Pyx_GOTREF(__pyx_t_7);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -5410,7 +5331,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
       goto __pyx_L7_except_error;
       __pyx_L7_except_error:;
 
-      /* "src/mongodb.pyx":377
+      /* "src/mongodb.pyx":375
  *     cdef int tries = 0
  *     while tries < 5:
  *         try:             # <<<<<<<<<<<<<<
@@ -5437,7 +5358,7 @@ static PyObject *__pyx_pf_3src_7mongodb_6update_db(CYTHON_UNUSED PyObject *__pyx
   }
   __pyx_L4_break:;
 
-  /* "src/mongodb.pyx":353
+  /* "src/mongodb.pyx":351
  * 
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,             # <<<<<<<<<<<<<<
@@ -5518,7 +5439,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Unable_to_connect_client_to_Mong, __pyx_k_Unable_to_connect_client_to_Mong, sizeof(__pyx_k_Unable_to_connect_client_to_Mong), 0, 0, 1, 0},
   {&__pyx_kp_s_Unable_to_connect_client_to_Mong_2, __pyx_k_Unable_to_connect_client_to_Mong_2, sizeof(__pyx_k_Unable_to_connect_client_to_Mong_2), 0, 0, 1, 0},
   {&__pyx_kp_s_Unable_to_update_database_even_a, __pyx_k_Unable_to_update_database_even_a, sizeof(__pyx_k_Unable_to_update_database_even_a), 0, 0, 1, 0},
-  {&__pyx_n_s_ValueError, __pyx_k_ValueError, sizeof(__pyx_k_ValueError), 0, 0, 1, 1},
   {&__pyx_kp_s__2, __pyx_k__2, sizeof(__pyx_k__2), 0, 0, 1, 0},
   {&__pyx_n_s_all, __pyx_k_all, sizeof(__pyx_k_all), 0, 0, 1, 1},
   {&__pyx_n_s_appid, __pyx_k_appid, sizeof(__pyx_k_appid), 0, 0, 1, 1},
@@ -5530,7 +5450,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_binarized, __pyx_k_binarized, sizeof(__pyx_k_binarized), 0, 0, 1, 1},
   {&__pyx_n_s_binarized_nlp_feats, __pyx_k_binarized_nlp_feats, sizeof(__pyx_k_binarized_nlp_feats), 0, 0, 1, 1},
   {&__pyx_n_s_bins, __pyx_k_bins, sizeof(__pyx_k_bins), 0, 0, 1, 1},
-  {&__pyx_kp_s_bins_is_invalid_0, __pyx_k_bins_is_invalid_0, sizeof(__pyx_k_bins_is_invalid_0), 0, 0, 1, 0},
   {&__pyx_n_s_bson, __pyx_k_bson, sizeof(__pyx_k_bson), 0, 0, 1, 1},
   {&__pyx_n_s_bson_encode, __pyx_k_bson_encode, sizeof(__pyx_k_bson_encode), 0, 0, 1, 1},
   {&__pyx_n_s_bson_objectid, __pyx_k_bson_objectid, sizeof(__pyx_k_bson_objectid), 0, 0, 1, 1},
@@ -5650,10 +5569,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 336; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
-  __pyx_L1_error:;
-  return -1;
 }
 
 static int __Pyx_InitCachedConstants(void) {
@@ -5726,55 +5642,55 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__7);
   __Pyx_GIVEREF(__pyx_tuple__7);
 
-  /* "src/mongodb.pyx":344
- *                        'Exiting.'
- *                        .format(rd['total_game_hours'], repr(bins)))
+  /* "src/mongodb.pyx":342
+ *                        'within any of the bin ranges.\n\nBin ranges\n{1}\n'
+ *                        'Exiting.'.format(rd['total_game_hours'], repr(bins)))
  *                 exit(1)             # <<<<<<<<<<<<<<
  * 
  *         try:
  */
-  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 344; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__8 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 342; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__8);
   __Pyx_GIVEREF(__pyx_tuple__8);
 
-  /* "src/mongodb.pyx":384
+  /* "src/mongodb.pyx":382
  *             break
  *         except AutoReconnect:
  *             logwarn('Encountered AutoReconnect failure, attempting to '             # <<<<<<<<<<<<<<
  *                     'reconnect automatically after 20 seconds...')
  *             tries += 1
  */
-  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Encountered_AutoReconnect_failur); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 384; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__9 = PyTuple_Pack(1, __pyx_kp_s_Encountered_AutoReconnect_failur); if (unlikely(!__pyx_tuple__9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 382; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "src/mongodb.pyx":388
+  /* "src/mongodb.pyx":386
  *             tries += 1
  *             if tries >= 5:
  *                 logerr('Unable to update database even after 5 tries. '             # <<<<<<<<<<<<<<
  *                        'Exiting.')
  *                 exit(1)
  */
-  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_update_database_even_a); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__10 = PyTuple_Pack(1, __pyx_kp_s_Unable_to_update_database_even_a); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 386; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__10);
   __Pyx_GIVEREF(__pyx_tuple__10);
 
-  /* "src/mongodb.pyx":390
+  /* "src/mongodb.pyx":388
  *                 logerr('Unable to update database even after 5 tries. '
  *                        'Exiting.')
  *                 exit(1)             # <<<<<<<<<<<<<<
  *             sleep(20)
  */
-  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__11 = PyTuple_Pack(1, __pyx_int_1); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 388; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__11);
   __Pyx_GIVEREF(__pyx_tuple__11);
 
-  /* "src/mongodb.pyx":391
+  /* "src/mongodb.pyx":389
  *                        'Exiting.')
  *                 exit(1)
  *             sleep(20)             # <<<<<<<<<<<<<<
  */
-  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_int_20); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 391; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__12 = PyTuple_Pack(1, __pyx_int_20); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 389; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__12);
   __Pyx_GIVEREF(__pyx_tuple__12);
 
@@ -5814,17 +5730,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__17);
   __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(9, 0, 32, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_insert_train_test_reviews, 133, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "src/mongodb.pyx":353
+  /* "src/mongodb.pyx":351
  * 
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,             # <<<<<<<<<<<<<<
  *               binarized_nlp_feats: bool = True) -> None:
  *     """
  */
-  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_db_update, __pyx_n_s_id, __pyx_n_s_nlp_feats, __pyx_n_s_binarized_nlp_feats, __pyx_n_s_tries); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__19 = PyTuple_Pack(5, __pyx_n_s_db_update, __pyx_n_s_id, __pyx_n_s_nlp_feats, __pyx_n_s_binarized_nlp_feats, __pyx_n_s_tries); if (unlikely(!__pyx_tuple__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__19);
   __Pyx_GIVEREF(__pyx_tuple__19);
-  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_update_db, 353, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__20 = (PyObject*)__Pyx_PyCode_New(4, 0, 5, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__19, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_update_db, 351, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -6449,16 +6365,16 @@ PyMODINIT_FUNC PyInit_mongodb(void)
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_insert_train_test_reviews, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 133; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-  /* "src/mongodb.pyx":353
+  /* "src/mongodb.pyx":351
  * 
  * 
  * def update_db(db_update, _id: ObjectId, nlp_feats: dict,             # <<<<<<<<<<<<<<
  *               binarized_nlp_feats: bool = True) -> None:
  *     """
  */
-  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_3src_7mongodb_7update_db, NULL, __pyx_n_s_src_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_3src_7mongodb_7update_db, NULL, __pyx_n_s_src_mongodb); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_update_db, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 353; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_update_db, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 351; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/mongodb.pyx":1
@@ -6511,19 +6427,6 @@ end:
     return (__Pyx_RefNannyAPIStruct *)r;
 }
 #endif
-
-static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
-    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
-    if (unlikely(!result)) {
-        PyErr_Format(PyExc_NameError,
-#if PY_MAJOR_VERSION >= 3
-            "name '%U' is not defined", name);
-#else
-            "name '%.200s' is not defined", PyString_AS_STRING(name));
-#endif
-    }
-    return result;
-}
 
 static void __Pyx_RaiseDoubleKeywordsError(
     const char* func_name,
@@ -6783,6 +6686,19 @@ static PyObject* __Pyx_PyInt_SubtractObjC(PyObject *op1, PyObject *op2, CYTHON_U
     return (inplace ? PyNumber_InPlaceSubtract : PyNumber_Subtract)(op1, op2);
 }
 #endif
+
+static PyObject *__Pyx_GetBuiltinName(PyObject *name) {
+    PyObject* result = __Pyx_PyObject_GetAttrStr(__pyx_b, name);
+    if (unlikely(!result)) {
+        PyErr_Format(PyExc_NameError,
+#if PY_MAJOR_VERSION >= 3
+            "name '%U' is not defined", name);
+#else
+            "name '%.200s' is not defined", PyString_AS_STRING(name));
+#endif
+    }
+    return result;
+}
 
 static CYTHON_INLINE PyObject *__Pyx_GetModuleGlobalName(PyObject *name) {
     PyObject *result;
@@ -7338,197 +7254,6 @@ static CYTHON_INLINE PyObject* __Pyx_PyObject_GetSlice(PyObject* obj,
 bad:
     return NULL;
 }
-
-static CYTHON_INLINE void __Pyx_ErrRestore(PyObject *type, PyObject *value, PyObject *tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyObject *tmp_type, *tmp_value, *tmp_tb;
-    PyThreadState *tstate = PyThreadState_GET();
-    tmp_type = tstate->curexc_type;
-    tmp_value = tstate->curexc_value;
-    tmp_tb = tstate->curexc_traceback;
-    tstate->curexc_type = type;
-    tstate->curexc_value = value;
-    tstate->curexc_traceback = tb;
-    Py_XDECREF(tmp_type);
-    Py_XDECREF(tmp_value);
-    Py_XDECREF(tmp_tb);
-#else
-    PyErr_Restore(type, value, tb);
-#endif
-}
-static CYTHON_INLINE void __Pyx_ErrFetch(PyObject **type, PyObject **value, PyObject **tb) {
-#if CYTHON_COMPILING_IN_CPYTHON
-    PyThreadState *tstate = PyThreadState_GET();
-    *type = tstate->curexc_type;
-    *value = tstate->curexc_value;
-    *tb = tstate->curexc_traceback;
-    tstate->curexc_type = 0;
-    tstate->curexc_value = 0;
-    tstate->curexc_traceback = 0;
-#else
-    PyErr_Fetch(type, value, tb);
-#endif
-}
-
-#if PY_MAJOR_VERSION < 3
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb,
-                        CYTHON_UNUSED PyObject *cause) {
-    Py_XINCREF(type);
-    if (!value || value == Py_None)
-        value = NULL;
-    else
-        Py_INCREF(value);
-    if (!tb || tb == Py_None)
-        tb = NULL;
-    else {
-        Py_INCREF(tb);
-        if (!PyTraceBack_Check(tb)) {
-            PyErr_SetString(PyExc_TypeError,
-                "raise: arg 3 must be a traceback or None");
-            goto raise_error;
-        }
-    }
-    if (PyType_Check(type)) {
-#if CYTHON_COMPILING_IN_PYPY
-        if (!value) {
-            Py_INCREF(Py_None);
-            value = Py_None;
-        }
-#endif
-        PyErr_NormalizeException(&type, &value, &tb);
-    } else {
-        if (value) {
-            PyErr_SetString(PyExc_TypeError,
-                "instance exception may not have a separate value");
-            goto raise_error;
-        }
-        value = type;
-        type = (PyObject*) Py_TYPE(type);
-        Py_INCREF(type);
-        if (!PyType_IsSubtype((PyTypeObject *)type, (PyTypeObject *)PyExc_BaseException)) {
-            PyErr_SetString(PyExc_TypeError,
-                "raise: exception class must be a subclass of BaseException");
-            goto raise_error;
-        }
-    }
-    __Pyx_ErrRestore(type, value, tb);
-    return;
-raise_error:
-    Py_XDECREF(value);
-    Py_XDECREF(type);
-    Py_XDECREF(tb);
-    return;
-}
-#else
-static void __Pyx_Raise(PyObject *type, PyObject *value, PyObject *tb, PyObject *cause) {
-    PyObject* owned_instance = NULL;
-    if (tb == Py_None) {
-        tb = 0;
-    } else if (tb && !PyTraceBack_Check(tb)) {
-        PyErr_SetString(PyExc_TypeError,
-            "raise: arg 3 must be a traceback or None");
-        goto bad;
-    }
-    if (value == Py_None)
-        value = 0;
-    if (PyExceptionInstance_Check(type)) {
-        if (value) {
-            PyErr_SetString(PyExc_TypeError,
-                "instance exception may not have a separate value");
-            goto bad;
-        }
-        value = type;
-        type = (PyObject*) Py_TYPE(value);
-    } else if (PyExceptionClass_Check(type)) {
-        PyObject *instance_class = NULL;
-        if (value && PyExceptionInstance_Check(value)) {
-            instance_class = (PyObject*) Py_TYPE(value);
-            if (instance_class != type) {
-                int is_subclass = PyObject_IsSubclass(instance_class, type);
-                if (!is_subclass) {
-                    instance_class = NULL;
-                } else if (unlikely(is_subclass == -1)) {
-                    goto bad;
-                } else {
-                    type = instance_class;
-                }
-            }
-        }
-        if (!instance_class) {
-            PyObject *args;
-            if (!value)
-                args = PyTuple_New(0);
-            else if (PyTuple_Check(value)) {
-                Py_INCREF(value);
-                args = value;
-            } else
-                args = PyTuple_Pack(1, value);
-            if (!args)
-                goto bad;
-            owned_instance = PyObject_Call(type, args, NULL);
-            Py_DECREF(args);
-            if (!owned_instance)
-                goto bad;
-            value = owned_instance;
-            if (!PyExceptionInstance_Check(value)) {
-                PyErr_Format(PyExc_TypeError,
-                             "calling %R should have returned an instance of "
-                             "BaseException, not %R",
-                             type, Py_TYPE(value));
-                goto bad;
-            }
-        }
-    } else {
-        PyErr_SetString(PyExc_TypeError,
-            "raise: exception class must be a subclass of BaseException");
-        goto bad;
-    }
-#if PY_VERSION_HEX >= 0x03030000
-    if (cause) {
-#else
-    if (cause && cause != Py_None) {
-#endif
-        PyObject *fixed_cause;
-        if (cause == Py_None) {
-            fixed_cause = NULL;
-        } else if (PyExceptionClass_Check(cause)) {
-            fixed_cause = PyObject_CallObject(cause, NULL);
-            if (fixed_cause == NULL)
-                goto bad;
-        } else if (PyExceptionInstance_Check(cause)) {
-            fixed_cause = cause;
-            Py_INCREF(fixed_cause);
-        } else {
-            PyErr_SetString(PyExc_TypeError,
-                            "exception causes must derive from "
-                            "BaseException");
-            goto bad;
-        }
-        PyException_SetCause(value, fixed_cause);
-    }
-    PyErr_SetObject(type, value);
-    if (tb) {
-#if CYTHON_COMPILING_IN_PYPY
-        PyObject *tmp_type, *tmp_value, *tmp_tb;
-        PyErr_Fetch(&tmp_type, &tmp_value, &tmp_tb);
-        Py_INCREF(tb);
-        PyErr_Restore(tmp_type, tmp_value, tb);
-        Py_XDECREF(tmp_tb);
-#else
-        PyThreadState *tstate = PyThreadState_GET();
-        PyObject* tmp_tb = tstate->curexc_traceback;
-        if (tb != tmp_tb) {
-            Py_INCREF(tb);
-            tstate->curexc_traceback = tb;
-            Py_XDECREF(tmp_tb);
-        }
-#endif
-    }
-bad:
-    Py_XDECREF(owned_instance);
-    return;
-}
-#endif
 
 static PyObject *__Pyx_Import(PyObject *name, PyObject *from_list, int level) {
     PyObject *empty_list = 0;

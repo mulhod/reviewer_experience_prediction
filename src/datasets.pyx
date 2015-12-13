@@ -9,7 +9,6 @@ convert raw hours played values to a scale of a given number of values,
 etc.
 """
 import logging
-from sys import exit
 from os import listdir
 from json import loads
 from time import (sleep,
@@ -21,7 +20,6 @@ from os.path import (join,
                      realpath,
                      splitext)
 from re import (sub,
-                search,
                 compile as recompile)
 
 import requests
@@ -997,13 +995,16 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     :param nbins: number of bins into which the distribution is being
                   sub-divided (default: 5)
     :type nbins: int
-    :param factor: factor by which to multiply the bin sizes (default:
-                   1.0)
+    :param factor: factor by which to multiply the bin sizes, must be
+                   positive, non-zero value (default: 1.0)
     :type factor: float
 
     :returns: list of tuples representing the minimum and maximum
               values of each bin
     :rtype: list
+
+    :raises ValueError: if `factor` is not a non-zero, positive value
+                        or bin ranges validation fails
     """
 
     """
@@ -1016,6 +1017,10 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     range, while the last bin would be equal to about 5/13ths of the
     range.
     """
+
+    if factor <= 0.0:
+        raise ValueError('"factor" must be positive, non-zero value.')
+
     cdef float i = 1.0
     range_parts = [i]
     for _ in list(range(nbins))[1:]:
@@ -1036,6 +1041,14 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     # 0.1 was artifically added to every range beginning value to
     # ensure that the range tuples did not overlap in values
     bin_ranges[0] = (bin_ranges[0][0] - 0.1, bin_ranges[0][1])
+
+    try:
+        validate_bin_ranges(bin_ranges)
+    except ValueError as e:
+        error_msg = '"bin_ranges" could not be validated: {0}'.format(bin_ranges)
+        logger.error(error_msg)
+        raise e
+
     return bin_ranges
 
 
@@ -1077,7 +1090,16 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
     values = np.array(get_label_values(db, games, label, lognormal=lognormal))
 
     # Divide up the distribution of label values
-    return get_bin_ranges(values.min(), values.max(), nbins, factor)
+    try:
+        bin_ranges = get_bin_ranges(values.min(), values.max(), nbins, factor)
+    except ValueError as e:
+        error_msg = ('Encountered ValueError at call to get_bin_ranges: {0}\n'
+                     'Min: {1}\nMax: {2}\nN bins: {3}\nFactor: {4}'
+                     .format(e, values.min(), values.max(), nbins, factor))
+        logerr(error_msg)
+        raise ValueError(e)
+
+    return bin_ranges
 
 
 def validate_bin_ranges(bin_ranges: list) -> bool:
@@ -1103,33 +1125,65 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
     :type bin_ranges: list of tuples representing the minimum and
                       maximum values of a range of values
 
-    :returns: True if `bin_ranges` is valid, False otherwise
-    :rtype: bool
+    :returns: None
+    :rtype: None
+
+    :raises ValueError: if validation fails
     """
 
+    float_one_dec = recompile(r'^\d+\.\d$')
+    test_float_decimal_places = float_one_dec.search
+
+    # Raise error if there's only one bin
     if len(bin_ranges) == 1:
-        return False
+        error_msg = 'Only one bin: {}'.format(bin_ranges)
+        logerr(error_msg)
+        raise ValueError(error_msg)
 
     cdef int i
     current_value = None
     for i, bin_range in enumerate(bin_ranges):
-        try:
-            bin_range[1] == bin_ranges[i + 1][0] + 0.1
-        except IndexError:
-            pass
-        for end_point in bin_range:
-            value_string_split = str(end_point).split('.')
-            try:
-                if len(value_string_split[1]) != 1:
-                    return False
-            except IndexError:
-                return False
-            if current_value == None:
-                current_value = end_point
-            elif current_value >= end_point:
-                return False
 
-    return True
+        # Make sure that each value is a float
+        for end_point in bin_range:
+            if (not isinstance(end_point, float)
+                or not test_float_decimal_places(str(end_point))):
+                raise ValueError('"bin_ranges" includes bins that have '
+                                 'non-float values or whose values are more '
+                                 'precise than one-decimal place: {0}'
+                                 .format(bin_ranges))
+
+        # Make sure that each bin's values make sense internally and in
+        # terms of the succeeding bin's values
+        if (bin_range[0] > bin_range[1] or
+            bin_range[1] - bin_range[0] < 0.01):
+            error_msg = ('Found bin range whose values are either equal '
+                         'or the left-hand value is greater than the '
+                         'right-hand value: {0}, {1}'
+                         .format(bin_range[0], bin_range[1]))
+            logerr(error_msg)
+            raise ValueError(error_msg)
+        try:
+            diff = bin_ranges[i + 1][0] - bin_range[1]
+        except IndexError:
+            return
+        if diff < 0:
+            error_msg = ('Found adjacent end-points in successive bins that '
+                         'do not represent a continuous range: {0} is '
+                         'greater than {1}'
+                         .format(bin_range[1], bin_ranges[i + 1][0]))
+            logerr(error_msg)
+            raise ValueError(error_msg)
+        try:
+            np.testing.assert_almost_equal(diff, 0.1, decimal=1)
+        except AssertionError:
+            error_msg = ('Found adjacent end-points in successive bins that '
+                         'do not represent a continuous range: {0} is almost '
+                         'equal to {1} or the absolute difference is greater '
+                         'than 0.1'.format(bin_range[1],
+                                           bin_ranges[i + 1][0]))
+            logerr(error_msg)
+            raise ValueError(error_msg)
 
 
 def get_bin(bin_ranges: list, float val) -> int:

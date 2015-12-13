@@ -305,10 +305,8 @@ def distributional_info(db: collection, label: str, games: list,
 
         if bin_ranges:
             # Validate `bin_ranges`
-            if validate_bin_ranges(bin_ranges):
-                label_value = get_bin(bin_ranges, label_value)
-            else:
-                raise ValueError('"bin_ranges" is invalid: {0}'.format(bin_ranges))
+            validate_bin_ranges(bin_ranges)
+            label_value = get_bin(bin_ranges, label_value)
 
         samples.append({'id_string': doc['id_string'], label: label_value})
 

@@ -328,19 +328,17 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
         rd['partition'] = partition_id
 
         if bins:
-            # Validate `bin_ranges`
-            if validate_bin_ranges(bins):
-                _bin = get_bin(bins,
-                               rd['total_game_hours'])
-            else:
-                raise ValueError('"bins" is invalid: {0}'.format(bins))
+
+            # Validate `bins`
+            validate_bin_ranges(bins)
+            _bin = get_bin(bins, rd['total_game_hours'])
+
             if _bin > -1:
                 rd['total_game_hours_bin'] = _bin
             else:
                 logerr('The hours played value ({0}) did not seem to fall '
                        'within any of the bin ranges.\n\nBin ranges\n{1}\n'
-                       'Exiting.'
-                       .format(rd['total_game_hours'], repr(bins)))
+                       'Exiting.'.format(rd['total_game_hours'], repr(bins)))
                 exit(1)
 
         try:
