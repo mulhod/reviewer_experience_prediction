@@ -34,7 +34,7 @@ from src.mongodb import (update_db,
 bson_decode = BSON.decode
 spaCy_nlp = English()
 
-# Logger
+# Logging-related
 logger = logging.getLogger()
 logwarn = logger.warning
 logerr = logger.error

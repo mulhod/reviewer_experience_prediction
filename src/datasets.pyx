@@ -38,7 +38,7 @@ from langdetect.lang_detect_exception import LangDetectException
 from data import APPID_DICT
 from src import LABELS_WITH_PCT_VALUES
 
-# Connect to get_review_data logger
+# Logging-related
 logger = logging.getLogger()
 loginfo = logger.info
 logdebug = logger.debug
@@ -988,6 +988,9 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     If the bin sizes should be weighted so that they become larger as
     they get toward the end of the scale, specify a factor.
 
+    This function is hacky and needs to be fixed, but it is a more
+    difficult problem than it might at first appear.
+
     :param _min: minimum value of the distribution
     :type _min: float
     :param _max: maximum value of the distribution
@@ -1007,20 +1010,32 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
                         or bin ranges validation fails
     """
 
-    """
-    Make a list of range units, one for each bin. For example, if nbins
-    = 5 and factor = 1.0, then range_parts will simply be a list of 1.0
-    values, i.e., each bin will be equal to one part of the range, or
-    1/5th in this case. If factor = 1.5, however, range_parts will then
-    be [1.0, 1.5, 2.25, 3.375, 5.0625] and the first bin would be equal
-    to the range divided by the sum of range_parts, or 1/13th of the
-    range, while the last bin would be equal to about 5/13ths of the
-    range.
-    """
-
     if factor <= 0.0:
         raise ValueError('"factor" must be positive, non-zero value.')
 
+    # Test if `_min` and `_max` are equal or if `_min` is greater
+    equal = False
+    try:
+        np.testing.assert_almost_equal(abs(_min - _max), 0.0, decimal=1)
+        equal = True
+    except AssertionError:
+        pass
+    if equal or _min > _max:
+        raise ValueError('Either "_min" is greater than "_max" or they are '
+                         'equal.')
+
+    """
+    Make a list of range units, one for each bin.
+
+    For example, `_min` is 0.0 and `_max` is 5.0 and `nbins` and
+    `factor` are 5 and 1.0, then `range_parts` will simply be a list of
+    1.0 values, i.e., each bin will be equal to one part of the range,
+    or 1/5th in this case. If `factor` is 1.5, however, `range_parts`
+    will then be [1.0, 1.5, 2.25, 3.375, 5.0625] and the first bin
+    would be equal to the range divided by the sum of `range_parts`, or
+    1/13th of the range, while the last bin would be equal to about
+    5/13ths of the range.
+    """
     cdef float i = 1.0
     range_parts = [i]
     for _ in list(range(nbins))[1:]:
@@ -1032,7 +1047,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     bin_ranges = []
     cdef float current_min = _min
     for range_part in range_parts:
-        _range = (range_unit*range_part)
+        _range = range_unit*range_part
         bin_ranges.append((round(current_min + 0.1, 1),
                            round(current_min + _range, 1)))
         current_min += _range
@@ -1040,7 +1055,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     # Subtract 0.1 from the beginning of the first range tuple since
     # 0.1 was artifically added to every range beginning value to
     # ensure that the range tuples did not overlap in values
-    bin_ranges[0] = (bin_ranges[0][0] - 0.1, bin_ranges[0][1])
+    bin_ranges[0] = bin_ranges[0][0] - 0.1, bin_ranges[0][1]
 
     try:
         validate_bin_ranges(bin_ranges)

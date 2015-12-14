@@ -4,6 +4,7 @@
 
 Module of functions/classes related to learning experiments.
 """
+import logging
 from os.path import join
 from collections import Counter
 
@@ -24,6 +25,10 @@ from src import (LABELS,
 from src.datasets import (get_bin,
                           validate_bin_ranges,
                           compute_label_value)
+
+# Logging-related
+logger = logging.getLogger()
+logerr = logger.error
 
 
 def find_default_param_grid(learner: str,
@@ -256,8 +261,8 @@ def distributional_info(db: collection, label: str, games: list,
               values, respectively
     :rtype: dict
 
-    :raises ValueError: if unrecognized games were found in the input
-                        or no reviews were found for the combination of
+    :raises ValueError: if unrecognized games were found in the input,
+                        no reviews were found for the combination of
                         game, partition, etc., or the `bin_ranges`
                         value is invalid
     """
@@ -291,6 +296,14 @@ def distributional_info(db: collection, label: str, games: list,
     proj = {'nlp_features': 0}
     cursor = db.find(query, proj, **kwargs)
 
+    # Validate `bin_ranges`
+    if bin_ranges:
+        try:
+            validate_bin_ranges(bin_ranges)
+        except ValueError as e:
+            logerr(e)
+            raise ValueError('"bin_ranges" could not be validated.')
+
     # Get review documents (only including label + ID string)
     samples = []
     for doc in cursor:
@@ -304,8 +317,6 @@ def distributional_info(db: collection, label: str, games: list,
             continue
 
         if bin_ranges:
-            # Validate `bin_ranges`
-            validate_bin_ranges(bin_ranges)
             label_value = get_bin(bin_ranges, label_value)
 
         samples.append({'id_string': doc['id_string'], label: label_value})
@@ -387,6 +398,8 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
 
     :yields: ID string
     :ytype: str
+
+    :raises ValueError: if `bin_ranges` is invalid
     """
 
     # Check `partition` parameter value

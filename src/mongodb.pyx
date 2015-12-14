@@ -38,7 +38,7 @@ from src.datasets import (get_bin,
                           validate_bin_ranges,
                           get_and_describe_dataset)
 
-# Logging
+# Logging-related
 logger = logging.getLogger()
 loginfo = logger.info
 logdebug = logger.debug
@@ -290,7 +290,7 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
 
 cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
                                     rdicts: list, game: str, appid: str,
-                                    partition_id: str, bins: bool = False):
+                                    partition_id: str, bins: list = False):
     """
     Add insert operations to a bulk writer.
 
@@ -310,13 +310,13 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
     :param bins: False (i.e., if a converted hours value should not
                  also be inserted) or a list of 2-tuples containing
                  floating point numbers representing the beginning of a
-                 range (actually, the lower, non-inclusive bound of the
-                 range) and the end (the upper, inclusive bound of the
-                 range) (default: False)
+                 range and the end (default: False)
     :type bins: False or list
 
     :returns: None
     :rtype: None
+
+    :raises ValueError: if `bins` is invalid (only if it is specified)
     """
 
     for rd in rdicts:
@@ -330,7 +330,11 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
         if bins:
 
             # Validate `bins`
-            validate_bin_ranges(bins)
+            try:
+                validate_bin_ranges(bins)
+            except ValueError as e:
+                logerr(e)
+                raise ValueError('"bins" could not be validated.')
             _bin = get_bin(bins, rd['total_game_hours'])
 
             if _bin > -1:
