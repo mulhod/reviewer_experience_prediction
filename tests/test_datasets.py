@@ -24,7 +24,8 @@ class GetBinRangesTestCase(unittest.TestCase):
     Test the `get_bin_ranges` function.
     """
 
-    def test_get_bin_ranges_invalid(self):
+    @staticmethod
+    def test_get_bin_ranges_invalid():
         """
         Test the `get_bin_ranges` function given invalid `bin_ranges`
         arguments.
@@ -41,7 +42,8 @@ class GetBinRangesTestCase(unittest.TestCase):
         for _args in args:
             assert_raises(ValueError, get_bin_ranges, *_args)
 
-    def test_get_bin_ranges_valid(self):
+    @staticmethod
+    def test_get_bin_ranges_valid():
         """
         Test the `get_bin_ranges` function with some valid inputs.
         """
@@ -65,7 +67,8 @@ class ValidateBinRangesTestCase(unittest.TestCase):
     Test the `validate_bin_ranges` method.
     """
 
-    def test_validate_bin_ranges_invalid(self):
+    @staticmethod
+    def test_validate_bin_ranges_invalid():
         """
         Test the `validate_bin_ranges` function given invalid
         `bin_ranges` values.
@@ -83,7 +86,8 @@ class ValidateBinRangesTestCase(unittest.TestCase):
         for bin_ranges in bin_ranges_invalid:
             assert_raises(ValueError, validate_bin_ranges, bin_ranges)
 
-    def test_validate_bin_ranges_valid(self):
+    @staticmethod
+    def test_validate_bin_ranges_valid():
         """
         Test the `validate_bin_ranges` function given valid
         `bin_ranges` values.
