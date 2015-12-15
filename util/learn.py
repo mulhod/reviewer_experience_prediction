@@ -51,14 +51,19 @@ from src.mongodb import connect_to_db
 from src import (LABELS,
                  VALID_GAMES,
                  LEARNER_DICT,
+                 LABELS_STRING,
                  LEARNER_ABBRS_DICT,
                  OBJ_FUNC_ABBRS_DICT,
                  LEARNER_ABBRS_STRING,
                  OBJ_FUNC_ABBRS_STRING)
 from src.datasets import (get_bin,
+                          parse_games_string,
                           compute_label_value,
                           validate_bin_ranges,
-                          get_bin_ranges_helper)
+                          parse_learners_string,
+                          get_bin_ranges_helper,
+                          find_default_param_grid,
+                          parse_non_nlp_features_string)
 
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running IncrementalLearning
@@ -122,7 +127,7 @@ class RunExperiments:
     _cnfmat_header = ('confusion_matrix (rounded predictions) '
                       '(row=actual, col=machine, labels={0}):\n')
     _report_name_template = '{0}_{1}_{2}_{3}.csv'
-    _available_labels_string = ', '.join(LABELS)
+    _available_labels_string = LABELS_STRING
     _labels_list = None
 
     # Constant values
@@ -1159,21 +1164,20 @@ def main(argv=None):
     args = parser.parse_args()
 
     # Command-line arguments and flags
-    games = ex.parse_games_string(args.games)
-    test_games = (ex.parse_games_string(args.test_games) if args.test_games
-                  else games)
+    games = parse_games_string(args.games)
+    test_games = parse_games_string(args.test_games) if args.test_gameselse games
     max_rounds = args.max_rounds
     max_samples_per_round = args.max_samples_per_round
     prediction_label = args.prediction_label
-    non_nlp_features = ex.parse_non_nlp_features_string(args.non_nlp_features,
-                                                        prediction_label)
+    non_nlp_features = parse_non_nlp_features_string(args.non_nlp_features,
+                                                     prediction_label)
     only_non_nlp_features = args.only_non_nlp_features
     nbins = args.nbins
     bin_factor = args.bin_factor
     lognormal = args.lognormal
     power_transform = args.power_transform
     feature_hashing = args.use_feature_hasher
-    learners = ex.parse_learners_string(args.learners)
+    learners = parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
     max_test_samples = args.max_test_samples
@@ -1322,7 +1326,7 @@ def main(argv=None):
                                      games,
                                      test_games,
                                      [LEARNER_DICT[learner] for learner in learners],
-                                     [ex.find_default_param_grid(learner) for learner in learners],
+                                     [find_default_param_grid(learner) for learner in learners],
                                      max_samples_per_round,
                                      non_nlp_features,
                                      prediction_label,
