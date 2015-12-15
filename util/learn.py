@@ -51,7 +51,9 @@ from src.mongodb import connect_to_db
 from src import (LABELS,
                  VALID_GAMES,
                  LEARNER_DICT,
+                 LEARNER_ABBRS_DICT,
                  OBJ_FUNC_ABBRS_DICT,
+                 LEARNER_ABBRS_STRING,
                  OBJ_FUNC_ABBRS_STRING)
 from src.datasets import (get_bin,
                           compute_label_value,
