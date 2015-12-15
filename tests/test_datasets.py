@@ -38,6 +38,7 @@ class GetBinRangesTestCase(unittest.TestCase):
             [0.5, 0.2], # `_min` is greater than `_max`
             [0.0, 100.0, 5, -1.0], # `factor` is not non-zero/positive
             [0.0, 100.0, 5, 0.0], # `factor` is not non-zero
+            [0.0, 74018341812517056.0, 2, 5.0], # `_max` is too big
             [0.0, 100.235634] # `_max` is more precise than to one decimal
                               # place
             ]
