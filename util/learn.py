@@ -1314,9 +1314,13 @@ def main(argv=None):
         if lognormal or power_transform:
             transformation = ('lognormal' if lognormal
                               else 'x**{0}'.format(power_transform))
+        else:
+            transformation = None
         loginfo('Bin ranges (nbins = {0}, bin_factor = {1}, {2}): {3}'
                 .format(nbins, bin_factor,
-                        '{0} transformation'.format(transformation),
+                        '{0} transformation'.format(transformation)
+                        if transformation
+                        else '',
                         bin_ranges))
 
     # Do learning experiments
