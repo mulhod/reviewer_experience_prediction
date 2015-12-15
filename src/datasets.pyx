@@ -1016,6 +1016,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
         range_parts.append(i)
 
     # Generate a list of range tuples
+    _max = round(_max, 1)
     cdef float range_unit = round(_max - _min)/sum(range_parts)
     bin_ranges = []
     a, b = _min, None
@@ -1027,12 +1028,13 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
             first_time = False
         else:
             b = round(a + current_range - 0.1, 1)
-        bin_ranges.append((a, b))
+        bin_ranges.append((a if a <= _max else _max,
+                           b if b <= _max else _max))
         a = round(b + 0.1, 1)
 
     # Ensure that the end value of the last bin is actually the given
     # `_max`
-    bin_ranges[-1] = (bin_ranges[-1][0], round(_max, 1))
+    bin_ranges[-1] = (bin_ranges[-1][0], _max)
 
     try:
         validate_bin_ranges(bin_ranges)
