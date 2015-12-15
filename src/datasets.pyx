@@ -788,28 +788,6 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
         i += 1
 
 
-def parse_appids(appids: list) -> list:
-    """
-    Parse the command-line argument passed in with the `--appids` flag,
-    exiting if any of the resulting IDs do not map to games in
-    APPID_DICT.
-
-    :param appids: game IDs
-    :type appids: str
-
-    :returns: list of game IDs
-    :rtype: list
-
-    :raises ValueError: if unrecognized `appid` found in input
-    """
-
-    appids = appids.split(',')
-    for appid in appids:
-        if not appid in APPID_DICT.values():
-            raise ValueError('{0} not found in APPID_DICT. Exiting.'.format(appid))
-    return appids
-
-
 cdef read_reviews_from_game_file(file_path: str):
     """
     Generate list of review dictionaries from a single game's

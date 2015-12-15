@@ -17,3 +17,25 @@ APPID_DICT = dict(Dota_2='570',
                   Warframe='230410',
                   Counter_Strike='10',
                   sample='sample_id')
+
+
+def parse_appids(appids: list) -> list:
+    """
+    Parse the command-line argument passed in with the `--appids` flag,
+    exiting if any of the resulting IDs do not map to games in
+    APPID_DICT.
+
+    :param appids: game IDs
+    :type appids: str
+
+    :returns: list of game IDs
+    :rtype: list
+
+    :raises ValueError: if unrecognized `appid` found in input
+    """
+
+    appids = appids.split(',')
+    for appid in appids:
+        if not appid in APPID_DICT.values():
+            raise ValueError('{0} not found in APPID_DICT. Exiting.'.format(appid))
+    return appids

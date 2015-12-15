@@ -56,10 +56,10 @@ def main():
     from sys import exit
     from json import dumps
 
-    from data import APPID_DICT
+    from data import (APPID_DICT,
+                      parse_appids)
     from src import log_format_string
-    from src.datasets import (parse_appids,
-                              get_review_data_for_game)
+    from src.datasets import get_review_data_for_game
 
     # Initialize logging system
     logger = logging.getLogger()

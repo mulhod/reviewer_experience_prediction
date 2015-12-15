@@ -52,18 +52,18 @@ from src import (LABELS,
                  VALID_GAMES,
                  LEARNER_DICT,
                  LABELS_STRING,
+                 parse_games_string,
                  LEARNER_ABBRS_DICT,
                  OBJ_FUNC_ABBRS_DICT,
                  LEARNER_ABBRS_STRING,
-                 OBJ_FUNC_ABBRS_STRING)
+                 OBJ_FUNC_ABBRS_STRING,
+                 parse_learners_string,
+                 parse_non_nlp_features_string)
 from src.datasets import (get_bin,
-                          parse_games_string,
                           compute_label_value,
                           validate_bin_ranges,
-                          parse_learners_string,
                           get_bin_ranges_helper,
-                          find_default_param_grid,
-                          parse_non_nlp_features_string)
+                          find_default_param_grid)
 
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running IncrementalLearning
