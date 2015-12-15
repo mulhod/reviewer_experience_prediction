@@ -1165,7 +1165,7 @@ def main(argv=None):
 
     # Command-line arguments and flags
     games = parse_games_string(args.games)
-    test_games = parse_games_string(args.test_games) if args.test_gameselse games
+    test_games = parse_games_string(args.test_games) if args.test_games else games
     max_rounds = args.max_rounds
     max_samples_per_round = args.max_samples_per_round
     prediction_label = args.prediction_label
