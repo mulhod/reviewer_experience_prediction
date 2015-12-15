@@ -979,8 +979,9 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
               values of each bin
     :rtype: list
 
-    :raises ValueError: if `factor` is not a non-zero, positive value
-                        or bin ranges validation fails
+    :raises ValueError: if `factor` is not a non-zero, positive value,
+                        bin range validation fails, or there is an
+                        overflow problem
     """
 
     if factor <= 0.0:
@@ -1028,8 +1029,15 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
             first_time = False
         else:
             b = round(a + current_range - 0.1, 1)
-        bin_ranges.append((a if a <= _max else _max,
-                           b if b <= _max else _max))
+        _bin = a if a <= _max else _max, b if b <= _max else _max
+
+        # Try to detect overflow issues
+        for val in _bin:
+            if val == val + 0.1:
+                raise ValueError('Bin values are too big: {0} == {0} + 0.1'
+                                 .format(repr(val)))
+
+        bin_ranges.append(_bin)
         a = round(b + 0.1, 1)
 
     # Ensure that the end value of the last bin is actually the given
@@ -1039,7 +1047,8 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     try:
         validate_bin_ranges(bin_ranges)
     except ValueError as e:
-        error_msg = '"bin_ranges" could not be validated: {0}'.format(bin_ranges)
+        error_msg = ('"bin_ranges" could not be validated: {0}'
+                     .format(repr(bin_ranges)))
         logerr(error_msg)
         raise e
 
@@ -1083,8 +1092,9 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
               values of each bin or None if `nbins` is 0
     :rtype: list
 
-    :raises ValueError: if `nbins` is not greater than 1 or `lognormal`
-                        and `power_transform` were specified
+    :raises ValueError: if `nbins` is not greater than 1 or both
+                        `lognormal` and `power_transform` were
+                        specified
     """
 
     # Return None if `nbins` is 0
@@ -1146,7 +1156,7 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
 
     # Raise error if there's only one bin
     if len(bin_ranges) == 1:
-        error_msg = 'Only one bin: {}'.format(bin_ranges)
+        error_msg = 'Only one bin: {}'.format(repr(bin_ranges))
         logerr(error_msg)
         raise ValueError(error_msg)
 
@@ -1157,11 +1167,11 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
         # Make sure that each value is a float
         for end_point in bin_range:
             if (not isinstance(end_point, float)
-                or not test_float_decimal_places(str(end_point))):
+                or not test_float_decimal_places(repr(end_point))):
                 raise ValueError('"bin_ranges" includes bins that have '
                                  'non-float values or whose values are more '
                                  'precise than one-decimal place: {0}'
-                                 .format(bin_ranges))
+                                 .format(repr(bin_ranges)))
 
         # Make sure that each bin's values make sense internally and in
         # terms of the succeeding bin's values
@@ -1170,7 +1180,7 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
             error_msg = ('Found bin range whose values are either equal '
                          'or the left-hand value is greater than the '
                          'right-hand value: {0}, {1}'
-                         .format(bin_range[0], bin_range[1]))
+                         .format(repr(bin_range[0]), repr(bin_range[1])))
             logerr(error_msg)
             raise ValueError(error_msg)
         try:
@@ -1184,14 +1194,16 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
                 error_msg = ('Found adjacent end-points in successive bins '
                              'that have less than a 0.1 absolute difference '
                              'between them: {0} and {1}'
-                             .format(bin_range[1], bin_ranges[i + 1][0]))
+                             .format(repr(bin_range[1]),
+                                     repr(bin_ranges[i + 1][0])))
                 logerr(error_msg)
                 raise ValueError(error_msg)
             else:
                 error_msg = ('Found adjacent end-points in successive bins '
                              'that do not represent a continuous range: {0} '
                              'is almost equal to {1}'
-                             .format(bin_range[1], bin_ranges[i + 1][0]))
+                             .format(repr(bin_range[1]),
+                                     repr(bin_ranges[i + 1][0])))
                 logerr(error_msg)
                 raise ValueError(error_msg)
 
@@ -1282,6 +1294,9 @@ def get_label_values(db: collection, games: list, label: str,
               empty string or `lognormal` and `power_transform` were
               specified
     :rtype: list
+
+    :raises ValueError: if `lognormal` and `power_transform` were both
+                        specified
     """
 
     # Validate transformer parameters
@@ -1326,7 +1341,8 @@ def compute_label_value(value, label, lognormal: bool = False,
               (if any)
     :rtype: float or None
 
-    :raises ValueError: if `value` is not positive
+    :raises ValueError: if `value` is not positive or both `lognormal`
+                        and `power_transform` were specified
     """
 
     # Validate transformer parameters
@@ -1343,7 +1359,7 @@ def compute_label_value(value, label, lognormal: bool = False,
     # Check if value is positive
     if value < 0.0:
         raise ValueError('Received invalid "value" value: {}. "value" should '
-                         'be positive.'.format(value))
+                         'be positive.'.format(repr(value)))
 
     # If the label has percentage values, i.e., values between 0.0 and
     # 1.0 (inclusive), multiply the value by 100 before doing anything

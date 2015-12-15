@@ -12,11 +12,11 @@ from math import ceil
 from time import sleep
 from json import dumps
 from os.path import join
-from re import (compile,
-                IGNORECASE)
 from string import punctuation
 from collections import Counter
 from itertools import combinations
+from re import (IGNORECASE,
+                compile as recompile)
 
 import numpy as np
 from bson import BSON
@@ -40,45 +40,45 @@ logwarn = logger.warning
 logerr = logger.error
 
 # Review preprocessing-related regular expressions
-SPACES = compile(r'[\n\t ]+')
+SPACES = recompile(r'[\n\t ]+')
 spaces_sub = SPACES.sub
-WONT = compile(r"\bwont\b", IGNORECASE)
+WONT = recompile(r"\bwont\b", IGNORECASE)
 wont_sub = WONT.sub
-DONT = compile(r"\bdont\b", IGNORECASE)
+DONT = recompile(r"\bdont\b", IGNORECASE)
 dont_sub = DONT.sub
-WASNT = compile(r"\bwasnt\b", IGNORECASE)
+WASNT = recompile(r"\bwasnt\b", IGNORECASE)
 wasnt_sub = WASNT.sub
-WERENT = compile(r"\bwerent\b", IGNORECASE)
+WERENT = recompile(r"\bwerent\b", IGNORECASE)
 werent_sub = WERENT.sub
-AINT = compile(r"\baint\b", IGNORECASE)
+AINT = recompile(r"\baint\b", IGNORECASE)
 aint_sub = AINT.sub
-ARENT = compile(r"\barent\b", IGNORECASE)
+ARENT = recompile(r"\barent\b", IGNORECASE)
 arent_sub = ARENT.sub
-CANT = compile(r"\bcant\b", IGNORECASE)
+CANT = recompile(r"\bcant\b", IGNORECASE)
 cant_sub = CANT.sub
-DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+DIDNT = recompile(r"\bdidnt\b", IGNORECASE)
 didnt_sub = DIDNT.sub
-HAVENT = compile(r"\bhavent\b", IGNORECASE)
+HAVENT = recompile(r"\bhavent\b", IGNORECASE)
 havent_sub = HAVENT.sub
-IVE = compile(r"\bive\b", IGNORECASE)
+IVE = recompile(r"\bive\b", IGNORECASE)
 ive_sub = IVE.sub
-ISNT = compile(r"\bisnt\b", IGNORECASE)
+ISNT = recompile(r"\bisnt\b", IGNORECASE)
 isnt_sub = ISNT.sub
-THEYLL = compile(r"\btheyll\b", IGNORECASE)
+THEYLL = recompile(r"\btheyll\b", IGNORECASE)
 theyll_sub = THEYLL.sub
-THATS = compile(r"\bthats\b", IGNORECASE)
+THATS = recompile(r"\bthats\b", IGNORECASE)
 thats_sub = THATS.sub
-WHATS = compile(r"\bwhats\b", IGNORECASE)
+WHATS = recompile(r"\bwhats\b", IGNORECASE)
 whats_sub = WHATS.sub
-WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)
 wouldnt_sub = WOULDNT.sub
-IM = compile(r"\bim\b", IGNORECASE)
+IM = recompile(r"\bim\b", IGNORECASE)
 im_sub = IM.sub
-YOURE = compile(r"\byoure\b", IGNORECASE)
+YOURE = recompile(r"\byoure\b", IGNORECASE)
 youre_sub = YOURE.sub
-YOUVE = compile(r"\byouve\b", IGNORECASE)
+YOUVE = recompile(r"\byouve\b", IGNORECASE)
 youve_sub = YOUVE.sub
-ILL = compile(r"\bill\b", IGNORECASE)
+ILL = recompile(r"\bill\b", IGNORECASE)
 ill_sub = ILL.sub
 preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),
                              lambda x: wont_sub(r"won't", x),

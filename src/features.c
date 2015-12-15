@@ -966,6 +966,7 @@ static char __pyx_k_metaclass[] = "__metaclass__";
 static char __pyx_k_nlp_feats[] = "nlp_feats";
 static char __pyx_k_nltk_util[] = "nltk.util";
 static char __pyx_k_normalize[] = "normalize";
+static char __pyx_k_recompile[] = "recompile";
 static char __pyx_k_regex_sub[] = "regex_sub";
 static char __pyx_k_spaCy_nlp[] = "spaCy_nlp";
 static char __pyx_k_thats_sub[] = "thats_sub";
@@ -1286,6 +1287,7 @@ static PyObject *__pyx_n_s_range;
 static PyObject *__pyx_n_s_range_2;
 static PyObject *__pyx_n_s_rating;
 static PyObject *__pyx_n_s_re;
+static PyObject *__pyx_n_s_recompile;
 static PyObject *__pyx_n_s_regex_sub;
 static PyObject *__pyx_n_s_return;
 static PyObject *__pyx_n_s_reuse_nlp_feats;
@@ -1436,7 +1438,7 @@ static PyObject *__pyx_codeobj__54;
 static PyObject *__pyx_codeobj__56;
 
 /* "src/features.pyx":83
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  * ill_sub = ILL.sub
  * preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),             # <<<<<<<<<<<<<<
  *                              lambda x: wont_sub(r"won't", x),
@@ -8238,6 +8240,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_range_2, __pyx_k_range_2, sizeof(__pyx_k_range_2), 0, 0, 1, 1},
   {&__pyx_n_s_rating, __pyx_k_rating, sizeof(__pyx_k_rating), 0, 0, 1, 1},
   {&__pyx_n_s_re, __pyx_k_re, sizeof(__pyx_k_re), 0, 0, 1, 1},
+  {&__pyx_n_s_recompile, __pyx_k_recompile, sizeof(__pyx_k_recompile), 0, 0, 1, 1},
   {&__pyx_n_s_regex_sub, __pyx_k_regex_sub, sizeof(__pyx_k_regex_sub), 0, 0, 1, 1},
   {&__pyx_n_s_return, __pyx_k_return, sizeof(__pyx_k_return), 0, 0, 1, 1},
   {&__pyx_n_s_reuse_nlp_feats, __pyx_k_reuse_nlp_feats, sizeof(__pyx_k_reuse_nlp_feats), 0, 0, 1, 1},
@@ -8652,9 +8655,9 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/features.pyx":43
  * 
  * # Review preprocessing-related regular expressions
- * SPACES = compile(r'[\n\t ]+')             # <<<<<<<<<<<<<<
+ * SPACES = recompile(r'[\n\t ]+')             # <<<<<<<<<<<<<<
  * spaces_sub = SPACES.sub
- * WONT = compile(r"\bwont\b", IGNORECASE)
+ * WONT = recompile(r"\bwont\b", IGNORECASE)
  */
   __pyx_tuple__39 = PyTuple_Pack(1, __pyx_kp_s_n_t); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__39);
@@ -8974,7 +8977,7 @@ PyMODINIT_FUNC PyInit_features(void)
  * from time import sleep
  * from json import dumps             # <<<<<<<<<<<<<<
  * from os.path import join
- * from re import (compile,
+ * from string import punctuation
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 13; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -8994,8 +8997,8 @@ PyMODINIT_FUNC PyInit_features(void)
  * from time import sleep
  * from json import dumps
  * from os.path import join             # <<<<<<<<<<<<<<
- * from re import (compile,
- *                 IGNORECASE)
+ * from string import punctuation
+ * from collections import Counter
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 14; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -9014,96 +9017,96 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":15
  * from json import dumps
  * from os.path import join
- * from re import (compile,             # <<<<<<<<<<<<<<
- *                 IGNORECASE)
- * from string import punctuation
- */
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_compile);
-  __Pyx_GIVEREF(__pyx_n_s_compile);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_compile);
-  __Pyx_INCREF(__pyx_n_s_IGNORECASE);
-  __Pyx_GIVEREF(__pyx_n_s_IGNORECASE);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_IGNORECASE);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_re, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_compile); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_compile, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IGNORECASE, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "src/features.pyx":17
- * from re import (compile,
- *                 IGNORECASE)
  * from string import punctuation             # <<<<<<<<<<<<<<
  * from collections import Counter
  * from itertools import combinations
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_punctuation);
   __Pyx_GIVEREF(__pyx_n_s_punctuation);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_punctuation);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_string, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_punctuation); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_punctuation);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_string, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_punctuation, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_punctuation); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_punctuation, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 15; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "src/features.pyx":18
- *                 IGNORECASE)
+  /* "src/features.pyx":16
+ * from os.path import join
  * from string import punctuation
  * from collections import Counter             # <<<<<<<<<<<<<<
  * from itertools import combinations
- * 
+ * from re import (IGNORECASE,
  */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_Counter);
   __Pyx_GIVEREF(__pyx_n_s_Counter);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Counter);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Counter); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Counter);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_collections, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Counter, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Counter); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Counter, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 16; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "src/features.pyx":19
+  /* "src/features.pyx":17
  * from string import punctuation
  * from collections import Counter
  * from itertools import combinations             # <<<<<<<<<<<<<<
- * 
- * import numpy as np
+ * from re import (IGNORECASE,
+ *                 compile as recompile)
  */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_combinations);
   __Pyx_GIVEREF(__pyx_n_s_combinations);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_combinations);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_itertools, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_combinations);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_itertools, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_combinations); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_combinations, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 17; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/features.pyx":18
+ * from collections import Counter
+ * from itertools import combinations
+ * from re import (IGNORECASE,             # <<<<<<<<<<<<<<
+ *                 compile as recompile)
+ * 
+ */
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_IGNORECASE);
+  __Pyx_GIVEREF(__pyx_n_s_IGNORECASE);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_IGNORECASE);
+  __Pyx_INCREF(__pyx_n_s_compile);
+  __Pyx_GIVEREF(__pyx_n_s_compile);
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_compile);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_re, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_combinations); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_combinations, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_IGNORECASE, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_recompile, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/features.pyx":21
- * from itertools import combinations
+ *                 compile as recompile)
  * 
  * import numpy as np             # <<<<<<<<<<<<<<
  * from bson import BSON
@@ -9407,11 +9410,11 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":43
  * 
  * # Review preprocessing-related regular expressions
- * SPACES = compile(r'[\n\t ]+')             # <<<<<<<<<<<<<<
+ * SPACES = recompile(r'[\n\t ]+')             # <<<<<<<<<<<<<<
  * spaces_sub = SPACES.sub
- * WONT = compile(r"\bwont\b", IGNORECASE)
+ * WONT = recompile(r"\bwont\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_tuple__39, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 43; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -9421,9 +9424,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":44
  * # Review preprocessing-related regular expressions
- * SPACES = compile(r'[\n\t ]+')
+ * SPACES = recompile(r'[\n\t ]+')
  * spaces_sub = SPACES.sub             # <<<<<<<<<<<<<<
- * WONT = compile(r"\bwont\b", IGNORECASE)
+ * WONT = recompile(r"\bwont\b", IGNORECASE)
  * wont_sub = WONT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_SPACES); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 44; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9435,13 +9438,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":45
- * SPACES = compile(r'[\n\t ]+')
+ * SPACES = recompile(r'[\n\t ]+')
  * spaces_sub = SPACES.sub
- * WONT = compile(r"\bwont\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * WONT = recompile(r"\bwont\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * wont_sub = WONT.sub
- * DONT = compile(r"\bdont\b", IGNORECASE)
+ * DONT = recompile(r"\bdont\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 45; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9477,9 +9480,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":46
  * spaces_sub = SPACES.sub
- * WONT = compile(r"\bwont\b", IGNORECASE)
+ * WONT = recompile(r"\bwont\b", IGNORECASE)
  * wont_sub = WONT.sub             # <<<<<<<<<<<<<<
- * DONT = compile(r"\bdont\b", IGNORECASE)
+ * DONT = recompile(r"\bdont\b", IGNORECASE)
  * dont_sub = DONT.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_WONT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 46; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9491,13 +9494,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":47
- * WONT = compile(r"\bwont\b", IGNORECASE)
+ * WONT = recompile(r"\bwont\b", IGNORECASE)
  * wont_sub = WONT.sub
- * DONT = compile(r"\bdont\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * DONT = recompile(r"\bdont\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * dont_sub = DONT.sub
- * WASNT = compile(r"\bwasnt\b", IGNORECASE)
+ * WASNT = recompile(r"\bwasnt\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 47; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -9533,9 +9536,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":48
  * wont_sub = WONT.sub
- * DONT = compile(r"\bdont\b", IGNORECASE)
+ * DONT = recompile(r"\bdont\b", IGNORECASE)
  * dont_sub = DONT.sub             # <<<<<<<<<<<<<<
- * WASNT = compile(r"\bwasnt\b", IGNORECASE)
+ * WASNT = recompile(r"\bwasnt\b", IGNORECASE)
  * wasnt_sub = WASNT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_DONT); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 48; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9547,13 +9550,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":49
- * DONT = compile(r"\bdont\b", IGNORECASE)
+ * DONT = recompile(r"\bdont\b", IGNORECASE)
  * dont_sub = DONT.sub
- * WASNT = compile(r"\bwasnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * WASNT = recompile(r"\bwasnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * wasnt_sub = WASNT.sub
- * WERENT = compile(r"\bwerent\b", IGNORECASE)
+ * WERENT = recompile(r"\bwerent\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 49; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -9589,9 +9592,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":50
  * dont_sub = DONT.sub
- * WASNT = compile(r"\bwasnt\b", IGNORECASE)
+ * WASNT = recompile(r"\bwasnt\b", IGNORECASE)
  * wasnt_sub = WASNT.sub             # <<<<<<<<<<<<<<
- * WERENT = compile(r"\bwerent\b", IGNORECASE)
+ * WERENT = recompile(r"\bwerent\b", IGNORECASE)
  * werent_sub = WERENT.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_WASNT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 50; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9603,13 +9606,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":51
- * WASNT = compile(r"\bwasnt\b", IGNORECASE)
+ * WASNT = recompile(r"\bwasnt\b", IGNORECASE)
  * wasnt_sub = WASNT.sub
- * WERENT = compile(r"\bwerent\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * WERENT = recompile(r"\bwerent\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * werent_sub = WERENT.sub
- * AINT = compile(r"\baint\b", IGNORECASE)
+ * AINT = recompile(r"\baint\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 51; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9645,9 +9648,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":52
  * wasnt_sub = WASNT.sub
- * WERENT = compile(r"\bwerent\b", IGNORECASE)
+ * WERENT = recompile(r"\bwerent\b", IGNORECASE)
  * werent_sub = WERENT.sub             # <<<<<<<<<<<<<<
- * AINT = compile(r"\baint\b", IGNORECASE)
+ * AINT = recompile(r"\baint\b", IGNORECASE)
  * aint_sub = AINT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_WERENT); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 52; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9659,13 +9662,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":53
- * WERENT = compile(r"\bwerent\b", IGNORECASE)
+ * WERENT = recompile(r"\bwerent\b", IGNORECASE)
  * werent_sub = WERENT.sub
- * AINT = compile(r"\baint\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * AINT = recompile(r"\baint\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * aint_sub = AINT.sub
- * ARENT = compile(r"\barent\b", IGNORECASE)
+ * ARENT = recompile(r"\barent\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 53; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -9701,9 +9704,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":54
  * werent_sub = WERENT.sub
- * AINT = compile(r"\baint\b", IGNORECASE)
+ * AINT = recompile(r"\baint\b", IGNORECASE)
  * aint_sub = AINT.sub             # <<<<<<<<<<<<<<
- * ARENT = compile(r"\barent\b", IGNORECASE)
+ * ARENT = recompile(r"\barent\b", IGNORECASE)
  * arent_sub = ARENT.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_AINT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 54; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9715,13 +9718,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":55
- * AINT = compile(r"\baint\b", IGNORECASE)
+ * AINT = recompile(r"\baint\b", IGNORECASE)
  * aint_sub = AINT.sub
- * ARENT = compile(r"\barent\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * ARENT = recompile(r"\barent\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * arent_sub = ARENT.sub
- * CANT = compile(r"\bcant\b", IGNORECASE)
+ * CANT = recompile(r"\bcant\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 55; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -9757,9 +9760,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":56
  * aint_sub = AINT.sub
- * ARENT = compile(r"\barent\b", IGNORECASE)
+ * ARENT = recompile(r"\barent\b", IGNORECASE)
  * arent_sub = ARENT.sub             # <<<<<<<<<<<<<<
- * CANT = compile(r"\bcant\b", IGNORECASE)
+ * CANT = recompile(r"\bcant\b", IGNORECASE)
  * cant_sub = CANT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_ARENT); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 56; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9771,13 +9774,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":57
- * ARENT = compile(r"\barent\b", IGNORECASE)
+ * ARENT = recompile(r"\barent\b", IGNORECASE)
  * arent_sub = ARENT.sub
- * CANT = compile(r"\bcant\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * CANT = recompile(r"\bcant\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * cant_sub = CANT.sub
- * DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+ * DIDNT = recompile(r"\bdidnt\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 57; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9813,9 +9816,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":58
  * arent_sub = ARENT.sub
- * CANT = compile(r"\bcant\b", IGNORECASE)
+ * CANT = recompile(r"\bcant\b", IGNORECASE)
  * cant_sub = CANT.sub             # <<<<<<<<<<<<<<
- * DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+ * DIDNT = recompile(r"\bdidnt\b", IGNORECASE)
  * didnt_sub = DIDNT.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_CANT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 58; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9827,13 +9830,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":59
- * CANT = compile(r"\bcant\b", IGNORECASE)
+ * CANT = recompile(r"\bcant\b", IGNORECASE)
  * cant_sub = CANT.sub
- * DIDNT = compile(r"\bdidnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * DIDNT = recompile(r"\bdidnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * didnt_sub = DIDNT.sub
- * HAVENT = compile(r"\bhavent\b", IGNORECASE)
+ * HAVENT = recompile(r"\bhavent\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 59; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -9869,9 +9872,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":60
  * cant_sub = CANT.sub
- * DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+ * DIDNT = recompile(r"\bdidnt\b", IGNORECASE)
  * didnt_sub = DIDNT.sub             # <<<<<<<<<<<<<<
- * HAVENT = compile(r"\bhavent\b", IGNORECASE)
+ * HAVENT = recompile(r"\bhavent\b", IGNORECASE)
  * havent_sub = HAVENT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_DIDNT); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 60; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9883,13 +9886,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":61
- * DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+ * DIDNT = recompile(r"\bdidnt\b", IGNORECASE)
  * didnt_sub = DIDNT.sub
- * HAVENT = compile(r"\bhavent\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * HAVENT = recompile(r"\bhavent\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * havent_sub = HAVENT.sub
- * IVE = compile(r"\bive\b", IGNORECASE)
+ * IVE = recompile(r"\bive\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 61; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -9925,9 +9928,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":62
  * didnt_sub = DIDNT.sub
- * HAVENT = compile(r"\bhavent\b", IGNORECASE)
+ * HAVENT = recompile(r"\bhavent\b", IGNORECASE)
  * havent_sub = HAVENT.sub             # <<<<<<<<<<<<<<
- * IVE = compile(r"\bive\b", IGNORECASE)
+ * IVE = recompile(r"\bive\b", IGNORECASE)
  * ive_sub = IVE.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_HAVENT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 62; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9939,13 +9942,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":63
- * HAVENT = compile(r"\bhavent\b", IGNORECASE)
+ * HAVENT = recompile(r"\bhavent\b", IGNORECASE)
  * havent_sub = HAVENT.sub
- * IVE = compile(r"\bive\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * IVE = recompile(r"\bive\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * ive_sub = IVE.sub
- * ISNT = compile(r"\bisnt\b", IGNORECASE)
+ * ISNT = recompile(r"\bisnt\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 63; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9981,9 +9984,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":64
  * havent_sub = HAVENT.sub
- * IVE = compile(r"\bive\b", IGNORECASE)
+ * IVE = recompile(r"\bive\b", IGNORECASE)
  * ive_sub = IVE.sub             # <<<<<<<<<<<<<<
- * ISNT = compile(r"\bisnt\b", IGNORECASE)
+ * ISNT = recompile(r"\bisnt\b", IGNORECASE)
  * isnt_sub = ISNT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_IVE); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 64; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9995,13 +9998,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":65
- * IVE = compile(r"\bive\b", IGNORECASE)
+ * IVE = recompile(r"\bive\b", IGNORECASE)
  * ive_sub = IVE.sub
- * ISNT = compile(r"\bisnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * ISNT = recompile(r"\bisnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * isnt_sub = ISNT.sub
- * THEYLL = compile(r"\btheyll\b", IGNORECASE)
+ * THEYLL = recompile(r"\btheyll\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 65; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -10037,9 +10040,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":66
  * ive_sub = IVE.sub
- * ISNT = compile(r"\bisnt\b", IGNORECASE)
+ * ISNT = recompile(r"\bisnt\b", IGNORECASE)
  * isnt_sub = ISNT.sub             # <<<<<<<<<<<<<<
- * THEYLL = compile(r"\btheyll\b", IGNORECASE)
+ * THEYLL = recompile(r"\btheyll\b", IGNORECASE)
  * theyll_sub = THEYLL.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_ISNT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 66; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10051,13 +10054,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":67
- * ISNT = compile(r"\bisnt\b", IGNORECASE)
+ * ISNT = recompile(r"\bisnt\b", IGNORECASE)
  * isnt_sub = ISNT.sub
- * THEYLL = compile(r"\btheyll\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * THEYLL = recompile(r"\btheyll\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * theyll_sub = THEYLL.sub
- * THATS = compile(r"\bthats\b", IGNORECASE)
+ * THATS = recompile(r"\bthats\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 67; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -10093,9 +10096,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":68
  * isnt_sub = ISNT.sub
- * THEYLL = compile(r"\btheyll\b", IGNORECASE)
+ * THEYLL = recompile(r"\btheyll\b", IGNORECASE)
  * theyll_sub = THEYLL.sub             # <<<<<<<<<<<<<<
- * THATS = compile(r"\bthats\b", IGNORECASE)
+ * THATS = recompile(r"\bthats\b", IGNORECASE)
  * thats_sub = THATS.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_THEYLL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 68; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10107,13 +10110,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":69
- * THEYLL = compile(r"\btheyll\b", IGNORECASE)
+ * THEYLL = recompile(r"\btheyll\b", IGNORECASE)
  * theyll_sub = THEYLL.sub
- * THATS = compile(r"\bthats\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * THATS = recompile(r"\bthats\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * thats_sub = THATS.sub
- * WHATS = compile(r"\bwhats\b", IGNORECASE)
+ * WHATS = recompile(r"\bwhats\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 69; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -10149,9 +10152,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":70
  * theyll_sub = THEYLL.sub
- * THATS = compile(r"\bthats\b", IGNORECASE)
+ * THATS = recompile(r"\bthats\b", IGNORECASE)
  * thats_sub = THATS.sub             # <<<<<<<<<<<<<<
- * WHATS = compile(r"\bwhats\b", IGNORECASE)
+ * WHATS = recompile(r"\bwhats\b", IGNORECASE)
  * whats_sub = WHATS.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_THATS); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 70; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10163,13 +10166,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":71
- * THATS = compile(r"\bthats\b", IGNORECASE)
+ * THATS = recompile(r"\bthats\b", IGNORECASE)
  * thats_sub = THATS.sub
- * WHATS = compile(r"\bwhats\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * WHATS = recompile(r"\bwhats\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * whats_sub = WHATS.sub
- * WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+ * WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 71; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -10205,9 +10208,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":72
  * thats_sub = THATS.sub
- * WHATS = compile(r"\bwhats\b", IGNORECASE)
+ * WHATS = recompile(r"\bwhats\b", IGNORECASE)
  * whats_sub = WHATS.sub             # <<<<<<<<<<<<<<
- * WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+ * WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)
  * wouldnt_sub = WOULDNT.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_WHATS); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 72; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10219,13 +10222,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":73
- * WHATS = compile(r"\bwhats\b", IGNORECASE)
+ * WHATS = recompile(r"\bwhats\b", IGNORECASE)
  * whats_sub = WHATS.sub
- * WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * wouldnt_sub = WOULDNT.sub
- * IM = compile(r"\bim\b", IGNORECASE)
+ * IM = recompile(r"\bim\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 73; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -10261,9 +10264,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":74
  * whats_sub = WHATS.sub
- * WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+ * WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)
  * wouldnt_sub = WOULDNT.sub             # <<<<<<<<<<<<<<
- * IM = compile(r"\bim\b", IGNORECASE)
+ * IM = recompile(r"\bim\b", IGNORECASE)
  * im_sub = IM.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_WOULDNT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 74; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10275,13 +10278,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":75
- * WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+ * WOULDNT = recompile(r"\bwouldnt\b", IGNORECASE)
  * wouldnt_sub = WOULDNT.sub
- * IM = compile(r"\bim\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * IM = recompile(r"\bim\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * im_sub = IM.sub
- * YOURE = compile(r"\byoure\b", IGNORECASE)
+ * YOURE = recompile(r"\byoure\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 75; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -10317,9 +10320,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":76
  * wouldnt_sub = WOULDNT.sub
- * IM = compile(r"\bim\b", IGNORECASE)
+ * IM = recompile(r"\bim\b", IGNORECASE)
  * im_sub = IM.sub             # <<<<<<<<<<<<<<
- * YOURE = compile(r"\byoure\b", IGNORECASE)
+ * YOURE = recompile(r"\byoure\b", IGNORECASE)
  * youre_sub = YOURE.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_IM); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 76; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10331,13 +10334,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":77
- * IM = compile(r"\bim\b", IGNORECASE)
+ * IM = recompile(r"\bim\b", IGNORECASE)
  * im_sub = IM.sub
- * YOURE = compile(r"\byoure\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * YOURE = recompile(r"\byoure\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * youre_sub = YOURE.sub
- * YOUVE = compile(r"\byouve\b", IGNORECASE)
+ * YOUVE = recompile(r"\byouve\b", IGNORECASE)
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 77; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -10373,9 +10376,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":78
  * im_sub = IM.sub
- * YOURE = compile(r"\byoure\b", IGNORECASE)
+ * YOURE = recompile(r"\byoure\b", IGNORECASE)
  * youre_sub = YOURE.sub             # <<<<<<<<<<<<<<
- * YOUVE = compile(r"\byouve\b", IGNORECASE)
+ * YOUVE = recompile(r"\byouve\b", IGNORECASE)
  * youve_sub = YOUVE.sub
  */
   __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_YOURE); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 78; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10387,13 +10390,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":79
- * YOURE = compile(r"\byoure\b", IGNORECASE)
+ * YOURE = recompile(r"\byoure\b", IGNORECASE)
  * youre_sub = YOURE.sub
- * YOUVE = compile(r"\byouve\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * YOUVE = recompile(r"\byouve\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * youve_sub = YOUVE.sub
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 79; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
@@ -10429,9 +10432,9 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":80
  * youre_sub = YOURE.sub
- * YOUVE = compile(r"\byouve\b", IGNORECASE)
+ * YOUVE = recompile(r"\byouve\b", IGNORECASE)
  * youve_sub = YOUVE.sub             # <<<<<<<<<<<<<<
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  * ill_sub = ILL.sub
  */
   __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_YOUVE); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 80; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -10443,13 +10446,13 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":81
- * YOUVE = compile(r"\byouve\b", IGNORECASE)
+ * YOUVE = recompile(r"\byouve\b", IGNORECASE)
  * youve_sub = YOUVE.sub
- * ILL = compile(r"\bill\b", IGNORECASE)             # <<<<<<<<<<<<<<
+ * ILL = recompile(r"\bill\b", IGNORECASE)             # <<<<<<<<<<<<<<
  * ill_sub = ILL.sub
  * preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),
  */
-  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_compile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_recompile); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_IGNORECASE); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 81; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -10485,7 +10488,7 @@ PyMODINIT_FUNC PyInit_features(void)
 
   /* "src/features.pyx":82
  * youve_sub = YOUVE.sub
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  * ill_sub = ILL.sub             # <<<<<<<<<<<<<<
  * preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),
  *                              lambda x: wont_sub(r"won't", x),
@@ -10499,7 +10502,7 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/features.pyx":83
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  * ill_sub = ILL.sub
  * preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),             # <<<<<<<<<<<<<<
  *                              lambda x: wont_sub(r"won't", x),
@@ -10699,7 +10702,7 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_GOTREF(__pyx_t_21);
 
   /* "src/features.pyx":83
- * ILL = compile(r"\bill\b", IGNORECASE)
+ * ILL = recompile(r"\bill\b", IGNORECASE)
  * ill_sub = ILL.sub
  * preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),             # <<<<<<<<<<<<<<
  *                              lambda x: wont_sub(r"won't", x),
