@@ -55,6 +55,7 @@ from src import (LABELS,
                  OBJ_FUNC_ABBRS_STRING)
 from src.datasets import (get_bin,
                           compute_label_value,
+                          validate_bin_ranges,
                           get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
@@ -95,6 +96,7 @@ class RunExperiments:
     _test_labels_and_preds = 'test_set_labels/test_set_predictions'
     _non_nlp_features = 'non-NLP features'
     _no_nlp_features = 'no NLP features'
+    _transformation = 'transformation'
     _learner = 'learner'
     _params = 'params'
     _training_samples = 'training_samples'
@@ -149,10 +151,11 @@ class RunExperiments:
                  prediction_label: str, objective: str, logger: logging.RootLogger,
                  hashed_features: int = None, no_nlp_features: bool = False,
                  bin_ranges: list = None, lognormal: bool = False,
-                 max_test_samples: int = 0, max_rounds: int = 0,
+                 power_transform: float = None, max_test_samples: int = 0,
+                 max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
         """
-        Initialize class.
+        Initialize object.
 
         :param db: MongoDB database collection object
         :type db: collection
@@ -194,6 +197,9 @@ class RunExperiments:
         :param lognormal: transform raw label values using `ln` (default:
                           False)
         :type lognormal: bool
+        :param power_transform: power by which to transform raw label
+                                values (default: None)
+        :type power_transform: float or None
         :param max_test_samples: limit for the number of test samples
                                  (defaults to 0 for no limit)
         :type max_test_samples: int
@@ -206,7 +212,8 @@ class RunExperiments:
         :returns: instance of RunExperiments class
         :rtype: RunExperiments
 
-        :raises: ValueError
+        :raises ValueError: if the input parameters result in conflicts
+                            or are invalid
         """
 
         self.logger = logger
@@ -244,6 +251,15 @@ class RunExperiments:
             else:
                 if hashed_features == 0:
                     hashed_features = self._n_features_feature_hashing
+        if lognormal and power_transform:
+            raise ValueError('Both "lognormal" and "power_transform" were '
+                             'specified simultaneously.')
+        if bin_ranges:
+            try:
+                validate_bin_ranges(bin_ranges)
+            except ValueError as e:
+                logerr('"bin_ranges" failed validation: {0}'.format(bin_ranges))
+                raise e
 
         # Incremental learning-related attributes
         self.samples_per_round = samples_per_round
@@ -281,6 +297,12 @@ class RunExperiments:
         self._test_games_string = ', '.join(self.test_games)
         self.bin_ranges = bin_ranges
         self.lognormal = lognormal
+        self.power_transform = power_transform
+        if self.lognormal or self.power_transform:
+            self._transformation_string = ('ln' if self.lognormal
+                                           else 'x**{0}'.format(power_transform))
+        else:
+            self._transformation_string = 'None'
 
         # Objective function
         self.objective = objective
@@ -515,7 +537,8 @@ class RunExperiments:
         for id_string \
             in ex.evenly_distribute_samples(self.db, self.prediction_label,
                                             games, bin_ranges=self.bin_ranges,
-                                            lognormal=self.lognormal):
+                                            lognormal=self.lognormal,
+                                            power_transform=self.power_transform):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
             _test_query[self._id_string] = id_string
@@ -560,7 +583,8 @@ class RunExperiments:
                                else self._all_games,
                            self._prediction_label: self.prediction_label,
                            self._majority_label: self.majority_label,
-                           self._learner: self._majority_baseline_model})
+                           self._learner: self._majority_baseline_model,
+                           self._transformation: self._transformation_string})
         if self.bin_ranges:
             stats_dict.update({self._bin_ranges: self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
@@ -623,10 +647,11 @@ class RunExperiments:
         :rtype: int
         """
 
-        # Apply transformations (multiplpy by 100 if percentage and/or
-        # natural log) if specified
+        # Apply transformations (multiply by 100 if percentage and/or
+        # natural log/power transformation) if specified
         val = compute_label_value(val, self.prediction_label,
-                                  lognormal=self.lognormal)
+                                  lognormal=self.lognormal,
+                                  power_transform=self.power_transform)
 
         # Convert value to bin-transformed value
         if not self.bin_ranges:
@@ -968,7 +993,8 @@ class RunExperiments:
                                    self._training_samples: samples,
                                    self._non_nlp_features:
                                        ', '.join(self.non_nlp_features),
-                                   self._no_nlp_features: self.no_nlp_features})
+                                   self._no_nlp_features: self.no_nlp_features,
+                                   self._transformation: self._transformation_string})
                 if self.bin_ranges:
                     stats_dict.update({self._bin_ranges: self.bin_ranges})
                 self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
@@ -1082,6 +1108,13 @@ def main(argv=None):
                   'them.',
              action='store_true',
              default=False)
+    _add_arg('--power_transform',
+             help='Transform raw label values via `x**power` where `power` is'
+                  ' the value specified and `x` is the raw label value before'
+                  ' doing anything else, whether it be binning the values or '
+                  'learning from them.',
+             type=float,
+             default=None)
     _add_arg('-feature_hasher', '--use_feature_hasher',
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
@@ -1136,20 +1169,23 @@ def main(argv=None):
     nbins = args.nbins
     bin_factor = args.bin_factor
     lognormal = args.lognormal
+    power_transform = args.power_transform
     feature_hashing = args.use_feature_hasher
     learners = ex.parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
     max_test_samples = args.max_test_samples
+    obj_func = args.obj_func
+    ordering = args.order_outputs_by
+    evaluate_majority_baseline = args.evaluate_majority_baseline
+    save_best_features = args.save_best_features
+
+    # Validate the input arguments
     if not isfile(realpath(args.output_dir)):
         output_dir = realpath(args.output_dir)
     else:
         raise FileExistsError('The specified output destination is the name '
                               'of a currently existing file.')
-    obj_func = args.obj_func
-    ordering = args.order_outputs_by
-    evaluate_majority_baseline = args.evaluate_majority_baseline
-    save_best_features = args.save_best_features
     if save_best_features:
         if learners.issubset(RunExperiments._no_introspection_learners_dict):
             loginfo('The specified set of learners do not work with the '
@@ -1170,6 +1206,9 @@ def main(argv=None):
     else:
         log_file_path = join(output_dir, 'logs', 'learn.log')
     log_dir = dirname(log_file_path)
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
 
     # Output results files to output directory
     makedirs(output_dir, exist_ok=True)
@@ -1180,6 +1219,7 @@ def main(argv=None):
     logging_debug = logging.DEBUG
     logger.setLevel(logging_debug)
     loginfo = logger.info
+    logerr = logger.error
     logdebug = logger.debug
     formatter = logging.Formatter(log_format_string)
     sh = logging.StreamHandler()
@@ -1214,6 +1254,7 @@ def main(argv=None):
             .format(max_samples_per_round))
     loginfo('Prediction label: {0}'.format(prediction_label))
     loginfo('Lognormal transformation: {0}'.format(lognormal))
+    loginfo('Power transformation: {0}'.format(power_transform))
     loginfo('Non-NLP features to use: {0}'
             .format(', '.join(non_nlp_features) if non_nlp_features else 'none'))
     if only_non_nlp_features:
@@ -1262,30 +1303,42 @@ def main(argv=None):
         # number of bins and the factor by which they should be
         # multiplied as the index increases
         bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
-                                           bin_factor, lognormal=lognormal)
-        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}): {2}'
-                .format(nbins, bin_factor, bin_ranges))
+                                           bin_factor, lognormal=lognormal,
+                                           power_transform=power_transform)
+        if lognormal or power_transform:
+            transformation = ('lognormal' if lognormal
+                              else 'x**{0}'.format(power_transform))
+        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}, {2}): {3}'
+                .format(nbins, bin_factor,
+                        '{0} transformation'.format(transformation),
+                        bin_ranges))
 
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
-    experiments = RunExperiments(db,
-                                 games,
-                                 test_games,
-                                 [LEARNER_DICT[learner] for learner in learners],
-                                 [find_default_param_grid(learner) for learner
-                                  in learners],
-                                 max_samples_per_round,
-                                 non_nlp_features,
-                                 prediction_label,
-                                 obj_func,
-                                 logger,
-                                 hashed_features=0 if feature_hashing else None,
-                                 no_nlp_features=only_non_nlp_features,
-                                 bin_ranges=bin_ranges,
-                                 lognormal=lognormal,
-                                 max_test_samples=max_test_samples,
-                                 max_rounds=max_rounds,
-                                 majority_baseline=evaluate_majority_baseline)
+    try:
+        experiments = RunExperiments(db,
+                                     games,
+                                     test_games,
+                                     [LEARNER_DICT[learner] for learner in learners],
+                                     [find_default_param_grid(learner) for learner
+                                      in learners],
+                                     max_samples_per_round,
+                                     non_nlp_features,
+                                     prediction_label,
+                                     obj_func,
+                                     logger,
+                                     hashed_features=0 if feature_hashing else None,
+                                     no_nlp_features=only_non_nlp_features,
+                                     bin_ranges=bin_ranges,
+                                     lognormal=lognormal,
+                                     power_transform=power_transform,
+                                     max_test_samples=max_test_samples,
+                                     max_rounds=max_rounds,
+                                     majority_baseline=evaluate_majority_baseline)
+    except ValueError as e:
+        logerr('Encountered a ValueError while instantiating the '
+               '`RunExperiments` object: {0}'.format(e))
+        raise e
 
     # Generate evaluation reports for the various learner/parameter
     # grid combinations, ranking experiments in terms of their

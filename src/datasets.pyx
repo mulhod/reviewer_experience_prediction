@@ -1047,11 +1047,18 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
 
 
 def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
-                          float factor, lognormal: bool = False) -> list:
+                          float factor, lognormal: bool = False,
+                          power_transform: float = None) -> list:
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
     the index of the bins increase.
+
+    A set of raw data transformations can be specified as well.
+    `lognormal` can be set to True to transform raw values with the
+    natural log and `power_transform` can be specified as a positive,
+    non-zero float value to transform raw values such that
+    `x**power_transform` is used.
 
     :param db: MongoDB collection
     :type db: collection
@@ -1068,28 +1075,40 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
 
     :returns: list of tuples representing the minimum and maximum
               values of each bin or None if `nbins` is 0
     :rtype: list
 
-    :raises ValueError: if `nbins` is not greater than 1
+    :raises ValueError: if `nbins` is not greater than 1 or `lognormal`
+                        and `power_transform` were specified
     """
 
     # Return None if `nbins` is 0
     if not nbins or nbins < 2:
         raise ValueError('"nbins" must be positive integer greater than 1.')
 
+    # Validate transformer parameters
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
+
     # Get label values
-    values = np.array(get_label_values(db, games, label, lognormal=lognormal))
+    values = np.array(get_label_values(db, games, label, lognormal=lognormal,
+                                       power_transform=power_transform))
 
     # Divide up the distribution of label values
+    _min = np.floor(values.min())
+    _max = np.ceil(values.max())
     try:
-        bin_ranges = get_bin_ranges(values.min(), values.max(), nbins, factor)
+        bin_ranges = get_bin_ranges(_min, _max, nbins, factor)
     except ValueError as e:
         error_msg = ('Encountered ValueError at call to get_bin_ranges: {0}\n'
                      'Min: {1}\nMax: {2}\nN bins: {3}\nFactor: {4}'
-                     .format(e, values.min(), values.max(), nbins, factor))
+                     .format(e, _min, _max, nbins, factor))
         logerr(error_msg)
         raise ValueError(e)
 
@@ -1228,11 +1247,18 @@ def get_bin(bin_ranges: list, float val) -> int:
 
 
 def get_label_values(db: collection, games: list, label: str,
-                     lognormal: bool = False) -> list:
+                     lognormal: bool = False,
+                     power_transform: float = None) -> list:
     """
     Get all of the values for the given label in the data for the
     given list of game(s). Optionally transform raw values with
     `np.log` if lognormal is set to True (False by default).
+
+    A set of raw data transformations can be specified as well.
+    `lognormal` can be set to True to transform raw values with the
+    natural log and `power_transform` can be specified as a positive,
+    non-zero float value to transform raw values such that
+    `x**power_transform` is used.
 
     The raw values of either `num_achievements_percentage` or
     `found_helpful_percentage` labels (i.e., that have percentage
@@ -1248,11 +1274,20 @@ def get_label_values(db: collection, games: list, label: str,
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
 
     :returns: list of label values that are not equal to None or an
-              empty string
+              empty string or `lognormal` and `power_transform` were
+              specified
     :rtype: list
     """
+
+    # Validate transformer parameters
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
 
     # Make a cursor across all reviews from the given set of games
     cursor = db.find({'game': {'$in': list(games)}},
@@ -1264,13 +1299,18 @@ def get_label_values(db: collection, games: list, label: str,
     cdef int axis = 1
     label_values = [compute_label_value(doc.get(label),
                                         label,
-                                        lognormal=lognormal)
+                                        lognormal=lognormal,
+                                        power_transform=power_transform)
                     for doc in cursor]
     return list(filter(lambda x: not x == None, label_values))
 
 
-def compute_label_value(value, label, lognormal: bool = False):
+def compute_label_value(value, label, lognormal: bool = False,
+                        power_transform: float = None):
     """
+    Compute the value and apply any transformations specified via
+    `lognormal` or `power_transform`.
+
     :param value: label value (always a positive value)
     :type value: int/float/None
     :param label: feature label
@@ -1278,6 +1318,9 @@ def compute_label_value(value, label, lognormal: bool = False):
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
 
     :returns: the value of the label, after applying transformations
               (if any)
@@ -1285,6 +1328,11 @@ def compute_label_value(value, label, lognormal: bool = False):
 
     :raises ValueError: if `value` is not positive
     """
+
+    # Validate transformer parameters
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
 
     # Return None if value is None
     if value == None:
@@ -1311,6 +1359,8 @@ def compute_label_value(value, label, lognormal: bool = False):
             return np.log(value)
         else:
             return value
+    elif power_transform:
+        return value**power_transform
     else:
         return value
 

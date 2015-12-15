@@ -101,6 +101,8 @@ def main():
     from re import sub
     from sys import exit
 
+    import numpy as np
+
     from src.mongodb import connect_to_db
     from src.datasets import (get_game_files,
                               get_bin_ranges,
@@ -284,8 +286,8 @@ def main():
 
                     # Get min/max hours played values from results of
                     # get_and_describe_dataset() call
-                    minh = dataset['minh']
-                    maxh = dataset['maxh']
+                    minh = np.floor(dataset['minh'])
+                    maxh = np.ceil(dataset['maxh'])
 
                     # Get the range that each bin maps to
                     bin_ranges = get_bin_ranges(minh, maxh, nbins, bin_factor)

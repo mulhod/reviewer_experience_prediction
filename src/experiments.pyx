@@ -217,7 +217,8 @@ def parse_games_string(games_string: str) -> set:
 
 def distributional_info(db: collection, label: str, games: list,
                         partition: str = 'test', bin_ranges: list = None,
-                        lognormal: bool = False, limit: int = 0) -> dict:
+                        lognormal: bool = False,
+                        power_transform: float = None, limit: int = 0) -> dict:
     """
     Generate some distributional information regarding the given label
     (or for the implicit/transformed labels given a list of label bin
@@ -227,9 +228,16 @@ def distributional_info(db: collection, label: str, games: list,
     By default, the 'test' partition is used, but the 'train' partition
     can be specified via the `partition` parameter. If 'all' is
     specified for the `partition` parameter, the partition is left
-    unspecified (i.e., all of the data is used). Also, a limit
-    (concerning the cursor that is created) can be specified via the
-    `limit` parameter.
+    unspecified (i.e., all of the data is used).
+
+     A set of raw data transformations can be specified as well.
+    `lognormal` can be set to True to transform raw values with the
+    natural log and `power_transform` can be specified as a positive,
+    non-zero float value to transform raw values such that
+    `x**power_transform` is used.
+
+    Also, a limit (concerning the cursor that is created) can be
+    specified via the `limit` parameter.
 
     Returns a dictionary containing keys whose values are: a mapping
     between ID strings and label values and a frequency distribution of
@@ -250,6 +258,9 @@ def distributional_info(db: collection, label: str, games: list,
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
     :param limit: cursor limit (defaults to 0, which signifies no
                                 limit)
     :type limit: int
@@ -283,6 +294,11 @@ def distributional_info(db: collection, label: str, games: list,
                          'games, {0}, are not in list of available games'
                          .format(', '.join(games)))
 
+    # Validate transformer parameters
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
+
     # Generate a query
     if len(games) == 1:
         query = {'game': games[0]}
@@ -310,7 +326,8 @@ def distributional_info(db: collection, label: str, games: list,
         # Apply lognormal transformation and/or multiplication by 100
         # if this is a percentage value
         label_value = compute_label_value(get_label_in_doc(doc, label),
-                                          label, lognormal=lognormal)
+                                          label, lognormal=lognormal,
+                                          power_transform=power_transform)
 
         # Skip label values that are equal to None
         if label_value == None:
@@ -367,7 +384,8 @@ def get_label_in_doc(doc: dict, label: str):
 def evenly_distribute_samples(db: collection, label: str, games: list,
                               partition: str = 'test',
                               bin_ranges: list = None,
-                              lognormal: bool = False) -> str:
+                              lognormal: bool = False,
+                              power_transform: float = None) -> str:
     """
     Generate ID strings from data samples that, altogether, form a
     maximally evenly-distributed set of samples with respect to the
@@ -395,6 +413,9 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
     :param lognormal: transform raw label values using `ln` (default:
                       False)
     :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
 
     :yields: ID string
     :ytype: str
@@ -408,12 +429,18 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
                          'parameter are "test", "train", and "all" (for no '
                          'partition, i.e., all of the data).')
 
+    # Validate transformer parameters
+    if lognormal and power_transform:
+        raise ValueError('Both "lognormal" and "power_transform" were '
+                         'specified simultaneously.')
+
     # Get dictionary of ID strings mapped to labels and a frequency
     # distribution of the labels
     distribution_dict = distributional_info(db, label, games,
                                             partition=partition,
                                             bin_ranges=bin_ranges,
-                                            lognormal=lognormal)
+                                            lognormal=lognormal,
+                                            power_transform=power_transform)
 
     # Create a maximally evenly-distributed list of samples with
     # respect to label

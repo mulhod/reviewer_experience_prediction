@@ -21,6 +21,7 @@ from json import dumps
 from os.path import (basename,
                      splitext)
 
+import numpy as np
 from bson import BSON
 from pymongo import (cursor,
                      collection,
@@ -206,10 +207,10 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
     reviews = dataset['reviews']
     logdebug('Number of original, English language reviews collected: {0}'
              .format(dataset['orig_total_reviews']))
-    cdef float maxl = dataset['maxl']
-    cdef float minl = dataset['minl']
-    cdef float maxh = dataset['maxh']
-    cdef float minh = dataset['minh']
+    cdef float maxl = np.floor(dataset['maxl'])
+    cdef float minl = np.ceil(dataset['minl'])
+    cdef float maxh = np.floor(dataset['maxh'])
+    cdef float minh = np.ceil(dataset['minh'])
     logdebug('Maximum length = {0}'.format(dataset['maxl']))
     logdebug('Minimum length = {0}'.format(dataset['minl']))
     logdebug('Maximum amount of hours played = {0}'.format(dataset['maxh']))

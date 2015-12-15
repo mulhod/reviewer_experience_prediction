@@ -37,7 +37,9 @@ class GetBinRangesTestCase(unittest.TestCase):
             [0.5, 0.50000001], # `_min` and `_max` are "almost" equal
             [0.5, 0.2], # `_min` is greater than `_max`
             [0.0, 100.0, 5, -1.0], # `factor` is not non-zero/positive
-            [0.0, 100.0, 5, 0.0] # `factor` is not non-zero
+            [0.0, 100.0, 5, 0.0], # `factor` is not non-zero
+            [0.0, 100.235634] # `_max` is more precise than to one decimal
+                              # place
             ]
         for _args in args:
             assert_raises(ValueError, get_bin_ranges, *_args)
