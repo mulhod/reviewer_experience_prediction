@@ -1322,8 +1322,7 @@ def main(argv=None):
                                      games,
                                      test_games,
                                      [LEARNER_DICT[learner] for learner in learners],
-                                     [find_default_param_grid(learner) for learner
-                                      in learners],
+                                     [ex.find_default_param_grid(learner) for learner in learners],
                                      max_samples_per_round,
                                      non_nlp_features,
                                      prediction_label,
