@@ -91,7 +91,7 @@ def main():
             exit('Could not match in APPID_DICT at least one game in the list'
                  ' of passed-in games. Exiting.\n')
     elif args.appids:
-        appids = parse_appids(args.appids, logger_name='get_review_data')
+        appids = parse_appids(args.appids)
         games = []
         for appid in appids:
             game = [x[0] for x in APPID_DICT.items() if x[1] == appid]

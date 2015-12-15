@@ -12,7 +12,7 @@ from math import ceil
 from time import sleep
 from json import dumps
 from os.path import join
-from re import (sub,
+from re import (compile,
                 IGNORECASE)
 from string import punctuation
 from collections import Counter
@@ -38,6 +38,69 @@ spaCy_nlp = English()
 logger = logging.getLogger()
 logwarn = logger.warning
 logerr = logger.error
+
+# Review preprocessing-related regular expressions
+SPACES = compile(r'[\n\t ]+')
+spaces_sub = SPACES.sub
+WONT = compile(r"\bwont\b", IGNORECASE)
+wont_sub = WONT.sub
+DONT = compile(r"\bdont\b", IGNORECASE)
+dont_sub = DONT.sub
+WASNT = compile(r"\bwasnt\b", IGNORECASE)
+wasnt_sub = WASNT.sub
+WERENT = compile(r"\bwerent\b", IGNORECASE)
+werent_sub = WERENT.sub
+AINT = compile(r"\baint\b", IGNORECASE)
+aint_sub = AINT.sub
+ARENT = compile(r"\barent\b", IGNORECASE)
+arent_sub = ARENT.sub
+CANT = compile(r"\bcant\b", IGNORECASE)
+cant_sub = CANT.sub
+DIDNT = compile(r"\bdidnt\b", IGNORECASE)
+didnt_sub = DIDNT.sub
+HAVENT = compile(r"\bhavent\b", IGNORECASE)
+havent_sub = HAVENT.sub
+IVE = compile(r"\bive\b", IGNORECASE)
+ive_sub = IVE.sub
+ISNT = compile(r"\bisnt\b", IGNORECASE)
+isnt_sub = ISNT.sub
+THEYLL = compile(r"\btheyll\b", IGNORECASE)
+theyll_sub = THEYLL.sub
+THATS = compile(r"\bthats\b", IGNORECASE)
+thats_sub = THATS.sub
+WHATS = compile(r"\bwhats\b", IGNORECASE)
+whats_sub = WHATS.sub
+WOULDNT = compile(r"\bwouldnt\b", IGNORECASE)
+wouldnt_sub = WOULDNT.sub
+IM = compile(r"\bim\b", IGNORECASE)
+im_sub = IM.sub
+YOURE = compile(r"\byoure\b", IGNORECASE)
+youre_sub = YOURE.sub
+YOUVE = compile(r"\byouve\b", IGNORECASE)
+youve_sub = YOUVE.sub
+ILL = compile(r"\bill\b", IGNORECASE)
+ill_sub = ILL.sub
+preprocessing_regex_funcs = [lambda x: spaces_sub(r' ', x),
+                             lambda x: wont_sub(r"won't", x),
+                             lambda x: dont_sub(r"don't", x),
+                             lambda x: wasnt_sub(r"wasn't", x),
+                             lambda x: werent_sub(r"weren't", x),
+                             lambda x: aint_sub(r"am not", x),
+                             lambda x: arent_sub(r"are not", x),
+                             lambda x: cant_sub(r"can not", x),
+                             lambda x: didnt_sub(r"did not", x),
+                             lambda x: havent_sub(r"have not", x),
+                             lambda x: ive_sub(r"I have", x),
+                             lambda x: isnt_sub(r"is not", x),
+                             lambda x: theyll_sub(r"they will", x),
+                             lambda x: thats_sub(r"that's", x),
+                             lambda x: whats_sub(r"what's", x),
+                             lambda x: wouldnt_sub(r"would not", x),
+                             lambda x: im_sub(r"I am", x),
+                             lambda x: youre_sub(r"you are", x),
+                             lambda x: youve_sub(r"you have", x),
+                             lambda x: ill_sub(r"i will", x)]
+
 
 class Review(object):
     """
@@ -104,48 +167,11 @@ class Review(object):
 
         # Collapse all sequences of one or more whitespace characters,
         # strip whitespace off the ends of the string, and lower-case
-        # all characters
-        r = sub(r'[\n\t ]+', r' ', r.strip())
-
-        # Hand-crafted contraction-fixing rules
-        # wont ==> won't
-        r = sub(r"\bwont\b", r"won't", r, IGNORECASE)
-        # dont ==> don't
-        r = sub(r"\bdont\b", r"don't", r, IGNORECASE)
-        # wasnt ==> wasn't
-        r = sub(r"\bwasnt\b", r"wasn't", r, IGNORECASE)
-        # werent ==> weren't
-        r = sub(r"\bwerent\b", r"weren't", r, IGNORECASE)
-        # aint ==> am not
-        r = sub(r"\baint\b", r"am not", r, IGNORECASE)
-        # arent ==> are not
-        r = sub(r"\barent\b", r"are not", r, IGNORECASE)
-        # cant ==> can not
-        r = sub(r"\bcant\b", r"can not", r, IGNORECASE)
-        # didnt ==> does not
-        r = sub(r"\bdidnt\b", r"did not", r, IGNORECASE)
-        # havent ==> have not
-        r = sub(r"\bhavent\b", r"have not", r, IGNORECASE)
-        # ive ==> I have
-        r = sub(r"\bive\b", r"I have", r, IGNORECASE)
-        # isnt ==> is not
-        r = sub(r"\bisnt\b", r"is not", r, IGNORECASE)
-        # theyll ==> they will
-        r = sub(r"\btheyll\b", r"they will", r, IGNORECASE)
-        # thats ==> that's
-        r = sub(r"\bthatsl\b", r"that's", r, IGNORECASE)
-        # whats ==> what's
-        r = sub(r"\bwhats\b", r"what's", r, IGNORECASE)
-        # wouldnt ==> would not
-        r = sub(r"\bwouldnt\b", r"would not", r, IGNORECASE)
-        # im ==> I am
-        r = sub(r"\bim\b", r"I am", r, IGNORECASE)
-        # youre ==> you are
-        r = sub(r"\byoure\b", r"you are", r, IGNORECASE)
-        # youve ==> you have
-        r = sub(r"\byouve\b", r"you have", r, IGNORECASE)
-        # ill ==> i will
-        r = sub(r"\bill\b", r"i will", r, IGNORECASE)
+        # all characters and apply the hand-crafted contraction-fixing
+        # rules
+        r = r.strip()
+        for regex_sub in preprocessing_regex_funcs:
+            r = regex_sub(r)
         self.norm = r
 
     def get_token_features_from_spaCy(self):

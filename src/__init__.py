@@ -1,3 +1,4 @@
+import re
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -55,12 +56,10 @@ OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
                            'quadratic weighted kappa (off by one)',
                        'lwk': 'linear weighted kappa',
                        'lwk_off_by_one': 'linear weighted kappa (off by one)'}
-OBJ_FUNC_ABBRS_STRING = ', '.join(['"{0}"{1}'.format(abbr,
-                                                     ' ({0})'.format(obj_func)
-                                                     if abbr != obj_func
-                                                     else '')
-                                   for abbr, obj_func
-                                   in OBJ_FUNC_ABBRS_DICT.items()])
+OBJ_FUNC_ABBRS_STRING = \
+    ', '.join(['"{0}"{1}'
+               .format(abbr, ' ({0})'.format(func) if abbr != func else '')
+               for abbr, func in OBJ_FUNC_ABBRS_DICT.items()])
 
 # Feature names
 LABELS = frozenset({'num_guides', 'num_games_owned', 'num_friends',
@@ -86,3 +85,29 @@ LABELS_WITH_PCT_VALUES = frozenset({'num_achievements_percentage',
 
 # Valid games
 VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
+
+# Regular expressions
+FLOAT_ONE_DEC = re.compile(r'^\-?\d+\.\d$')
+test_float_decimal_places = FLOAT_ONE_DEC.search
+
+# Data-scraping regular expressions
+SPACE = re.compile(r'[\s]+')
+space_sub = SPACE.sub
+BREAKS_REGEX = re.compile(r'\<br\>')
+breaks_sub = BREAKS_REGEX.sub
+COMMA = re.compile(r',')
+comma_sub = COMMA.sub
+HELPFUL_OR_FUNNY = re.compile('(helpful|funny)')
+helpful_or_funny_search = HELPFUL_OR_FUNNY.search
+DATE_END_WITH_YEAR_STRING = re.compile(r', \d{4}$')
+date_end_with_year_string_search = DATE_END_WITH_YEAR_STRING.search
+COMMENT_RE_1 = re.compile(r'<span id="commentthread[^<]+')
+comment_re_1_search = COMMENT_RE_1.search
+COMMENT_RE_2 = re.compile(r'>(\d*)$')
+comment_re_2_search = COMMENT_RE_2.search
+UNDERSCORE = re.compile(r'_')
+underscore_sub = UNDERSCORE.sub
+QUOTES = re.compile(r'\'|"')
+quotes_sub = QUOTES.sub
+BACKSLASH = re.compile(r'\\')
+backslash_sub = BACKSLASH.sub

@@ -19,10 +19,7 @@ from os.path import (join,
                      basename,
                      realpath,
                      splitext)
-from re import (sub,
-                compile as recompile)
 
-import requests
 import numpy as np
 import pandas as pd
 import seaborn as sns
@@ -31,12 +28,24 @@ from pymongo import collection
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
 import matplotlib.pyplot as plt
+from requests import get as rget
 from requests.exceptions import (Timeout,
                                  ConnectionError)
 from langdetect.lang_detect_exception import LangDetectException
 
 from data import APPID_DICT
-from src import LABELS_WITH_PCT_VALUES
+from src import (comma_sub,
+                 space_sub,
+                 breaks_sub,
+                 quotes_sub,
+                 backslash_sub,
+                 underscore_sub,
+                 comment_re_1_search,
+                 comment_re_2_search,
+                 LABELS_WITH_PCT_VALUES,
+                 helpful_or_funny_search,
+                 test_float_decimal_places,
+                 date_end_with_year_string_search)
 
 # Logging-related
 logger = logging.getLogger()
@@ -79,8 +88,8 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
                           f if f.endswith('.jsonlines')
                           else '{0}.jsonlines'.format(f))
             if not exists(f_path):
-                raise FileNotFoundError('{0} does not exist (input string: '
-                                        '{1}).'.format(f_path, games_str))
+                raise FileNotFoundError('{0} does not exist (input string: {1}).'
+                                        .format(f_path, games_str))
             game_files.append(f if f.endswith('.jsonlines')
                               else '{0}.jsonlines'.format(f))
 
@@ -100,7 +109,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
     :param appid: ID corresponding to a given game
     :type appid: str
     :param time_out: amount of time allowed to go by without hearing
-                     response while using requests.get() method
+                     response while using `requests.get` method
     :type time_out: float
     :param limit: the maximum number of reviews to collect (defaults to
                   -1, which signifies no limit)
@@ -119,16 +128,6 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                         etc.
     """
 
-    # Define a couple useful regular expressions, string variables
-    SPACE = recompile(r'[\s]+')
-    BREAKS_REGEX = recompile(r'\<br\>')
-    COMMA = recompile(r',')
-    NO_RATINGS = 'No ratings yet'
-    HELPFUL_OR_FUNNY = recompile('(helpful|funny)')
-    DATE_END_WITH_YEAR_STRING = recompile(r', \d{4}$')
-    COMMENT_RE_1 = recompile(r'<span id="commentthread[^<]+')
-    COMMENT_RE_2 = recompile(r'>(\d*)$')
-
     # Codecs for use with UnicodeDammit
     codecs = ["windows-1252", "utf8", "ascii", "cp500", "cp850", "cp852", "cp858",
               "cp1140", "cp1250", "iso-8859-1", "iso8859_2", "iso8859_15",
@@ -136,6 +135,8 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
 
     # Base URL for pages of reviews
     BASE_URL = 'http://steamcommunity.com/app/{2}/homecontent/?userreviewsoffset={0}&p=1&itemspage={1}&screenshotspage={1}&videospage={1}&artpage={1}&allguidepage={1}&webguidepage={1}&integratedguidepage={1}&discussionspage={1}&appid={2}&appHubSubSection=10&appHubSubSection=10&l=english&browsefilter=toprated&filterLanguage=default&searchText=&forceanon=1'
+
+    NO_RATINGS = 'No ratings yet'
 
     loginfo('Collecting review data for {0} ({1})...'
             .format([x[0] for x in APPID_DICT.items() if x[1] == appid][0], appid))
@@ -160,7 +161,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
         # Get the HTML page; if there's a timeout error, then catch it
         # and exit out of the loop, effectively ending the function.
         try:
-            base_page = requests.get(url, timeout=(0.1, time_out))
+            base_page = rget(url, timeout=(0.1, time_out))
         except (Timeout,
                 ConnectionError) as e:
             if type(e) == type(Timeout()):
@@ -172,7 +173,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                          ' bit before trying to reconnect again.')
                 sleep(1000)
                 try:
-                    base_page = requests.get(url, timeout=(0.1, time_out))
+                    base_page = rget(url, timeout=(0.1, time_out))
                 except (Timeout, ConnectionError) as e:
                     if type(e) == type(Timeout()):
                         logerr('There was a Timeout error. Skipping to next '
@@ -206,7 +207,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
         # Preprocess the HTML source, getting rid of "<br>" tags and
         # replacing any sequence of one or more carriage returns or
         # whitespace characters with a single space
-        base_html = SPACE.sub(r' ', BREAKS_REGEX.sub(r' ', base_page.text.strip()))
+        base_html = space_sub(r' ', breaks_sub(r' ', base_page.text.strip()))
 
         # Try to decode the HTML to unicode and then re-encode the text
         # with ASCII, ignoring any characters that can't be represented
@@ -272,7 +273,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
             list
             """
             helpful_funny_str = stripped_strings[0].strip()
-            if not (HELPFUL_OR_FUNNY.search(helpful_funny_str)
+            if not (helpful_or_funny_search(helpful_funny_str)
                     or helpful_funny_str == NO_RATINGS):
                 stripped_strings = [NO_RATINGS] + stripped_strings
             if len(stripped_strings) >= 5:
@@ -319,7 +320,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     # Extract the number of people who found the review
                     # helpful
                     if helpful:
-                        num_found_helpful = COMMA.sub(r'', helpful[0])
+                        num_found_helpful = comma_sub(r'', helpful[0])
                         try:
                             num_found_helpful = int(num_found_helpful)
                         except ValueError:
@@ -332,7 +333,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                         # Extract the number of people who voted on
                         # whether or not the review was helpful
                         # (whether it was or wasn't)
-                        num_voted_helpfulness = COMMA.sub(r'', helpful[2])
+                        num_voted_helpfulness = comma_sub(r'', helpful[2])
                         try:
                             num_voted_helpfulness = int(num_voted_helpfulness)
                         except ValueError:
@@ -355,7 +356,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     # Extract the number of people who found the review
                     # funny
                     if funny:
-                        num_found_funny = COMMA.sub(r'', funny[0])
+                        num_found_funny = comma_sub(r'', funny[0])
                         try:
                             num_found_funny = int(num_found_funny)
                         except ValueError:
@@ -420,15 +421,15 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
             # from there
             sleep(wait)
             try:
-                review_page = requests.get(review_dict['review_url'],
-                                           timeout=(0.1, time_out))
+                review_page = rget(review_dict['review_url'],
+                                   timeout=(0.1, time_out))
             except ConnectionError:
                 logdebug('ConnectionError encountered. Will try to wait for a'
                          ' bit before trying to reconnect again.')
                 sleep(1000)
                 try:
-                    review_page = requests.get(review_dict['review_url'],
-                                               timeout=(0.1, time_out))
+                    review_page = rget(review_dict['review_url'],
+                                       timeout=(0.1, time_out))
                 except ConnectionError:
                     exit_message = ('Encountered second ConnectionError in a '
                                     'row. Gracefully exiting program. Here '
@@ -441,15 +442,15 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     raise ValueError(exit_message)
             sleep(wait)
             try:
-                profile_page = requests.get(review_dict['profile_url'],
-                                            timeout=(0.1, time_out))
+                profile_page = rget(review_dict['profile_url'],
+                                    timeout=(0.1, time_out))
             except ConnectionError:
                 logdebug('ConnectionError encountered. Will try to wait for a'
                          ' bit before trying to reconnect again.')
                 sleep(1000)
                 try:
-                    profile_page = requests.get(review_dict['profile_url'],
-                                                timeout=(0.1, time_out))
+                    profile_page = rget(review_dict['profile_url'],
+                                        timeout=(0.1, time_out))
                 except ConnectionError:
                     exit_message = ('Encountered second ConnectionError in a '
                                     'row. Gracefully exiting program. Here '
@@ -466,18 +467,17 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
             # Preprocess HTML and try to decode the HTML to unicode and
             # then re-encode the text with ASCII, ignoring any
             # characters that can't be represented with ASCII
-            review_page_html = SPACE.sub(r' ',
-                                         BREAKS_REGEX.sub(r' ', review_page_html))
+            review_page_html = space_sub(r' ', breaks_sub(r' ', review_page_html))
             review_page_html = (UnicodeDammit(review_page_html, codecs)
                                 .unicode_markup.encode('ascii', 'ignore')).strip()
-            profile_page_html = SPACE.sub(r' ',
-                                          BREAKS_REGEX.sub(r' ', profile_page_html))
+            profile_page_html = space_sub(r' ', breaks_sub(r' ', profile_page_html))
             profile_page_html = (UnicodeDammit(profile_page_html, codecs)
                                  .unicode_markup.encode('ascii', 'ignore')).strip()
 
             # Now use BeautifulSoup to parse the HTML
             review_soup = BeautifulSoup(review_page_html, 'lxml')
             profile_soup = BeautifulSoup(profile_page_html, 'lxml')
+            _find = profile_soup.find
 
             """
             Get some information about the review, such as when it was
@@ -497,12 +497,12 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                 # well (if the post was updated)
                 date_updated = None
                 date_str_orig = rating_summary_block_list[7].string.strip()
-                date_strs = SPACE.sub(' ', date_str_orig[8:]).split(' Updated: ')
+                date_strs = space_sub(' ', date_str_orig[8:]).split(' Updated: ')
                 if len(date_strs) == 1:
                     date_str = date_strs[0]
                     date, time = tuple([x.strip() for x in date_str.split('@')])
                     time = time.upper()
-                    if DATE_END_WITH_YEAR_STRING.search(date):
+                    if date_end_with_year_string_search(date):
                         date_posted = '{0}, {1}'.format(date, time)
                     else:
                         date_posted = '{0}, 2015, {1}'.format(date, time)
@@ -513,7 +513,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     date_orig, time_orig = tuple([x.strip() for x
                                                   in date_str.split('@')])
                     time_orig = time_orig.upper()
-                    if DATE_END_WITH_YEAR_STRING.search(date_orig):
+                    if date_end_with_year_string_search(date_orig):
                         date_posted = '{0}, {1}'.format(date_orig, time_orig)
                     else:
                         date_posted = '{0}, 2015, {1}'.format(date_orig, time_orig)
@@ -523,9 +523,8 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     date_updated, time_updated = \
                         tuple([x.strip() for x in date_str_updated.split('@')])
                     time_updated = time_updated.upper()
-                    if DATE_END_WITH_YEAR_STRING.search(date_updated):
-                        date_updated = '{0}, {1}'.format(date_updated, 
-                                                         time_updated)
+                    if date_end_with_year_string_search(date_updated):
+                        date_updated = '{0}, {1}'.format(date_updated, time_updated)
                     else:
                         date_updated = '{0}, 2015, {1}'.format(date_updated,
                                                                time_updated)
@@ -541,10 +540,10 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                 (hours_last_two_weeks_str,
                  hours_total_str) = tuple([x.strip() for x in hours_str.split('/')])
                 hours_total = hours_total_str.split()[0]
-                review_dict['total_game_hours'] = float(COMMA.sub(r'', hours_total))
+                review_dict['total_game_hours'] = float(comma_sub(r'', hours_total))
                 hours_last_two_weeks = hours_last_two_weeks_str.split()[0]
                 review_dict['total_game_hours_last_two_weeks'] = \
-                    float(COMMA.sub(r'', hours_last_two_weeks))
+                    float(comma_sub(r'', hours_last_two_weeks))
             except (AttributeError, ValueError, IndexError, TypeError) as e:
                 logerr('Found unexpected ratingSummaryBlock div element in '
                        'review HTML. Review URL: {0}\nContinuing on to next '
@@ -563,21 +562,21 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
             except (AttributeError, ValueError) as e:
                 logerr('Could not identify username from review page.\nError '
                        'output: {0}\nReview URL: {1}\nContinuing on to next '
-                       'review.' .format(str(e), review_dict['review_url']))
+                       'review.'.format(str(e), review_dict['review_url']))
                 continue
 
             # Get the number of comments users made on the review (if
             # any)
             try:
-                comment_match_1 = COMMENT_RE_1.search(review_page.text.strip())
+                comment_match_1 = comment_re_1_search(review_page.text.strip())
                 num_comments = 0
                 comment_match_2 = None
                 if comment_match_1:
-                    comment_match_2 = COMMENT_RE_2.search(comment_match_1.group())
+                    comment_match_2 = comment_re_2_search(comment_match_1.group())
                 if comment_match_2:
                     num_comments = comment_match_2.groups()[0].strip()
                 if num_comments:
-                    review_dict['num_comments'] = int(COMMA.sub(r'', num_comments))
+                    review_dict['num_comments'] = int(comma_sub(r'', num_comments))
                 else:
                     review_dict['num_comments'] = 0
             except (AttributeError, ValueError, IndexError, TypeError) as e:
@@ -588,10 +587,10 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
 
             # Get the reviewer's "level" (friend player level)
             try:
-                friend_player_level = profile_soup.find('div', 'friendPlayerLevel')
+                friend_player_level = _find('div', 'friendPlayerLevel')
                 if friend_player_level:
                     review_dict['friend_player_level'] = \
-                        int(COMMA.sub(r'', friend_player_level.string.strip()))
+                        int(comma_sub(r'', friend_player_level.string.strip()))
                 else:
                     review_dict['friend_player_level'] = None
             except (AttributeError, ValueError, IndexError, TypeError) as e:
@@ -599,28 +598,24 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     logerr('Got unexpected value for the friendPlayerLevel '
                            'div element: {0}\nError output: {1}\nProfile URL:'
                            ' {2}\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div', 'friendPlayerLevel')
-                                   .string,
+                           .format(_find('div', 'friendPlayerLevel').string,
                                    str(e), review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the friendPlayerLevel '
                            'div element: {0}\nProfile URL: {1}\nContinuing on'
                            ' to next review.'
-                           .format(profile_soup
-                                   .find('div', 'friendPlayerLevel'),
+                           .format(_find('div', 'friendPlayerLevel'),
                                    review_dict['profile_url']))
                 continue
 
             # Get the game achievements summary data
             try:
-                achievements = profile_soup.find('span',
-                                                 'game_info_achievement_summary')
+                achievements = _find('span', 'game_info_achievement_summary')
                 if achievements:
                     achievements_list = \
                         list(achievements.stripped_strings)[1].split()
-                    attained = COMMA.sub(r'', achievements_list[0].strip())
-                    possible = COMMA.sub(r'', achievements_list[2].strip())
+                    attained = comma_sub(r'', achievements_list[0].strip())
+                    possible = comma_sub(r'', achievements_list[2].strip())
                     review_dict['achievement_progress'] = \
                             dict(num_achievements_attained=int(attained),
                                  num_achievements_possible=int(possible),
@@ -637,8 +632,7 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                            'game_info_achievement_summary div element: {0}\n'
                            'Error output: {1}\nProfile URL: {2}\nContinuing '
                            'on to next review.'
-                           .format(list(profile_soup
-                                        .find('div',
+                           .format(list(_find('div',
                                               'game_info_achievement_summary')
                                         .stripped_strings),
                                    str(e), review_dict['profile_url']))
@@ -646,45 +640,39 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     logerr('Got unexpected value for the '
                            'game_info_achievement_summary div element: {0}\n'
                            'Profile URL: {1}\nContinuing on to next review.'
-                           .format(profile_soup
-                                   .find('div', 'game_info_achievement_summary'),
+                           .format(_find('div', 'game_info_achievement_summary'),
                                    review_dict['profile_url']))
                 continue
 
             # Get the number of badges the reviewer has earned on the
             # site
             try:
-                badges = profile_soup.find('div', 'profile_badges')
+                badges = _find('div', 'profile_badges')
                 if badges:
                     review_dict['num_badges'] = \
-                        int(COMMA.sub(r'',
-                                      list(badges.stripped_strings)[1].strip()))
+                        int(comma_sub(r'', list(badges.stripped_strings)[1].strip()))
                 else:
                     review_dict['num_badges'] = None
-            except (AttributeError,
-                    ValueError,
-                    IndexError,
-                    TypeError) as e:
+            except (AttributeError, ValueError, IndexError, TypeError) as e:
                 try:
                     logerr('Got unexpected value for the profile_badges div '
                            'element: {0}\nError output: {1}\nProfile URL: {2}'
                            '\n\nContinuing on to next review.'
-                           .format(list(profile_soup
-                                        .find('div', 'profile_badges')
+                           .format(list(_find('div', 'profile_badges')
                                         .stripped_strings),
                                    str(e), review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_badges div '
                            'element: {0}\nProfile URL: {1}\nContinuing on to '
                            'next review.'
-                           .format(profile_soup.find('div', 'profile_badges'),
+                           .format(_find('div', 'profile_badges'),
                                    review_dict['profile_url']))
                 continue
 
             # Get the number of reviews the reviewer has written,
             # screenshots he/she has taken, guides written, etc.
             try:
-                profile_items = profile_soup.find('div', 'profile_item_links')
+                profile_items = _find('div', 'profile_item_links')
                 if profile_items:
 
                     # Try to parse stripped_strings by getting each
@@ -694,33 +682,28 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     profile_items_strings_dict = \
                         dict(zip(profile_items_strings_iter,
                                  profile_items_strings_iter))
+                    profile_items_get = profile_items_strings_dict.get
 
                     # Get the number of games the reviewer owns if it
                     # exists
-                    review_dict['num_games_owned'] = int(COMMA.sub(r'',
-                                                         profile_items_strings_dict
-                                                         .get('Games', '0')))
+                    review_dict['num_games_owned'] = \
+                        int(comma_sub(r'', profile_items_get('Games', '0')))
 
                     # Get the number of screenshots if it exists
-                    review_dict['num_screenshots'] = int(COMMA.sub(r'',
-                                                         profile_items_strings_dict
-                                                         .get('Screenshots', '0')))
+                    review_dict['num_screenshots'] = \
+                        int(comma_sub(r'', profile_items_get('Screenshots', '0')))
 
                     # Get the number of reviews if it exists
-                    review_dict['num_reviews'] = int(COMMA.sub(r'',
-                                                     profile_items_strings_dict
-                                                     .get('Reviews', '0')))
+                    review_dict['num_reviews'] = \
+                        int(comma_sub(r'', profile_items_get('Reviews', '0')))
 
                     # Get the number of guides if it exists
-                    review_dict['num_guides'] = int(COMMA.sub(r'',
-                                                    profile_items_strings_dict
-                                                    .get('Guides', '0')))
+                    review_dict['num_guides'] = \
+                        int(comma_sub(r'', profile_items_get('Guides', '0')))
 
                     # Get the number of workship items if it exists
                     review_dict['num_workshop_items'] = \
-                        int(COMMA.sub(r'',
-                                      profile_items_strings_dict
-                                      .get('Workshop Items', '0')))
+                        int(comma_sub(r'', profile_items_get('Workshop Items', '0')))
                 else:
                     review_dict['num_games_owned'] = 0
                     review_dict['num_screenshots'] = 0
@@ -732,25 +715,24 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     logerr('Got unexpected value for the profile_item_links '
                            'div element: {0}\nError output: {1}\nProfile URL:'
                            ' {2}\nContinuing on to next review.'
-                           .format(list(profile_soup
-                                        .find('div', 'profile_item_links')
+                           .format(list(_find('div', 'profile_item_links')
                                         .stripped_strings),
                                    str(e), review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_item_links '
                            'div element: {0}\nProfile URL: {1}\nContinuing on'
                            ' to next review.'
-                           .format(profile_soup.find('div', 'profile_item_links'),
+                           .format(_find('div', 'profile_item_links'),
                                    review_dict['profile_url']))
                 continue
 
             # Get the number of groups the reviewer is part of on the
             # site
             try:
-                groups = profile_soup.find('div', 'profile_group_links')
+                groups = _find('div', 'profile_group_links')
                 if groups:
                     review_dict['num_groups'] = \
-                        int(COMMA.sub(r'', list(groups.stripped_strings)[1].strip()))
+                        int(comma_sub(r'', list(groups.stripped_strings)[1].strip()))
                 else:
                     review_dict['num_groups'] = None
             except (AttributeError, ValueError, IndexError, TypeError) as e:
@@ -758,25 +740,23 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     logerr('Got unexpected value for the profile_group_links '
                            'div element: {0}\nError output: {1}\nProfile URL: '
                            '{2}\nContinuing on to next review.'
-                           .format(list(profile_soup
-                                        .find('div', 'profile_group_links')
+                           .format(list(_find('div', 'profile_group_links')
                                         .stripped_strings),
                                    str(e), review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_group_links '
                            'div element: {0}\nProfile URL: {1}\nContinuing on'
                            ' to next review.'
-                           .format(profile_soup.find('div', 'profile_group_links'),
+                           .format(_find('div', 'profile_group_links'),
                                    review_dict['profile_url']))
                 continue
 
             # Get the number of friends the reviwer has on the site
             try:
-                friends = profile_soup.find('div', 'profile_friend_links')
+                friends = _find('div', 'profile_friend_links')
                 if friends:
                     review_dict['num_friends'] = \
-                        int(COMMA.sub(r'',
-                                      list(friends.stripped_strings)[1].strip()))
+                        int(comma_sub(r'', list(friends.stripped_strings)[1].strip()))
                 else:
                     review_dict['num_friends'] = None
             except (AttributeError, ValueError, IndexError, TypeError) as e:
@@ -784,15 +764,14 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     logerr('Got unexpected value for the profile_friend_links'
                            ' div element: {0}\nError output: {1}\nProfile '
                            'URL: {2}\nContinuing on to next review.'
-                           .format(list(profile_soup
-                                        .find('div', 'profile_friend_links')
+                           .format(list(_find('div', 'profile_friend_links')
                                         .stripped_strings),
                                    str(e), review_dict['profile_url']))
                 except AttributeError:
                     logerr('Got unexpected value for the profile_friend_links'
                            ' div element: {0}\nProfile URL: {1}\nContinuing '
                            'on to next review.'
-                           .format(profile_soup.find('div', 'profile_friend_links'),
+                           .format(_find('div', 'profile_friend_links'),
                                    review_dict['profile_url']))
                 continue
             yield review_dict
@@ -809,26 +788,20 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
         i += 1
 
 
-def parse_appids(appids: list, logger_name: str = None) -> list:
+def parse_appids(appids: list) -> list:
     """
-    Parse the command-line argument passed in with the --appids flag,
+    Parse the command-line argument passed in with the `--appids` flag,
     exiting if any of the resulting IDs do not map to games in
     APPID_DICT.
 
     :param appids: game IDs
     :type appids: str
-    :param logger_name: name of logger initialized in driver program
-                        (default: None)
-    :type logger_name: str
 
     :returns: list of game IDs
     :rtype: list
 
     :raises ValueError: if unrecognized `appid` found in input
     """
-
-    if logger_name:
-        logger = logging.getLogger(logger_name)
 
     appids = appids.split(',')
     for appid in appids:
@@ -895,7 +868,7 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         # Write header of report
         output.write('Descriptive Report for {0}\n==========================='
                      '====================================================\n'
-                     '\n'.format(sub(r'_', r' ', game)))
+                     '\n'.format(underscore_sub(r' ', game)))
         output.write('Number of English-language reviews: {}\n\n'
                      .format(len(reviews)))
 
@@ -1045,23 +1018,27 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     # Generate a list of range tuples
     cdef float range_unit = round(_max - _min)/sum(range_parts)
     bin_ranges = []
-    cdef float current_min = _min
+    a, b = _min, None
+    first_time = True
     for range_part in range_parts:
-        _range = range_unit*range_part
-        bin_ranges.append((round(current_min + 0.1, 1),
-                           round(current_min + _range, 1)))
-        current_min += _range
+        current_range = range_unit*range_part
+        if first_time:
+            b = round(a + current_range, 1)
+            first_time = False
+        else:
+            b = round(a + current_range - 0.1, 1)
+        bin_ranges.append((a, b))
+        a = round(b + 0.1, 1)
 
-    # Subtract 0.1 from the beginning of the first range tuple since
-    # 0.1 was artifically added to every range beginning value to
-    # ensure that the range tuples did not overlap in values
-    bin_ranges[0] = bin_ranges[0][0] - 0.1, bin_ranges[0][1]
+    # Ensure that the end value of the last bin is actually the given
+    # `_max`
+    bin_ranges[-1] = (bin_ranges[-1][0], round(_max, 1))
 
     try:
         validate_bin_ranges(bin_ranges)
     except ValueError as e:
         error_msg = '"bin_ranges" could not be validated: {0}'.format(bin_ranges)
-        logger.error(error_msg)
+        logerr(error_msg)
         raise e
 
     return bin_ranges
@@ -1146,9 +1123,6 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
     :raises ValueError: if validation fails
     """
 
-    float_one_dec = recompile(r'^\d+\.\d$')
-    test_float_decimal_places = float_one_dec.search
-
     # Raise error if there's only one bin
     if len(bin_ranges) == 1:
         error_msg = 'Only one bin: {}'.format(bin_ranges)
@@ -1170,8 +1144,8 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
 
         # Make sure that each bin's values make sense internally and in
         # terms of the succeeding bin's values
-        if (bin_range[0] > bin_range[1] or
-            bin_range[1] - bin_range[0] < 0.01):
+        if (bin_range[0] > bin_range[1]
+            or abs(bin_range[1] - bin_range[0]) < 0.01):
             error_msg = ('Found bin range whose values are either equal '
                          'or the left-hand value is greater than the '
                          'right-hand value: {0}, {1}'
@@ -1179,26 +1153,26 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
             logerr(error_msg)
             raise ValueError(error_msg)
         try:
-            diff = bin_ranges[i + 1][0] - bin_range[1]
+            diff = abs(bin_ranges[i + 1][0] - bin_range[1])
         except IndexError:
             return
-        if diff < 0:
-            error_msg = ('Found adjacent end-points in successive bins that '
-                         'do not represent a continuous range: {0} is '
-                         'greater than {1}'
-                         .format(bin_range[1], bin_ranges[i + 1][0]))
-            logerr(error_msg)
-            raise ValueError(error_msg)
         try:
             np.testing.assert_almost_equal(diff, 0.1, decimal=1)
         except AssertionError:
-            error_msg = ('Found adjacent end-points in successive bins that '
-                         'do not represent a continuous range: {0} is almost '
-                         'equal to {1} or the absolute difference is greater '
-                         'than 0.1'.format(bin_range[1],
-                                           bin_ranges[i + 1][0]))
-            logerr(error_msg)
-            raise ValueError(error_msg)
+            if diff < 0.1:
+                error_msg = ('Found adjacent end-points in successive bins '
+                             'that have less than a 0.1 absolute difference '
+                             'between them: {0} and {1}'
+                             .format(bin_range[1], bin_ranges[i + 1][0]))
+                logerr(error_msg)
+                raise ValueError(error_msg)
+            else:
+                error_msg = ('Found adjacent end-points in successive bins '
+                             'that do not represent a continuous range: {0} '
+                             'is almost equal to {1}'
+                             .format(bin_range[1], bin_ranges[i + 1][0]))
+                logerr(error_msg)
+                raise ValueError(error_msg)
 
 
 def get_bin(bin_ranges: list, float val) -> int:
@@ -1382,8 +1356,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
     """
 
     # Make sure that the passed-in keyword arguments make sense
-    if (make_train_test
-        and (reviews or not db)):
+    if make_train_test and (reviews or not db):
         raise ValueError('The make_train_test keyword argument was set to '
                          'True and either the `db` keyword was left '
                          'unspecified or the reviews keyword was specified '
@@ -1428,7 +1401,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
 
     # Replace underscores with spaces in game names and make
     # comma-separated list of games
-    _file_names = str([sub(r'_', r' ', f) for f in file_names])
+    _file_names = str([underscore_sub(r' ', f) for f in file_names])
 
     # Write ARFF file(s)
     if make_train_test:
@@ -1451,11 +1424,11 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
             for game_doc in game_docs:
 
                 # Remove single/double quotes from the reviews first...
-                review = sub(r'\'|"', r'', game_doc['review'].lower())
+                review = quotes_sub(r'', game_doc['review'].lower())
 
                 # Get rid of backslashes since they only make things
                 # confusing
-                review = sub(r'\\', r'', review)
+                review = backslash_sub(r'', review)
                 hours = (game_doc['total_game_hours_bin'] if bins
                          else game_doc['total_game_hours'])
                 reviews_lines.append('"{0}",{1}'.format(review, hours))
@@ -1484,11 +1457,11 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
         for rd in reviews:
 
             # Remove single/double quotes from the reviews first
-            review = sub(r'\'|"', r'', rd['review'].lower())
+            review = quotes_sub(r'', rd['review'].lower())
 
             # Get rid of backslashes since they only make things
             # confusing
-            review = sub(r'\\', r'', review)
+            review = backslash_sub(r'', review)
             if bins:
                 hours = get_bin(bins, rd['total_game_hours'])
                 if hours < 0:
