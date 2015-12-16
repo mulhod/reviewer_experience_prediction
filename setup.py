@@ -71,7 +71,7 @@ else:
                              ['src/mongodb.c'],
                              include_dirs=[python_header_dir])]
 
-setup(name = 'Reviewer Experience Prediction',
+setup(name='Reviewer Experience Prediction',
       description='Repository developed for graduate research at Montclair '
                   'State University as part of the Applied Linguistics '
                   'program. The main idea is to use video game reviews '
@@ -93,17 +93,22 @@ setup(name = 'Reviewer Experience Prediction',
       include_package_data=True,
       cmdclass=cmdclass,
       ext_modules=ext_modules,
-      entry_points={'console_scripts':
-                    ['extract_features = util.extract_features:main',
-                     'learn = util.learn:main',
-                     'get_review_data = util.get_review_data:main',
-                     'make_arff_files = util.make_arff_files:main',
-                     'make_train_test_sets = util.make_train_test_sets:main',
-                     'create_mongodb_index = util.create_mongodb_index:main']},
-      keywords='steam review video game',
-      classifiers=['Intended Audience :: Science/Research',
+      scripts=['setup.sh', 'util/get_review_data_all_games.sh'],
+      entry_points={
+          'console_scripts':
+              ['extract_features = util.extract_features:main',
+               'learn = util.learn:main',
+               'get_review_data = util.get_review_data:main',
+               'make_arff_files = util.make_arff_files:main',
+               'make_train_test_sets = util.make_train_test_sets:main',
+               'create_mongodb_index = util.create_mongodb_index:main']},
+      keywords='nlp machine learning video game review steam',
+      license='MIT',
+      classifiers=['Development Status :: 3 - Alpha',
+                   'Natural Language :: English',
+                   'Intended Audience :: Science/Research',
                    'Intended Audience :: Developers',
-                   'License :: MIT',
+                   'License :: OSI Approved :: MIT License',
                    'Programming Language :: Python :: 3.4',
                    'Topic :: Scientific/Engineering',
                    'Operating System :: POSIX',

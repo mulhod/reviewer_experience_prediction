@@ -14,7 +14,6 @@ from os.path import (join,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
-from pymongo.errors import ConnectionFailure
 
 project_dir = dirname(dirname(realpath(__file__)))
 
@@ -101,10 +100,10 @@ def main():
 
     # Imports
     import logging
-    from sys import exit
     from os import listdir
 
     from pymongo import MongoClient
+    from pymongo.errors import ConnectionFailure
 
     from src.datasets import get_game_files
     from src.mongodb import (connect_to_db,
@@ -144,18 +143,18 @@ def main():
     logger.addHandler(sh)
 
     loginfo = logger.info
-    logerror = logger.error
+    logerr = logger.error
     logwarn = logger.warning
 
     # Make sure value passed in via the --convert_to_bins/-bins option
     # flag makes sense and, if so, assign value to variable bins (if
     # not, set bins equal to 0)
-    if (convert_to_bins
-        and convert_to_bins < 2):
-        logerror('The value passed in via --convert_to_bins/-bins must be '
-                 'greater than one since there must be multiple bins to '
-                 'divide the hours played values. Exiting.')
-        exit(1)
+    if convert_to_bins and convert_to_bins < 2:
+        msg = ('The value passed in via --convert_to_bins/-bins must be '
+               'greater than one since there must be multiple bins to '
+               'divide the hours played values.')
+        logerr(msg)
+        raise ValueError(msg)
     elif convert_to_bins:
         bins = convert_to_bins
     else:
@@ -163,18 +162,21 @@ def main():
 
     # Make sure that, if the --bin_factor argument is specified, the
     # --convert_to_bins/-bins argument was also specified
-    if (bin_factor
-        and not convert_to_bins):
-        logerror('The --bin_factor argument was specified despite the fact '
-                 'that the --convert_to_bins/-bins argument was not used. '
-                 'Exiting.')
-        exit(1)
+    if bin_factor and not convert_to_bins:
+        msg = ('The --bin_factor argument was specified despite the fact '
+               'that the --convert_to_bins/-bins argument was not used.')
+        logerr(msg)
+        raise ValueError(msg)
 
     # Establish connection to MongoDB database
     loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
             .format(mongodb_host, mongodb_port))
-    reviewdb = connect_to_db(host=mongodb_host,
-                             port=mongodb_port)
+    try:
+        reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
+    except ConnectionFailure as e:
+        logerr('Unable to connect to MongoDB reviews collection.')
+        logerr(e)
+        raise e
     reviewdb.write_concern['w'] = 0
 
     # Get path to the directories
@@ -184,16 +186,17 @@ def main():
 
     # Make sure args make sense
     if max_size < 50:
-        logerror('You can\'t be serious, right? You passed in a value of 50 '
-                 'for the MAXIMUM size of the combination of training/test '
-                 'sets? Exiting.')
-        exit(1)
+        msg = ('You can\'t be serious, right? You passed in a value of 50 for'
+               ' the MAXIMUM size of the combination of training/test sets?')
+        logerr(msg)
+        raise ValueError(msg)
     if percent_train < 1.0:
-        logerror('You can\'t be serious, right? You passed in a value of 1.0%'
-                 ' for the percentage of the selected reviews that will be '
-                 'devoted to the training set? That is not going to be enough'
-                 ' training samples. Exiting.')
-        exit(1)
+        msg = ('You can\'t be serious, right? You passed in a value of 1.0%'
+               ' for the percentage of the selected reviews that will be '
+               'devoted to the training set? That is not going to be enough'
+               ' training samples.')
+        logerr(msg)
+        raise ValueError(msg)
 
     # Make sense of arguments
     if (make_reports
@@ -202,16 +205,13 @@ def main():
                 'flags are used, --just_describe wins out, i.e., reports will'
                 ' be generated, but no reviews will be inserted into the '
                 'database.')
-    elif (reports_dir
-          and (make_reports
-               or just_describe)):
+    elif reports_dir and (make_reports or just_describe):
         if not exists(reports_dir):
-            logerror('The given --reports_dir path was invalid. Exiting.')
+            logerr('The given --reports_dir path was invalid. Exiting.')
             exit(1)
 
     # Get list of games
-    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
-                                                 'data'))
+    game_files = get_game_files(game_files, join(dirname(dirname(__file__)), 'data'))
 
     loginfo('Adding training/test partitions to Mongo DB for the following '
             'games: {0}'
@@ -222,7 +222,7 @@ def main():
             .format(percent_train, 100.0 - percent_train))
     if make_reports:
         loginfo('Generating reports in {0}.'
-            .format(reports_dir if reports_dir else join(data_dir, 'reports')))
+                .format(reports_dir if reports_dir else join(data_dir, 'reports')))
     if just_describe:
         loginfo('Exiting after generating reports.')
     if bins:

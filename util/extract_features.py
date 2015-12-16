@@ -9,6 +9,7 @@ from os.path import (join,
                      dirname,
                      realpath,
                      splitext)
+
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -70,6 +71,9 @@ def main():
 
     # Imports
     import logging
+
+    from pymongo.errors import ConnectionFailure
+
     from src import log_format_string
     from src.mongodb import connect_to_db
     from src.datasets import get_game_files
@@ -116,7 +120,12 @@ def main():
     # Establish connection to MongoDB database collection
     loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
             .format(mongodb_host, mongodb_port))
-    reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
+    try:
+        reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
+    except ConnectionFailure as e:
+        logerr('Unable to connect to MongoDB reviews collection.')
+        logerr(e)
+        raise e
     reviewdb.write_concern['w'] = 0
 
     # Get list of games

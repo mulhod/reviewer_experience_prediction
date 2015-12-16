@@ -99,7 +99,6 @@ def main():
     import os
     import logging
     from re import sub
-    from sys import exit
 
     import numpy as np
 
@@ -139,44 +138,46 @@ def main():
     logger.addHandler(fh)
     logger.addHandler(sh)
     loginfo = logger.info
-    logerror = logger.error
+    logerr = logger.error
     logwarn = logger.warning
 
     # Check if the output directory exists
     output_dir = abspath(output_dir)
-    if not (exists(output_dir)
-            and isdir(output_dir)):
-        logerror('The given output directory, {0}, for ARFF files does not '
-                 'exist or is not a directory. Exiting.'.format(output_dir))
-        exit(1)
+    if not exists(output_dir) and isdir(output_dir):
+        msg = ('The given output directory, {0}, for ARFF files does not '
+               'exist or is not a directory.'.format(output_dir))
+        logerr(msg)
+        raise ValueError(msg)
 
     # Make sure --bins option flag makes sense
     if nbins:
         if use_mongodb:
-            logerror('If the --use_mongodb flag is used, a number of bins in '
-                     'which to collapse the hours played values cannot be '
-                     'specified (since the values in the database were '
-                     'pre-computed). Exiting.')
-            exit(1)
+            msg = ('If the --use_mongodb flag is used, a number of bins in '
+                   'which to collapse the hours played values cannot be '
+                   'specified (since the values in the database were '
+                   'pre-computed).')
+            logerr(msg)
+            raise ValueError(msg)
         elif not bins:
-            logerror('Conflict between the --use_original_hours_values and '
-                     '--nbins flags. Both cannot be used at the same time.')
-            exit(1)
-    elif (bins
-          and not use_mongodb):
-        loginfo('If both the --use_original_hours_values and --use_mongodb '
-                'flags are not used, then the number of bins in which to '
-                'collapse the hours played values must be specified via the '
-                '--nbins option argument. Exiting.')
-        exit(1)
+            msg = ('Conflict between the --use_original_hours_values and '
+                   '--nbins flags. Both cannot be used at the same time.')
+            logerr(msg)
+            raise ValueError(msg)
+    elif bins and not use_mongodb:
+        msg = ('If both the --use_original_hours_values and --use_mongodb '
+               'flags are not used, then the number of bins in which to '
+               'collapse the hours played values must be specified via the '
+               '--nbins option argument.')
+        loginfo(msg)
+        raise ValueError(msg)
 
     # Exit if the --bin_factor argument was used despite the fact that
     # the original hours values are not being binned
-    if (not bins
-        and bin_factor > 1.0):
-        logerror('The --bin_factor argument was specified despite the fact '
-                 'that the original hours values are being binned. Exiting.')
-        exit(1)
+    if not bins and bin_factor > 1.0:
+        msg = ('The --bin_factor argument was specified despite the fact '
+               'that the original hours values are being binned.')
+        logerr(msg)
+        raise ValueError(msg)
 
     # Get path to the data directory
     data_dir = join(project_dir, 'data')
@@ -189,13 +190,13 @@ def main():
 
     # Make sure there is a combined output file prefix if "combine" is
     # the value passed in via --mode
-    if (mode == 'combined'
-        and not combined_file_prefix):
-        logerror('A combined output file prefix must be specified in cases '
-                 'where the "combined" value was passed in via the --mode '
-                 'option flag (or --mode was not specified, in which case '
-                 '"combined" is the default value). Exiting.')
-        exit(1)
+    if mode == 'combined' and not combined_file_prefix:
+        msg = ('A combined output file prefix must be specified in cases '
+               'where the "combined" value was passed in via the --mode '
+               'option flag (or --mode was not specified, in which case '
+               '"combined" is the default value).')
+        logerr(msg)
+        raise ValueError(msg)
 
     """
     See if the --use_mongodb flag was used, in which case we have to

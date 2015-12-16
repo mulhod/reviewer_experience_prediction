@@ -7,7 +7,6 @@ Module of functions/classes related to feature extraction, ARFF file
 generation, etc.
 """
 import logging
-from sys import exit
 from math import ceil
 from time import sleep
 from json import dumps

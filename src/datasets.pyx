@@ -181,14 +181,13 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                         breaks += 1
                         continue
                     else:
-                        exit_message = \
+                        error_msg = \
                             ('Encountered second ConnectionError in a row. '
                              'Gracefully exiting program. Here are the '
                              'details for continuing:\nReviews count = {0}\n'
-                             'Range start = {1}\nindex = {2}\nURL = {3}\n\n'
-                             'Exiting.'
+                             'Range start = {1}\nindex = {2}\nURL = {3}'
                              .format(reviews_count, range_begin, i, url))
-                        raise ValueError(exit_message)
+                        raise ValueError(error_msg)
 
         """
         If there's nothing at this URL, page might have no value at
@@ -431,15 +430,14 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     review_page = rget(review_dict['review_url'],
                                        timeout=(0.1, time_out))
                 except ConnectionError:
-                    exit_message = ('Encountered second ConnectionError in a '
-                                    'row. Gracefully exiting program. Here '
-                                    'are the details for continuing:\n'
-                                    'Reviews count = {0}\nRange start = {1}\n'
-                                    'Index = {2}\nURL = {3}\nReview URL = {4}'
-                                    '\n\nExiting.'
-                                    .format(reviews_count, range_begin, i, url,
-                                            review_dict['review_url']))
-                    raise ValueError(exit_message)
+                    error_msg = ('Encountered second ConnectionError in a '
+                                 'row. Gracefully exiting program. Here are '
+                                 'the details for continuing:\nReviews count '
+                                 '= {0}\nRange start = {1}\nIndex = {2}\nURL '
+                                 '= {3}\nReview URL = {4}'
+                                 .format(reviews_count, range_begin, i, url,
+                                         review_dict['review_url']))
+                    raise ValueError(error_msg)
             sleep(wait)
             try:
                 profile_page = rget(review_dict['profile_url'],
@@ -452,15 +450,14 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
                     profile_page = rget(review_dict['profile_url'],
                                         timeout=(0.1, time_out))
                 except ConnectionError:
-                    exit_message = ('Encountered second ConnectionError in a '
-                                    'row. Gracefully exiting program. Here '
-                                    'are the details for continuing:\n'
-                                    'Reviews count = {0}\nRange start = {1}\n'
-                                    'Index = {2}\nURL = {3}\nProfile URL = '
-                                    '{4}\n\nExiting.'
-                                    .format(reviews_count, range_begin, i, url,
-                                            review_dict['profile_url']))
-                    raise ValueError(exit_message)
+                    error_msg = ('Encountered second ConnectionError in a '
+                                 'row. Gracefully exiting program. Here are '
+                                 'the details for continuing:\nReviews count '
+                                 '= {0}\nRange start = {1}\nIndex = {2}\nURL '
+                                 '= {3}\nProfile URL = {4}'
+                                 .format(reviews_count, range_begin, i, url,
+                                         review_dict['profile_url']))
+                    raise ValueError(error_msg)
             review_page_html = review_page.text.strip()
             profile_page_html = profile_page.text.strip()
 
@@ -1433,7 +1430,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
                              ' True. If the hours played values are to be '
                              'collapsed and precomputed values (as from the '
                              'database, for example) are not being used, then'
-                             ' the bin ranges must be specified. Exiting.')
+                             ' the bin ranges must be specified.')
     # ARFF file template
     ARFF_BASE = """% Generated on {}
 % This ARFF file was generated with review data from the following game(s): {}
@@ -1465,7 +1462,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
             if game_docs.count() == 0:
                 raise ValueError('No matching documents were found in the '
                                  'MongoDB collection for the {0} partition '
-                                 'and the following games:\n\n{1}\n\nExiting.'
+                                 'and the following games:\n\n{1}'
                                  .format(partition, file_names))
             for game_doc in game_docs:
 
@@ -1495,7 +1492,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
 
         if not reviews:
             raise ValueError('Empty list of reviews passed in to the '
-                             'write_arff_file method. Exiting.')
+                             'write_arff_file method.')
 
         # Make empty list of lines to populate with ARFF-style lines,
         # one per review
@@ -1513,7 +1510,7 @@ def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
                 if hours < 0:
                     raise ValueError('The given hours played value ({0}) was '
                                      'not found in the list of possible bin '
-                                     'ranges ({1}). Exiting.'
+                                     'ranges ({1}).'
                                      .format(rd['total_game_hours'], bins))
             else:
                 hours = rd['total_game_hours']

@@ -22,13 +22,19 @@ def main(argv=None):
     import sys
 
     from pymongo import ASCENDING
+    from pymongo.errors import ConnectionFailure
 
     from src.mongodb import connect_to_db
 
     # Connect to MongoDB database
     print('Connecting to MongoDB database at {0}:{1}...'
-          .format(host=args.mongodb_host, port=args.mongodb_port), file=sys.stderr)
-    db = connect_to_db(args.mongodb_host, args.mongodb_port)
+          .format(host=args.mongodb_host, port=args.mongodb_port),
+          file=sys.stderr)
+    try:
+        db = connect_to_db(args.mongodb_host, args.mongodb_port)
+    except ConnectionFailure as e:
+        print('Failed to connect to the MongoDB database collection.')
+        raise e
 
     # Create index on 'steam_id_number' so that cursors can be sorted
     # on that particular key

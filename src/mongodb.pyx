@@ -64,23 +64,27 @@ def connect_to_db(host: str = 'localhost', port: int = 27017,
 
     :rtype: MongoDB collection
     :returns: collection
+
+    :raises ConnectionFailure: if ConnectionFailure is encountered more
+                               than `tries` times
     """
 
-    connection_string = 'mongodb://{0}:{1}'.format(host, port)
+    mongo_url = 'mongodb://{0}:{1}'.format(host, port)
     while tries > 0:
         tries -= 1
         try:
-            connection = MongoClient(connection_string, max_pool_size=None,
-                                     connectTimeoutMS=100000, socketKeepAlive=True)
+            connection = MongoClient(mongo_url, max_pool_size=None,
+                                     connectTimeoutMS=100000,
+                                     socketKeepAlive=True)
         except ConnectionFailure as e:
             if tries == 0:
-                logerr('Unable to connect client to Mongo server at {0}. '
-                       'Exiting.'.format(connection_string))
-                exit(1)
+                logerr('Unable to connect client to Mongo server at {0}.'
+                       .format(mongo_url))
+                raise e
             else:
                 logwarn('Unable to connect client to Mongo server at {0}. '
-                        'Will try {1} more time{}...'
-                        .format(connection_string, tries, 's' if tries > 1 else ''))
+                        'Will try {1} more time{2}...'
+                        .format(mongo_url, tries, 's' if tries > 1 else ''))
 
     db = connection['reviews_project']
     return db['reviews']
@@ -104,7 +108,9 @@ def create_game_cursor(db: collection, game_id: str, data_partition: str,
     :type batch_size: int
 
     :returns: cursor on a MongoDB collection
-    :returns: cursor
+    :rtype: cursor
+
+    :raises ValueError: if no matching documents were found
     """
 
     if data_partition == 'all':
@@ -118,15 +124,17 @@ def create_game_cursor(db: collection, game_id: str, data_partition: str,
     game_cursor.batch_size = batch_size
 
     if game_cursor.count() == 0:
+        error_msg = None
         if data_partition == 'all':
-            logerr('No matching documents were found in the MongoDB '
-                   'collection  for game {0}. Exiting.'
-                   .format(game_id))
+            error_msg = ('No matching documents were found in the MongoDB '
+                         'collection  for game {0}.'.format(game_id))
+            logerr(error_msg)
         else:
-            logerr('No matching documents were found in the MongoDB '
-                   'collection in the {0} partition for game {1}. Exiting.'
-                   .format(data_partition, game_id))
-        exit(1)
+            error_msg = ('No matching documents were found in the MongoDB '
+                         'collection in the {0} partition for game {1}.'
+                         .format(data_partition, game_id))
+            logerr(error_msg)
+        raise ValueError(error_msg)
 
     return game_cursor
 
@@ -318,6 +326,7 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
     :rtype: None
 
     :raises ValueError: if `bins` is invalid (only if it is specified)
+                        or the hours played value seems to be invalid
     """
 
     for rd in rdicts:
@@ -334,17 +343,21 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
             try:
                 validate_bin_ranges(bins)
             except ValueError as e:
+                error_msg = '"bins" could not be validated.'
+                logerr(error_msg)
                 logerr(e)
-                raise ValueError('"bins" could not be validated.')
+                raise ValueError(error_msg)
             _bin = get_bin(bins, rd['total_game_hours'])
 
             if _bin > -1:
                 rd['total_game_hours_bin'] = _bin
             else:
-                logerr('The hours played value ({0}) did not seem to fall '
-                       'within any of the bin ranges.\n\nBin ranges\n{1}\n'
-                       'Exiting.'.format(rd['total_game_hours'], repr(bins)))
-                exit(1)
+                error_msg = ('The hours played value ({0}) did not seem to '
+                             'fall within any of the bin ranges.\n\nBin '
+                             'ranges\n{1}'
+                             .format(rd['total_game_hours'], repr(bins)))
+                logerr(error_msg)
+                raise ValueError(error_msg)
 
         try:
             bulk_writer.insert(rd)
@@ -388,7 +401,7 @@ def update_db(db_update, _id: ObjectId, nlp_feats: dict,
                     'reconnect automatically after 20 seconds...')
             tries += 1
             if tries >= 5:
-                logerr('Unable to update database even after 5 tries. '
-                       'Exiting.')
-                exit(1)
+                error_msg = 'Unable to update database even after 5 tries.'
+                logerr(error_msg)
+                raise ValueError(error_msg)
             sleep(20)

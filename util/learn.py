@@ -31,6 +31,7 @@ from scipy.stats import (mode,
                          pearsonr,
                          linregress)
 from sklearn.cluster import MiniBatchKMeans
+from pymongo.errors import ConnectionFailure
 from sklearn.grid_search import ParameterGrid
 from sklearn.metrics import (precision_score,
                              f1_score,
@@ -1201,8 +1202,7 @@ def main(argv=None):
         if feature_hashing:
             raise ValueError('The --save_best_features/-save_best option '
                              'cannot be used in conjunction with the '
-                             '--use_feature_hasher/-feature_hasher option. '
-                             'Exiting.')
+                             '--use_feature_hasher/-feature_hasher option.')
     if args.log_file_path:
         if isdir(realpath(args.log_file_path)):
             raise FileExistsError('The specified log file path is the name of'
@@ -1295,7 +1295,12 @@ def main(argv=None):
     loginfo('MongoDB port: {0}'.format(port))
     loginfo('Limiting number of test reviews to {0} or below'
             .format(max_test_samples))
-    db = connect_to_db(host=host, port=port)
+    try:
+        db = connect_to_db(host=host, port=port)
+    except ConnectionFailure as e:
+        logerr('Unable to connect to MongoDB reviews collection.')
+        logerr(e)
+        raise e
 
     # Check to see if the database has the proper index and, if not,
     # index the database here
@@ -1316,9 +1321,9 @@ def main(argv=None):
                               else 'x**{0}'.format(power_transform))
         else:
             transformation = None
-        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}, {2}): {3}'
+        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}{2}): {3}'
                 .format(nbins, bin_factor,
-                        '{0} transformation'.format(transformation)
+                        ', {0} transformation'.format(transformation)
                         if transformation
                         else '',
                         bin_ranges))

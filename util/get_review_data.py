@@ -8,6 +8,7 @@ game review corpus.
 from os.path import (join,
                      dirname,
                      realpath)
+
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
@@ -53,7 +54,6 @@ def main():
 
     # Imports
     import logging
-    from sys import exit
     from json import dumps
 
     from data import (APPID_DICT,
@@ -88,8 +88,8 @@ def main():
     if args.games:
         games = args.games.split(',')
         if not all(game in APPID_DICT for game in games):
-            exit('Could not match in APPID_DICT at least one game in the list'
-                 ' of passed-in games. Exiting.\n')
+            raise ValueError('Could not match in APPID_DICT at least one game'
+                             ' in the list of passed-in games.')
     elif args.appids:
         appids = parse_appids(args.appids)
         games = []
@@ -98,8 +98,9 @@ def main():
             if game:
                 games.append(game[0])
             else:
-                exit('Could not find game in APPID_DICT that is associated '
-                     'with the given appid: {0}\nExiting.\n'.format(appid))
+                raise ValueError('Could not find game in APPID_DICT that is '
+                                 'associated with the given appid: {0}'
+                                 .format(appid))
     else:
         games = list(APPID_DICT)
         del games['sample.txt']
