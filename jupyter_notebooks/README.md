@@ -1,4 +1,4 @@
-#IPython Notebooks
+# Jupyter Notebooks
 
 - [Scraping_review_data_from_Steam.ipynb](http://nbviewer.ipython.org/github/mulhod/reviewer_experience_prediction/blob/master/jupyter_notebooks/Scraping_review_data_from_Steam.ipynb)
     - A notebook closely following the steps taken to design an algorithm for scraping data from the Steam website
