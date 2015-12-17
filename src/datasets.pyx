@@ -40,6 +40,7 @@ from src import (comma_sub,
                  quotes_sub,
                  backslash_sub,
                  underscore_sub,
+                 ACHIEVEMENTS_LABELS,
                  comment_re_1_search,
                  comment_re_2_search,
                  LABELS_WITH_PCT_VALUES,
@@ -1287,11 +1288,19 @@ def get_label_values(db: collection, games: list, label: str,
     # given label/set of games and drop NaNs
     cdef int column = 0
     cdef int axis = 1
-    label_values = [compute_label_value(doc.get(label),
-                                        label,
-                                        lognormal=lognormal,
-                                        power_transform=power_transform)
-                    for doc in cursor]
+    if label in ACHIEVEMENTS_LABELS:
+        label_values = \
+            [compute_label_value(doc.get('achievement_progress', {}).get(label),
+                                 label,
+                                 lognormal=lognormal,
+                                 power_transform=power_transform)
+             for doc in cursor]
+    else:
+        label_values = [compute_label_value(doc.get(label),
+                                            label,
+                                            lognormal=lognormal,
+                                            power_transform=power_transform)
+                        for doc in cursor]
     return list(filter(lambda x: not x == None, label_values))
 
 
