@@ -61,8 +61,7 @@ from src import (LABELS,
                  parse_learners_string,
                  find_default_param_grid,
                  parse_non_nlp_features_string)
-from src.datasets import (get_bin,
-                          compute_label_value,
+from src.datasets import (compute_label_value,
                           validate_bin_ranges,
                           get_bin_ranges_helper)
 
@@ -87,7 +86,6 @@ class RunExperiments:
     _test = 'test'
     _nlp_feats = 'nlp_features'
     _bin_ranges = 'bin_ranges'
-    _achieve_prog = 'achievement_progress'
     _steam_id = 'steam_id_number'
     _in_op = '$in'
     _x = 'x'
@@ -401,53 +399,6 @@ class RunExperiments:
                                 .sort(self.sorting_args))
         self.training_cursor.batch_size = self.batch_size
 
-    def get_all_features(self, review_doc: dict) -> dict:
-        """
-        Get all the features in a review document and put them together
-        in a dictionary. If `self.no_nlp_features` is true, leave out
-        NLP features. If `bin_ranges` is specified, convert the value
-        of the prediction label to the bin index.
-
-        :param review_doc: review document from Mongo database
-        :type review_doc: dict
-
-        :returns: feature dictionary
-        :rtype: dict or None
-        """
-
-        _get = review_doc.get
-        features = {}
-        _update = features.update
-
-        # Add in the NLP features
-        if not self.no_nlp_features:
-            _update({feat: val for feat, val
-                     in BSON.decode(_get(self._nlp_feats)).items()
-                     if val and val != self._nan})
-
-        # Add in the non-NLP features (except for those that may be in
-        # the 'achievement_progress' sub-dictionary of the review
-        # dictionary)
-        _update({feat: val for feat, val in review_doc.items()
-                 if (feat in self._possible_non_nlp_features
-                     and val and val != self._nan)})
-
-        # Add in the features that may be in the 'achievement_progress'
-        # sub-dictionary of the review document
-        _update({feat: val for feat, val
-                 in _get(self._achieve_prog, dict()).items()
-                 if (feat in self._possible_non_nlp_features
-                     and val and val != self._nan)})
-
-        # Return None if the prediction label isn't present
-        if not features.get(self.prediction_label):
-            return
-
-        # Add in the 'id_string' value just to make it easier to
-        # process the results of this function
-        _update({self._id_string: _get(self._id_string)})
-        return features
-
     def get_data(self, review_doc: dict) -> dict:
         """
         Collect data from a MongoDB review document and return it in
@@ -462,7 +413,8 @@ class RunExperiments:
 
         # Get dictionary containing all features needed + the ID and
         # the prediction label
-        feature_dict = self.get_all_features(review_doc)
+        feature_dict = ex.get_all_features(review_doc, self.prediction_label,
+                                           nlp_features=not self.no_nlp_features)
 
         # Skip over any feature dictionaries that are empty (i.e., due
         # to the absence of the prediction label, or if for some reason
@@ -472,7 +424,17 @@ class RunExperiments:
 
         # Get prediction label, apply transformations, and remove it
         # from the feature dictionary
-        y_value = self.transform_value(feature_dict[self.prediction_label])
+        try:
+            y_value = compute_label_value(feature_dict[self.prediction_label],
+                                          self.prediction_label,
+                                          lognormal=self.lognormal,
+                                          power_transform=self.power_transform,
+                                          bin_ranges=self.bin_ranges)
+        except ValueError as e:
+            self.logger.error('Encountered a ValueError when calling '
+                              '"compute_label_value".')
+            self.logger.error(e)
+            raise e
         del feature_dict[self.prediction_label]
 
         # Get ID and remove from feature dictionary
@@ -643,28 +605,6 @@ class RunExperiments:
             df.to_csv(join(output_path,
                            self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
-
-    def transform_value(self, val: float) -> int:
-        """
-        Convert the value to the index of the bin in which it resides.
-
-        :param val: raw value
-        :type val: float
-
-        :returns: index of bin containing value
-        :rtype: int
-        """
-
-        # Apply transformations (multiply by 100 if percentage and/or
-        # natural log/power transformation) if specified
-        val = compute_label_value(val, self.prediction_label,
-                                  lognormal=self.lognormal,
-                                  power_transform=self.power_transform)
-
-        # Convert value to bin-transformed value
-        if not self.bin_ranges:
-            return val
-        return get_bin(self.bin_ranges, val)
 
     def make_printable_confusion_matrix(self, y_preds: np.array) -> tuple:
         """
@@ -933,8 +873,7 @@ class RunExperiments:
         # Skip round if there are no more training samples to learn
         # from or if the number remaining is less than half the size of
         # the intended number of samples to be used in each round
-        if (not samples
-            or samples < self.samples_per_round/2):
+        if not samples or samples < self.samples_per_round/2:
             return
 
         self.logger.info('Round {0}...'.format(self.round))

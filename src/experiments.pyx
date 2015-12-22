@@ -5,6 +5,7 @@
 Module of functions/classes related to learning experiments.
 """
 import logging
+from bson import BSON
 from os.path import join
 from collections import Counter
 
@@ -88,8 +89,8 @@ def distributional_info(db: collection, label: str, games: list,
 
     :raises ValueError: if unrecognized games were found in the input,
                         no reviews were found for the combination of
-                        game, partition, etc., or the `bin_ranges`
-                        value is invalid
+                        game, partition, etc., or `compute_label_value`
+                        fails for some reason
     """
 
     # Check `partition`, `label`, and `limit` parameter values
@@ -141,14 +142,12 @@ def distributional_info(db: collection, label: str, games: list,
         # if this is a percentage value
         label_value = compute_label_value(get_label_in_doc(doc, label),
                                           label, lognormal=lognormal,
-                                          power_transform=power_transform)
+                                          power_transform=power_transform,
+                                          bin_ranges=bin_ranges)
 
         # Skip label values that are equal to None
         if label_value == None:
             continue
-
-        if bin_ranges:
-            label_value = get_bin(bin_ranges, label_value)
 
         samples.append({'id_string': doc['id_string'], label: label_value})
 
@@ -272,3 +271,53 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
             if labels_id_strings_lists_dict[label_value]:
                 yield labels_id_strings_lists_dict[label_value].pop()
                 i += 1
+
+
+def get_all_features(review_doc: dict, prediction_label: str,
+                     nlp_features: bool = True) -> dict:
+    """
+    Get all the features in a review document and put them together in
+    a dictionary. If `nlp_features` is False, leave out NLP features.
+
+    :param review_doc: review document from Mongo database
+    :type review_doc: dict
+    :param prediction_label: label being used for prediction
+    :type prediction_label: str
+    :param nlp_features: extract NLP features (default: True)
+    :type nlp_features: bool
+
+    :returns: feature dictionary
+    :rtype: dict or None
+    """
+
+    _get = review_doc.get
+    features = {}
+    _update = features.update
+    nan = float("NaN")
+
+    # Add in the NLP features
+    if nlp_features:
+        _update({feat: val for feat, val
+                 in BSON.decode(_get('nlp_features')).items()
+                 if val and val != nan})
+
+    # Add in the non-NLP features (except for those that may be in
+    # the 'achievement_progress' sub-dictionary of the review
+    # dictionary)
+    _update({feat: val for feat, val in review_doc.items()
+             if feat in set(LABELS) and val and val != nan})
+
+    # Add in the features that may be in the 'achievement_progress'
+    # sub-dictionary of the review document
+    _update({feat: val for feat, val
+             in _get('achievement_progress', dict()).items()
+             if feat in set(LABELS) and val and val != nan})
+
+    # Return None if the prediction label isn't present
+    if not features.get(prediction_label):
+        return
+
+    # Add in the 'id_string' value just to make it easier to
+    # process the results of this function
+    _update({'id_string': _get('id_string')})
+    return features

@@ -1305,7 +1305,7 @@ def get_label_values(db: collection, games: list, label: str,
 
 
 def compute_label_value(value, label, lognormal: bool = False,
-                        power_transform: float = None):
+                        power_transform: float = None, bin_ranges: list = None):
     """
     Compute the value and apply any transformations specified via
     `lognormal` or `power_transform`.
@@ -1320,6 +1320,23 @@ def compute_label_value(value, label, lognormal: bool = False,
     :param power_transform: power by which to transform raw label
                             values (default: None)
     :type power_transform: float or None
+    :param bin_ranges: list of ranges that define each bin, where each
+                       bin should be represented as a tuple with the
+                       first value, a float that is precise to one
+                       decimal place, as the lower bound and the
+                       second, also a float with the same type of
+                       precision, the upper bound, but both limits are
+                       technically soft since label values will be
+                       compared to see if they are equal at the same
+                       precision and so they can end up being
+                       larger/smaller and still be in a given bin;
+                       the bins should also make up a continuous range
+                       such that every first bin value should be
+                       less than the second bin value and every bin's
+                       values should be less than the succeeding bin's
+                       values
+    :type bin_ranges: list of tuples representing the minimum and
+                      maximum values of a range of values (or None)
 
     :returns: the value of the label, after applying transformations
               (if any)
@@ -1336,7 +1353,7 @@ def compute_label_value(value, label, lognormal: bool = False,
 
     # Return None if value is None
     if value == None:
-        return None
+        return
 
     value = float(value)
 
@@ -1356,11 +1373,13 @@ def compute_label_value(value, label, lognormal: bool = False,
     # are just converted to 0)
     if lognormal:
         if value > 1.0:
-            return np.log(value)
-        else:
-            return value
+            value = np.log(value)
     elif power_transform:
-        return value**power_transform
+        value = value**power_transform
+
+    # Convert value to bin-transformed value
+    if bin_ranges:
+        return get_bin(bin_ranges, value)
     else:
         return value
 
