@@ -882,9 +882,11 @@ int __pyx_module_is_main_src__experiments = 0;
 static PyObject *__pyx_builtin_ValueError;
 static char __pyx_k_e[] = "e";
 static char __pyx_k_i[] = "i";
+static char __pyx_k_x[] = "x";
+static char __pyx_k_y[] = "y";
 static char __pyx_k__3[] = ", ";
 static char __pyx_k_db[] = "db";
-static char __pyx_k_id[] = "_id";
+static char __pyx_k_id[] = "id";
 static char __pyx_k_in[] = "$in";
 static char __pyx_k_NaN[] = "NaN";
 static char __pyx_k_all[] = "all";
@@ -897,8 +899,10 @@ static char __pyx_k_BSON[] = "BSON";
 static char __pyx_k_args[] = "args";
 static char __pyx_k_bson[] = "bson";
 static char __pyx_k_data[] = "data";
+static char __pyx_k_feat[] = "feat";
 static char __pyx_k_find[] = "find";
 static char __pyx_k_game[] = "game";
+static char __pyx_k_id_2[] = "_id";
 static char __pyx_k_join[] = "join";
 static char __pyx_k_main[] = "__main__";
 static char __pyx_k_proj[] = "proj";
@@ -932,6 +936,7 @@ static char __pyx_k_logging[] = "logging";
 static char __pyx_k_os_path[] = "os.path";
 static char __pyx_k_pymongo[] = "pymongo";
 static char __pyx_k_samples[] = "samples";
+static char __pyx_k_y_value[] = "y_value";
 static char __pyx_k_features[] = "features";
 static char __pyx_k_update_2[] = "_update";
 static char __pyx_k_getLogger[] = "getLogger";
@@ -946,16 +951,20 @@ static char __pyx_k_review_doc[] = "review_doc";
 static char __pyx_k_TIME_LABELS[] = "TIME_LABELS";
 static char __pyx_k_VALID_GAMES[] = "VALID_GAMES";
 static char __pyx_k_collections[] = "collections";
+static char __pyx_k_id_string_2[] = "_id_string";
 static char __pyx_k_label_value[] = "label_value";
+static char __pyx_k_feature_dict[] = "feature_dict";
 static char __pyx_k_nlp_features[] = "nlp_features";
 static char __pyx_k_src_datasets[] = "src.datasets";
 static char __pyx_k_FRIENDS_LABELS[] = "FRIENDS_LABELS";
 static char __pyx_k_HELPFUL_LABELS[] = "HELPFUL_LABELS";
+static char __pyx_k_get_data_point[] = "get_data_point";
 static char __pyx_k_labels_counter[] = "labels_counter";
 static char __pyx_k_power_transform[] = "power_transform";
 static char __pyx_k_src_experiments[] = "src.experiments";
 static char __pyx_k_get_all_features[] = "get_all_features";
 static char __pyx_k_get_label_in_doc[] = "get_label_in_doc";
+static char __pyx_k_non_nlp_features[] = "non_nlp_features";
 static char __pyx_k_prediction_label[] = "prediction_label";
 static char __pyx_k_LEARNER_DICT_KEYS[] = "LEARNER_DICT_KEYS";
 static char __pyx_k_distribution_dict[] = "distribution_dict";
@@ -1022,6 +1031,8 @@ static PyObject *__pyx_n_s_doc;
 static PyObject *__pyx_n_s_e;
 static PyObject *__pyx_n_s_error;
 static PyObject *__pyx_n_s_evenly_distribute_samples;
+static PyObject *__pyx_n_s_feat;
+static PyObject *__pyx_n_s_feature_dict;
 static PyObject *__pyx_n_s_features;
 static PyObject *__pyx_n_s_find;
 static PyObject *__pyx_n_s_format;
@@ -1033,11 +1044,14 @@ static PyObject *__pyx_n_s_getLogger;
 static PyObject *__pyx_n_s_get_2;
 static PyObject *__pyx_n_s_get_all_features;
 static PyObject *__pyx_n_s_get_bin;
+static PyObject *__pyx_n_s_get_data_point;
 static PyObject *__pyx_n_s_get_label_in_doc;
 static PyObject *__pyx_kp_s_home_nlp_text_dynamic_mmulholla;
 static PyObject *__pyx_n_s_i;
 static PyObject *__pyx_n_s_id;
+static PyObject *__pyx_n_s_id_2;
 static PyObject *__pyx_n_s_id_string;
+static PyObject *__pyx_n_s_id_string_2;
 static PyObject *__pyx_n_s_id_strings_labels_dict;
 static PyObject *__pyx_n_s_import;
 static PyObject *__pyx_kp_s_in;
@@ -1058,6 +1072,7 @@ static PyObject *__pyx_n_s_lognormal;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_nan;
 static PyObject *__pyx_n_s_nlp_features;
+static PyObject *__pyx_n_s_non_nlp_features;
 static PyObject *__pyx_n_s_os_path;
 static PyObject *__pyx_n_s_partition;
 static PyObject *__pyx_n_s_pop;
@@ -1079,17 +1094,22 @@ static PyObject *__pyx_n_s_train;
 static PyObject *__pyx_n_s_update;
 static PyObject *__pyx_n_s_update_2;
 static PyObject *__pyx_n_s_validate_bin_ranges;
+static PyObject *__pyx_n_s_x;
+static PyObject *__pyx_n_s_y;
+static PyObject *__pyx_n_s_y_value;
 static PyObject *__pyx_pf_3src_11experiments_19distributional_info_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_distributional_info(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games, PyObject *__pyx_v_partition, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_limit); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_2get_label_in_doc(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_doc, PyObject *__pyx_v_label); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_4evenly_distribute_samples(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_db, PyObject *__pyx_v_label, PyObject *__pyx_v_games, PyObject *__pyx_v_partition, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_7get_all_features(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_review_doc, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_nlp_features); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_9get_data_point(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_review_doc, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_bin_ranges); /* proto */
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct__distributional_info(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_2_evenly_distribute_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static __Pyx_CachedCFunction __pyx_umethod_PyList_Type_pop = {0, &__pyx_n_s_pop, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
+static PyObject *__pyx_k__11;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_tuple__2;
 static PyObject *__pyx_tuple__4;
@@ -1099,14 +1119,16 @@ static PyObject *__pyx_tuple__7;
 static PyObject *__pyx_tuple__8;
 static PyObject *__pyx_tuple__9;
 static PyObject *__pyx_tuple__10;
-static PyObject *__pyx_tuple__11;
-static PyObject *__pyx_tuple__13;
-static PyObject *__pyx_tuple__15;
-static PyObject *__pyx_tuple__17;
-static PyObject *__pyx_codeobj__12;
-static PyObject *__pyx_codeobj__14;
-static PyObject *__pyx_codeobj__16;
-static PyObject *__pyx_codeobj__18;
+static PyObject *__pyx_tuple__12;
+static PyObject *__pyx_tuple__14;
+static PyObject *__pyx_tuple__16;
+static PyObject *__pyx_tuple__18;
+static PyObject *__pyx_tuple__20;
+static PyObject *__pyx_codeobj__13;
+static PyObject *__pyx_codeobj__15;
+static PyObject *__pyx_codeobj__17;
+static PyObject *__pyx_codeobj__19;
+static PyObject *__pyx_codeobj__21;
 
 /* "src/experiments.pyx":33
  * 
@@ -4644,6 +4666,7 @@ static PyObject *__pyx_pf_3src_11experiments_7get_all_features(CYTHON_UNUSED PyO
  *     # process the results of this function
  *     _update({'id_string': _get('id_string')})             # <<<<<<<<<<<<<<
  *     return features
+ * 
  */
   __pyx_t_10 = PyDict_New(); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 322; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_10);
@@ -4684,6 +4707,8 @@ static PyObject *__pyx_pf_3src_11experiments_7get_all_features(CYTHON_UNUSED PyO
  *     # process the results of this function
  *     _update({'id_string': _get('id_string')})
  *     return features             # <<<<<<<<<<<<<<
+ * 
+ * 
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_features);
@@ -4714,6 +4739,577 @@ static PyObject *__pyx_pf_3src_11experiments_7get_all_features(CYTHON_UNUSED PyO
   __Pyx_XDECREF(__pyx_v__get);
   __Pyx_XDECREF(__pyx_v_features);
   __Pyx_XDECREF(__pyx_v__update);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/experiments.pyx":326
+ * 
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,             # <<<<<<<<<<<<<<
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_3src_11experiments_10get_data_point(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_3src_11experiments_9get_data_point[] = "\n    Collect data from a MongoDB review document and return it in format\n    needed for `DictVectorizer`.\n\n    :param review_doc: document from the MongoDB reviews collection\n    :type review_doc: dict\n    :param prediction_label: label being used for prediction\n    :type prediction_label: str\n    :param nlp_features: extract NLP features (default: True)\n    :type nlp_features: bool\n    :param non_nlp_features: list of non-NLP features to extract\n    :type non_nlp_features: list\n    :param lognormal: transform raw label values using `ln` (default:\n                      False)\n    :type lognormal: bool\n    :param power_transform: power by which to transform raw label\n                            values (default: None)\n    :type power_transform: float or None\n    :param bin_ranges: list of ranges that define each bin, where each\n                       bin should be represented as a tuple with the\n                       first value, a float that is precise to one\n                       decimal place, as the lower bound and the\n                       second, also a float with the same type of\n                       precision, the upper bound, but both limits are\n                       technically soft since label values will be\n                       compared to see if they are equal at the same\n                       precision and so they can end up being\n                       larger/smaller and still be in a given bin;\n                       the bins should also make up a continuous range\n                       such that every first bin value should be\n                       less than the second bin value and every bin's\n                       values should be less than the succeeding bin's\n                       values\n    :type bin_ranges: list of tuples representing the minimum and\n                      maximum values of a range of values (or None)\n\n    :returns: training/test sample\n    :rtype: dict or None\n\n    :raises Value""Error: \n    ";
+static PyMethodDef __pyx_mdef_3src_11experiments_10get_data_point = {"get_data_point", (PyCFunction)__pyx_pw_3src_11experiments_10get_data_point, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_9get_data_point};
+static PyObject *__pyx_pw_3src_11experiments_10get_data_point(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  PyObject *__pyx_v_review_doc = 0;
+  PyObject *__pyx_v_prediction_label = 0;
+  PyObject *__pyx_v_nlp_features = 0;
+  PyObject *__pyx_v_non_nlp_features = 0;
+  PyObject *__pyx_v_lognormal = 0;
+  PyObject *__pyx_v_power_transform = 0;
+  PyObject *__pyx_v_bin_ranges = 0;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("get_data_point (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_review_doc,&__pyx_n_s_prediction_label,&__pyx_n_s_nlp_features,&__pyx_n_s_non_nlp_features,&__pyx_n_s_lognormal,&__pyx_n_s_power_transform,&__pyx_n_s_bin_ranges,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
+
+    /* "src/experiments.pyx":327
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,
+ *                    nlp_features: bool = True, non_nlp_features: list = [],             # <<<<<<<<<<<<<<
+ *                    lognormal: bool = False, power_transform: float = None,
+ *                    bin_ranges: list = None) -> dict:
+ */
+    values[2] = ((PyObject *)Py_True);
+    values[3] = __pyx_k__11;
+
+    /* "src/experiments.pyx":328
+ * def get_data_point(review_doc: dict, prediction_label: str,
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,             # <<<<<<<<<<<<<<
+ *                    bin_ranges: list = None) -> dict:
+ *     """
+ */
+    values[4] = ((PyObject *)Py_False);
+    values[5] = ((PyObject *)Py_None);
+
+    /* "src/experiments.pyx":329
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ *                    bin_ranges: list = None) -> dict:             # <<<<<<<<<<<<<<
+ *     """
+ *     Collect data from a MongoDB review document and return it in format
+ */
+    values[6] = ((PyObject *)Py_None);
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_review_doc)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+        case  1:
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_prediction_label)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("get_data_point", 0, 2, 7, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        }
+        case  2:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_nlp_features);
+          if (value) { values[2] = value; kw_args--; }
+        }
+        case  3:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_non_nlp_features);
+          if (value) { values[3] = value; kw_args--; }
+        }
+        case  4:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_lognormal);
+          if (value) { values[4] = value; kw_args--; }
+        }
+        case  5:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_power_transform);
+          if (value) { values[5] = value; kw_args--; }
+        }
+        case  6:
+        if (kw_args > 0) {
+          PyObject* value = PyDict_GetItem(__pyx_kwds, __pyx_n_s_bin_ranges);
+          if (value) { values[6] = value; kw_args--; }
+        }
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "get_data_point") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+      }
+    } else {
+      switch (PyTuple_GET_SIZE(__pyx_args)) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+        case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+        case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
+        case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
+        values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+    }
+    __pyx_v_review_doc = values[0];
+    __pyx_v_prediction_label = values[1];
+    __pyx_v_nlp_features = values[2];
+    __pyx_v_non_nlp_features = values[3];
+    __pyx_v_lognormal = values[4];
+    __pyx_v_power_transform = values[5];
+    __pyx_v_bin_ranges = values[6];
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("get_data_point", 0, 2, 7, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("src.experiments.get_data_point", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return NULL;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_3src_11experiments_9get_data_point(__pyx_self, __pyx_v_review_doc, __pyx_v_prediction_label, __pyx_v_nlp_features, __pyx_v_non_nlp_features, __pyx_v_lognormal, __pyx_v_power_transform, __pyx_v_bin_ranges);
+
+  /* "src/experiments.pyx":326
+ * 
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,             # <<<<<<<<<<<<<<
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ */
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_3src_11experiments_9get_data_point(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_review_doc, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_bin_ranges) {
+  PyObject *__pyx_v_feature_dict = NULL;
+  PyObject *__pyx_v_y_value = NULL;
+  PyObject *__pyx_v__id_string = NULL;
+  PyObject *__pyx_v_id_string = NULL;
+  PyObject *__pyx_v_feat = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  int __pyx_t_5;
+  int __pyx_t_6;
+  Py_ssize_t __pyx_t_7;
+  PyObject *(*__pyx_t_8)(PyObject *);
+  int __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
+  PyObject *__pyx_t_11 = NULL;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("get_data_point", 0);
+
+  /* "src/experiments.pyx":374
+ *     # Get dictionary containing all features needed + the ID and the
+ *     # prediction label
+ *     feature_dict = get_all_features(review_doc, prediction_label,             # <<<<<<<<<<<<<<
+ *                                     nlp_features=nlp_features)
+ * 
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_all_features); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_v_review_doc);
+  __Pyx_GIVEREF(__pyx_v_review_doc);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_review_doc);
+  __Pyx_INCREF(__pyx_v_prediction_label);
+  __Pyx_GIVEREF(__pyx_v_prediction_label);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_prediction_label);
+
+  /* "src/experiments.pyx":375
+ *     # prediction label
+ *     feature_dict = get_all_features(review_doc, prediction_label,
+ *                                     nlp_features=nlp_features)             # <<<<<<<<<<<<<<
+ * 
+ *     # Return if the feature dictionary is empty (i.e., due to the
+ */
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 375; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_nlp_features, __pyx_v_nlp_features) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 375; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":374
+ *     # Get dictionary containing all features needed + the ID and the
+ *     # prediction label
+ *     feature_dict = get_all_features(review_doc, prediction_label,             # <<<<<<<<<<<<<<
+ *                                     nlp_features=nlp_features)
+ * 
+ */
+  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_feature_dict = __pyx_t_4;
+  __pyx_t_4 = 0;
+
+  /* "src/experiments.pyx":380
+ *     # absence of the prediction label, or if for some reason the
+ *     # dictionary is otherwise empty)
+ *     if not feature_dict:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+  __pyx_t_5 = __Pyx_PyObject_IsTrue(__pyx_v_feature_dict); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 380; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_6 = ((!__pyx_t_5) != 0);
+  if (__pyx_t_6) {
+
+    /* "src/experiments.pyx":381
+ *     # dictionary is otherwise empty)
+ *     if not feature_dict:
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     # Get prediction label, apply transformations, and remove it from
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+    goto __pyx_L0;
+
+    /* "src/experiments.pyx":380
+ *     # absence of the prediction label, or if for some reason the
+ *     # dictionary is otherwise empty)
+ *     if not feature_dict:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+  }
+
+  /* "src/experiments.pyx":385
+ *     # Get prediction label, apply transformations, and remove it from
+ *     # the feature dictionary
+ *     y_value = compute_label_value(feature_dict[prediction_label],             # <<<<<<<<<<<<<<
+ *                                   prediction_label,
+ *                                   lognormal=lognormal,
+ */
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_compute_label_value); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_3 = PyObject_GetItem(__pyx_v_feature_dict, __pyx_v_prediction_label); if (unlikely(__pyx_t_3 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __Pyx_GOTREF(__pyx_t_3);
+
+  /* "src/experiments.pyx":386
+ *     # the feature dictionary
+ *     y_value = compute_label_value(feature_dict[prediction_label],
+ *                                   prediction_label,             # <<<<<<<<<<<<<<
+ *                                   lognormal=lognormal,
+ *                                   power_transform=power_transform,
+ */
+  __pyx_t_2 = PyTuple_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3);
+  __Pyx_INCREF(__pyx_v_prediction_label);
+  __Pyx_GIVEREF(__pyx_v_prediction_label);
+  PyTuple_SET_ITEM(__pyx_t_2, 1, __pyx_v_prediction_label);
+  __pyx_t_3 = 0;
+
+  /* "src/experiments.pyx":387
+ *     y_value = compute_label_value(feature_dict[prediction_label],
+ *                                   prediction_label,
+ *                                   lognormal=lognormal,             # <<<<<<<<<<<<<<
+ *                                   power_transform=power_transform,
+ *                                   bin_ranges=bin_ranges)
+ */
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_lognormal, __pyx_v_lognormal) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":388
+ *                                   prediction_label,
+ *                                   lognormal=lognormal,
+ *                                   power_transform=power_transform,             # <<<<<<<<<<<<<<
+ *                                   bin_ranges=bin_ranges)
+ *     del feature_dict[prediction_label]
+ */
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_power_transform, __pyx_v_power_transform) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":389
+ *                                   lognormal=lognormal,
+ *                                   power_transform=power_transform,
+ *                                   bin_ranges=bin_ranges)             # <<<<<<<<<<<<<<
+ *     del feature_dict[prediction_label]
+ * 
+ */
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_bin_ranges, __pyx_v_bin_ranges) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 387; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":385
+ *     # Get prediction label, apply transformations, and remove it from
+ *     # the feature dictionary
+ *     y_value = compute_label_value(feature_dict[prediction_label],             # <<<<<<<<<<<<<<
+ *                                   prediction_label,
+ *                                   lognormal=lognormal,
+ */
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 385; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_v_y_value = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "src/experiments.pyx":390
+ *                                   power_transform=power_transform,
+ *                                   bin_ranges=bin_ranges)
+ *     del feature_dict[prediction_label]             # <<<<<<<<<<<<<<
+ * 
+ *     # Get ID and remove from feature dictionary
+ */
+  if (PyObject_DelItem(__pyx_v_feature_dict, __pyx_v_prediction_label) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 390; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":393
+ * 
+ *     # Get ID and remove from feature dictionary
+ *     _id_string = 'id_string'             # <<<<<<<<<<<<<<
+ *     id_string = feature_dict[_id_string]
+ *     del feature_dict[_id_string]
+ */
+  __Pyx_INCREF(__pyx_n_s_id_string);
+  __pyx_v__id_string = __pyx_n_s_id_string;
+
+  /* "src/experiments.pyx":394
+ *     # Get ID and remove from feature dictionary
+ *     _id_string = 'id_string'
+ *     id_string = feature_dict[_id_string]             # <<<<<<<<<<<<<<
+ *     del feature_dict[_id_string]
+ * 
+ */
+  __pyx_t_1 = PyObject_GetItem(__pyx_v_feature_dict, __pyx_v__id_string); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 394; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_v_id_string = __pyx_t_1;
+  __pyx_t_1 = 0;
+
+  /* "src/experiments.pyx":395
+ *     _id_string = 'id_string'
+ *     id_string = feature_dict[_id_string]
+ *     del feature_dict[_id_string]             # <<<<<<<<<<<<<<
+ * 
+ *     # Only keep the non-NLP features that are supposed to be kept, if
+ */
+  if (PyObject_DelItem(__pyx_v_feature_dict, __pyx_v__id_string) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 395; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":399
+ *     # Only keep the non-NLP features that are supposed to be kept, if
+ *     # any
+ *     for feat in LABELS:             # <<<<<<<<<<<<<<
+ *         if not feat in non_nlp_features and feature_dict.get(feat, None) != None:
+ *             del feature_dict[feat]
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_LABELS); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (likely(PyList_CheckExact(__pyx_t_1)) || PyTuple_CheckExact(__pyx_t_1)) {
+    __pyx_t_3 = __pyx_t_1; __Pyx_INCREF(__pyx_t_3); __pyx_t_7 = 0;
+    __pyx_t_8 = NULL;
+  } else {
+    __pyx_t_7 = -1; __pyx_t_3 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_3);
+    __pyx_t_8 = Py_TYPE(__pyx_t_3)->tp_iternext; if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  }
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  for (;;) {
+    if (likely(!__pyx_t_8)) {
+      if (likely(PyList_CheckExact(__pyx_t_3))) {
+        if (__pyx_t_7 >= PyList_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_COMPILING_IN_CPYTHON
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      } else {
+        if (__pyx_t_7 >= PyTuple_GET_SIZE(__pyx_t_3)) break;
+        #if CYTHON_COMPILING_IN_CPYTHON
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_3, __pyx_t_7); __Pyx_INCREF(__pyx_t_1); __pyx_t_7++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        #else
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_3, __pyx_t_7); __pyx_t_7++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_1);
+        #endif
+      }
+    } else {
+      __pyx_t_1 = __pyx_t_8(__pyx_t_3);
+      if (unlikely(!__pyx_t_1)) {
+        PyObject* exc_type = PyErr_Occurred();
+        if (exc_type) {
+          if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
+          else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 399; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        }
+        break;
+      }
+      __Pyx_GOTREF(__pyx_t_1);
+    }
+    __Pyx_XDECREF_SET(__pyx_v_feat, __pyx_t_1);
+    __pyx_t_1 = 0;
+
+    /* "src/experiments.pyx":400
+ *     # any
+ *     for feat in LABELS:
+ *         if not feat in non_nlp_features and feature_dict.get(feat, None) != None:             # <<<<<<<<<<<<<<
+ *             del feature_dict[feat]
+ * 
+ */
+    __pyx_t_5 = (__Pyx_PySequence_ContainsTF(__pyx_v_feat, __pyx_v_non_nlp_features, Py_NE)); if (unlikely(__pyx_t_5 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_9 = (__pyx_t_5 != 0);
+    if (__pyx_t_9) {
+    } else {
+      __pyx_t_6 = __pyx_t_9;
+      goto __pyx_L7_bool_binop_done;
+    }
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_feature_dict, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_2);
+    __pyx_t_4 = NULL;
+    __pyx_t_10 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_2, function);
+        __pyx_t_10 = 1;
+      }
+    }
+    __pyx_t_11 = PyTuple_New(2+__pyx_t_10); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_11);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_INCREF(__pyx_v_feat);
+    __Pyx_GIVEREF(__pyx_v_feat);
+    PyTuple_SET_ITEM(__pyx_t_11, 0+__pyx_t_10, __pyx_v_feat);
+    __Pyx_INCREF(Py_None);
+    __Pyx_GIVEREF(Py_None);
+    PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_10, Py_None);
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_11, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_2 = PyObject_RichCompare(__pyx_t_1, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    __pyx_t_9 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_9 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 400; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    __pyx_t_6 = __pyx_t_9;
+    __pyx_L7_bool_binop_done:;
+    if (__pyx_t_6) {
+
+      /* "src/experiments.pyx":401
+ *     for feat in LABELS:
+ *         if not feat in non_nlp_features and feature_dict.get(feat, None) != None:
+ *             del feature_dict[feat]             # <<<<<<<<<<<<<<
+ * 
+ *     # If, after taking out the prediction label and the ID, there are
+ */
+      if (PyObject_DelItem(__pyx_v_feature_dict, __pyx_v_feat) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 401; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+      /* "src/experiments.pyx":400
+ *     # any
+ *     for feat in LABELS:
+ *         if not feat in non_nlp_features and feature_dict.get(feat, None) != None:             # <<<<<<<<<<<<<<
+ *             del feature_dict[feat]
+ * 
+ */
+    }
+
+    /* "src/experiments.pyx":399
+ *     # Only keep the non-NLP features that are supposed to be kept, if
+ *     # any
+ *     for feat in LABELS:             # <<<<<<<<<<<<<<
+ *         if not feat in non_nlp_features and feature_dict.get(feat, None) != None:
+ *             del feature_dict[feat]
+ */
+  }
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "src/experiments.pyx":405
+ *     # If, after taking out the prediction label and the ID, there are
+ *     # no remaining features, return None
+ *     if not feature_dict:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+  __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_v_feature_dict); if (unlikely(__pyx_t_6 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 405; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = ((!__pyx_t_6) != 0);
+  if (__pyx_t_9) {
+
+    /* "src/experiments.pyx":406
+ *     # no remaining features, return None
+ *     if not feature_dict:
+ *         return             # <<<<<<<<<<<<<<
+ * 
+ *     # Return dictionary of prediction label value, ID string, and
+ */
+    __Pyx_XDECREF(__pyx_r);
+    __pyx_r = Py_None; __Pyx_INCREF(Py_None);
+    goto __pyx_L0;
+
+    /* "src/experiments.pyx":405
+ *     # If, after taking out the prediction label and the ID, there are
+ *     # no remaining features, return None
+ *     if not feature_dict:             # <<<<<<<<<<<<<<
+ *         return
+ * 
+ */
+  }
+
+  /* "src/experiments.pyx":410
+ *     # Return dictionary of prediction label value, ID string, and
+ *     # features
+ *     return {'y': y_value, 'id': id_string, 'x': feature_dict}             # <<<<<<<<<<<<<<
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_y, __pyx_v_y_value) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_id, __pyx_v_id_string) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_x, __pyx_v_feature_dict) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* "src/experiments.pyx":326
+ * 
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,             # <<<<<<<<<<<<<<
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_11);
+  __Pyx_AddTraceback("src.experiments.get_data_point", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XDECREF(__pyx_v_feature_dict);
+  __Pyx_XDECREF(__pyx_v_y_value);
+  __Pyx_XDECREF(__pyx_v__id_string);
+  __Pyx_XDECREF(__pyx_v_id_string);
+  __Pyx_XDECREF(__pyx_v_feat);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
@@ -5194,6 +5790,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
   {&__pyx_n_s_error, __pyx_k_error, sizeof(__pyx_k_error), 0, 0, 1, 1},
   {&__pyx_n_s_evenly_distribute_samples, __pyx_k_evenly_distribute_samples, sizeof(__pyx_k_evenly_distribute_samples), 0, 0, 1, 1},
+  {&__pyx_n_s_feat, __pyx_k_feat, sizeof(__pyx_k_feat), 0, 0, 1, 1},
+  {&__pyx_n_s_feature_dict, __pyx_k_feature_dict, sizeof(__pyx_k_feature_dict), 0, 0, 1, 1},
   {&__pyx_n_s_features, __pyx_k_features, sizeof(__pyx_k_features), 0, 0, 1, 1},
   {&__pyx_n_s_find, __pyx_k_find, sizeof(__pyx_k_find), 0, 0, 1, 1},
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
@@ -5205,11 +5803,14 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_get_2, __pyx_k_get_2, sizeof(__pyx_k_get_2), 0, 0, 1, 1},
   {&__pyx_n_s_get_all_features, __pyx_k_get_all_features, sizeof(__pyx_k_get_all_features), 0, 0, 1, 1},
   {&__pyx_n_s_get_bin, __pyx_k_get_bin, sizeof(__pyx_k_get_bin), 0, 0, 1, 1},
+  {&__pyx_n_s_get_data_point, __pyx_k_get_data_point, sizeof(__pyx_k_get_data_point), 0, 0, 1, 1},
   {&__pyx_n_s_get_label_in_doc, __pyx_k_get_label_in_doc, sizeof(__pyx_k_get_label_in_doc), 0, 0, 1, 1},
   {&__pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_k_home_nlp_text_dynamic_mmulholla, sizeof(__pyx_k_home_nlp_text_dynamic_mmulholla), 0, 0, 1, 0},
   {&__pyx_n_s_i, __pyx_k_i, sizeof(__pyx_k_i), 0, 0, 1, 1},
   {&__pyx_n_s_id, __pyx_k_id, sizeof(__pyx_k_id), 0, 0, 1, 1},
+  {&__pyx_n_s_id_2, __pyx_k_id_2, sizeof(__pyx_k_id_2), 0, 0, 1, 1},
   {&__pyx_n_s_id_string, __pyx_k_id_string, sizeof(__pyx_k_id_string), 0, 0, 1, 1},
+  {&__pyx_n_s_id_string_2, __pyx_k_id_string_2, sizeof(__pyx_k_id_string_2), 0, 0, 1, 1},
   {&__pyx_n_s_id_strings_labels_dict, __pyx_k_id_strings_labels_dict, sizeof(__pyx_k_id_strings_labels_dict), 0, 0, 1, 1},
   {&__pyx_n_s_import, __pyx_k_import, sizeof(__pyx_k_import), 0, 0, 1, 1},
   {&__pyx_kp_s_in, __pyx_k_in, sizeof(__pyx_k_in), 0, 0, 1, 0},
@@ -5230,6 +5831,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_nan, __pyx_k_nan, sizeof(__pyx_k_nan), 0, 0, 1, 1},
   {&__pyx_n_s_nlp_features, __pyx_k_nlp_features, sizeof(__pyx_k_nlp_features), 0, 0, 1, 1},
+  {&__pyx_n_s_non_nlp_features, __pyx_k_non_nlp_features, sizeof(__pyx_k_non_nlp_features), 0, 0, 1, 1},
   {&__pyx_n_s_os_path, __pyx_k_os_path, sizeof(__pyx_k_os_path), 0, 0, 1, 1},
   {&__pyx_n_s_partition, __pyx_k_partition, sizeof(__pyx_k_partition), 0, 0, 1, 1},
   {&__pyx_n_s_pop, __pyx_k_pop, sizeof(__pyx_k_pop), 0, 0, 1, 1},
@@ -5251,6 +5853,9 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_update, __pyx_k_update, sizeof(__pyx_k_update), 0, 0, 1, 1},
   {&__pyx_n_s_update_2, __pyx_k_update_2, sizeof(__pyx_k_update_2), 0, 0, 1, 1},
   {&__pyx_n_s_validate_bin_ranges, __pyx_k_validate_bin_ranges, sizeof(__pyx_k_validate_bin_ranges), 0, 0, 1, 1},
+  {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
+  {&__pyx_n_s_y, __pyx_k_y, sizeof(__pyx_k_y), 0, 0, 1, 1},
+  {&__pyx_n_s_y_value, __pyx_k_y_value, sizeof(__pyx_k_y_value), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
 };
 static int __Pyx_InitCachedBuiltins(void) {
@@ -5357,6 +5962,7 @@ static int __Pyx_InitCachedConstants(void) {
  *     # process the results of this function
  *     _update({'id_string': _get('id_string')})             # <<<<<<<<<<<<<<
  *     return features
+ * 
  */
   __pyx_tuple__10 = PyTuple_Pack(1, __pyx_n_s_id_string); if (unlikely(!__pyx_tuple__10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 322; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__10);
@@ -5369,10 +5975,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                         partition: str = 'test', bin_ranges: list = None,
  *                         lognormal: bool = False,
  */
-  __pyx_tuple__11 = PyTuple_Pack(20, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_partition, __pyx_n_s_bin_ranges, __pyx_n_s_lognormal, __pyx_n_s_power_transform, __pyx_n_s_limit, __pyx_n_s_query, __pyx_n_s_kwargs, __pyx_n_s_proj, __pyx_n_s_cursor, __pyx_n_s_e, __pyx_n_s_samples, __pyx_n_s_doc, __pyx_n_s_label_value, __pyx_n_s_id_strings_labels_dict, __pyx_n_s_labels_counter, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__11);
-  __Pyx_GIVEREF(__pyx_tuple__11);
-  __pyx_codeobj__12 = (PyObject*)__Pyx_PyCode_New(8, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__11, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_distributional_info, 33, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__12 = PyTuple_Pack(20, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_partition, __pyx_n_s_bin_ranges, __pyx_n_s_lognormal, __pyx_n_s_power_transform, __pyx_n_s_limit, __pyx_n_s_query, __pyx_n_s_kwargs, __pyx_n_s_proj, __pyx_n_s_cursor, __pyx_n_s_e, __pyx_n_s_samples, __pyx_n_s_doc, __pyx_n_s_label_value, __pyx_n_s_id_strings_labels_dict, __pyx_n_s_labels_counter, __pyx_n_s_genexpr, __pyx_n_s_genexpr); if (unlikely(!__pyx_tuple__12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__12);
+  __Pyx_GIVEREF(__pyx_tuple__12);
+  __pyx_codeobj__13 = (PyObject*)__Pyx_PyCode_New(8, 0, 20, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__12, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_distributional_info, 33, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":168
  * 
@@ -5381,10 +5987,10 @@ static int __Pyx_InitCachedConstants(void) {
  *     """
  *     Return the value for a label in a sample document and return None
  */
-  __pyx_tuple__13 = PyTuple_Pack(4, __pyx_n_s_doc, __pyx_n_s_label, __pyx_n_s_achievement_progress_string, __pyx_n_s_achievement_progress); if (unlikely(!__pyx_tuple__13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__13);
-  __Pyx_GIVEREF(__pyx_tuple__13);
-  __pyx_codeobj__14 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__13, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_label_in_doc, 168, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__14 = PyTuple_Pack(4, __pyx_n_s_doc, __pyx_n_s_label, __pyx_n_s_achievement_progress_string, __pyx_n_s_achievement_progress); if (unlikely(!__pyx_tuple__14)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__14);
+  __Pyx_GIVEREF(__pyx_tuple__14);
+  __pyx_codeobj__15 = (PyObject*)__Pyx_PyCode_New(2, 0, 4, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__14, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_label_in_doc, 168, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 168; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":197
  * 
@@ -5393,10 +5999,10 @@ static int __Pyx_InitCachedConstants(void) {
  *                               partition: str = 'test',
  *                               bin_ranges: list = None,
  */
-  __pyx_tuple__15 = PyTuple_Pack(13, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_partition, __pyx_n_s_bin_ranges, __pyx_n_s_lognormal, __pyx_n_s_power_transform, __pyx_n_s_distribution_dict, __pyx_n_s_labels_id_strings_lists_dict, __pyx_n_s_label_value, __pyx_n_s_i, __pyx_n_s_id, __pyx_n_s_label_2); if (unlikely(!__pyx_tuple__15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__15);
-  __Pyx_GIVEREF(__pyx_tuple__15);
-  __pyx_codeobj__16 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__15, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_evenly_distribute_samples, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__16 = PyTuple_Pack(13, __pyx_n_s_db, __pyx_n_s_label, __pyx_n_s_games, __pyx_n_s_partition, __pyx_n_s_bin_ranges, __pyx_n_s_lognormal, __pyx_n_s_power_transform, __pyx_n_s_distribution_dict, __pyx_n_s_labels_id_strings_lists_dict, __pyx_n_s_label_value, __pyx_n_s_i, __pyx_n_s_id_2, __pyx_n_s_label_2); if (unlikely(!__pyx_tuple__16)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__16);
+  __Pyx_GIVEREF(__pyx_tuple__16);
+  __pyx_codeobj__17 = (PyObject*)__Pyx_PyCode_New(7, 0, 13, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__16, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_evenly_distribute_samples, 197, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 197; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":276
  * 
@@ -5405,10 +6011,22 @@ static int __Pyx_InitCachedConstants(void) {
  *                      nlp_features: bool = True) -> dict:
  *     """
  */
-  __pyx_tuple__17 = PyTuple_Pack(7, __pyx_n_s_review_doc, __pyx_n_s_prediction_label, __pyx_n_s_nlp_features, __pyx_n_s_get_2, __pyx_n_s_features, __pyx_n_s_update_2, __pyx_n_s_nan); if (unlikely(!__pyx_tuple__17)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_tuple__17);
-  __Pyx_GIVEREF(__pyx_tuple__17);
-  __pyx_codeobj__18 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__17, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_all_features, 276, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__18 = PyTuple_Pack(7, __pyx_n_s_review_doc, __pyx_n_s_prediction_label, __pyx_n_s_nlp_features, __pyx_n_s_get_2, __pyx_n_s_features, __pyx_n_s_update_2, __pyx_n_s_nan); if (unlikely(!__pyx_tuple__18)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__18);
+  __Pyx_GIVEREF(__pyx_tuple__18);
+  __pyx_codeobj__19 = (PyObject*)__Pyx_PyCode_New(3, 0, 7, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__18, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_all_features, 276, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__19)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/experiments.pyx":326
+ * 
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,             # <<<<<<<<<<<<<<
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ */
+  __pyx_tuple__20 = PyTuple_Pack(12, __pyx_n_s_review_doc, __pyx_n_s_prediction_label, __pyx_n_s_nlp_features, __pyx_n_s_non_nlp_features, __pyx_n_s_lognormal, __pyx_n_s_power_transform, __pyx_n_s_bin_ranges, __pyx_n_s_feature_dict, __pyx_n_s_y_value, __pyx_n_s_id_string_2, __pyx_n_s_id_string, __pyx_n_s_feat); if (unlikely(!__pyx_tuple__20)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_tuple__20);
+  __Pyx_GIVEREF(__pyx_tuple__20);
+  __pyx_codeobj__21 = (PyObject*)__Pyx_PyCode_New(7, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__20, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_nlp_text_dynamic_mmulholla, __pyx_n_s_get_data_point, 326, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__21)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -5854,6 +6472,31 @@ PyMODINIT_FUNC PyInit_experiments(void)
   __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_3src_11experiments_8get_all_features, NULL, __pyx_n_s_src_experiments); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_all_features, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 276; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+
+  /* "src/experiments.pyx":327
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,
+ *                    nlp_features: bool = True, non_nlp_features: list = [],             # <<<<<<<<<<<<<<
+ *                    lognormal: bool = False, power_transform: float = None,
+ *                    bin_ranges: list = None) -> dict:
+ */
+  __pyx_t_3 = PyList_New(0); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 327; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_k__11 = __pyx_t_3;
+  __Pyx_GIVEREF(__pyx_t_3);
+  __pyx_t_3 = 0;
+
+  /* "src/experiments.pyx":326
+ * 
+ * 
+ * def get_data_point(review_doc: dict, prediction_label: str,             # <<<<<<<<<<<<<<
+ *                    nlp_features: bool = True, non_nlp_features: list = [],
+ *                    lognormal: bool = False, power_transform: float = None,
+ */
+  __pyx_t_3 = PyCFunction_NewEx(&__pyx_mdef_3src_11experiments_10get_data_point, NULL, __pyx_n_s_src_experiments); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_3);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_get_data_point, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 326; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
   /* "src/experiments.pyx":1

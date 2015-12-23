@@ -321,3 +321,90 @@ def get_all_features(review_doc: dict, prediction_label: str,
     # process the results of this function
     _update({'id_string': _get('id_string')})
     return features
+
+
+def get_data_point(review_doc: dict, prediction_label: str,
+                   nlp_features: bool = True, non_nlp_features: list = [],
+                   lognormal: bool = False, power_transform: float = None,
+                   bin_ranges: list = None) -> dict:
+    """
+    Collect data from a MongoDB review document and return it in format
+    needed for `DictVectorizer`.
+
+    :param review_doc: document from the MongoDB reviews collection
+    :type review_doc: dict
+    :param prediction_label: label being used for prediction
+    :type prediction_label: str
+    :param nlp_features: extract NLP features (default: True)
+    :type nlp_features: bool
+    :param non_nlp_features: list of non-NLP features to extract
+    :type non_nlp_features: list
+    :param lognormal: transform raw label values using `ln` (default:
+                      False)
+    :type lognormal: bool
+    :param power_transform: power by which to transform raw label
+                            values (default: None)
+    :type power_transform: float or None
+    :param bin_ranges: list of ranges that define each bin, where each
+                       bin should be represented as a tuple with the
+                       first value, a float that is precise to one
+                       decimal place, as the lower bound and the
+                       second, also a float with the same type of
+                       precision, the upper bound, but both limits are
+                       technically soft since label values will be
+                       compared to see if they are equal at the same
+                       precision and so they can end up being
+                       larger/smaller and still be in a given bin;
+                       the bins should also make up a continuous range
+                       such that every first bin value should be
+                       less than the second bin value and every bin's
+                       values should be less than the succeeding bin's
+                       values
+    :type bin_ranges: list of tuples representing the minimum and
+                      maximum values of a range of values (or None)
+
+    :returns: training/test sample
+    :rtype: dict or None
+
+    :raises ValueError: 
+    """
+
+    # Get dictionary containing all features needed + the ID and the
+    # prediction label
+    feature_dict = get_all_features(review_doc, prediction_label,
+                                    nlp_features=nlp_features)
+
+    # Return if the feature dictionary is empty (i.e., due to the
+    # absence of the prediction label, or if for some reason the
+    # dictionary is otherwise empty)
+    if not feature_dict:
+        return
+
+    # Get prediction label, apply transformations, and remove it from
+    # the feature dictionary
+    y_value = compute_label_value(feature_dict[prediction_label],
+                                  prediction_label,
+                                  lognormal=lognormal,
+                                  power_transform=power_transform,
+                                  bin_ranges=bin_ranges)
+    del feature_dict[prediction_label]
+
+    # Get ID and remove from feature dictionary
+    _id_string = 'id_string'
+    id_string = feature_dict[_id_string]
+    del feature_dict[_id_string]
+
+    # Only keep the non-NLP features that are supposed to be kept, if
+    # any
+    for feat in LABELS:
+        if not feat in non_nlp_features and feature_dict.get(feat, None) != None:
+            del feature_dict[feat]
+
+    # If, after taking out the prediction label and the ID, there are
+    # no remaining features, return None
+    if not feature_dict:
+        return
+
+    # Return dictionary of prediction label value, ID string, and
+    # features
+    return {'y': y_value, 'id': id_string, 'x': feature_dict}

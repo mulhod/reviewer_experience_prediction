@@ -61,8 +61,7 @@ from src import (LABELS,
                  parse_learners_string,
                  find_default_param_grid,
                  parse_non_nlp_features_string)
-from src.datasets import (compute_label_value,
-                          validate_bin_ranges,
+from src.datasets import (validate_bin_ranges,
                           get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
@@ -399,64 +398,6 @@ class RunExperiments:
                                 .sort(self.sorting_args))
         self.training_cursor.batch_size = self.batch_size
 
-    def get_data(self, review_doc: dict) -> dict:
-        """
-        Collect data from a MongoDB review document and return it in
-        format needed for DictVectorizer.
-
-        :param review_doc: document from the MongoDB reviews collection
-        :type review_doc: dict
-
-        :returns: training/test sample
-        :rtype: dict or None
-        """
-
-        # Get dictionary containing all features needed + the ID and
-        # the prediction label
-        feature_dict = ex.get_all_features(review_doc, self.prediction_label,
-                                           nlp_features=not self.no_nlp_features)
-
-        # Skip over any feature dictionaries that are empty (i.e., due
-        # to the absence of the prediction label, or if for some reason
-        # the dictionary is otherwise empty)
-        if not feature_dict:
-            return
-
-        # Get prediction label, apply transformations, and remove it
-        # from the feature dictionary
-        try:
-            y_value = compute_label_value(feature_dict[self.prediction_label],
-                                          self.prediction_label,
-                                          lognormal=self.lognormal,
-                                          power_transform=self.power_transform,
-                                          bin_ranges=self.bin_ranges)
-        except ValueError as e:
-            self.logger.error('Encountered a ValueError when calling '
-                              '"compute_label_value".')
-            self.logger.error(e)
-            raise e
-        del feature_dict[self.prediction_label]
-
-        # Get ID and remove from feature dictionary
-        id_string = feature_dict[self._id_string]
-        del feature_dict[self._id_string]
-
-        # Only keep the non-NLP features that are supposed to be kept,
-        # if any
-        for feat in self._possible_non_nlp_features:
-            if (not feat in self.non_nlp_features
-                and feature_dict.get(feat, None) != None):
-                del feature_dict[feat]
-
-        # If, after taking out the prediction label and the ID, there
-        # are no remaining features, return None
-        if not feature_dict:
-            return
-
-        # Return dictionary of prediction label value, ID string, and
-        # features
-        return {self._y: y_value, self._id: id_string, self._x: feature_dict}
-
     def get_train_data_iteration(self) -> list:
         """
         Get a list of training data dictionaries to use in model
@@ -478,7 +419,13 @@ class RunExperiments:
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
-            sample = self.get_data(review_doc)
+            sample = ex.get_data_point(review_doc,
+                                       self.prediction_label,
+                                       nlp_features=not self.no_nlp_features,
+                                       non_nlp_features=self.non_nlp_features,
+                                       lognormal=self.lognormal,
+                                       power_transform=self.power_transform,
+                                       bin_ranges=self.bin_ranges)
             if sample:
                 data.append(sample)
                 i += 1
@@ -515,9 +462,15 @@ class RunExperiments:
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
-            sample = self.get_data(next(self.db
-                                        .find(_test_query, self.projection,
-                                              timeout=False)))
+            sample = ex.get_data_point(next(self.db.find(_test_query,
+                                                         self.projection,
+                                                         timeout=False)),
+                                       self.prediction_label,
+                                       nlp_features=not self.no_nlp_features,
+                                       non_nlp_features=self.non_nlp_features,
+                                       lognormal=self.lognormal,
+                                       power_transform=self.power_transform,
+                                       bin_ranges=self.bin_ranges)
             if sample:
                 data.append(sample)
                 j += 1
@@ -877,9 +830,9 @@ class RunExperiments:
             return
 
         self.logger.info('Round {0}...'.format(self.round))
-        train_ids = np.array([data_[self._id] for data_ in train_data])
-        y_train = np.array([data_[self._y] for data_ in train_data])
-        train_feature_dicts = [data_[self._x] for data_ in train_data]
+        train_ids, y_train, train_feature_dicts = \
+            [[point_[label_] for point_ in train_data]
+             for label_ in [self._id, self._y, self._x]]
 
         # Set `vec` if not already set and fit it it the training
         # features, which will only need to be done the first time
