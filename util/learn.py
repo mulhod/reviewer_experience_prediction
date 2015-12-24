@@ -33,10 +33,9 @@ from scipy.stats import (mode,
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
 from sklearn.grid_search import ParameterGrid
-from sklearn.metrics import (precision_score,
-                             f1_score,
+from sklearn.metrics import (f1_score,
                              accuracy_score,
-                             confusion_matrix)
+                             precision_score)
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from argparse import (ArgumentParser,
@@ -122,8 +121,6 @@ class RunExperiments:
     _lwk_off_by_one = 'lwk_off_by_one'
     _majority_label = 'majority_label'
     _majority_baseline_model = 'majority_baseline_model'
-    _cnfmat_header = ('confusion_matrix (rounded predictions) '
-                      '(row=actual, col=machine, labels={0}):\n')
     _report_name_template = '{0}_{1}_{2}_{3}.csv'
     _available_labels_string = LABELS_STRING
     _labels_list = None
@@ -132,10 +129,6 @@ class RunExperiments:
     _nan = float("NaN")
     _n_features_feature_hashing = 2 ** 18
     _default_cursor_batch_size = 50
-
-    # Constant methods
-    _tab_join = '\t'.join
-    _cnfmat_row = '{0}{1}\n'.format
 
     # Available learners, labels, orderings
     _learners_requiring_classes = frozenset({'BernoulliNB', 'MultinomialNB',
@@ -352,10 +345,6 @@ class RunExperiments:
         self.logger.info('Prediction label classes: {0}'
                          .format(', '.join(self._labels_list)))
 
-        # Useful constants for use in make_printable_confusion_matrix
-        self.cnfmat_desc = self._cnfmat_row(self._cnfmat_header.format(self.classes),
-                                            self._tab_join([''] + self._labels_list))
-
         # Do incremental learning experiments
         self.logger.info('Incremental learning experiments initialized...')
         self.do_learning_rounds()
@@ -525,7 +514,8 @@ class RunExperiments:
         """
 
         (self.majority_baseline_stats
-         .to_csv(join(output_path, self._majority_baseline_report_name), index=False))
+         .to_csv(join(output_path, self._majority_baseline_report_name),
+                 index=False))
 
     def generate_learning_reports(self, output_path: str,
                                   ordering: str = 'objective_last_round') -> None:
@@ -559,55 +549,6 @@ class RunExperiments:
                            self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
 
-    def make_printable_confusion_matrix(self, y_preds: np.array) -> tuple:
-        """
-        Produce a printable confusion matrix to use in the evaluation
-        report.
-
-        :param y_preds: array of predicted labels
-        :type y_preds: np.array
-
-        :returns: tuple consisting of a confusion matrix string and a
-                  confusion matrix multi-dimensional array
-        :rtype: tuple
-        """
-
-        cnfmat = confusion_matrix(self.y_test, np.round(y_preds),
-                                  labels=self.classes).tolist()
-        res = str(self.cnfmat_desc)
-        for row, label in zip(cnfmat, self.classes):
-            row = self._tab_join([str(x) for x in [label] + row])
-            res = self._cnfmat_row(res, row)
-
-        return res, cnfmat
-
-    def fit_preds_in_scale(self, y_preds: np.array) -> np.array:
-        """
-        Force values at either end of the scale to fit within the scale
-        by adding to or truncating the values.
-
-        :param y_preds: array of predicted labels
-        :type y_preds: np.array
-
-        :returns: array of predicted labels
-        :rtype: np.array
-        """
-
-        # Get low/high ends of the scale
-        scale = sorted(self.classes)
-        low = scale[0]
-        high = scale[-1]
-
-        i = 0
-        while i < len(y_preds):
-            if y_preds[i] < low:
-                y_preds[i] = low
-            elif y_preds[i] > high:
-                y_preds[i] = high
-            i += 1
-
-        return y_preds
-
     def get_stats(self, y_preds: np.array) -> dict:
         """
         Get some statistics about the model's performance on the test
@@ -625,7 +566,9 @@ class RunExperiments:
 
         # Get confusion matrix (both the np.ndarray and the printable
         # one)
-        printable_cnfmat, cnfmat = self.make_printable_confusion_matrix(y_preds)
+        printable_cnfmat, cnfmat = ex.make_printable_confusion_matrix(self.y_test,
+                                                                      y_preds,
+                                                                      self.classes)
 
         return {self._r: r,
                 self._sig: sig,
@@ -869,7 +812,7 @@ class RunExperiments:
 
                 # "Rescale" the values (if necessary), forcing the
                 # values should fit within the original scale
-                y_test_preds = self.fit_preds_in_scale(y_test_preds)
+                y_test_preds = ex.fit_preds_in_scale(y_test_preds, self.classes)
 
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics

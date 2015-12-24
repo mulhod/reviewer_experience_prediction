@@ -9,7 +9,9 @@ from bson import BSON
 from os.path import join
 from collections import Counter
 
+import numpy as np
 from pymongo import collection
+from sklearn.metrics import confusion_matrix
 
 from data import APPID_DICT
 from src import (LABELS,
@@ -408,3 +410,66 @@ def get_data_point(review_doc: dict, prediction_label: str,
     # Return dictionary of prediction label value, ID string, and
     # features
     return {'y': y_value, 'id': id_string, 'x': feature_dict}
+
+
+def fit_preds_in_scale(y_preds: np.array, classes: np.array) -> np.array:
+    """
+    Force values at either end of the scale to fit within the scale by
+    adding to or truncating the values.
+
+    :param y_preds: array of predicted labels
+    :type y_preds: np.array
+    :param classes: array of class labels
+    :type clases: np.array
+
+    :returns: array of predicted labels
+    :rtype: np.array
+    """
+
+    # Get low/high ends of the scale
+    scale = sorted(classes)
+    low = scale[0]
+    high = scale[-1]
+
+    cdef int i = 0
+    while i < len(y_preds):
+        if y_preds[i] < low:
+            y_preds[i] = low
+        elif y_preds[i] > high:
+            y_preds[i] = high
+        i += 1
+
+    return y_preds
+
+
+def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
+                                    classes: np.array) -> tuple:
+    """
+    Produce a printable confusion matrix to use in the evaluation
+    report (and also return the confusion matrix multi-dimensional
+    array).
+
+    :param y_test: array of actual labels
+    :type y_test: np.array
+    :param y_preds: array of predicted labels
+    :type y_preds: np.array
+    :param classes: array of class labels
+    :type clases: np.array
+
+    :returns: tuple consisting of a confusion matrix string and a
+              confusion matrix multi-dimensional array
+    :rtype: tuple
+    """
+
+    cnfmat = confusion_matrix(y_test, np.round(y_preds), labels=classes).tolist()
+    header = ('confusion_matrix (rounded predictions) (row=actual, '
+              'col=machine, labels={0}):\n'.format(classes))
+    tab_join = '\t'.join
+    row_format = '{0}{1}\n'.format
+    labels_list = [''] + [str(cls) for cls in classes]
+    res = row_format(header, tab_join(labels_list))
+    for row, label in zip(cnfmat, classes):
+        row = tab_join([str(x) for x in [label] + row])
+        res = row_format(res, row)
+
+    return res, cnfmat
