@@ -7,11 +7,19 @@ Module of functions/classes related to learning experiments.
 import logging
 from bson import BSON
 from os.path import join
+from itertools import chain
 from collections import Counter
 
 import numpy as np
 from pymongo import collection
-from sklearn.metrics import confusion_matrix
+from scipy.stats import pearsonr
+from sklearn.cluster import MiniBatchKMeans
+from sklearn.metrics import (kappa,
+                             f1_score,
+                             accuracy_score,
+                             precision_score,
+                             confusion_matrix)
+from sklearn.linear_model import PassiveAggressiveRegressor
 
 from data import APPID_DICT
 from src import (LABELS,
@@ -30,6 +38,9 @@ from src.datasets import (get_bin,
 # Logging-related
 logger = logging.getLogger()
 logerr = logger.error
+
+NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
+                                       PassiveAggressiveRegressor})
 
 
 def distributional_info(db: collection, label: str, games: list,
@@ -473,3 +484,131 @@ def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
         res = row_format(res, row)
 
     return res, cnfmat
+
+
+def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
+                               classes: np.array) -> dict:
+    """
+    Compute evaluation metrics given actual and predicted label values
+    and the set of possible label values.
+
+    :param y_test: array of actual labels
+    :type y_test: np.array
+    :param y_preds: array of predicted labels
+    :type y_preds: np.array
+    :param classes: array of class labels
+    :type clases: np.array
+
+    :returns: statistics dictionary
+    :rtype: dict
+    """
+
+    # Get Pearson r and significance
+    r, sig = pearsonr(y_test, y_preds)
+
+    # Get confusion matrix (both the np.ndarray and the printable
+    # one)
+    printable_cnfmat, cnfmat = make_printable_confusion_matrix(y_test,
+                                                               y_preds,
+                                                               classes)
+
+    return {'pearson_r': r,
+            'significance': sig,
+            'precision_macro': precision_score(y_test,
+                                               y_preds,
+                                               labels=classes,
+                                               average='macro'),
+            'precision_weighted': precision_score(y_test,
+                                                  y_preds,
+                                                  labels=classes,
+                                                  average='weighted'),
+            'f1_macro': f1_score(y_test,
+                                 y_preds,
+                                 labels=classes,
+                                 average='macro'),
+            'f1_weighted': f1_score(y_test,
+                                    y_preds,
+                                    labels=classes,
+                                    average='weighted'),
+            'accuracy': accuracy_score(y_test,
+                                       y_preds,
+                                       normalize=True),
+            'confusion_matrix': cnfmat,
+            'printable_confusion_matrix': printable_cnfmat,
+            'uwk': kappa(y_test, y_preds),
+            'uwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    allow_off_by_one=True),
+            'qwk': kappa(y_test,
+                             y_preds,
+                             weights='quadratic'),
+            'qwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    weights='quadratic',
+                                    allow_off_by_one=True),
+            'lwk': kappa(y_test,
+                         y_preds,
+                         weights='linear'),
+            'lwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    weights='linear',
+                                    allow_off_by_one=True)}
+
+
+def get_sorted_features_for_learner(learner, classes: np.array, vectorizer,
+                                    filter_zero_features: bool = True) -> list:
+    """
+    Get the best-performing features in a model (excluding
+    `MiniBatchKMeans` and `PassiveAggressiveRegressor` learners and
+    `FeatureHasher`-vectorized models).
+
+    :param learner: learner (can not be of type `MiniBatchKMeans` or
+                    `PassiveAggressiveRegressor`, among others)
+    :type learner: learner instance
+    :param classes: array of class labels
+    :type clases: np.array
+    :param vectorizer: vectorizer object
+    :type vectorizer: DictVectorizer or FeatureHasher vectorizer
+    :param filter_zero_features: filter out features with
+                                 zero-valued coefficients
+    :type filter_zero_features: bool
+
+    :returns: list of sorted features (in dictionaries)
+    :rtype: list
+
+    :raises ValueError: if the given learner is not of the type of one
+                        of the supported learner types or features
+                        cannot be extracted for some other reason
+    """
+
+    # Raise exception if learner class is not supported
+    if any(issubclass(type(learner), cls) for cls in NO_INTROSPECTION_LEARNERS):
+        raise ValueError('Can not get feature weights for learners of type '
+                         '{0}'.format(type(learner)))
+
+    # Store feature coefficient tuples
+    feature_coefs = []
+
+    # Get tuples of feature + label/coefficient tuples, one for each
+    # label
+    for index, feat in enumerate(vectorizer.get_feature_names()):
+
+        # Get list of coefficient arrays for the different classes
+        try:
+            coef_indices = [learner.coef_[i][index] for i, _ in enumerate(classes)]
+        except IndexError:
+            raise ValueError('Could not get feature coefficients!')
+
+        # Append feature coefficient tuple to list of tuples
+        feature_coefs.append(tuple(list(chain([feat], zip(classes, coef_indices)))))
+
+    # Unpack tuples of features and label/coefficient tuples into one
+    # long list of feature/label/coefficient values, sort, and filter
+    # out any tuples with zero weight
+    features = []
+    _extend = features.extend
+    for i in range(1, len(classes) + 1):
+        _extend([dict(feature=coefs[0], label=coefs[i][0], weight=coefs[i][1])
+                 for coefs in feature_coefs if coefs[i][1]])
+
+    return sorted(features, key=lambda x: abs(x['weight']), reverse=True)

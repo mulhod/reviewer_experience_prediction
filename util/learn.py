@@ -12,7 +12,6 @@ import logging
 from copy import copy
 from json import dump
 from os import makedirs
-from itertools import chain
 from os.path import (join,
                      isdir,
                      isfile,
@@ -26,16 +25,11 @@ import pandas as pd
 from bson import BSON
 from pymongo import (ASCENDING,
                      collection)
-from skll.metrics import kappa
 from scipy.stats import (mode,
-                         pearsonr,
                          linregress)
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
 from sklearn.grid_search import ParameterGrid
-from sklearn.metrics import (f1_score,
-                             accuracy_score,
-                             precision_score)
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from argparse import (ArgumentParser,
@@ -91,10 +85,6 @@ class RunExperiments:
     _id_string = 'id_string'
     _id = 'id'
     _obj_id = '_id'
-    _macro = 'macro'
-    _weighted = 'weighted'
-    _linear = 'linear'
-    _quadratic = 'quadratic'
     _learning_round = 'learning_round'
     _prediction_label = 'prediction_label'
     _test_labels_and_preds = 'test_set_labels/test_set_predictions'
@@ -104,21 +94,6 @@ class RunExperiments:
     _learner = 'learner'
     _params = 'params'
     _training_samples = 'training_samples'
-    _r = 'pearson_r'
-    _sig = 'significance'
-    _prec_macro = 'precision_macro'
-    _prec_weighted = 'precision_weighted'
-    _f1_macro = 'f1_macro'
-    _f1_weighted = 'f1_weighted'
-    _acc = 'accuracy'
-    _cnfmat = 'confusion_matrix'
-    _printable_cnfmat = 'printable_confusion_matrix'
-    _uwk = 'uwk'
-    _uwk_off_by_one = 'uwk_off_by_one'
-    _qwk = 'qwk'
-    _qwk_off_by_one = 'qwk_off_by_one'
-    _lwk = 'lwk'
-    _lwk_off_by_one = 'lwk_off_by_one'
     _majority_label = 'majority_label'
     _majority_baseline_model = 'majority_baseline_model'
     _report_name_template = '{0}_{1}_{2}_{3}.csv'
@@ -133,8 +108,8 @@ class RunExperiments:
     # Available learners, labels, orderings
     _learners_requiring_classes = frozenset({'BernoulliNB', 'MultinomialNB',
                                              'Perceptron'})
-    _no_introspection_learners_dict = {'MiniBatchKMeans': MiniBatchKMeans,
-         'PassiveAggressiveRegressor': PassiveAggressiveRegressor}
+    _no_introspection_learners = frozenset({'MiniBatchKMeans',
+                                            'PassiveAggressiveRegressor'})
     _learner_names = {MiniBatchKMeans: 'MiniBatchKMeans',
                       BernoulliNB: 'BernoulliNB',
                       MultinomialNB: 'MultinomialNB',
@@ -488,7 +463,9 @@ class RunExperiments:
         :rtype: None
         """
 
-        stats_dict = self.get_stats(self.get_majority_baseline())
+        stats_dict = ext.compute_evaluation_metrics(self.y_test,
+                                                    self.get_majority_baseline(),
+                                                    self.classes)
         stats_dict.update({self._test_games:
                                ', '.join(self.test_games)
                                if VALID_GAMES.difference(self.test_games)
@@ -549,57 +526,6 @@ class RunExperiments:
                            self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
 
-    def get_stats(self, y_preds: np.array) -> dict:
-        """
-        Get some statistics about the model's performance on the test
-        set.
-
-        :param y_preds: array of predicted labels
-        :type y_preds: np.array
-
-        :returns: statistics dictionary
-        :rtype: dict
-        """
-
-        # Get Pearson r and significance
-        r, sig = pearsonr(self.y_test, y_preds)
-
-        # Get confusion matrix (both the np.ndarray and the printable
-        # one)
-        printable_cnfmat, cnfmat = ex.make_printable_confusion_matrix(self.y_test,
-                                                                      y_preds,
-                                                                      self.classes)
-
-        return {self._r: r,
-                self._sig: sig,
-                self._prec_macro: precision_score(self.y_test, y_preds,
-                                                  labels=self.classes,
-                                                  average=self._macro),
-                self._prec_weighted:
-                    precision_score(self.y_test, y_preds, labels=self.classes,
-                                    average=self._weighted),
-                self._f1_macro: f1_score(self.y_test, y_preds,
-                                         labels=self.classes,
-                                         average=self._macro),
-                self._f1_weighted: f1_score(self.y_test, y_preds,
-                                            labels=self.classes,
-                                            average=self._weighted),
-                self._acc: accuracy_score(self.y_test, y_preds, normalize=True),
-                self._cnfmat: cnfmat,
-                self._printable_cnfmat: printable_cnfmat,
-                self._uwk: kappa(self.y_test, y_preds),
-                self._uwk_off_by_one: kappa(self.y_test, y_preds,
-                                            allow_off_by_one=True),
-                self._qwk: kappa(self.y_test, y_preds,
-                                 weights=self._quadratic),
-                self._qwk_off_by_one: kappa(self.y_test, y_preds,
-                                            weights=self._quadratic,
-                                            allow_off_by_one=True),
-                self._lwk: kappa(self.y_test, y_preds, weights=self._linear),
-                self._lwk_off_by_one: kappa(self.y_test, y_preds,
-                                            weights=self._linear,
-                                            allow_off_by_one=True)}
-
     def rank_experiments_by_objective(self, ordering: str) -> list:
         """
         Rank the experiments in relation to their performance in the
@@ -646,62 +572,6 @@ class RunExperiments:
         return [df[1] for df
                 in sorted(zip(performances, dfs), key=lambda x: x[0], reverse=True)]
 
-    def get_sorted_features_for_learner(self, learner,
-                                        filter_zero_features: bool = True) -> list:
-        """
-        Get the best-performing features in a learner (excluding
-        MiniBatchKMeans).
-
-        :param learner: learner (can not be of type MiniBatchKMeans or
-                        PassiveAggressiveRegressor, among others)
-        :type learner: learner instance
-        :param filter_zero_features: filter out features with
-                                     zero-valued coefficients
-        :type filter_zero_features: bool
-
-        :returns: list of sorted features (in dictionaries)
-        :rtype: list
-
-        :raises: ValueError
-        """
-
-        # Raise exception if learner class is not supported
-        if any(issubclass(type(learner), cls) for cls
-               in self._no_introspection_learners_dict.values()):
-            raise ValueError('Can not get feature weights for learners of '
-                             'type {0}'.format(type(learner)))
-
-        # Store feature coefficient tuples
-        feature_coefs = []
-
-        # Get tuples of feature + label/coefficient tuples, one for
-        # each label
-        for index, feat in enumerate(self.vec.get_feature_names()):
-
-            # Get list of coefficient arrays for the different classes
-            try:
-                coef_indices = [learner.coef_[i][index] for i, _
-                                in enumerate(self.classes)]
-            except IndexError:
-                self.logger.error('Could not get feature coefficients!')
-                return []
-
-            # Append feature coefficient tuple to list of tuples
-            feature_coefs.append(tuple(list(chain([feat],
-                                                  zip(self.classes,
-                                                      coef_indices)))))
-
-        # Unpack tuples of features and label/coefficient tuples into
-        # one long list of feature/label/coefficient values, sort, and
-        # filter out any tuples with zero weight
-        features = []
-        for i in range(1, len(self.classes) + 1):
-            features.extend([dict(feature=coefs[0], label=coefs[i][0],
-                                  weight=coefs[i][1])
-                             for coefs in feature_coefs if coefs[i][1]])
-
-        return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
-
     def store_sorted_features(self, model_weights_path: str) -> None:
         """
         Store files with sorted lists of features and their associated
@@ -724,35 +594,44 @@ class RunExperiments:
         for (learner_list, learner_name) in zip(self.learner_lists,
                                                 self.learner_names):
             # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
-            if learner_name in self._no_introspection_learners_dict:
+            if learner_name in self._no_introspection_learners:
                 continue
 
             for i, learner in enumerate(learner_list):
 
                 # Get dataframe of the features/coefficients
-                sorted_features = self.get_sorted_features_for_learner(learner)
+                try:
+                    sorted_features = \
+                        ex.get_sorted_features_for_learner(learner,
+                                                           self.classes,
+                                                           self.vec)
+                    if sorted_features:
 
-                if sorted_features:
-                    # Generate feature weights report
-                    (pd.DataFrame(sorted_features)
-                     .to_csv(join(model_weights_path,
-                                  self._model_weights_name_template
-                                  .format(learner_name, i + 1)),
-                             index=False))
+                        # Generate feature weights report
+                        (pd.DataFrame(sorted_features)
+                         .to_csv(join(model_weights_path,
+                                      self._model_weights_name_template
+                                      .format(learner_name, i + 1)),
+                                 index=False))
 
-                    # Store the parameter grids to an indexed
-                    # dictionary so that a key can be output also
-                    params_dict.setdefault(learner_name, {})
-                    params_dict[learner_name][i] = learner.get_params()
-                else:
+                        # Store the parameter grids to an indexed
+                        # dictionary so that a key can be output also
+                        params_dict.setdefault(learner_name, {})
+                        params_dict[learner_name][i] = learner.get_params()
+                    else:
+                        raise ValueError('Could not generate features/feature'
+                                         'coefficients dataframe for {0}...'
+                                         .format(learner_name))
+                except ValueError:
                     self.logger.error('Could not generate features/feature '
                                       'coefficients dataframe for {0}...'
                                       .format(learner_name))
 
         # Save parameters file also
-        dump(params_dict,
-             open(join(model_weights_path, 'model_params_readme.json'), 'w'),
-             indent=4)
+        if params_dict:
+            dump(params_dict,
+                 open(join(model_weights_path, 'model_params_readme.json'), 'w'),
+                 indent=4)
 
     def learning_round(self) -> None:
         """
@@ -816,7 +695,9 @@ class RunExperiments:
 
                 # Evaluate the new model, collecting metrics, etc., and
                 # then store the round statistics
-                stats_dict = self.get_stats(y_test_preds)
+                stats_dict = ex.compute_evaluation_metrics(self.y_test,
+                                                           y_test_preds,
+                                                           self.classes)
                 stats_dict.update({self._games if len(self.games) > 1
                                    else self._game:
                                        ', '.join(self.games)
@@ -1029,7 +910,7 @@ def main(argv=None):
         raise FileExistsError('The specified output destination is the name '
                               'of a currently existing file.')
     if save_best_features:
-        if learners.issubset(RunExperiments._no_introspection_learners_dict):
+        if learners.issubset(RunExperiments._no_introspection_learners):
             loginfo('The specified set of learners do not work with the '
                     'current way of extracting features from models and, '
                     'thus, -save_best/--save_best_features, will be ignored.')
