@@ -74,9 +74,7 @@ class RunExperiments:
     _test_games = 'test_games'
     _all_games = 'all_games'
     _partition = 'partition'
-    _training = 'training'
     _test = 'test'
-    _nlp_feats = 'nlp_features'
     _bin_ranges = 'bin_ranges'
     _steam_id = 'steam_id_number'
     _in_op = '$in'
@@ -84,7 +82,6 @@ class RunExperiments:
     _y = 'y'
     _id_string = 'id_string'
     _id = 'id'
-    _obj_id = '_id'
     _learning_round = 'learning_round'
     _prediction_label = 'prediction_label'
     _test_labels_and_preds = 'test_set_labels/test_set_predictions'
@@ -239,12 +236,6 @@ class RunExperiments:
         self.max_rounds = max_rounds
         self.round = 1
         self.NO_MORE_TRAINING_DATA = False
-        self.batch_size = (samples_per_round
-                           if samples_per_round < self._default_cursor_batch_size
-                           else self._default_cursor_batch_size)
-
-        # MongoDB database
-        self.db = db
 
         # Games
         self.games = games
@@ -303,13 +294,21 @@ class RunExperiments:
         self.prediction_label = prediction_label
 
         # Data- and database-related variables
-        self.training_cursor = None
+        self.db = db
+        self.batch_size = (self.samples_per_round
+                           if self.samples_per_round < self._default_cursor_batch_size
+                           else self._default_cursor_batch_size)
         self.test_cursor = None
         self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursor for training data...')
-        self.sorting_args = [(self._steam_id, ASCENDING)]
-        self.projection = None
-        self.make_train_cursor()
+        self.projection = {'_id': 0}
+        if self.no_nlp_features:
+            self.projection['nlp_features'] = 0
+        self.training_cursor = ex.make_cursor(self.db,
+                                              partition='training',
+                                              projection=self.projection,
+                                              games=list(self.games),
+                                              batch_size=self.batch_size)
         self.logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
         self.test_ids = [data_[self._id] for data_ in self.test_data]
@@ -332,35 +331,6 @@ class RunExperiments:
             self.majority_label = None
             self.majority_baseline_stats = None
             self.evaluate_majority_baseline_model()
-
-    def make_train_cursor(self) -> None:
-        """
-        Make cursor for the training sets.
-
-        :rtype: None
-        """
-
-        self.logger.debug('Batch size of MongoDB training cursor: {0}'
-                          .format(self.batch_size))
-
-        # Leave out the '_id' value and the 'nlp_features' value if
-        # `self.no_nlp_features` is true
-        self.projection = {self._obj_id: 0}
-        if self.no_nlp_features:
-            self.projection.update({self._nlp_feats: 0})
-
-        # Make training data cursor
-        games = list(self.games)
-        if len(games) == 1:
-            train_query = {self._game: games[0],
-                           self._partition: self._training}
-        else:
-            train_query = {self._game: {self._in_op: games},
-                           self._partition: self._training}
-        self.training_cursor = (self.db
-                                .find(train_query, self.projection, timeout=False)
-                                .sort(self.sorting_args))
-        self.training_cursor.batch_size = self.batch_size
 
     def get_train_data_iteration(self) -> list:
         """

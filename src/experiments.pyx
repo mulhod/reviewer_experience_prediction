@@ -12,7 +12,9 @@ from collections import Counter
 
 import numpy as np
 import pandas as pd
-from pymongo import collection
+from pymongo import (cursor,
+                     ASCENDING,
+                     collection)
 from scipy.stats import pearsonr
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import (kappa,
@@ -652,3 +654,82 @@ def print_model_weights(learner, learner_name, classes: np.array, games: set,
     else:
         raise ValueError('Could not generate features/feature coefficients '
                          'dataframe for {0}...'.format(learner_name))
+
+
+def make_cursor(db: collection,
+                partition: str = '',
+                projection: dict = {},
+                games: list = [],
+                sorting_args: list = [('steam_id_number', ASCENDING)],
+                batch_size: int = 50,
+                id_strings: list = []) -> cursor:
+    """
+    Make cursor (for a specific set of games and/or a specific
+    partition of the data, if specified) or for for data whose
+    `id_string` values are within a given set of input values.
+
+    :param db: MongoDB collection
+    :type db: collection
+    :param partition: partition of MongoDB collection
+    :type partition: str
+    :param projection: projection for filtering out certain values from
+                       the returned documents
+    :type projection: dict
+    :param games: set of games (str)
+    :type games: set
+    :param sorting_args: argument to use in the MongoDB collection's
+                         `sort` method (to not do any sorting, pass an
+                         empty list)
+    :type sorting_args: list
+    :param batch_size: batch size to use for the returned cursor
+    :type batch_size: int
+    :param id_strings: list of ID strings (pass an empty list if not
+                       constraining the cursor to documents with a set
+                       of specific `id_string` values)
+    :type id_strings: list
+
+    :returns: cursor on a MongoDB collection
+    :rtype: cursor
+
+    :raises ValueError: if `games` contains unrecognized games,
+                        `batch_size` is less than 1, `partition` is an
+                        unrecognized value, or `id_strings` was
+                        specified simultaneously with `partition`
+                        and/or `games`
+    """
+
+    # Validate parameters
+    if id_strings and (partition or games):
+        raise ValueError('Cannot specify both a set of ID strings and a '
+                         'partition and/or a set of games simultaneously.')
+
+    # Validate `games`
+    if any(not game in APPID_DICT for game in games):
+        raise ValueError('"games" contains invalid games: {0}.'.format(games))
+
+    # Validate `batch_size`
+    if batch_size < 1:
+        raise ValueError('"batch_size" must be greater than zero: {0}'
+                         .format(batch_size))
+
+    # Validate `partition`
+    if partition and not partition in ['training', 'test']:
+        raise ValueError('"partition" is invalid (must be "training" or '
+                         '"test", if specified): {0}'.format(partition))
+
+    # Make training data cursor
+    query = {}
+    if partition:
+        query['partition'] = partition
+    if len(games) == 1:
+        query['game'] = games[0]
+    elif games:
+        query['game'] = {'$in': games}
+    if id_strings:
+        query['id_string'] = {'$in': id_strings}
+    _cursor = db.find(query, projection, timeout=False)
+    _cursor.batch_size = batch_size
+    if sorting_args:
+        _cursor = _cursor.sort(sorting_args)
+
+    return _cursor
