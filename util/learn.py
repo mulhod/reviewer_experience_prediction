@@ -601,27 +601,16 @@ class RunExperiments:
 
                 # Get dataframe of the features/coefficients
                 try:
-                    sorted_features = \
-                        ex.get_sorted_features_for_learner(learner,
-                                                           self.classes,
-                                                           self.vec)
-                    if sorted_features:
-
-                        # Generate feature weights report
-                        (pd.DataFrame(sorted_features)
-                         .to_csv(join(model_weights_path,
-                                      self._model_weights_name_template
-                                      .format(learner_name, i + 1)),
-                                 index=False))
-
-                        # Store the parameter grids to an indexed
-                        # dictionary so that a key can be output also
-                        params_dict.setdefault(learner_name, {})
-                        params_dict[learner_name][i] = learner.get_params()
-                    else:
-                        raise ValueError('Could not generate features/feature'
-                                         'coefficients dataframe for {0}...'
-                                         .format(learner_name))
+                    ex.print_model_weights(learner,
+                                           learner_name,
+                                           self.classes,
+                                           self.games,
+                                           self.vec,
+                                           join(model_weights_path,
+                                                self._model_weights_name_template
+                                                .format(learner_name, i + 1)))
+                    params_dict.setdefault(learner_name, {})
+                    params_dict[learner_name][i] = learner.get_params()
                 except ValueError:
                     self.logger.error('Could not generate features/feature '
                                       'coefficients dataframe for {0}...'

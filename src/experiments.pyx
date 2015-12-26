@@ -11,6 +11,7 @@ from itertools import chain
 from collections import Counter
 
 import numpy as np
+import pandas as pd
 from pymongo import collection
 from scipy.stats import pearsonr
 from sklearn.cluster import MiniBatchKMeans
@@ -555,8 +556,8 @@ def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
                                     allow_off_by_one=True)}
 
 
-def get_sorted_features_for_learner(learner, classes: np.array, vectorizer,
-                                    filter_zero_features: bool = True) -> list:
+def get_sorted_features_for_learner(learner, classes: np.array,
+                                    vectorizer) -> list:
     """
     Get the best-performing features in a model (excluding
     `MiniBatchKMeans` and `PassiveAggressiveRegressor` learners and
@@ -569,9 +570,6 @@ def get_sorted_features_for_learner(learner, classes: np.array, vectorizer,
     :type clases: np.array
     :param vectorizer: vectorizer object
     :type vectorizer: DictVectorizer or FeatureHasher vectorizer
-    :param filter_zero_features: filter out features with
-                                 zero-valued coefficients
-    :type filter_zero_features: bool
 
     :returns: list of sorted features (in dictionaries)
     :rtype: list
@@ -612,3 +610,45 @@ def get_sorted_features_for_learner(learner, classes: np.array, vectorizer,
                  for coefs in feature_coefs if coefs[i][1]])
 
     return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
+
+
+def print_model_weights(learner, learner_name, classes: np.array, games: set,
+                        vectorizer, output_path: str) -> None:
+    """
+    Print a sorted list of model weights for a given learner model to
+    an output file.
+
+    :param learner: learner (can not be of type `MiniBatchKMeans` or
+                    `PassiveAggressiveRegressor`, among others)
+    :type learner: learner instance
+    :param learner_name: name associated with learner
+    :type learner_name: str
+    :param games: set of games (str)
+    :type games: set
+    :param classes: array of class labels
+    :type clases: np.array
+    :param vectorizer: vectorizer object
+    :type vectorizer: DictVectorizer or FeatureHasher vectorizer
+    :param output_path: path to output file
+    :type output_path: str
+
+    :returns: None
+    :rtype: None
+
+    :raises ValueError: if the call to
+                        `get_sorted_features_for_learner` fails or the
+                        features cannot be extracted for some other
+                        reason
+    """
+
+    # Get dataframe of the features/coefficients
+    sorted_features = get_sorted_features_for_learner(learner, classes,
+                                                      vectorizer)
+    if sorted_features:
+
+        # Generate feature weights report
+        pd.DataFrame(sorted_features).to_csv(output_path, index=False)
+
+    else:
+        raise ValueError('Could not generate features/feature coefficients '
+                         'dataframe for {0}...'.format(learner_name))
