@@ -684,20 +684,21 @@ class RunExperiments:
 
         # Evaluate the new model, collecting metrics, etc., and then
         # store the round's metrics
-        return pd.Series(ex.evaluate_predictions(self.y_test,
-                                                 y_test_preds,
-                                                 self.classes,
-                                                 self.prediction_label,
-                                                 self.non_nlp_features,
-                                                 not self.no_nlp_features,
-                                                 learner,
-                                                 learner_name,
-                                                 self.games,
-                                                 self.test_games,
-                                                 self.round,
-                                                 n_train_samples,
-                                                 self.bin_ranges,
-                                                 self._transformation_string))
+        return pd.Series(
+            ex.evaluate_predictions_from_learning_round(self.y_test,
+                                                        y_test_preds,
+                                                        self.classes,
+                                                        self.prediction_label,
+                                                        self.non_nlp_features,
+                                                        not self.no_nlp_features,
+                                                        learner,
+                                                        learner_name,
+                                                        self.games,
+                                                        self.test_games,
+                                                        self.round,
+                                                        n_train_samples,
+                                                        self.bin_ranges,
+                                                        self._transformation_string))
 
     def do_learning_rounds(self) -> None:
         """

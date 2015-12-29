@@ -735,23 +735,24 @@ def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
                                     allow_off_by_one=True)}
 
 
-def evaluate_predictions(y_test: np.array,
-                         y_test_preds: np.array,
-                         classes: np.array,
-                         prediction_label: str,
-                         non_nlp_features: list,
-                         nlp_features: bool,
-                         learner,
-                         learner_name: str,
-                         games: set,
-                         test_games: set,
-                         _round: int,
-                         n_train_samples: int,
-                         bin_ranges: list,
-                         transformation_string: str) -> dict:
+def evaluate_predictions_from_learning_round(y_test: np.array,
+                                             y_test_preds: np.array,
+                                             classes: np.array,
+                                             prediction_label: str,
+                                             non_nlp_features: list,
+                                             nlp_features: bool,
+                                             learner,
+                                             learner_name: str,
+                                             games: set,
+                                             test_games: set,
+                                             _round: int,
+                                             n_train_samples: int,
+                                             bin_ranges: list,
+                                             transformation_string: str) -> dict:
     """
-    Evaluate predictions made by a learner and return a Series of
-    metrics and other data.
+    Evaluate predictions made by a learner during a round of learning
+    (e.g., in `src.learn.RunExperiments` and return a Series of metrics
+    and other data.
 
     :param y_test: actual values
     :type y_test: np.array
