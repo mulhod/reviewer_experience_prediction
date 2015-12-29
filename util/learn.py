@@ -21,6 +21,7 @@ from os.path import (join,
 from warnings import filterwarnings
 
 import numpy as np
+import scipy as sp
 import pandas as pd
 from bson import BSON
 from pymongo import (ASCENDING,
@@ -69,29 +70,15 @@ class RunExperiments:
 
     # Constant strings
     _game = 'game'
-    _games = 'games'
-    _test_game = 'test_game'
-    _test_games = 'test_games'
     _all_games = 'all_games'
     _partition = 'partition'
     _test = 'test'
-    _bin_ranges = 'bin_ranges'
     _steam_id = 'steam_id_number'
     _in_op = '$in'
     _x = 'x'
     _y = 'y'
     _id_string = 'id_string'
     _id = 'id'
-    _learning_round = 'learning_round'
-    _prediction_label = 'prediction_label'
-    _test_labels_and_preds = 'test_set_labels/test_set_predictions'
-    _non_nlp_features = 'non-NLP features'
-    _no_nlp_features = 'no NLP features'
-    _transformation = 'transformation'
-    _learner = 'learner'
-    _params = 'params'
-    _training_samples = 'training_samples'
-    _majority_label = 'majority_label'
     _majority_baseline_model = 'majority_baseline_model'
     _report_name_template = '{0}_{1}_{2}_{3}.csv'
     _available_labels_string = LABELS_STRING
@@ -436,16 +423,17 @@ class RunExperiments:
         stats_dict = ext.compute_evaluation_metrics(self.y_test,
                                                     self.get_majority_baseline(),
                                                     self.classes)
-        stats_dict.update({self._test_games:
+        stats_dict.update({'test_games' if len(self.test_games) > 1
+                           else 'test_game':
                                ', '.join(self.test_games)
                                if VALID_GAMES.difference(self.test_games)
                                else self._all_games,
-                           self._prediction_label: self.prediction_label,
-                           self._majority_label: self.majority_label,
-                           self._learner: self._majority_baseline_model,
-                           self._transformation: self._transformation_string})
+                           'prediction_label': self.prediction_label,
+                           'majority_label': self.majority_label,
+                           'learner': self._majority_baseline_model,
+                           'transformation': self._transformation_string})
         if self.bin_ranges:
-            stats_dict.update({self._bin_ranges: self.bin_ranges})
+            stats_dict.update({'bin_ranges': self.bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
@@ -491,7 +479,7 @@ class RunExperiments:
             raise e
 
         for i, df in enumerate(dfs):
-            learner_name = df[self._learner].iloc[0]
+            learner_name = df['learner'].iloc[0]
             df.to_csv(join(output_path,
                            self._stats_name_template.format(learner_name, i + 1)),
                       index=False)
@@ -534,7 +522,7 @@ class RunExperiments:
                 else:
                     # Get the slope of the performance as the learning
                     # round increases
-                    regression = linregress(stats_df[self._learning_round],
+                    regression = linregress(stats_df['learning_round'],
                                             stats_df[self.objective])
                     performances.append(regression.slope)
 
@@ -633,57 +621,83 @@ class RunExperiments:
         # Conduct a round of learning with each of the various learners
         for i, (learner_list, learner_name) in enumerate(zip(self.learner_lists,
                                                              self.learner_names)):
-            for j, learner in enumerate(learner_list):
-                # If the learner is MiniBatchKMeans, set the batch_size
-                # parameter to the number of training samples
-                if learner_name == 'MiniBatchKMeans':
-                    learner.set_params(batch_size=samples)
-
-                if (learner_name in self._learners_requiring_classes
-                    and self.round == 1):
-                    learner.partial_fit(X_train, y_train, classes=self.classes)
-                else:
-                    learner.partial_fit(X_train, y_train)
-
-                # Make predictions on the test set, rounding the values
-                y_test_preds = np.round(learner.predict(X_test))
-
-                # "Rescale" the values (if necessary), forcing the
-                # values should fit within the original scale
-                y_test_preds = ex.fit_preds_in_scale(y_test_preds, self.classes)
-
-                # Evaluate the new model, collecting metrics, etc., and
-                # then store the round statistics
-                stats_dict = ex.compute_evaluation_metrics(self.y_test,
-                                                           y_test_preds,
-                                                           self.classes)
-                stats_dict.update({self._games if len(self.games) > 1
-                                   else self._game:
-                                       ', '.join(self.games)
-                                       if VALID_GAMES.difference(self.games)
-                                       else self._all_games,
-                                   self._test_games if len(self.test_games) > 1
-                                   else self._test_game:
-                                       ', '.join(self.test_games)
-                                       if VALID_GAMES.difference(self.test_games)
-                                       else self._all_games,
-                                   self._learning_round: int(self.round),
-                                   self._prediction_label: self.prediction_label,
-                                   self._test_labels_and_preds:
-                                       list(zip(self.y_test, y_test_preds)),
-                                   self._learner: learner_name,
-                                   self._params: learner.get_params(),
-                                   self._training_samples: samples,
-                                   self._non_nlp_features:
-                                       ', '.join(self.non_nlp_features),
-                                   self._no_nlp_features: self.no_nlp_features,
-                                   self._transformation: self._transformation_string})
-                if self.bin_ranges:
-                    stats_dict.update({self._bin_ranges: self.bin_ranges})
-                self.learner_param_grid_stats[i][j].append(pd.Series(stats_dict))
+            [self.learner_param_grid_stats[i][j]
+             .append(self.learn_and_evaluate(learner,
+                                             learner_name,
+                                             X_train,
+                                             y_train,
+                                             samples,
+                                             X_test))
+             for j, learner in enumerate(learner_list)]
 
         # Increment the round number
         self.round += 1
+
+    def learn_and_evaluate(self,
+                           learner,
+                           learner_name: str,
+                           X_train: sp.sparse.csr.csr_matrix,
+                           y_train: list,
+                           n_train_samples: int,
+                           X_test: sp.sparse.csr.csr_matrix) -> pd.Series:
+        """
+        Do a round of learning with the given learner and training data
+        and evaluate the performance of the updated learner with some
+        test data and return a dictionary containing information
+        collected during the learning and evaluation metrics, etc.
+
+        :param learner: learner
+        :type learner: learner object
+        :param learner_name: name of learner
+        :type learner_name: str
+        :param X_train: array/sparse matrix
+        :type X_train: sp.sparse.csr.csr_matrix
+        :param y_train: list of scores corresponding to the data-points
+                        in `X_train`
+        :type y_train: list
+        :param n_train_samples: number of training samples
+        :type n_train_samples: int
+        :param X_test: array/sparse matrix
+        :tyep X_test: sp.sparse.csr.csr_matrix
+
+        :returns: a series of evaluation metrics and other data
+                  collected during the learning round
+        :rtype: pd.Series
+        """
+
+        # If the learner is `MiniBatchKMeans`, set the `batch_size`
+        # parameter to the number of training samples
+        if learner_name == 'MiniBatchKMeans':
+            learner.set_params(batch_size=n_train_samples)
+
+        if (learner_name in self._learners_requiring_classes and self.round == 1):
+            learner.partial_fit(X_train, y_train, classes=self.classes)
+        else:
+            learner.partial_fit(X_train, y_train)
+
+        # Make predictions on the test set, rounding the values
+        y_test_preds = np.round(learner.predict(X_test))
+
+        # "Rescale" the values (where necessary), forcing the values to
+        # fit within the original scale
+        y_test_preds = ex.fit_preds_in_scale(y_test_preds, self.classes)
+
+        # Evaluate the new model, collecting metrics, etc., and then
+        # store the round's metrics
+        return pd.Series(ex.evaluate_predictions(self.y_test,
+                                                 y_test_preds,
+                                                 self.classes,
+                                                 self.prediction_label,
+                                                 self.non_nlp_features,
+                                                 not self.no_nlp_features,
+                                                 learner,
+                                                 learner_name,
+                                                 self.games,
+                                                 self.test_games,
+                                                 self.round,
+                                                 n_train_samples,
+                                                 self.bin_ranges,
+                                                 self._transformation_string))
 
     def do_learning_rounds(self) -> None:
         """

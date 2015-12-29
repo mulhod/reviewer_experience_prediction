@@ -489,75 +489,6 @@ def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
     return res, cnfmat
 
 
-def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
-                               classes: np.array) -> dict:
-    """
-    Compute evaluation metrics given actual and predicted label values
-    and the set of possible label values.
-
-    :param y_test: array of actual labels
-    :type y_test: np.array
-    :param y_preds: array of predicted labels
-    :type y_preds: np.array
-    :param classes: array of class labels
-    :type clases: np.array
-
-    :returns: statistics dictionary
-    :rtype: dict
-    """
-
-    # Get Pearson r and significance
-    r, sig = pearsonr(y_test, y_preds)
-
-    # Get confusion matrix (both the np.ndarray and the printable
-    # one)
-    printable_cnfmat, cnfmat = make_printable_confusion_matrix(y_test,
-                                                               y_preds,
-                                                               classes)
-
-    return {'pearson_r': r,
-            'significance': sig,
-            'precision_macro': precision_score(y_test,
-                                               y_preds,
-                                               labels=classes,
-                                               average='macro'),
-            'precision_weighted': precision_score(y_test,
-                                                  y_preds,
-                                                  labels=classes,
-                                                  average='weighted'),
-            'f1_macro': f1_score(y_test,
-                                 y_preds,
-                                 labels=classes,
-                                 average='macro'),
-            'f1_weighted': f1_score(y_test,
-                                    y_preds,
-                                    labels=classes,
-                                    average='weighted'),
-            'accuracy': accuracy_score(y_test,
-                                       y_preds,
-                                       normalize=True),
-            'confusion_matrix': cnfmat,
-            'printable_confusion_matrix': printable_cnfmat,
-            'uwk': kappa(y_test, y_preds),
-            'uwk_off_by_one': kappa(y_test,
-                                    y_preds,
-                                    allow_off_by_one=True),
-            'qwk': kappa(y_test,
-                             y_preds,
-                             weights='quadratic'),
-            'qwk_off_by_one': kappa(y_test,
-                                    y_preds,
-                                    weights='quadratic',
-                                    allow_off_by_one=True),
-            'lwk': kappa(y_test,
-                         y_preds,
-                         weights='linear'),
-            'lwk_off_by_one': kappa(y_test,
-                                    y_preds,
-                                    weights='linear',
-                                    allow_off_by_one=True)}
-
-
 def get_sorted_features_for_learner(learner, classes: np.array,
                                     vectorizer) -> list:
     """
@@ -733,3 +664,150 @@ def make_cursor(db: collection,
         _cursor = _cursor.sort(sorting_args)
 
     return _cursor
+
+
+def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
+                               classes: np.array) -> dict:
+    """
+    Compute evaluation metrics given actual and predicted label values
+    and the set of possible label values.
+
+    :param y_test: array of actual labels
+    :type y_test: np.array
+    :param y_preds: array of predicted labels
+    :type y_preds: np.array
+    :param classes: array of class labels
+    :type clases: np.array
+
+    :returns: statistics dictionary
+    :rtype: dict
+    """
+
+    # Get Pearson r and significance
+    r, sig = pearsonr(y_test, y_preds)
+
+    # Get confusion matrix (both the np.ndarray and the printable
+    # one)
+    printable_cnfmat, cnfmat = make_printable_confusion_matrix(y_test,
+                                                               y_preds,
+                                                               classes)
+
+    return {'pearson_r': r,
+            'significance': sig,
+            'precision_macro': precision_score(y_test,
+                                               y_preds,
+                                               labels=classes,
+                                               average='macro'),
+            'precision_weighted': precision_score(y_test,
+                                                  y_preds,
+                                                  labels=classes,
+                                                  average='weighted'),
+            'f1_macro': f1_score(y_test,
+                                 y_preds,
+                                 labels=classes,
+                                 average='macro'),
+            'f1_weighted': f1_score(y_test,
+                                    y_preds,
+                                    labels=classes,
+                                    average='weighted'),
+            'accuracy': accuracy_score(y_test,
+                                       y_preds,
+                                       normalize=True),
+            'confusion_matrix': cnfmat,
+            'printable_confusion_matrix': printable_cnfmat,
+            'uwk': kappa(y_test, y_preds),
+            'uwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    allow_off_by_one=True),
+            'qwk': kappa(y_test,
+                             y_preds,
+                             weights='quadratic'),
+            'qwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    weights='quadratic',
+                                    allow_off_by_one=True),
+            'lwk': kappa(y_test,
+                         y_preds,
+                         weights='linear'),
+            'lwk_off_by_one': kappa(y_test,
+                                    y_preds,
+                                    weights='linear',
+                                    allow_off_by_one=True)}
+
+
+def evaluate_predictions(y_test: np.array,
+                         y_test_preds: np.array,
+                         classes: np.array,
+                         prediction_label: str,
+                         non_nlp_features: list,
+                         nlp_features: bool,
+                         learner,
+                         learner_name: str,
+                         games: set,
+                         test_games: set,
+                         _round: int,
+                         n_train_samples: int,
+                         bin_ranges: list,
+                         transformation_string: str) -> dict:
+    """
+    Evaluate predictions made by a learner and return a Series of
+    metrics and other data.
+
+    :param y_test: actual values
+    :type y_test: np.array
+    :param y_test_preds: predicted values
+    :type y_test_preds: np.array
+    :param classes: array of possible values
+    :type classes: np.array
+    :param prediction_label: label being used for prediction
+    :type prediction_label: str
+    :param non_nlp_features: list of non-NLP features being used
+    :type non_nlp_features: list
+    :param nlp_features: whether or not NLP features are being used
+    :type nlp_features: bool
+    :param learner: learner instance
+    :type learner: learner type
+    :param learner_name: name of learner type
+    :type learner_name: str
+    :param games: set of training games
+    :type games: set
+    :param test_games: set of test games
+    :type test_games: set
+    :param _round: index of round of learning
+    :type _round: int
+    :param n_train_samples: number of samples used for training
+    :type n_train_samples: int
+    :param bin_ranges: list of tuples representing bin ranges
+    :type bin_ranges: list
+    :param transformation_string: string representation of transformation
+    :type transformation_string: str
+
+    :returns: a dictionary of evaluation metrics and other data
+              collected during the learning round
+    :rtype: dict
+    """
+
+    # Evaluate the new model, collecting metrics, etc., and then
+    # store the round's metrics
+    stats_dict = compute_evaluation_metrics(y_test, y_test_preds, classes)
+    stats_dict.update({'games' if len(games) > 1 else 'game':
+                           ', '.join(games) if VALID_GAMES.difference(games)
+                           else 'all_games',
+                       'test_games' if len(test_games) > 1 else 'test_game':
+                           ', '.join(test_games)
+                           if VALID_GAMES.difference(test_games)
+                           else 'all_games',
+                       'learning_round': int(_round),
+                       'prediction_label': prediction_label,
+                       'test_set_labels/test_set_predictions':
+                           list(zip(y_test, y_test_preds)),
+                       'learner': learner_name,
+                       'params': learner.get_params(),
+                       'training_samples': n_train_samples,
+                       'non-NLP features': ', '.join(non_nlp_features),
+                       'NLP features': nlp_features,
+                       'transformation': transformation_string})
+    if bin_ranges:
+        stats_dict.update({'bin_ranges': bin_ranges})
+
+    return stats_dict
