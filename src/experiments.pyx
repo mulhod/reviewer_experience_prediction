@@ -46,10 +46,15 @@ NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
 
 
-def distributional_info(db: collection, label: str, games: list,
-                        partition: str = 'test', bin_ranges: list = None,
+def distributional_info(db: collection,
+                        label: str,
+                        games: list,
+                        partition: str = 'test',
+                        bin_ranges: list = None,
                         lognormal: bool = False,
-                        power_transform: float = None, limit: int = 0) -> dict:
+                        power_transform: float = None,
+                        limit: int = 0,
+                        batch_size: int = 50) -> dict:
     """
     Generate some distributional information regarding the given label
     (or for the implicit/transformed labels given a list of label bin
@@ -102,6 +107,8 @@ def distributional_info(db: collection, label: str, games: list,
               representing the frequency distribution of the label
               values, respectively
     :rtype: dict
+    :param batch_size: batch size to use for the returned cursor
+    :type batch_size: int
 
     :raises ValueError: if unrecognized games were found in the input,
                         no reviews were found for the combination of
@@ -109,7 +116,7 @@ def distributional_info(db: collection, label: str, games: list,
                         fails for some reason
     """
 
-    # Check `partition`, `label`, and `limit` parameter values
+    # Validate parameter values
     if partition != 'test' and not partition in ['train', 'all']:
         raise ValueError('The only values recognized for the "partition" '
                          'parameter are "test", "train", and "all" (for no '
@@ -119,16 +126,17 @@ def distributional_info(db: collection, label: str, games: list,
     if limit != 0 and (type(limit) != int or limit < 0):
         raise ValueError('"limit" must be a positive integer.')
 
-    # Make sure the games are in the list of valid games
     if any(not game in APPID_DICT for game in games):
         raise ValueError('All or some of the games in the given list of '
                          'games, {0}, are not in list of available games'
                          .format(', '.join(games)))
 
-    # Validate transformer parameters
     if lognormal and power_transform:
         raise ValueError('Both "lognormal" and "power_transform" were '
                          'specified simultaneously.')
+
+    if batch_size < 1:
+        raise ValueError('"batch_size" must be greater than zero.')
 
     # Generate a query
     if len(games) == 1:
@@ -142,6 +150,7 @@ def distributional_info(db: collection, label: str, games: list,
     kwargs = {'limit': limit}
     proj = {'nlp_features': 0}
     cursor = db.find(query, proj, **kwargs)
+    cursor.batch_size = batch_size
 
     # Validate `bin_ranges`
     if bin_ranges:
@@ -157,7 +166,8 @@ def distributional_info(db: collection, label: str, games: list,
         # Apply lognormal transformation and/or multiplication by 100
         # if this is a percentage value
         label_value = compute_label_value(get_label_in_doc(doc, label),
-                                          label, lognormal=lognormal,
+                                          label,
+                                          lognormal=lognormal,
                                           power_transform=power_transform,
                                           bin_ranges=bin_ranges)
 
@@ -210,7 +220,9 @@ def get_label_in_doc(doc: dict, label: str):
             return achievement_progress[label]
 
 
-def evenly_distribute_samples(db: collection, label: str, games: list,
+def evenly_distribute_samples(db: collection,
+                              label: str,
+                              games: list,
                               partition: str = 'test',
                               bin_ranges: list = None,
                               lognormal: bool = False,
@@ -265,7 +277,9 @@ def evenly_distribute_samples(db: collection, label: str, games: list,
 
     # Get dictionary of ID strings mapped to labels and a frequency
     # distribution of the labels
-    distribution_dict = distributional_info(db, label, games,
+    distribution_dict = distributional_info(db,
+                                            label,
+                                            games,
                                             partition=partition,
                                             bin_ranges=bin_ranges,
                                             lognormal=lognormal,
@@ -339,9 +353,12 @@ def get_all_features(review_doc: dict, prediction_label: str,
     return features
 
 
-def get_data_point(review_doc: dict, prediction_label: str,
-                   nlp_features: bool = True, non_nlp_features: list = [],
-                   lognormal: bool = False, power_transform: float = None,
+def get_data_point(review_doc: dict,
+                   prediction_label: str,
+                   nlp_features: bool = True,
+                   non_nlp_features: list = [],
+                   lognormal: bool = False,
+                   power_transform: float = None,
                    bin_ranges: list = None) -> dict:
     """
     Collect data from a MongoDB review document and return it in format
@@ -531,7 +548,8 @@ def get_sorted_features_for_learner(learner, classes: np.array,
             raise ValueError('Could not get feature coefficients!')
 
         # Append feature coefficient tuple to list of tuples
-        feature_coefs.append(tuple(list(chain([feat], zip(classes, coef_indices)))))
+        feature_coefs.append(tuple(list(chain([feat],
+                                              zip(classes, coef_indices)))))
 
     # Unpack tuples of features and label/coefficient tuples into one
     # long list of feature/label/coefficient values, sort, and filter
@@ -748,7 +766,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              _round: int,
                                              n_train_samples: int,
                                              bin_ranges: list,
-                                             transformation_string: str) -> dict:
+                                             transformation_string: str) -> pd.Series:
     """
     Evaluate predictions made by a learner during a round of learning
     (e.g., in `src.learn.RunExperiments` and return a Series of metrics
@@ -778,14 +796,29 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     :type _round: int
     :param n_train_samples: number of samples used for training
     :type n_train_samples: int
-    :param bin_ranges: list of tuples representing bin ranges
-    :type bin_ranges: list
+    :param bin_ranges: list of ranges that define each bin, where each
+                       bin should be represented as a tuple with the
+                       first value, a float that is precise to one
+                       decimal place, as the lower bound and the
+                       second, also a float with the same type of
+                       precision, the upper bound, but both limits are
+                       technically soft since label values will be
+                       compared to see if they are equal at the same
+                       precision and so they can end up being
+                       larger/smaller and still be in a given bin;
+                       the bins should also make up a continuous range
+                       such that every first bin value should be
+                       less than the second bin value and every bin's
+                       values should be less than the succeeding bin's
+                       values
+    :type bin_ranges: list of tuples representing the minimum and
+                      maximum values of a range of values (or None)
     :param transformation_string: string representation of transformation
     :type transformation_string: str
 
-    :returns: a dictionary of evaluation metrics and other data
+    :returns: a pandas Series of evaluation metrics and other data
               collected during the learning round
-    :rtype: dict
+    :rtype: pd.Series
     """
 
     # Evaluate the new model, collecting metrics, etc., and then
@@ -811,4 +844,171 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     if bin_ranges:
         stats_dict.update({'bin_ranges': bin_ranges})
 
-    return stats_dict
+    return pd.Series(stats_dict)
+
+
+class ExperimentalData(object):
+    """
+    Class for objects storing `id_string`s corresponding to data
+    samples in a collection, which can be used to conduct a grid search
+    round + a number of additional learning rounds.
+    """
+
+    def __init__(self,
+                 db: collection,
+                 prediction_label: str,
+                 classes: np.array,
+                 games: set,
+                 test_games: set,
+                 max_test_samples: int,
+                 samples_per_round: int = 0,
+                 max_rounds: int = 0,
+                 lognormal: bool = False,
+                 power_transform: float = None,
+                 bin_ranges: list = None,
+                 test_bin_ranges: list = None,
+                 batch_size: int = 50):
+        """
+        Initialize an `ExperimentalData` object.
+
+        :param db: MongoDB collection
+        :type db: collection
+        :param prediction_label: label to use for prediction
+        :type prediction_label: str
+        :param classes: array of possible values
+        :type classes: np.array
+        :param games: set of games (str)
+        :type games: set
+        :param test_games: set of games (str) to use for testing
+        :type test_games: set
+        :param max_test_samples: limit for the number of test samples
+                                 (defaults to 0 for no limit)
+        :type max_test_samples: int
+        :param samples_per_round: number of training documents to
+                                  extract in each round
+        :type samples_per_round: int
+        :param max_rounds: number of rounds of learning (0 for as many
+                           as possible)
+        :type max_rounds: int
+        :param lognormal: transform raw label values using `ln`
+                          (default: False)
+        :type lognormal: bool
+        :param power_transform: power by which to transform raw label
+                                values (default: None)
+        :type power_transform: float or None
+        :param bin_ranges: list of ranges that define each bin, where
+                           each bin should be represented as a tuple
+                           with the first value, a float that is
+                           precise to one decimal place, as the lower
+                           bound and the second, also a float with the
+                           same type of precision, the upper bound, but
+                           both limits are technically soft since label
+                           values will be compared to see if they are
+                           equal at the same precision and so they can
+                           end up being larger/smaller and still be in
+                           a given bin; the bins should also make up a
+                           continuous range such that every first bin
+                           value should be less than the second bin
+                           value and every bin's values should be less
+                           than the succeeding bin's values
+        :type bin_ranges: list of tuples representing the minimum and
+                          maximum values of a range of values (or None)
+        :param test_bin_ranges: see description above for `bin-ranges`
+        :type test_bin_ranges: list of tuples
+        :param batch_size: batch size to use for the database cursor
+        :type batch_size: int (default: 50)
+
+        :raises ValueError: if `games`/`test_games` contains
+                            unrecognized games or `batch_size` is less
+                            than 1, etc.
+        """
+
+        # Validate parameters
+        if any(not _games for _games in [games, test_games]):
+            raise ValueError('"games"/"test_games" parameters must be '
+                             'non-empty sets.')
+
+        if games == test_games:
+            self.games = self.test_games = games
+        else:
+            for _games in [games, test_games]:
+                if any(not game in APPID_DICT for game in _games):
+                    raise ValueError('Invalid games: {0}.'.format(_games))
+            self.games = games
+            self.test_games = test_games
+
+        if batch_size < 1:
+            raise ValueError('"batch_size" must be greater than zero: {0}'
+                             .format(batch_size))
+
+        if any(n < 0 for n in [samples_per_round, max_rounds]):
+            raise ValueError('"samples_per_round"/"max_rounds" parameters '
+                             'must be non-negative.')
+
+        if max_test_samples < 1:
+            raise ValueError('"max_test_samples" must be greater than 0.')
+
+        if test_games and bin_ranges:
+            if not test_bin_ranges:
+                raise ValueError('If "test_games is specified and '
+                                 '"bin_ranges" for the training games is '
+                                 'specified, then "test_bin_ranges" must also'
+                                 ' be specified".')
+            if len(bin_ranges) != len(test_bin_ranges):
+                raise ValueError('If both "bin_ranges" and "test_bin_ranges" '
+                                 'are specified, then they must have the same'
+                                 ' length since there should be a '
+                                 'correspondence between index labels.')
+
+        self.db = db
+        self.prediction_label = prediction_label
+        self.classes = classes
+        self.samples_per_round = samples_per_round
+        self.max_rounds = max_rounds
+        self.max_test_samples = max_test_samples
+        self.test_bin_ranges = self.bin_ranges = bin_ranges
+        if test_bin_ranges:
+            self.test_bin_ranges = test_bin_ranges
+        self.power_transform = power_transform
+        self.lognormal = lognormal
+        self.batch_size = batch_size
+
+    def get_id_strings_labels_dict(self) -> dict:
+        """
+        Get a dictionary of `id_string`s mapped to label values.
+
+        :returns: a dictionary of `id_string`s mapped to label values
+        :rtype: dict
+        """
+
+        # Get dictionary of ID strings mapped to labels and a frequency
+        # distribution of the labels
+        distribution_dict_train = \
+            distributional_info(self.db,
+                                self.prediction_label,
+                                self.games,
+                                partition='all',
+                                bin_ranges=self.bin_ranges,
+                                lognormal=self.lognormal,
+                                power_transform=self.power_transform,
+                                batch_size=self.batch_size)
+        self.id_strings_labels_dict_test = self.id_strings_labels_dict = \
+            distribution_dict_train['id_strings_labels_dict']
+        self.labels_counter_test = self.labels_counter = \
+            distribution_dict_train['labels_counter']
+
+        # Do the same thing as above, but for the set of test games (if
+        # different)
+        if self.games != self.test_games:
+            distribution_dict_train = \
+                distributional_info(self.db,
+                                    self.prediction_label,
+                                    self.test_games,
+                                    partition='all',
+                                    bin_ranges=self.test_bin_ranges,
+                                    lognormal=self.lognormal,
+                                    power_transform=self.power_transform,
+                                    batch_size=self.batch_size)
+            self.id_strings_labels_dict_test = \
+                distribution_dict_train['id_strings_labels_dict']
+            self.labels_counter_test = distribution_dict_train['labels_counter']

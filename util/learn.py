@@ -68,23 +68,7 @@ class RunExperiments:
     Class for conducting sets of incremental learning experiments.
     """
 
-    # Constant strings
-    _game = 'game'
-    _all_games = 'all_games'
-    _partition = 'partition'
-    _test = 'test'
-    _steam_id = 'steam_id_number'
-    _in_op = '$in'
-    _x = 'x'
-    _y = 'y'
-    _id_string = 'id_string'
-    _id = 'id'
-    _majority_baseline_model = 'majority_baseline_model'
-    _report_name_template = '{0}_{1}_{2}_{3}.csv'
-    _available_labels_string = LABELS_STRING
-    _labels_list = None
-
-    # Constant values
+    # Constants
     _nan = float("NaN")
     _n_features_feature_hashing = 2 ** 18
     _default_cursor_batch_size = 50
@@ -103,12 +87,24 @@ class RunExperiments:
                             'objective_slope'})
     _possible_non_nlp_features = set(LABELS)
 
-    def __init__(self, db: collection, games: set, test_games: set, learners,
-                 param_grids: dict, samples_per_round: int, non_nlp_features: list,
-                 prediction_label: str, objective: str, logger: logging.RootLogger,
-                 hashed_features: int = None, no_nlp_features: bool = False,
-                 bin_ranges: list = None, lognormal: bool = False,
-                 power_transform: float = None, max_test_samples: int = 0,
+    def __init__(self,
+                 db: collection,
+                 games: set,
+                 test_games: set,
+                 learners,
+                 param_grids: dict,
+                 samples_per_round: int,
+                 non_nlp_features: list,
+                 prediction_label: str,
+                 objective: str,
+                 logger: logging.RootLogger,
+                 hashed_features: int = None,
+                 nlp_features: bool = True,
+                 bin_ranges: list = None,
+                 test_bin_ranges: list = None,
+                 lognormal: bool = False,
+                 power_transform: float = None,
+                 max_test_samples: int = 0,
                  max_rounds: int = 0,
                  majority_baseline: bool = True) -> 'RunExperiments':
         """
@@ -144,13 +140,19 @@ class RunExperiments:
                                 0, which will set it to the default
                                 number of features for feature hashing)
         :type hashed_features: int
-        :param no_nlp_features: leave out NLP features
-        :type no_nlp_features: bool
+        :param nlp_features: include NLP features (default: True)
+        :type nlp_features: bool
         :param bin_ranges: list of tuples representing the maximum and
                            minimum values corresponding to bins (for
                            splitting up the distribution of prediction
                            label values)
         :type bin_ranges: list or None
+        :param test_bin_ranges: list of tuples representing the maximum
+                                and minimum values corresponding to
+                                bins (for splitting up the distribution
+                                of prediction label values)
+                                (specifically for the test games)
+        :type test_bin_ranges: list or None
         :param lognormal: transform raw label values using `ln` (default:
                           False)
         :type lognormal: bool
@@ -189,11 +191,11 @@ class RunExperiments:
                in non_nlp_features):
             raise ValueError('All non-NLP features must be included in the '
                              'list of available non-NLP features: {0}.'
-                             .format(self._available_labels_string))
+                             .format(LABELS_STRING))
         if not prediction_label in self._possible_non_nlp_features:
             raise ValueError('The prediction label must be in the set of '
                              'features that can be extracted/used, i.e.: {0}.'
-                             .format(self._available_labels_string))
+                             .format(LABELS_STRING))
         if not all(games_.issubset(VALID_GAMES) for games_ in [games, test_games]):
             raise ValueError('Unrecognized game(s)/test game(s): {0}. The '
                              'games must be in the following list of '
@@ -217,6 +219,25 @@ class RunExperiments:
             except ValueError as e:
                 logerr('"bin_ranges" failed validation: {0}'.format(bin_ranges))
                 raise e
+        if test_bin_ranges:
+            try:
+                validate_bin_ranges(test_bin_ranges)
+            except ValueError as e:
+                logerr('"test_bin_ranges" failed validation: {0}'
+                       .format(test_bin_ranges))
+                raise e
+
+        if test_games and bin_ranges:
+            if not test_bin_ranges:
+                raise ValueError('If "test_games is specified and '
+                                 '"bin_ranges" for the training games is '
+                                 'specified, then "test_bin_ranges" must also'
+                                 ' be specified".')
+            if len(bin_ranges) != len(test_bin_ranges):
+                raise ValueError('If both "bin_ranges" and "test_bin_ranges" '
+                                 'are specified, then they must have the same'
+                                 ' length since there should be a '
+                                 'correspondence between index labels.')
 
         # Incremental learning-related attributes
         self.samples_per_round = samples_per_round
@@ -246,7 +267,9 @@ class RunExperiments:
         if not self.test_games:
             raise ValueError('The set of games must be greater than zero!')
         self._test_games_string = ', '.join(self.test_games)
-        self.bin_ranges = bin_ranges
+        self.test_bin_ranges = self.bin_ranges = bin_ranges
+        if test_bin_ranges:
+            self.test_bin_ranges = test_bin_ranges
         self.lognormal = lognormal
         self.power_transform = power_transform
         if self.lognormal or self.power_transform:
@@ -277,7 +300,7 @@ class RunExperiments:
 
         # Information about what features to use for what purposes
         self.non_nlp_features = non_nlp_features
-        self.no_nlp_features = no_nlp_features
+        self.nlp_features = nlp_features
         self.prediction_label = prediction_label
 
         # Data- and database-related variables
@@ -289,7 +312,7 @@ class RunExperiments:
         self.max_test_samples = max_test_samples
         self.logger.info('Setting up MongoDB cursor for training data...')
         self.projection = {'_id': 0}
-        if self.no_nlp_features:
+        if not self.nlp_features:
             self.projection['nlp_features'] = 0
         self.training_cursor = ex.make_cursor(self.db,
                                               partition='training',
@@ -298,13 +321,13 @@ class RunExperiments:
                                               batch_size=self.batch_size)
         self.logger.info('Extracting evaluation dataset...')
         self.test_data = self.get_test_data()
-        self.test_ids = [data_[self._id] for data_ in self.test_data]
-        self.test_feature_dicts = [data_[self._x] for data_ in self.test_data]
-        self.y_test = np.array([data_[self._y] for data_ in self.test_data])
+        self.test_ids = [data_['id'] for data_ in self.test_data]
+        self.test_feature_dicts = [data_['x'] for data_ in self.test_data]
+        self.y_test = np.array([data_['y'] for data_ in self.test_data])
         self.classes = np.unique(self.y_test)
-        self._labels_list = [str(cls) for cls in self.classes]
+        self._prediction_labels_list = [str(cls) for cls in self.classes]
         self.logger.info('Prediction label classes: {0}'
-                         .format(', '.join(self._labels_list)))
+                         .format(', '.join(self._prediction_labels_list)))
 
         # Do incremental learning experiments
         self.logger.info('Incremental learning experiments initialized...')
@@ -342,7 +365,7 @@ class RunExperiments:
             # dictionary and append to list of data samples
             sample = ex.get_data_point(review_doc,
                                        self.prediction_label,
-                                       nlp_features=not self.no_nlp_features,
+                                       nlp_features=self.nlp_features,
                                        non_nlp_features=self.non_nlp_features,
                                        lognormal=self.lognormal,
                                        power_transform=self.power_transform,
@@ -365,21 +388,21 @@ class RunExperiments:
         # Generate the base query
         games = list(self.test_games)
         if len(games) == 1:
-            test_query = {self._game: games[0], self._partition: self._test}
+            test_query = {'game': games[0], 'partition': 'test'}
         else:
-            test_query = {self._game: {self._in_op: games},
-                          self._partition: self._test}
+            test_query = {'game': {'$in': games}, 'partition': 'test'}
 
         data = []
         j = 0
-        for id_string \
-            in ex.evenly_distribute_samples(self.db, self.prediction_label,
-                                            games, bin_ranges=self.bin_ranges,
-                                            lognormal=self.lognormal,
-                                            power_transform=self.power_transform):
+        for id_string in ex.evenly_distribute_samples(self.db,
+                                                      self.prediction_label,
+                                                      games,
+                                                      bin_ranges=self.test_bin_ranges,
+                                                      lognormal=self.lognormal,
+                                                      power_transform=self.power_transform):
             # Get a review document from the Mongo database
             _test_query = copy(test_query)
-            _test_query[self._id_string] = id_string
+            _test_query['id_string'] = id_string
 
             # Get features, prediction label, and ID in a new
             # dictionary and append to list of data samples
@@ -387,11 +410,11 @@ class RunExperiments:
                                                          self.projection,
                                                          timeout=False)),
                                        self.prediction_label,
-                                       nlp_features=not self.no_nlp_features,
+                                       nlp_features=self.nlp_features,
                                        non_nlp_features=self.non_nlp_features,
                                        lognormal=self.lognormal,
                                        power_transform=self.power_transform,
-                                       bin_ranges=self.bin_ranges)
+                                       bin_ranges=self.test_bin_ranges)
             if sample:
                 data.append(sample)
                 j += 1
@@ -423,17 +446,17 @@ class RunExperiments:
         stats_dict = ext.compute_evaluation_metrics(self.y_test,
                                                     self.get_majority_baseline(),
                                                     self.classes)
-        stats_dict.update({'test_games' if len(self.test_games) > 1
-                           else 'test_game':
+        stats_dict.update({'test_games' if len(self.test_games) > 1 else 'test_game':
                                ', '.join(self.test_games)
                                if VALID_GAMES.difference(self.test_games)
-                               else self._all_games,
+                               else 'all_games',
                            'prediction_label': self.prediction_label,
                            'majority_label': self.majority_label,
-                           'learner': self._majority_baseline_model,
+                           'learner': 'majority_baseline_model',
                            'transformation': self._transformation_string})
         if self.bin_ranges:
-            stats_dict.update({'bin_ranges': self.bin_ranges})
+            stats_dict.update({'bin_ranges': self.bin_ranges,
+                               'test_bin_ranges': self.test_bin_ranges})
         self.majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
@@ -601,7 +624,7 @@ class RunExperiments:
         self.logger.info('Round {0}...'.format(self.round))
         train_ids, y_train, train_feature_dicts = \
             [[point_[label_] for point_ in train_data]
-             for label_ in [self._id, self._y, self._x]]
+             for label_ in ['id', 'y', 'x']]
 
         # Set `vec` if not already set and fit it it the training
         # features, which will only need to be done the first time
@@ -684,21 +707,21 @@ class RunExperiments:
 
         # Evaluate the new model, collecting metrics, etc., and then
         # store the round's metrics
-        return pd.Series(
-            ex.evaluate_predictions_from_learning_round(self.y_test,
-                                                        y_test_preds,
-                                                        self.classes,
-                                                        self.prediction_label,
-                                                        self.non_nlp_features,
-                                                        not self.no_nlp_features,
-                                                        learner,
-                                                        learner_name,
-                                                        self.games,
-                                                        self.test_games,
-                                                        self.round,
-                                                        n_train_samples,
-                                                        self.bin_ranges,
-                                                        self._transformation_string))
+        return ex.evaluate_predictions_from_learning_round(self.y_test,
+                                                           y_test_preds,
+                                                           self.classes,
+                                                           self.prediction_label,
+                                                           self.non_nlp_features,
+                                                           self.nlp_features,
+                                                           learner,
+                                                           learner_name,
+                                                           self.games,
+                                                           self.test_games,
+                                                           self.round,
+                                                           n_train_samples,
+                                                           self.bin_ranges,
+                                                           self.test_bin_ranges,
+                                                           self._transformation_string)
 
     def do_learning_rounds(self) -> None:
         """
@@ -957,7 +980,7 @@ def main(argv=None):
         if not non_nlp_features:
             raise ValueError('No features to train a model on since the '
                              '--only_non_nlp_features flag was used and the '
-                             'set of non-NLP features being used is empty.')
+                             'set of non-NLP features is empty.')
         loginfo('Leaving out all NLP features')
     if nbins == 0:
         if bin_factor:
@@ -1003,20 +1026,38 @@ def main(argv=None):
         # Get ranges of prediction label distribution bins given the
         # number of bins and the factor by which they should be
         # multiplied as the index increases
-        bin_ranges = get_bin_ranges_helper(db, games, prediction_label, nbins,
-                                           bin_factor, lognormal=lognormal,
-                                           power_transform=power_transform)
+        test_bin_ranges = bin_ranges = get_bin_ranges_helper(db,
+                                                             games,
+                                                             prediction_label,
+                                                             nbins,
+                                                             bin_factor,
+                                                             lognormal=lognormal,
+                                                             power_transform=power_transform)
         if lognormal or power_transform:
             transformation = ('lognormal' if lognormal
                               else 'x**{0}'.format(power_transform))
         else:
             transformation = None
-        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}{2}): {3}'
-                .format(nbins, bin_factor,
+
+        # Get `bin_ranges` for test games
+        if test_games:
+            test_bin_ranges = get_bin_ranges_helper(db,
+                                                    test_games,
+                                                    prediction_label,
+                                                    nbins,
+                                                    bin_factor,
+                                                    lognormal=lognormal,
+                                                    power_transform=power_transform)
+
+        loginfo('Bin ranges (nbins = {0}, bin_factor = {1}{2}): {3}{4}'
+                .format(nbins,
+                        bin_factor,
                         ', {0} transformation'.format(transformation)
                         if transformation
                         else '',
-                        bin_ranges))
+                        bin_ranges,
+                        '\n\nTest bin ranges (same attributes as the bin '
+                        'ranges above): {0}'.format(test_bin_ranges)))
 
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
@@ -1032,8 +1073,9 @@ def main(argv=None):
                                      obj_func,
                                      logger,
                                      hashed_features=0 if feature_hashing else None,
-                                     no_nlp_features=only_non_nlp_features,
+                                     nlp_features=not only_non_nlp_features,
                                      bin_ranges=bin_ranges,
+                                     test_bin_ranges=test_bin_ranges,
                                      lognormal=lognormal,
                                      power_transform=power_transform,
                                      max_test_samples=max_test_samples,
