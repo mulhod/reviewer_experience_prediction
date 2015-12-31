@@ -930,12 +930,14 @@ class ExperimentalData(object):
 
         if games == test_games:
             self.games = self.test_games = games
+            self.GAMES_EQUALS_TEST_GAMES = True
         else:
             for _games in [games, test_games]:
                 if any(not game in APPID_DICT for game in _games):
                     raise ValueError('Invalid games: {0}.'.format(_games))
             self.games = games
             self.test_games = test_games
+            self.GAMES_EQUALS_TEST_GAMES = False
 
         if batch_size < 1:
             raise ValueError('"batch_size" must be greater than zero: {0}'
@@ -945,7 +947,7 @@ class ExperimentalData(object):
             raise ValueError('"samples_per_round"/"max_rounds" parameters '
                              'must be non-negative.')
 
-        if max_test_samples < 1:
+        if max_test_samples < 0:
             raise ValueError('"max_test_samples" must be greater than 0.')
 
         if test_games and bin_ranges:
@@ -973,6 +975,10 @@ class ExperimentalData(object):
         self.lognormal = lognormal
         self.batch_size = batch_size
 
+        # Get lists of ID strings for the test set and the training set
+        # rounds
+        self.get_id_strings_labels_dict()
+
     def get_id_strings_labels_dict(self) -> dict:
         """
         Get a dictionary of `id_string`s mapped to label values.
@@ -999,7 +1005,7 @@ class ExperimentalData(object):
 
         # Do the same thing as above, but for the set of test games (if
         # different)
-        if self.games != self.test_games:
+        if not self.GAMES_EQUALS_TEST_GAMES:
             distribution_dict_train = \
                 distributional_info(self.db,
                                     self.prediction_label,
@@ -1012,3 +1018,43 @@ class ExperimentalData(object):
             self.id_strings_labels_dict_test = \
                 distribution_dict_train['id_strings_labels_dict']
             self.labels_counter_test = distribution_dict_train['labels_counter']
+
+        # Test data IDs
+        self.test_sample_ids = []
+        total_num_ids_test = sum(self.labels_counter_test.values())
+        for label in self.labels_counter_test:
+            all_ids = [_id for _id in self.id_strings_labels_dict_test
+                       if self.id_strings_labels_dict_test[_id] == label]
+            np.random.shuffle(all_ids)
+            frequency = self.labels_counter_test[label]
+            label_total = (frequency/total_num_ids_test)*self.max_test_samples
+            self.test_sample_ids.extend(all_ids[:label_total])
+        np.random.shuffle(self.test_sample_ids)
+        if len(self.test_sample_ids) > self.max_test_samples:
+            self.test_sample_ids = self.test_sample_ids[:self.max_test_samples]
+
+        # Training data IDs
+        self.train_sample_ids_lists = []
+        total_num_ids = sum(self.labels_counter.values())
+
+        # Raise error if test games are the same as training games and
+        # the test set is taking up over 75% of the data
+        if self.GAMES_EQUALS_TEST_GAMES:
+            if len(self.test_sample_ids) > 0.75*total_num_ids:
+                raise ValueError('The size of the test set is too big. There '
+                                 'isn\'t enough data to do any training!')
+            total_left_for_training = total_num_ids - len(self.test_sample_ids)
+
+        cdef int i = 0
+        for _round in self.max_rounds:
+            for label in self.labels_counter:
+                all_ids = [_id for _id in self.id_strings_labels_dict
+                           if self.id_strings_labels_dict[_id] == label
+                              and not _id in self.test_sample_ids]
+                np.random.shuffle(all_ids)
+                frequency = self.labels_counter[label]
+                label_total = (frequency/total_num_ids)*self.samples_per_round
+                self.train_sample_ids_lists.append(all_ids[:label_total])
+                i += len(all_ids[:label_total])
+                if self.GAMES_EQUALS_TEST_GAMES and i >= total_num_ids:
+                    break
