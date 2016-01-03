@@ -861,7 +861,7 @@ class ExperimentalData(object):
                  prediction_label: str,
                  classes: np.array,
                  games: set,
-                 test_games: set,
+                 test_games: set = set(),
                  max_rounds: int = 0,
                  samples_per_round: int = None,
                  lognormal: bool = False,
@@ -984,7 +984,7 @@ class ExperimentalData(object):
 
         if test_games and bin_ranges:
             if not test_bin_ranges:
-                raise ValueError('If "test_games is specified and '
+                raise ValueError('If "test_games" is specified and '
                                  '"bin_ranges" for the training games is '
                                  'specified, then "test_bin_ranges" must also'
                                  ' be specified".')

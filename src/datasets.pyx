@@ -1032,7 +1032,7 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
 
 
 def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
-                          float factor, lognormal: bool = False,
+                          float factor=1.0, lognormal: bool = False,
                           power_transform: float = None) -> list:
     """
     Get bin ranges given a set of games, a label, the desired number of
