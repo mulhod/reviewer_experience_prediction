@@ -1108,7 +1108,7 @@ class ExperimentalData(object):
         if not self.samples_per_round:
             self.samples_per_round = \
                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
-        for _ in self.max_rounds:
+        for _ in len(self.max_rounds):
             for label in self.labels_id_strings_dict_train:
                 all_ids = self.labels_id_strings_dict_train[label]
                 label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))

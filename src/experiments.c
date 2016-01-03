@@ -14041,7 +14041,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
  *         if not self.samples_per_round:
  *             self.samples_per_round = \
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))             # <<<<<<<<<<<<<<
- *         for _ in self.max_rounds:
+ *         for _ in len(self.max_rounds):
  *             for label in self.labels_id_strings_dict_train:
  */
     __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1110; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -14096,7 +14096,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
  *         if not self.samples_per_round:
  *             self.samples_per_round = \             # <<<<<<<<<<<<<<
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
- *         for _ in self.max_rounds:
+ *         for _ in len(self.max_rounds):
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_samples_per_round, __pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1109; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
@@ -14113,11 +14113,15 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
   /* "src/experiments.pyx":1111
  *             self.samples_per_round = \
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
- *         for _ in self.max_rounds:             # <<<<<<<<<<<<<<
+ *         for _ in len(self.max_rounds):             # <<<<<<<<<<<<<<
  *             for label in self.labels_id_strings_dict_train:
  *                 all_ids = self.labels_id_strings_dict_train[label]
  */
   __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_max_rounds); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_11);
+  __pyx_t_9 = PyObject_Length(__pyx_t_11); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __pyx_t_11 = PyInt_FromSsize_t(__pyx_t_9); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1111; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   if (likely(PyList_CheckExact(__pyx_t_11)) || PyTuple_CheckExact(__pyx_t_11)) {
     __pyx_t_14 = __pyx_t_11; __Pyx_INCREF(__pyx_t_14); __pyx_t_9 = 0;
@@ -14164,7 +14168,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
 
     /* "src/experiments.pyx":1112
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
- *         for _ in self.max_rounds:
+ *         for _ in len(self.max_rounds):
  *             for label in self.labels_id_strings_dict_train:             # <<<<<<<<<<<<<<
  *                 all_ids = self.labels_id_strings_dict_train[label]
  *                 label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))
@@ -14215,7 +14219,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
       __pyx_t_11 = 0;
 
       /* "src/experiments.pyx":1113
- *         for _ in self.max_rounds:
+ *         for _ in len(self.max_rounds):
  *             for label in self.labels_id_strings_dict_train:
  *                 all_ids = self.labels_id_strings_dict_train[label]             # <<<<<<<<<<<<<<
  *                 label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))
@@ -14457,7 +14461,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
 
       /* "src/experiments.pyx":1112
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
- *         for _ in self.max_rounds:
+ *         for _ in len(self.max_rounds):
  *             for label in self.labels_id_strings_dict_train:             # <<<<<<<<<<<<<<
  *                 all_ids = self.labels_id_strings_dict_train[label]
  *                 label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))
@@ -14468,7 +14472,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2get_id_strings_
     /* "src/experiments.pyx":1111
  *             self.samples_per_round = \
  *                 int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
- *         for _ in self.max_rounds:             # <<<<<<<<<<<<<<
+ *         for _ in len(self.max_rounds):             # <<<<<<<<<<<<<<
  *             for label in self.labels_id_strings_dict_train:
  *                 all_ids = self.labels_id_strings_dict_train[label]
  */
