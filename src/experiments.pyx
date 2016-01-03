@@ -14,13 +14,13 @@ from itertools import (chain,
 import numpy as np
 import pandas as pd
 from nltk import FreqDist
+from skll.metrics import kappa
 from pymongo import (cursor,
                      ASCENDING,
                      collection)
 from scipy.stats import pearsonr
 from sklearn.cluster import MiniBatchKMeans
-from sklearn.metrics import (kappa,
-                             f1_score,
+from sklearn.metrics import (f1_score,
                              accuracy_score,
                              precision_score,
                              confusion_matrix)
