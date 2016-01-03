@@ -5,13 +5,15 @@
 Module of functions/classes related to learning experiments.
 """
 import logging
+from math import ceil
 from bson import BSON
 from os.path import join
-from itertools import chain
-from collections import Counter
+from itertools import (chain,
+                       repeat)
 
 import numpy as np
 import pandas as pd
+from nltk import FreqDist
 from pymongo import (cursor,
                      ASCENDING,
                      collection)
@@ -102,8 +104,8 @@ def distributional_info(db: collection,
     :type limit: int
 
     :returns: dictionary containing `id_strings_labels_dict` and
-              `labels_counter` keys, which are mapped to a dictionary
-              of ID strings mapped to labels and a Counter object
+              `labels_fdist` keys, which are mapped to a dictionary
+              of ID strings mapped to labels and a `FreqDist` object
               representing the frequency distribution of the label
               values, respectively
     :rtype: dict
@@ -183,12 +185,12 @@ def distributional_info(db: collection,
 
     # Return dictionary containing a key 'id_strings_labels_dict'
     # mapped to a dictionary mapping ID strings to label values and a
-    # key 'labels_counter' mapped to a Counter object of the label
+    # key 'labels_fdist' mapped to a `FreqDist` object of the label
     # values
     id_strings_labels_dict = {doc['id_string']: doc[label] for doc in samples}
-    labels_counter = Counter([doc[label] for doc in samples])
+    labels_fdist = FreqDist([doc[label] for doc in samples])
     return dict(id_strings_labels_dict=id_strings_labels_dict,
-                labels_counter=labels_counter)
+                labels_fdist=labels_fdist)
 
 
 def get_label_in_doc(doc: dict, label: str):
@@ -288,7 +290,7 @@ def evenly_distribute_samples(db: collection,
     # Create a maximally evenly-distributed list of samples with
     # respect to label
     labels_id_strings_lists_dict = dict()
-    for label_value in distribution_dict['labels_counter']:
+    for label_value in distribution_dict['labels_fdist']:
         labels_id_strings_lists_dict[label_value] = \
             [_id for _id, _label
              in distribution_dict['id_strings_labels_dict'].items()
@@ -297,7 +299,7 @@ def evenly_distribute_samples(db: collection,
     while i < len(distribution_dict['id_strings_labels_dict']):
 
         # For each label value, pop off an ID string, if available
-        for label_value in distribution_dict['labels_counter']:
+        for label_value in distribution_dict['labels_fdist']:
             if labels_id_strings_lists_dict[label_value]:
                 yield labels_id_strings_lists_dict[label_value].pop()
                 i += 1
@@ -860,14 +862,14 @@ class ExperimentalData(object):
                  classes: np.array,
                  games: set,
                  test_games: set,
-                 max_test_samples: int,
-                 samples_per_round: int = 0,
                  max_rounds: int = 0,
+                 samples_per_round: int = None,
                  lognormal: bool = False,
                  power_transform: float = None,
                  bin_ranges: list = None,
                  test_bin_ranges: list = None,
-                 batch_size: int = 50):
+                 batch_size: int = 50,
+                 max_test_samples: int = -1):
         """
         Initialize an `ExperimentalData` object.
 
@@ -881,15 +883,14 @@ class ExperimentalData(object):
         :type games: set
         :param test_games: set of games (str) to use for testing
         :type test_games: set
-        :param max_test_samples: limit for the number of test samples
-                                 (defaults to 0 for no limit)
-        :type max_test_samples: int
-        :param samples_per_round: number of training documents to
-                                  extract in each round
-        :type samples_per_round: int
-        :param max_rounds: number of rounds of learning (0 for as many
-                           as possible)
+        :param max_rounds: number of rounds of learning (defaults to 0,
+                           i.e., for as many as possible)
         :type max_rounds: int
+        :param samples_per_round: number of training documents to
+                                  extract in each round (default: None)
+                                  (must be specified if `max_rounds` is
+                                  left unspecified)
+        :type samples_per_round: int
         :param lognormal: transform raw label values using `ln`
                           (default: False)
         :type lognormal: bool
@@ -917,6 +918,18 @@ class ExperimentalData(object):
         :type test_bin_ranges: list of tuples
         :param batch_size: batch size to use for the database cursor
         :type batch_size: int (default: 50)
+        :param max_test_samples: limit for the number of test samples
+                                 (defaults to a negative value,
+                                 signifying that there will be special
+                                 test set generated; use 0 to signal
+                                 that all data should be used in the
+                                 test set) (Note: This can only be used
+                                 if there is going to be a designated
+                                 test set that can't be used for
+                                 training, i.e., if the set of test
+                                 games differs from the set of training
+                                 games.
+        :type max_test_samples: int
 
         :raises ValueError: if `games`/`test_games` contains
                             unrecognized games or `batch_size` is less
@@ -943,12 +956,31 @@ class ExperimentalData(object):
             raise ValueError('"batch_size" must be greater than zero: {0}'
                              .format(batch_size))
 
-        if any(n < 0 for n in [samples_per_round, max_rounds]):
-            raise ValueError('"samples_per_round"/"max_rounds" parameters '
-                             'must be non-negative.')
+        if samples_per_round and samples_per_round < 0:
+            raise ValueError('"samples_per_round" parameters must be '
+                             'non-negative.')
+        if max_rounds < 0:
+            raise ValueError('"max_rounds" parameters must be non-negative.')
 
-        if max_test_samples < 0:
-            raise ValueError('"max_test_samples" must be greater than 0.')
+        if not (samples_per_round or max_rounds):
+            raise ValueError('If "max_rounds" is left unspecified, '
+                             '"samples_per_round" must be specified.')
+
+        # `max_test_samples` should not be specified if
+        # `games`/`test_games` are equivalent
+        if self.GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
+            raise ValueError('"max_test_samples" should not be specified when'
+                             ' "test_games" differs from "games" (and, thus, '
+                             'when the test set is special and needs to be '
+                             'separate from the rest of the data).')
+
+        # `max_test_samples` should be specified if
+        # `games`/`test_games` differ
+        if not self.GAMES_EQUALS_TEST_GAMES and max_test_samples < 0:
+            raise ValueError('"max_test_samples" should be specified when '
+                             '"test_games" differs from "games" (and, thus, '
+                             'when the test set is special and needs to be '
+                             'separate from the rest of the data).')
 
         if test_games and bin_ranges:
             if not test_bin_ranges:
@@ -979,12 +1011,15 @@ class ExperimentalData(object):
         # rounds
         self.get_id_strings_labels_dict()
 
-    def get_id_strings_labels_dict(self) -> dict:
-        """
-        Get a dictionary of `id_string`s mapped to label values.
+        self.num_datasets = len(self.train_sample_ids_lists)
+        self.datasets_dict = \
+            {ind + 1: _ids for ind, _ids
+             in (range(self.num_datasets), self.train_sample_ids_lists)}
+        self.test_set = self.test_sample_ids
 
-        :returns: a dictionary of `id_string`s mapped to label values
-        :rtype: dict
+    def get_id_strings_labels_dict(self):
+        """
+        Build up a dictionary of `id_string`s mapped to label values.
         """
 
         # Get dictionary of ID strings mapped to labels and a frequency
@@ -998,15 +1033,16 @@ class ExperimentalData(object):
                                 lognormal=self.lognormal,
                                 power_transform=self.power_transform,
                                 batch_size=self.batch_size)
-        self.id_strings_labels_dict_test = self.id_strings_labels_dict = \
+        self.id_strings_labels_dict_train = self.id_strings_labels_dict = \
             distribution_dict_train['id_strings_labels_dict']
-        self.labels_counter_test = self.labels_counter = \
-            distribution_dict_train['labels_counter']
+        self.labels_fdist_train = self.labels_fdist = \
+            distribution_dict_train['labels_fdist']
 
         # Do the same thing as above, but for the set of test games (if
         # different)
-        if not self.GAMES_EQUALS_TEST_GAMES:
-            distribution_dict_train = \
+        self.test_sample_ids = []
+        if not self.GAMES_EQUALS_TEST_GAMES and self.max_test_samples > -1:
+            distribution_dict_test = \
                 distributional_info(self.db,
                                     self.prediction_label,
                                     self.test_games,
@@ -1016,45 +1052,63 @@ class ExperimentalData(object):
                                     power_transform=self.power_transform,
                                     batch_size=self.batch_size)
             self.id_strings_labels_dict_test = \
-                distribution_dict_train['id_strings_labels_dict']
-            self.labels_counter_test = distribution_dict_train['labels_counter']
+                distribution_dict_test['id_strings_labels_dict']
+            self.labels_fdist_test = distribution_dict_test['labels_fdist']
 
-        # Test data IDs
-        self.test_sample_ids = []
-        total_num_ids_test = sum(self.labels_counter_test.values())
-        for label in self.labels_counter_test:
-            all_ids = [_id for _id in self.id_strings_labels_dict_test
-                       if self.id_strings_labels_dict_test[_id] == label]
-            np.random.shuffle(all_ids)
-            frequency = self.labels_counter_test[label]
-            label_total = (frequency/total_num_ids_test)*self.max_test_samples
-            self.test_sample_ids.extend(all_ids[:label_total])
-        np.random.shuffle(self.test_sample_ids)
-        if len(self.test_sample_ids) > self.max_test_samples:
-            self.test_sample_ids = self.test_sample_ids[:self.max_test_samples]
+            if not self.max_test_samples:
+                self.max_test_samples = len(self.labels_fdist_test.N())
+
+            # Test data IDs
+            prng = np.random.RandomState(12345)
+            _extend = self.test_sample_ids.extend
+            for label in self.labels_fdist_test:
+                _ids = np.array([_id for _id in self.id_strings_labels_dict_test
+                                 if self.id_strings_labels_dict_test[_id] == label])
+                _ids.sort()
+                prng.shuffle(_ids)
+                label_freq = int(np.ceil(self.labels_fdist_test.freq(label)))
+                _extend(_ids[:label_freq*self.max_test_samples])
+            prng.shuffle(sorted(self.test_sample_ids))
+            if len(self.test_sample_ids) > self.max_test_samples:
+                self.test_sample_ids = self.test_sample_ids[:self.max_test_samples]
 
         # Training data IDs
         self.train_sample_ids_lists = []
-        total_num_ids = sum(self.labels_counter.values())
+        _append = self.train_sample_ids_lists.append
+        total_num_ids = self.labels_fdist_train.N()
 
         # Raise error if test games are the same as training games and
         # the test set is taking up over 75% of the data
+        TOO_MUCH_OF_TOTAL = 0.75
         if self.GAMES_EQUALS_TEST_GAMES:
-            if len(self.test_sample_ids) > 0.75*total_num_ids:
-                raise ValueError('The size of the test set is too big. There '
-                                 'isn\'t enough data to do any training!')
+            if len(self.test_sample_ids) > TOO_MUCH_OF_TOTAL*total_num_ids:
+                raise ValueError("The size of the test set is too big. There "
+                                 "isn't enough data to do any training!")
             total_left_for_training = total_num_ids - len(self.test_sample_ids)
 
-        cdef int i = 0
-        for _round in self.max_rounds:
-            for label in self.labels_counter:
-                all_ids = [_id for _id in self.id_strings_labels_dict
-                           if self.id_strings_labels_dict[_id] == label
-                              and not _id in self.test_sample_ids]
-                np.random.shuffle(all_ids)
-                frequency = self.labels_counter[label]
-                label_total = (frequency/total_num_ids)*self.samples_per_round
-                self.train_sample_ids_lists.append(all_ids[:label_total])
-                i += len(all_ids[:label_total])
-                if self.GAMES_EQUALS_TEST_GAMES and i >= total_num_ids:
-                    break
+        i = 0
+        # Make a dictionary mapping each label value to a list of
+        # `id_string`s
+        prng = np.random.RandomState(12345)
+        self.labels_id_strings_dict_train = {}
+        for label in self.labels_fdist_train:
+            _ids = np.array([_id for _id in self.id_strings_labels_dict
+                             if self.id_strings_labels_dict[_id] == label
+                                and not _id in self.test_sample_ids])
+            _ids.sort()
+            prng.shuffle(_ids)
+            self.labels_id_strings_dict_train[label] = _ids
+        if not self.max_rounds:
+            self.max_rounds = \
+                int(np.floor(len(self.id_strings_labels_dict_train)/self.samples_per_round))
+        if not self.samples_per_round:
+            self.samples_per_round = \
+                int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
+        for _ in self.max_rounds:
+            for label in self.labels_id_strings_dict_train:
+                all_ids = self.labels_id_strings_dict_train[label]
+                label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))
+                _ids = all_ids[:label_freq*self.samples_per_round]
+                _append(_ids)
+                self.labels_id_strings_dict_train[label] = \
+                    np.array([_id for _id in all_ids if not _id in _ids])
