@@ -1031,7 +1031,7 @@ class ExperimentalData(object):
         distribution_dict_train = \
             distributional_info(self.db,
                                 self.prediction_label,
-                                self.games,
+                                list(self.games),
                                 partition='all',
                                 bin_ranges=self.bin_ranges,
                                 lognormal=self.lognormal,
@@ -1049,7 +1049,7 @@ class ExperimentalData(object):
             distribution_dict_test = \
                 distributional_info(self.db,
                                     self.prediction_label,
-                                    self.test_games,
+                                    list(self.test_games),
                                     partition='all',
                                     bin_ranges=self.test_bin_ranges,
                                     lognormal=self.lognormal,
