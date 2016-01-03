@@ -975,24 +975,28 @@ class ExperimentalData(object):
                              'separate from the rest of the data).')
 
         # `max_test_samples` should be specified if
-        # `games`/`test_games` differ
-        if not self.GAMES_EQUALS_TEST_GAMES and max_test_samples < 0:
-            raise ValueError('"max_test_samples" should be specified when '
-                             '"test_games" differs from "games" (and, thus, '
-                             'when the test set is special and needs to be '
-                             'separate from the rest of the data).')
+        # `games`/`test_games` differ, as should `test_bin_ranges` if
+        # `bin_ranges` is also specified
+        if not self.GAMES_EQUALS_TEST_GAMES:
+            if max_test_samples < 0:
+                raise ValueError('"max_test_samples" should be specified when'
+                                 ' "test_games" differs from "games" (and, '
+                                 'thus, when the test set is special and '
+                                 'needs to be separate from the rest of the '
+                                 'data).')
 
-        if test_games and bin_ranges:
-            if not test_bin_ranges:
-                raise ValueError('If "test_games" is specified and '
-                                 '"bin_ranges" for the training games is '
-                                 'specified, then "test_bin_ranges" must also'
-                                 ' be specified".')
-            if len(bin_ranges) != len(test_bin_ranges):
-                raise ValueError('If both "bin_ranges" and "test_bin_ranges" '
-                                 'are specified, then they must have the same'
-                                 ' length since there should be a '
-                                 'correspondence between index labels.')
+            if bin_ranges:
+                if not test_bin_ranges:
+                    raise ValueError('If "test_games" is specified and '
+                                     '"bin_ranges" for the training games is '
+                                     'specified, then "test_bin_ranges" must '
+                                     'also be specified".')
+                if len(bin_ranges) != len(test_bin_ranges):
+                    raise ValueError('If both "bin_ranges" and '
+                                     '"test_bin_ranges" are specified, then '
+                                     'they must have the same length since '
+                                     'there should be a correspondence '
+                                     'between index labels.')
 
         self.db = db
         self.prediction_label = prediction_label
