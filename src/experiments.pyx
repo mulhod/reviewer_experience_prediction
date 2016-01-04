@@ -51,7 +51,7 @@ NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
 def distributional_info(db: collection,
                         label: str,
                         games: list,
-                        partition: str = 'test',
+                        partition: str = 'all',
                         bin_ranges: list = None,
                         lognormal: bool = False,
                         power_transform: float = None,
@@ -63,10 +63,9 @@ def distributional_info(db: collection,
     ranges and/or setting `lognormal` to True) for the for the given
     list of games.
 
-    By default, the 'test' partition is used, but the 'train' partition
-    can be specified via the `partition` parameter. If 'all' is
-    specified for the `partition` parameter, the partition is left
-    unspecified (i.e., all of the data is used).
+    By default, no partition is specified ('all'), but either the
+    'test' or 'train' partition can be specified via the `partition`
+    parameter.
 
      A set of raw data transformations can be specified as well.
     `lognormal` can be set to True to transform raw values with the
@@ -89,7 +88,7 @@ def distributional_info(db: collection,
     :param games: list of game IDs
     :type games: list
     :param partition: data partition, i.e., 'train', 'test', or 'all'
-                      to use all of the data (default: 'test')
+                      to use all of the data (default: 'all')
     :type partition: str
     :param bin_ranges: list of ranges
     :type bin_ranges: list or None
@@ -119,10 +118,9 @@ def distributional_info(db: collection,
     """
 
     # Validate parameter values
-    if partition != 'test' and not partition in ['train', 'all']:
+    if not partition in ['train', 'test', 'all']:
         raise ValueError('The only values recognized for the "partition" '
-                         'parameter are "test", "train", and "all" (for no '
-                         'partition, i.e., all of the data).')
+                         'parameter are "test", "train", and "all".')
     if not label in LABELS:
         raise ValueError('Unrecognized label: {0}'.format(label))
     if limit != 0 and (type(limit) != int or limit < 0):
@@ -856,14 +854,17 @@ class ExperimentalData(object):
     round + a number of additional learning rounds.
     """
 
+    num_datasets = None
+    datasets_dict = None
+    test_set = None
+
     def __init__(self,
                  db: collection,
                  prediction_label: str,
-                 classes: np.array,
                  games: set,
                  test_games: set = set(),
-                 max_rounds: int = 0,
-                 samples_per_round: int = None,
+                 max_partitions: int = 0,
+                 n_partition: int = None,
                  lognormal: bool = False,
                  power_transform: float = None,
                  bin_ranges: list = None,
@@ -877,20 +878,20 @@ class ExperimentalData(object):
         :type db: collection
         :param prediction_label: label to use for prediction
         :type prediction_label: str
-        :param classes: array of possible values
-        :type classes: np.array
         :param games: set of games (str)
         :type games: set
         :param test_games: set of games (str) to use for testing
         :type test_games: set
-        :param max_rounds: number of rounds of learning (defaults to 0,
-                           i.e., for as many as possible)
-        :type max_rounds: int
-        :param samples_per_round: number of training documents to
-                                  extract in each round (default: None)
-                                  (must be specified if `max_rounds` is
-                                  left unspecified)
-        :type samples_per_round: int
+        :param max_partitions: number of splits of the data (defaults
+                               to 0, i.e., as many as possible)
+        :type max_partitions: int
+        :param n_partition: maximum number of data samples to use for
+                            each partition of the data (default: None,
+                            which means that the number will be
+                            calculated based on the number of data
+                            partitions) (must be specified if
+                            `max_partitions` is left unspecified)
+        :type n_partition: int
         :param lognormal: transform raw label values using `ln`
                           (default: False)
         :type lognormal: bool
@@ -942,33 +943,32 @@ class ExperimentalData(object):
                              'non-empty sets.')
 
         if games == test_games:
-            self.games = self.test_games = games
-            self.GAMES_EQUALS_TEST_GAMES = True
+            self._games = self._test_games = games
+            self._GAMES_EQUALS_TEST_GAMES = True
         else:
             for _games in [games, test_games]:
                 if any(not game in APPID_DICT for game in _games):
                     raise ValueError('Invalid games: {0}.'.format(_games))
-            self.games = games
-            self.test_games = test_games
-            self.GAMES_EQUALS_TEST_GAMES = False
+            self._games = games
+            self._test_games = test_games
+            self._GAMES_EQUALS_TEST_GAMES = False
 
         if batch_size < 1:
             raise ValueError('"batch_size" must be greater than zero: {0}'
                              .format(batch_size))
 
-        if samples_per_round and samples_per_round < 0:
-            raise ValueError('"samples_per_round" parameters must be '
-                             'non-negative.')
-        if max_rounds < 0:
-            raise ValueError('"max_rounds" parameters must be non-negative.')
+        if n_partition and n_partition < 0:
+            raise ValueError('"n_partition" must be non-negative.')
+        if max_partitions < 0:
+            raise ValueError('"max_partitions" must be non-negative.')
 
-        if not (samples_per_round or max_rounds):
-            raise ValueError('If "max_rounds" is left unspecified, '
-                             '"samples_per_round" must be specified.')
+        if not (n_partition or max_partitions):
+            raise ValueError('If "max_partitions" is left unspecified, '
+                             '"n_partition" must be specified.')
 
         # `max_test_samples` should not be specified if
         # `games`/`test_games` are equivalent
-        if self.GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
+        if self._GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
             raise ValueError('"max_test_samples" should not be specified when'
                              ' "test_games" differs from "games" (and, thus, '
                              'when the test set is special and needs to be '
@@ -977,7 +977,7 @@ class ExperimentalData(object):
         # `max_test_samples` should be specified if
         # `games`/`test_games` differ, as should `test_bin_ranges` if
         # `bin_ranges` is also specified
-        if not self.GAMES_EQUALS_TEST_GAMES:
+        if not self._GAMES_EQUALS_TEST_GAMES:
             if max_test_samples < 0:
                 raise ValueError('"max_test_samples" should be specified when'
                                  ' "test_games" differs from "games" (and, '
@@ -998,30 +998,21 @@ class ExperimentalData(object):
                                      'there should be a correspondence '
                                      'between index labels.')
 
-        self.db = db
-        self.prediction_label = prediction_label
-        self.classes = classes
-        self.samples_per_round = samples_per_round
-        self.max_rounds = max_rounds
-        self.max_test_samples = max_test_samples
-        self.test_bin_ranges = self.bin_ranges = bin_ranges
-        if test_bin_ranges:
-            self.test_bin_ranges = test_bin_ranges
-        self.power_transform = power_transform
-        self.lognormal = lognormal
-        self.batch_size = batch_size
+        self._db = db
+        self._label = prediction_label
+        self._n_partition = n_partition
+        self._max_partitions = max_partitions
+        self._distributional_info_kwargs = {'power_transform': power_transform,
+                                            'lognormal': lognormal,
+                                            'bin_ranges': bin_ranges,
+                                            'batch_size': batch_size}
+        self._test_bin_ranges = test_bin_ranges if test_bin_ranges else bin_ranges
+        self._max_test_samples = max_test_samples
 
-        # Get lists of ID strings for the test set and the training set
-        # rounds
-        self.get_id_strings_labels_dict()
+        # Construct the dataset
+        self.construct_layered_dataset()
 
-        self.num_datasets = len(self.train_sample_ids_lists)
-        self.datasets_dict = \
-            {ind + 1: _ids for ind, _ids
-             in zip(range(self.num_datasets), self.train_sample_ids_lists)}
-        self.test_set = self.test_sample_ids if self.test_sample_ids else None
-
-    def get_id_strings_labels_dict(self):
+    def construct_layered_dataset(self):
         """
         Build up a dictionary of `id_string`s mapped to label values.
         """
@@ -1029,90 +1020,87 @@ class ExperimentalData(object):
         # Get dictionary of ID strings mapped to labels and a frequency
         # distribution of the labels
         distribution_dict_train = \
-            distributional_info(self.db,
-                                self.prediction_label,
-                                list(self.games),
-                                partition='all',
-                                bin_ranges=self.bin_ranges,
-                                lognormal=self.lognormal,
-                                power_transform=self.power_transform,
-                                batch_size=self.batch_size)
-        self.id_strings_labels_dict_train = self.id_strings_labels_dict = \
+            distributional_info(self._db,
+                                self._label,
+                                list(self._games),
+                                **self._distributional_info_kwargs)
+        id_strings_labels_dict_train = \
             distribution_dict_train['id_strings_labels_dict']
-        self.labels_fdist_train = self.labels_fdist = \
-            distribution_dict_train['labels_fdist']
+        labels_fdist_train = distribution_dict_train['labels_fdist']
 
         # Do the same thing as above, but for the set of test games (if
         # different)
-        self.test_sample_ids = []
-        if not self.GAMES_EQUALS_TEST_GAMES and self.max_test_samples > -1:
+        test_sample_ids = []
+        if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:
             distribution_dict_test = \
-                distributional_info(self.db,
-                                    self.prediction_label,
-                                    list(self.test_games),
-                                    partition='all',
-                                    bin_ranges=self.test_bin_ranges,
-                                    lognormal=self.lognormal,
-                                    power_transform=self.power_transform,
-                                    batch_size=self.batch_size)
-            self.id_strings_labels_dict_test = \
+                distributional_info(self._db,
+                                    self._label,
+                                    list(self._test_games),
+                                    **self._distributional_info_kwargs)
+            id_strings_labels_dict_test = \
                 distribution_dict_test['id_strings_labels_dict']
-            self.labels_fdist_test = distribution_dict_test['labels_fdist']
+            labels_fdist_test = distribution_dict_test['labels_fdist']
 
-            if not self.max_test_samples:
-                self.max_test_samples = len(self.labels_fdist_test.N())
+            if not self._max_test_samples:
+                self._max_test_samples = len(labels_fdist_test.N())
 
             # Test data IDs
             prng = np.random.RandomState(12345)
-            _extend = self.test_sample_ids.extend
-            for label in self.labels_fdist_test:
-                _ids = np.array([_id for _id in self.id_strings_labels_dict_test
-                                 if self.id_strings_labels_dict_test[_id] == label])
+            _extend = test_sample_ids.extend
+            for label in labels_fdist_test:
+                _ids = np.array([_id for _id in id_strings_labels_dict_test
+                                 if id_strings_labels_dict_test[_id] == label])
                 _ids.sort()
                 prng.shuffle(_ids)
-                label_freq = int(np.ceil(self.labels_fdist_test.freq(label)))
-                _extend(_ids[:label_freq*self.max_test_samples])
-            prng.shuffle(sorted(self.test_sample_ids))
-            if len(self.test_sample_ids) > self.max_test_samples:
-                self.test_sample_ids = self.test_sample_ids[:self.max_test_samples]
+                label_freq = int(np.ceil(labels_fdist_test.freq(label)))
+                _extend(_ids[:label_freq*self._max_test_samples])
+            prng.shuffle(sorted(test_sample_ids))
+            if len(test_sample_ids) > self._max_test_samples:
+                test_sample_ids = test_sample_ids[:self._max_test_samples]
 
         # Training data IDs
-        self.train_sample_ids_lists = []
-        _append = self.train_sample_ids_lists.append
-        total_num_ids = self.labels_fdist_train.N()
+        train_sample_ids_lists = []
+        _append = train_sample_ids_lists.append
+        total_num_ids = labels_fdist_train.N()
 
         # Raise error if test games are the same as training games and
         # the test set is taking up over 75% of the data
         TOO_MUCH_OF_TOTAL = 0.75
-        if self.GAMES_EQUALS_TEST_GAMES:
-            if len(self.test_sample_ids) > TOO_MUCH_OF_TOTAL*total_num_ids:
+        if self._GAMES_EQUALS_TEST_GAMES:
+            if len(test_sample_ids) > TOO_MUCH_OF_TOTAL*total_num_ids:
                 raise ValueError("The size of the test set is too big. There "
                                  "isn't enough data to do any training!")
-            total_left_for_training = total_num_ids - len(self.test_sample_ids)
+            total_left_for_training = total_num_ids - len(test_sample_ids)
 
         i = 0
         # Make a dictionary mapping each label value to a list of
         # `id_string`s
         prng = np.random.RandomState(12345)
-        self.labels_id_strings_dict_train = {}
-        for label in self.labels_fdist_train:
-            _ids = np.array([_id for _id in self.id_strings_labels_dict
-                             if self.id_strings_labels_dict[_id] == label
-                                and not _id in self.test_sample_ids])
+        labels_id_strings_dict_train = {}
+        for label in labels_fdist_train:
+            _ids = np.array([_id for _id in id_strings_labels_dict_train
+                             if id_strings_labels_dict_train[_id] == label
+                                and not _id in test_sample_ids])
             _ids.sort()
             prng.shuffle(_ids)
-            self.labels_id_strings_dict_train[label] = _ids
-        if not self.max_rounds:
-            self.max_rounds = \
-                int(np.floor(len(self.id_strings_labels_dict_train)/self.samples_per_round))
-        if not self.samples_per_round:
-            self.samples_per_round = \
-                int(np.floor(len(self.id_strings_labels_dict_train)/self.max_rounds))
-        for _ in range(self.max_rounds):
-            for label in self.labels_id_strings_dict_train:
-                all_ids = self.labels_id_strings_dict_train[label]
-                label_freq = int(np.ceil(self.labels_fdist_train.freq(label)))
-                _ids = all_ids[:label_freq*self.samples_per_round]
+            labels_id_strings_dict_train[label] = _ids
+        if not self._max_partitions:
+            self._max_partitions = \
+                int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
+        if not self.n_partition:
+            self.n_partition = \
+                int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
+        for _ in range(self._max_partitions):
+            for label in labels_id_strings_dict_train:
+                all_ids = labels_id_strings_dict_train[label]
+                label_freq = int(np.ceil(labels_fdist_train.freq(label)))
+                _ids = all_ids[:label_freq*self.n_partition]
                 _append(_ids)
-                self.labels_id_strings_dict_train[label] = \
+                labels_id_strings_dict_train[label] = \
                     np.array([_id for _id in all_ids if not _id in _ids])
+
+        self.num_datasets = len(train_sample_ids_lists)
+        self.datasets_dict = {ind + 1: _ids for ind, _ids
+                              in zip(range(self.num_datasets),
+                                     train_sample_ids_lists)}
+        self.test_set = test_sample_ids if test_sample_ids else None
