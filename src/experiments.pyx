@@ -1018,8 +1018,8 @@ class ExperimentalData(object):
         self.num_datasets = len(self.train_sample_ids_lists)
         self.datasets_dict = \
             {ind + 1: _ids for ind, _ids
-             in (range(self.num_datasets), self.train_sample_ids_lists)}
-        self.test_set = self.test_sample_ids
+             in zip(range(self.num_datasets), self.train_sample_ids_lists)}
+        self.test_set = self.test_sample_ids if self.test_sample_ids else None
 
     def get_id_strings_labels_dict(self):
         """
