@@ -13532,7 +13532,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
  *             labels_id_strings_dict_train[label] = _ids
  *         if not self._max_partitions:             # <<<<<<<<<<<<<<
  *             self._max_partitions = \
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
  */
   __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_max_partitions_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1092; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -13544,9 +13544,9 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
     /* "src/experiments.pyx":1094
  *         if not self._max_partitions:
  *             self._max_partitions = \
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))             # <<<<<<<<<<<<<<
- *         if not self.n_partition:
- *             self.n_partition = \
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))             # <<<<<<<<<<<<<<
+ *         if not self._n_partition:
+ *             self._n_partition = \
  */
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
@@ -13556,7 +13556,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
     __pyx_t_9 = PyObject_Length(__pyx_v_id_strings_labels_dict_train); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __pyx_t_2 = PyInt_FromSsize_t(__pyx_t_9); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition_2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_3 = __Pyx_PyNumber_Divide(__pyx_t_2, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1094; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
@@ -13596,8 +13596,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
  *             labels_id_strings_dict_train[label] = _ids
  *         if not self._max_partitions:
  *             self._max_partitions = \             # <<<<<<<<<<<<<<
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
- *         if not self.n_partition:
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+ *         if not self._n_partition:
  */
     if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_max_partitions_2, __pyx_t_13) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -13607,18 +13607,18 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
  *             labels_id_strings_dict_train[label] = _ids
  *         if not self._max_partitions:             # <<<<<<<<<<<<<<
  *             self._max_partitions = \
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
  */
   }
 
   /* "src/experiments.pyx":1095
  *             self._max_partitions = \
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
- *         if not self.n_partition:             # <<<<<<<<<<<<<<
- *             self.n_partition = \
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+ *         if not self._n_partition:             # <<<<<<<<<<<<<<
+ *             self._n_partition = \
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
  */
-  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1095; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition_2); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1095; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_13); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1095; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
@@ -13626,8 +13626,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
   if (__pyx_t_8) {
 
     /* "src/experiments.pyx":1097
- *         if not self.n_partition:
- *             self.n_partition = \
+ *         if not self._n_partition:
+ *             self._n_partition = \
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))             # <<<<<<<<<<<<<<
  *         for _ in range(self._max_partitions):
  *             for label in labels_id_strings_dict_train:
@@ -13677,26 +13677,26 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
 
     /* "src/experiments.pyx":1096
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
- *         if not self.n_partition:
- *             self.n_partition = \             # <<<<<<<<<<<<<<
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+ *         if not self._n_partition:
+ *             self._n_partition = \             # <<<<<<<<<<<<<<
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
  *         for _ in range(self._max_partitions):
  */
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_n_partition, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1096; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_n_partition_2, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1096; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "src/experiments.pyx":1095
  *             self._max_partitions = \
- *                 int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
- *         if not self.n_partition:             # <<<<<<<<<<<<<<
- *             self.n_partition = \
+ *                 int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+ *         if not self._n_partition:             # <<<<<<<<<<<<<<
+ *             self._n_partition = \
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
  */
   }
 
   /* "src/experiments.pyx":1098
- *             self.n_partition = \
+ *             self._n_partition = \
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
  *         for _ in range(self._max_partitions):             # <<<<<<<<<<<<<<
  *             for label in labels_id_strings_dict_train:
@@ -13781,7 +13781,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
  *             for label in labels_id_strings_dict_train:
  *                 all_ids = labels_id_strings_dict_train[label]             # <<<<<<<<<<<<<<
  *                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))
- *                 _ids = all_ids[:label_freq*self.n_partition]
+ *                 _ids = all_ids[:label_freq*self._n_partition]
  */
       __pyx_t_1 = __Pyx_PyDict_GetItem(__pyx_v_labels_id_strings_dict_train, __pyx_v_label); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_1);
@@ -13792,7 +13792,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
  *             for label in labels_id_strings_dict_train:
  *                 all_ids = labels_id_strings_dict_train[label]
  *                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))             # <<<<<<<<<<<<<<
- *                 _ids = all_ids[:label_freq*self.n_partition]
+ *                 _ids = all_ids[:label_freq*self._n_partition]
  *                 _append(_ids)
  */
       __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1101; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -13862,11 +13862,11 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
       /* "src/experiments.pyx":1102
  *                 all_ids = labels_id_strings_dict_train[label]
  *                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))
- *                 _ids = all_ids[:label_freq*self.n_partition]             # <<<<<<<<<<<<<<
+ *                 _ids = all_ids[:label_freq*self._n_partition]             # <<<<<<<<<<<<<<
  *                 _append(_ids)
  *                 labels_id_strings_dict_train[label] = \
  */
-      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_partition_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_1 = PyNumber_Multiply(__pyx_v_label_freq, __pyx_t_3); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1102; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
@@ -13879,7 +13879,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
 
       /* "src/experiments.pyx":1103
  *                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))
- *                 _ids = all_ids[:label_freq*self.n_partition]
+ *                 _ids = all_ids[:label_freq*self._n_partition]
  *                 _append(_ids)             # <<<<<<<<<<<<<<
  *                 labels_id_strings_dict_train[label] = \
  *                     np.array([_id for _id in all_ids if not _id in _ids])
@@ -13976,7 +13976,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
       __Pyx_DECREF(__pyx_t_19); __pyx_t_19 = 0;
 
       /* "src/experiments.pyx":1104
- *                 _ids = all_ids[:label_freq*self.n_partition]
+ *                 _ids = all_ids[:label_freq*self._n_partition]
  *                 _append(_ids)
  *                 labels_id_strings_dict_train[label] = \             # <<<<<<<<<<<<<<
  *                     np.array([_id for _id in all_ids if not _id in _ids])
@@ -13988,7 +13988,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2construct_layer
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "src/experiments.pyx":1098
- *             self.n_partition = \
+ *             self._n_partition = \
  *                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
  *         for _ in range(self._max_partitions):             # <<<<<<<<<<<<<<
  *             for label in labels_id_strings_dict_train:

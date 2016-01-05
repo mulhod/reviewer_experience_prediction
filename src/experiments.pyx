@@ -1091,15 +1091,15 @@ class ExperimentalData(object):
             labels_id_strings_dict_train[label] = _ids
         if not self._max_partitions:
             self._max_partitions = \
-                int(np.floor(len(id_strings_labels_dict_train)/self.n_partition))
-        if not self.n_partition:
-            self.n_partition = \
+                int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+        if not self._n_partition:
+            self._n_partition = \
                 int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
         for _ in range(self._max_partitions):
             for label in labels_id_strings_dict_train:
                 all_ids = labels_id_strings_dict_train[label]
                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))
-                _ids = all_ids[:label_freq*self.n_partition]
+                _ids = all_ids[:label_freq*self._n_partition]
                 _append(_ids)
                 labels_id_strings_dict_train[label] = \
                     np.array([_id for _id in all_ids if not _id in _ids])
