@@ -28,7 +28,7 @@ def main(argv=None):
 
     # Connect to MongoDB database
     print('Connecting to MongoDB database at {0}:{1}...'
-          .format(host=args.mongodb_host, port=args.mongodb_port),
+          .format(args.mongodb_host, args.mongodb_port),
           file=sys.stderr)
     try:
         db = connect_to_db(args.mongodb_host, args.mongodb_port)
@@ -42,3 +42,7 @@ def main(argv=None):
     db.create_index('steam_id_number', ASCENDING)
     print('Created new index "steam_id_number_1" in reviews collection.',
           file=sys.stderr)
+
+
+if __name__ == '__main__':
+    main()
