@@ -944,15 +944,17 @@ class ExperimentalData(object):
 
         # If `test_games` is left unspecified or is an empty set, treat
         # it as if equal to `games`
-        self._games = self._test_games = games
+        self._games = games
+        self._test_games = test_games
+        self._GAMES_EQUALS_TEST_GAMES = True
         if not self._test_games:
-            self._GAMES_EQUALS_TEST_GAMES = True
             self._test_games = games
         else:
-            self._GAMES_EQUALS_TEST_GAMES = False
-            for _games in [self._games, self._test_games]:
-                if any(not game in APPID_DICT for game in _games):
-                    raise ValueError('Invalid game(s): {0}.'.format(_games))
+            if self._test_games != self._games:
+                self._GAMES_EQUALS_TEST_GAMES = False
+        for _games in [self._games, self._test_games]:
+            if any(not game in APPID_DICT for game in _games):
+                raise ValueError('Invalid game(s): {0}.'.format(_games))
         if not self._games:
             raise ValueError('"games" must be non-empty set.')
 
