@@ -398,8 +398,6 @@ def get_data_point(review_doc: dict,
 
     :returns: training/test sample
     :rtype: dict or None
-
-    :raises ValueError: 
     """
 
     # Get dictionary containing all features needed + the ID and the
