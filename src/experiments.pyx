@@ -862,7 +862,6 @@ class ExperimentalData(object):
                  db: collection,
                  prediction_label: str,
                  games: set,
-                 test_games: set = set(),
                  max_partitions: int = 0,
                  n_partition: int = None,
                  lognormal: bool = False,
@@ -870,6 +869,7 @@ class ExperimentalData(object):
                  bin_ranges: list = None,
                  test_bin_ranges: list = None,
                  batch_size: int = 50,
+                 test_games: set = None,
                  max_test_samples: int = -1):
         """
         Initialize an `ExperimentalData` object.
@@ -880,8 +880,6 @@ class ExperimentalData(object):
         :type prediction_label: str
         :param games: set of games (str)
         :type games: set
-        :param test_games: set of games (str) to use for testing
-        :type test_games: set
         :param max_partitions: number of splits of the data (defaults
                                to 0, i.e., as many as possible)
         :type max_partitions: int
@@ -919,6 +917,11 @@ class ExperimentalData(object):
         :type test_bin_ranges: list of tuples
         :param batch_size: batch size to use for the database cursor
         :type batch_size: int (default: 50)
+        :param test_games: set of games (str) to use for testing (use
+                           same value as for `games` or leave
+                           unspecified if the no special test data is
+                           to be generated)
+        :type test_games: set or None
         :param max_test_samples: limit for the number of test samples
                                  (defaults to a negative value,
                                  signifying that there will be special
@@ -938,20 +941,20 @@ class ExperimentalData(object):
         """
 
         # Validate parameters
-        if any(not _games for _games in [games, test_games]):
-            raise ValueError('"games"/"test_games" parameters must be '
-                             'non-empty sets.')
 
-        if games == test_games:
-            self._games = self._test_games = games
+        # If `test_games` is left unspecified or is an empty set, treat
+        # it as if equal to `games`
+        self._games = self._test_games = games
+        if not self._test_games:
             self._GAMES_EQUALS_TEST_GAMES = True
+            self._test_games = games
         else:
-            for _games in [games, test_games]:
-                if any(not game in APPID_DICT for game in _games):
-                    raise ValueError('Invalid games: {0}.'.format(_games))
-            self._games = games
-            self._test_games = test_games
             self._GAMES_EQUALS_TEST_GAMES = False
+            for _games in [self._games, self._test_games]:
+                if any(not game in APPID_DICT for game in _games):
+                    raise ValueError('Invalid game(s): {0}.'.format(_games))
+        if not self._games:
+            raise ValueError('"games" must be non-empty set.')
 
         if batch_size < 1:
             raise ValueError('"batch_size" must be greater than zero: {0}'
