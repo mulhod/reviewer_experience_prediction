@@ -460,7 +460,10 @@ def extract_nlp_features_into_db(db: collection, data_partition: str,
 
     # Create cursor object and set batch_size to 1,000
     cdef int batch_size = 1000
-    with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:
+    with create_game_cursor(db,
+                            game_id,
+                            data_partition,
+                            batch_size) as game_cursor:
         for game_doc in game_cursor:
             nlp_feats = None
             game_doc_get = game_doc.get
@@ -503,4 +506,7 @@ def extract_nlp_features_into_db(db: collection, data_partition: str,
             # the ID
             if ((not found_nlp_feats)
                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
-                update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)
+                update_db(db_update,
+                          _id,
+                          nlp_feats,
+                          use_binarized_nlp_feats)

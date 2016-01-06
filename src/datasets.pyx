@@ -97,7 +97,9 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
     return game_files
 
 
-def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1,
+def get_review_data_for_game(appid: str,
+                             time_out: float = 10.0,
+                             limit: int = -1,
                              wait: float = 10.0) -> dict:
     """
     Generate dictionaries for each review for a given game.
@@ -786,29 +788,11 @@ def get_review_data_for_game(appid: str, time_out: float = 10.0, limit: int = -1
         i += 1
 
 
-cdef read_reviews_from_game_file(file_path: str):
-    """
-    Generate list of review dictionaries from a single game's
-    .jsonlines file.
-
-    :param file_path: path to reviews file
-    :type file_path: str
-
-    :returns: list of dict
-    :rtype: list
-    """
-
-    return [loads(json_line) for json_line in open(file_path)]
-
-
 def get_and_describe_dataset(file_path: str, report: bool = True,
                              reports_dir: str = None) -> dict:
     """
-    Return dictionary with a list of review dictionaries (filtered in
-    terms of the values for maximum/minimum review length and
-    minimum/maximum hours played values) and the number of original,
-    English-language reviews (before filtering); also produce a report
-    with some descriptive statistics and graphs.
+    Return list of review dictionaries; also produce a report with some
+    descriptive statistics and graphs.
 
     :param file_path: path to game reviews .jsonlines file
     :type file_path: str
@@ -819,13 +803,15 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
                         stored
     :type reports_dir: str
 
-    :returns: dict containing a 'reviews' key mapped to the list of
-              read-in review dictionaries and int values mapped to keys
-              for MAXLEN, MINLEN, MAXHOURS, and MINHOURS
-    :rtype: dict
+    :returns: list of review dictionaries
+    :rtype: list
     """
 
+    # Get list of review dictionaries
+    reviews = [loads(json_line) for json_line in open(file_path)]
+
     if report:
+
         # Get path to reports directory and open report file
         reports_dir = (reports_dir if reports_dir
                        else join(dirname(dirname(realpath(__file__))), 'reports'))
@@ -837,10 +823,6 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         sns.set_palette('deep', desat=.6)
         sns.set_context(rc={'figure.figsize': (14, 7)})
 
-    # Get list of review dictionaries
-    reviews = list(read_reviews_from_game_file(file_path))
-
-    if report:
         # Write header of report
         output.write('Descriptive Report for {0}\n==========================='
                      '====================================================\n'
@@ -848,29 +830,14 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         output.write('Number of English-language reviews: {}\n\n'
                      .format(len(reviews)))
 
-    # Look at review lengths to figure out what should be filtered out
-    lengths = np.array([len(review['review']) for review in reviews])
-    cdef float meanl = lengths.mean()
-    cdef float stdl = lengths.std()
-
-    if report:
         # Write length distribution information to report
+        lengths = np.array([len(review['review']) for review in reviews])
         output.write('Review Lengths Distribution\n\n')
-        output.write('Average review length: {0}\n'.format(meanl))
+        output.write('Average review length: {0}\n'.format(lengths.mean()))
         output.write('Minimum review length = {0}\n'.format(min(lengths)))
         output.write('Maximum review length = {0}\n'.format(max(lengths)))
-        output.write('Standard deviation = {0}\n\n\n'.format(stdl))
+        output.write('Standard deviation = {0}\n\n\n'.format(lengths.std()))
 
-    """
-    Use the standard deviation to define the range of acceptable
-    reviews (in terms of the length only) as within four standard
-    deviations of the mean (but with the added caveat that the reviews
-    be at least 50 characters.
-    """
-    cdef float minl = 50.0 if (meanl - 4*stdl) < 50 else (meanl - 4*stdl)
-    cdef float maxl = meanl + 4*stdl
-
-    if report:
         # Generate length histogram
         fig = plt.figure()
         ax = fig.add_subplot(111)
@@ -881,36 +848,16 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         fig.savefig(join(reports_dir, '{0}_length_histogram'.format(game)))
         plt.close(fig)
 
-    # Look at hours played values in the same way as above for length
-    hours = np.array([review['total_game_hours'] for review in reviews])
-    cdef float meanh = hours.mean()
-    cdef float stdh = hours.std()
-
-    if report:
         # Write hours played distribution information to report
+        hours = np.array([review['total_game_hours'] for review in reviews])
         output.write('Review Experience Distribution\n\n')
         output.write('Average game experience (in hours played): {0}'
-                     '\n'.format(meanh))
+                     '\n'.format(hours.mean()))
         output.write('Minimum experience = {0}\n'.format(min(hours)))
         output.write('Maximum experience = {0}\n'.format(max(hours)))
-        output.write('Standard deviation = {0}\n\n\n'.format(stdh))
+        output.write('Standard deviation = {0}\n\n\n'.format(hours.std()))
 
-    # Use the standard deviation to define the range of acceptable
-    # reviews (in terms of experience) as within 4 standard deviations
-    # of the mean (starting from zero, actually)
-    cdef float minh = 0.0
-    cdef float maxh = meanh + 4*stdh
-
-    if report:
-        # Write MAXLEN, MINLEN, etc. values to report
-        output.write('Filter Values\n'
-                     'Minimum length = {0}\n'
-                     'Maximum length = {0}\n'
-                     'Minimum hours played = {0}\n'
-                     'Maximum hours played = {0}\n'.format(minl, maxl, minh, maxh))
-
-    # Generate experience histogram
-    if report:
+        # Generate experience histogram
         fig = plt.figure()
         ax = fig.add_subplot(111)
         ax.hist(pd.Series(hours))
@@ -919,17 +866,15 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         ax.set_ylabel('Total reviews')
         fig.savefig(join(reports_dir, '{0}_experience_histogram'.format(game)))
         plt.close(fig)
-    if report:
         output.close()
-    cdef int orig_total_reviews = len(reviews)
-    reviews = [r for r in reviews if len(r['review']) <= maxl
-                                     and len(r['review']) >= minl
-                                     and r['total_game_hours'] <= maxh]
-    return dict(reviews=reviews, minl=minl, maxl=maxl, minh=minh, maxh=maxh,
-                orig_total_reviews=orig_total_reviews)
+
+    return [r for r in reviews if type(r['total_game_hours']) in [float, int]]
 
 
-def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> list:
+def get_bin_ranges(float _min,
+                   float _max,
+                   int nbins=5,
+                   float factor=1.0) -> list:
     """
     Return list of floating point number ranges (in increments of 0.1)
     that correspond to each bin in the distribution.
@@ -1031,8 +976,12 @@ def get_bin_ranges(float _min, float _max, int nbins=5, float factor=1.0) -> lis
     return bin_ranges
 
 
-def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
-                          float factor=1.0, lognormal: bool = False,
+def get_bin_ranges_helper(db: collection,
+                          games: list,
+                          label: str,
+                          int nbins,
+                          float factor=1.0,
+                          lognormal: bool = False,
                           power_transform: float = None) -> list:
     """
     Get bin ranges given a set of games, a label, the desired number of
@@ -1083,14 +1032,20 @@ def get_bin_ranges_helper(db: collection, games: list, label: str, int nbins,
                          'specified simultaneously.')
 
     # Get label values
-    values = np.array(get_label_values(db, games, label, lognormal=lognormal,
+    values = np.array(get_label_values(db,
+                                       games,
+                                       label,
+                                       lognormal=lognormal,
                                        power_transform=power_transform))
 
     # Divide up the distribution of label values
     _min = np.floor(values.min())
     _max = np.ceil(values.max())
     try:
-        bin_ranges = get_bin_ranges(_min, _max, nbins, factor)
+        bin_ranges = get_bin_ranges(_min,
+                                    _max,
+                                    nbins,
+                                    factor)
     except ValueError as e:
         error_msg = ('Encountered ValueError at call to get_bin_ranges: {0}\n'
                      'Min: {1}\nMax: {2}\nN bins: {3}\nFactor: {4}'
@@ -1234,7 +1189,9 @@ def get_bin(bin_ranges: list, float val) -> int:
     return -1
 
 
-def get_label_values(db: collection, games: list, label: str,
+def get_label_values(db: collection,
+                     games: list,
+                     label: str,
                      lognormal: bool = False,
                      power_transform: float = None) -> list:
     """
@@ -1304,8 +1261,11 @@ def get_label_values(db: collection, games: list, label: str,
     return list(filter(lambda x: not x == None, label_values))
 
 
-def compute_label_value(value, label, lognormal: bool = False,
-                        power_transform: float = None, bin_ranges: list = None):
+def compute_label_value(value,
+                        label: str,
+                        lognormal: bool = False,
+                        power_transform: float = None,
+                        bin_ranges: list = None):
     """
     Compute the value and apply any transformations specified via
     `lognormal` or `power_transform`.
@@ -1384,8 +1344,11 @@ def compute_label_value(value, label, lognormal: bool = False,
         return value
 
 
-def write_arff_file(dest_path: str, file_names: list, reviews: list = None,
-                    db: collection = None, make_train_test: bool = False,
+def write_arff_file(dest_path: str,
+                    file_names: list,
+                    reviews: list = None,
+                    db: collection = None,
+                    make_train_test: bool = False,
                     bins=False) -> None:
     """
     Write .arff file either for a list of reviews read in from a file

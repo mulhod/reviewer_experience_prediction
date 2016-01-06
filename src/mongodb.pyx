@@ -90,7 +90,9 @@ def connect_to_db(host: str = 'localhost', port: int = 27017,
     return db['reviews']
 
 
-def create_game_cursor(db: collection, game_id: str, data_partition: str,
+def create_game_cursor(db: collection,
+                       game_id: str,
+                       data_partition: str,
                        int batch_size) -> cursor:
     """
     Create Cursor object with given game and partition to iterate
@@ -139,9 +141,13 @@ def create_game_cursor(db: collection, game_id: str, data_partition: str,
     return game_cursor
 
 
-def insert_train_test_reviews(db: collection, file_path: str, int max_size,
-                              float percent_train, bins: int = 0,
-                              bin_factor: float = 1.0, describe: bool = False,
+def insert_train_test_reviews(db: collection,
+                              file_path: str,
+                              int max_size,
+                              float percent_train,
+                              bins: int = 0,
+                              bin_factor: float = 1.0,
+                              describe: bool = False,
                               just_describe: bool = False,
                               reports_dir: str = None) -> None:
     """
@@ -200,36 +206,26 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
                 'factor of {1}...'.format(bins, bin_factor))
 
     # Make sense of arguments
-    if (describe
-        and just_describe):
+    if describe and just_describe:
         logwarn('If the just_describe and describe keyword arguments are set '
                 'to True, just_describe wins out, i.e., the report will be '
                 'generated, but no reviews will be inserted into the '
                 'database.')
 
-    # Get list of all reviews represented as dictionaries with 'review'
-    # and 'total_game_hours' keys and get the filter values
-    dataset = get_and_describe_dataset(file_path,
-                                       report=(describe or just_describe),
+    # Get list of all reviews represented as dictionaries
+    reviews = get_and_describe_dataset(file_path,
+                                       report=describe or just_describe,
                                        reports_dir=reports_dir)
-    reviews = dataset['reviews']
-    logdebug('Number of original, English language reviews collected: {0}'
-             .format(dataset['orig_total_reviews']))
-    cdef float maxl = np.floor(dataset['maxl'])
-    cdef float minl = np.ceil(dataset['minl'])
-    cdef float maxh = np.floor(dataset['maxh'])
-    cdef float minh = np.ceil(dataset['minh'])
-    logdebug('Maximum length = {0}'.format(dataset['maxl']))
-    logdebug('Minimum length = {0}'.format(dataset['minl']))
-    logdebug('Maximum amount of hours played = {0}'.format(dataset['maxh']))
-    logdebug('Minimum amount of hours played = {0}'.format(dataset['minh']))
 
     # If the hours played values are to be divided into bins, get the
     # range that each bin maps to and add values for the number of
     # bins, the bin ranges, and the bin factor to the review
     # dictionaries
     if bins:
-        bin_ranges = get_bin_ranges(minh, maxh, bins, bin_factor)
+        bin_ranges = get_bin_ranges(min([r['total_game_hours'] for r in reviews]),
+                                    max([r['total_game_hours'] for r in reviews]),
+                                    bins,
+                                    bin_factor)
         bin_dict = dict(nbins=bins, bin_factor=bin_factor, bin_ranges=bin_ranges)
         [review.update(bin_dict) for review in reviews]
     else:
@@ -269,16 +265,28 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
         bulk = db.initialize_unordered_bulk_op()
 
         # Training set reviews
-        add_bulk_inserts_for_partition(bulk, training_reviews, game, appid,
-                                       'training', bins=bin_ranges)
+        add_bulk_inserts_for_partition(bulk,
+                                       training_reviews,
+                                       game,
+                                       appid,
+                                       'training',
+                                       bins=bin_ranges)
 
         # Test set reviews
-        add_bulk_inserts_for_partition(bulk, test_reviews, game, appid, 'test',
+        add_bulk_inserts_for_partition(bulk,
+                                       test_reviews,
+                                       game,
+                                       appid,
+                                       'test',
                                        bins=bin_ranges)
 
         # Extra reviews
-        add_bulk_inserts_for_partition(bulk, remaining_reviews, game, appid,
-                                       'extra', bins=bin_ranges)
+        add_bulk_inserts_for_partition(bulk,
+                                       remaining_reviews,
+                                       game,
+                                       appid,
+                                       'extra',
+                                       bins=bin_ranges)
 
         # Execute bulk insert operations
         try:
@@ -298,8 +306,11 @@ def insert_train_test_reviews(db: collection, file_path: str, int max_size,
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
-                                    rdicts: list, game: str, appid: str,
-                                    partition_id: str, bins: list = False):
+                                    rdicts: list,
+                                    game: str,
+                                    appid: str,
+                                    partition_id: str,
+                                    bins: list = False):
     """
     Add insert operations to a bulk writer.
 

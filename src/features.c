@@ -7155,22 +7155,30 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  * 
  *     # Create cursor object and set batch_size to 1,000
  *     cdef int batch_size = 1000             # <<<<<<<<<<<<<<
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:
- *         for game_doc in game_cursor:
+ *     with create_game_cursor(db,
+ *                             game_id,
  */
   __pyx_v_batch_size = 1000;
 
   /* "src/features.pyx":463
  *     # Create cursor object and set batch_size to 1,000
  *     cdef int batch_size = 1000
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:             # <<<<<<<<<<<<<<
- *         for game_doc in game_cursor:
- *             nlp_feats = None
+ *     with create_game_cursor(db,             # <<<<<<<<<<<<<<
+ *                             game_id,
+ *                             data_partition,
  */
   /*with:*/ {
     __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_create_game_cursor); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_batch_size); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "src/features.pyx":466
+ *                             game_id,
+ *                             data_partition,
+ *                             batch_size) as game_cursor:             # <<<<<<<<<<<<<<
+ *         for game_doc in game_cursor:
+ *             nlp_feats = None
+ */
+    __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_batch_size); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_4 = NULL;
     __pyx_t_5 = 0;
@@ -7207,6 +7215,14 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_7 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_exit); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_7);
+
+    /* "src/features.pyx":463
+ *     # Create cursor object and set batch_size to 1,000
+ *     cdef int batch_size = 1000
+ *     with create_game_cursor(db,             # <<<<<<<<<<<<<<
+ *                             game_id,
+ *                             data_partition,
+ */
     __pyx_t_6 = __Pyx_PyObject_LookupSpecial(__pyx_t_1, __pyx_n_s_enter); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_3 = NULL;
@@ -7240,9 +7256,9 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
           __pyx_v_game_cursor = __pyx_t_6;
           __pyx_t_6 = 0;
 
-          /* "src/features.pyx":464
- *     cdef int batch_size = 1000
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:
+          /* "src/features.pyx":467
+ *                             data_partition,
+ *                             batch_size) as game_cursor:
  *         for game_doc in game_cursor:             # <<<<<<<<<<<<<<
  *             nlp_feats = None
  *             game_doc_get = game_doc.get
@@ -7251,26 +7267,26 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
             __pyx_t_6 = __pyx_v_game_cursor; __Pyx_INCREF(__pyx_t_6); __pyx_t_5 = 0;
             __pyx_t_11 = NULL;
           } else {
-            __pyx_t_5 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_game_cursor); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_5 = -1; __pyx_t_6 = PyObject_GetIter(__pyx_v_game_cursor); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_6);
-            __pyx_t_11 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_11 = Py_TYPE(__pyx_t_6)->tp_iternext; if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
           }
           for (;;) {
             if (likely(!__pyx_t_11)) {
               if (likely(PyList_CheckExact(__pyx_t_6))) {
                 if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_6)) break;
                 #if CYTHON_COMPILING_IN_CPYTHON
-                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_1 = PyList_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               } else {
                 if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_6)) break;
                 #if CYTHON_COMPILING_IN_CPYTHON
-                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_6, __pyx_t_5); __Pyx_INCREF(__pyx_t_1); __pyx_t_5++; if (unlikely(0 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 #else
-                __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_1 = PySequence_ITEM(__pyx_t_6, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 __Pyx_GOTREF(__pyx_t_1);
                 #endif
               }
@@ -7280,7 +7296,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
                 PyObject* exc_type = PyErr_Occurred();
                 if (exc_type) {
                   if (likely(exc_type == PyExc_StopIteration || PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-                  else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 464; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                  else {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 }
                 break;
               }
@@ -7289,8 +7305,8 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
             __Pyx_XDECREF_SET(__pyx_v_game_doc, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "src/features.pyx":465
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:
+            /* "src/features.pyx":468
+ *                             batch_size) as game_cursor:
  *         for game_doc in game_cursor:
  *             nlp_feats = None             # <<<<<<<<<<<<<<
  *             game_doc_get = game_doc.get
@@ -7299,55 +7315,55 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
             __Pyx_INCREF(Py_None);
             __Pyx_XDECREF_SET(__pyx_v_nlp_feats, Py_None);
 
-            /* "src/features.pyx":466
+            /* "src/features.pyx":469
  *         for game_doc in game_cursor:
  *             nlp_feats = None
  *             game_doc_get = game_doc.get             # <<<<<<<<<<<<<<
  *             review_text = game_doc_get('review')
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
  */
-            __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_game_doc, __pyx_n_s_get); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_game_doc, __pyx_n_s_get); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_XDECREF_SET(__pyx_v_game_doc_get, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "src/features.pyx":467
+            /* "src/features.pyx":470
  *             nlp_feats = None
  *             game_doc_get = game_doc.get
  *             review_text = game_doc_get('review')             # <<<<<<<<<<<<<<
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
  *             _id = game_doc_get('_id')
  */
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__35, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 470; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_XDECREF_SET(__pyx_v_review_text, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "src/features.pyx":468
+            /* "src/features.pyx":471
  *             game_doc_get = game_doc.get
  *             review_text = game_doc_get('review')
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)             # <<<<<<<<<<<<<<
  *             _id = game_doc_get('_id')
  * 
  */
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__36, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_XDECREF_SET(__pyx_v_binarized_nlp_feats, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "src/features.pyx":469
+            /* "src/features.pyx":472
  *             review_text = game_doc_get('review')
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
  *             _id = game_doc_get('_id')             # <<<<<<<<<<<<<<
  * 
  *             # Extract NLP features by querying the database (if they
  */
-            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = __Pyx_PyObject_Call(__pyx_v_game_doc_get, __pyx_tuple__37, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
             __Pyx_XDECREF_SET(__pyx_v__id, __pyx_t_1);
             __pyx_t_1 = 0;
 
-            /* "src/features.pyx":476
+            /* "src/features.pyx":479
  *             # collected); otherwise, extract features from the review
  *             # text directly (and try to update the database)
  *             found_nlp_feats = False             # <<<<<<<<<<<<<<
@@ -7356,48 +7372,48 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             __pyx_v_found_nlp_feats = 0;
 
-            /* "src/features.pyx":478
+            /* "src/features.pyx":481
  *             found_nlp_feats = False
  *             if (reuse_nlp_feats
  *                 & ((use_binarized_nlp_feats & binarized_nlp_feats)             # <<<<<<<<<<<<<<
  *                     | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
  *                 nlp_feats = get_nlp_features_from_db(db, _id)
  */
-            __pyx_t_1 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_v_binarized_nlp_feats); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 478; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_1 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_v_binarized_nlp_feats); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_1);
 
-            /* "src/features.pyx":479
+            /* "src/features.pyx":482
  *             if (reuse_nlp_feats
  *                 & ((use_binarized_nlp_feats & binarized_nlp_feats)
  *                     | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):             # <<<<<<<<<<<<<<
  *                 nlp_feats = get_nlp_features_from_db(db, _id)
  *                 found_nlp_feats = True if nlp_feats else False
  */
-            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_binarized_nlp_feats); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 479; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
-            __pyx_t_2 = __Pyx_PyBool_FromLong((!__pyx_t_12)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 479; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_binarized_nlp_feats); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_2 = __Pyx_PyBool_FromLong((!__pyx_t_12)); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_2);
-            __pyx_t_3 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 479; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_3 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_2 = PyNumber_Or(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 479; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_2 = PyNumber_Or(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_2);
             __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-            /* "src/features.pyx":478
+            /* "src/features.pyx":481
  *             found_nlp_feats = False
  *             if (reuse_nlp_feats
  *                 & ((use_binarized_nlp_feats & binarized_nlp_feats)             # <<<<<<<<<<<<<<
  *                     | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
  *                 nlp_feats = get_nlp_features_from_db(db, _id)
  */
-            __pyx_t_3 = PyNumber_And(__pyx_v_reuse_nlp_feats, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 478; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_3 = PyNumber_And(__pyx_v_reuse_nlp_feats, __pyx_t_2); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 478; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-            /* "src/features.pyx":477
+            /* "src/features.pyx":480
  *             # text directly (and try to update the database)
  *             found_nlp_feats = False
  *             if (reuse_nlp_feats             # <<<<<<<<<<<<<<
@@ -7406,14 +7422,14 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             if (__pyx_t_12) {
 
-              /* "src/features.pyx":480
+              /* "src/features.pyx":483
  *                 & ((use_binarized_nlp_feats & binarized_nlp_feats)
  *                     | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
  *                 nlp_feats = get_nlp_features_from_db(db, _id)             # <<<<<<<<<<<<<<
  *                 found_nlp_feats = True if nlp_feats else False
  * 
  */
-              __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_nlp_features_from_db); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_get_nlp_features_from_db); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_2);
               __pyx_t_1 = NULL;
               __pyx_t_13 = 0;
@@ -7427,7 +7443,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
                   __pyx_t_13 = 1;
                 }
               }
-              __pyx_t_4 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_4 = PyTuple_New(2+__pyx_t_13); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_4);
               if (__pyx_t_1) {
                 __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1); __pyx_t_1 = NULL;
@@ -7438,21 +7454,21 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
               __Pyx_INCREF(__pyx_v__id);
               __Pyx_GIVEREF(__pyx_v__id);
               PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_13, __pyx_v__id);
-              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_3);
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF_SET(__pyx_v_nlp_feats, __pyx_t_3);
               __pyx_t_3 = 0;
 
-              /* "src/features.pyx":481
+              /* "src/features.pyx":484
  *                     | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
  *                 nlp_feats = get_nlp_features_from_db(db, _id)
  *                 found_nlp_feats = True if nlp_feats else False             # <<<<<<<<<<<<<<
  * 
  *             extracted_anew = False
  */
-              __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_v_nlp_feats); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_v_nlp_feats); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               if (__pyx_t_14) {
                 __pyx_t_12 = 1;
               } else {
@@ -7460,7 +7476,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
               }
               __pyx_v_found_nlp_feats = __pyx_t_12;
 
-              /* "src/features.pyx":477
+              /* "src/features.pyx":480
  *             # text directly (and try to update the database)
  *             found_nlp_feats = False
  *             if (reuse_nlp_feats             # <<<<<<<<<<<<<<
@@ -7469,7 +7485,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             }
 
-            /* "src/features.pyx":483
+            /* "src/features.pyx":486
  *                 found_nlp_feats = True if nlp_feats else False
  * 
  *             extracted_anew = False             # <<<<<<<<<<<<<<
@@ -7478,7 +7494,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             __pyx_v_extracted_anew = 0;
 
-            /* "src/features.pyx":484
+            /* "src/features.pyx":487
  * 
  *             extracted_anew = False
  *             if not found_nlp_feats:             # <<<<<<<<<<<<<<
@@ -7488,71 +7504,71 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
             __pyx_t_12 = ((!(__pyx_v_found_nlp_feats != 0)) != 0);
             if (__pyx_t_12) {
 
-              /* "src/features.pyx":486
+              /* "src/features.pyx":489
  *             if not found_nlp_feats:
  *                 nlp_feats = \
  *                     extract_features_from_review(Review(review_text,             # <<<<<<<<<<<<<<
  *                                                         lower=lowercase_text),
  *                                                  lowercase_cngrams=lowercase_cngrams)
  */
-              __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_extract_features_from_review); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_3 = __Pyx_GetModuleGlobalName(__pyx_n_s_extract_features_from_review); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_3);
-              __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Review); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_Review); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_2);
-              __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_INCREF(__pyx_v_review_text);
               __Pyx_GIVEREF(__pyx_v_review_text);
               PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_review_text);
 
-              /* "src/features.pyx":487
+              /* "src/features.pyx":490
  *                 nlp_feats = \
  *                     extract_features_from_review(Review(review_text,
  *                                                         lower=lowercase_text),             # <<<<<<<<<<<<<<
  *                                                  lowercase_cngrams=lowercase_cngrams)
  *                 extracted_anew = True
  */
-              __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 487; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 490; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_1);
-              if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lower, __pyx_v_lowercase_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 487; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_lower, __pyx_v_lowercase_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 490; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
 
-              /* "src/features.pyx":486
+              /* "src/features.pyx":489
  *             if not found_nlp_feats:
  *                 nlp_feats = \
  *                     extract_features_from_review(Review(review_text,             # <<<<<<<<<<<<<<
  *                                                         lower=lowercase_text),
  *                                                  lowercase_cngrams=lowercase_cngrams)
  */
-              __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_15);
               __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-              __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_1);
               __Pyx_GIVEREF(__pyx_t_15);
               PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15);
               __pyx_t_15 = 0;
 
-              /* "src/features.pyx":488
+              /* "src/features.pyx":491
  *                     extract_features_from_review(Review(review_text,
  *                                                         lower=lowercase_text),
  *                                                  lowercase_cngrams=lowercase_cngrams)             # <<<<<<<<<<<<<<
  *                 extracted_anew = True
  * 
  */
-              __pyx_t_15 = PyDict_New(); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_15 = PyDict_New(); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_15);
-              if (PyDict_SetItem(__pyx_t_15, __pyx_n_s_lowercase_cngrams, __pyx_v_lowercase_cngrams) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 488; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              if (PyDict_SetItem(__pyx_t_15, __pyx_n_s_lowercase_cngrams, __pyx_v_lowercase_cngrams) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 491; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
 
-              /* "src/features.pyx":486
+              /* "src/features.pyx":489
  *             if not found_nlp_feats:
  *                 nlp_feats = \
  *                     extract_features_from_review(Review(review_text,             # <<<<<<<<<<<<<<
  *                                                         lower=lowercase_text),
  *                                                  lowercase_cngrams=lowercase_cngrams)
  */
-              __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_1, __pyx_t_15); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 489; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_4);
               __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
@@ -7560,7 +7576,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
               __Pyx_DECREF_SET(__pyx_v_nlp_feats, __pyx_t_4);
               __pyx_t_4 = 0;
 
-              /* "src/features.pyx":489
+              /* "src/features.pyx":492
  *                                                         lower=lowercase_text),
  *                                                  lowercase_cngrams=lowercase_cngrams)
  *                 extracted_anew = True             # <<<<<<<<<<<<<<
@@ -7569,7 +7585,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
               __pyx_v_extracted_anew = 1;
 
-              /* "src/features.pyx":484
+              /* "src/features.pyx":487
  * 
  *             extracted_anew = False
  *             if not found_nlp_feats:             # <<<<<<<<<<<<<<
@@ -7578,48 +7594,48 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             }
 
-            /* "src/features.pyx":493
+            /* "src/features.pyx":496
  *             # Make sure features get binarized if need be
  *             if (use_binarized_nlp_feats
  *                 & (((not reuse_nlp_feats)             # <<<<<<<<<<<<<<
  *                     | (not binarized_nlp_feats))
  *                    | extracted_anew)):
  */
-            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_reuse_nlp_feats); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_12 = __Pyx_PyObject_IsTrue(__pyx_v_reuse_nlp_feats); if (unlikely(__pyx_t_12 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
 
-            /* "src/features.pyx":494
+            /* "src/features.pyx":497
  *             if (use_binarized_nlp_feats
  *                 & (((not reuse_nlp_feats)
  *                     | (not binarized_nlp_feats))             # <<<<<<<<<<<<<<
  *                    | extracted_anew)):
  *                 nlp_feats = binarize_nlp_features(nlp_feats)
  */
-            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_v_binarized_nlp_feats); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 494; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_v_binarized_nlp_feats); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 497; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
 
-            /* "src/features.pyx":495
+            /* "src/features.pyx":498
  *                 & (((not reuse_nlp_feats)
  *                     | (not binarized_nlp_feats))
  *                    | extracted_anew)):             # <<<<<<<<<<<<<<
  *                 nlp_feats = binarize_nlp_features(nlp_feats)
  * 
  */
-            __pyx_t_4 = __Pyx_PyBool_FromLong((((!__pyx_t_12) | (!__pyx_t_14)) | __pyx_v_extracted_anew)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 495; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_4 = __Pyx_PyBool_FromLong((((!__pyx_t_12) | (!__pyx_t_14)) | __pyx_v_extracted_anew)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 498; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_4);
 
-            /* "src/features.pyx":493
+            /* "src/features.pyx":496
  *             # Make sure features get binarized if need be
  *             if (use_binarized_nlp_feats
  *                 & (((not reuse_nlp_feats)             # <<<<<<<<<<<<<<
  *                     | (not binarized_nlp_feats))
  *                    | extracted_anew)):
  */
-            __pyx_t_15 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_t_4); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_15 = PyNumber_And(__pyx_v_use_binarized_nlp_feats, __pyx_t_4); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_15);
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 493; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_15); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
 
-            /* "src/features.pyx":492
+            /* "src/features.pyx":495
  * 
  *             # Make sure features get binarized if need be
  *             if (use_binarized_nlp_feats             # <<<<<<<<<<<<<<
@@ -7628,14 +7644,14 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             if (__pyx_t_14) {
 
-              /* "src/features.pyx":496
+              /* "src/features.pyx":499
  *                     | (not binarized_nlp_feats))
  *                    | extracted_anew)):
  *                 nlp_feats = binarize_nlp_features(nlp_feats)             # <<<<<<<<<<<<<<
  * 
  *             # Update Mongo database game doc with new key
  */
-              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_binarize_nlp_features); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_binarize_nlp_features); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 499; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_4);
               __pyx_t_1 = NULL;
               if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -7648,16 +7664,16 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
                 }
               }
               if (!__pyx_t_1) {
-                __pyx_t_15 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_nlp_feats); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_15 = __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_nlp_feats); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 499; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 __Pyx_GOTREF(__pyx_t_15);
               } else {
-                __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_3 = PyTuple_New(1+1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 499; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 __Pyx_GOTREF(__pyx_t_3);
                 __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1); __pyx_t_1 = NULL;
                 __Pyx_INCREF(__pyx_v_nlp_feats);
                 __Pyx_GIVEREF(__pyx_v_nlp_feats);
                 PyTuple_SET_ITEM(__pyx_t_3, 0+1, __pyx_v_nlp_feats);
-                __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 496; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+                __pyx_t_15 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_3, NULL); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 499; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
                 __Pyx_GOTREF(__pyx_t_15);
                 __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
               }
@@ -7665,7 +7681,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
               __Pyx_DECREF_SET(__pyx_v_nlp_feats, __pyx_t_15);
               __pyx_t_15 = 0;
 
-              /* "src/features.pyx":492
+              /* "src/features.pyx":495
  * 
  *             # Make sure features get binarized if need be
  *             if (use_binarized_nlp_feats             # <<<<<<<<<<<<<<
@@ -7674,47 +7690,56 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
  */
             }
 
-            /* "src/features.pyx":504
+            /* "src/features.pyx":507
  *             # "id_string" key for storing the string represenation of
  *             # the ID
  *             if ((not found_nlp_feats)             # <<<<<<<<<<<<<<
  *                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
- *                 update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)
+ *                 update_db(db_update,
  */
-            __pyx_t_15 = __Pyx_PyBool_FromLong((!(__pyx_v_found_nlp_feats != 0))); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 504; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_15 = __Pyx_PyBool_FromLong((!(__pyx_v_found_nlp_feats != 0))); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 507; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_15);
 
-            /* "src/features.pyx":505
+            /* "src/features.pyx":508
  *             # the ID
  *             if ((not found_nlp_feats)
  *                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):             # <<<<<<<<<<<<<<
- *                 update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)
+ *                 update_db(db_update,
+ *                           _id,
  */
-            __pyx_t_4 = PyNumber_Xor(__pyx_v_use_binarized_nlp_feats, __pyx_v_binarized_nlp_feats); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 505; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_4 = PyNumber_Xor(__pyx_v_use_binarized_nlp_feats, __pyx_v_binarized_nlp_feats); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 508; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_4);
-            __pyx_t_3 = PyNumber_Or(__pyx_t_15, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 505; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_3 = PyNumber_Or(__pyx_t_15, __pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 508; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_GOTREF(__pyx_t_3);
             __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
             __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 505; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+            __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 508; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
             __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-            /* "src/features.pyx":504
+            /* "src/features.pyx":507
  *             # "id_string" key for storing the string represenation of
  *             # the ID
  *             if ((not found_nlp_feats)             # <<<<<<<<<<<<<<
  *                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
- *                 update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)
+ *                 update_db(db_update,
  */
             if (__pyx_t_14) {
 
-              /* "src/features.pyx":506
+              /* "src/features.pyx":509
  *             if ((not found_nlp_feats)
  *                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
- *                 update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)             # <<<<<<<<<<<<<<
+ *                 update_db(db_update,             # <<<<<<<<<<<<<<
+ *                           _id,
+ *                           nlp_feats,
  */
-              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_db); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_update_db); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_4);
+
+              /* "src/features.pyx":512
+ *                           _id,
+ *                           nlp_feats,
+ *                           use_binarized_nlp_feats)             # <<<<<<<<<<<<<<
+ */
               __pyx_t_15 = NULL;
               __pyx_t_13 = 0;
               if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_4))) {
@@ -7727,7 +7752,7 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
                   __pyx_t_13 = 1;
                 }
               }
-              __pyx_t_1 = PyTuple_New(4+__pyx_t_13); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_1 = PyTuple_New(4+__pyx_t_13); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_1);
               if (__pyx_t_15) {
                 __Pyx_GIVEREF(__pyx_t_15); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_15); __pyx_t_15 = NULL;
@@ -7744,24 +7769,24 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
               __Pyx_INCREF(__pyx_v_use_binarized_nlp_feats);
               __Pyx_GIVEREF(__pyx_v_use_binarized_nlp_feats);
               PyTuple_SET_ITEM(__pyx_t_1, 3+__pyx_t_13, __pyx_v_use_binarized_nlp_feats);
-              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 506; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
+              __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_4, __pyx_t_1, NULL); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 509; __pyx_clineno = __LINE__; goto __pyx_L7_error;}
               __Pyx_GOTREF(__pyx_t_3);
               __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
               __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
               __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-              /* "src/features.pyx":504
+              /* "src/features.pyx":507
  *             # "id_string" key for storing the string represenation of
  *             # the ID
  *             if ((not found_nlp_feats)             # <<<<<<<<<<<<<<
  *                 | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
- *                 update_db(db_update, _id, nlp_feats, use_binarized_nlp_feats)
+ *                 update_db(db_update,
  */
             }
 
-            /* "src/features.pyx":464
- *     cdef int batch_size = 1000
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:
+            /* "src/features.pyx":467
+ *                             data_partition,
+ *                             batch_size) as game_cursor:
  *         for game_doc in game_cursor:             # <<<<<<<<<<<<<<
  *             nlp_feats = None
  *             game_doc_get = game_doc.get
@@ -7772,9 +7797,9 @@ static PyObject *__pyx_pf_3src_8features_8extract_nlp_features_into_db(CYTHON_UN
           /* "src/features.pyx":463
  *     # Create cursor object and set batch_size to 1,000
  *     cdef int batch_size = 1000
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:             # <<<<<<<<<<<<<<
- *         for game_doc in game_cursor:
- *             nlp_feats = None
+ *     with create_game_cursor(db,             # <<<<<<<<<<<<<<
+ *                             game_id,
+ *                             data_partition,
  */
         }
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
@@ -8602,45 +8627,45 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__34);
   __Pyx_GIVEREF(__pyx_tuple__34);
 
-  /* "src/features.pyx":467
+  /* "src/features.pyx":470
  *             nlp_feats = None
  *             game_doc_get = game_doc.get
  *             review_text = game_doc_get('review')             # <<<<<<<<<<<<<<
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
  *             _id = game_doc_get('_id')
  */
-  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_n_s_review_2); if (unlikely(!__pyx_tuple__35)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__35 = PyTuple_Pack(1, __pyx_n_s_review_2); if (unlikely(!__pyx_tuple__35)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 470; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
 
-  /* "src/features.pyx":468
+  /* "src/features.pyx":471
  *             game_doc_get = game_doc.get
  *             review_text = game_doc_get('review')
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)             # <<<<<<<<<<<<<<
  *             _id = game_doc_get('_id')
  * 
  */
-  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_n_s_nlp_features_binarized, Py_False); if (unlikely(!__pyx_tuple__36)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__36 = PyTuple_Pack(2, __pyx_n_s_nlp_features_binarized, Py_False); if (unlikely(!__pyx_tuple__36)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 471; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__36);
   __Pyx_GIVEREF(__pyx_tuple__36);
 
-  /* "src/features.pyx":469
+  /* "src/features.pyx":472
  *             review_text = game_doc_get('review')
  *             binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
  *             _id = game_doc_get('_id')             # <<<<<<<<<<<<<<
  * 
  *             # Extract NLP features by querying the database (if they
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_id); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_id); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
   /* "src/features.pyx":463
  *     # Create cursor object and set batch_size to 1,000
  *     cdef int batch_size = 1000
- *     with create_game_cursor(db, game_id, data_partition, batch_size) as game_cursor:             # <<<<<<<<<<<<<<
- *         for game_doc in game_cursor:
- *             nlp_feats = None
+ *     with create_game_cursor(db,             # <<<<<<<<<<<<<<
+ *                             game_id,
+ *                             data_partition,
  */
   __pyx_tuple__38 = PyTuple_Pack(3, Py_None, Py_None, Py_None); if (unlikely(!__pyx_tuple__38)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 463; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__38);

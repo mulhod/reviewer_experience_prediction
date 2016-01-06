@@ -236,29 +236,21 @@ def main():
     if mode == "combined":
         review_dicts_list = []
         if not use_mongodb:
-
-            # Min/max values of hours played (i.e., game experience)
-            if bins:
-                minh = 0.0
-                maxh = 0.0
             for game_file in game_files:
                 loginfo('Getting review data from {0}...'.format(game_file))
-                dataset = get_and_describe_dataset(join(data_dir, game_file),
-                                                   report=False)
-                review_dicts_list.extend(dataset['reviews'])
-
-                # If the hours played values are to be divided into
-                # bins, update the min/max values
-                if bins:
-                    if dataset['minh'] < minh:
-                        minh = dataset['minh']
-                    if dataset['max'] > maxh:
-                        maxh = dataset['maxh']
+                (review_dicts_list
+                 .extend(get_and_describe_dataset(join(data_dir, game_file),
+                                                  report=False)))
 
             # If the hours played values are to be divided into bins,
             # get the range that each bin maps to
             if bins:
-                bin_ranges = get_bin_ranges(minh, maxh, nbins, bin_factor)
+                bin_ranges = get_bin_ranges(min([r['total_game_hours'] for r
+                                                 in review_dicts_list]),
+                                            max([r['total_game_hours'] for r
+                                                 in review_dicts_list]),
+                                            nbins,
+                                            bin_factor)
             else:
                 bin_ranges = False
         file_names = [splitext(game)[0] for game in game_files]
@@ -273,25 +265,24 @@ def main():
                             make_train_test=True, bins=True)
         else:
             loginfo('Generating {0}...'.format(arff_file))
-            write_arff_file(arff_file, file_names, reviews=review_dicts_list,
+            write_arff_file(arff_file,
+                            file_names,
+                            reviews=review_dicts_list,
                             bins=bin_ranges)
     else:
         for game_file in game_files:
             loginfo('Getting review data from {0}...'.format(game_file))
             if not use_mongodb:
-                review_dicts_list = []
-                dataset = get_and_describe_dataset(join(data_dir, game_file),
-                                                   report=False)
-                review_dicts_list.extend(dataset['reviews'])
+                review_dicts_list = get_and_describe_dataset(join(data_dir,
+                                                                  game_file),
+                                                             report=False)
                 if bins:
-
-                    # Get min/max hours played values from results of
-                    # get_and_describe_dataset() call
-                    minh = np.floor(dataset['minh'])
-                    maxh = np.ceil(dataset['maxh'])
-
-                    # Get the range that each bin maps to
-                    bin_ranges = get_bin_ranges(minh, maxh, nbins, bin_factor)
+                    bin_ranges = get_bin_ranges(min([r['total_game_hours'] for r
+                                                     in review_dicts_list]),
+                                                max([r['total_game_hours'] for r
+                                                     in review_dicts_list]),
+                                                nbins,
+                                                bin_factor)
                 else:
                     bin_ranges = False
             game = splitext(game_file)[0]
@@ -299,11 +290,16 @@ def main():
             if use_mongodb:
                 loginfo('Generating ARFF file for the training and test sets '
                         'for {0}...'.format(game))
-                write_arff_file(arff_file, [game], reviewdb=reviewdb,
-                                make_train_test=True, bins=bins)
+                write_arff_file(arff_file,
+                                [game],
+                                reviewdb=reviewdb,
+                                make_train_test=True,
+                                bins=bins)
             else:
                 loginfo('Generating {0}...'.format(arff_file))
-                write_arff_file(arff_file, [game], reviews=review_dicts_list,
+                write_arff_file(arff_file,
+                                [game],
+                                reviews=review_dicts_list,
                                 bins=bin_ranges)
     loginfo('Complete.')
 

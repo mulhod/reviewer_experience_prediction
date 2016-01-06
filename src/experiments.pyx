@@ -561,8 +561,12 @@ def get_sorted_features_for_learner(learner, classes: np.array,
     return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
 
 
-def print_model_weights(learner, learner_name, classes: np.array, games: set,
-                        vectorizer, output_path: str) -> None:
+def print_model_weights(learner,
+                        learner_name: str,
+                        classes: np.array,
+                        games: set,
+                        vectorizer,
+                        output_path: str) -> None:
     """
     Print a sorted list of model weights for a given learner model to
     an output file.
