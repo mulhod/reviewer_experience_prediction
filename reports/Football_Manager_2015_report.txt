@@ -5,22 +5,17 @@ Number of English-language reviews: 1522
 
 Review Lengths Distribution
 
-Average review length: 410.7457275390625
+Average review length: 410.745729303548
 Minimum review length = 5
 Maximum review length = 7653
-Standard deviation = 687.1532592773438
+Standard deviation = 687.1532567702116
 
 
 Review Experience Distribution
 
-Average game experience (in hours played): 355.1970520019531
+Average game experience (in hours played): 355.19704336399474
 Minimum experience = 0.0
 Maximum experience = 3416.8
-Standard deviation = 428.7925109863281
+Standard deviation = 428.79252016103857
 
 
-Filter Values
-Minimum length = 50.0
-Maximum length = 3159.35888671875
-Minimum hours played = 0.0
-Maximum hours played = 2070.3671875
