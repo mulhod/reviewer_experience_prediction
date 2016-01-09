@@ -859,7 +859,7 @@ static char __pyx_k_Encountered_AutoReconnect_failur[] = "Encountered AutoReconn
 static char __pyx_k_Encountered_DuplicateKeyError_Th[] = "Encountered DuplicateKeyError. Throwing out the following review:\n{0}";
 static char __pyx_k_If_the_just_describe_and_describ[] = "If the just_describe and describe keyword arguments are set to True, just_describe wins out, i.e., the report will be generated, but no reviews will be inserted into the database.";
 static char __pyx_k_NOTE_It_is_possible_that_fewer_r[] = "NOTE: It is possible that fewer reviews get inserted into the DB for the training set or test set if there are errors during insertion and there are no replacement reviews to substitute in.";
-static char __pyx_k_No_matching_documents_were_found[] = "No matching documents were found in the MongoDB collection  for game {0}.";
+static char __pyx_k_No_matching_documents_were_found[] = "No matching documents were found in the MongoDB collection for game {0}.";
 static char __pyx_k_Number_of_training_set_reviews_0[] = "Number of training set reviews: {0}";
 static char __pyx_k_The_hours_played_value_0_did_not[] = "The hours played value ({0}) did not seem to fall within any of the bin ranges.\n\nBin ranges\n{1}";
 static char __pyx_k_Unable_to_connect_client_to_Mong[] = "Unable to connect client to Mongo server at {0}.";
@@ -1929,7 +1929,7 @@ static PyObject *__pyx_pf_3src_7mongodb_2create_game_cursor(CYTHON_UNUSED PyObje
  *         error_msg = None
  *         if data_partition == 'all':             # <<<<<<<<<<<<<<
  *             error_msg = ('No matching documents were found in the MongoDB '
- *                          'collection  for game {0}.'.format(game_id))
+ *                          'collection for game {0}.'.format(game_id))
  */
     __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_data_partition, __pyx_n_s_all, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 130; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     if (__pyx_t_1) {
@@ -1937,7 +1937,7 @@ static PyObject *__pyx_pf_3src_7mongodb_2create_game_cursor(CYTHON_UNUSED PyObje
       /* "src/mongodb.pyx":132
  *         if data_partition == 'all':
  *             error_msg = ('No matching documents were found in the MongoDB '
- *                          'collection  for game {0}.'.format(game_id))             # <<<<<<<<<<<<<<
+ *                          'collection for game {0}.'.format(game_id))             # <<<<<<<<<<<<<<
  *             logerr(error_msg)
  *         else:
  */
@@ -1973,7 +1973,7 @@ static PyObject *__pyx_pf_3src_7mongodb_2create_game_cursor(CYTHON_UNUSED PyObje
 
       /* "src/mongodb.pyx":133
  *             error_msg = ('No matching documents were found in the MongoDB '
- *                          'collection  for game {0}.'.format(game_id))
+ *                          'collection for game {0}.'.format(game_id))
  *             logerr(error_msg)             # <<<<<<<<<<<<<<
  *         else:
  *             error_msg = ('No matching documents were found in the MongoDB '
@@ -2012,7 +2012,7 @@ static PyObject *__pyx_pf_3src_7mongodb_2create_game_cursor(CYTHON_UNUSED PyObje
  *         error_msg = None
  *         if data_partition == 'all':             # <<<<<<<<<<<<<<
  *             error_msg = ('No matching documents were found in the MongoDB '
- *                          'collection  for game {0}.'.format(game_id))
+ *                          'collection for game {0}.'.format(game_id))
  */
       goto __pyx_L5;
     }

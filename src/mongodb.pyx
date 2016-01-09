@@ -129,7 +129,7 @@ def create_game_cursor(db: collection,
         error_msg = None
         if data_partition == 'all':
             error_msg = ('No matching documents were found in the MongoDB '
-                         'collection  for game {0}.'.format(game_id))
+                         'collection for game {0}.'.format(game_id))
             logerr(error_msg)
         else:
             error_msg = ('No matching documents were found in the MongoDB '

@@ -866,6 +866,7 @@ class ExperimentalData(object):
                  games: set,
                  max_partitions: int = 0,
                  n_partition: int = None,
+                 n_grid_search_partition: int = 1000,
                  lognormal: bool = False,
                  power_transform: float = None,
                  bin_ranges: list = None,
@@ -1005,10 +1006,16 @@ class ExperimentalData(object):
                                      'there should be a correspondence '
                                      'between index labels.')
 
+        # Validate the `n_grid_search_partition` parameter value
+        if n_grid_search_partition < 1:
+            raise ValueError('"n_grid_search_partition" should be a positive '
+                             'value.')
+
         self._db = db
         self._label = prediction_label
-        self._n_partition = n_partition
         self._max_partitions = max_partitions
+        self._n_partition = n_partition
+        self._n_grid_search_partition = n_grid_search_partition
         self._distributional_info_kwargs = {'power_transform': power_transform,
                                             'lognormal': lognormal,
                                             'bin_ranges': bin_ranges,
@@ -1035,10 +1042,13 @@ class ExperimentalData(object):
             distribution_dict_train['id_strings_labels_dict']
         labels_fdist_train = distribution_dict_train['labels_fdist']
 
-        # Do the same thing as above, but for the set of test games (if
-        # different)
-        test_sample_ids = []
+        # Generate a list of `id_string`s for the test set, if
+        # applicable
+        self.test_set = []
         if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:
+
+            # Make a dictionary mapping each label value to a list of
+            # `id_string`s
             distribution_dict_test = \
                 distributional_info(self._db,
                                     self._label,
@@ -1053,61 +1063,90 @@ class ExperimentalData(object):
 
             # Test data IDs
             prng = np.random.RandomState(12345)
-            _extend = test_sample_ids.extend
+            _extend = self.test_set.extend
             for label in labels_fdist_test:
                 _ids = np.array([_id for _id in id_strings_labels_dict_test
                                  if id_strings_labels_dict_test[_id] == label])
                 _ids.sort()
                 prng.shuffle(_ids)
                 label_freq = int(np.ceil(labels_fdist_test.freq(label)))
-                _extend(_ids[:label_freq*self._max_test_samples])
-            prng.shuffle(sorted(test_sample_ids))
-            if len(test_sample_ids) > self._max_test_samples:
-                test_sample_ids = test_sample_ids[:self._max_test_samples]
+                _n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
+                _extend(_ids[:_n_label_test_data if _n_label_test_data <= len(_ids)
+                              else None])
+            prng.shuffle(sorted(self.test_set))
+            if len(self.test_set) > self._max_test_samples:
+                self.test_set = self.test_set[:self._max_test_samples]
+
+        if not self.test_set:
+            self.test_set = None
 
         # Training data IDs
-        train_sample_ids_lists = []
-        _append = train_sample_ids_lists.append
+        self.datasets_dict = {}
         total_num_ids = labels_fdist_train.N()
 
         # Raise error if test games are the same as training games and
         # the test set is taking up over 75% of the data
         TOO_MUCH_OF_TOTAL = 0.75
         if self._GAMES_EQUALS_TEST_GAMES:
-            if len(test_sample_ids) > TOO_MUCH_OF_TOTAL*total_num_ids:
+            _n_test_sample_ids = len(self.test_set)
+            if _n_test_sample_ids > TOO_MUCH_OF_TOTAL*total_num_ids:
                 raise ValueError("The size of the test set is too big. There "
                                  "isn't enough data to do any training!")
-            total_left_for_training = total_num_ids - len(test_sample_ids)
+            total_left_for_training = total_num_ids - _n_test_sample_ids
 
-        i = 0
         # Make a dictionary mapping each label value to a list of
-        # `id_string`s
+        # `id_string`s that are not in the test set
         prng = np.random.RandomState(12345)
         labels_id_strings_dict_train = {}
         for label in labels_fdist_train:
             _ids = np.array([_id for _id in id_strings_labels_dict_train
                              if id_strings_labels_dict_train[_id] == label
-                                and not _id in test_sample_ids])
+                                and not _id in self.test_set])
             _ids.sort()
             prng.shuffle(_ids)
             labels_id_strings_dict_train[label] = _ids
+
+        # Figure out the values for the number of partitions/the number
+        # of data points per partition
+        n_ids = len(id_strings_labels_dict_train) - self._n_grid_search_partition
         if not self._max_partitions:
-            self._max_partitions = \
-                int(np.floor(len(id_strings_labels_dict_train)/self._n_partition))
+            self._max_partitions = int(np.floor(n_ids/self._n_partition))
         if not self._n_partition:
-            self._n_partition = \
-                int(np.floor(len(id_strings_labels_dict_train)/self._max_partitions))
-        for _ in range(self._max_partitions):
+            self._n_partition = int(np.floor(n_ids/self._max_partitions))
+
+        # Make list of `id_string`s for the grid search partition
+        for label in labels_id_strings_dict_train:
+            all_ids = labels_id_strings_dict_train[label]
+            label_freq = int(np.ceil(labels_fdist_train.freq(label)))
+            _n_label_grid_search_data = \
+                int(np.ceil(label_freq*self._n_grid_search_partition))
+            self.grid_search_set = all_ids[:_n_label_grid_search_data
+                                            if _n_label_grid_search_data <= len(all_ids)
+                                            else None]
+
+            # Remove the used-up data from
+            # `labels_id_strings_dict_train`
+            labels_id_strings_dict_train[label] = \
+                np.array([_id for _id in all_ids
+                          if not _id in self.grid_search_set])
+
+        # Make lists of `id_string`s for the rest of the partitions
+        for i in range(self._max_partitions):
             for label in labels_id_strings_dict_train:
+                partition_id = str(i + 1)
                 all_ids = labels_id_strings_dict_train[label]
                 label_freq = int(np.ceil(labels_fdist_train.freq(label)))
-                _ids = all_ids[:label_freq*self._n_partition]
-                _append(_ids)
-                labels_id_strings_dict_train[label] = \
-                    np.array([_id for _id in all_ids if not _id in _ids])
+                _n_label_train_data_partition = \
+                    int(np.ceil(label_freq*self._n_partition))
+                self.datasets_dict[partition_id] = \
+                    all_ids[:_n_label_train_data_partition
+                             if _n_label_train_data_partition <= len(all_ids)
+                             else None]
 
-        self.num_datasets = len(train_sample_ids_lists)
-        self.datasets_dict = {ind + 1: _ids for ind, _ids
-                              in zip(range(self.num_datasets),
-                                     train_sample_ids_lists)}
-        self.test_set = test_sample_ids if test_sample_ids else None
+                # Remove the used-up data from
+                # `labels_id_strings_dict_train`
+                labels_id_strings_dict_train[label] = \
+                    np.array([_id for _id in all_ids
+                              if not _id in self.datasets_dict[partition_id]])
+
+        self.num_datasets = len(self.datasets_dict)
