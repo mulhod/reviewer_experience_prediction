@@ -153,12 +153,12 @@ def main():
     loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
             .format(mongodb_host, mongodb_port))
     try:
-        reviewdb = connect_to_db(host=mongodb_host, port=mongodb_port)
+        db = connect_to_db(host=mongodb_host, port=mongodb_port)
     except ConnectionFailure as e:
         logerr('Unable to connect to MongoDB reviews collection.')
         logerr(e)
         raise e
-    reviewdb.write_concern['w'] = 0
+    db.write_concern['w'] = 0
 
     # Get list of games
     game_files = get_game_files(game_files,
@@ -176,7 +176,7 @@ def main():
                 .format(partition_string, game))
         bulk = db.initialize_unordered_bulk_op()
         batch_size = 100
-        updates = bulk_extract_features(reviewdb,
+        updates = bulk_extract_features(db,
                                         partition,
                                         game,
                                         reuse_nlp_feats=reuse_features,
