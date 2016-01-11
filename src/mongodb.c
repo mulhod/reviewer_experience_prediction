@@ -5223,7 +5223,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
   PyObject *__pyx_v_bulk = NULL;
   int __pyx_v_batch_size;
   PyObject *__pyx_v_game_cursor = NULL;
-  int __pyx_v_updates;
+  PyObject *__pyx_v_updates = NULL;
   int __pyx_v_NO_MORE_UPDATES;
   int __pyx_v_TOTAL_UPDATES;
   int __pyx_v_i;
@@ -5240,10 +5240,10 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
   PyObject *__pyx_t_6 = NULL;
   Py_ssize_t __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
-  int __pyx_t_9;
+  PyObject *__pyx_t_9 = NULL;
   PyObject *__pyx_t_10 = NULL;
   PyObject *__pyx_t_11 = NULL;
-  PyObject *__pyx_t_12 = NULL;
+  int __pyx_t_12;
   PyObject *__pyx_t_13 = NULL;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
@@ -5361,8 +5361,8 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *                                      game,
  *                                      partition,
  *                                      batch_size)             # <<<<<<<<<<<<<<
- *     cdef int updates = \
- *         bulk_extract_features(db,
+ *     updates = bulk_extract_features(db,
+ *                                     game_cursor,
  */
   __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_batch_size); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 450; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
@@ -5402,24 +5402,24 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
   __pyx_v_game_cursor = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/mongodb.pyx":452
+  /* "src/mongodb.pyx":451
+ *                                      partition,
  *                                      batch_size)
- *     cdef int updates = \
- *         bulk_extract_features(db,             # <<<<<<<<<<<<<<
- *                               game_cursor,
- *                               reuse_nlp_feats=reuse_nlp_feats,
+ *     updates = bulk_extract_features(db,             # <<<<<<<<<<<<<<
+ *                                     game_cursor,
+ *                                     reuse_nlp_feats=reuse_nlp_feats,
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_bulk_extract_features); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_bulk_extract_features); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
 
-  /* "src/mongodb.pyx":453
- *     cdef int updates = \
- *         bulk_extract_features(db,
- *                               game_cursor,             # <<<<<<<<<<<<<<
- *                               reuse_nlp_feats=reuse_nlp_feats,
- *                               use_binarized_nlp_feats=use_binarized_nlp_feats,
+  /* "src/mongodb.pyx":452
+ *                                      batch_size)
+ *     updates = bulk_extract_features(db,
+ *                                     game_cursor,             # <<<<<<<<<<<<<<
+ *                                     reuse_nlp_feats=reuse_nlp_feats,
+ *                                     use_binarized_nlp_feats=use_binarized_nlp_feats,
  */
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_INCREF(__pyx_v_db);
   __Pyx_GIVEREF(__pyx_v_db);
@@ -5428,71 +5428,70 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
   __Pyx_GIVEREF(__pyx_v_game_cursor);
   PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_v_game_cursor);
 
-  /* "src/mongodb.pyx":454
- *         bulk_extract_features(db,
- *                               game_cursor,
- *                               reuse_nlp_feats=reuse_nlp_feats,             # <<<<<<<<<<<<<<
- *                               use_binarized_nlp_feats=use_binarized_nlp_feats,
- *                               lowercase_text=lowercase_text,
+  /* "src/mongodb.pyx":453
+ *     updates = bulk_extract_features(db,
+ *                                     game_cursor,
+ *                                     reuse_nlp_feats=reuse_nlp_feats,             # <<<<<<<<<<<<<<
+ *                                     use_binarized_nlp_feats=use_binarized_nlp_feats,
+ *                                     lowercase_text=lowercase_text,
  */
-  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 453; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_reuse_nlp_feats, __pyx_v_reuse_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_reuse_nlp_feats, __pyx_v_reuse_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 453; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+  /* "src/mongodb.pyx":454
+ *                                     game_cursor,
+ *                                     reuse_nlp_feats=reuse_nlp_feats,
+ *                                     use_binarized_nlp_feats=use_binarized_nlp_feats,             # <<<<<<<<<<<<<<
+ *                                     lowercase_text=lowercase_text,
+ *                                     lowercase_cngrams=lowercase_cngrams)
+ */
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_use_binarized_nlp_feats, __pyx_v_use_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 453; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/mongodb.pyx":455
- *                               game_cursor,
- *                               reuse_nlp_feats=reuse_nlp_feats,
- *                               use_binarized_nlp_feats=use_binarized_nlp_feats,             # <<<<<<<<<<<<<<
- *                               lowercase_text=lowercase_text,
- *                               lowercase_cngrams=lowercase_cngrams)
- */
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_use_binarized_nlp_feats, __pyx_v_use_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-
-  /* "src/mongodb.pyx":456
- *                               reuse_nlp_feats=reuse_nlp_feats,
- *                               use_binarized_nlp_feats=use_binarized_nlp_feats,
- *                               lowercase_text=lowercase_text,             # <<<<<<<<<<<<<<
- *                               lowercase_cngrams=lowercase_cngrams)
+ *                                     reuse_nlp_feats=reuse_nlp_feats,
+ *                                     use_binarized_nlp_feats=use_binarized_nlp_feats,
+ *                                     lowercase_text=lowercase_text,             # <<<<<<<<<<<<<<
+ *                                     lowercase_cngrams=lowercase_cngrams)
  *     NO_MORE_UPDATES = False
  */
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_lowercase_text, __pyx_v_lowercase_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_lowercase_text, __pyx_v_lowercase_text) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 453; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "src/mongodb.pyx":457
- *                               use_binarized_nlp_feats=use_binarized_nlp_feats,
- *                               lowercase_text=lowercase_text,
- *                               lowercase_cngrams=lowercase_cngrams)             # <<<<<<<<<<<<<<
+  /* "src/mongodb.pyx":456
+ *                                     use_binarized_nlp_feats=use_binarized_nlp_feats,
+ *                                     lowercase_text=lowercase_text,
+ *                                     lowercase_cngrams=lowercase_cngrams)             # <<<<<<<<<<<<<<
  *     NO_MORE_UPDATES = False
  *     cdef int TOTAL_UPDATES = 0
  */
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_lowercase_cngrams, __pyx_v_lowercase_cngrams) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 454; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_lowercase_cngrams, __pyx_v_lowercase_cngrams) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 453; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-  /* "src/mongodb.pyx":452
+  /* "src/mongodb.pyx":451
+ *                                      partition,
  *                                      batch_size)
- *     cdef int updates = \
- *         bulk_extract_features(db,             # <<<<<<<<<<<<<<
- *                               game_cursor,
- *                               reuse_nlp_feats=reuse_nlp_feats,
+ *     updates = bulk_extract_features(db,             # <<<<<<<<<<<<<<
+ *                                     game_cursor,
+ *                                     reuse_nlp_feats=reuse_nlp_feats,
  */
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 451; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_9 = __Pyx_PyInt_As_int(__pyx_t_5); if (unlikely((__pyx_t_9 == (int)-1) && PyErr_Occurred())) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 452; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_updates = __pyx_t_9;
+  __pyx_v_updates = __pyx_t_5;
+  __pyx_t_5 = 0;
 
-  /* "src/mongodb.pyx":458
- *                               lowercase_text=lowercase_text,
- *                               lowercase_cngrams=lowercase_cngrams)
+  /* "src/mongodb.pyx":457
+ *                                     lowercase_text=lowercase_text,
+ *                                     lowercase_cngrams=lowercase_cngrams)
  *     NO_MORE_UPDATES = False             # <<<<<<<<<<<<<<
  *     cdef int TOTAL_UPDATES = 0
  *     cdef int i
  */
   __pyx_v_NO_MORE_UPDATES = 0;
 
-  /* "src/mongodb.pyx":459
- *                               lowercase_cngrams=lowercase_cngrams)
+  /* "src/mongodb.pyx":458
+ *                                     lowercase_cngrams=lowercase_cngrams)
  *     NO_MORE_UPDATES = False
  *     cdef int TOTAL_UPDATES = 0             # <<<<<<<<<<<<<<
  *     cdef int i
@@ -5500,7 +5499,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  */
   __pyx_v_TOTAL_UPDATES = 0;
 
-  /* "src/mongodb.pyx":461
+  /* "src/mongodb.pyx":460
  *     cdef int TOTAL_UPDATES = 0
  *     cdef int i
  *     while not NO_MORE_UPDATES:             # <<<<<<<<<<<<<<
@@ -5511,7 +5510,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
     __pyx_t_3 = ((!(__pyx_v_NO_MORE_UPDATES != 0)) != 0);
     if (!__pyx_t_3) break;
 
-    /* "src/mongodb.pyx":465
+    /* "src/mongodb.pyx":464
  *         # Add updates to the bulk update builder up until reaching the
  *         # the batch size limit (or until we run out of data)
  *         i = 0             # <<<<<<<<<<<<<<
@@ -5520,7 +5519,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  */
     __pyx_v_i = 0;
 
-    /* "src/mongodb.pyx":466
+    /* "src/mongodb.pyx":465
  *         # the batch size limit (or until we run out of data)
  *         i = 0
  *         while i < update_batch_size:             # <<<<<<<<<<<<<<
@@ -5528,15 +5527,15 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *                 update = next(updates)
  */
     while (1) {
-      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_8 = PyObject_RichCompare(__pyx_t_5, __pyx_v_update_batch_size, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_8 = PyObject_RichCompare(__pyx_t_5, __pyx_v_update_batch_size, Py_LT); __Pyx_XGOTREF(__pyx_t_8); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 466; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_8); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 465; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       if (!__pyx_t_3) break;
 
-      /* "src/mongodb.pyx":467
+      /* "src/mongodb.pyx":466
  *         i = 0
  *         while i < update_batch_size:
  *             try:             # <<<<<<<<<<<<<<
@@ -5544,28 +5543,25 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *             except StopIteration:
  */
       {
-        __Pyx_ExceptionSave(&__pyx_t_10, &__pyx_t_11, &__pyx_t_12);
+        __Pyx_ExceptionSave(&__pyx_t_9, &__pyx_t_10, &__pyx_t_11);
+        __Pyx_XGOTREF(__pyx_t_9);
         __Pyx_XGOTREF(__pyx_t_10);
         __Pyx_XGOTREF(__pyx_t_11);
-        __Pyx_XGOTREF(__pyx_t_12);
         /*try:*/ {
 
-          /* "src/mongodb.pyx":468
+          /* "src/mongodb.pyx":467
  *         while i < update_batch_size:
  *             try:
  *                 update = next(updates)             # <<<<<<<<<<<<<<
  *             except StopIteration:
  *                 NO_MORE_UPDATES = True
  */
-          __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_updates); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
+          __pyx_t_8 = __Pyx_PyIter_Next(__pyx_v_updates); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 467; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
           __Pyx_GOTREF(__pyx_t_8);
-          __pyx_t_5 = __Pyx_PyIter_Next(__pyx_t_8); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L12_error;}
-          __Pyx_GOTREF(__pyx_t_5);
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-          __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_5);
-          __pyx_t_5 = 0;
+          __Pyx_XDECREF_SET(__pyx_v_update, __pyx_t_8);
+          __pyx_t_8 = 0;
 
-          /* "src/mongodb.pyx":467
+          /* "src/mongodb.pyx":466
  *         i = 0
  *         while i < update_batch_size:
  *             try:             # <<<<<<<<<<<<<<
@@ -5573,33 +5569,33 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *             except StopIteration:
  */
         }
+        __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
         __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
         goto __pyx_L19_try_end;
         __pyx_L12_error:;
         __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
-        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-        /* "src/mongodb.pyx":469
+        /* "src/mongodb.pyx":468
  *             try:
  *                 update = next(updates)
  *             except StopIteration:             # <<<<<<<<<<<<<<
  *                 NO_MORE_UPDATES = True
  *                 break
  */
-        __pyx_t_9 = PyErr_ExceptionMatches(__pyx_builtin_StopIteration);
-        if (__pyx_t_9) {
+        __pyx_t_12 = PyErr_ExceptionMatches(__pyx_builtin_StopIteration);
+        if (__pyx_t_12) {
           __Pyx_AddTraceback("src.mongodb.bulk_extract_features_and_update_db", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_5, &__pyx_t_8, &__pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
-          __Pyx_GOTREF(__pyx_t_5);
+          if (__Pyx_GetException(&__pyx_t_8, &__pyx_t_5, &__pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L14_except_error;}
           __Pyx_GOTREF(__pyx_t_8);
+          __Pyx_GOTREF(__pyx_t_5);
           __Pyx_GOTREF(__pyx_t_4);
 
-          /* "src/mongodb.pyx":470
+          /* "src/mongodb.pyx":469
  *                 update = next(updates)
  *             except StopIteration:
  *                 NO_MORE_UPDATES = True             # <<<<<<<<<<<<<<
@@ -5608,7 +5604,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  */
           __pyx_v_NO_MORE_UPDATES = 1;
 
-          /* "src/mongodb.pyx":471
+          /* "src/mongodb.pyx":470
  *             except StopIteration:
  *                 NO_MORE_UPDATES = True
  *                 break             # <<<<<<<<<<<<<<
@@ -5617,147 +5613,147 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  */
           goto __pyx_L20_except_break;
           __pyx_L20_except_break:;
-          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
           goto __pyx_L17_try_break;
         }
         goto __pyx_L14_except_error;
         __pyx_L14_except_error:;
 
-        /* "src/mongodb.pyx":467
+        /* "src/mongodb.pyx":466
  *         i = 0
  *         while i < update_batch_size:
  *             try:             # <<<<<<<<<<<<<<
  *                 update = next(updates)
  *             except StopIteration:
  */
+        __Pyx_XGIVEREF(__pyx_t_9);
         __Pyx_XGIVEREF(__pyx_t_10);
         __Pyx_XGIVEREF(__pyx_t_11);
-        __Pyx_XGIVEREF(__pyx_t_12);
-        __Pyx_ExceptionReset(__pyx_t_10, __pyx_t_11, __pyx_t_12);
+        __Pyx_ExceptionReset(__pyx_t_9, __pyx_t_10, __pyx_t_11);
         goto __pyx_L1_error;
         __pyx_L17_try_break:;
+        __Pyx_XGIVEREF(__pyx_t_9);
         __Pyx_XGIVEREF(__pyx_t_10);
         __Pyx_XGIVEREF(__pyx_t_11);
-        __Pyx_XGIVEREF(__pyx_t_12);
-        __Pyx_ExceptionReset(__pyx_t_10, __pyx_t_11, __pyx_t_12);
+        __Pyx_ExceptionReset(__pyx_t_9, __pyx_t_10, __pyx_t_11);
         goto __pyx_L11_break;
         __pyx_L19_try_end:;
       }
 
-      /* "src/mongodb.pyx":473
+      /* "src/mongodb.pyx":472
  *                 break
  *             (bulk
  *              .find({'_id': update['_id']})             # <<<<<<<<<<<<<<
  *              .update(generate_update_query(update,
  *                                            binarized_features=use_binarized_nlp_feats)))
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_find); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_find); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_6 = PyObject_GetItem(__pyx_v_update, __pyx_n_s_id); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_6 = PyObject_GetItem(__pyx_v_update, __pyx_n_s_id); if (unlikely(__pyx_t_6 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_6);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_id, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_id, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_t_6 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+        __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
         if (likely(__pyx_t_6)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
           __Pyx_INCREF(__pyx_t_6);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __Pyx_DECREF_SET(__pyx_t_8, function);
         }
       }
       if (!__pyx_t_6) {
-        __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_1); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-        __Pyx_GOTREF(__pyx_t_8);
+        __Pyx_GOTREF(__pyx_t_5);
       } else {
-        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_6); __pyx_t_6 = NULL;
         __Pyx_GIVEREF(__pyx_t_1);
         PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_1);
         __pyx_t_1 = 0;
-        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 472; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "src/mongodb.pyx":474
+      /* "src/mongodb.pyx":473
  *             (bulk
  *              .find({'_id': update['_id']})
  *              .update(generate_update_query(update,             # <<<<<<<<<<<<<<
  *                                            binarized_features=use_binarized_nlp_feats)))
  *             i += 1
  */
-      __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_update); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-      __Pyx_GOTREF(__pyx_t_5);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-      __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_generate_update_query); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_update); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_generate_update_query); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_5);
+      __pyx_t_13 = PyTuple_New(1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_INCREF(__pyx_v_update);
       __Pyx_GIVEREF(__pyx_v_update);
       PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_v_update);
 
-      /* "src/mongodb.pyx":475
+      /* "src/mongodb.pyx":474
  *              .find({'_id': update['_id']})
  *              .update(generate_update_query(update,
  *                                            binarized_features=use_binarized_nlp_feats)))             # <<<<<<<<<<<<<<
  *             i += 1
  *         TOTAL_UPDATES += i
  */
-      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_binarized_features, __pyx_v_use_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 475; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_binarized_features, __pyx_v_use_binarized_nlp_feats) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "src/mongodb.pyx":474
+      /* "src/mongodb.pyx":473
  *             (bulk
  *              .find({'_id': update['_id']})
  *              .update(generate_update_query(update,             # <<<<<<<<<<<<<<
  *                                            binarized_features=use_binarized_nlp_feats)))
  *             i += 1
  */
-      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_6);
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       __pyx_t_1 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+        __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_8);
         if (likely(__pyx_t_1)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
           __Pyx_INCREF(__pyx_t_1);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_5, function);
+          __Pyx_DECREF_SET(__pyx_t_8, function);
         }
       }
       if (!__pyx_t_1) {
-        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_6); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else {
-        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_13);
         __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_1); __pyx_t_1 = NULL;
         __Pyx_GIVEREF(__pyx_t_6);
         PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_6);
         __pyx_t_6 = 0;
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 474; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 473; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
-      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "src/mongodb.pyx":476
+      /* "src/mongodb.pyx":475
  *              .update(generate_update_query(update,
  *                                            binarized_features=use_binarized_nlp_feats)))
  *             i += 1             # <<<<<<<<<<<<<<
@@ -5768,7 +5764,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
     }
     __pyx_L11_break:;
 
-    /* "src/mongodb.pyx":477
+    /* "src/mongodb.pyx":476
  *                                            binarized_features=use_binarized_nlp_feats)))
  *             i += 1
  *         TOTAL_UPDATES += i             # <<<<<<<<<<<<<<
@@ -5777,7 +5773,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  */
     __pyx_v_TOTAL_UPDATES = (__pyx_v_TOTAL_UPDATES + __pyx_v_i);
 
-    /* "src/mongodb.pyx":480
+    /* "src/mongodb.pyx":479
  * 
  *         # Execute bulk update operations
  *         try:             # <<<<<<<<<<<<<<
@@ -5785,43 +5781,43 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *         except BulkWriteError as bwe:
  */
     {
-      __Pyx_ExceptionSave(&__pyx_t_12, &__pyx_t_11, &__pyx_t_10);
-      __Pyx_XGOTREF(__pyx_t_12);
+      __Pyx_ExceptionSave(&__pyx_t_11, &__pyx_t_10, &__pyx_t_9);
       __Pyx_XGOTREF(__pyx_t_11);
       __Pyx_XGOTREF(__pyx_t_10);
+      __Pyx_XGOTREF(__pyx_t_9);
       /*try:*/ {
 
-        /* "src/mongodb.pyx":481
+        /* "src/mongodb.pyx":480
  *         # Execute bulk update operations
  *         try:
  *             result = bulk.execute()             # <<<<<<<<<<<<<<
  *         except BulkWriteError as bwe:
  *             logerr(bwe.details)
  */
-        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_execute); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
-        __Pyx_GOTREF(__pyx_t_5);
+        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_bulk, __pyx_n_s_execute); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
+        __Pyx_GOTREF(__pyx_t_8);
         __pyx_t_13 = NULL;
-        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
-          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_5);
+        if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_8))) {
+          __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_8);
           if (likely(__pyx_t_13)) {
-            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+            PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
             __Pyx_INCREF(__pyx_t_13);
             __Pyx_INCREF(function);
-            __Pyx_DECREF_SET(__pyx_t_5, function);
+            __Pyx_DECREF_SET(__pyx_t_8, function);
           }
         }
         if (__pyx_t_13) {
-          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_13); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
+          __pyx_t_4 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_13); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
           __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
         } else {
-          __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_5); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
+          __pyx_t_4 = __Pyx_PyObject_CallNoArg(__pyx_t_8); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 480; __pyx_clineno = __LINE__; goto __pyx_L22_error;}
         }
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+        __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_XDECREF_SET(__pyx_v_result, __pyx_t_4);
         __pyx_t_4 = 0;
 
-        /* "src/mongodb.pyx":480
+        /* "src/mongodb.pyx":479
  * 
  *         # Execute bulk update operations
  *         try:             # <<<<<<<<<<<<<<
@@ -5829,49 +5825,49 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  *         except BulkWriteError as bwe:
  */
       }
-      __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
       __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
       __Pyx_XDECREF(__pyx_t_10); __pyx_t_10 = 0;
+      __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
       goto __pyx_L29_try_end;
       __pyx_L22_error:;
-      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
+      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
       __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-      __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
+      __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-      /* "src/mongodb.pyx":482
+      /* "src/mongodb.pyx":481
  *         try:
  *             result = bulk.execute()
  *         except BulkWriteError as bwe:             # <<<<<<<<<<<<<<
  *             logerr(bwe.details)
  *             raise bwe
  */
-      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_BulkWriteError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+      __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_BulkWriteError); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_9 = PyErr_ExceptionMatches(__pyx_t_4);
+      __pyx_t_12 = PyErr_ExceptionMatches(__pyx_t_4);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      if (__pyx_t_9) {
+      if (__pyx_t_12) {
         __Pyx_AddTraceback("src.mongodb.bulk_extract_features_and_update_db", __pyx_clineno, __pyx_lineno, __pyx_filename);
-        if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_5, &__pyx_t_13) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+        if (__Pyx_GetException(&__pyx_t_4, &__pyx_t_8, &__pyx_t_13) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 481; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
         __Pyx_GOTREF(__pyx_t_4);
-        __Pyx_GOTREF(__pyx_t_5);
+        __Pyx_GOTREF(__pyx_t_8);
         __Pyx_GOTREF(__pyx_t_13);
-        __Pyx_INCREF(__pyx_t_5);
-        __pyx_v_bwe = __pyx_t_5;
+        __Pyx_INCREF(__pyx_t_8);
+        __pyx_v_bwe = __pyx_t_8;
 
-        /* "src/mongodb.pyx":483
+        /* "src/mongodb.pyx":482
  *             result = bulk.execute()
  *         except BulkWriteError as bwe:
  *             logerr(bwe.details)             # <<<<<<<<<<<<<<
  *             raise bwe
  *         logdebug(repr(result))
  */
-        __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+        __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_logerr); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_bwe, __pyx_n_s_details); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
-        __Pyx_GOTREF(__pyx_t_8);
+        __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_bwe, __pyx_n_s_details); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+        __Pyx_GOTREF(__pyx_t_5);
         __pyx_t_14 = NULL;
         if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_1))) {
           __pyx_t_14 = PyMethod_GET_SELF(__pyx_t_1);
@@ -5883,24 +5879,24 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
           }
         }
         if (!__pyx_t_14) {
-          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_8); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
-          __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+          __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_5); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+          __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
           __Pyx_GOTREF(__pyx_t_6);
         } else {
-          __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+          __pyx_t_15 = PyTuple_New(1+1); if (unlikely(!__pyx_t_15)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
           __Pyx_GOTREF(__pyx_t_15);
           __Pyx_GIVEREF(__pyx_t_14); PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_t_14); __pyx_t_14 = NULL;
-          __Pyx_GIVEREF(__pyx_t_8);
-          PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_8);
-          __pyx_t_8 = 0;
-          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_15, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+          __Pyx_GIVEREF(__pyx_t_5);
+          PyTuple_SET_ITEM(__pyx_t_15, 0+1, __pyx_t_5);
+          __pyx_t_5 = 0;
+          __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_15, NULL); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 482; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
           __Pyx_GOTREF(__pyx_t_6);
           __Pyx_DECREF(__pyx_t_15); __pyx_t_15 = 0;
         }
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "src/mongodb.pyx":484
+        /* "src/mongodb.pyx":483
  *         except BulkWriteError as bwe:
  *             logerr(bwe.details)
  *             raise bwe             # <<<<<<<<<<<<<<
@@ -5908,73 +5904,73 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
  * 
  */
         __Pyx_Raise(__pyx_v_bwe, 0, 0, 0);
-        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
+        {__pyx_filename = __pyx_f[0]; __pyx_lineno = 483; __pyx_clineno = __LINE__; goto __pyx_L24_except_error;}
       }
       goto __pyx_L24_except_error;
       __pyx_L24_except_error:;
 
-      /* "src/mongodb.pyx":480
+      /* "src/mongodb.pyx":479
  * 
  *         # Execute bulk update operations
  *         try:             # <<<<<<<<<<<<<<
  *             result = bulk.execute()
  *         except BulkWriteError as bwe:
  */
-      __Pyx_XGIVEREF(__pyx_t_12);
       __Pyx_XGIVEREF(__pyx_t_11);
       __Pyx_XGIVEREF(__pyx_t_10);
-      __Pyx_ExceptionReset(__pyx_t_12, __pyx_t_11, __pyx_t_10);
+      __Pyx_XGIVEREF(__pyx_t_9);
+      __Pyx_ExceptionReset(__pyx_t_11, __pyx_t_10, __pyx_t_9);
       goto __pyx_L1_error;
       __pyx_L29_try_end:;
     }
 
-    /* "src/mongodb.pyx":485
+    /* "src/mongodb.pyx":484
  *             logerr(bwe.details)
  *             raise bwe
  *         logdebug(repr(result))             # <<<<<<<<<<<<<<
  * 
  *     return TOTAL_UPDATES
  */
-    __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_logdebug); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_4 = PyObject_Repr(__pyx_v_result); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_logdebug); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_8);
+    __pyx_t_4 = PyObject_Repr(__pyx_v_result); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_6 = NULL;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_8);
       if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
         __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_8, function);
       }
     }
     if (!__pyx_t_6) {
-      __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_13 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_4); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_13);
     } else {
-      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = PyTuple_New(1+1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_6); __pyx_t_6 = NULL;
       __Pyx_GIVEREF(__pyx_t_4);
       PyTuple_SET_ITEM(__pyx_t_1, 0+1, __pyx_t_4);
       __pyx_t_4 = 0;
-      __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_1, NULL); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 485; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_13 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_1, NULL); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 484; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     }
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
   }
 
-  /* "src/mongodb.pyx":487
+  /* "src/mongodb.pyx":486
  *         logdebug(repr(result))
  * 
  *     return TOTAL_UPDATES             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_TOTAL_UPDATES); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 487; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = __Pyx_PyInt_From_int(__pyx_v_TOTAL_UPDATES); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 486; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_13);
   __pyx_r = __pyx_t_13;
   __pyx_t_13 = 0;
@@ -6003,6 +5999,7 @@ static PyObject *__pyx_pf_3src_7mongodb_8bulk_extract_features_and_update_db(CYT
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_bulk);
   __Pyx_XDECREF(__pyx_v_game_cursor);
+  __Pyx_XDECREF(__pyx_v_updates);
   __Pyx_XDECREF(__pyx_v_update);
   __Pyx_XDECREF(__pyx_v_result);
   __Pyx_XDECREF(__pyx_v_bwe);
@@ -6206,7 +6203,7 @@ static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 140; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_min = __Pyx_GetBuiltinName(__pyx_n_s_min); if (!__pyx_builtin_min) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 226; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 227; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 469; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_builtin_StopIteration = __Pyx_GetBuiltinName(__pyx_n_s_StopIteration); if (!__pyx_builtin_StopIteration) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 468; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   return 0;
   __pyx_L1_error:;
   return -1;

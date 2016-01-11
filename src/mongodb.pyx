@@ -448,13 +448,12 @@ def bulk_extract_features_and_update_db(db: collection,
                                      game,
                                      partition,
                                      batch_size)
-    cdef int updates = \
-        bulk_extract_features(db,
-                              game_cursor,
-                              reuse_nlp_feats=reuse_nlp_feats,
-                              use_binarized_nlp_feats=use_binarized_nlp_feats,
-                              lowercase_text=lowercase_text,
-                              lowercase_cngrams=lowercase_cngrams)
+    updates = bulk_extract_features(db,
+                                    game_cursor,
+                                    reuse_nlp_feats=reuse_nlp_feats,
+                                    use_binarized_nlp_feats=use_binarized_nlp_feats,
+                                    lowercase_text=lowercase_text,
+                                    lowercase_cngrams=lowercase_cngrams)
     NO_MORE_UPDATES = False
     cdef int TOTAL_UPDATES = 0
     cdef int i
