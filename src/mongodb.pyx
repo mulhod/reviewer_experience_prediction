@@ -443,13 +443,18 @@ def bulk_extract_features_and_update_db(db: collection,
                          'values: "all", "test", "training", "extra".')
 
     bulk = db.initialize_unordered_bulk_op()
-    updates = bulk_extract_features(db,
-                                    partition,
-                                    game,
-                                    reuse_nlp_feats=reuse_nlp_feats,
-                                    use_binarized_nlp_feats=use_binarized_nlp_feats,
-                                    lowercase_text=lowercase_text,
-                                    lowercase_cngrams=lowercase_cngrams)
+    cdef int batch_size = 1000
+    game_cursor = create_game_cursor(db,
+                                     game,
+                                     partition,
+                                     batch_size)
+    cdef int updates = \
+        bulk_extract_features(db,
+                              game_cursor,
+                              reuse_nlp_feats=reuse_nlp_feats,
+                              use_binarized_nlp_feats=use_binarized_nlp_feats,
+                              lowercase_text=lowercase_text,
+                              lowercase_cngrams=lowercase_cngrams)
     NO_MORE_UPDATES = False
     cdef int TOTAL_UPDATES = 0
     cdef int i

@@ -19,6 +19,7 @@ from re import (IGNORECASE,
 
 import numpy as np
 from bson import BSON
+from pymongo import cursor
 from nltk.util import ngrams
 from spacy.en import English
 from pymongo import collection
@@ -26,8 +27,6 @@ from skll.metrics import (kappa,
                           pearson)
 from bson.objectid import ObjectId
 from configparser import ConfigParser
-
-from src.mongodb import create_game_cursor
 
 bson_decode = BSON.decode
 spaCy_nlp = English()
@@ -420,8 +419,7 @@ def binarize_nlp_features(nlp_features: dict) -> dict:
 
 
 def bulk_extract_features(db: collection,
-                          data_partition: str,
-                          game_id: str,
+                          game_cursor: cursor,
                           reuse_nlp_feats: bool = True,
                           use_binarized_nlp_feats: bool = True,
                           lowercase_text: bool = True,
@@ -434,14 +432,8 @@ def bulk_extract_features(db: collection,
 
     :param db: MongoDB collection
     :type db: collection
-    :param data_partition: 'training', 'test', etc. (must be valid
-                           value for 'partition' key of review
-                           collection in Mongo database);
-                           alternatively, can be the value "all" for
-                           all partitions
-    :type data_partition: str
-    :param game_id: game ID
-    :type game_id: str
+    :param game_cursor: MongoDB cursor
+    :type game_cursor: cursor
     :param reuse_nlp_feats: reuse NLP features from database instead of
                             extracting them all over again (default:
                             True)
@@ -461,45 +453,36 @@ def bulk_extract_features(db: collection,
     :ytype: dict
     """
 
-    # Create cursor object and set batch_size to 1,000
-    cdef int batch_size = 1000
-    with create_game_cursor(db,
-                            game_id,
-                            data_partition,
-                            batch_size) as game_cursor:
-        for game_doc in game_cursor:
-            nlp_feats = None
-            game_doc_get = game_doc.get
-            review_text = game_doc_get('review')
-            binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
-            _id = game_doc_get('_id')
+    for game_doc in game_cursor:
+        nlp_feats = None
+        game_doc_get = game_doc.get
+        review_text = game_doc_get('review')
+        binarized_nlp_feats = game_doc_get('nlp_features_binarized', False)
+        _id = game_doc_get('_id')
 
-            # Extract NLP features by querying the database (if they
-            # are available and the --reuse_features option was used or
-            # the ID is in the list of IDs for reviews already
-            # collected); otherwise, extract features from the review
-            # text directly (and try to update the database)
-            found_nlp_feats = False
-            if (reuse_nlp_feats
-                & ((use_binarized_nlp_feats & binarized_nlp_feats)
-                    | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
-                nlp_feats = get_nlp_features_from_db(db, _id)
-                found_nlp_feats = True if nlp_feats else False
+        # Extract NLP features by querying the database (if they are
+        # available and the --reuse_features option was used or the ID
+        # is in the list of IDs for reviews already collected);
+        # otherwise, extract features from the review text directly
+        # (and try to update the database)
+        found_nlp_feats = False
+        if (reuse_nlp_feats & ((use_binarized_nlp_feats & binarized_nlp_feats)
+                                | (use_binarized_nlp_feats & (not binarized_nlp_feats)))):
+            nlp_feats = get_nlp_features_from_db(db, _id)
+            found_nlp_feats = True if nlp_feats else False
 
-            extracted_anew = False
-            if not found_nlp_feats:
-                nlp_feats = extract_features(Review(review_text,
-                                                    lower=lowercase_text),
-                                             lowercase_cngrams=lowercase_cngrams)
-                extracted_anew = True
+        extracted_anew = False
+        if not found_nlp_feats:
+            nlp_feats = extract_features(Review(review_text, lower=lowercase_text),
+                                         lowercase_cngrams=lowercase_cngrams)
+            extracted_anew = True
 
-            # Make sure features get binarized if need be
-            if (use_binarized_nlp_feats
-                & (((not reuse_nlp_feats) | (not binarized_nlp_feats)) | extracted_anew)):
-                nlp_feats = binarize_nlp_features(nlp_feats)
+        # Make sure features get binarized if need be
+        if (use_binarized_nlp_feats
+            & (((not reuse_nlp_feats) | (not binarized_nlp_feats)) | extracted_anew)):
+            nlp_feats = binarize_nlp_features(nlp_feats)
 
-            # Yield a dictionary containing the data to be (possibly
-            # altered and then) inserted
-            if ((not found_nlp_feats) | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
-                yield dict(features=nlp_feats,
-                           _id=_id)
+        # Yield a dictionary containing the data to be (possibly
+        # altered and then) inserted
+        if ((not found_nlp_feats) | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
+            yield dict(features=nlp_feats, _id=_id)
