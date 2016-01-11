@@ -34,6 +34,7 @@ from pymongo.errors import (AutoReconnect,
                             DuplicateKeyError)
 
 from data import APPID_DICT
+from src.features import bulk_extract_features
 from src.datasets import (get_bin,
                           get_bin_ranges,
                           validate_bin_ranges,
@@ -396,3 +397,86 @@ def generate_update_query(update_dict: dict, binarized_features: bool = True) ->
     return {'$set': {'nlp_features': bson_encode(update_dict['features']),
                      'binarized': binarized_features,
                      'id_string': str(update_dict['_id'])}}
+
+
+def bulk_extract_features_and_update_db(db: collection,
+                                        game: str,
+                                        partition: str = 'all',
+                                        reuse_nlp_feats: bool = True,
+                                        use_binarized_nlp_feats: bool = True,
+                                        lowercase_text: bool = True,
+                                        lowercase_cngrams: bool = False,
+                                        update_batch_size: int = 100) -> int:
+    """
+    Extract NLP features from the review texts for a given game/data
+    partition and update the database.
+
+    :param db: MongoDB collection
+    :type db: collection
+    :param game: game ID
+    :type game: str
+    :param partition: partition of the data (leave unspecified or use
+                      'all' to leave the partition unspecified)
+    :type partition: str
+    :param reuse_nlp_feats: reuse NLP features from database instead of
+                            extracting them all over again (default:
+                            True)
+    :type reuse_nlp_feats: bool
+    :param use_binarized_nlp_feats: use binarized NLP features
+                                    (default: True)
+    :type use_binarized_nlp_feats: bool
+    :param lowercase_text: whether or not to lower-case the review
+                           text (default: True)
+    :type lowercase_text: bool
+    :param lowercase_cngrams: whether or not to lower-case the
+                              character n-grams (default: False)
+    :type lowercase_cngrams: bool
+    :param update_batch_size: size of update batches (default: 100)
+    :type update_batch_size: int
+
+    :returns: total number of successful updates
+    :rtype: int
+    """
+
+    if not partition in ['all', 'test', 'training', 'extra']:
+        raise ValueError('"partition" must be in the following list of '
+                         'values: "all", "test", "training", "extra".')
+
+    bulk = db.initialize_unordered_bulk_op()
+    updates = bulk_extract_features(db,
+                                    partition,
+                                    game,
+                                    reuse_nlp_feats=reuse_nlp_feats,
+                                    use_binarized_nlp_feats=use_binarized_nlp_feats,
+                                    lowercase_text=lowercase_text,
+                                    lowercase_cngrams=lowercase_cngrams)
+    NO_MORE_UPDATES = False
+    cdef int TOTAL_UPDATES = 0
+    cdef int i
+    while not NO_MORE_UPDATES:
+
+        # Add updates to the bulk update builder up until reaching the
+        # the batch size limit (or until we run out of data)
+        i = 0
+        while i < update_batch_size:
+            try:
+                update = next(updates)
+            except StopIteration:
+                NO_MORE_UPDATES = True
+                break
+            (bulk
+             .find({'_id': update['_id']})
+             .update(generate_update_query(update,
+                                           binarized_features=use_binarized_nlp_feats)))
+            i += 1
+        TOTAL_UPDATES += i
+
+        # Execute bulk update operations
+        try:
+            result = bulk.execute()
+        except BulkWriteError as bwe:
+            logerr(bwe.details)
+            raise bwe
+        logdebug(repr(result))
+
+    return TOTAL_UPDATES

@@ -427,7 +427,7 @@ def bulk_extract_features(db: collection,
                           lowercase_text: bool = True,
                           lowercase_cngrams: bool = False) -> dict:
     """
-    Extract NLP features from reviews in the Mongo database for a
+    Extract NLP features from reviews in the MongoDB database for a
     particular game/data partition in bulk and generate the feature
     dictionaries and other information for use in updating the
     database.
@@ -443,19 +443,21 @@ def bulk_extract_features(db: collection,
     :param game_id: game ID
     :type game_id: str
     :param reuse_nlp_feats: reuse NLP features from database instead of
-                            extracting them all over again
+                            extracting them all over again (default:
+                            True)
     :type reuse_nlp_feats: bool
     :param use_binarized_nlp_feats: use binarized NLP features
+                                    (default: True)
     :type use_binarized_nlp_feats: bool
     :param lowercase_text: whether or not to lower-case the review
-                           text
+                           text (default: True)
     :type lowercase_text: bool
     :param lowercase_cngrams: whether or not to lower-case the
-                              character n-grams
+                              character n-grams (default: False)
     :type lowercase_cngrams: bool
 
-    :yields: dictionary containing a MongoDB document ObjectId and a
-             feature dictionary/ID string to insert
+    :yields: dictionary containing a feature dictionary and an
+             `ObjectId` string to insert
     :ytype: dict
     """
 
@@ -496,11 +498,8 @@ def bulk_extract_features(db: collection,
                 & (((not reuse_nlp_feats) | (not binarized_nlp_feats)) | extracted_anew)):
                 nlp_feats = binarize_nlp_features(nlp_feats)
 
-            # Update Mongo database game doc with new key
-            # "nlp_features", update/create a "nlp_features_binarized"
-            # key to store a value indicating whehter or not the NLP
-            # features were binarized or not, and update/create an
-            # "id_string" key for storing the string represenation of
-            # the ID
+            # Yield a dictionary containing the data to be (possibly
+            # altered and then) inserted
             if ((not found_nlp_feats) | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
-                yield dict(_id=_id, features=nlp_feats)
+                yield dict(features=nlp_feats,
+                           _id=_id)

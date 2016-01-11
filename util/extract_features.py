@@ -15,27 +15,6 @@ from argparse import (ArgumentParser,
 
 project_dir = dirname(dirname(realpath(__file__)))
 
-def generate_update_query(update_dict: dict, binarized_features: bool = True) -> dict:
-    """
-    Generate an update query in the form needed for the MongoDB
-    updates.
-
-    :param update_dict: dictionary containing an `_id` field and a
-                        `features` field
-    :type update_dict: dict
-    :param binarized_features: value representing whether or not the
-                               features were binarized
-    :type binarized_features: bool
-
-    :returns: update query dictionary
-    :rtype: dict
-    """
-
-    return {'$set': {'nlp_features': bson_encode(update_dict['features']),
-                     'binarized': binarized_features,
-                     'id_string': str(update_dict['_id'])}}
-
-
 def main():
     parser = ArgumentParser(usage='python extract_features.py --game_files '
                                   'GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
@@ -102,9 +81,8 @@ def main():
 
     from src import log_format_string
     from src.mongodb import (connect_to_db,
-                             generate_update_query)
+                             bulk_extract_features_and_update_db)
     from src.datasets import get_game_files
-    from src.features import bulk_extract_features
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -169,53 +147,29 @@ def main():
     for game_file in game_files:
         game = splitext(game_file)[0]
         if partition == 'all':
-            partition_string = (' from the "training" and "test" data partitions')
+            partition_string = ' from the "training" and "test" data partitions'
         else:
             partition_string = ' from the "{0}" data partition'.format(partition)
-        loginfo('Extracting features{0} for {1}...'
-                .format(partition_string, game))
-        bulk = db.initialize_unordered_bulk_op()
-        batch_size = 100
-        updates = bulk_extract_features(db,
-                                        partition,
-                                        game,
-                                        reuse_nlp_feats=reuse_features,
-                                        use_binarized_nlp_feats=binarize,
-                                        lowercase_text=lowercase_text,
-                                        lowercase_cngrams=lowercase_cngrams)
-        NO_MORE_UPDATES = False
-        TOTAL_UPDATES = 0
-        while not NO_MORE_UPDATES:
-
-            # Add updates to the bulk update builder up until reaching
-            # the batch size limit (or until we run out of data)
-            i = 0
-            while i < update_batch_size:
-                try:
-                    update = next(updates)
-                except StopIteration:
-                    NO_MORE_UPDATES = True
-                    break
-                (bulk
-                 .find({'_id': update['_id']})
-                 .updateOne(generate_update_query(update,
-                                                  binarized_features=binarize)))
-                i += 1
-            TOTAL_UPDATES += i
-
-            # Execute bulk update operations
-            try:
-                result = bulk.execute()
-            except BulkWriteError as bwe:
-                logerr(bwe.details)
-                raise bwe
-            logdebug(repr(result))
-
-    if TOTAL_UPDATES:
+        loginfo('Extracting features{0} for {1}...'.format(partition_string, game))
+        try:
+            updates = \
+                bulk_extract_features_and_update_db(db,
+                                                    game,
+                                                    partition,
+                                                    reuse_nlp_feats=reuse_features,
+                                                    use_binarized_nlp_feats=binarize,
+                                                    lowercase_text=lowercase_text,
+                                                    lowercase_cngrams=lowercase_cngrams,
+                                                    update_batch_size=update_batch_size)
+        except BulkWriteError as bwe:
+            logerr('Encountered a BulkWriteError while executing the call to '
+                   '`bulk_extract_features_and_update_db`.')
+            raise bwe
+    if updates:
         loginfo('{0} updates were made to the reviews collection.'
-                .format(TOTAL_UPDATES))
+                .format(updates))
     else:
-        raise ValueError()
+        raise ValueError('No updates were made.')
 
 
 if __name__ == '__main__':
