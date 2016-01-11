@@ -442,7 +442,6 @@ def bulk_extract_features_and_update_db(db: collection,
         raise ValueError('"partition" must be in the following list of '
                          'values: "all", "test", "training", "extra".')
 
-    bulk = db.initialize_unordered_bulk_op()
     cdef int batch_size = 1000
     game_cursor = create_game_cursor(db,
                                      game,
@@ -458,6 +457,8 @@ def bulk_extract_features_and_update_db(db: collection,
     cdef int TOTAL_UPDATES = 0
     cdef int i
     while not NO_MORE_UPDATES:
+
+        bulk = db.initialize_unordered_bulk_op()
 
         # Add updates to the bulk update builder up until reaching the
         # the batch size limit (or until we run out of data)
