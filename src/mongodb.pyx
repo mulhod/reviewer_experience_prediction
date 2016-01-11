@@ -292,7 +292,7 @@ def insert_train_test_reviews(db: collection,
         try:
             result = bulk.execute()
         except BulkWriteError as bwe:
-            logger.debug(bwe.details)
+            logdebug(bwe.details)
             exit(1)
         logdebug(repr(result))
 
@@ -377,42 +377,22 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
                     'following review:\n{0}'.format(rd))
 
 
-def update_db(db_update, _id: ObjectId, nlp_feats: dict,
-              binarized_nlp_feats: bool = True) -> None:
+def generate_update_query(update_dict: dict, binarized_features: bool = True) -> dict:
     """
-    Update Mongo database document with extracted NLP features and keys
-    related to whether or not the NLP features have been binarized and
-    review document IDs.
+    Generate an update query in the form needed for the MongoDB
+    updates.
 
-    :param db_update: bound method Collection.update of MongoDB
-                      collection
-    :type db_update: method
-    :param _id: MongoDB document's ObjectId
-    :type _id: ObjectId
-    :param nlp_feats: dictionary of features
-    :type nlp_feats: dict
-    :param binarized_nlp_feats: whether or not the NLP features being
-                                updated/inserted are binarized
-    :type binarized_nlp_feats: bool
+    :param update_dict: dictionary containing an `_id` field and a
+                        `features` field
+    :type update_dict: dict
+    :param binarized_features: value representing whether or not the
+                               features were binarized
+    :type binarized_features: bool
 
-    :returns: None
-    :rtype: None
+    :returns: update query dictionary
+    :rtype: dict
     """
 
-    cdef int tries = 0
-    while tries < 5:
-        try:
-            db_update({'_id': _id},
-                      {'$set': {'nlp_features': bson_encode(nlp_feats),
-                                'binarized': binarized_nlp_feats,
-                                'id_string': str(_id)}})
-            break
-        except AutoReconnect:
-            logwarn('Encountered AutoReconnect failure, attempting to '
-                    'reconnect automatically after 20 seconds...')
-            tries += 1
-            if tries >= 5:
-                error_msg = 'Unable to update database even after 5 tries.'
-                logerr(error_msg)
-                raise ValueError(error_msg)
-            sleep(20)
+    return {'$set': {'nlp_features': bson_encode(update_dict['features']),
+                     'binarized': binarized_features,
+                     'id_string': str(update_dict['_id'])}}

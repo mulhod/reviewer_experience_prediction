@@ -27,8 +27,7 @@ from skll.metrics import (kappa,
 from bson.objectid import ObjectId
 from configparser import ConfigParser
 
-from src.mongodb import (update_db,
-                         create_game_cursor)
+from src.mongodb import create_game_cursor
 
 bson_decode = BSON.decode
 spaCy_nlp = English()
@@ -192,8 +191,8 @@ class Review(object):
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
 
-def extract_features_from_review(_review: Review,
-                                 lowercase_cngrams: bool = False) -> dict:
+def extract_features(_review: Review,
+                     lowercase_cngrams: bool = False) -> dict:
     """
     Extract word/character n-gram, length, Brown corpus cluster ID,
     and syntactic dependency features from a Review object and return
@@ -420,15 +419,18 @@ def binarize_nlp_features(nlp_features: dict) -> dict:
     return dict(Counter(list(nlp_features)))
 
 
-def extract_nlp_features_into_db(db: collection, data_partition: str,
-                                 game_id: str, reuse_nlp_feats: bool = True,
-                                 use_binarized_nlp_feats: bool = True,
-                                 lowercase_text: bool = True,
-                                 lowercase_cngrams: bool = False) -> None:
+def bulk_extract_features(db: collection,
+                          data_partition: str,
+                          game_id: str,
+                          reuse_nlp_feats: bool = True,
+                          use_binarized_nlp_feats: bool = True,
+                          lowercase_text: bool = True,
+                          lowercase_cngrams: bool = False) -> dict:
     """
-    Extract NLP features from reviews in the Mongo database and write
-    the features to the database if features weren't already added and
-    reuse_nlp_feats is false).
+    Extract NLP features from reviews in the Mongo database for a
+    particular game/data partition in bulk and generate the feature
+    dictionaries and other information for use in updating the
+    database.
 
     :param db: MongoDB collection
     :type db: collection
@@ -452,11 +454,10 @@ def extract_nlp_features_into_db(db: collection, data_partition: str,
                               character n-grams
     :type lowercase_cngrams: bool
 
-    :returns: None
-    :rtype: None
+    :yields: dictionary containing a MongoDB document ObjectId and a
+             feature dictionary/ID string to insert
+    :ytype: dict
     """
-
-    db_update = db.update
 
     # Create cursor object and set batch_size to 1,000
     cdef int batch_size = 1000
@@ -485,17 +486,14 @@ def extract_nlp_features_into_db(db: collection, data_partition: str,
 
             extracted_anew = False
             if not found_nlp_feats:
-                nlp_feats = \
-                    extract_features_from_review(Review(review_text,
-                                                        lower=lowercase_text),
-                                                 lowercase_cngrams=lowercase_cngrams)
+                nlp_feats = extract_features(Review(review_text,
+                                                    lower=lowercase_text),
+                                             lowercase_cngrams=lowercase_cngrams)
                 extracted_anew = True
 
             # Make sure features get binarized if need be
             if (use_binarized_nlp_feats
-                & (((not reuse_nlp_feats)
-                    | (not binarized_nlp_feats))
-                   | extracted_anew)):
+                & (((not reuse_nlp_feats) | (not binarized_nlp_feats)) | extracted_anew)):
                 nlp_feats = binarize_nlp_features(nlp_feats)
 
             # Update Mongo database game doc with new key
@@ -504,9 +502,5 @@ def extract_nlp_features_into_db(db: collection, data_partition: str,
             # features were binarized or not, and update/create an
             # "id_string" key for storing the string represenation of
             # the ID
-            if ((not found_nlp_feats)
-                | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
-                update_db(db_update,
-                          _id,
-                          nlp_feats,
-                          use_binarized_nlp_feats)
+            if ((not found_nlp_feats) | (use_binarized_nlp_feats ^ binarized_nlp_feats)):
+                yield dict(_id=_id, features=nlp_feats)

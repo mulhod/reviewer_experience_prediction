@@ -15,6 +15,27 @@ from argparse import (ArgumentParser,
 
 project_dir = dirname(dirname(realpath(__file__)))
 
+def generate_update_query(update_dict: dict, binarized_features: bool = True) -> dict:
+    """
+    Generate an update query in the form needed for the MongoDB
+    updates.
+
+    :param update_dict: dictionary containing an `_id` field and a
+                        `features` field
+    :type update_dict: dict
+    :param binarized_features: value representing whether or not the
+                               features were binarized
+    :type binarized_features: bool
+
+    :returns: update query dictionary
+    :rtype: dict
+    """
+
+    return {'$set': {'nlp_features': bson_encode(update_dict['features']),
+                     'binarized': binarized_features,
+                     'id_string': str(update_dict['_id'])}}
+
+
 def main():
     parser = ArgumentParser(usage='python extract_features.py --game_files '
                                   'GAME_FILE1,GAME_FILE2,...[ OPTIONS]',
@@ -63,6 +84,10 @@ def main():
              help='Port that the MongoDB server is running on.',
              type=int,
              default=27017)
+    _add_arg('--update_batch_size', '-batch_size',
+             help='Size of each batch for the bulk updates.',
+             type=int,
+             default=100)
     _add_arg('-log', '--log_file_path',
              help='Path to feature extraction log file.',
              type=str,
@@ -72,12 +97,14 @@ def main():
     # Imports
     import logging
 
-    from pymongo.errors import ConnectionFailure
+    from pymongo.errors import (BulkWriteError,
+                                ConnectionFailure)
 
     from src import log_format_string
-    from src.mongodb import connect_to_db
+    from src.mongodb import (connect_to_db,
+                             generate_update_query)
     from src.datasets import get_game_files
-    from src.features import extract_nlp_features_into_db
+    from src.features import bulk_extract_features
 
     # Make local copies of arguments
     game_files = args.game_files
@@ -88,6 +115,10 @@ def main():
     partition = args.partition
     mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
+    update_batch_size = args.update_batch_size
+    if update_batch_size < 1:
+        raise ValueError('--update_batch_size/-batch_size should be greater '
+                         'than 0.')
 
     # Setup logger and create logging handlers
     logger = logging.getLogger('extract_features')
@@ -116,6 +147,7 @@ def main():
              .format(lowercase_text))
     logdebug('Lower-case character n-grams during feature extraction? {0}'
              .format(lowercase_cngrams))
+    logdebug('Batch size for database updates: {0}'.format(update_batch_size))
 
     # Establish connection to MongoDB database collection
     loginfo('Connecting to MongoDB database on mongodb://{0}:{1}...'
@@ -129,8 +161,8 @@ def main():
     reviewdb.write_concern['w'] = 0
 
     # Get list of games
-    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
-                                                 'data'))
+    game_files = get_game_files(game_files,
+                                join(dirname(dirname(__file__)), 'data'))
 
     # Iterate over the game files, extracting and adding/replacing
     # features to the database
@@ -142,11 +174,49 @@ def main():
             partition_string = ' from the "{0}" data partition'.format(partition)
         loginfo('Extracting features{0} for {1}...'
                 .format(partition_string, game))
-        extract_nlp_features_into_db(reviewdb, partition, game,
-                                     reuse_nlp_feats=reuse_features,
-                                     use_binarized_nlp_feats=binarize,
-                                     lowercase_text=lowercase_text,
-                                     lowercase_cngrams=lowercase_cngrams)
+        bulk = db.initialize_unordered_bulk_op()
+        batch_size = 100
+        updates = bulk_extract_features(reviewdb,
+                                        partition,
+                                        game,
+                                        reuse_nlp_feats=reuse_features,
+                                        use_binarized_nlp_feats=binarize,
+                                        lowercase_text=lowercase_text,
+                                        lowercase_cngrams=lowercase_cngrams)
+        NO_MORE_UPDATES = False
+        TOTAL_UPDATES = 0
+        while not NO_MORE_UPDATES:
+
+            # Add updates to the bulk update builder up until reaching
+            # the batch size limit (or until we run out of data)
+            i = 0
+            while i < update_batch_size:
+                try:
+                    update = next(updates)
+                except StopIteration:
+                    NO_MORE_UPDATES = True
+                    break
+                (bulk
+                 .find({'_id': update['_id']})
+                 .updateOne(generate_update_query(update,
+                                                  binarized_features=binarize)))
+                i += 1
+            TOTAL_UPDATES += i
+
+            # Execute bulk update operations
+            try:
+                result = bulk.execute()
+            except BulkWriteError as bwe:
+                logerr(bwe.details)
+                raise bwe
+            logdebug(repr(result))
+
+    if TOTAL_UPDATES:
+        loginfo('{0} updates were made to the reviews collection.'
+                .format(TOTAL_UPDATES))
+    else:
+        raise ValueError()
+
 
 if __name__ == '__main__':
     main()
