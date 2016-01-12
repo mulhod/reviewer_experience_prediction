@@ -1,6 +1,6 @@
 # Reviewer Experience Prediction
 
-## Original Inspiration
+## Description, Original Inspiration, Slides
 - Create a system for predicting the number of game-hours that have been played by a reviewer given only the review text itself.
 - Idea: The online gaming platform Steam publishes hundreds of thousands of video game reviews (along with other pieces of data) by its users and it also collects and makes available huge amounts of data linked to those very same users. So, we can look at things like...
     * How many hours a reviewer played the game he/she is reviewing
@@ -9,6 +9,8 @@
     * Reviewer/user stats, such as:
         - Achievements attained
         - Number of hours played in the last 2 weeks
+- This project was originally the basis for a class project for a course at Montclair State University. After the conclusion of that project, I continued the research and the bulk of the updates to the code, data, and algorithms have been made since then.
+- I gave a talk about this work entitled "Applying Machine Learning and NLP to Video Game Reviews" on December 17<sup>th</sup>, 2015 at Montclair State University. The slides for this talk can be accessed either in the "slides" directory or at this [link](https://docs.google.com/presentation/d/1a1cg90LE-ovqoZFx1FfBPNquZP0FvVKNC0WOF95ZpSc/edit?usp=sharing).
 
 ## Current -- and More General -- Aim
 - Use the system to conduct machine learning experiments of various kinds, not just in trying to predict number of game-hours played.
