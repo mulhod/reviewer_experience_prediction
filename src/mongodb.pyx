@@ -30,6 +30,7 @@ from bson.objectid import ObjectId
 from pymongo.bulk import BulkOperationBuilder
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
+                            InvalidOperation,
                             ConnectionFailure,
                             DuplicateKeyError)
 
@@ -479,9 +480,11 @@ def bulk_extract_features_and_update_db(db: collection,
         # Execute bulk update operations
         try:
             result = bulk.execute()
+            logdebug(repr(result))
+        except InvalidOperation:
+            pass
         except BulkWriteError as bwe:
             logerr(bwe.details)
             raise bwe
-        logdebug(repr(result))
 
     return TOTAL_UPDATES
