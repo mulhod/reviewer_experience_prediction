@@ -50,16 +50,23 @@ I would like to thank both Janette Martinez and Emily Olshefski for their help i
 
 \section{Introduction}
 
-The following instructions are directed to authors of papers submitted
-to ACL-2015 or accepted for publication in its proceedings. All
-authors are required to adhere to these specifications. Authors are
-required to provide a Portable Document Format (PDF) version of their
-papers. \textbf{The proceedings are designed for printing on A4
-paper.}
+Ground truth in the realm of deception detection is information that can be verified or denied. One area where deception detection is applied is in the detection of fake reviews. In this case, reviews that are known to be fake (by some external means) are compared to reviews that are believed to have been written in good faith. However, defining reviews from either category is a difficult matter and corpora of fake/real reviews are often constrained in that, for any given review, it could be impossible to determine the category. In this paper, I propose a fundamental reframing of the issue: the problem should not be about whether or not a given review is fake, but rather it should be about determining the amount of experience a reviewer has with the product being reviewed. Reviews for which the reviewer has little to no experience with the product -- whether they have been written in bad faith or simply from a relatively uninformed perspective -- could be distinguished from reviews for which the reviewer does have experience with the product being reviewed. Further, different levels of experience -- say, moderate or high -- could be distinguished from one another. A system that could accurately predict the amount of experience a reviewer has given only the review text or some combination of the review text and some other attributes of the review/reviewer, such as the number of times a review has been marked as helpful, could be useful in a production environment as a review filtering algorithm and/or a review sorting algorithm.
 
-We will make more detailed instructions available at
-\url{http://acl2015.org/publication.html}. Please check this website 
-regularly.
+A way of determining a reviewer's experience with a product that could be used to train a system is a prerequisite of this line of research. In the realm of video game reviews, this is a feasible prerequisite: the Steam online video game platform, for instance, keeps a record of the number of hours each user has played each game and, thus, when a user submits a review of a video game, this information is presented alongside the review. It is true that the meaning of this measure is not completely straightforward: a user could have played a particular game for many hours outside the Steam platform and these hours would not be included in the record of that user's playing time in the online platform. However, I believe that it is a reasonable assumption to make that the majority of the values recorded by the platform will be accurate and/or that the degree to which a player has played a particular game outside the confines of the online platform will be similar across players submitting reviews for the same game. Thus, the relative amount of experience embodied by the number of hours played could still be a valid piece of information. The window into a user's experience with a product that is afforded by the amount of time a user has used a product, however, is somewhat unique to the case of video games: for other products, it might be impossible or pointless to attempt to record the amount of time the user used the product. For example, there is no way to keep a record of the amount of time a user has spent using a vacuum short of conducting an experiment and recording such information in person. However, if experience could be successfully modelled in the case of video games, perhaps the models could be generalized to cover whole categories of products and, thus, the situation here would apply to much more than video games. Furthermore, there are other indications of a user's experience with a product, such as the number of times a review has been marked as helpful.
+
+% Stop here
+
+In this paper, I look to the hours played by the reviewer as the ground truth. The data we are basing the ground truth upon are reviews of games published on the online video game platform Steam. The ground truth in our case is the hours played values, which are provided by Steam for all reviews and which are derived from the players' own online game playing statistics (i.e., not on user-reported values). The information gathered by Steam is a good example of "external" ground truth, along with the fact that this is real-world data. The idea is that the higher the hours played values are, the more trustworthy the reviews are. Naturally, if a reviewer has played more hours of a game, then he/she has a better understanding of the game and, in turn, can write a more nuanced and accurate review of a game or a review that exhibits information that can only be acquired through usage. 
+
+Data was collected from the video game platform Steam, available or PC, Mac, and Linux, due its popularity as a gaming platofrm as well as availability of data. We developed a web-scraping method in order to build a corpus of reviews. Reviews from the top 11 most popular games were scraped from the Steam website. Number of hours played were also collected in conjunction with the review text associated with them. After pruning the data -- filtering out non-English reviews, reviews that had close to no content, etc., training/test set partitions were built. Using Weka and a basic bag-of-words approach in order to get some initial results, we built regression models with the SMOreg machine learning algorithm. This work is the first steps in using novel and more comprehensive data not otherwise used in similar studies.
+
+% For bold text:
+%\textbf{The proceedings are designed for printing on A4 paper.}
+
+% For URLS:
+%We will make more detailed instructions available at
+%\url{http://acl2015.org/publication.html}. Please check this website 
+%regularly.
 
 
 \section{General Instructions}
