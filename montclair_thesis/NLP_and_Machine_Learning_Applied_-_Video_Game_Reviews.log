@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  12 JAN 2016 04:01
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  13 JAN 2016 02:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -82,75 +82,65 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 42.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 78.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 88.
+(Font)              <7> on input line 71.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 88.
-
-Underfull \hbox (badness 1817) in paragraph at lines 130--136
-\OT1/ptm/m/n/10 should spec-ify \OT1/pcr/m/n/10 -t a4\OT1/ptm/m/n/10 . Or us-in
-g the com-mand
- []
-
-
-Underfull \hbox (badness 1953) in paragraph at lines 130--136
-[]\OT1/pcr/m/n/10 \special{papersize=210mm,297mm} \OT1/ptm/m/n/10 in the
- []
-
-
-Underfull \vbox (badness 1895) has occurred while \output is active []
-
- [2]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 152.
-
+(Font)              <5> on input line 71.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 74.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 152.
- [3]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 316.
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 334.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 74.
+ [2]
+Underfull \hbox (badness 1817) in paragraph at lines 156--162
+\OT1/ptm/m/n/10 should spec-ify \OT1/pcr/m/n/10 -t a4\OT1/ptm/m/n/10 . Or us-in
+g the com-mand
+ []
 
-Underfull \hbox (badness 1701) in paragraph at lines 344--353
+
+Underfull \hbox (badness 1953) in paragraph at lines 156--162
+[]\OT1/pcr/m/n/10 \special{papersize=210mm,297mm} \OT1/ptm/m/n/10 in the
+ []
+
+[3]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 342.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 360.
+
+Underfull \hbox (badness 1701) in paragraph at lines 370--379
 \OT1/ptm/m/n/10 La-TeXML, listed at $\OT1/pcr/m/n/10 http : / / dlmf . nist . g
 ov /
  []
 
 [4] [5
 
-] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
 Here is how much of TeX's memory you used:
  495 strings out of 493304
  6499 string characters out of 6139871
- 64305 words of memory out of 5000000
+ 65305 words of memory out of 5000000
  3981 multiletter control sequences out of 15000+600000
  25680 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 23i,9n,19p,2060b,256s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
-/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+ 23i,9n,19p,1191b,256s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/te
+xlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
+utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (5 
-pages, 87847 bytes).
+pages, 89684 bytes).
 PDF statistics:
  41 PDF objects out of 1000 (max. 8388607)
  28 compressed objects within 1 object stream
