@@ -1062,9 +1062,9 @@ class ExperimentalData(object):
                              if id_strings_labels[_id] == label])
             _ids.sort()
             prng.shuffle(_ids)
-            label_freq = int(np.ceil(labels_fdist.freq(label)))
-            _n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
-            _extend(_ids[:_n_label_test_data if _n_label_test_data <= len(_ids)
+            label_freq = labels_fdist.freq(label)
+            n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
+            _extend(_ids[:n_label_test_data if n_label_test_data <= len(_ids)
                           else None])
         prng.shuffle(sorted(self.test_set))
         if len(self.test_set) > self._max_test_samples:
@@ -1118,16 +1118,14 @@ class ExperimentalData(object):
         grid_search_set = [[], [], []]
         for label in labels_id_strings:
             all_ids = labels_id_strings[label]
-            label_freq = int(np.ceil(labels_fdist.freq(label)))
-            _n_label_grid_search_data = int(np.ceil(label_freq*self._n_grid_search_partition))
-            label_ids = all_ids[:_n_label_grid_search_data]
-            partitioned_label_ids = [label_ids[i::3] for i in range(3)]
-            for i in range(3):
-                grid_search_set[i].extend(partitioned_label_ids[i])
+            label_freq = labels_fdist.freq(label)
+            n_label_grid_search_data = int(np.ceil(label_freq*self._n_grid_search_partition))
+            label_ids = all_ids[:n_label_grid_search_data]
+            for i, partition in enumerate([label_ids[i::3] for i in range(3)]):
+                grid_search_set[i].extend(partition)
 
             # Remove the used-up data from `labels_id_strings`
-            labels_id_strings[label] = np.array([_id for _id in all_ids
-                                                 if not _id in label_ids])
+            labels_id_strings[label] = np.array([_id for _id in all_ids if not _id in label_ids])
 
         return grid_search_set, labels_id_strings
 
@@ -1151,11 +1149,9 @@ class ExperimentalData(object):
             for label in labels_id_strings:
                 partition_id = str(i + 1)
                 all_ids = labels_id_strings[label]
-                label_freq = int(np.ceil(labels_fdist.freq(label)))
-                _n_label_train_data_partition = \
-                    int(np.ceil(label_freq*self._n_partition))
-                datasets_dict[partition_id] = \
-                    all_ids[:_n_label_train_data_partition]
+                label_freq = labels_fdist.freq(label)
+                n_label_train_data_partition = int(np.ceil(label_freq*self._n_partition))
+                datasets_dict[partition_id] = all_ids[:n_label_train_data_partition]
 
         return datasets_dict
 
