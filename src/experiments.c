@@ -13250,7 +13250,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels             # <<<<<<<<<<<<<<
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  */
     __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1091; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
@@ -13264,7 +13264,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label             # <<<<<<<<<<<<<<
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  */
     if (likely(PyList_CheckExact(__pyx_v_id_strings_labels)) || PyTuple_CheckExact(__pyx_v_id_strings_labels)) {
@@ -13282,7 +13282,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels             # <<<<<<<<<<<<<<
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  */
       if (likely(!__pyx_t_9)) {
         if (likely(PyList_CheckExact(__pyx_t_7))) {
@@ -13321,7 +13321,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label             # <<<<<<<<<<<<<<
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  */
       __pyx_t_10 = PyObject_GetItem(__pyx_v_id_strings_labels, __pyx_v__id); if (unlikely(__pyx_t_10 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1092; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
@@ -13330,7 +13330,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
       /* "src/experiments.pyx":1093
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])             # <<<<<<<<<<<<<<
+ *                                 and (not self.test_set or not _id in self.test_set)])             # <<<<<<<<<<<<<<
  *             _ids.sort()
  *             prng.shuffle(_ids)
  */
@@ -13341,7 +13341,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label             # <<<<<<<<<<<<<<
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  */
       __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1092; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -13355,23 +13355,33 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
       /* "src/experiments.pyx":1093
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])             # <<<<<<<<<<<<<<
+ *                                 and (not self.test_set or not _id in self.test_set)])             # <<<<<<<<<<<<<<
  *             _ids.sort()
  *             prng.shuffle(_ids)
  */
       __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_12);
-      __pyx_t_13 = (__Pyx_PySequence_ContainsTF(__pyx_v__id, __pyx_t_12, Py_NE)); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_13 = __Pyx_PyObject_IsTrue(__pyx_t_12); if (unlikely(__pyx_t_13 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-      __pyx_t_14 = (__pyx_t_13 != 0);
-      __pyx_t_11 = __pyx_t_14;
+      __pyx_t_14 = ((!__pyx_t_13) != 0);
+      if (!__pyx_t_14) {
+      } else {
+        __pyx_t_11 = __pyx_t_14;
+        goto __pyx_L8_bool_binop_done;
+      }
+      __pyx_t_12 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_12);
+      __pyx_t_14 = (__Pyx_PySequence_ContainsTF(__pyx_v__id, __pyx_t_12, Py_NE)); if (unlikely(__pyx_t_14 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1093; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
+      __pyx_t_13 = (__pyx_t_14 != 0);
+      __pyx_t_11 = __pyx_t_13;
       __pyx_L8_bool_binop_done:;
 
       /* "src/experiments.pyx":1092
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label             # <<<<<<<<<<<<<<
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  */
       if (__pyx_t_11) {
@@ -13381,7 +13391,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels             # <<<<<<<<<<<<<<
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  */
         if (unlikely(__Pyx_ListComp_Append(__pyx_t_5, (PyObject*)__pyx_v__id))) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1091; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
@@ -13389,7 +13399,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels
  *                              if id_strings_labels[_id] == label             # <<<<<<<<<<<<<<
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  */
       }
@@ -13399,7 +13409,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  *         for label in labels:
  *             _ids = np.array([_id for _id in id_strings_labels             # <<<<<<<<<<<<<<
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  */
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
@@ -13434,7 +13444,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
 
     /* "src/experiments.pyx":1094
  *                              if id_strings_labels[_id] == label
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()             # <<<<<<<<<<<<<<
  *             prng.shuffle(_ids)
  *             labels_id_strings[label] = _ids
@@ -13462,7 +13472,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "src/experiments.pyx":1095
- *                                 and not _id in self.test_set])
+ *                                 and (not self.test_set or not _id in self.test_set)])
  *             _ids.sort()
  *             prng.shuffle(_ids)             # <<<<<<<<<<<<<<
  *             labels_id_strings[label] = _ids

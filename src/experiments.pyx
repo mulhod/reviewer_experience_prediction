@@ -1090,7 +1090,7 @@ class ExperimentalData(object):
         for label in labels:
             _ids = np.array([_id for _id in id_strings_labels
                              if id_strings_labels[_id] == label
-                                and not _id in self.test_set])
+                                and (not self.test_set or not _id in self.test_set)])
             _ids.sort()
             prng.shuffle(_ids)
             labels_id_strings[label] = _ids
