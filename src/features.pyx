@@ -104,21 +104,6 @@ class Review(object):
     Class for objects representing review texts and NLP features.
     """
 
-    # Normalized review text
-    norm = None
-    # appid of the game (string ID code that Steam uses to represent
-    # the game
-    appid = None
-    # Attribute whose value determines whether or not the review text
-    # will be lower-cased as part of the normalization step
-    lower = None
-    # Attribute consisting of the identified sentences, which, in turn
-    # consist of the identified tokens
-    tokens = []
-    # Attributes representing the spaCy text annotations
-    spaCy_annotations = None
-    spaCy_sents = None
-
     def __init__(self, review_text: str, lower: bool = True) -> 'Review':
         """
         Initialization method.
@@ -134,12 +119,12 @@ class Review(object):
 
         # Get review text and lower-casing attributes
         self.orig = review_text
-        self.lower = lower
+        self._lower = lower
 
         # Get base-2 log of the length of the original (read: before
         # normalization) version of the review text
         self.length = ceil(np.log2(len(self.orig)))
-        self.normalize()
+        self._normalize()
 
         # Use spaCy to analyze the normalized version of the review
         # text
@@ -148,9 +133,9 @@ class Review(object):
         spaCy_sents_append = self.spaCy_sents.append
         for _range in self.spaCy_annotations.sents:
             spaCy_sents_append([self.spaCy_annotations[i] for i in range(*_range)])
-        self.get_token_features_from_spaCy()
+        self._get_token_features_from_spaCy()
 
-    def normalize(self) -> None:
+    def _normalize(self) -> None:
         """
         Perform text preprocessing, i.e., lower-casing, etc., to
         generate the norm attribute.
@@ -160,7 +145,7 @@ class Review(object):
         """
 
         # Lower-case text if self.lower is True
-        r = self.orig.lower() if self.lower else self.orig
+        r = self.orig.lower() if self._lower else self.orig
 
         # Collapse all sequences of one or more whitespace characters,
         # strip whitespace off the ends of the string, and lower-case
@@ -171,7 +156,7 @@ class Review(object):
             r = regex_sub(r)
         self.norm = r
 
-    def get_token_features_from_spaCy(self):
+    def _get_token_features_from_spaCy(self):
         """
         Get tokens-related features from spaCy's text annotations,
         including Brown corpus cluster IDs.
@@ -180,8 +165,9 @@ class Review(object):
         :rtype: None
         """
 
-        cluster_ids = []
+        self.tokens = []
         tokens_append = self.tokens.append
+        cluster_ids = []
         cluster_ids_extend = cluster_ids.extend
         for sent in self.spaCy_sents:
             # Get tokens and clusters
@@ -190,7 +176,7 @@ class Review(object):
         self.cluster_id_counter = dict(Counter(cluster_ids))
 
 
-def extract_features(_review: Review,
+def extract_features(review: Review,
                      lowercase_cngrams: bool = False) -> dict:
     """
     Extract word/character n-gram, length, Brown corpus cluster ID,
@@ -203,8 +189,8 @@ def extract_features(_review: Review,
     feature) and the value is the frequency with which that feature
     occurred in the review.
 
-    :param _review: object representing the review
-    :type _review: Review object
+    :param review: object representing the review
+    :type review: Review object
     :param lowercase_cngrams: whether or not to lower-case the review
                               text before extracting character n-grams
                               (False by default)
@@ -232,7 +218,7 @@ def extract_features(_review: Review,
         ngram_counter_update = ngram_counter.update
 
         # Count up all n-grams
-        for sent in _review.tokens:
+        for sent in review.tokens:
             for i in range(_min, _max + 1):
                 ngram_counter_update(list(ngrams(sent, i)))
 
@@ -263,9 +249,9 @@ def extract_features(_review: Review,
 
         # Count up all character n-grams
         for i in range(_min, _max + 1):
-            cngram_counter_update(list(ngrams(_review.orig.lower()
+            cngram_counter_update(list(ngrams(review.orig.lower()
                                               if lowercase_cngrams
-                                              else _review.orig, i)))
+                                              else review.orig, i)))
 
         # Re-represent keys as string representations of specific
         # features of the feature class "cngrams" (and set all values
@@ -286,7 +272,7 @@ def extract_features(_review: Review,
         :rtype: Counter
         """
 
-        cluster_fdist = _review.cluster_id_counter
+        cluster_fdist = review.cluster_id_counter
         for cluster_id, freq in list(cluster_fdist.items()):
             del cluster_fdist[cluster_id]
             cluster_fdist['cluster{0}'.format(cluster_id)] = freq
@@ -310,7 +296,7 @@ def extract_features(_review: Review,
 
         # Iterate through spaCy annotations for each sentence and then
         # for each token
-        for sent in _review.spaCy_sents:
+        for sent in review.spaCy_sents:
             for t in sent:
                 # If the number of children to the left and to the
                 # right of the token add up to a value that is not
@@ -328,7 +314,7 @@ def extract_features(_review: Review,
 
     feats_update = feats.update
     # Get the length feature
-    feats_update({str(_review.length): 1})
+    feats_update({str(review.length): 1})
 
     # Extract n-gram features
     feats_update(generate_ngram_fdist())

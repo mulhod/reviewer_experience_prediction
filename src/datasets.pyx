@@ -851,8 +851,8 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
         # Write hours played distribution information to report
         hours = np.array([review['total_game_hours'] for review in reviews])
         output.write('Review Experience Distribution\n\n')
-        output.write('Average game experience (in hours played): {0}'
-                     '\n'.format(hours.mean()))
+        output.write('Average game experience (in hours played): {0}\n'
+                     .format(hours.mean()))
         output.write('Minimum experience = {0}\n'.format(min(hours)))
         output.write('Maximum experience = {0}\n'.format(max(hours)))
         output.write('Standard deviation = {0}\n\n\n'.format(hours.std()))

@@ -1025,9 +1025,9 @@ class ExperimentalData(object):
         self._max_test_samples = max_test_samples
 
         # Construct the dataset
-        self.construct_layered_dataset()
+        self._construct_layered_dataset()
 
-    def make_test_set(self) -> None:
+    def _make_test_set(self) -> None:
         """
         Generate a list of `id_string`s for the test set.
 
@@ -1070,7 +1070,7 @@ class ExperimentalData(object):
         if len(self.test_set) > self._max_test_samples:
             self.test_set = self.test_set[:self._max_test_samples]
 
-    def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
+    def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
         """
         Generate a dictionary of labels mapped to lists of
         ID strings.
@@ -1097,8 +1097,8 @@ class ExperimentalData(object):
 
         return labels_id_strings
 
-    def generate_grid_search_dataset(self, labels_id_strings: dict,
-                                     labels_fdist: FreqDist):
+    def _generate_grid_search_dataset(self, labels_id_strings: dict,
+                                      labels_fdist: FreqDist):
         """
         Generate a partitioned dataset for a grid search round and
         return it and an updated label/ID string dictionary (to use for
@@ -1131,7 +1131,7 @@ class ExperimentalData(object):
 
         return grid_search_set, labels_id_strings
 
-    def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:
+    def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:
         """
         Generate stratified datasets for training rounds.
 
@@ -1159,7 +1159,7 @@ class ExperimentalData(object):
 
         return datasets_dict
 
-    def construct_layered_dataset(self):
+    def _construct_layered_dataset(self):
         """
         Build up a dictionary of ID strings mapped to label values.
         """
@@ -1167,7 +1167,7 @@ class ExperimentalData(object):
         # Generate a list of `id_string`s for the test set, if
         # applicable
         if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:
-            self.make_test_set()
+            self._make_test_set()
 
         # Get dictionary of ID strings mapped to labels and a frequency
         # distribution of the labels
@@ -1180,8 +1180,8 @@ class ExperimentalData(object):
 
         # Make a dictionary mapping each label value to a list of
         # `id_string`s that are not in the test set
-        labels_id_strings = self.generate_labels_dict(id_strings_labels,
-                                                      set(labels_fdist))
+        labels_id_strings = self._generate_labels_dict(id_strings_labels,
+                                                       set(labels_fdist))
 
         # Figure out the values for the number of partitions/the number
         # of data points per partition
@@ -1193,10 +1193,10 @@ class ExperimentalData(object):
 
         # Make list of `id_string`s for the grid search partition
         self.grid_search_set, labels_id_strings = \
-            self.generate_grid_search_dataset(labels_id_strings, labels_fdist)
+            self._generate_grid_search_dataset(labels_id_strings, labels_fdist)
 
         # Make lists of `id_string`s for the rest of the partitions
-        self.datasets_dict = self.generate_datasets(labels_id_strings, labels_fdist)
+        self.datasets_dict = self._generate_datasets(labels_id_strings, labels_fdist)
 
         # Set the `num_datasets` attribute
         self.num_datasets = len(self.datasets_dict)

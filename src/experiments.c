@@ -1316,7 +1316,7 @@ static char __pyx_k_test_games_2[] = "_test_games";
 static char __pyx_k_y_test_preds[] = "y_test_preds";
 static char __pyx_k_datasets_dict[] = "datasets_dict";
 static char __pyx_k_feature_coefs[] = "feature_coefs";
-static char __pyx_k_make_test_set[] = "make_test_set";
+static char __pyx_k_make_test_set[] = "_make_test_set";
 static char __pyx_k_n_partition_2[] = "_n_partition";
 static char __pyx_k_FRIENDS_LABELS[] = "FRIENDS_LABELS";
 static char __pyx_k_HELPFUL_LABELS[] = "HELPFUL_LABELS";
@@ -1356,7 +1356,7 @@ static char __pyx_k_training_samples[] = "training_samples";
 static char __pyx_k_LEARNER_DICT_KEYS[] = "LEARNER_DICT_KEYS";
 static char __pyx_k_distribution_data[] = "distribution_data";
 static char __pyx_k_distribution_dict[] = "distribution_dict";
-static char __pyx_k_generate_datasets[] = "generate_datasets";
+static char __pyx_k_generate_datasets[] = "_generate_datasets";
 static char __pyx_k_get_feature_names[] = "get_feature_names";
 static char __pyx_k_id_strings_labels[] = "id_strings_labels";
 static char __pyx_k_labels_id_strings[] = "labels_id_strings";
@@ -1374,7 +1374,7 @@ static char __pyx_k_validate_bin_ranges[] = "validate_bin_ranges";
 static char __pyx_k_LEARNER_ABBRS_STRING[] = "LEARNER_ABBRS_STRING";
 static char __pyx_k_Unrecognized_label_0[] = "Unrecognized label: {0}";
 static char __pyx_k_achievement_progress[] = "achievement_progress";
-static char __pyx_k_generate_labels_dict[] = "generate_labels_dict";
+static char __pyx_k_generate_labels_dict[] = "_generate_labels_dict";
 static char __pyx_k_sklearn_linear_model[] = "sklearn.linear_model";
 static char __pyx_k_partitioned_label_ids[] = "partitioned_label_ids";
 static char __pyx_k_transformation_string[] = "transformation_string";
@@ -1385,7 +1385,7 @@ static char __pyx_k_GAMES_EQUALS_TEST_GAMES[] = "_GAMES_EQUALS_TEST_GAMES";
 static char __pyx_k_n_grid_search_partition[] = "n_grid_search_partition";
 static char __pyx_k_n_label_grid_search_data[] = "_n_label_grid_search_data";
 static char __pyx_k_NO_INTROSPECTION_LEARNERS[] = "NO_INTROSPECTION_LEARNERS";
-static char __pyx_k_construct_layered_dataset[] = "construct_layered_dataset";
+static char __pyx_k_construct_layered_dataset[] = "_construct_layered_dataset";
 static char __pyx_k_evenly_distribute_samples[] = "evenly_distribute_samples";
 static char __pyx_k_n_grid_search_partition_2[] = "_n_grid_search_partition";
 static char __pyx_k_PassiveAggressiveRegressor[] = "PassiveAggressiveRegressor";
@@ -1395,10 +1395,9 @@ static char __pyx_k_make_cursor_locals_genexpr[] = "make_cursor.<locals>.genexpr
 static char __pyx_k_printable_confusion_matrix[] = "printable_confusion_matrix";
 static char __pyx_k_achievement_progress_string[] = "achievement_progress_string";
 static char __pyx_k_games_must_be_non_empty_set[] = "\"games\" must be non-empty set.";
-static char __pyx_k_generate_grid_search_dataset[] = "generate_grid_search_dataset";
+static char __pyx_k_generate_grid_search_dataset[] = "_generate_grid_search_dataset";
 static char __pyx_k_labels_id_strings_lists_dict[] = "labels_id_strings_lists_dict";
 static char __pyx_k_n_label_train_data_partition[] = "_n_label_train_data_partition";
-static char __pyx_k_ExperimentalData_make_test_set[] = "ExperimentalData.make_test_set";
 static char __pyx_k_No_review_documents_were_found[] = "No review documents were found!";
 static char __pyx_k_author_Matt_Mulholland_date_11[] = "\n:author: Matt Mulholland\n:date: 11/19/2015\n\nModule of functions/classes related to learning experiments.\n";
 static char __pyx_k_games_contains_invalid_games_0[] = "\"games\" contains invalid games: {0}.";
@@ -1408,6 +1407,8 @@ static char __pyx_k_All_or_some_of_the_games_in_the[] = "All or some of the game
 static char __pyx_k_Can_not_get_feature_weights_for[] = "Can not get feature weights for learners of type {0}";
 static char __pyx_k_Cannot_specify_both_a_set_of_ID[] = "Cannot specify both a set of ID strings and a partition and/or a set of games simultaneously.";
 static char __pyx_k_Class_for_objects_storing_id_st[] = "\n    Class for objects storing `id_string`s corresponding to data\n    samples in a collection, which can be used to conduct a grid search\n    round + a number of additional learning rounds.\n    ";
+static char __pyx_k_ExperimentalData__generate_grid[] = "ExperimentalData._generate_grid_search_dataset";
+static char __pyx_k_ExperimentalData__make_test_set[] = "ExperimentalData._make_test_set";
 static char __pyx_k_If_both_bin_ranges_and_test_bin[] = "If both \"bin_ranges\" and \"test_bin_ranges\" are specified, then they must have the same length since there should be a correspondence between index labels.";
 static char __pyx_k_batch_size_must_be_greater_than[] = "\"batch_size\" must be greater than zero.";
 static char __pyx_k_bin_ranges_could_not_be_validat[] = "\"bin_ranges\" could not be validated.";
@@ -1423,10 +1424,9 @@ static char __pyx_k_Both_lognormal_and_power_transfo[] = "Both \"lognormal\" and
 static char __pyx_k_Could_not_generate_features_feat[] = "Could not generate features/feature coefficients dataframe for {0}...";
 static char __pyx_k_Could_not_get_feature_coefficien[] = "Could not get feature coefficients!";
 static char __pyx_k_ExperimentalData___init___locals[] = "ExperimentalData.__init__.<locals>.genexpr";
-static char __pyx_k_ExperimentalData_construct_layer[] = "ExperimentalData.construct_layered_dataset";
-static char __pyx_k_ExperimentalData_generate_datase[] = "ExperimentalData.generate_datasets";
-static char __pyx_k_ExperimentalData_generate_grid_s[] = "ExperimentalData.generate_grid_search_dataset";
-static char __pyx_k_ExperimentalData_generate_labels[] = "ExperimentalData.generate_labels_dict";
+static char __pyx_k_ExperimentalData__construct_laye[] = "ExperimentalData._construct_layered_dataset";
+static char __pyx_k_ExperimentalData__generate_datas[] = "ExperimentalData._generate_datasets";
+static char __pyx_k_ExperimentalData__generate_label[] = "ExperimentalData._generate_labels_dict";
 static char __pyx_k_If_max_partitions_is_left_unspec[] = "If \"max_partitions\" is left unspecified, \"n_partition\" must be specified.";
 static char __pyx_k_If_test_games_is_specified_and_b[] = "If \"test_games\" is specified and \"bin_ranges\" for the training games is specified, then \"test_bin_ranges\" must also be specified\".";
 static char __pyx_k_The_only_values_recognized_for_t[] = "The only values recognized for the \"partition\" parameter are \"test\", \"train\", and \"all\".";
@@ -1454,11 +1454,11 @@ static PyObject *__pyx_n_s_DataFrame;
 static PyObject *__pyx_n_s_ExperimentalData;
 static PyObject *__pyx_n_s_ExperimentalData___init;
 static PyObject *__pyx_n_s_ExperimentalData___init___locals;
-static PyObject *__pyx_n_s_ExperimentalData_construct_layer;
-static PyObject *__pyx_n_s_ExperimentalData_generate_datase;
-static PyObject *__pyx_n_s_ExperimentalData_generate_grid_s;
-static PyObject *__pyx_n_s_ExperimentalData_generate_labels;
-static PyObject *__pyx_n_s_ExperimentalData_make_test_set;
+static PyObject *__pyx_n_s_ExperimentalData__construct_laye;
+static PyObject *__pyx_n_s_ExperimentalData__generate_datas;
+static PyObject *__pyx_n_s_ExperimentalData__generate_grid;
+static PyObject *__pyx_n_s_ExperimentalData__generate_label;
+static PyObject *__pyx_n_s_ExperimentalData__make_test_set;
 static PyObject *__pyx_n_s_FRIENDS_LABELS;
 static PyObject *__pyx_n_s_FreqDist;
 static PyObject *__pyx_n_s_GAMES_EQUALS_TEST_GAMES;
@@ -1778,11 +1778,11 @@ static PyObject *__pyx_pf_3src_11experiments_21compute_evaluation_metrics(CYTHON
 static PyObject *__pyx_pf_3src_11experiments_23evaluate_predictions_from_learning_round(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_y_test, PyObject *__pyx_v_y_test_preds, PyObject *__pyx_v_classes, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_learner, PyObject *__pyx_v_learner_name, PyObject *__pyx_v_games, PyObject *__pyx_v_test_games, PyObject *__pyx_v__round, PyObject *__pyx_v_n_train_samples, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_transformation_string); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8__init___genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_db, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_games, PyObject *__pyx_v_max_partitions, PyObject *__pyx_v_n_partition, PyObject *__pyx_v_n_grid_search_partition, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_test_bin_ranges, PyObject *__pyx_v_batch_size, PyObject *__pyx_v_test_games, PyObject *__pyx_v_max_test_samples); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_id_strings_labels, PyObject *__pyx_v_labels); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_search_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datasets(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_layered_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4_generate_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_id_strings_labels, PyObject *__pyx_v_labels); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6_generate_grid_search_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8_generate_datasets(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10_construct_layered_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct__distributional_info(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_2_evenly_distribute_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -12122,9 +12122,9 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
   /* "src/experiments.pyx":1028
  * 
  *         # Construct the dataset
- *         self.construct_layered_dataset()             # <<<<<<<<<<<<<<
+ *         self._construct_layered_dataset()             # <<<<<<<<<<<<<<
  * 
- *     def make_test_set(self) -> None:
+ *     def _make_test_set(self) -> None:
  */
   __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_construct_layered_dataset); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1028; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
@@ -12175,29 +12175,29 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
 }
 
 /* "src/experiments.pyx":1030
- *         self.construct_layered_dataset()
+ *         self._construct_layered_dataset()
  * 
- *     def make_test_set(self) -> None:             # <<<<<<<<<<<<<<
+ *     def _make_test_set(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a list of `id_string`s for the test set.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_3make_test_set(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_3src_11experiments_16ExperimentalData_2make_test_set[] = "\n        Generate a list of `id_string`s for the test set.\n\n        :returns: None\n        :rtype: None\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_3make_test_set = {"make_test_set", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_3make_test_set, METH_O, __pyx_doc_3src_11experiments_16ExperimentalData_2make_test_set};
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_3make_test_set(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_3_make_test_set(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_3src_11experiments_16ExperimentalData_2_make_test_set[] = "\n        Generate a list of `id_string`s for the test set.\n\n        :returns: None\n        :rtype: None\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_3_make_test_set = {"_make_test_set", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_3_make_test_set, METH_O, __pyx_doc_3src_11experiments_16ExperimentalData_2_make_test_set};
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_3_make_test_set(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("make_test_set (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("_make_test_set (wrapper)", 0);
+  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_distribution_data = NULL;
   PyObject *__pyx_v_id_strings_labels = NULL;
   PyObject *__pyx_v_labels_fdist = NULL;
@@ -12228,7 +12228,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(C
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("make_test_set", 0);
+  __Pyx_RefNannySetupContext("_make_test_set", 0);
 
   /* "src/experiments.pyx":1040
  *         # Make a dictionary mapping each label value to a list of
@@ -12997,7 +12997,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(C
  *         if len(self.test_set) > self._max_test_samples:
  *             self.test_set = self.test_set[:self._max_test_samples]             # <<<<<<<<<<<<<<
  * 
- *     def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
+ *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
  */
     __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1071; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_5);
@@ -13020,9 +13020,9 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(C
   }
 
   /* "src/experiments.pyx":1030
- *         self.construct_layered_dataset()
+ *         self._construct_layered_dataset()
  * 
- *     def make_test_set(self) -> None:             # <<<<<<<<<<<<<<
+ *     def _make_test_set(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a list of `id_string`s for the test set.
  */
@@ -13038,7 +13038,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(C
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.make_test_set", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._make_test_set", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_distribution_data);
@@ -13059,16 +13059,16 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2make_test_set(C
 /* "src/experiments.pyx":1073
  *             self.test_set = self.test_set[:self._max_test_samples]
  * 
- *     def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_11experiments_16ExperimentalData_4generate_labels_dict[] = "\n        Generate a dictionary of labels mapped to lists of\n        ID strings.\n\n        :param id_strings_labels: dictionary of ID strings mapped to\n                                  labels\n        :type id_strings_labels: dict\n        :param labels: set of labels\n        :type labels: set\n\n        :returns: dictionary of labels mapped to arrays of ID strings\n        :rtype: dict\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_5generate_labels_dict = {"generate_labels_dict", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels_dict, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_4generate_labels_dict};
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5_generate_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_3src_11experiments_16ExperimentalData_4_generate_labels_dict[] = "\n        Generate a dictionary of labels mapped to lists of\n        ID strings.\n\n        :param id_strings_labels: dictionary of ID strings mapped to\n                                  labels\n        :type id_strings_labels: dict\n        :param labels: set of labels\n        :type labels: set\n\n        :returns: dictionary of labels mapped to arrays of ID strings\n        :rtype: dict\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_5_generate_labels_dict = {"_generate_labels_dict", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_5_generate_labels_dict, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_4_generate_labels_dict};
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5_generate_labels_dict(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_id_strings_labels = 0;
   PyObject *__pyx_v_labels = 0;
@@ -13077,7 +13077,7 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generate_labels_dict (wrapper)", 0);
+  __Pyx_RefNannySetupContext("_generate_labels_dict (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_id_strings_labels,&__pyx_n_s_labels,0};
     PyObject* values[3] = {0,0,0};
@@ -13099,16 +13099,16 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_id_strings_labels)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_labels_dict", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_labels_dict", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_labels)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_labels_dict", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_labels_dict", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_labels_dict") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_labels_dict") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -13123,20 +13123,20 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_5generate_labels
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_labels_dict", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("_generate_labels_dict", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_labels_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_labels_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels_dict(__pyx_self, __pyx_v_self, __pyx_v_id_strings_labels, __pyx_v_labels);
+  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_4_generate_labels_dict(__pyx_self, __pyx_v_self, __pyx_v_id_strings_labels, __pyx_v_labels);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_id_strings_labels, PyObject *__pyx_v_labels) {
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4_generate_labels_dict(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_id_strings_labels, PyObject *__pyx_v_labels) {
   PyObject *__pyx_v_prng = NULL;
   PyObject *__pyx_v_labels_id_strings = NULL;
   PyObject *__pyx_v_label = NULL;
@@ -13161,7 +13161,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("generate_labels_dict", 0);
+  __Pyx_RefNannySetupContext("_generate_labels_dict", 0);
 
   /* "src/experiments.pyx":1088
  *         """
@@ -13531,7 +13531,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
  * 
  *         return labels_id_strings             # <<<<<<<<<<<<<<
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_labels_id_strings);
@@ -13541,7 +13541,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
   /* "src/experiments.pyx":1073
  *             self.test_set = self.test_set[:self._max_test_samples]
  * 
- *     def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -13555,7 +13555,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_labels_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_labels_dict", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_prng);
@@ -13571,16 +13571,16 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4generate_labels
 /* "src/experiments.pyx":1100
  *         return labels_id_strings
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
- *                                      labels_fdist: FreqDist):
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
+ *                                       labels_fdist: FreqDist):
  *         """
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_search_dataset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_11experiments_16ExperimentalData_6generate_grid_search_dataset[] = "\n        Generate a partitioned dataset for a grid search round and\n        return it and an updated label/ID string dictionary (to use for\n        subsequent partitioning of that data).\n\n        :param labels_id_strings: dictionary mapping labels to arrays\n                                  of ID strings\n        :type labels_id_strings: dict\n        :param labels_fdist: frequency distribution of labels\n        :type labels_fdist: FreqDist\n\n        :returns: a list of 3 balanced arrays comprising the folds of\n                  the grid search dataset and an updated label/ID\n                  string dictionary\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_7generate_grid_search_dataset = {"generate_grid_search_dataset", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_search_dataset, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_6generate_grid_search_dataset};
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_search_dataset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7_generate_grid_search_dataset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_3src_11experiments_16ExperimentalData_6_generate_grid_search_dataset[] = "\n        Generate a partitioned dataset for a grid search round and\n        return it and an updated label/ID string dictionary (to use for\n        subsequent partitioning of that data).\n\n        :param labels_id_strings: dictionary mapping labels to arrays\n                                  of ID strings\n        :type labels_id_strings: dict\n        :param labels_fdist: frequency distribution of labels\n        :type labels_fdist: FreqDist\n\n        :returns: a list of 3 balanced arrays comprising the folds of\n                  the grid search dataset and an updated label/ID\n                  string dictionary\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_7_generate_grid_search_dataset = {"_generate_grid_search_dataset", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_7_generate_grid_search_dataset, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_6_generate_grid_search_dataset};
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7_generate_grid_search_dataset(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_labels_id_strings = 0;
   PyObject *__pyx_v_labels_fdist = 0;
@@ -13589,7 +13589,7 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_s
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generate_grid_search_dataset (wrapper)", 0);
+  __Pyx_RefNannySetupContext("_generate_grid_search_dataset (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_labels_id_strings,&__pyx_n_s_labels_fdist,0};
     PyObject* values[3] = {0,0,0};
@@ -13611,16 +13611,16 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_s
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_labels_id_strings)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_grid_search_dataset", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_grid_search_dataset", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_labels_fdist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_grid_search_dataset", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_grid_search_dataset", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_grid_search_dataset") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_grid_search_dataset") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -13635,20 +13635,20 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_7generate_grid_s
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_grid_search_dataset", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("_generate_grid_search_dataset", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_grid_search_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_grid_search_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_search_dataset(__pyx_self, __pyx_v_self, __pyx_v_labels_id_strings, __pyx_v_labels_fdist);
+  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_6_generate_grid_search_dataset(__pyx_self, __pyx_v_self, __pyx_v_labels_id_strings, __pyx_v_labels_fdist);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_search_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist) {
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6_generate_grid_search_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist) {
   PyObject *__pyx_v_grid_search_set = NULL;
   PyObject *__pyx_v_label = NULL;
   PyObject *__pyx_v_all_ids = NULL;
@@ -13677,7 +13677,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_s
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("generate_grid_search_dataset", 0);
+  __Pyx_RefNannySetupContext("_generate_grid_search_dataset", 0);
 
   /* "src/experiments.pyx":1118
  *         """
@@ -14131,7 +14131,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_s
  * 
  *         return grid_search_set, labels_id_strings             # <<<<<<<<<<<<<<
  * 
- *     def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:
+ *     def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1132; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -14149,8 +14149,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_s
   /* "src/experiments.pyx":1100
  *         return labels_id_strings
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
- *                                      labels_fdist: FreqDist):
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
+ *                                       labels_fdist: FreqDist):
  *         """
  */
 
@@ -14163,7 +14163,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_s
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
   __Pyx_XDECREF(__pyx_t_9);
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_grid_search_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_grid_search_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_grid_search_set);
@@ -14182,16 +14182,16 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6generate_grid_s
 /* "src/experiments.pyx":1134
  *         return grid_search_set, labels_id_strings
  * 
- *     def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate stratified datasets for training rounds.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datasets(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_11experiments_16ExperimentalData_8generate_datasets[] = "\n        Generate stratified datasets for training rounds.\n\n        :param labels_id_strings: dictionary mapping labels to arrays\n                                  of ID strings\n        :type labels_id_strings: dict\n        :param labels_fdist: frequency distribution of labels\n        :type labels_fdist: FreqDist\n\n        :returns: dictionary mapping index numbers corresponding to\n                  dataset folds to arrays containing ID strings\n        :rtype: dict\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_9generate_datasets = {"generate_datasets", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datasets, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_8generate_datasets};
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datasets(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9_generate_datasets(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_3src_11experiments_16ExperimentalData_8_generate_datasets[] = "\n        Generate stratified datasets for training rounds.\n\n        :param labels_id_strings: dictionary mapping labels to arrays\n                                  of ID strings\n        :type labels_id_strings: dict\n        :param labels_fdist: frequency distribution of labels\n        :type labels_fdist: FreqDist\n\n        :returns: dictionary mapping index numbers corresponding to\n                  dataset folds to arrays containing ID strings\n        :rtype: dict\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_9_generate_datasets = {"_generate_datasets", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_9_generate_datasets, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_16ExperimentalData_8_generate_datasets};
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9_generate_datasets(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_labels_id_strings = 0;
   PyObject *__pyx_v_labels_fdist = 0;
@@ -14200,7 +14200,7 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datase
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("generate_datasets (wrapper)", 0);
+  __Pyx_RefNannySetupContext("_generate_datasets (wrapper)", 0);
   {
     static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_self,&__pyx_n_s_labels_id_strings,&__pyx_n_s_labels_fdist,0};
     PyObject* values[3] = {0,0,0};
@@ -14222,16 +14222,16 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datase
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_labels_id_strings)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_datasets", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_datasets", 1, 3, 3, 1); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_labels_fdist)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("generate_datasets", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+          __Pyx_RaiseArgtupleInvalid("_generate_datasets", 1, 3, 3, 2); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "generate_datasets") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "_generate_datasets") < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -14246,20 +14246,20 @@ static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_9generate_datase
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("generate_datasets", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
+  __Pyx_RaiseArgtupleInvalid("_generate_datasets", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_datasets", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_datasets", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_8generate_datasets(__pyx_self, __pyx_v_self, __pyx_v_labels_id_strings, __pyx_v_labels_fdist);
+  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_8_generate_datasets(__pyx_self, __pyx_v_self, __pyx_v_labels_id_strings, __pyx_v_labels_fdist);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datasets(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist) {
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8_generate_datasets(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_labels_id_strings, PyObject *__pyx_v_labels_fdist) {
   PyObject *__pyx_v_datasets_dict = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_label = NULL;
@@ -14284,7 +14284,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datase
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("generate_datasets", 0);
+  __Pyx_RefNannySetupContext("_generate_datasets", 0);
 
   /* "src/experiments.pyx":1149
  *         """
@@ -14604,7 +14604,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datase
  * 
  *         return datasets_dict             # <<<<<<<<<<<<<<
  * 
- *     def construct_layered_dataset(self):
+ *     def _construct_layered_dataset(self):
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_datasets_dict);
@@ -14614,7 +14614,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datase
   /* "src/experiments.pyx":1134
  *         return grid_search_set, labels_id_strings
  * 
- *     def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate stratified datasets for training rounds.
  */
@@ -14629,7 +14629,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datase
   __Pyx_XDECREF(__pyx_t_10);
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_12);
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.generate_datasets", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._generate_datasets", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_datasets_dict);
@@ -14647,27 +14647,27 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_8generate_datase
 /* "src/experiments.pyx":1162
  *         return datasets_dict
  * 
- *     def construct_layered_dataset(self):             # <<<<<<<<<<<<<<
+ *     def _construct_layered_dataset(self):             # <<<<<<<<<<<<<<
  *         """
  *         Build up a dictionary of ID strings mapped to label values.
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_11construct_layered_dataset(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_3src_11experiments_16ExperimentalData_10construct_layered_dataset[] = "\n        Build up a dictionary of ID strings mapped to label values.\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_11construct_layered_dataset = {"construct_layered_dataset", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_11construct_layered_dataset, METH_O, __pyx_doc_3src_11experiments_16ExperimentalData_10construct_layered_dataset};
-static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_11construct_layered_dataset(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_11_construct_layered_dataset(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_3src_11experiments_16ExperimentalData_10_construct_layered_dataset[] = "\n        Build up a dictionary of ID strings mapped to label values.\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_16ExperimentalData_11_construct_layered_dataset = {"_construct_layered_dataset", (PyCFunction)__pyx_pw_3src_11experiments_16ExperimentalData_11_construct_layered_dataset, METH_O, __pyx_doc_3src_11experiments_16ExperimentalData_10_construct_layered_dataset};
+static PyObject *__pyx_pw_3src_11experiments_16ExperimentalData_11_construct_layered_dataset(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("construct_layered_dataset (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_10construct_layered_dataset(__pyx_self, ((PyObject *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("_construct_layered_dataset (wrapper)", 0);
+  __pyx_r = __pyx_pf_3src_11experiments_16ExperimentalData_10_construct_layered_dataset(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_layered_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10_construct_layered_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_v_distribution_data = NULL;
   PyObject *__pyx_v_id_strings_labels = NULL;
   PyObject *__pyx_v_labels_fdist = NULL;
@@ -14688,13 +14688,13 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("construct_layered_dataset", 0);
+  __Pyx_RefNannySetupContext("_construct_layered_dataset", 0);
 
   /* "src/experiments.pyx":1169
  *         # Generate a list of `id_string`s for the test set, if
  *         # applicable
  *         if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:             # <<<<<<<<<<<<<<
- *             self.make_test_set()
+ *             self._make_test_set()
  * 
  */
   __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_GAMES_EQUALS_TEST_GAMES); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1169; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -14720,7 +14720,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
     /* "src/experiments.pyx":1170
  *         # applicable
  *         if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:
- *             self.make_test_set()             # <<<<<<<<<<<<<<
+ *             self._make_test_set()             # <<<<<<<<<<<<<<
  * 
  *         # Get dictionary of ID strings mapped to labels and a frequency
  */
@@ -14750,7 +14750,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
  *         # Generate a list of `id_string`s for the test set, if
  *         # applicable
  *         if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:             # <<<<<<<<<<<<<<
- *             self.make_test_set()
+ *             self._make_test_set()
  * 
  */
   }
@@ -14874,8 +14874,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   /* "src/experiments.pyx":1183
  *         # Make a dictionary mapping each label value to a list of
  *         # `id_string`s that are not in the test set
- *         labels_id_strings = self.generate_labels_dict(id_strings_labels,             # <<<<<<<<<<<<<<
- *                                                       set(labels_fdist))
+ *         labels_id_strings = self._generate_labels_dict(id_strings_labels,             # <<<<<<<<<<<<<<
+ *                                                        set(labels_fdist))
  * 
  */
   __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_generate_labels_dict); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1183; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -14883,8 +14883,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
 
   /* "src/experiments.pyx":1184
  *         # `id_string`s that are not in the test set
- *         labels_id_strings = self.generate_labels_dict(id_strings_labels,
- *                                                       set(labels_fdist))             # <<<<<<<<<<<<<<
+ *         labels_id_strings = self._generate_labels_dict(id_strings_labels,
+ *                                                        set(labels_fdist))             # <<<<<<<<<<<<<<
  * 
  *         # Figure out the values for the number of partitions/the number
  */
@@ -15086,7 +15086,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   /* "src/experiments.pyx":1196
  *         # Make list of `id_string`s for the grid search partition
  *         self.grid_search_set, labels_id_strings = \
- *             self.generate_grid_search_dataset(labels_id_strings, labels_fdist)             # <<<<<<<<<<<<<<
+ *             self._generate_grid_search_dataset(labels_id_strings, labels_fdist)             # <<<<<<<<<<<<<<
  * 
  *         # Make lists of `id_string`s for the rest of the partitions
  */
@@ -15174,7 +15174,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
  * 
  *         # Make list of `id_string`s for the grid search partition
  *         self.grid_search_set, labels_id_strings = \             # <<<<<<<<<<<<<<
- *             self.generate_grid_search_dataset(labels_id_strings, labels_fdist)
+ *             self._generate_grid_search_dataset(labels_id_strings, labels_fdist)
  * 
  */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_grid_search_set, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1195; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -15185,7 +15185,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   /* "src/experiments.pyx":1199
  * 
  *         # Make lists of `id_string`s for the rest of the partitions
- *         self.datasets_dict = self.generate_datasets(labels_id_strings, labels_fdist)             # <<<<<<<<<<<<<<
+ *         self.datasets_dict = self._generate_datasets(labels_id_strings, labels_fdist)             # <<<<<<<<<<<<<<
  * 
  *         # Set the `num_datasets` attribute
  */
@@ -15238,7 +15238,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   /* "src/experiments.pyx":1162
  *         return datasets_dict
  * 
- *     def construct_layered_dataset(self):             # <<<<<<<<<<<<<<
+ *     def _construct_layered_dataset(self):             # <<<<<<<<<<<<<<
  *         """
  *         Build up a dictionary of ID strings mapped to label values.
  */
@@ -15252,7 +15252,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10construct_laye
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_8);
-  __Pyx_AddTraceback("src.experiments.ExperimentalData.construct_layered_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.ExperimentalData._construct_layered_dataset", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_distribution_data);
@@ -16359,11 +16359,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ExperimentalData, __pyx_k_ExperimentalData, sizeof(__pyx_k_ExperimentalData), 0, 0, 1, 1},
   {&__pyx_n_s_ExperimentalData___init, __pyx_k_ExperimentalData___init, sizeof(__pyx_k_ExperimentalData___init), 0, 0, 1, 1},
   {&__pyx_n_s_ExperimentalData___init___locals, __pyx_k_ExperimentalData___init___locals, sizeof(__pyx_k_ExperimentalData___init___locals), 0, 0, 1, 1},
-  {&__pyx_n_s_ExperimentalData_construct_layer, __pyx_k_ExperimentalData_construct_layer, sizeof(__pyx_k_ExperimentalData_construct_layer), 0, 0, 1, 1},
-  {&__pyx_n_s_ExperimentalData_generate_datase, __pyx_k_ExperimentalData_generate_datase, sizeof(__pyx_k_ExperimentalData_generate_datase), 0, 0, 1, 1},
-  {&__pyx_n_s_ExperimentalData_generate_grid_s, __pyx_k_ExperimentalData_generate_grid_s, sizeof(__pyx_k_ExperimentalData_generate_grid_s), 0, 0, 1, 1},
-  {&__pyx_n_s_ExperimentalData_generate_labels, __pyx_k_ExperimentalData_generate_labels, sizeof(__pyx_k_ExperimentalData_generate_labels), 0, 0, 1, 1},
-  {&__pyx_n_s_ExperimentalData_make_test_set, __pyx_k_ExperimentalData_make_test_set, sizeof(__pyx_k_ExperimentalData_make_test_set), 0, 0, 1, 1},
+  {&__pyx_n_s_ExperimentalData__construct_laye, __pyx_k_ExperimentalData__construct_laye, sizeof(__pyx_k_ExperimentalData__construct_laye), 0, 0, 1, 1},
+  {&__pyx_n_s_ExperimentalData__generate_datas, __pyx_k_ExperimentalData__generate_datas, sizeof(__pyx_k_ExperimentalData__generate_datas), 0, 0, 1, 1},
+  {&__pyx_n_s_ExperimentalData__generate_grid, __pyx_k_ExperimentalData__generate_grid, sizeof(__pyx_k_ExperimentalData__generate_grid), 0, 0, 1, 1},
+  {&__pyx_n_s_ExperimentalData__generate_label, __pyx_k_ExperimentalData__generate_label, sizeof(__pyx_k_ExperimentalData__generate_label), 0, 0, 1, 1},
+  {&__pyx_n_s_ExperimentalData__make_test_set, __pyx_k_ExperimentalData__make_test_set, sizeof(__pyx_k_ExperimentalData__make_test_set), 0, 0, 1, 1},
   {&__pyx_n_s_FRIENDS_LABELS, __pyx_k_FRIENDS_LABELS, sizeof(__pyx_k_FRIENDS_LABELS), 0, 0, 1, 1},
   {&__pyx_n_s_FreqDist, __pyx_k_FreqDist, sizeof(__pyx_k_FreqDist), 0, 0, 1, 1},
   {&__pyx_n_s_GAMES_EQUALS_TEST_GAMES, __pyx_k_GAMES_EQUALS_TEST_GAMES, sizeof(__pyx_k_GAMES_EQUALS_TEST_GAMES), 0, 0, 1, 1},
@@ -17097,9 +17097,9 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__59);
 
   /* "src/experiments.pyx":1030
- *         self.construct_layered_dataset()
+ *         self._construct_layered_dataset()
  * 
- *     def make_test_set(self) -> None:             # <<<<<<<<<<<<<<
+ *     def _make_test_set(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a list of `id_string`s for the test set.
  */
@@ -17111,7 +17111,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1073
  *             self.test_set = self.test_set[:self._max_test_samples]
  * 
- *     def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -17123,8 +17123,8 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1100
  *         return labels_id_strings
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
- *                                      labels_fdist: FreqDist):
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
+ *                                       labels_fdist: FreqDist):
  *         """
  */
   __pyx_tuple__64 = PyTuple_Pack(12, __pyx_n_s_self, __pyx_n_s_labels_id_strings, __pyx_n_s_labels_fdist, __pyx_n_s_grid_search_set, __pyx_n_s_label, __pyx_n_s_all_ids, __pyx_n_s_label_freq, __pyx_n_s_n_label_grid_search_data, __pyx_n_s_label_ids, __pyx_n_s_partitioned_label_ids, __pyx_n_s_i, __pyx_n_s_id_2); if (unlikely(!__pyx_tuple__64)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -17135,7 +17135,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1134
  *         return grid_search_set, labels_id_strings
  * 
- *     def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate stratified datasets for training rounds.
  */
@@ -17147,7 +17147,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1162
  *         return datasets_dict
  * 
- *     def construct_layered_dataset(self):             # <<<<<<<<<<<<<<
+ *     def _construct_layered_dataset(self):             # <<<<<<<<<<<<<<
  *         """
  *         Build up a dictionary of ID strings mapped to label values.
  */
@@ -18252,16 +18252,16 @@ PyMODINIT_FUNC PyInit_experiments(void)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
   /* "src/experiments.pyx":1030
- *         self.construct_layered_dataset()
+ *         self._construct_layered_dataset()
  * 
- *     def make_test_set(self) -> None:             # <<<<<<<<<<<<<<
+ *     def _make_test_set(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a list of `id_string`s for the test set.
  */
   __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1030; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_return, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1030; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_3make_test_set, 0, __pyx_n_s_ExperimentalData_make_test_set, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1030; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_3_make_test_set, 0, __pyx_n_s_ExperimentalData__make_test_set, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__61)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1030; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_5);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -18271,7 +18271,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1073
  *             self.test_set = self.test_set[:self._max_test_samples]
  * 
- *     def generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -18280,7 +18280,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_id_strings_labels, ((PyObject *)(&PyDict_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_labels, ((PyObject *)(&PySet_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, ((PyObject *)(&PyDict_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_5generate_labels_dict, 0, __pyx_n_s_ExperimentalData_generate_labels, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_5_generate_labels_dict, 0, __pyx_n_s_ExperimentalData__generate_label, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__63)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1073; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_5, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -18290,8 +18290,8 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1100
  *         return labels_id_strings
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
- *                                      labels_fdist: FreqDist):
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
+ *                                       labels_fdist: FreqDist):
  *         """
  */
   __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -18300,8 +18300,8 @@ PyMODINIT_FUNC PyInit_experiments(void)
 
   /* "src/experiments.pyx":1101
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,
- *                                      labels_fdist: FreqDist):             # <<<<<<<<<<<<<<
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,
+ *                                       labels_fdist: FreqDist):             # <<<<<<<<<<<<<<
  *         """
  *         Generate a partitioned dataset for a grid search round and
  */
@@ -18313,11 +18313,11 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1100
  *         return labels_id_strings
  * 
- *     def generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
- *                                      labels_fdist: FreqDist):
+ *     def _generate_grid_search_dataset(self, labels_id_strings: dict,             # <<<<<<<<<<<<<<
+ *                                       labels_fdist: FreqDist):
  *         """
  */
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_7generate_grid_search_dataset, 0, __pyx_n_s_ExperimentalData_generate_grid_s, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_7_generate_grid_search_dataset, 0, __pyx_n_s_ExperimentalData__generate_grid, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__65)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1100; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_5);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
@@ -18327,7 +18327,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1134
  *         return grid_search_set, labels_id_strings
  * 
- *     def generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
+ *     def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate stratified datasets for training rounds.
  */
@@ -18339,7 +18339,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_labels_fdist, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, ((PyObject *)(&PyDict_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_9generate_datasets, 0, __pyx_n_s_ExperimentalData_generate_datase, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_9_generate_datasets, 0, __pyx_n_s_ExperimentalData__generate_datas, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__67)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1134; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_5, __pyx_t_4);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -18349,11 +18349,11 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1162
  *         return datasets_dict
  * 
- *     def construct_layered_dataset(self):             # <<<<<<<<<<<<<<
+ *     def _construct_layered_dataset(self):             # <<<<<<<<<<<<<<
  *         """
  *         Build up a dictionary of ID strings mapped to label values.
  */
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_11construct_layered_dataset, 0, __pyx_n_s_ExperimentalData_construct_layer, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_11_construct_layered_dataset, 0, __pyx_n_s_ExperimentalData__construct_laye, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__69)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_construct_layered_dataset, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1162; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
