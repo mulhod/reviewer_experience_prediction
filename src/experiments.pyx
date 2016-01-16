@@ -13,6 +13,7 @@ from itertools import (chain,
 
 import numpy as np
 import pandas as pd
+from funcy import chunks
 from nltk import FreqDist
 from skll.metrics import kappa
 from pymongo import (cursor,
@@ -1115,17 +1116,33 @@ class ExperimentalData(object):
                   string dictionary
         """
 
+        # Get the maximum size for each fold
+        max_fold_size = int(np.ceil(self._n_grid_search_partition/3))
+        max_fold_sizes = [len(fold) for fold
+                          in list(chunks(max_fold_size,
+                                         np.zeros(self._n_grid_search_partition)))]
+
         grid_search_set = [[], [], []]
         for label in labels_id_strings:
             all_ids = labels_id_strings[label]
             label_freq = labels_fdist.freq(label)
-            n_label_grid_search_data = int(np.ceil(label_freq*self._n_grid_search_partition))
-            label_ids = all_ids[:n_label_grid_search_data]
-            for i, partition in enumerate([label_ids[i::3] for i in range(3)]):
-                grid_search_set[i].extend(partition)
+            n_label_data = int(np.ceil(label_freq*self._n_grid_search_partition))
+            label_ids = all_ids[:n_label_data]
+            for i, label_sub_partition in enumerate([label_ids[i::3] for i in range(3)]):
+                grid_search_set[i].extend(label_sub_partition)
 
-            # Remove the used-up data from `labels_id_strings`
-            labels_id_strings[label] = np.array([_id for _id in all_ids if not _id in label_ids])
+        # Ensure that the folds in `grid_search_data` are of the correct
+        # sizes (the algorithm above could over-allocate for some folds
+        # if the size of the grid search set is not evenly divisible by
+        # 3)
+        for i, _ in enumerate(grid_search_set):
+            grid_search_set[i] = grid_search_set[i][:max_fold_sizes[i]]
+
+        # Remove used-up data-points from `labels_id_strings`
+        for label in labels_id_strings:
+            labels_id_strings[label] = \
+                np.array([_id for _id in labels_id_strings[label]
+                          if not _id in chain(*grid_search_set)])
 
         return grid_search_set, labels_id_strings
 
