@@ -1,5 +1,5 @@
 """
-Test various functions in the `datasets` package.
+Test various functions in the `datasets` module.
 """
 from os.path import join
 from shutil import rmtree
@@ -181,8 +181,8 @@ class GetGameFilesTestCase(unittest.TestCase):
         ".jsonlines" extension.
         """
 
-        assert get_game_files('Arma_3.jsonlines,Dota_2.jsonlines') \
-            == ['Arma_3.jsonlines', 'Dota_2.jsonlines']
+        assert_equal(get_game_files('Arma_3.jsonlines,Dota_2.jsonlines'),
+                     ['Arma_3.jsonlines', 'Dota_2.jsonlines'])
 
     @staticmethod
     def test_get_game_files_valid_without_extension():
@@ -191,8 +191,8 @@ class GetGameFilesTestCase(unittest.TestCase):
         the ".jsonlines" extension.
         """
 
-        assert get_game_files('Arma_3,Dota_2') \
-            == ['Arma_3.jsonlines', 'Dota_2.jsonlines']
+        assert_equal(get_game_files('Arma_3,Dota_2'),
+                     ['Arma_3.jsonlines', 'Dota_2.jsonlines'])
 
     @staticmethod
     def test_get_game_files_valid_with_sample_file():
@@ -202,5 +202,5 @@ class GetGameFilesTestCase(unittest.TestCase):
         """
 
         for sample_file in ['sample', 'sample.jsonlines']:
-            assert get_game_files('Arma_3,Dota_2,{}'.format(sample_file)) \
-                == ['Arma_3.jsonlines', 'Dota_2.jsonlines']
+            assert_equal(get_game_files('Arma_3,Dota_2,{}'.format(sample_file)),
+                         ['Arma_3.jsonlines', 'Dota_2.jsonlines'])
