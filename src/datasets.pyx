@@ -61,7 +61,9 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
 
     :param games_str: comma-separated list of game files (that exist in
                       the data directory) with or without a .jsonlines
-                      suffix (or "all" for all game files)
+                      suffix (or "all" for all game files) (Note: if
+                      "sample"/"sample.jsonlines" is included it will be
+                      filtered out)
     :type games_str: str
     :param data_dir_path: path to data directory
     :type data_dir_path: str
@@ -69,12 +71,14 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
     :returns: list of games
     :rtype: list
 
-    :raises ValueError: no games were included in the list of games
+    :raises ValueError: no games were included in the list of games (or
+                        `games_str` only includes
+                        "sample"/"sample.jsonlines")
     :raises FileNotFoundError: if file(s) corresponding to games in the
                                input cannot be found
     """
 
-    if not games_str:
+    if not games_str or games_str in ['sample', 'sample.jsonlines']:
         raise ValueError('No files passed in via --game_files argument were '
                          'found: {}.'.format(', '.join(games_str.split(','))))
     elif games_str == "all":
