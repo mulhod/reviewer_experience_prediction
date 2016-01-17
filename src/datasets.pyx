@@ -57,7 +57,7 @@ logwarn = logger.warning
 logerr = logger.error
 
 default_data_dir = \
-    join(dirname(dirname(realpath(inspect.getfile(inspect.currentframe())))),
+    join(dirname(realpath(inspect.getfile(inspect.currentframe()))),
          'data')
 
 def get_game_files(games_str: str,
