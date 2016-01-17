@@ -9,6 +9,7 @@ convert raw hours played values to a scale of a given number of values,
 etc.
 """
 import logging
+import inspect
 from os import listdir
 from json import loads
 from time import (sleep,
@@ -55,8 +56,9 @@ logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
 
-# Default data file directory
-default_data_dir = join(dirname(dirname(realpath(__file__))), 'data')
+default_data_dir = \
+    join(dirname(dirname(realpath(inspect.getfile(inspect.currentframe())))),
+         'data')
 
 def get_game_files(games_str: str,
                    data_dir_path: str = default_data_dir) -> list:
