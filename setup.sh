@@ -35,7 +35,7 @@ echo "Created \"reviews\" environment successfully! To use environment, run" \
 
 echo "Installing some extra packages with pip (since conda does not seem to" \
      "want to install them)...\n"
-pip install skll==1.1.0 langdetect argparse pudb nose2==0.5.0
+pip install skll==1.1.0 langdetect==1.0.5 argparse pudb nose2==0.5.0 funcy==1.6
 if [[ $? -gt 0 ]]; then
     echo "pip installation of langdetect and argparse failed. Exiting.\n"
     cd ${ORIG_DIR}
