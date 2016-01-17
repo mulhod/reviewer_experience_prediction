@@ -55,7 +55,11 @@ logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
 
-def get_game_files(games_str: str, data_dir_path: str) -> list:
+# Default data file directory
+default_data_dir = join(dirname(dirname(realpath(__file__))), 'data')
+
+def get_game_files(games_str: str,
+                   data_dir_path: str = default_data_dir) -> list:
     """
     Get list of game files (file-names only).
 
@@ -65,7 +69,8 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
                       "sample"/"sample.jsonlines" is included it will be
                       filtered out)
     :type games_str: str
-    :param data_dir_path: path to data directory
+    :param data_dir_path: path to data directory (defaults to
+                          `default_data_dir`)
     :type data_dir_path: str
 
     :returns: list of games
@@ -73,30 +78,44 @@ def get_game_files(games_str: str, data_dir_path: str) -> list:
 
     :raises ValueError: no games were included in the list of games (or
                         `games_str` only includes
-                        "sample"/"sample.jsonlines")
+                        "sample"/"sample.jsonlines") or there are no
+                        .jsonlines files in the data directory passed in
+                        via `data_dir_path`
     :raises FileNotFoundError: if file(s) corresponding to games in the
                                input cannot be found
     """
 
-    if not games_str or games_str in ['sample', 'sample.jsonlines']:
+    game_files = []
+    sample_file_inputs = ['sample', 'sample.jsonlines']
+    if not games_str or games_str in sample_file_inputs:
         raise ValueError('No files passed in via --game_files argument were '
                          'found: {}.'.format(', '.join(games_str.split(','))))
     elif games_str == "all":
-        game_files = [f for f in listdir(data_dir_path) if f.endswith('.jsonlines')]
+        game_files.extend([f for f in listdir(data_dir_path)
+                           if f.endswith('.jsonlines')])
 
         # Remove the sample game file from the list
         del game_files[game_files.index('sample.jsonlines')]
+
+        if not game_files:
+            raise ValueError('No non-sample file .jsonlines files found in '
+                             '"data_dir_path".')
     else:
-        game_files = []
         for f in games_str.split(','):
-            f_path = join(data_dir_path,
-                          f if f.endswith('.jsonlines')
-                          else '{0}.jsonlines'.format(f))
+            if f in sample_file_inputs:
+                continue
+            f = f if f.endswith('.jsonlines') else '{0}.jsonlines'.format(f)
+            f_path = join(data_dir_path, f)
             if not exists(f_path):
-                raise FileNotFoundError('{0} does not exist (input string: {1}).'
-                                        .format(f_path, games_str))
-            game_files.append(f if f.endswith('.jsonlines')
-                              else '{0}.jsonlines'.format(f))
+                raise FileNotFoundError('{0} does not exist (input string: '
+                                        '{1}).'.format(f_path, games_str))
+            game_files.append(f)
+
+        # Raise exception if the only file that was included was
+        # "sample"/"sample.jsonlines"
+        if not game_files:
+            raise ValueError('No non-sample file .jsonlines file was '
+                             'included.')
 
     return game_files
 
