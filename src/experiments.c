@@ -1408,7 +1408,7 @@ static char __pyx_k_No_review_documents_were_found[] = "No review documents were
 static char __pyx_k_author_Matt_Mulholland_date_11[] = "\n:author: Matt Mulholland\n:date: 11/19/2015\n\nModule of functions/classes related to learning experiments.\n";
 static char __pyx_k_games_contains_invalid_games_0[] = "\"games\" contains invalid games: {0}.";
 static char __pyx_k_max_test_samples_should_not_be[] = "\"max_test_samples\" should not be specified when \"test_games\" differs from \"games\" (and, thus, when the test set is special and needs to be separate from the rest of the data).";
-static char __pyx_k_n_grid_search_partition_should[] = "\"n_grid_search_partition\" should be a positive value.";
+static char __pyx_k_n_grid_search_partition_should[] = "\"n_grid_search_partition\" should be a positive, non-zero value.";
 static char __pyx_k_All_or_some_of_the_games_in_the[] = "All or some of the games in the given list of games, {0}, are not in list of available games";
 static char __pyx_k_Can_not_get_feature_weights_for[] = "Can not get feature weights for learners of type {0}";
 static char __pyx_k_Cannot_specify_both_a_set_of_ID[] = "Cannot specify both a set of ID strings and a partition and/or a set of games simultaneously.";
@@ -11986,8 +11986,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
  * 
  *         # Validate the `n_grid_search_partition` parameter value
  *         if n_grid_search_partition < 1:             # <<<<<<<<<<<<<<
- *             raise ValueError('"n_grid_search_partition" should be a positive '
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '
+ *                              'non-zero value.')
  */
   __pyx_t_4 = PyObject_RichCompare(__pyx_v_n_grid_search_partition, __pyx_int_1, Py_LT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1015; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1015; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -11997,8 +11997,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
     /* "src/experiments.pyx":1016
  *         # Validate the `n_grid_search_partition` parameter value
  *         if n_grid_search_partition < 1:
- *             raise ValueError('"n_grid_search_partition" should be a positive '             # <<<<<<<<<<<<<<
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '             # <<<<<<<<<<<<<<
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:
  */
     __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__29, NULL); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1016; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -12011,14 +12011,14 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
  * 
  *         # Validate the `n_grid_search_partition` parameter value
  *         if n_grid_search_partition < 1:             # <<<<<<<<<<<<<<
- *             raise ValueError('"n_grid_search_partition" should be a positive '
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '
+ *                              'non-zero value.')
  */
   }
 
   /* "src/experiments.pyx":1018
- *             raise ValueError('"n_grid_search_partition" should be a positive '
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:             # <<<<<<<<<<<<<<
  *             raise ValueError('"n_grid_search_partition" needs to be able to be'
  *                              ' split into three folds and each fold should '
@@ -12029,7 +12029,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
   if (__pyx_t_3) {
 
     /* "src/experiments.pyx":1019
- *                              'value.')
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:
  *             raise ValueError('"n_grid_search_partition" needs to be able to be'             # <<<<<<<<<<<<<<
  *                              ' split into three folds and each fold should '
@@ -12042,8 +12042,8 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData___init__(CYTHON_
     {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1019; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
     /* "src/experiments.pyx":1018
- *             raise ValueError('"n_grid_search_partition" should be a positive '
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:             # <<<<<<<<<<<<<<
  *             raise ValueError('"n_grid_search_partition" needs to be able to be'
  *                              ' split into three folds and each fold should '
@@ -17216,8 +17216,8 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1016
  *         # Validate the `n_grid_search_partition` parameter value
  *         if n_grid_search_partition < 1:
- *             raise ValueError('"n_grid_search_partition" should be a positive '             # <<<<<<<<<<<<<<
- *                              'value.')
+ *             raise ValueError('"n_grid_search_partition" should be a positive, '             # <<<<<<<<<<<<<<
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:
  */
   __pyx_tuple__29 = PyTuple_Pack(1, __pyx_kp_s_n_grid_search_partition_should); if (unlikely(!__pyx_tuple__29)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1016; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -17225,7 +17225,7 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GIVEREF(__pyx_tuple__29);
 
   /* "src/experiments.pyx":1019
- *                              'value.')
+ *                              'non-zero value.')
  *         elif n_grid_search_partition < 10:
  *             raise ValueError('"n_grid_search_partition" needs to be able to be'             # <<<<<<<<<<<<<<
  *                              ' split into three folds and each fold should '

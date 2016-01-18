@@ -1013,8 +1013,8 @@ class ExperimentalData(object):
 
         # Validate the `n_grid_search_partition` parameter value
         if n_grid_search_partition < 1:
-            raise ValueError('"n_grid_search_partition" should be a positive '
-                             'value.')
+            raise ValueError('"n_grid_search_partition" should be a positive, '
+                             'non-zero value.')
         elif n_grid_search_partition < 10:
             raise ValueError('"n_grid_search_partition" needs to be able to be'
                              ' split into three folds and each fold should '
