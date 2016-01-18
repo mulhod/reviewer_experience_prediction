@@ -12947,7 +12947,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(
  *                           else None])
  *         prng.shuffle(sorted(self.test_set))             # <<<<<<<<<<<<<<
  *         if len(self.test_set) > self._max_test_samples:
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  */
   __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_prng, __pyx_n_s_shuffle); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1083; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_13);
@@ -12991,7 +12991,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(
  *                           else None])
  *         prng.shuffle(sorted(self.test_set))
  *         if len(self.test_set) > self._max_test_samples:             # <<<<<<<<<<<<<<
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  */
   __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1084; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -13012,26 +13012,57 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(
     /* "src/experiments.pyx":1085
  *         prng.shuffle(sorted(self.test_set))
  *         if len(self.test_set) > self._max_test_samples:
- *             self.test_set = self.test_set[:self._max_test_samples]             # <<<<<<<<<<<<<<
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])             # <<<<<<<<<<<<<<
  * 
  *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_max_test_samples_2); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_13 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_13);
-    __pyx_t_3 = __Pyx_PyObject_GetSlice(__pyx_t_1, 0, 0, NULL, &__pyx_t_13, NULL, 0, 0, 1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_13, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_3);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_test_set, __pyx_t_3) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_test_set); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_13);
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_max_test_samples_2); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = __Pyx_PyObject_GetSlice(__pyx_t_13, 0, 0, NULL, &__pyx_t_5, NULL, 0, 0, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_3))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_3);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_3);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_3, function);
+      }
+    }
+    if (!__pyx_t_5) {
+      __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_4); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_1);
+    } else {
+      __pyx_t_13 = PyTuple_New(1+1); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_13);
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_5); __pyx_t_5 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_13, 0+1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_13, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __Pyx_GOTREF(__pyx_t_1);
+      __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
+    }
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_test_set, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1085; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
     /* "src/experiments.pyx":1084
  *                           else None])
  *         prng.shuffle(sorted(self.test_set))
  *         if len(self.test_set) > self._max_test_samples:             # <<<<<<<<<<<<<<
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  */
   }
@@ -13074,7 +13105,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_2_make_test_set(
 }
 
 /* "src/experiments.pyx":1087
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
@@ -13556,7 +13587,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4_generate_label
   goto __pyx_L0;
 
   /* "src/experiments.pyx":1087
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
@@ -17440,7 +17471,7 @@ static int __Pyx_InitCachedConstants(void) {
   __pyx_codeobj__63 = (PyObject*)__Pyx_PyCode_New(1, 0, 12, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__62, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mmulholland_Documents_revi, __pyx_n_s_make_test_set, 1044, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__63)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1044; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":1087
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """
@@ -18622,7 +18653,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "src/experiments.pyx":1087
- *             self.test_set = self.test_set[:self._max_test_samples]
+ *             self.test_set = np.array(self.test_set[:self._max_test_samples])
  * 
  *     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:             # <<<<<<<<<<<<<<
  *         """

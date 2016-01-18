@@ -1082,7 +1082,7 @@ class ExperimentalData(object):
                           else None])
         prng.shuffle(sorted(self.test_set))
         if len(self.test_set) > self._max_test_samples:
-            self.test_set = self.test_set[:self._max_test_samples]
+            self.test_set = np.array(self.test_set[:self._max_test_samples])
 
     def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
         """
