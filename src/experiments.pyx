@@ -940,7 +940,7 @@ class ExperimentalData(object):
                                  test set that can't be used for
                                  training, i.e., if the set of test
                                  games differs from the set of training
-                                 games.
+                                 games.)
         :type max_test_samples: int
 
         :raises ValueError: if `games`/`test_games` contains
@@ -982,21 +982,18 @@ class ExperimentalData(object):
         # `max_test_samples` should not be specified if
         # `games`/`test_games` are equivalent
         if self._GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
-            raise ValueError('"max_test_samples" should not be specified when'
-                             ' "games" and "test_games" are equivalent (and, '
-                             'thus, when the test set needs to be completely '
-                             'separate from the rest of the data).')
+            raise ValueError('"max_test_samples" must be less than 0 when '
+                             '"games" and "test_games" are equivalent.')
 
         # `max_test_samples` should be specified if
         # `games`/`test_games` differ, as should `test_bin_ranges` if
         # `bin_ranges` is also specified
         if not self._GAMES_EQUALS_TEST_GAMES:
             if max_test_samples < 0:
-                raise ValueError('"max_test_samples" should be specified when'
-                                 ' "games" differs from "test_games" (and, '
-                                 'thus, when the test set needs to be '
-                                 'completely separate from the rest of the '
-                                 'data).')
+                raise ValueError('"max_test_samples" should be specified as a '
+                                 'non-negative value when "games" differs from'
+                                 ' "test_games" (i.e., when a test set needs '
+                                 'to be constructed).')
 
             if bin_ranges:
                 if not test_bin_ranges:
@@ -1009,7 +1006,7 @@ class ExperimentalData(object):
                                      'they must agree in terms of implicit '
                                      'labels, i.e., length or number of bins.')
             else:
-                if not test_bin_ranges:
+                if test_bin_ranges:
                     raise ValueError('If "test_bin_ranges" is specified, '
                                      '"bin_ranges" must also be specified.')
 
