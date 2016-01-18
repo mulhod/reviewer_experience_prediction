@@ -859,7 +859,7 @@ class ExperimentalData(object):
 
     num_datasets = None
     datasets_dict = None
-    test_set = None
+    test_set = np.array([])
     grid_search_set = None
 
     def __init__(self,
@@ -1102,7 +1102,8 @@ class ExperimentalData(object):
         for label in labels:
             _ids = np.array([_id for _id in id_strings_labels
                              if id_strings_labels[_id] == label
-                                and (not self.test_set or not _id in self.test_set)])
+                                and (not len(self.test_set) or
+                                     not _id in self.test_set)])
             _ids.sort()
             prng.shuffle(_ids)
             labels_id_strings[label] = _ids
