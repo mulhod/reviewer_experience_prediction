@@ -932,8 +932,8 @@ class ExperimentalData(object):
         :type test_games: set or None
         :param max_test_samples: limit for the number of test samples
                                  (defaults to a negative value,
-                                 signifying that there will be special
-                                 test set generated; use 0 to signal
+                                 signifying that no separate test set
+                                 will be generated; use 0 to signal
                                  that all data should be used in the
                                  test set) (Note: This can only be used
                                  if there is going to be a designated
@@ -964,7 +964,7 @@ class ExperimentalData(object):
             if any(not game in APPID_DICT for game in _games):
                 raise ValueError('Invalid game(s): {0}.'.format(_games))
         if not self._games:
-            raise ValueError('"games" must be non-empty set.')
+            raise ValueError('"games" must be a non-empty set.')
 
         if batch_size < 1:
             raise ValueError('"batch_size" must be greater than zero: {0}'
@@ -983,8 +983,8 @@ class ExperimentalData(object):
         # `games`/`test_games` are equivalent
         if self._GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
             raise ValueError('"max_test_samples" should not be specified when'
-                             ' "test_games" differs from "games" (and, thus, '
-                             'when the test set is special and needs to be '
+                             ' "games" and "test_games" are equivalent (and, '
+                             'thus, when the test set needs to be completely '
                              'separate from the rest of the data).')
 
         # `max_test_samples` should be specified if
@@ -993,23 +993,21 @@ class ExperimentalData(object):
         if not self._GAMES_EQUALS_TEST_GAMES:
             if max_test_samples < 0:
                 raise ValueError('"max_test_samples" should be specified when'
-                                 ' "test_games" differs from "games" (and, '
-                                 'thus, when the test set is special and '
-                                 'needs to be separate from the rest of the '
+                                 ' "games" differs from "test_games" (and, '
+                                 'thus, when the test set needs to be '
+                                 'completely separate from the rest of the '
                                  'data).')
 
             if bin_ranges:
                 if not test_bin_ranges:
-                    raise ValueError('If "test_games" is specified and '
-                                     '"bin_ranges" for the training games is '
-                                     'specified, then "test_bin_ranges" must '
-                                     'also be specified".')
+                    raise ValueError('If "bin_ranges" for the training games '
+                                     'is specified, then "test_bin_ranges" '
+                                     'must also be specified".')
                 if len(bin_ranges) != len(test_bin_ranges):
                     raise ValueError('If both "bin_ranges" and '
                                      '"test_bin_ranges" are specified, then '
-                                     'they must have the same length since '
-                                     'there should be a correspondence '
-                                     'between index labels.')
+                                     'they must agree in terms of implicit '
+                                     'labels, i.e., length or number of bins.')
 
         # Validate the `n_grid_search_partition` parameter value
         if n_grid_search_partition < 1:
