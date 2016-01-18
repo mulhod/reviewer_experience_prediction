@@ -1002,12 +1002,16 @@ class ExperimentalData(object):
                 if not test_bin_ranges:
                     raise ValueError('If "bin_ranges" for the training games '
                                      'is specified, then "test_bin_ranges" '
-                                     'must also be specified".')
+                                     'must also be specified.')
                 if len(bin_ranges) != len(test_bin_ranges):
                     raise ValueError('If both "bin_ranges" and '
                                      '"test_bin_ranges" are specified, then '
                                      'they must agree in terms of implicit '
                                      'labels, i.e., length or number of bins.')
+            else:
+                if not test_bin_ranges:
+                    raise ValueError('If "test_bin_ranges" is specified, '
+                                     '"bin_ranges" must also be specified.')
 
         # Validate the `n_grid_search_partition` parameter value
         if n_grid_search_partition < 1:
