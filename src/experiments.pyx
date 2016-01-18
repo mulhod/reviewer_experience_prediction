@@ -895,6 +895,9 @@ class ExperimentalData(object):
                             partitions) (must be specified if
                             `max_partitions` is left unspecified)
         :type n_partition: int
+        :param n_grid_search_partition: total size of dataset used for
+                                        grid search round
+        :type n_grid_search_partition: int
         :param lognormal: transform raw label values using `ln`
                           (default: False)
         :type lognormal: bool
@@ -1012,6 +1015,16 @@ class ExperimentalData(object):
         if n_grid_search_partition < 1:
             raise ValueError('"n_grid_search_partition" should be a positive '
                              'value.')
+        elif n_grid_search_partition < 10:
+            raise ValueError('"n_grid_search_partition" needs to be able to be'
+                             ' split into three folds and each fold should '
+                             'really have at least one sample from each label '
+                             'value. Thus, each fold should have a minimum of '
+                             '2 samples, which would mean that '
+                             '"n_grid_search_partition" would be 6 (3x2). '
+                             'However, even this is too small an amount. '
+                             'Please make sure to use upwards of 20 samples '
+                             'for each fold (i.e., 60 samples altogether).')
 
         self._db = db
         self._label = prediction_label
