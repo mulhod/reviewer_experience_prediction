@@ -5,17 +5,17 @@
 Script used to generate ARFF files usable in Weka for the video game
 review data-sets.
 """
+from os import makedirs
 from os.path import (join,
                      isdir,
                      dirname,
-                     abspath,
                      realpath,
-                     basename,
                      splitext)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
+from src import (log_dir,
+                 data_dir)
 
 def main():
     parser = ArgumentParser(usage='python make_arff_files.py --game_files '
@@ -92,7 +92,7 @@ def main():
     _add_arg('--log_file_path', '-log',
              help='Path for log file.',
              type=str,
-             default=join(project_dir, 'logs', 'replog_make_arff.txt'))
+             default=join(log_dir, 'replog_make_arff.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -120,16 +120,25 @@ def main():
     mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
 
+    # Make sure log file directory exists
+    log_file_path = realpath(args.log_file_path)
+    log_file_dir = dirname(log_file_path)
+    if not exists(log_file_dir):
+        makedirs(log_file_dir, exist_ok=True)
+
     # Initialize logging system
     logging_info = logging.INFO
     logger = logging.getLogger('make_arff_files')
     logger.setLevel(logging_info)
+
     # Create file handler
-    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
+
     # Create console handler
     sh = logging.StreamHandler()
     sh.setLevel(logging_info)
+
     # Add nicer formatting
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
                                   ' %(message)s')
@@ -142,7 +151,7 @@ def main():
     logwarn = logger.warning
 
     # Check if the output directory exists
-    output_dir = abspath(output_dir)
+    output_dir = realpath(output_dir)
     if not exists(output_dir) and isdir(output_dir):
         msg = ('The given output directory, {0}, for ARFF files does not '
                'exist or is not a directory.'.format(output_dir))
@@ -180,7 +189,6 @@ def main():
         raise ValueError(msg)
 
     # Get path to the data directory
-    data_dir = join(project_dir, 'data')
     if bins:
         arff_files_dir = join(output_dir, 'arff_files_collapsed_values')
     else:
@@ -216,8 +224,7 @@ def main():
                 'which means that the MongoDB database is not going to be '
                 'used.')
 
-    game_files = get_game_files(game_files, join(dirname(dirname(__file__)),
-                                                 'data'))
+    game_files = get_game_files(game_files)
     if len(game_files) == 1:
 
         # Print out warning message if --mode was set to "combined" and

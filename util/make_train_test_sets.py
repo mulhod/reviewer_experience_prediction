@@ -5,17 +5,21 @@
 Script used to create training/test sets in a MongoDB database from
 review data extracted from flat files.
 """
+from os import makedirs
 from os.path import (join,
                      exists,
-                     abspath,
+                     isfile,
                      dirname,
                      realpath,
                      basename,
                      splitext)
+
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
+from src import (log_dir,
+                 data_dir)
+import src.reports_dir as default_reports_dir
 
 def main():
     parser = \
@@ -95,7 +99,7 @@ def main():
     _add_arg('--log_file_path', '-log',
              help='Path for log file.',
              type=str,
-             default=join(project_dir, 'logs', 'replog_make_train_test_sets.txt'))
+             default=join(log_dir, 'replog_make_train_test_sets.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -121,13 +125,19 @@ def main():
     mongodb_host = args.mongodb_host
     mongodb_port = args.mongodb_port
 
+    # Make sure log file directory exists
+    log_file_path = realpath(args.log_file_path)
+    log_file_dir = dirname(log_file_path)
+    if not exists(log_file_dir):
+        makedirs(log_file_dir, exist_ok=True)
+
     # Initialize logging system
     logging_info = logging.INFO
     logger = logging.getLogger('make_train_test_sets')
     logger.setLevel(logging_info)
 
     # Create file handler
-    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
 
     # Create console handler
@@ -180,9 +190,15 @@ def main():
     reviewdb.write_concern['w'] = 0
 
     # Get path to the directories
-    data_dir = join(project_dir, 'data')
     if reports_dir:
         reports_dir = realpath(reports_dir)
+        if isfile(reports_dir):
+            msg = ('The file path passed in via the --reports_dir leads to a '
+                   'file, not a directory.')
+            logerr(msg)
+            raise ValueError(msg)
+        if not exists(reports_dir):
+            makedirs(reports_dir, exist_ok=True)
 
     # Make sure args make sense
     if max_size < 50:
@@ -222,7 +238,7 @@ def main():
             .format(percent_train, 100.0 - percent_train))
     if make_reports:
         loginfo('Generating reports in {0}.'
-                .format(reports_dir if reports_dir else join(data_dir, 'reports')))
+                .format(reports_dir if reports_dir else default_reports_dir))
     if just_describe:
         loginfo('Exiting after generating reports.')
     if bins:
@@ -235,12 +251,12 @@ def main():
     for game_file in game_files:
         loginfo('Getting/inserting reviews for {}...'
                 .format(splitext(basename(game_file))[0]))
-        insert_train_test_reviews(reviewdb, abspath(join(data_dir, game_file)),
+        insert_train_test_reviews(reviewdb, realpath(join(data_dir, game_file)),
                                   max_size, percent_train, bins=bins,
                                   bin_factor=bin_factor, describe=make_reports,
                                   just_describe=just_describe,
                                   reports_dir=reports_dir if reports_dir
-                                              else join(data_dir, 'reports'))
+                                              else default_reports_dir)
 
     loginfo('Complete.')
 

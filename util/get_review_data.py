@@ -5,6 +5,7 @@
 Script used to run the web scraping tool in order to build the video
 game review corpus.
 """
+from os import makedirs
 from os.path import (join,
                      dirname,
                      realpath)
@@ -12,8 +13,8 @@ from os.path import (join,
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
-data_dir = join(project_dir, 'data')
+from src import (log_dir,
+                 data_dir)
 
 def main():
     parser = ArgumentParser(usage='./python get_review_data.py[ --appids '
@@ -46,10 +47,10 @@ def main():
                   'for pages.',
              type=int,
              default=30)
-    _add_arg('--log_file_path', '-log',
+    _add_arg('--log_file_path', '-lo.g',
              help='Path for log file',
              type=str,
-             default=join(project_dir, 'logs', 'replog_get_review_data.txt'))
+             default=join(log_dir, 'replog_get_review_data.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -61,6 +62,12 @@ def main():
     from src import log_format_string
     from src.datasets import get_review_data_for_game
 
+    # Make sure log file directory exists
+    log_file_path = realpath(args.log_file_path)
+    log_file_dir = dirname(log_file_path)
+    if not exists(log_file_dir):
+        makedirs(log_file_dir, exist_ok=True)
+
     # Initialize logging system
     logger = logging.getLogger()
     logging_info = logging.INFO
@@ -68,7 +75,7 @@ def main():
     logger.setLevel(logging_info)
 
     # Create file handler
-    fh = logging.FileHandler(abspath(args.log_file_path))
+    fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
 
     # Create console handler

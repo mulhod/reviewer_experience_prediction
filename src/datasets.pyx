@@ -9,7 +9,6 @@ convert raw hours played values to a scale of a given number of values,
 etc.
 """
 import logging
-import inspect
 from os import listdir
 from json import loads
 from time import (sleep,
@@ -47,6 +46,7 @@ from src import (comma_sub,
                  LABELS_WITH_PCT_VALUES,
                  helpful_or_funny_search,
                  test_float_decimal_places,
+                 data_dir as default_data_dir,
                  date_end_with_year_string_search)
 
 # Logging-related
@@ -55,10 +55,6 @@ loginfo = logger.info
 logdebug = logger.debug
 logwarn = logger.warning
 logerr = logger.error
-
-default_data_dir = \
-    join(dirname(realpath(inspect.getfile(inspect.currentframe()))),
-         'data')
 
 def get_game_files(games_str: str,
                    data_dir_path: str = default_data_dir) -> list:

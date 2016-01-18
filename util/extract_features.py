@@ -5,6 +5,7 @@
 Script used to extract features for review documents in the MongoDB
 database.
 """
+from os import makedirs
 from os.path import (join,
                      dirname,
                      realpath,
@@ -13,7 +14,8 @@ from os.path import (join,
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
-project_dir = dirname(dirname(realpath(__file__)))
+from src import (log_dir,
+                 project_dir)
 
 def main():
     parser = ArgumentParser(usage='python extract_features.py --game_files '
@@ -70,7 +72,7 @@ def main():
     _add_arg('-log', '--log_file_path',
              help='Path to feature extraction log file.',
              type=str,
-             default=join(project_dir, 'logs', 'replog_extract_features.txt'))
+             default=join(log_dir, 'replog_extract_features.txt'))
     args = parser.parse_args()
 
     # Imports
@@ -98,6 +100,12 @@ def main():
         raise ValueError('--update_batch_size/-batch_size should be greater '
                          'than 0.')
 
+    # Make sure log file directory exists
+    log_file_path = realpath(args.log_file_path)
+    log_file_dir = dirname(log_file_path)
+    if not exists(log_file_dir):
+        makedirs(log_file_dir, exist_ok=True)
+
     # Setup logger and create logging handlers
     logger = logging.getLogger('extract_features')
     logging_debug = logging.DEBUG
@@ -109,7 +117,7 @@ def main():
     formatter = logging.Formatter(log_format_string)
     sh = logging.StreamHandler()
     sh.setLevel(logging_debug)
-    fh = logging.FileHandler(realpath(args.log_file_path))
+    fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_debug)
     sh.setFormatter(formatter)
     fh.setFormatter(formatter)
@@ -139,8 +147,7 @@ def main():
     db.write_concern['w'] = 0
 
     # Get list of games
-    game_files = get_game_files(game_files,
-                                join(dirname(dirname(__file__)), 'data'))
+    game_files = get_game_files(game_files)
 
     # Iterate over the game files, extracting and adding/replacing
     # features to the database

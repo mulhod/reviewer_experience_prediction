@@ -1,4 +1,8 @@
 import re
+from os.path import (join,
+                     dirname,
+                     realpath)
+
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -6,6 +10,11 @@ from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
 from data import APPID_DICT
+
+project_dir = dirname(dirname(realpath(__file__)))
+data_dir = join(project_dir, 'data')
+log_dir = join(project_dir, 'logs')
+reports_dir = join(project_dir, 'reports')
 
 log_format_string = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 
