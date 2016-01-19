@@ -19,15 +19,8 @@ class ExperimentalDataTestCase(unittest.TestCase):
     Test the `ExperimentalData` class.
     """
 
-    @classmethod
-    def setUpClass(self):
-        """
-        Set up the tests, mainly just creating a connection to the
-        running MongoDB database.
-        """
-
-        self.db = connect_to_db('localhost', 37017)
-        self.prediction_label = 'total_game_hours'
+    db = connect_to_db('localhost', 37017)
+    prediction_label = 'total_game_hours'
 
     def test_ExperimentalData_invalid(self):
         """
