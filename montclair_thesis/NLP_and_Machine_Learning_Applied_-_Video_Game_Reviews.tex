@@ -102,11 +102,85 @@ The main motivation of the machine learning experiments was to determine whether
 
 \section{Related Works}
 
-While this paper does not fall under the purview of typical deception detection work, influences from other deception detection work form the basis for some of the underlying ideas of this research. Jindal and Liu (2008) used product review data from {\tt Amazon.com} to find ``opinion spam''. Discovering opinion spam led to research into deceptive reviews. Since there was no gold standard data to work from at that time, they initiated detection of such spam by first detecting duplicate reviews and then by using supervised learning with manually-labeled training examples. They gathered reviews from different categories such as music, books, and DVDs, but video games were not specifically included. Amazon reviews were also used by Fornaciari and Poesio (2014) to test identification of fake reviews using crowdsourcing.
+While this paper does not fall under the purview of typical deception detection work, influences from other deception detection work form the basis for some of the underlying ideas of this research. ~\cite{Jindal:08} used product review data from {\tt Amazon.com} to find ``opinion spam''. Discovering opinion spam led to research into deceptive reviews. Since there was no gold standard data to work from at that time, they initiated detection of such spam by first detecting duplicate reviews and then by using supervised learning with manually-labeled training examples. They gathered reviews from different categories such as music, books, and DVDs, but video games were not specifically included. Amazon reviews were also used by~\cite{Forn:14} to test identification of fake reviews using crowdsourcing.
 
-Ott et al. (2011) developed gold standard deception review data consisting of 400 true and 400 false reviews. The 400 fake reviews were written by Amazon Mechanical Turkers while the real ones were mined from {\tt Trip Advisor.com } (and pruned to match the criteria given to the turkers). Naive Bayes, Support Vector Machines(SVM LIGHT), and the Standford Parser were used and an accuracy of 89.6\% was achieved using bigram features. Feng et al.(2012a), using Ott’s gold-standard corpus, extracted PCFG parse trees for deep syntax encoding along with some shallower syntactic/semantic features (such as LIWC features and POS tags to garner comparisons of effectiveness) in addition to the original bigram features. With support vector machine, htey were able to improve on Ott’s accuracy score, increasing it to 91.2\%.
+~\cite{Ott:11} developed gold standard deception review data consisting of 400 true and 400 false reviews. The 400 fake reviews were written by Amazon Mechanical Turkers while the real ones were mined from {\tt Trip Advisor.com } (and pruned to match the criteria given to the turkers). Naive Bayes, Support Vector Machines(SVM LIGHT), and the Standford Parser were used and an accuracy of 89.6\% was achieved using bigram features. ~\cite{Feng:12a}, using Ott's gold-standard corpus, extracted PCFG parse trees for deep syntax encoding along with some shallower syntactic/semantic features (such as LIWC features and POS tags to garner comparisons of effectiveness) in addition to the original bigram features. With support vector machine, they were able to improve on Ott's accuracy score, increasing it to 91.2\%.
 
-One advantage of using data from Steam (as opposed to {\tt Amazon.com} or { \tt TripAdvisor.com}, both of which have stored tranasctional data) is that Steam's data goes a step beyond the ground truth of the aforementioned websites. Not only is transactional data easily accessible, but the fact is that hours played values provide a window to the ground truth of product experience. There is no practical litmus test for the prior works to test trustworthiness in the same way. Rather, prior works have had to resort to circuitous ways of testing the trustworthiness of reviews.
+One advantage of using data from Steam (as opposed to {\tt Amazon.com} or {\tt TripAdvisor.com}, both of which have stored tranasctional data) is that Steam's data goes a step beyond the ground truth of the aforementioned websites. Not only is transactional data easily accessible, but the fact is that hours played values provide a window to the ground truth of product experience. There is no practical litmus test for the prior works to test trustworthiness in the same way. Rather, prior works have had to resort to circuitous ways of testing the trustworthiness of reviews.
+
+\section{Data and Code}
+
+\subsection{Data}
+
+Data from 11 popular video games was scraped from the Steam website via a web scraping program written in Python. See Table \ref{tab:datasets} for a full listing of the games and the number of reviews that were collected for each game (after filtering of non-English reviews, reviews that had zero content, etc.). The program was designed to scrape the following (non-exhaustive) types of information from reviews:
+
+\begin{itemize}
+\item review text
+\item amount of time reviewer spent playing game (in hours and to one decimal place)
+\item number of times a review was marked helpful
+\item number of times a review was marked unhelpful
+\item number of times a review was marked funny
+\item number of comments other users have left in the review's discussion space
+\item number of friends the reviewer has on the Steam platform
+\item number of Steam groups the reviewer is a member of
+\item number of reviews, guides, and screenshots the reviewer has posted (for this and other games)
+\item number of Steam ``badges'' the reviewer has received
+\item number of in-game achievements the reviewer has attained
+\end{itemize}
+
+All data-sets have been made freely available with a permissive license (MIT) via {\tt GitHub.com}. The data can be found at the following URL: \url{https://github.com/mulhod/steam_reviews}. It is stored in relatively common and portable {\tt JSONLINES/NDJ} format. The data was collected over a period of approximately two weeks in the summer of 2015.
+
+\begin{table}[ht]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{|l|c|}
+\hline \bf Game & \bf \# reviews \\ \hline
+Arma 3 & 7,151 \\
+Counter Strike & 6,040 \\
+\parbox[t]{4cm}{Counter Strike: Global\\Offensive} & 7,073 \\
+Dota 2 & 9,720 \\
+Football Manager 2015 & 1,522 \\
+Garry's Mod & 7,151 \\
+Grand Theft Auto V & 13,349 \\
+Sid Meier's Civilization 5 & 7,467 \\
+Team Fortress 2 & 5,676 \\
+The Elder Scrolls V & 7,165 \\
+Warframe & 7,123 \\ \hline
+\end{tabular}
+\caption{Review data-sets. Shows the name of each game and how many reviews were collected.}
+\label{tab:datasets}
+\end{table}
+
+\subsection{Code}
+
+Like the data, all code written for and used in this project has been made freely available via {\tt GitHub.com}. The code repository can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}. Also provided are in-depth descriptions of the data, full ReST-style documentation for the code, clear instructions on how to get set up and running, and numerous Jupyter (formerly known as IPython) notebooks describing various algorithms and aspects of the code and providing visualizations of the data, etc. All code is written in the Python programming language and the total number of lines of code exceeds 6,000. Cython is used to convert large parts of the code base to C extensions to improve performance. The {\tt spaCy} Python library is used for most of the natural language processing (NLP) analysis.
+
+\section{Methods}
+
+After collecting reviews from the Steam website, the reviews were analyzed and a set of NLP features were extracted. All NLP features and review/reviewer attributes were stored in a MongoDB database collection. MongoDB is particularly useful in cases where the data is unstructured: it allows for easily inserting new fields for existing document entries. In the case of this project, the amount of data and the time it takes to extract NLP features for each review text necessitated some creative thinking in terms of how best to store the data and reduce the computational load/the time needed to conduct many different experiments with potentially the same data. It was determined that a database holding all reviews and all NLP features would be the best solution despite the fact that the database would need a lot of memory devoted to it -- the database ended up needing over 200 GiB of hard-drive space! The benefits of having a running database are that the data can be accessed at any time and that it can be queried in a way that would be impossible if it existed in flat files.
+
+\subsection{NLP feature extraction}
+
+Using the {\tt spaCy} Python library for NLP analysis and other tools, all review texts were analyzed and NLP features were extracted. The following types of NLP features were extracted:
+
+\begin{itemize}
+\item word $n$-grams for $n$ = 1 to 2
+\item character $n$-grams for $n$ = 2 to 5
+\item syntactic dependency relationships
+\item review length ($log_2 x$ where $x$ refers to the number of characters in the review)
+\item Brown corpus cluster IDs (for each word in the review text)
+\end{itemize}
+
+For the first feature type in the list above, otherwise known as ``the bag-of-words'' method, the review text is lower-cased and tokenized and then all one- and two-word sequences are identified. Likewise, for the character $n$-grams features, all two-, three-, four-, and five-character sequences are extracted from the raw, unprocessed review text. This latter feature type serves a couple different purposes:
+
+\begin{itemize}
+\item It extracts some textual features that would not be extracted via the $n$-gram features, such as emoticons, sequences of non-word (and word) characters, etc.
+\item It implicitly implements a basic form of automatic spelling correction as even misspelled tokens will still have large sub-strings in common with the correctly-spelled versions.
+\end{itemize}
+
+The third type of extracted feature, syntactic dependencies, extends the ``bag-of-words'' approach. The $n$-gram features represent sequences of characters/tokens and, for some simple cases (in English, at the very least), this suffices to extract a full syntactic structure. However, when syntactic structures are not sequential/linear or there is intervening content, such as embedded clauses, modifiers, etc., or the relationship simply manifests itself over a long stretch of words, the $n$-gram features are not enough. The syntactic dependency features are meant to cover such phenomena.
+
+Lastly, the review length (as a base-2 logarithm of the number of characters, whose slope will decrease with review length) and a set of Brown corpus cluster IDs are extracted from each review. Although it is expected that review length may correlate weakly with experience (the more a user has used a product, the more he/she may have to say about it), the relationship is not necessarily linear. The difference between a review that is 10 characters long versus a review that is 100 characters in length is perhaps more significant than the difference between a 5,000-character review and a 10,000-character review. The Brown corpus cluster IDs are intended to capture a crude type of vocabulary distribution feature. Each token's cluster ID refers to a particular cluster of texts from the Brown corpus. Representing each review as a set of cluster IDs should provide some abstract idea about the content of the review.
 
 \section{General Instructions}
 
@@ -423,38 +497,70 @@ when submitting your paper for review.
 %\bibliographystyle{acl}
 %\bibliography{acl2015}
 
+
+
 \begin{thebibliography}{}
 
-\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
-Alfred~V. Aho and Jeffrey~D. Ullman.
-\newblock 1972.
-\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
-\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
+\section*{Bibliograpy}
+\bibitem[\protect\citename{Jindal and Liu}2008]{Jindal:08}
+Nihar Jindal and Bing Liu.
+\newblock 2008.
+\newblock Opinion spam and analysis. 
+\newblock{\em Proceeding of the International Conference on Web Search and Web Data Mining}, 219-230. ACM.
 
-\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
-{American Psychological Association}.
-\newblock 1983.
-\newblock {\em Publications Manual}.
-\newblock American Psychological Association, Washington, DC.
-
-\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
-{Association for Computing Machinery}.
-\newblock 1983.
-\newblock {\em Computing Reviews}, 24(11):503--512.
-
-\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
-Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
-\newblock 1981.
-\newblock Alternation.
-\newblock {\em Journal of the Association for Computing Machinery},
-  28(1):114--133.
-
-\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
-Dan Gusfield.
-\newblock 1997.
-\newblock {\em Algorithms on Strings, Trees and Sequences}.
-\newblock Cambridge University Press, Cambridge, UK.
+\bibitem[\protect\citename{Fornaciari and Poesio}2014]{Forn:14}
+Tommaso Fornaciari and Massimo Poesio.
+\newblock 2014.
+\newblock Using Web-Intelligence for Excavating the
+	Emerging Meaning of Target-Concepts.
+\newblock{\em Proceedings of the 14th Conference of the European Chapter of the Association for Computational Linguistics}, 279-287. Gothenburg, Sweden. April. Association for Computational Linguistics.
+\bibitem[\protect\citename{Ott et al.}2011]{Ott:11}
+Myle Ott, Yejin Choi, Claire Cardie, and Jeffrey T. Hancock.
+\newblock 2011.
+\newblock  Finding deceptive opinion spam by any stretch of the imagination
+\newblock{\em Proceedings of the 49th Annual Meeting of the Association for Computational Linguistics: Human Language Technologies}, 309-319. Portland, Oregon. June. Association for Computational Linguistics.
+\bibitem[\protect\citename{Feng et al.}2012a]{Feng:12a}
+Song Feng, Ritwik Banerjee, and Yejin Choi
+\newblock 2012a.
+\newblock Syntactic stylometry for deception detection.
+\newblock {\em Pr Proceedings of the 50th Annual Meeting of the Association for Computational Linguistics (Volume 2: Short Papers)}, 171-175. Jeju Island, Korea. Association for Computational Lingusitics.
 
 \end{thebibliography}
+
+
+
+%\begin{thebibliography}{}
+%
+%\bibitem[\protect\citename{Aho and Ullman}1972]{Aho:72}
+%Alfred~V. Aho and Jeffrey~D. Ullman.
+%\newblock 1972.
+%\newblock {\em The Theory of Parsing, Translation and Compiling}, volume~1.
+%\newblock Prentice-{Hall}, Englewood Cliffs, NJ.
+%
+%\bibitem[\protect\citename{{American Psychological Association}}1983]{APA:83}
+%{American Psychological Association}.
+%\newblock 1983.
+%\newblock {\em Publications Manual}.
+%\newblock American Psychological Association, Washington, DC.
+%
+%\bibitem[\protect\citename{{Association for Computing Machinery}}1983]{ACM:83}
+%{Association for Computing Machinery}.
+%\newblock 1983.
+%\newblock {\em Computing Reviews}, 24(11):503--512.
+%
+%\bibitem[\protect\citename{Chandra \bgroup et al.\egroup }1981]{Chandra:81}
+%Ashok~K. Chandra, Dexter~C. Kozen, and Larry~J. Stockmeyer.
+%\newblock 1981.
+%\newblock Alternation.
+%\newblock {\em Journal of the Association for Computing Machinery},
+%  28(1):114--133.
+%
+%\bibitem[\protect\citename{Gusfield}1997]{Gusfield:97}
+%Dan Gusfield.
+%\newblock 1997.
+%\newblock {\em Algorithms on Strings, Trees and Sequences}.
+%\newblock Cambridge University Press, Cambridge, UK.
+%
+%\end{thebibliography}
 
 \end{document}
