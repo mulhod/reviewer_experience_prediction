@@ -188,11 +188,12 @@ class ExperimentalDataTestCase(unittest.TestCase):
 
             # Each fold in the `datasets_dict` attribute should be less
             # than or equal to the value of the `n_partition` parameter
-            # in length
+            # in length and should not be empty under any circumstances
             n_partition = _kwargs.get('n_partition', None)
             if n_partition:
                 for fold in exp_data.datasets_dict:
-                    assert len(exp_data.datasets_dict[fold]) <= n_partition
+                    fold_length = len(exp_data.datasets_dict[fold])
+                    assert fold_length and fold_length <= n_partition
             else:
                 for fold in exp_data.datasets_dict:
                     assert len(exp_data.datasets_dict[fold])
