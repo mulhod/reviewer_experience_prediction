@@ -1184,8 +1184,15 @@ class ExperimentalData(object):
                 n_label_train_data_partition = int(np.ceil(label_freq*self._n_partition))
                 datasets_dict[partition_id].extend(all_ids[:n_label_train_data_partition])
 
-        # Convert each partition to a numpy array
+        # Convert each partition to a numpy array and remove surplus
+        # samples (randomly)
         for partition in datasets_dict:
+            if len(datasets_dict[partition]) > self._n_partition:
+                diff = len(datasets_dict[partition]) - self._n_partition
+                prng = np.random.RandomState(12345)
+                for i in range(diff):
+                    i_random = prng.randint(len(datasets_dict[partition]))
+                    datasets_dict[partition].remove(datasets_dict[partition][i_random])
             datasets_dict[partition] = np.array(datasets_dict[partition])
 
         return datasets_dict
