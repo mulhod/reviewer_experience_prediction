@@ -1183,7 +1183,7 @@ class ExperimentalData(object):
                 label_freq = labels_fdist.freq(label)
                 n_label_train_data_partition = int(np.ceil(label_freq*self._n_partition))
                 datasets_dict[partition_id] = \
-                    np.array(datasets_dict[partition_id].tolist(),
+                    np.array(datasets_dict[partition_id].tolist() +
                              all_ids[:n_label_train_data_partition])
 
         return datasets_dict
