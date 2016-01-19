@@ -1178,15 +1178,13 @@ class ExperimentalData(object):
         for i in range(self._max_partitions):
             for label in labels_id_strings:
                 partition_id = str(i + 1)
-                datasets_dict.setdefault(partition_id, {})
+                datasets_dict.setdefault(partition_id, np.array([]))
                 all_ids = labels_id_strings[label]
                 label_freq = labels_fdist.freq(label)
                 n_label_train_data_partition = int(np.ceil(label_freq*self._n_partition))
-                datasets_dict[partition_id].extend(all_ids[:n_label_train_data_partition])
-
-        # Convert each partition to a numpy array
-        for partition in datasets_dict:
-            datasets_dict[partition] = np.array(datasets_dict[partition])
+                datasets_dict[partition_id] = \
+                    np.array(datasets_dict[partition_id].tolist(),
+                             all_ids[:n_label_train_data_partition])
 
         return datasets_dict
 
