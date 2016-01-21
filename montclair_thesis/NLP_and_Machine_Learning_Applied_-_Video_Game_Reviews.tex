@@ -49,12 +49,15 @@ A less grand aim of the project was to scrape review data from the Steam video g
 \end{abstract}
 
 \section{Credits}
+\label{sec:credits}
 
 I would like to thank both Janette Martinez and Emily Olshefski for their help in the initial iteration of this work as part of a class project. They helped lay out the problem, make decisions regarding the source of the data and the games for which data was collected, and also write some of the preprocessing code. Some sections of this paper build on the final paper for that class project, which they took a lead in writing.
 
 \section{Introduction}
+\label{sec:intro}
 
 \subsection{Reframing a familiar problem}
+\label{ssec:reframing}
 
 In the realm of deception detection, ground truth -- information that can be verified or denied -- is not easy to come by. For example, one application of deception detection is in the detection of fake reviews: reviews that are known to be fake (by some external means) are compared to reviews that are believed to have been written in good faith. It may be easy in some cases to identify certain reviews as fake since the authors themselves might admit as much. However, the categorization of other reviews from either category is a difficult matter. Thus, corpora of fake/real reviews are often constrained in that, for any given review, it could be impossible to determine the category.
 
@@ -63,12 +66,14 @@ In this paper, I propose a fundamental reframing of the issue: the problem shoul
 A system that could accurately predict the amount of experience a reviewer has given only the review text or some combination of the review text and other attributes of the review/reviewer, such as the number of times a review has been marked as helpful, could be useful in a production environment as a component in a review-filtering and/or -sorting algorithm.
 
 \subsection{How is experience measured?}
+\label{ssec:experience}
 
 To model reviewer experience (which is, after all, just as nebulous as the distinction between fake and true reviews), there must be methods of approximating experience. One simple way to approximate this value is by recording the amount of time a user has actually spent using a product before reviewing it. For most products, however, the feasibility of recording the actual time spent is low due to the cost and logistics of such an undertaking. And that is assuming time even can be recorded! In other cases, product use is more of a binary value: Did the consumer eat the pie or not? Did the user watch the movie or not? And, in still other cases, usage might need to be measured in terms of the number of times the product was used, such as lotion, hair spray, etc.
 
 Aside from trying to measure a reviewer's actual usage of a product, there may exist other ways of approximating experience. One rather indirect way would be to compare the number of times each review is marked as helpful (or not helpful). Presumably, reviews that are more helpful are reviews that are from users who actually used the product and vice versa.
 
 \subsection{Using video game reviews from Steam}
+\label{ssec:steam}
 
 In the realm of video games, the methods of approximating user experience described above are actually feasible. The Steam online video game platform (\url{http://store.steampowered.com/}) is used by video game enthusiasts for a variety of purposes. Steam functions as a platform
 
@@ -85,6 +90,7 @@ The window into a user's experience with a product that is afforded by the amoun
 However, if experience could successfully be modelled in the case of video games, perhaps the models could be generalized to cover whole categories of products and, thus, the situation here would apply to much more than video games. Furthermore, there are other indications of a user's experience with a product, as mentioned above, such as the number of times a review has been marked as helpful, and fortunately Steam also keeps a record of such information.
 
 \subsection{Description of research}
+\label{ssec:description}
 
 In this paper, I explore the amount of time a reviewer spent playing the game he/she is reviewing, the number of times it was marked helpful by review readers, and other attributes of the review in relation to review text itself (and also to a set of attributes about the review/reviewer, such as the reviewer's number of friends, the number of times the review was marked as funny, etc.). The greater the amount of experience a reviewer has with the game being reviewed, the greater the likelihood is that the review produced is trustworthy or in some sense valuable. Naturally, if a reviewer has spent a lot of time playing a game or if the review is voted to be relatively helpful, etc., then the review has a higher chance of representing a good understanding of the game on the part of the reviewer.
 
@@ -101,6 +107,7 @@ The main motivation of the machine learning experiments was to determine whether
 %regularly.
 
 \section{Related Works}
+\label{sec:related}
 
 While this paper does not fall under the purview of typical deception detection work, influences from other deception detection work form the basis for some of the underlying ideas of this research. ~\cite{Jindal:08} used product review data from {\tt Amazon.com} to find ``opinion spam''. Discovering opinion spam led to research into deceptive reviews. Since there was no gold standard data to work from at that time, they initiated detection of such spam by first detecting duplicate reviews and then by using supervised learning with manually-labeled training examples. They gathered reviews from different categories such as music, books, and DVDs, but video games were not specifically included. Amazon reviews were also used by~\cite{Forn:14} to test identification of fake reviews using crowdsourcing.
 
@@ -109,8 +116,10 @@ While this paper does not fall under the purview of typical deception detection 
 One advantage of using data from Steam (as opposed to {\tt Amazon.com} or {\tt TripAdvisor.com}, both of which have stored tranasctional data) is that Steam's data goes a step beyond the ground truth of the aforementioned websites. Not only is transactional data easily accessible, but the fact is that hours played values provide a window to the ground truth of product experience. There is no practical litmus test for the prior works to test trustworthiness in the same way. Rather, prior works have had to resort to circuitous ways of testing the trustworthiness of reviews.
 
 \section{Data and Code}
+\label{sec:data_and_code}
 
 \subsection{Data}
+\label{ssec:data}
 
 Data from 11 popular video games was scraped from the Steam website via a web scraping program written in Python. See Table \ref{tab:datasets} for a full listing of the games and the number of reviews that were collected for each game (after filtering of non-English reviews, reviews that had zero content, etc.). The program was designed to scrape the following (non-exhaustive) types of information from reviews:
 
@@ -152,14 +161,17 @@ Warframe & 7,123 \\ \hline
 \end{table}
 
 \subsection{Code}
+\label{ssec:code}
 
 Like the data, all code written for and used in this project has been made freely available via {\tt GitHub.com}. The code repository can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}. Also provided are in-depth descriptions of the data, full ReST-style documentation for the code, clear instructions on how to get set up and running, and numerous Jupyter (formerly known as IPython) notebooks describing various algorithms and aspects of the code and providing visualizations of the data, etc. All code is written in the Python programming language and the total number of lines of code exceeds 6,000. Cython is used to convert large parts of the code base to C extensions to improve performance. The {\tt spaCy} Python library is used for most of the natural language processing (NLP) analysis.
 
 \section{Methods}
+\label{sec:methods}
 
 After collecting reviews from the Steam website, the reviews were analyzed and a set of NLP features were extracted. All NLP features and review/reviewer attributes were stored in a MongoDB database collection. MongoDB is particularly useful in cases where the data is unstructured: it allows for easily inserting new fields for existing document entries. In the case of this project, the amount of data and the time it takes to extract NLP features for each review text necessitated some creative thinking in terms of how best to store the data and reduce the computational load/the time needed to conduct many different experiments with potentially the same data. It was determined that a database holding all reviews and all NLP features would be the best solution despite the fact that the database would need a lot of memory devoted to it -- the database ended up needing over 200 GiB of hard-drive space! The benefits of having a running database are that the data can be accessed at any time and that it can be queried in a way that would be impossible if it existed in flat files.
 
 \subsection{NLP feature extraction}
+\label{ssec:nlp_features}
 
 Using the {\tt spaCy} Python library for NLP analysis and other tools, all review texts were analyzed and NLP features were extracted. The following types of NLP features were extracted:
 
@@ -181,6 +193,24 @@ For the first feature type in the list above, otherwise known as ``the bag-of-wo
 The third type of extracted feature, syntactic dependencies, extends the ``bag-of-words'' approach. The $n$-gram features represent sequences of characters/tokens and, for some simple cases (in English, at the very least), this suffices to extract a full syntactic structure. However, when syntactic structures are not sequential/linear or there is intervening content, such as embedded clauses, modifiers, etc., or the relationship simply manifests itself over a long stretch of words, the $n$-gram features are not enough. The syntactic dependency features are meant to cover such phenomena.
 
 Lastly, the review length (as a base-2 logarithm of the number of characters, whose slope will decrease with review length) and a set of Brown corpus cluster IDs are extracted from each review. Although it is expected that review length may correlate weakly with experience (the more a user has used a product, the more he/she may have to say about it), the relationship is not necessarily linear. The difference between a review that is 10 characters long versus a review that is 100 characters in length is perhaps more significant than the difference between a 5,000-character review and a 10,000-character review. The Brown corpus cluster IDs are intended to capture a crude type of vocabulary distribution feature. Each token's cluster ID refers to a particular cluster of texts from the Brown corpus. Representing each review as a set of cluster IDs should provide some abstract idea about the content of the review.
+
+All extracted NLP features (except for the length feature) are binarized, e.g., if an 2-gram such as ``the game'' appears five times in a review, the extracted feature is converted to 1, signifying that that particular 2-gram appeared in the review. Features that do not occur in a review have an implicit value of 0. Thus, sparse vectors are used to create a vector space model.
+
+The feature set used here is meant to approximate a sort of baseline NLP system. The main aim is to model reviews with a baseline system and then evaluate this kind of system's performance in terms proxies for user experience, including the amount of time the user spent using the product he/she reviewed (in hours), the number of times the review was marked as helpful, etc. If a basic system shows some potential in this regard, it may be taken as a sign that further feature set development could lead to better performance and, thus, that the main problem -- filtering/sorting reviews by their truthfulness, helpfulness, etc. -- can successfully be modelled.
+
+\subsection{User/review attributes}
+\label{ssec:attributes}
+
+A set of user/review attributes is also extracted for use in the machine learning experiments. These features can be used in isolation, in combination with the NLP features, or not at all. For a non-exhaustive list of these attributes, see ``Data'' (Subsection~\ref{ssec:data}).
+
+Some of these features might typically be available for reviews and, therefore, could potentially be used to improve the performance of the modelled relationship between reviews and the phenomena related to reviewer experience. However, part of the aim in conducting experiments with these additional features is to explore the possibility that the relationship between reviews and reviewer experience could be successfully modelled by such features in isolation, i.e., without any NLP features at all. For instance, to what degree can knowing the number of friends a reviewer has tell how trustworthy his/her review is?
+
+The experiments described below will explore each situation: models trained on NLP features, NLP features in combination with the review/user attributes, and the review/user attributes alone. Note that, when using review/user attributes to train a model to predict the number of times a review is marked as helpful, any review/user attributes that are related to the prediction label are automatically excluded to ensure that the model does not contain information that would definitely be related to what is actually being modelled. For example, if the prediction label is the number of times a review is marked as helpful, attributes such as the number of times a review was marked as unhelpful would be excluded.
+
+\section{Experiments}
+\label{sec:experiments}
+
+
 
 \section{General Instructions}
 

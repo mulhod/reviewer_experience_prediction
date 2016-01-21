@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  19 JAN 2016 01:13
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  21 JAN 2016 03:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -83,153 +83,155 @@ LaTeX Font Info:    Try loading font information for OT1+pcr on input line 42.
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 57.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 59.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 73.
+(Font)              <7> on input line 78.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 73.
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 76.
+(Font)              <5> on input line 78.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 81.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 76.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 81.
 
-Underfull \hbox (badness 1062) in paragraph at lines 107--108
+Underfull \hbox (badness 1062) in paragraph at lines 114--115
 \OT1/ptm/m/n/10 ford Parser were used and an ac-cu-racy of 89.6%
  []
 
 [2]
-Underfull \hbox (badness 10000) in paragraph at lines 131--132
+Underfull \hbox (badness 10000) in paragraph at lines 140--141
 \OT1/pcr/m/n/10 / / github . com / mulhod / steam _ reviews$\OT1/ptm/m/n/10 .
  []
 
 
-Underfull \hbox (badness 4366) in paragraph at lines 131--132
+Underfull \hbox (badness 4366) in paragraph at lines 140--141
 \OT1/ptm/m/n/10 It is stored in rel-a-tively com-mon and portable
  []
 
 
-Underfull \hbox (badness 5771) in paragraph at lines 156--157
+Underfull \hbox (badness 5771) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 Like the data, all code writ-ten for and used
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 in this project has been made freely avail-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 able via \OT1/pcr/m/n/10 GitHub.com\OT1/ptm/m/n/10 . The code r
 epos-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 i-tory can be found at the fol-low-ing URL:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 156--157
+Underfull \hbox (badness 10000) in paragraph at lines 166--167
 \OT1/pcr/m/n/10 https : / / github . com / mulhod / reviewer _
  []
 
 
-Underfull \hbox (badness 1838) in paragraph at lines 156--157
+Underfull \hbox (badness 1838) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 in-depth de-scrip-tions of the data, full ReST-style
  []
 
 
-Underfull \hbox (badness 1527) in paragraph at lines 156--157
+Underfull \hbox (badness 1527) in paragraph at lines 166--167
 \OT1/ptm/m/n/10 doc-u-men-ta-tion for the code, clear in-struc-tions on
  []
 
 [3] [4]
-Underfull \hbox (badness 1817) in paragraph at lines 243--249
+Underfull \hbox (badness 1817) in paragraph at lines 273--279
 \OT1/ptm/m/n/10 should spec-ify \OT1/pcr/m/n/10 -t a4\OT1/ptm/m/n/10 . Or us-in
 g the com-mand
  []
 
 
-Underfull \hbox (badness 1953) in paragraph at lines 243--249
+Underfull \hbox (badness 1953) in paragraph at lines 273--279
 []\OT1/pcr/m/n/10 \special{papersize=210mm,297mm} \OT1/ptm/m/n/10 in the
  []
 
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 [5]
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 371.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 401.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 372.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 402.
 
 
-LaTeX Warning: Citation `Aho:72' on page 6 undefined on input line 374.
+LaTeX Warning: Citation `Aho:72' on page 6 undefined on input line 404.
 
 
-LaTeX Warning: Citation `Chandra:81' on page 6 undefined on input line 374.
+LaTeX Warning: Citation `Chandra:81' on page 6 undefined on input line 404.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 376.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 406.
 
 
-LaTeX Warning: Citation `Aho:72' on page 6 undefined on input line 376.
+LaTeX Warning: Citation `Aho:72' on page 6 undefined on input line 406.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 379.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 409.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 383.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 413.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 393.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 423.
 
 
-LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 397.
+LaTeX Warning: Citation `Gusfield:97' on page 6 undefined on input line 427.
 
 
-LaTeX Warning: Citation `APA:83' on page 6 undefined on input line 412.
+LaTeX Warning: Citation `APA:83' on page 6 undefined on input line 442.
 
 
-LaTeX Warning: Citation `ACM:83' on page 6 undefined on input line 415.
+LaTeX Warning: Citation `ACM:83' on page 6 undefined on input line 445.
 
+[6]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 429.
+(Font)              <9> on input line 459.
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 447.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 477.
 
-Underfull \hbox (badness 1701) in paragraph at lines 457--466
+Underfull \hbox (badness 1701) in paragraph at lines 487--496
 \OT1/ptm/m/n/10 La-TeXML, listed at $\OT1/pcr/m/n/10 http : / / dlmf . nist . g
 ov /
  []
 
-[6] [7
-
-] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
+[7] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
 Here is how much of TeX's memory you used:
- 500 strings out of 493304
- 6551 string characters out of 6139871
- 65305 words of memory out of 5000000
- 3986 multiletter control sequences out of 15000+600000
+ 514 strings out of 493304
+ 6758 string characters out of 6139871
+ 66305 words of memory out of 5000000
+ 4000 multiletter control sequences out of 15000+600000
  25680 words of font info for 58 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  23i,9n,19p,1148b,256s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/te
-xlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier
-/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texliv
-e/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+{/usr/share/
+texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
+lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/couri
+er/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (7 
-pages, 118142 bytes).
+pages, 120333 bytes).
 PDF statistics:
  57 PDF objects out of 1000 (max. 8388607)
  40 compressed objects within 1 object stream
