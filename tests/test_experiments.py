@@ -74,7 +74,12 @@ class ExperimentalDataTestCase(unittest.TestCase):
             # `n_grid_search_partition` < 1
             dict(games=set(['Dota_2', 'Arma_3']),
                  n_partition=100,
-                 n_grid_search_partition=0)
+                 n_grid_search_partition=0),
+            # `sampling` is an invalid value (e.g. not "even" or
+            # "stratified")
+            dict(games=set(['Dota_2']),
+                 max_partitions=4,
+                 sampling='random'),
             ]
         for _kwargs in kwargs:
             assert_raises(ValueError,
@@ -94,7 +99,8 @@ class ExperimentalDataTestCase(unittest.TestCase):
             dict(n_partition=20,
                  n_grid_search_partition=30,
                  max_partitions=3,
-                 bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)]),
+                 bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
+                 sampling='even'),
             # Not specifying `max_partitions`
             dict(n_partition=20,
                  n_grid_search_partition=30,
@@ -209,3 +215,8 @@ class ExperimentalDataTestCase(unittest.TestCase):
                 for ids_set in [grid_search_ids_set, datasets_ids_set]:
                     assert_equal(ids_set.difference(test_set_ids_set),
                                  ids_set)
+
+            # The `sampling` attribute should reflect the value passed
+            # in as the parameter value (or the default value)
+            assert_equal(_kwargs.get('sampling', 'stratified'),
+                         exp_data.sampling)

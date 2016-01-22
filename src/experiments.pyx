@@ -861,6 +861,7 @@ class ExperimentalData(object):
     datasets_dict = None
     test_set = np.array([])
     grid_search_set = None
+    sampling = None
 
     def __init__(self,
                  db: collection,
@@ -869,6 +870,7 @@ class ExperimentalData(object):
                  max_partitions: int = 0,
                  n_partition: int = None,
                  n_grid_search_partition: int = 1000,
+                 sampling: str = 'stratified',
                  lognormal: bool = False,
                  power_transform: float = None,
                  bin_ranges: list = None,
@@ -898,6 +900,17 @@ class ExperimentalData(object):
         :param n_grid_search_partition: total size of dataset used for
                                         grid search round
         :type n_grid_search_partition: int
+        :param sampling: how each dataset partition (whether it be in
+                         the grid search folds, the main datasets, or
+                         the test set) is distributed in terms of the
+                         labels, which can be either of two choices:
+                         'even', which tries to make the internal
+                         distribution as even as possible or
+                         'stratified' (the default value), which tries
+                         to retain the frequency distribution of the
+                         dataset as a whole within each partition of the
+                         data
+        :type sampling: str
         :param lognormal: transform raw label values using `ln`
                           (default: False)
         :type lognormal: bool
@@ -970,8 +983,9 @@ class ExperimentalData(object):
             raise ValueError('"batch_size" must be greater than zero: {0}'
                              .format(batch_size))
 
-        if n_partition and n_partition < 0:
-            raise ValueError('"n_partition" must be non-negative.')
+        if n_partition and n_partition < 1:
+            raise ValueError('"n_partition" must be positive, non-zero value '
+                             '(if not None).')
         if max_partitions < 0:
             raise ValueError('"max_partitions" must be non-negative.')
 
@@ -1025,11 +1039,18 @@ class ExperimentalData(object):
                              'Please make sure to use upwards of 20 samples '
                              'for each fold (i.e., 60 samples altogether).')
 
+        # Validate the `sampling` parameter value
+        if not sampling in ['even', 'stratified']:
+            raise ValueError('The "sampling" parameter must be either "even" '
+                             'or "stratified". "{}" was given instead.'
+                             .format(sampling))
+
         self._db = db
         self._label = prediction_label
         self._max_partitions = max_partitions
         self._n_partition = n_partition
         self._n_grid_search_partition = n_grid_search_partition
+        self.sampling = sampling
         self._distributional_info_kwargs = {'power_transform': power_transform,
                                             'lognormal': lognormal,
                                             'bin_ranges': bin_ranges,
@@ -1065,20 +1086,32 @@ class ExperimentalData(object):
         # set (not sure why this would be the case)
         if not total_test_samples:
             return
-        self.test_set = []
 
         # Test data IDs
         prng = np.random.RandomState(12345)
         _extend = self.test_set.extend
-        for label in labels_fdist:
-            _ids = np.array([_id for _id in id_strings_labels
-                             if id_strings_labels[_id] == label])
-            _ids.sort()
-            prng.shuffle(_ids)
-            label_freq = labels_fdist.freq(label)
-            n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
-            _extend(_ids[:n_label_test_data if n_label_test_data <= len(_ids)
-                          else None])
+
+        # Store the length of the smallest label set (for making an even
+        # distribution)
+        n_label_min = None
+
+        self.test_set = []
+        for label in sorted(labels_fdist, key=lambda _label: labels_fdist[_label]):
+            all_ids = np.array([_id for _id in id_strings_labels
+                                if id_strings_labels[_id] == label])
+            all_ids.sort()
+            prng.shuffle(all_ids)
+            if self.sampling == 'stratified':
+                label_freq = labels_fdist.freq(label)
+                n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
+                _extend(all_ids[:n_label_test_data])
+            else:
+                n_label_test_data = int(np.ceil(self._max_test_samples/labels_fdist.B()))
+                label_ids = all_ids[:n_label_test_data]
+                if not n_label_min:
+                    n_label_min = len(label_ids)
+                _extend(label_ids[:n_label_min])
+
         prng.shuffle(sorted(self.test_set))
         if len(self.test_set) > self._max_test_samples:
             self.test_set = np.array(self.test_set[:self._max_test_samples])
@@ -1101,13 +1134,13 @@ class ExperimentalData(object):
         prng = np.random.RandomState(12345)
         labels_id_strings = {}
         for label in labels:
-            _ids = np.array([_id for _id in id_strings_labels
-                             if id_strings_labels[_id] == label
-                                and (not len(self.test_set) or
-                                     not _id in self.test_set)])
-            _ids.sort()
-            prng.shuffle(_ids)
-            labels_id_strings[label] = _ids
+            all_ids = np.array([_id for _id in id_strings_labels
+                                if id_strings_labels[_id] == label
+                                   and (not len(self.test_set) or
+                                        not _id in self.test_set)])
+            all_ids.sort()
+            prng.shuffle(all_ids)
+            labels_id_strings[label] = all_ids
 
         return labels_id_strings
 
@@ -1135,13 +1168,27 @@ class ExperimentalData(object):
                           in list(chunks(max_fold_size,
                                          np.zeros(self._n_grid_search_partition)))]
 
+        # Store the length of the smallest label set (for making an even
+        # distribution)
+        n_label_min = None
+
         grid_search_set = [[], [], []]
-        for label in labels_id_strings:
+        for label in sorted(labels_id_strings,
+                            key=lambda _label: len(labels_id_strings[_label])):
             all_ids = labels_id_strings[label]
-            label_freq = labels_fdist.freq(label)
-            n_label_data = int(np.ceil(label_freq*self._n_grid_search_partition))
-            label_ids = all_ids[:n_label_data]
-            for i, label_sub_partition in enumerate([label_ids[i::3] for i in range(3)]):
+            if self.sampling == 'stratified':
+                label_freq = labels_fdist.freq(label)
+                n_label_data = int(np.ceil(label_freq*self._n_grid_search_partition))
+                label_ids = all_ids[:n_label_data]
+            else:
+                n_label_data = \
+                    int(np.ceil(self._n_grid_search_partition/labels_fdist.B()))
+                label_ids = all_ids[:n_label_data]
+                if not n_label_min:
+                    n_label_min = len(label_ids)
+                label_ids = label_ids[:n_label_min]
+            for i, label_sub_partition in enumerate([label_ids[i::3]
+                                                     for i in range(3)]):
                 grid_search_set[i].extend(label_sub_partition)
 
         # Ensure that the folds in `grid_search_data` are of the correct
@@ -1159,7 +1206,8 @@ class ExperimentalData(object):
 
         return grid_search_set, labels_id_strings
 
-    def _generate_datasets(self, labels_id_strings: dict, labels_fdist: FreqDist) -> dict:
+    def _generate_datasets(self, labels_id_strings: dict,
+                           labels_fdist: FreqDist) -> dict:
         """
         Generate stratified datasets for training rounds.
 
@@ -1174,15 +1222,34 @@ class ExperimentalData(object):
         :rtype: dict
         """
 
+        # Store the length of the smallest label set (for making an even
+        # distribution)
+        n_label_min = None
+
         datasets_dict = {}
         for i in range(self._max_partitions):
-            for label in labels_id_strings:
+            for label in sorted(labels_id_strings,
+                                key=lambda _label: len(labels_id_strings[_label])):
                 partition_id = str(i + 1)
                 datasets_dict.setdefault(partition_id, [])
                 all_ids = labels_id_strings[label]
-                label_freq = labels_fdist.freq(label)
-                n_label_train_data_partition = int(np.ceil(label_freq*self._n_partition))
-                datasets_dict[partition_id].extend(all_ids[:n_label_train_data_partition])
+                if self.sampling == 'stratified':
+                    label_freq = labels_fdist.freq(label)
+                    n_label_train_data_partition = \
+                        int(np.ceil(label_freq*self._n_partition))
+                else:
+                    n_label_train_data_partition = \
+                        int(np.ceil(self._n_partition/labels_fdist.B()))
+                    label_ids = all_ids[:n_label_train_data_partition]
+                    if not n_label_min:
+                        n_label_min = len(label_ids)
+                (datasets_dict[partition_id]
+                 .extend(all_ids[:n_label_train_data_partition]))
+
+                # Remove the used-up samples before the next go-round
+                # (i.e., for other folds of the data)
+                labels_id_strings[label] = [_id for _id in all_ids if not _id
+                                            in datasets_dict[partition_id]]
 
         # Convert each partition to a numpy array and remove surplus
         # samples (randomly)
