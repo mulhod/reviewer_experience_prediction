@@ -852,32 +852,49 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
 
 class ExperimentalData(object):
     """
-    Class for objects storing `id_string`s corresponding to data
-    samples in a collection, which can be used to conduct a grid search
-    round + a number of additional learning rounds.
+    Class for objects storing training and grid search datasets,
+    organized into folds, and a test set dataset. Each dataset contains
+    an array or list of arrays of sample IDs corresponding to data
+    samples in a collection.
     """
 
     num_datasets = None
-    datasets_dict = None
+    training_set = None
     test_set = np.array([])
     grid_search_set = None
     sampling = None
+    prediction_label = None
+    games = None
+    test_games = None
+    folds = None
+    fold_size = None
+    grid_search_folds = None
+    grid_search_fold_size = None
+    bin_ranges = None
+    test_bin_ranges = None
+    lognormal = None
+    power_transform = None
+    labels_fdist = None
+    id_strings_labels = None
+
+    sampling_options = frozenset({'even', 'stratified'})
 
     def __init__(self,
                  db: collection,
                  prediction_label: str,
                  games: set,
-                 max_partitions: int = 0,
-                 n_partition: int = None,
-                 n_grid_search_partition: int = 1000,
+                 folds: int,
+                 fold_size: int,
+                 grid_search_folds: int,
+                 grid_search_fold_size: int,
+                 test_games: set = None,
+                 test_size: int = 0,
                  sampling: str = 'stratified',
-                 lognormal: bool = False,
-                 power_transform: float = None,
                  bin_ranges: list = None,
                  test_bin_ranges: list = None,
-                 batch_size: int = 50,
-                 test_games: set = None,
-                 max_test_samples: int = -1):
+                 lognormal: bool = False,
+                 power_transform: float = None,
+                 batch_size: int = 50):
         """
         Initialize an `ExperimentalData` object.
 
@@ -887,19 +904,35 @@ class ExperimentalData(object):
         :type prediction_label: str
         :param games: set of games (str)
         :type games: set
-        :param max_partitions: number of splits of the data (defaults
-                               to 0, i.e., as many as possible)
-        :type max_partitions: int
-        :param n_partition: maximum number of data samples to use for
-                            each partition of the data (default: None,
-                            which means that the number will be
-                            calculated based on the number of data
-                            partitions) (must be specified if
-                            `max_partitions` is left unspecified)
-        :type n_partition: int
-        :param n_grid_search_partition: total size of dataset used for
-                                        grid search round
-        :type n_grid_search_partition: int
+        :param folds: number of folds with which to split the data
+        :type folds: int
+        :param fold_size: maximum number of data samples to use for
+                          each fold of the main data folds (the actual
+                          number of samples in any given fold may be
+                          less than this number)
+        :type fold_size: int
+        :param grid_search_folds: number of folds set aside for grid
+                                  search
+        :type grid_search_folds: int
+        :param grid_search_fold_size: maximum number of data samples to
+                                      use for each fold of the grid
+                                      search fold set (the actual number
+                                      of samples in any given fold may
+                                      be less than this number)
+        :type grid_search_fold_size: int
+        :param test_games: set of games (str) to use for testing (use
+                           same value as for `games` or leave
+                           unspecified, which will default to the games
+                           used for `games`)
+        :type test_games: set or None
+        :param test_size: maximum for the number of samples to include
+                          in a test data partition separate from the
+                          rest of the data-sets (defaults to 0,
+                          signifying that no separate test set will be
+                          generated) (the actual number of samples may
+                          be less than this number, depending on the
+                          number of samples for each label, etc.)
+        :type test_size: int
         :param sampling: how each dataset partition (whether it be in
                          the grid search folds, the main datasets, or
                          the test set) is distributed in terms of the
@@ -911,12 +944,6 @@ class ExperimentalData(object):
                          dataset as a whole within each partition of the
                          data
         :type sampling: str
-        :param lognormal: transform raw label values using `ln`
-                          (default: False)
-        :type lognormal: bool
-        :param power_transform: power by which to transform raw label
-                                values (default: None)
-        :type power_transform: float or None
         :param bin_ranges: list of ranges that define each bin, where
                            each bin should be represented as a tuple
                            with the first value, a float that is
@@ -936,78 +963,50 @@ class ExperimentalData(object):
                           maximum values of a range of values (or None)
         :param test_bin_ranges: see description above for `bin-ranges`
         :type test_bin_ranges: list of tuples
+        :param lognormal: transform raw label values using `ln`
+                          (default: False)
+        :type lognormal: bool
+        :param power_transform: power by which to transform raw label
+                                values (default: None)
+        :type power_transform: float or None
         :param batch_size: batch size to use for the database cursor
         :type batch_size: int (default: 50)
-        :param test_games: set of games (str) to use for testing (use
-                           same value as for `games` or leave
-                           unspecified if the no special test data is
-                           to be generated)
-        :type test_games: set or None
-        :param max_test_samples: limit for the number of test samples
-                                 (defaults to a negative value,
-                                 signifying that no separate test set
-                                 will be generated; use 0 to signal
-                                 that all data should be used in the
-                                 test set) (Note: This can only be used
-                                 if there is going to be a designated
-                                 test set that can't be used for
-                                 training, i.e., if the set of test
-                                 games differs from the set of training
-                                 games.)
-        :type max_test_samples: int
 
         :raises ValueError: if `games`/`test_games` contains
-                            unrecognized games or `batch_size` is less
-                            than 1, etc.
+                            unrecognized games, etc.
         """
 
         # Validate parameters
+        self.games = games
+        if not games:
+            raise ValueError('"games" must be a non-empty set.')
 
         # If `test_games` is left unspecified or is an empty set, treat
         # it as if equal to `games`
-        self._games = games
-        self._test_games = test_games
-        self._GAMES_EQUALS_TEST_GAMES = True
-        if not self._test_games:
-            self._test_games = games
-        else:
-            if self._test_games != self._games:
-                self._GAMES_EQUALS_TEST_GAMES = False
-        for _games in [self._games, self._test_games]:
-            if any(not game in APPID_DICT for game in _games):
-                raise ValueError('Invalid game(s): {0}.'.format(_games))
-        if not self._games:
-            raise ValueError('"games" must be a non-empty set.')
+        self.test_games = test_games if test_games else self.games
+        for game in set(chain(self.games, self.test_games)):
+            if not game in APPID_DICT:
+                raise ValueError('Unrecognized game: {0}.'.format(game))
 
         if batch_size < 1:
-            raise ValueError('"batch_size" must be greater than zero: {0}'
-                             .format(batch_size))
+            raise ValueError('"batch_size" must have a positive, non-zero '
+                             'value.')
+        for parameter in ['folds', 'fold_size', 'grid_search_folds',
+                          'grid_search_fold_size', 'test_size']:
+            if eval(parameter) < 0:
+                raise ValueError('"{}" must be non-negative: {0}'
+                                 .format(eval(parameter)))
 
-        if n_partition and n_partition < 1:
-            raise ValueError('"n_partition" must be positive, non-zero value '
-                             '(if not None).')
-        if max_partitions < 0:
-            raise ValueError('"max_partitions" must be non-negative.')
-
-        if not (n_partition or max_partitions):
-            raise ValueError('If "max_partitions" is left unspecified, '
-                             '"n_partition" must be specified.')
-
-        # `max_test_samples` should not be specified if
-        # `games`/`test_games` are equivalent
-        if self._GAMES_EQUALS_TEST_GAMES and max_test_samples > -1:
-            raise ValueError('"max_test_samples" must be less than 0 when '
-                             '"games" and "test_games" are equivalent.')
-
-        # `max_test_samples` should be specified if
-        # `games`/`test_games` differ, as should `test_bin_ranges` if
-        # `bin_ranges` is also specified
-        if not self._GAMES_EQUALS_TEST_GAMES:
-            if max_test_samples < 0:
-                raise ValueError('"max_test_samples" should be specified as a '
-                                 'non-negative value when "games" differs from'
-                                 ' "test_games" (i.e., when a test set needs '
-                                 'to be constructed).')
+        # `test_size` should be specified if `games`/`test_games`
+        # differ, as should `test_bin_ranges` if `bin_ranges` is also
+        # specified
+        self._games_test_games_equal = self.test_games == self.games
+        if not self._games_test_games_equal:
+            if test_size < 0:
+                raise ValueError('"test_size" should be specified as a value '
+                                 'greater than 0 when "games" differs from '
+                                 '"test_games" (i.e., when a test set needs to '
+                                 'be constructed).')
 
             if bin_ranges:
                 if not test_bin_ranges:
@@ -1024,44 +1023,30 @@ class ExperimentalData(object):
                     raise ValueError('If "test_bin_ranges" is specified, '
                                      '"bin_ranges" must also be specified.')
 
-        # Validate the `n_grid_search_partition` parameter value
-        if n_grid_search_partition < 1:
-            raise ValueError('"n_grid_search_partition" should be a positive, '
-                             'non-zero value.')
-        elif n_grid_search_partition < 10:
-            raise ValueError('"n_grid_search_partition" needs to be able to be'
-                             ' split into three folds and each fold should '
-                             'really have at least one sample from each label '
-                             'value. Thus, each fold should have a minimum of '
-                             '2 samples, which would mean that '
-                             '"n_grid_search_partition" would be 6 (3x2). '
-                             'However, even this is too small an amount. '
-                             'Please make sure to use upwards of 20 samples '
-                             'for each fold (i.e., 60 samples altogether).')
-
         # Validate the `sampling` parameter value
-        if not sampling in ['even', 'stratified']:
+        if not sampling in self.sampling_options:
             raise ValueError('The "sampling" parameter must be either "even" '
                              'or "stratified". "{}" was given instead.'
                              .format(sampling))
 
-        self._db = db
-        self._label = prediction_label
-        self._max_partitions = max_partitions
-        self._n_partition = n_partition
-        self._n_grid_search_partition = n_grid_search_partition
+        self.db = db
+        self.prediction_label = prediction_label
+        self.folds = folds
+        self.fold_size = fold_size
+        self.grid_search_folds = grid_search_folds
+        self.grid_search_fold_size = grid_search_fold_size
         self.sampling = sampling
-        self._distributional_info_kwargs = {'power_transform': power_transform,
-                                            'lognormal': lognormal,
-                                            'bin_ranges': bin_ranges,
-                                            'batch_size': batch_size}
-        self._test_bin_ranges = test_bin_ranges if test_bin_ranges else bin_ranges
-        self._max_test_samples = max_test_samples
+        self.distributional_info_kwargs = {'power_transform': power_transform,
+                                           'lognormal': lognormal,
+                                           'bin_ranges': bin_ranges,
+                                           'batch_size': batch_size}
+        self.test_bin_ranges = test_bin_ranges if test_bin_ranges else bin_ranges
+        self.test_size = test_size
 
         # Construct the dataset
         self._construct_layered_dataset()
 
-    def _make_test_set(self) -> None:
+    def _make_test_set(self) -> np.array:
         """
         Generate a list of `id_string`s for the test set.
 
@@ -1069,63 +1054,116 @@ class ExperimentalData(object):
         :rtype: None
         """
 
-        # Make a dictionary mapping each label value to a list of
-        # `id_string`s
-        distribution_data = distributional_info(self._db,
-                                                self._label,
-                                                list(self._test_games),
-                                                **self._distributional_info_kwargs)
-        id_strings_labels = distribution_data['id_strings_labels_dict']
-        labels_fdist = distribution_data['labels_fdist']
+        # Make a dictionary mapping each label value to a list of sample
+        # IDs
+        distribution_data = distributional_info(self.db,
+                                                self.prediction_label,
+                                                list(self.test_games),
+                                                **self.distributional_info_kwargs)
+        id_strings_labels_test = distribution_data['id_strings_labels_dict']
+        labels_fdist_test = distribution_data['labels_fdist']
 
-        total_test_samples = len(id_strings_labels)
-        if not self._max_test_samples:
-            self._max_test_samples = total_test_samples
+        # If `self.games` and `self.test_games` are equivalent, cache
+        # the values for `id_strings_labels_test` and
+        # `labels_fdist_test` as `self.id_strings_labels` and
+        # `self.labels_fdist`, respectively
+        if self._games_test_games_equal:
+            self.id_strings_labels = id_strings_labels_test
+            self.labels_fdist = labels_fdist_test
 
         # Return if there are no samples from which to generate a test
-        # set (not sure why this would be the case)
-        if not total_test_samples:
+        # set (which should not be the case)
+        if not id_strings_labels_test:
             return
 
         # Test data IDs
         prng = np.random.RandomState(12345)
-        _extend = self.test_set.extend
+        test_set = []
+        _extend = test_set.extend
 
-        # Store the length of the smallest label set (for making an even
-        # distribution)
-        n_label_min = None
+        if self.sampling == 'stratified':
 
-        self.test_set = []
-        for label in sorted(labels_fdist, key=lambda _label: labels_fdist[_label]):
-            all_ids = np.array([_id for _id in id_strings_labels
-                                if id_strings_labels[_id] == label])
-            all_ids.sort()
-            prng.shuffle(all_ids)
-            if self.sampling == 'stratified':
-                label_freq = labels_fdist.freq(label)
-                n_label_test_data = int(np.ceil(label_freq*self._max_test_samples))
-                _extend(all_ids[:n_label_test_data])
-            else:
-                n_label_test_data = int(np.ceil(self._max_test_samples/labels_fdist.B()))
-                label_ids = all_ids[:n_label_test_data]
+            # Iterate over the labels to figure out whether or not the
+            # desired size of the test set needs to be adjusted and, if
+            # so, by what factor
+            factor = 1.0
+
+            # Also, cache the sets of samples for each label
+            labels_ids = {}
+            for label in sorted(labels_fdist_test,
+                                key=lambda _label: labels_fdist_test[_label]):
+                all_label_ids = np.array([_id for _id in id_strings_labels_test
+                                          if id_strings_labels_test[_id] == label])
+                all_label_ids.sort()
+                prng.shuffle(all_label_ids)
+                labels_ids[label] = all_label_ids
+                label_freq = labels_fdist_test.freq(label)
+                n_label_test_data = int(np.ceil(label_freq*self.test_size))
+                n_label_test_data_actual = len(all_label_ids[:n_label_test_data])
+                if n_label_test_data_actual < n_label_test_data:
+                    new_factor = \
+                        (1.0 - ((n_label_test_data - n_label_test_data_actual)
+                                /n_label_test_data))
+                    if new_factor < factor:
+                        factor = new_factor
+
+            # Iterate over the lists of label sample lists and add the
+            # samples to the test data set (refactoring the size of the
+            # test set if needed -- unless the refactoring requires a
+            # reduction in size of greater than 50%)
+            if factor < 1.0:
+                if (1.0 - factor) < 0.5:
+                    raise ValueError('Could not generate a stratified test set'
+                                     ' that is equal to the desired size or '
+                                     'even 50% of the desired size.')
+                self.test_size = factor*self.test_size
+            for label in labels_ids:
+                all_label_ids = labels_ids[label]
+                label_freq = labels_fdist_test.freq(label)
+                n_label_test_data = int(np.ceil(label_freq*self.test_size))
+                _extend(all_label_ids[:n_label_test_data])
+
+        else:
+
+            # Store the length of the smallest label set (for ensuring
+            # an even distribution, even it means a smaller test set
+            # size)
+            n_label_min = None
+            for label in sorted(labels_fdist_test,
+                                key=lambda _label: labels_fdist_test[_label]):
+                all_label_ids = np.array([_id for _id in id_strings_labels_test
+                                          if id_strings_labels_test[_id] == label])
+                all_label_ids.sort()
+                prng.shuffle(all_label_ids)
+                n_label_test_data = int(np.ceil(self.test_size/len(labels_fdist_test)))
+                n_label_test_data_actual = len(all_label_ids[:n_label_test_data])
                 if not n_label_min:
-                    n_label_min = len(label_ids)
-                _extend(label_ids[:n_label_min])
 
-        prng.shuffle(sorted(self.test_set))
-        if len(self.test_set) > self._max_test_samples:
-            self.test_set = np.array(self.test_set[:self._max_test_samples])
+                    # Check if `n_label_test_data_actual` is 0
+                    # This kind of case should not occur, but, if it
+                    # does, then it's a big problem
+                    if not n_label_test_data_actual:
+                        raise ValueError('The total number of samples for '
+                                         'label {0} in the test set is 0.'
+                                         .format(label))
+                    n_label_min = n_label_test_data_actual
 
-    def _generate_labels_dict(self, id_strings_labels: dict, labels: set) -> dict:
+                _extend(all_label_ids[:n_label_min])
+
+        # Convert the list of sample IDs into an array, shuffle it and
+        # then ensure that its size is no larger than `self.test_size`
+        test_set = np.array(test_set)
+        test_set.sort()
+        prng.shuffle(test_set)
+        if len(test_set) > self.test_size:
+            test_set = test_set[:self.test_size]
+
+        return test_set
+
+    def _generate_labels_dict(self) -> dict:
         """
         Generate a dictionary of labels mapped to lists of
         ID strings.
-
-        :param id_strings_labels: dictionary of ID strings mapped to
-                                  labels
-        :type id_strings_labels: dict
-        :param labels: set of labels
-        :type labels: set
 
         :returns: dictionary of labels mapped to arrays of ID strings
         :rtype: dict
@@ -1133,175 +1171,230 @@ class ExperimentalData(object):
 
         prng = np.random.RandomState(12345)
         labels_id_strings = {}
-        for label in labels:
-            all_ids = np.array([_id for _id in id_strings_labels
-                                if id_strings_labels[_id] == label
-                                   and (not len(self.test_set) or
-                                        not _id in self.test_set)])
+        for label in self.labels:
+            all_ids = np.array([_id for _id in self.id_strings_labels
+                                if self.id_strings_labels[_id] == label])
             all_ids.sort()
             prng.shuffle(all_ids)
             labels_id_strings[label] = all_ids
 
         return labels_id_strings
 
-    def _generate_grid_search_dataset(self, labels_id_strings: dict,
-                                      labels_fdist: FreqDist):
+    def _generate_training_fold(self, _fold_size: int,
+                                n_folds_collected: int,
+                                n_folds_needed: int) -> np.array:
         """
-        Generate a partitioned dataset for a grid search round and
-        return it and an updated label/ID string dictionary (to use for
-        subsequent partitioning of that data).
+        Generate a fold for use in the training/grid search data-set.
 
-        :param labels_id_strings: dictionary mapping labels to arrays
-                                  of ID strings
-        :type labels_id_strings: dict
-        :param labels_fdist: frequency distribution of labels
-        :type labels_fdist: FreqDist
+        :param _fold_size: size of fold
+        :type _fold_size: int
+        :param n_folds_collected: number of folds already generated for
+                                  this data-set
+        :type n_folds_collected: int
+        :param n_folds_needed: number of folds that need to be generated
+                               for this data-set
+        :type n_folds_needed: int
 
-        :returns: a list of 3 balanced arrays comprising the folds of
-                  the grid search dataset and an updated label/ID
-                  string dictionary
+        :returns: a balanced array comprising a fold (sampling will be
+                  done according to `self.sampling`)
+        :rtype: list
         """
 
-        # Get the maximum size for each fold
-        max_fold_size = int(np.ceil(self._n_grid_search_partition/3))
-        max_fold_sizes = [len(fold) for fold
-                          in list(chunks(max_fold_size,
-                                         np.zeros(self._n_grid_search_partition)))]
+        # Fold set sample IDs
+        prng = np.random.RandomState(12345)
+        fold_set = []
+        _extend = fold_set.extend
 
-        # Store the length of the smallest label set (for making an even
-        # distribution)
-        n_label_min = None
+        if self.sampling == 'stratified':
 
-        grid_search_set = [[], [], []]
-        for label in sorted(labels_id_strings,
-                            key=lambda _label: len(labels_id_strings[_label])):
-            all_ids = labels_id_strings[label]
-            if self.sampling == 'stratified':
-                label_freq = labels_fdist.freq(label)
-                n_label_data = int(np.ceil(label_freq*self._n_grid_search_partition))
-                label_ids = all_ids[:n_label_data]
-            else:
-                n_label_data = \
-                    int(np.ceil(self._n_grid_search_partition/labels_fdist.B()))
-                label_ids = all_ids[:n_label_data]
+            # Iterate over the labels to figure out whether or not the
+            # desired size of the fold set needs to be adjusted and, if
+            # so, by what factor
+            factor = 1.0
+
+            # Also, cache the sets of samples for each label
+            labels_ids = {}
+            for label in sorted(self.labels_fdist,
+                                key=lambda _label: self.labels_fdist[_label]):
+                all_label_ids = np.array([_id for _id in self.id_strings_labels
+                                          if self.id_strings_labels[_id] == label])
+                all_label_ids.sort()
+                prng.shuffle(all_label_ids)
+                labels_ids[label] = all_label_ids
+                label_freq = self.labels_fdist.freq(label)
+                n_label_data = int(np.ceil(label_freq*_fold_size))
+                n_label_data_actual = len(all_label_ids[:n_label_data])
+                if n_label_data_actual < n_label_data:
+                    new_factor = \
+                        (1.0 - ((n_label_data - n_label_data_actual)
+                                /n_label_data))
+                    if new_factor < factor:
+                        factor = new_factor
+
+            # Iterate over the lists of label sample lists and add the
+            # samples to the test data set (refactoring the size of the
+            # test set if needed and if the resizing leads to a
+            # reduction in the size that is greater than 10%, raise an
+            # exception if this is the first (and not the only needed)
+            # fold of the data (since that would mean that the data-set
+            # will contain a fold that has an irregular distribution of
+            # labels and that no more folds will be able to be generated
+            # since the data will be exhausted) or simply return an
+            # empty fold)
+            if factor < 1.0:
+                if n_folds_needed != 1 and (1.0 - factor) < 0.1:
+                    if len(n_folds_collected):
+                        raise ValueError('Generating an extra fold will result'
+                                         ' in a reduced size (greater than 10%'
+                                         ' reduction) for a given label.')
+                    else:
+                        return np.array([])
+                _fold_size = factor*_fold_size
+            for label in labels_ids:
+                all_label_ids = labels_ids[label]
+                label_freq = self.labels_fdist.freq(label)
+                n_label_data = int(np.ceil(label_freq*_fold_size))
+                _extend(all_label_ids[:n_label_data])
+
+        else:
+
+            # Store the length of the smallest label set (for ensuring
+            # an even distribution, even it means a smaller fold set
+            # size)
+            n_label_min = None
+            for label in sorted(self.labels_fdist,
+                                key=lambda _label: self.labels_fdist[_label]):
+                all_label_ids = np.array([_id for _id in self.id_strings_labels
+                                          if self.id_strings_labels[_id] == label])
+                all_label_ids.sort()
+                prng.shuffle(all_label_ids)
+                n_label_data = int(np.ceil(_fold_size/len(self.labels_fdist)))
+                n_label_data_actual = len(all_label_ids[:n_label_data])
                 if not n_label_min:
-                    n_label_min = len(label_ids)
-                label_ids = label_ids[:n_label_min]
-            for i, label_sub_partition in enumerate([label_ids[i::3]
-                                                     for i in range(3)]):
-                grid_search_set[i].extend(label_sub_partition)
 
-        # Ensure that the folds in `grid_search_data` are of the correct
-        # sizes (the algorithm above could over-allocate for some folds
-        # if the size of the grid search set is not evenly divisible by
-        # 3)
-        for i, _ in enumerate(grid_search_set):
-            grid_search_set[i] = grid_search_set[i][:max_fold_sizes[i]]
+                    # Check if `n_label_data_actual` is 0
+                    # This kind of case should not occur, but, if it
+                    # does, it's a problem that either requires raising
+                    # an exception or returning an empty fold -- if the
+                    # number of folds that have already been generated
+                    # for this data-set is greater than 0, then it just
+                    # means that other folds cannot be generated
+                    if not n_label_data_actual:
+                        if not n_folds_collected:
+                            raise ValueError('Could not generate fold due to a'
+                                             ' lack of samples.')
+                        return np.array([])
+                    n_label_min = n_label_data_actual
 
-        # Remove used-up data-points from `labels_id_strings`
-        for label in labels_id_strings:
-            labels_id_strings[label] = \
-                np.array([_id for _id in labels_id_strings[label]
-                          if not _id in chain(*grid_search_set)])
+                _extend(all_label_ids[:n_label_min])
 
-        return grid_search_set, labels_id_strings
+        # Convert the list of sample IDs into an array, shuffle it and
+        # then ensure that its size is no larger than `_fold_size`
+        fold_set = np.array(fold_set)
+        fold_set.sort()
+        prng.shuffle(fold_set)
+        if len(fold_set) > _fold_size:
+            fold_set = fold_set[:_fold_size]
 
-    def _generate_datasets(self, labels_id_strings: dict,
-                           labels_fdist: FreqDist) -> dict:
+        # Remove used-up samples from `self.id_strings_labels`
+        for _id in fold_set:
+            del self.id_strings_labels[_id]
+
+        return fold_set
+
+    def _generate_dataset(self, grid_search: bool = False) -> np.array:
         """
-        Generate stratified datasets for training rounds.
+        Generate partitioned dataset for training rounds (or for the
+        grid search rounds, if `grid_search` is True).
 
-        :param labels_id_strings: dictionary mapping labels to arrays
-                                  of ID strings
-        :type labels_id_strings: dict
-        :param labels_fdist: frequency distribution of labels
-        :type labels_fdist: FreqDist
+        :param grid_search: whether or not the dataset being generated
+                            is for the grid search set or not (if not,
+                            the main training set will be generated)
+                            (defaults to False)
+        :type grid_search: bool
 
         :returns: dictionary mapping index numbers corresponding to
                   dataset folds to arrays containing ID strings
-        :rtype: dict
+        :rtype: np.array
         """
 
-        # Store the length of the smallest label set (for making an even
-        # distribution)
-        n_label_min = None
+        training_set = []
+        folds_collected = 0
+        if grid_search:
+            folds = eval('self.grid_search_folds')
+            fold_size = eval('self.grid_search_fold_size')
+        else:
+            folds = eval('self.folds')
+            fold_size = eval('self.fold_size')
+        for _ in range(folds):
+            fold_set = self._generate_training_fold(fold_size,
+                                                    folds_collected,
+                                                    folds)
+            if len(fold_set):
+                training_set.append(fold_set)
+                folds_collected += 1
+            else:
+                break
 
-        datasets_dict = {}
-        for i in range(self._max_partitions):
-            for label in sorted(labels_id_strings,
-                                key=lambda _label: len(labels_id_strings[_label])):
-                partition_id = str(i + 1)
-                datasets_dict.setdefault(partition_id, [])
-                all_ids = labels_id_strings[label]
-                if self.sampling == 'stratified':
-                    label_freq = labels_fdist.freq(label)
-                    n_label_train_data_partition = \
-                        int(np.ceil(label_freq*self._n_partition))
-                else:
-                    n_label_train_data_partition = \
-                        int(np.ceil(self._n_partition/labels_fdist.B()))
-                    label_ids = all_ids[:n_label_train_data_partition]
-                    if not n_label_min:
-                        n_label_min = len(label_ids)
-                (datasets_dict[partition_id]
-                 .extend(all_ids[:n_label_train_data_partition]))
-
-                # Remove the used-up samples before the next go-round
-                # (i.e., for other folds of the data)
-                labels_id_strings[label] = [_id for _id in all_ids if not _id
-                                            in datasets_dict[partition_id]]
-
-        # Convert each partition to a numpy array and remove surplus
-        # samples (randomly)
-        for partition in datasets_dict:
-            if len(datasets_dict[partition]) > self._n_partition:
-                diff = len(datasets_dict[partition]) - self._n_partition
-                prng = np.random.RandomState(12345)
-                for i in range(diff):
-                    i_random = prng.randint(len(datasets_dict[partition]))
-                    datasets_dict[partition].remove(datasets_dict[partition][i_random])
-            datasets_dict[partition] = np.array(datasets_dict[partition])
-
-        return datasets_dict
+        # If the number of collected folds is not at least 75% of the
+        # expected number, then raise an exception
+        if folds_collected >= 0.75*folds:
+            return training_set
+        else:
+            raise ValueError('Could not generate a {0} data-set consisting of '
+                             'at least 75% of the desired size ({1}).'
+                             .format('grid search' if grid_search else 'training',
+                                     folds))
 
     def _construct_layered_dataset(self):
         """
-        Build up a dictionary of ID strings mapped to label values.
+        Build up a main training set consisting of multiple folds and
+        possibly a grid search dataset containing samples from the same
+        set of games as the main training set, which will also consist
+        of multiple folds, and a test set consisting of samples from
+        either the same games as the training/grid search set in
+        addition to other games or a set of games that has no overlap
+        with the training/grid search sets at all.
         """
 
-        # Generate a list of `id_string`s for the test set, if
-        # applicable
-        if not self._GAMES_EQUALS_TEST_GAMES and self._max_test_samples > -1:
-            self._make_test_set()
+        # Generate a list of sample IDs for the test set, if applicable
+        if self.test_size:
+            self.test_set = self._make_test_set()
 
         # Get dictionary of ID strings mapped to labels and a frequency
-        # distribution of the labels
-        distribution_data = distributional_info(self._db,
-                                                self._label,
-                                                list(self._games),
-                                                **self._distributional_info_kwargs)
-        id_strings_labels = distribution_data['id_strings_labels_dict']
-        labels_fdist = distribution_data['labels_fdist']
+        # distribution of the labels (if not cached while making the
+        # test set)
+        if not (self.id_strings_labels and self.labels_fdist):
+            distribution_data = distributional_info(self.db,
+                                                    self.prediction_label,
+                                                    list(self.games),
+                                                    **self.distributional_info_kwargs)
+            self.id_strings_labels = distribution_data['id_strings_labels_dict']
+            self.labels_fdist = distribution_data['labels_fdist']
+
+        # Remove sample IDs that are in the test set, if any and if
+        # there are even games in common between the test set and the
+        # training set
+        if self.test_size and any(game in self.games for game in self.test_games):
+            for _id in self.test_set:
+                if _id in self.id_strings_labels:
+                    del self.id_strings_labels[_id]
+
+        # Get set of labels
+        self.labels = set(self.labels_fdist)
 
         # Make a dictionary mapping each label value to a list of
-        # `id_string`s that are not in the test set
-        labels_id_strings = self._generate_labels_dict(id_strings_labels,
-                                                       set(labels_fdist))
+        # sample IDs
+        self.labels_id_strings = self._generate_labels_dict()
 
-        # Figure out the values for the number of partitions/the number
-        # of data points per partition
-        n_ids = len(id_strings_labels) - self._n_grid_search_partition
-        if not self._max_partitions:
-            self._max_partitions = int(np.floor(n_ids/self._n_partition))
-        if not self._n_partition:
-            self._n_partition = int(np.floor(n_ids/self._max_partitions))
+        # Generate arrays of sample IDs for the main training data-set
+        # folds
+        if self.folds:
+            self.training_set = self._generate_dataset()
 
-        # Make list of `id_string`s for the grid search partition
-        self.grid_search_set, labels_id_strings = \
-            self._generate_grid_search_dataset(labels_id_strings, labels_fdist)
+        # Generate arrays of sample IDs for the grid search folds
+        if self.grid_search_folds:
+            self.grid_search_set = self._generate_dataset(grid_search=True)
 
-        # Make lists of `id_string`s for the rest of the partitions
-        self.datasets_dict = self._generate_datasets(labels_id_strings, labels_fdist)
-
-        # Set the `num_datasets` attribute
-        self.num_datasets = len(self.datasets_dict)
+        # Set the `self.num_datasets` attribute
+        self.num_datasets = len(self.training_set)
