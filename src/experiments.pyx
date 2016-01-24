@@ -858,7 +858,6 @@ class ExperimentalData(object):
     samples in a collection.
     """
 
-    num_datasets = None
     training_set = None
     test_set = np.array([])
     grid_search_set = None
@@ -1408,6 +1407,3 @@ class ExperimentalData(object):
         # Generate arrays of sample IDs for the grid search folds
         if self.grid_search_folds:
             self.grid_search_set = self._generate_dataset(grid_search=True)
-
-        # Set the `self.num_datasets` attribute
-        self.num_datasets = len(self.training_set)
