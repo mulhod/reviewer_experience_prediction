@@ -997,6 +997,19 @@ class ExperimentalData(object):
                 raise ValueError('"{}" must be non-negative: {0}'
                                  .format(eval(parameter)))
 
+        for partition in ['training', 'grid_search']:
+            prefix = 'grid_search_' if partition == 'grid_search' else ''
+            folds_parameter = eval('{0}folds'.format(prefix))
+            size_parameter = eval('{0}fold_size'.format(prefix))
+            if not size_parameter and folds_parameter:
+                raise ValueError('"{0}folds" is a non-zero value, but the '
+                                 'corresponding "{0}fold_size" is either '
+                                 'unspecified or set to 0.'.format(prefix))
+            elif not folds_parameter and size_parameter:
+                raise ValueError('"{0}fold_size" is a non-zero value, but the '
+                                 'corresponding "{0}folds" is specifically set'
+                                 ' to 0.'.format(prefix))
+
         # `test_size` should be specified if `games`/`test_games`
         # differ, as should `test_bin_ranges` if `bin_ranges` is also
         # specified
