@@ -20,6 +20,7 @@
 \usepackage{times}
 \usepackage{url}
 \usepackage{latexsym}
+\usepackage{lipsum}
 
 %\setlength\titlebox{5cm}
 
@@ -210,324 +211,66 @@ The experiments described below will explore each situation: models trained on N
 \section{Experiments}
 \label{sec:experiments}
 
+The aim of the experiments conducted as part of this exploratory work was to attempt to model reviewer experience and/or review usefulness in terms of the reviews and/or attributes of the reviewer/review.
 
+\subsection{{\tt learn}}
+\label{ssec:learn}
 
-\section{General Instructions}
+As part of {\tt reviewer\_experience\_prediction}, the code repository that was developed for every phase of this work (which can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}), a utility was created called {\tt learn}, which is used to conduct iterative machine learning experiments using {\tt scikit-learn} under the hood. The motivation for making the experiments iterative was simply to try to reduce memory consumption: for each round of learning, only a small set of reviews, associated features, etc., must be stored in RAM at any given time. It is not unheard of for even a relatively small dataset of 1,000 reviews to require upwards of 50 GB of RAM after vectorization since the full feature set will reach into the hundreds of thousands. With the iterative learning algorithm used by {\tt learn}, the user specifies the number of rounds/number of samples to use per round and the machine learning model is updated incrementally.
 
-Manuscripts must be in two-column format.  Exceptions to the
-two-column format include the title, authors' names and complete
-addresses, which must be centered at the top of the first page, and
-any full-width figures or tables (see the guidelines in
-Subsection~\ref{ssec:first}). {\bf Type single-spaced.}  Start all
-pages directly under the top margin. See the guidelines later
-regarding formatting the first page.  The manuscript should be
-printed single-sided and its length
-should not exceed the maximum page limit described in Section~\ref{sec:length}.
-Do not number the pages.
+{\tt learn} is the main entry-point of the system in terms of conducting machine learning experiments. Any set of games can be used for training (and possibly two different sets of games can be used for training/testing, a line of research that I hope to follow up on in the future). Five machine learning algorithms from {\tt scikit-learn} are available, including {\tt Perceptron}, { \tt PassiveAgressiveRegressor}, {\tt MiniBatchKMeans}, {\tt MultiNomialNB}, and {\tt BernoulliNB}. The aim in making this exact set of learners available was not necessarily to provide a representative sampling of popular algorithms, but rather it was due to constraints placed on the set of {\tt scikit-learn} learners that could be used in an iterative fashion. Other aspects of the experiments that can be configured are the prediction label that is used (any of the reviewer/review attributes, e.g. number of game-hours played, number of times marked helpful, etc., see Subsection~\ref{ssec:data}), the types of featues used in the model (NLP features and/or a set of the reviewer/review attributes that are not directly related to the prediction label), and much more, such as whether to use ``feature hashing'' (further reduces memory consumption, but does not allow for subsequent model introspection, i.e., if the user wants to see the various model features and their weights), whether or not to generate the performance metrics for a ``baseline'' majority label system to provide a basis on which to compare the results, etc.
 
+Reviewer/review attribute values must be manipulated before the learning process in order to allow for meaningful learning. For example, the values of the number of hours played attribute for any given game can range from 0 to upwards of 15,000 and, thus, it would not be a meaningful exercise to try to learn how the features map to this scale. {\tt learn} makes use of a method of breaking down a scale such as 0 to 15,000 into various ``bins'', possibly of equal size, but not necessarily so. If the ``bin'' factor is 1.0, then the scale will be divided up into roughly equal-sized partitions and each of those partitions will be mapped to a new value, i.e., the position of the bin, with numbering starting at 1. For example, if 0 to 15,000 is divided up into three bins and the factor is 1.0, then it will result in the following type of mapping: [0, 5,000] \to 1, [5,001, 10,000] \to 2, [10,001, 15,000] \to 3.
 
-\subsection{Electronically-available resources}
+Often, however, the raw values of the reviewer/review attributes are heavily positively skewed. For example, most reviewers have played the game being reviewed for less than 1,000 hours, but the distribution will have a long tail to account for the relatively small percentage of reviewers who have spent much more time playing the game. Thus, in some cases, it would be better to be able to include only 0 to 500 hours in the first bin, 501 to 1,500 in the next, and 1,501 to infinity for the last bin. The ``bin'' factor can be used to try to account for the highly positively skewed distribution of prediction label values. {\tt learn} allows the user to specify how the label values should be ``binned''. At the end of the process, the predictions that the system makes will have to be understood in terms of this binning process. One can think of a new 1-3 scale as mapping roughly to a low, medium, and high experiential scale, for example.
 
-We strongly prefer that you prepare your PDF files using \LaTeX\ with
-the official ACL 2015 style file (acl2015.sty) and bibliography style
-(acl.bst). These files are available at
-\url{http://acl2015.org}. You will also find the document
-you are currently reading (acl2015.pdf) and its \LaTeX\ source code
-(acl2015.tex) on this website.
+More information on the distribution of label values (for hours played, specifically) can be found in the {\tt GitHub.com} data-sets repository, a separate repository that is used to store only the data itself, which can be found at the following URL: \url{https://github.com/mulhod/steam_reviews}.
 
-You can alternatively use Microsoft Word to produce your PDF file. In
-this case, we strongly recommend the use of the Word template file
-(acl2015.dot) on the ACL 2015 website (\url{http://acl2015.org}). 
-If you have an option, we recommend that you use the \LaTeX2e version. 
-If you will be using the Microsoft Word template, we suggest that you 
-anonymize your source file so that the pdf produced does not retain your
-identity.  This can be done by removing any personal information
-from your source document properties.
+\subsection{``Number of hours played'' experiments}
+\label{ssec:hours_played}
 
-
-
-\subsection{Format of Electronic Manuscript}
-\label{sect:pdf}
-
-For the production of the electronic manuscript you must use Adobe's
-Portable Document Format (PDF). PDF files are usually produced from
-\LaTeX\ using the \textit{pdflatex} command. If your version of
-\LaTeX\ produces Postscript files, you can convert these into PDF
-using \textit{ps2pdf} or \textit{dvipdf}. On Windows, you can also use
-Adobe Distiller to generate PDF.
-
-Please make sure that your PDF file includes all the necessary fonts
-(especially tree diagrams, symbols, and fonts with Asian
-characters). When you print or create the PDF file, there is usually
-an option in your printer setup to include none, all or just
-non-standard fonts.  Please make sure that you select the option of
-including ALL the fonts. \textbf{Before sending it, test your PDF by
-  printing it from a computer different from the one where it was
-  created.} Moreover, some word processors may generate very large PDF
-files, where each page is rendered as an image. Such images may
-reproduce poorly. In this case, try alternative ways to obtain the
-PDF. One way on some systems is to install a driver for a postscript
-printer, send your document to the printer specifying ``Output to a
-file'', then convert the file to PDF.
-
-It is of utmost importance to specify the \textbf{A4 format} (21 cm
-x 29.7 cm) when formatting the paper. When working with
-{\tt dvips}, for instance, one should specify {\tt -t a4}.
-Or using the command \verb|\special{papersize=210mm,297mm}| in the latex
-preamble (directly below the \verb|\usepackage| commands). Then using 
-{\tt dvipdf} and/or {\tt pdflatex} which would make it easier for some.
-
-
-Print-outs of the PDF file on A4 paper should be identical to the
-hardcopy version. If you cannot meet the above requirements about the
-production of your electronic submission, please contact the
-publication chairs as soon as possible.
-
-
-\subsection{Layout}
-\label{ssec:layout}
-
-Format manuscripts two columns to a page, in the manner these
-instructions are formatted. The exact dimensions for a page on A4
-paper are:
-
-\begin{itemize}
-\item Left and right margins: 2.5 cm
-\item Top margin: 2.5 cm
-\item Bottom margin: 2.5 cm
-\item Column width: 7.7 cm
-\item Column height: 24.7 cm
-\item Gap between columns: 0.6 cm
-\end{itemize}
-
-\noindent Papers should not be submitted on any other paper size.
- If you cannot meet the above requirements about the production of 
- your electronic submission, please contact the publication chairs 
- above as soon as possible.
-
-
-\subsection{Fonts}
-
-For reasons of uniformity, Adobe's {\bf Times Roman} font should be
-used. In \LaTeX2e{} this is accomplished by putting
-
-\begin{quote}
-\begin{verbatim}
-\usepackage{times}
-\usepackage{latexsym}
-\end{verbatim}
-\end{quote}
-in the preamble. If Times Roman is unavailable, use {\bf Computer
-  Modern Roman} (\LaTeX2e{}'s default).  Note that the latter is about
-  10\% less dense than Adobe's Times Roman font.
-
-
-\begin{table}[h]
-\begin{center}
-\begin{tabular}{|l|rl|}
-\hline \bf Type of Text & \bf Font Size & \bf Style \\ \hline
-paper title & 15 pt & bold \\
-author names & 12 pt & bold \\
-author affiliation & 12 pt & \\
-the word ``Abstract'' & 12 pt & bold \\
-section titles & 12 pt & bold \\
-document text & 11 pt  &\\
-captions & 11 pt & \\
-abstract text & 10 pt & \\
-bibliography & 10 pt & \\
-footnotes & 9 pt & \\
-\hline
+\begin{table*}[t]
+\centering
+\begin{tabular}{*{7}{l}}
+\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
+Arma 3 & majority label &  & 0.71 & 0.51 & n/a & n/a \\
+Arma 3 & NLP + non-NLP & MultinomialNB & 0.53 & 0.66 & 0.13 & 0.38 \\
+Arma 3 & NLP & Perceptron & 0.6 & 0.57 & -0.01 & -0.06 \\
+Arma 3 & non-NLP & Perceptron & 0.52 & 0.56 & -0.02 & -0.08 \\
+Counter Strike & majority label &  & 0.81 & 0.66 & n/a & n/a \\
+Counter Strike & NLP + non-NLP & MiniBatchKMeans & 0.6 & 0.71 & 0.16 & 0.06 \\
+Counter Strike & NLP & MultinomialNB & 0.82 & 0.69 & 0.16 & 0.28 \\
+Dota 2 & majority label &  & 0.5 & 0.25 & n/a & n/a \\
+Dota 2 & NLP + non-NLP & Perceptron & 0.53 & 0.49 & 0.08 & -0.15 \\
+Dota 2 & NLP & PassiveAgressiveRegressor & 0.42 & 0.47 & 0.16 & 0.31 \\ \hline
 \end{tabular}
-\end{center}
-\caption{\label{font-table} Font guide. }
-\end{table}
+\caption{A selection of game-hours experimental results.}
+\label{tab:hours_experiment_results}
+\end{table*}
+\lipsum[1-7]
 
-\subsection{The First Page}
-\label{ssec:first}
+\subsection{``Number of times marked helpful'' experiments}
+\label{ssec:helpful}
 
-Center the title, author's name(s) and affiliation(s) across both
-columns. Do not use footnotes for affiliations. Do not include the
-paper ID number assigned during the submission process. Use the
-two-column format only when you begin the abstract.
-
-{\bf Title}: Place the title centered at the top of the first page, in
-a 15-point bold font. (For a complete guide to font sizes and styles,
-see Table~\ref{font-table}) Long titles should be typed on two lines
-without a blank line intervening. Approximately, put the title at 2.5
-cm from the top of the page, followed by a blank line, then the
-author's names(s), and the affiliation on the following line. Do not
-use only initials for given names (middle initials are allowed). Do
-not format surnames in all capitals (e.g., use ``Schlangen'' not
-``SCHLANGEN'').  Do not format title and section headings in all
-capitals as well except for proper names (such as ``BLEU'') that are
-conventionally in all capitals.  The affiliation should contain the
-author's complete address, and if possible, an electronic mail
-address. Start the body of the first page 7.5 cm from the top of the
-page.
-
-The title, author names and addresses should be completely identical
-to those entered to the electronical paper submission website in order
-to maintain the consistency of author information among all
-publications of the conference. If they are different, the publication
-chairs may resolve the difference without consulting with you; so it
-is in your own interest to double-check that the information is
-consistent.
-
-{\bf Abstract}: Type the abstract at the beginning of the first
-column. The width of the abstract text should be smaller than the
-width of the columns for the text in the body of the paper by about
-0.6 cm on each side. Center the word {\bf Abstract} in a 12 point bold
-font above the body of the abstract. The abstract should be a concise
-summary of the general thesis and conclusions of the paper. It should
-be no longer than 200 words. The abstract text should be in 10 point font.
-
-{\bf Text}: Begin typing the main body of the text immediately after
-the abstract, observing the two-column format as shown in 
-the present document. Do not include page numbers.
-
-{\bf Indent} when starting a new paragraph. Use 11 points for text and 
-subsection headings, 12 points for section headings and 15 points for
-the title. 
-
-\subsection{Sections}
-
-{\bf Headings}: Type and label section and subsection headings in the
-style shown on the present document.  Use numbered sections (Arabic
-numerals) in order to facilitate cross references. Number subsections
-with the section number and the subsection number separated by a dot,
-in Arabic numerals. Do not number subsubsections.
-
-{\bf Citations}: Citations within the text appear in parentheses
-as~\cite{Gusfield:97} or, if the author's name appears in the text
-itself, as Gusfield~\shortcite{Gusfield:97}.  Append lowercase letters
-to the year in cases of ambiguity.  Treat double authors as
-in~\cite{Aho:72}, but write as in~\cite{Chandra:81} when more than two
-authors are involved. Collapse multiple citations as
-in~\cite{Gusfield:97,Aho:72}. Also refrain from using full citations
-as sentence constituents. We suggest that instead of
-\begin{quote}
-  ``\cite{Gusfield:97} showed that ...''
-\end{quote}
-you use
-\begin{quote}
-``Gusfield \shortcite{Gusfield:97}   showed that ...''
-\end{quote}
-
-If you are using the provided \LaTeX{} and Bib\TeX{} style files, you
-can use the command \verb|\newcite| to get ``author (year)'' citations.
-
-As reviewing will be double-blind, the submitted version of the papers
-should not include the authors' names and affiliations. Furthermore,
-self-references that reveal the author's identity, e.g.,
-\begin{quote}
-``We previously showed \cite{Gusfield:97} ...''  
-\end{quote}
-should be avoided. Instead, use citations such as 
-\begin{quote}
-``Gusfield \shortcite{Gusfield:97}
-previously showed ... ''
-\end{quote}
-
-\textbf{Please do not use anonymous citations} and do not include
-acknowledgements when submitting your papers. Papers that do not
-conform to these requirements may be rejected without review.
-
-\textbf{References}: Gather the full set of references together under
-the heading {\bf References}; place the section before any Appendices,
-unless they contain references. Arrange the references alphabetically
-by first author, rather than by order of occurrence in the text.
-Provide as complete a citation as possible, using a consistent format,
-such as the one for {\em Computational Linguistics\/} or the one in the 
-{\em Publication Manual of the American 
-Psychological Association\/}~\cite{APA:83}.  Use of full names for
-authors rather than initials is preferred.  A list of abbreviations
-for common computer science journals can be found in the ACM 
-{\em Computing Reviews\/}~\cite{ACM:83}.
-
-The \LaTeX{} and Bib\TeX{} style files provided roughly fit the
-American Psychological Association format, allowing regular citations, 
-short citations and multiple citations as described above.
-
-{\bf Appendices}: Appendices, if any, directly follow the text and the
-references (but see above).  Letter them in sequence and provide an
-informative title: {\bf Appendix A. Title of Appendix}.
-
-\subsection{Footnotes}
-
-{\bf Footnotes}: Put footnotes at the bottom of the page and use 9
-points text. They may be numbered or referred to by asterisks or other
-symbols.\footnote{This is how a footnote should appear.} Footnotes
-should be separated from the text by a line.\footnote{Note the line
-separating the footnotes from the text.}
-
-\subsection{Graphics}
-
-{\bf Illustrations}: Place figures, tables, and photographs in the
-paper near where they are first discussed, rather than at the end, if
-possible.  Wide illustrations may run across both columns.  Color
-illustrations are discouraged, unless you have verified that  
-they will be understandable when printed in black ink.
-
-{\bf Captions}: Provide a caption for every illustration; number each one
-sequentially in the form:  ``Figure 1. Caption of the Figure.'' ``Table 1.
-Caption of the Table.''  Type the captions of the figures and 
-tables below the body, using 11 point text.
-
-
-\section{XML conversion and supported \LaTeX\ packages}
-
-Following ACL 2014 we will also we will attempt to automatically convert 
-your \LaTeX\ source files to publish papers in machine-readable 
-XML with semantic markup in the ACL Anthology, in addition to the 
-traditional PDF format.  This will allow us to create, over the next 
-few years, a growing corpus of scientific text for our own future research, 
-and picks up on recent initiatives on converting ACL papers from earlier 
-years to XML. 
-
-We encourage you to submit a ZIP file of your \LaTeX\ sources along
-with the camera-ready version of your paper. We will then convert them
-to XML automatically, using the LaTeXML tool
-(\url{http://dlmf.nist.gov/LaTeXML}). LaTeXML has \emph{bindings} for
-a number of \LaTeX\ packages, including the ACL 2015 stylefile. These
-bindings allow LaTeXML to render the commands from these packages
-correctly in XML. For best results, we encourage you to use the
-packages that are officially supported by LaTeXML, listed at
-\url{http://dlmf.nist.gov/LaTeXML/manual/included.bindings}
-
-
-
-
-
-\section{Translation of non-English Terms}
-
-It is also advised to supplement non-English characters and terms
-with appropriate transliterations and/or translations
-since not all readers understand all such characters and terms.
-Inline transliteration or translation can be represented in
-the order of: original-form transliteration ``translation''.
-
-\section{Length of Submission}
-\label{sec:length}
-
-Long papers may consist of up to 8 pages of content, plus two extra
-pages for references. Short papers may consist of up to 4 pages of
-content, plus two extra pages for references.  Papers that do not
-conform to the specified length and formatting requirements may be
-rejected without review.
-
-
+\begin{table*}[t]
+\centering
+\begin{tabular}{*{7}{l}}
+\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \b QWK-1 \\ \hline
+Dota 2 & majority label &  & 0.93 & 0.86 & n/a & n/a \\
+Dota 2 & NLP + non-NLP & MultinomialNB & 0.96 & 0.96 & 0.65 & 0.65 \\
+Dota 2 & NLP & Perceptron & 0.96 & 0.97 & 0.77 & 0.78 \\
+Dota 2 & non-NLP & Perceptron & 0.93 & 0.86 & 0.0 & 0.0 \\ \hline
+\end{tabular}
+\caption{A selection of ``number of times marked helpful'' experimental results.}
+\label{tab:hours_experiment_results}
+\end{table*}
+\lipsum[1-7]
 
 \section*{Acknowledgments}
-
-The acknowledgments should go immediately before the references.  Do
-not number the acknowledgments section. Do not include this section
-when submitting your paper for review.
 
 % include your own bib file like this:
 %\bibliographystyle{acl}
 %\bibliography{acl2015}
-
-
 
 \begin{thebibliography}{}
 
