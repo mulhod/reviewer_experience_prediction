@@ -15,6 +15,11 @@ import numpy as np
 import pandas as pd
 from funcy import chunks
 from nltk import FreqDist
+from typing import (List,
+                    Dict,
+                    Tuple,
+                    Union,
+                    Optional)
 from skll.metrics import kappa
 from pymongo import (cursor,
                      ASCENDING,
@@ -25,7 +30,12 @@ from sklearn.metrics import (f1_score,
                              accuracy_score,
                              precision_score,
                              confusion_matrix)
-from sklearn.linear_model import PassiveAggressiveRegressor
+from sklearn.naive_bayes import (BernoulliNB,
+                                 MultinomialNB)
+from sklearn.feature_extraction import (FeatureHasher,
+                                        DictVectorizer)
+from sklearn.linear_model import (Perceptron,
+                                  PassiveAggressiveRegressor)
 
 from data import APPID_DICT
 from src import (LABELS,
@@ -53,9 +63,9 @@ def distributional_info(db: collection,
                         label: str,
                         games: list,
                         partition: str = 'all',
-                        bin_ranges: list = None,
+                        bin_ranges: Optional[list] = None,
                         lognormal: bool = False,
-                        power_transform: float = None,
+                        power_transform: Optional[float] = None,
                         limit: int = 0,
                         batch_size: int = 50) -> dict:
     """
@@ -192,7 +202,7 @@ def distributional_info(db: collection,
                 labels_fdist=labels_fdist)
 
 
-def get_label_in_doc(doc: dict, label: str):
+def get_label_in_doc(doc: dict, label: str) -> Optional[int, float, str]:
     """
     Return the value for a label in a sample document and return None
     if not in the document.
@@ -203,7 +213,7 @@ def get_label_in_doc(doc: dict, label: str):
     :type label: str
 
     :returns: label value
-    :rtype: int/float/str/None
+    :rtype: int, float, str, or None
 
     :raises ValueError: if the label is not in `LABELS`
     """
@@ -225,9 +235,9 @@ def evenly_distribute_samples(db: collection,
                               label: str,
                               games: list,
                               partition: str = 'test',
-                              bin_ranges: list = None,
+                              bin_ranges: Optional[list] = None,
                               lognormal: bool = False,
-                              power_transform: float = None) -> str:
+                              power_transform: Optional[float] = None) -> str:
     """
     Generate ID strings from data samples that, altogether, form a
     maximally evenly-distributed set of samples with respect to the
@@ -305,7 +315,7 @@ def evenly_distribute_samples(db: collection,
 
 
 def get_all_features(review_doc: dict, prediction_label: str,
-                     nlp_features: bool = True) -> dict:
+                     nlp_features: bool = True) -> Optional[dict]:
     """
     Get all the features in a review document and put them together in
     a dictionary. If `nlp_features` is False, leave out NLP features.
@@ -359,11 +369,11 @@ def get_data_point(review_doc: dict,
                    nlp_features: bool = True,
                    non_nlp_features: list = [],
                    lognormal: bool = False,
-                   power_transform: float = None,
-                   bin_ranges: list = None) -> dict:
+                   power_transform: Optional[float] = None,
+                   bin_ranges: Optional[list] = None) -> dict:
     """
     Collect data from a MongoDB review document and return it in format
-    needed for `DictVectorizer`.
+    needed for vectorization.
 
     :param review_doc: document from the MongoDB reviews collection
     :type review_doc: dict
@@ -473,7 +483,7 @@ def fit_preds_in_scale(y_preds: np.array, classes: np.array) -> np.array:
 
 
 def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
-                                    classes: np.array) -> tuple:
+                                    classes: np.array) -> Tuple[str, np.ndarray]:
     """
     Produce a printable confusion matrix to use in the evaluation
     report (and also return the confusion matrix multi-dimensional
@@ -505,23 +515,30 @@ def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
     return res, cnfmat
 
 
-def get_sorted_features_for_learner(learner, classes: np.array,
-                                    vectorizer) -> list:
+def get_sorted_features_for_learner(learner: Union[Perceptron,
+                                                   BernoulliNB,
+                                                   MultinomialNB],
+                                    classes: np.array,
+                                    vectorizer: Union[DictVectorizer,
+                                    FeatureHasher]) -> List[Dict[str,
+                                                                 Union[str, float, int]]]:
     """
     Get the best-performing features in a model (excluding
     `MiniBatchKMeans` and `PassiveAggressiveRegressor` learners and
     `FeatureHasher`-vectorized models).
 
-    :param learner: learner (can not be of type `MiniBatchKMeans` or
-                    `PassiveAggressiveRegressor`, among others)
-    :type learner: learner instance
+    :param learner: learner instance (can not be of type
+                    `MiniBatchKMeans` or `PassiveAggressiveRegressor`,
+                    among others)
+    :type learner: Perceptron, BernoulliNB, or MultinomialNB
     :param classes: array of class labels
     :type clases: np.array
     :param vectorizer: vectorizer object
-    :type vectorizer: DictVectorizer or FeatureHasher vectorizer
+    :type vectorizer: DictVectorizer or FeatureHasher
 
     :returns: list of sorted features (in dictionaries)
-    :rtype: list
+    :rtype: list of dictionaries containing the features, weights, and
+            labels
 
     :raises ValueError: if the given learner is not of the type of one
                         of the supported learner types or features
@@ -566,7 +583,7 @@ def print_model_weights(learner,
                         learner_name: str,
                         classes: np.array,
                         games: set,
-                        vectorizer,
+                        vectorizer: Union[DictVectorizer, FeatureHasher],
                         output_path: str) -> None:
     """
     Print a sorted list of model weights for a given learner model to
@@ -875,6 +892,7 @@ class ExperimentalData(object):
     power_transform = None
     labels_fdist = None
     id_strings_labels = None
+    classes=None
 
     sampling_options = frozenset({'even', 'stratified'})
 
@@ -1058,6 +1076,40 @@ class ExperimentalData(object):
         # Construct the dataset
         self._construct_layered_dataset()
 
+    def _distributional_info(self, games: list) -> dict:
+        """
+        Call `distributional_info` with the given set of games.
+
+        :param games: list of games
+        :type games: list
+
+        :returns: a dictionary containing an 'id_strings_labels_dict'
+                  key consisting of a mapping from ID strings to labels,
+                  and a 'labels_fdist' key consisting of a `FreqDist`
+                  instance mapping each label to its frequency, etc.
+        :rtype: dict
+        """
+
+        distribution_info = distributional_info(self.db,
+                                                self.prediction_label,
+                                                games,
+                                                **self.distributional_info_kwargs)
+
+        # Set `self.classes` if unset and, if set, make sure the value
+        # is the same (i.e., it should match for both the test set and
+        # the training/grid search sets) or raise an exception
+        classes = set(distribution_info['labels_fdist'])
+        if not self.classes:
+            self.classes = classes
+        else:
+            if not self.classes == classes:
+                raise ValueError('The set of labels for the test set and the '
+                                 'training/grid search sets does not match: '
+                                 '{0} != {1}'.format(self.classes,
+                                                     classes))
+
+        return distribution_info
+
     def _make_test_set(self) -> np.array:
         """
         Generate a list of `id_string`s for the test set.
@@ -1068,10 +1120,7 @@ class ExperimentalData(object):
 
         # Make a dictionary mapping each label value to a list of sample
         # IDs
-        distribution_data = distributional_info(self.db,
-                                                self.prediction_label,
-                                                list(self.test_games),
-                                                **self.distributional_info_kwargs)
+        distribution_data = self._distributional_info(list(self.test_games))
         id_strings_labels_test = distribution_data['id_strings_labels_dict']
         labels_fdist_test = distribution_data['labels_fdist']
 
@@ -1377,10 +1426,7 @@ class ExperimentalData(object):
         # distribution of the labels (if not cached while making the
         # test set)
         if not (self.id_strings_labels and self.labels_fdist):
-            distribution_data = distributional_info(self.db,
-                                                    self.prediction_label,
-                                                    list(self.games),
-                                                    **self.distributional_info_kwargs)
+            distribution_data = self._distributional_info(list(self.games))
             self.id_strings_labels = distribution_data['id_strings_labels_dict']
             self.labels_fdist = distribution_data['labels_fdist']
 

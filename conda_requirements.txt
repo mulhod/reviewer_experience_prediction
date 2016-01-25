@@ -21,3 +21,4 @@ setuptools=18.5
 spacy=0.70
 terminado=0.5
 tornado=4.2.1
+typing=3.5.0.1

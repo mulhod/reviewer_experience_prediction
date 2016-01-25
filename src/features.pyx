@@ -19,6 +19,8 @@ from re import (IGNORECASE,
 
 import numpy as np
 from bson import BSON
+from typing import (Dict,
+                    Union)
 from pymongo import cursor
 from nltk.util import ngrams
 from spacy.en import English
@@ -331,7 +333,7 @@ def extract_features(review: Review,
     return feats
 
 
-def get_nlp_features_from_db(db: collection, _id: ObjectId) -> dict:
+def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:
     """
     Collect the NLP features from the Mongo database collection for a
     given review and return the decoded value.
@@ -350,7 +352,7 @@ def get_nlp_features_from_db(db: collection, _id: ObjectId) -> dict:
     return bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc else {}
 
 
-def get_steam_features_from_db(get_feat) -> dict:
+def get_steam_features_from_db(get_feat) -> Dict[str, Union[str, bool, int, float]]:
     """
     Get features collected from Steam (i.e., the non-NLP features).
 
@@ -390,7 +392,7 @@ def get_steam_features_from_db(get_feat) -> dict:
     return steam_feats
 
 
-def binarize_nlp_features(nlp_features: dict) -> dict:
+def binarize_nlp_features(nlp_features: Dict[str, int]) -> Dict[str, int]:
     """
     Binarize the NLP features.
 
@@ -409,7 +411,7 @@ def bulk_extract_features(db: collection,
                           reuse_nlp_feats: bool = True,
                           use_binarized_nlp_feats: bool = True,
                           lowercase_text: bool = True,
-                          lowercase_cngrams: bool = False) -> dict:
+                          lowercase_cngrams: bool = False) -> Dict[str, int]:
     """
     Extract NLP features from reviews in the MongoDB database for a
     particular game/data partition in bulk and generate the feature
