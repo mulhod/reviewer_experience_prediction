@@ -488,7 +488,7 @@ def fit_preds_in_scale(y_preds: np.array, classes: np.array) -> np.array:
 
 
 def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
-                                    classes: np.array) -> Tuple[str, np.ndarray]:
+                                    classes: np.array) -> tuple:
     """
     Produce a printable confusion matrix to use in the evaluation
     report (and also return the confusion matrix multi-dimensional
@@ -1229,7 +1229,7 @@ class ExperimentalData(object):
 
         return test_set
 
-    def _generate_labels_dict(self) -> Dict[str, np.array]:
+    def _generate_labels_dict(self) -> dict:
         """
         Generate a dictionary of labels mapped to lists of
         ID strings.

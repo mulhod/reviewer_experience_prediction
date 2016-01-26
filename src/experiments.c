@@ -6562,7 +6562,7 @@ static PyObject *__pyx_pf_3src_11experiments_11fit_preds_in_scale(CYTHON_UNUSED 
  * 
  * 
  * def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,             # <<<<<<<<<<<<<<
- *                                     classes: np.array) -> Tuple[str, np.ndarray]:
+ *                                     classes: np.array) -> tuple:
  *     """
  */
 
@@ -7231,7 +7231,7 @@ static PyObject *__pyx_pf_3src_11experiments_13make_printable_confusion_matrix(C
  * 
  * 
  * def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,             # <<<<<<<<<<<<<<
- *                                     classes: np.array) -> Tuple[str, np.ndarray]:
+ *                                     classes: np.array) -> tuple:
  *     """
  */
 
@@ -14955,7 +14955,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4_make_test_set(
  * 
  *         return test_set             # <<<<<<<<<<<<<<
  * 
- *     def _generate_labels_dict(self) -> Dict[str, np.array]:
+ *     def _generate_labels_dict(self) -> dict:
  */
   __Pyx_XDECREF(__pyx_r);
   __Pyx_INCREF(__pyx_v_test_set);
@@ -15006,7 +15006,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_4_make_test_set(
 /* "src/experiments.pyx":1232
  *         return test_set
  * 
- *     def _generate_labels_dict(self) -> Dict[str, np.array]:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -15368,7 +15368,7 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_6_generate_label
   /* "src/experiments.pyx":1232
  *         return test_set
  * 
- *     def _generate_labels_dict(self) -> Dict[str, np.array]:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -20710,7 +20710,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  * def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,             # <<<<<<<<<<<<<<
- *                                     classes: np.array) -> Tuple[str, np.ndarray]:
+ *                                     classes: np.array) -> tuple:
  *     """
  */
   __pyx_tuple__48 = PyTuple_Pack(13, __pyx_n_s_y_test, __pyx_n_s_y_preds, __pyx_n_s_classes, __pyx_n_s_cnfmat, __pyx_n_s_header, __pyx_n_s_tab_join, __pyx_n_s_row_format, __pyx_n_s_labels_list, __pyx_n_s_res, __pyx_n_s_row, __pyx_n_s_label, __pyx_n_s_cls, __pyx_n_s_x); if (unlikely(!__pyx_tuple__48)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 490; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -20820,7 +20820,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/experiments.pyx":1232
  *         return test_set
  * 
- *     def _generate_labels_dict(self) -> Dict[str, np.array]:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
@@ -21804,7 +21804,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  * 
  * 
  * def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,             # <<<<<<<<<<<<<<
- *                                     classes: np.array) -> Tuple[str, np.ndarray]:
+ *                                     classes: np.array) -> tuple:
  *     """
  */
   __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_3src_11experiments_14make_printable_confusion_matrix, NULL, __pyx_n_s_src_experiments); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 490; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -22461,39 +22461,19 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1232
  *         return test_set
  * 
- *     def _generate_labels_dict(self) -> Dict[str, np.array]:             # <<<<<<<<<<<<<<
+ *     def _generate_labels_dict(self) -> dict:             # <<<<<<<<<<<<<<
  *         """
  *         Generate a dictionary of labels mapped to lists of
  */
   __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_Dict); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_return, ((PyObject *)(&PyDict_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_7_generate_labels_dict, 0, __pyx_n_s_ExperimentalData__generate_label, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_array); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_INCREF(((PyObject *)(&PyString_Type)));
-  __Pyx_GIVEREF(((PyObject *)(&PyString_Type)));
-  PyTuple_SET_ITEM(__pyx_t_4, 0, ((PyObject *)(&PyString_Type)));
-  __Pyx_GIVEREF(__pyx_t_5);
-  PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_5);
-  __pyx_t_5 = 0;
-  __pyx_t_5 = PyObject_GetItem(__pyx_t_9, __pyx_t_4); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_return, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_7_generate_labels_dict, 0, __pyx_n_s_ExperimentalData__generate_label, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__68)); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_5, __pyx_t_6);
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_9, __pyx_t_6);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_generate_labels_dict, __pyx_t_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_generate_labels_dict, __pyx_t_9) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1232; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
 
   /* "src/experiments.pyx":1252
  *         return labels_id_strings
@@ -22502,9 +22482,9 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *                                 n_folds_collected: int,
  *                                 n_folds_needed: int) -> np.array:
  */
-  __pyx_t_5 = PyDict_New(); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_fold_size_2, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyDict_New(); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_9);
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_fold_size_2, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":1253
  * 
@@ -22513,7 +22493,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *                                 n_folds_needed: int) -> np.array:
  *         """
  */
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_n_folds_collected, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_n_folds_collected, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":1254
  *     def _generate_training_fold(self, _fold_size: int,
@@ -22522,13 +22502,13 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *         """
  *         Generate a fold for use in the training/grid search data-set.
  */
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_n_folds_needed, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_n_folds_needed, ((PyObject *)(&PyInt_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_array); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1254; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_return, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_9, __pyx_n_s_return, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "src/experiments.pyx":1252
@@ -22540,8 +22520,8 @@ PyMODINIT_FUNC PyInit_experiments(void)
  */
   __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_9_generate_training_fold, 0, __pyx_n_s_ExperimentalData__generate_train_2, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__70)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_5);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_9);
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   if (PyObject_SetItem(__pyx_t_3, __pyx_n_s_generate_training_fold, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1252; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
@@ -22555,11 +22535,11 @@ PyMODINIT_FUNC PyInit_experiments(void)
   __pyx_t_4 = PyDict_New(); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_grid_search, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_np); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_9);
+  __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_array); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, __pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_16ExperimentalData_11_generate_dataset, 0, __pyx_n_s_ExperimentalData__generate_datas, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__72)); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1374; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
