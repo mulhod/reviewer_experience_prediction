@@ -28,7 +28,8 @@ from pymongo import collection
 from skll.metrics import (kappa,
                           pearson)
 from bson.objectid import ObjectId
-from configparser import ConfigParser
+
+from src import Numeric
 
 bson_decode = BSON.decode
 spaCy_nlp = English()
@@ -179,7 +180,7 @@ class Review(object):
 
 
 def extract_features(review: Review,
-                     lowercase_cngrams: bool = False) -> dict:
+                     lowercase_cngrams: bool = False) -> Dict[str, int]:
     """
     Extract word/character n-gram, length, Brown corpus cluster ID,
     and syntactic dependency features from a Review object and return
@@ -352,7 +353,7 @@ def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:
     return bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc else {}
 
 
-def get_steam_features_from_db(get_feat) -> Dict[str, Union[str, bool, int, float]]:
+def get_steam_features_from_db(get_feat) -> Dict[str, Union[Numeric, bool]]:
     """
     Get features collected from Steam (i.e., the non-NLP features).
 

@@ -23,6 +23,13 @@ from os.path import (join,
 import numpy as np
 import pandas as pd
 import seaborn as sns
+from typing import (Any,
+                    List,
+                    Dict,
+                    Tuple,
+                    Union,
+                    Iterable,
+                    Optional)
 from langdetect import detect
 from pymongo import collection
 from bs4 import (BeautifulSoup,
@@ -34,7 +41,8 @@ from requests.exceptions import (Timeout,
 from langdetect.lang_detect_exception import LangDetectException
 
 from data import APPID_DICT
-from src import (comma_sub,
+from src import (Numeric,
+                 comma_sub,
                  space_sub,
                  breaks_sub,
                  quotes_sub,
@@ -57,7 +65,7 @@ logwarn = logger.warning
 logerr = logger.error
 
 def get_game_files(games_str: str,
-                   data_dir_path: str = default_data_dir) -> list:
+                   data_dir_path: str = default_data_dir) -> List[str]:
     """
     Get list of game files (file-names only).
 
@@ -121,7 +129,7 @@ def get_game_files(games_str: str,
 def get_review_data_for_game(appid: str,
                              time_out: float = 10.0,
                              limit: int = -1,
-                             wait: float = 10.0) -> dict:
+                             wait: float = 10.0) -> Iterable[Dict[str, Any]]:
     """
     Generate dictionaries for each review for a given game.
 
@@ -809,8 +817,9 @@ def get_review_data_for_game(appid: str,
         i += 1
 
 
-def get_and_describe_dataset(file_path: str, report: bool = True,
-                             reports_dir: str = None) -> dict:
+def get_and_describe_dataset(file_path: str,
+                             report: bool = True,
+                             reports_dir: Optional[str] = None) -> List[Dict[str, Any]]:
     """
     Return list of review dictionaries; also produce a report with some
     descriptive statistics and graphs.
@@ -895,7 +904,7 @@ def get_and_describe_dataset(file_path: str, report: bool = True,
 def get_bin_ranges(float _min,
                    float _max,
                    int nbins=5,
-                   float factor=1.0) -> list:
+                   float factor=1.0) -> List[Tuple[float]]:
     """
     Return list of floating point number ranges (in increments of 0.1)
     that correspond to each bin in the distribution.
@@ -998,12 +1007,13 @@ def get_bin_ranges(float _min,
 
 
 def get_bin_ranges_helper(db: collection,
-                          games: list,
+                          games: List[str],
                           label: str,
                           int nbins,
                           float factor=1.0,
-                          lognormal: bool = False,
-                          power_transform: float = None) -> list:
+                          lognormal: Optional[bool] = False,
+                          power_transform: Optional[float] = None) \
+    -> List[Tuple[float, float]]:
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
@@ -1077,7 +1087,7 @@ def get_bin_ranges_helper(db: collection,
     return bin_ranges
 
 
-def validate_bin_ranges(bin_ranges: list) -> bool:
+def validate_bin_ranges(bin_ranges: List[Tuple[float, float]]) -> bool:
     """
     Validate a list of tuples representing bins that make up a
     continuous range.
@@ -1160,7 +1170,7 @@ def validate_bin_ranges(bin_ranges: list) -> bool:
                 raise ValueError(error_msg)
 
 
-def get_bin(bin_ranges: list, float val) -> int:
+def get_bin(bin_ranges: List[Tuple[float, float]], float val) -> int:
     """
     Return the index of the bin range in which the value falls.
 
@@ -1211,10 +1221,11 @@ def get_bin(bin_ranges: list, float val) -> int:
 
 
 def get_label_values(db: collection,
-                     games: list,
+                     games: List[str],
                      label: str,
                      lognormal: bool = False,
-                     power_transform: float = None) -> list:
+                     power_transform: Optional[float] = None) -> \
+    List[Numeric, str, bool]:
     """
     Get all of the values for the given label in the data for the
     given list of game(s). Optionally transform raw values with
@@ -1245,8 +1256,7 @@ def get_label_values(db: collection,
     :type power_transform: float or None
 
     :returns: list of label values that are not equal to None or an
-              empty string or `lognormal` and `power_transform` were
-              specified
+              empty string
     :rtype: list
 
     :raises ValueError: if `lognormal` and `power_transform` were both
@@ -1282,11 +1292,12 @@ def get_label_values(db: collection,
     return list(filter(lambda x: not x == None, label_values))
 
 
-def compute_label_value(value,
+def compute_label_value(value: Union[Numeric, str, bool],
                         label: str,
                         lognormal: bool = False,
-                        power_transform: float = None,
-                        bin_ranges: list = None):
+                        power_transform: Optional[float] = None,
+                        bin_ranges: Optional[List[Tuple[float, float]]] = None) \
+    -> Optional[float]:
     """
     Compute the value and apply any transformations specified via
     `lognormal` or `power_transform`.
@@ -1366,9 +1377,9 @@ def compute_label_value(value,
 
 
 def write_arff_file(dest_path: str,
-                    file_names: list,
-                    reviews: list = None,
-                    db: collection = None,
+                    file_names: List[str],
+                    reviews: Optional[List[Dict[str, Any]]] = None,
+                    db: Optional[collection] = None,
                     make_train_test: bool = False,
                     bins=False) -> None:
     """

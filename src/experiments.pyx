@@ -15,7 +15,8 @@ import numpy as np
 import pandas as pd
 from funcy import chunks
 from nltk import FreqDist
-from typing import (List,
+from typing import (Any,
+                    List,
                     Dict,
                     Tuple,
                     Union,
@@ -39,6 +40,9 @@ from sklearn.linear_model import (Perceptron,
 
 from data import APPID_DICT
 from src import (LABELS,
+                 Learner,
+                 Numeric,
+                 Vectorizer,
                  TIME_LABELS,
                  VALID_GAMES,
                  FRIENDS_LABELS,
@@ -202,7 +206,8 @@ def distributional_info(db: collection,
                 labels_fdist=labels_fdist)
 
 
-def get_label_in_doc(doc: dict, label: str) -> Optional[int, float, str]:
+def get_label_in_doc(doc: Dict[str, Any],
+                     label: str) -> Optional[Union[Numeric, str]]:
     """
     Return the value for a label in a sample document and return None
     if not in the document.
@@ -233,9 +238,9 @@ def get_label_in_doc(doc: dict, label: str) -> Optional[int, float, str]:
 
 def evenly_distribute_samples(db: collection,
                               label: str,
-                              games: list,
+                              games: List[str],
                               partition: str = 'test',
-                              bin_ranges: Optional[list] = None,
+                              bin_ranges: Optional[List[Tuple[float, float]]] = None,
                               lognormal: bool = False,
                               power_transform: Optional[float] = None) -> str:
     """
@@ -314,8 +319,8 @@ def evenly_distribute_samples(db: collection,
                 i += 1
 
 
-def get_all_features(review_doc: dict, prediction_label: str,
-                     nlp_features: bool = True) -> Optional[dict]:
+def get_all_features(review_doc: Dict[str, Any], prediction_label: str,
+                     nlp_features: bool = True) -> Optional[Dict[str, Any]]:
     """
     Get all the features in a review document and put them together in
     a dictionary. If `nlp_features` is False, leave out NLP features.
@@ -364,13 +369,13 @@ def get_all_features(review_doc: dict, prediction_label: str,
     return features
 
 
-def get_data_point(review_doc: dict,
+def get_data_point(review_doc: Dict[str, Any],
                    prediction_label: str,
                    nlp_features: bool = True,
-                   non_nlp_features: list = [],
+                   non_nlp_features: List[str] = [],
                    lognormal: bool = False,
                    power_transform: Optional[float] = None,
-                   bin_ranges: Optional[list] = None) -> dict:
+                   bin_ranges: Optional[List[Tuple[float, float]]] = None) -> Dict[str, Any]:
     """
     Collect data from a MongoDB review document and return it in format
     needed for vectorization.
@@ -519,9 +524,8 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
                                                    BernoulliNB,
                                                    MultinomialNB],
                                     classes: np.array,
-                                    vectorizer: Union[DictVectorizer,
-                                    FeatureHasher]) -> List[Dict[str,
-                                                                 Union[str, float, int]]]:
+                                    vectorizer: Vectorizer) \
+    -> List[Dict[str, Union[str, float, int]]]:
     """
     Get the best-performing features in a model (excluding
     `MiniBatchKMeans` and `PassiveAggressiveRegressor` learners and
@@ -533,8 +537,8 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     :type learner: Perceptron, BernoulliNB, or MultinomialNB
     :param classes: array of class labels
     :type clases: np.array
-    :param vectorizer: vectorizer object
-    :type vectorizer: DictVectorizer or FeatureHasher
+    :param vectorizer: DictVectorizer or FeatureHasher
+    :type vectorizer: Vectorizer instance
 
     :returns: list of sorted features (in dictionaries)
     :rtype: list of dictionaries containing the features, weights, and
@@ -579,27 +583,28 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     return sorted(features, key=lambda x: abs(x['weight']), reverse=True)
 
 
-def print_model_weights(learner,
+def print_model_weights(learner: Learner,
                         learner_name: str,
                         classes: np.array,
                         games: set,
-                        vectorizer: Union[DictVectorizer, FeatureHasher],
+                        vectorizer: Vectorizer,
                         output_path: str) -> None:
     """
     Print a sorted list of model weights for a given learner model to
     an output file.
 
-    :param learner: learner (can not be of type `MiniBatchKMeans` or
-                    `PassiveAggressiveRegressor`, among others)
-    :type learner: learner instance
+    :param learner: learner instance (can not be of type
+                    `MiniBatchKMeans` or `PassiveAggressiveRegressor`,
+                    among others)
+    :type learner: Learner instance
     :param learner_name: name associated with learner
     :type learner_name: str
     :param games: set of games (str)
     :type games: set
     :param classes: array of class labels
     :type clases: np.array
-    :param vectorizer: vectorizer object
-    :type vectorizer: DictVectorizer or FeatureHasher vectorizer
+    :param vectorizer: DictVectorizer or FeatureHasher
+    :type vectorizer: Vectorizer instance
     :param output_path: path to output file
     :type output_path: str
 
@@ -627,11 +632,11 @@ def print_model_weights(learner,
 
 def make_cursor(db: collection,
                 partition: str = '',
-                projection: dict = {},
-                games: list = [],
-                sorting_args: list = [('steam_id_number', ASCENDING)],
+                projection: Dict[str, int] = {},
+                games: List[str] = [],
+                sorting_args: List[Tuple[str, int]] = [('steam_id_number', ASCENDING)],
                 batch_size: int = 50,
-                id_strings: list = []) -> cursor:
+                id_strings: List[str] = []) -> cursor:
     """
     Make cursor (for a specific set of games and/or a specific
     partition of the data, if specified) or for for data whose
@@ -704,8 +709,9 @@ def make_cursor(db: collection,
     return _cursor
 
 
-def compute_evaluation_metrics(y_test: np.array, y_preds: np.array,
-                               classes: np.array) -> dict:
+def compute_evaluation_metrics(y_test: np.array,
+                               y_preds: np.array,
+                               classes: np.array) -> Dict[str, Union[Numeric, str]]:
     """
     Compute evaluation metrics given actual and predicted label values
     and the set of possible label values.
@@ -777,15 +783,15 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              y_test_preds: np.array,
                                              classes: np.array,
                                              prediction_label: str,
-                                             non_nlp_features: list,
+                                             non_nlp_features: List[str],
                                              nlp_features: bool,
-                                             learner,
+                                             learner: Learner,
                                              learner_name: str,
                                              games: set,
                                              test_games: set,
                                              _round: int,
                                              n_train_samples: int,
-                                             bin_ranges: list,
+                                             bin_ranges: List[Tuple[float, float]],
                                              transformation_string: str) -> pd.Series:
     """
     Evaluate predictions made by a learner during a round of learning
@@ -804,8 +810,10 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     :type non_nlp_features: list
     :param nlp_features: whether or not NLP features are being used
     :type nlp_features: bool
-    :param learner: learner instance
-    :type learner: learner type
+    :param learner: learner instance, i.e., of type Perceptron,
+                    MiniBatchKMeans, BernoulliNB, MultinomialNB, or
+                    PassiveAggressiveRegressor
+    :type learner: Learner instance
     :param learner_name: name of learner type
     :type learner_name: str
     :param games: set of training games
@@ -904,13 +912,13 @@ class ExperimentalData(object):
                  fold_size: int,
                  grid_search_folds: int,
                  grid_search_fold_size: int,
-                 test_games: set = None,
+                 test_games: Optional[set] = None,
                  test_size: int = 0,
                  sampling: str = 'stratified',
-                 bin_ranges: list = None,
-                 test_bin_ranges: list = None,
+                 bin_ranges: Optional[List[Tuple[float, float]]] = None,
+                 test_bin_ranges: Optional[List[Tuple[float, float]]] = None,
                  lognormal: bool = False,
-                 power_transform: float = None,
+                 power_transform: Optional[float] = None,
                  batch_size: int = 50):
         """
         Initialize an `ExperimentalData` object.
@@ -1076,7 +1084,7 @@ class ExperimentalData(object):
         # Construct the dataset
         self._construct_layered_dataset()
 
-    def _distributional_info(self, games: list) -> dict:
+    def _distributional_info(self, games: List[str]) -> Dict[str, dict]:
         """
         Call `distributional_info` with the given set of games.
 
@@ -1221,7 +1229,7 @@ class ExperimentalData(object):
 
         return test_set
 
-    def _generate_labels_dict(self) -> dict:
+    def _generate_labels_dict(self) -> Dict[str, np.array]:
         """
         Generate a dictionary of labels mapped to lists of
         ID strings.

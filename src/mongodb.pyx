@@ -23,6 +23,12 @@ from os.path import (basename,
 
 import numpy as np
 from bson import BSON
+from typing import (Any,
+                    List,
+                    Dict,
+                    Union,
+                    Tuple,
+                    Optional)
 from pymongo import (cursor,
                      collection,
                      MongoClient)
@@ -151,7 +157,7 @@ def insert_train_test_reviews(db: collection,
                               bin_factor: float = 1.0,
                               describe: bool = False,
                               just_describe: bool = False,
-                              reports_dir: str = None) -> None:
+                              reports_dir: Optional[str] = None) -> None:
     """
     Insert training/test set reviews into the MongoDB database and
     optionally generate a report and graphs describing the filtering
@@ -308,11 +314,11 @@ def insert_train_test_reviews(db: collection,
 
 
 cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
-                                    rdicts: list,
+                                    rdicts: List[Dict[str, Any]],
                                     game: str,
                                     appid: str,
                                     partition_id: str,
-                                    bins: list = False):
+                                    bins: Union[List[Tuple[float, float]], bool] = False):
     """
     Add insert operations to a bulk writer.
 
@@ -379,7 +385,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
                     'following review:\n{0}'.format(rd))
 
 
-def generate_update_query(update_dict: dict, binarized_features: bool = True) -> dict:
+def generate_update_query(update_dict: Dict[str, Any],
+                          binarized_features: bool = True) -> Dict[str, Dict[str, Any]]:
     """
     Generate an update query in the form needed for the MongoDB
     updates.
