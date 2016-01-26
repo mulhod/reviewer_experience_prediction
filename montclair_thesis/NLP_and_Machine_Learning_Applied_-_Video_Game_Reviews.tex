@@ -211,25 +211,8 @@ The experiments described below will explore each situation: models trained on N
 \section{Experiments}
 \label{sec:experiments}
 
-The aim of the experiments conducted as part of this exploratory work was to attempt to model reviewer experience and/or review usefulness in terms of the reviews and/or attributes of the reviewer/review.
-
-\subsection{{\tt learn}}
-\label{ssec:learn}
-
-As part of {\tt reviewer\_experience\_prediction}, the code repository that was developed for every phase of this work (which can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}), a utility was created called {\tt learn}, which is used to conduct iterative machine learning experiments using {\tt scikit-learn} under the hood. The motivation for making the experiments iterative was simply to try to reduce memory consumption: for each round of learning, only a small set of reviews, associated features, etc., must be stored in RAM at any given time. It is not unheard of for even a relatively small dataset of 1,000 reviews to require upwards of 50 GB of RAM after vectorization since the full feature set will reach into the hundreds of thousands. With the iterative learning algorithm used by {\tt learn}, the user specifies the number of rounds/number of samples to use per round and the machine learning model is updated incrementally.
-
-{\tt learn} is the main entry-point of the system in terms of conducting machine learning experiments. Any set of games can be used for training (and possibly two different sets of games can be used for training/testing, a line of research that I hope to follow up on in the future). Five machine learning algorithms from {\tt scikit-learn} are available, including {\tt Perceptron}, { \tt PassiveAgressiveRegressor}, {\tt MiniBatchKMeans}, {\tt MultiNomialNB}, and {\tt BernoulliNB}. The aim in making this exact set of learners available was not necessarily to provide a representative sampling of popular algorithms, but rather it was due to constraints placed on the set of {\tt scikit-learn} learners that could be used in an iterative fashion. Other aspects of the experiments that can be configured are the prediction label that is used (any of the reviewer/review attributes, e.g. number of game-hours played, number of times marked helpful, etc., see Subsection~\ref{ssec:data}), the types of featues used in the model (NLP features and/or a set of the reviewer/review attributes that are not directly related to the prediction label), and much more, such as whether to use ``feature hashing'' (further reduces memory consumption, but does not allow for subsequent model introspection, i.e., if the user wants to see the various model features and their weights), whether or not to generate the performance metrics for a ``baseline'' majority label system to provide a basis on which to compare the results, etc.
-
-Reviewer/review attribute values must be manipulated before the learning process in order to allow for meaningful learning. For example, the values of the number of hours played attribute for any given game can range from 0 to upwards of 15,000 and, thus, it would not be a meaningful exercise to try to learn how the features map to this scale. {\tt learn} makes use of a method of breaking down a scale such as 0 to 15,000 into various ``bins'', possibly of equal size, but not necessarily so. If the ``bin'' factor is 1.0, then the scale will be divided up into roughly equal-sized partitions and each of those partitions will be mapped to a new value, i.e., the position of the bin, with numbering starting at 1. For example, if 0 to 15,000 is divided up into three bins and the factor is 1.0, then it will result in the following type of mapping: [0, 5,000] \to 1, [5,001, 10,000] \to 2, [10,001, 15,000] \to 3.
-
-Often, however, the raw values of the reviewer/review attributes are heavily positively skewed. For example, most reviewers have played the game being reviewed for less than 1,000 hours, but the distribution will have a long tail to account for the relatively small percentage of reviewers who have spent much more time playing the game. Thus, in some cases, it would be better to be able to include only 0 to 500 hours in the first bin, 501 to 1,500 in the next, and 1,501 to infinity for the last bin. The ``bin'' factor can be used to try to account for the highly positively skewed distribution of prediction label values. {\tt learn} allows the user to specify how the label values should be ``binned''. At the end of the process, the predictions that the system makes will have to be understood in terms of this binning process. One can think of a new 1-3 scale as mapping roughly to a low, medium, and high experiential scale, for example.
-
-More information on the distribution of label values (for hours played, specifically) can be found in the {\tt GitHub.com} data-sets repository, a separate repository that is used to store only the data itself, which can be found at the following URL: \url{https://github.com/mulhod/steam_reviews}.
-
-\subsection{``Number of hours played'' experiments}
-\label{ssec:hours_played}
-
-\begin{table*}[t]
+\begin{table*}[htbp]
+\label{tab:gamehours}
 \centering
 \begin{tabular}{*{7}{l}}
 \hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
@@ -245,32 +228,66 @@ Dota 2 & NLP + non-NLP & Perceptron & 0.53 & 0.49 & 0.08 & -0.15 \\
 Dota 2 & NLP & PassiveAgressiveRegressor & 0.42 & 0.47 & 0.16 & 0.31 \\ \hline
 \end{tabular}
 \caption{A selection of game-hours experimental results.}
-\label{tab:hours_experiment_results}
 \end{table*}
-\lipsum[1-7]
 
-\subsection{``Number of times marked helpful'' experiments}
-\label{ssec:helpful}
-
-\begin{table*}[t]
+\begin{table*}[htbp]
+\label{tab:hours_experiment_results}
 \centering
 \begin{tabular}{*{7}{l}}
-\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \b QWK-1 \\ \hline
+\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
 Dota 2 & majority label &  & 0.93 & 0.86 & n/a & n/a \\
 Dota 2 & NLP + non-NLP & MultinomialNB & 0.96 & 0.96 & 0.65 & 0.65 \\
 Dota 2 & NLP & Perceptron & 0.96 & 0.97 & 0.77 & 0.78 \\
 Dota 2 & non-NLP & Perceptron & 0.93 & 0.86 & 0.0 & 0.0 \\ \hline
 \end{tabular}
 \caption{A selection of ``number of times marked helpful'' experimental results.}
-\label{tab:hours_experiment_results}
 \end{table*}
-\lipsum[1-7]
+
+The aim of the experiments conducted as part of this exploratory work was to attempt to model reviewer experience and/or review usefulness in terms of the reviews and/or attributes of the reviewer/review.
+
+\subsection{{\tt learn}}
+\label{ssec:learn}
+
+As part of {\tt reviewer\_experience\_prediction}, the code repository that was developed for every phase of this work (which can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}), a utility was created called {\tt learn}, which is used to conduct iterative machine learning experiments using {\tt scikit-learn} under the hood. The motivation for making the experiments iterative was simply to try to reduce memory consumption: for each round of learning, only a small set of reviews, associated features, etc., must be stored in RAM at any given time. It is not unheard of for even a relatively small dataset of 1,000 reviews to require upwards of 50 GB of RAM after vectorization since the full feature set will reach into the hundreds of thousands. With the iterative learning algorithm used by {\tt learn}, the user specifies the number of rounds/number of samples to use per round and the machine learning model is updated incrementally.
+
+{\tt learn} is the main entry-point of the system in terms of conducting machine learning experiments. Any set of games can be used for training (and possibly two different sets of games can be used for training/testing, a line of research that I hope to follow up on in the future). Five machine learning algorithms from {\tt scikit-learn} are available, including {\tt Perceptron}, { \tt PassiveAgressiveRegressor}, {\tt MiniBatchKMeans}, {\tt MultiNomialNB}, and {\tt BernoulliNB}. The aim in making this exact set of learners available was not necessarily to provide a representative sampling of popular algorithms, but rather it was due to constraints placed on the set of {\tt scikit-learn} learners that could be used in an iterative fashion. Other aspects of the experiments that can be configured are the prediction label that is used (any of the reviewer/review attributes, e.g. number of game-hours played, number of times marked helpful, etc., see Subsection~\ref{ssec:data}), the types of featues used in the model (NLP features and/or a set of the reviewer/review attributes that are not directly related to the prediction label), and much more, such as whether to use ``feature hashing'' (further reduces memory consumption, but does not allow for subsequent model introspection, i.e., if the user wants to see the various model features and their weights), whether or not to generate the performance metrics for a ``baseline'' majority label system to provide a basis on which to compare the results, etc.
+
+Reviewer/review attribute values must be manipulated before the learning process in order to allow for meaningful learning. For example, the values of the number of hours played attribute for any given game can range from 0 to upwards of 15,000 and, thus, it would not be a meaningful exercise to try to learn how the features map to this scale. {\tt learn} makes use of a method of breaking down a scale such as 0 to 15,000 into various ``bins'', possibly of equal size, but not necessarily so. If the ``bin'' factor is 1.0, then the scale will be divided up into roughly equal-sized partitions and each of those partitions will be mapped to a new value, i.e., the position of the bin, with numbering starting at 1. For example, if 0 to 15,000 is divided up into three bins and the factor is 1.0, then it will result in the following type of mapping: [0, 5,000] \to 1, [5,001, 10,000] \to 2, [10,001, 15,000] \to 3.
+
+Often, however, the raw values of the reviewer/review attributes are heavily positively skewed. For example, most reviewers have played the game being reviewed for less than 1,000 hours, but the distribution will have a long tail to account for the relatively small percentage of reviewers who have spent much more time playing the game. Thus, in some cases, it would be better to be able to include only 0 to 500 hours in the first bin, 501 to 1,500 in the next, and 1,501 to infinity for the last bin. The ``bin'' factor can be used to try to account for the highly positively skewed distribution of prediction label values. {\tt learn} allows the user to specify how the label values should be ``binned''. At the end of the process, the predictions that the system makes will have to be understood in terms of this binning process. One can think of a new 1-3 scale as mapping roughly to a low, medium, and high experiential scale, for example.
+
+More information on the distribution of label values (for hours played, specifically) can be found in the {\tt GitHub.com} data-sets repository, a separate repository that is used to store only the data itself, which can be found at the following URL: \url{https://github.com/mulhod/steam_reviews}.
+
+\subsection{Experimental set-up}
+\label{ssec:experimental_setup}
+
+Machine learning experiments were conducted first with the number of game-hours played as the prediction label and then with the number of times a review was marked as helpful by users of Steam as the prediction label. Recall that the aim with these experiments was to model the amount of time a reviewer had spent playing a game using reviews and/or review/reviewer attributes. Each experiment involved ten rounds of iterative learning where a different set of 100 review samples were used in each successive round of learning. Additionally, a separate test set of 1,000 reviews was used to gauge the performance after each round of learning and at the end of the process.
+
+Five machine learning algorithms were used: {\tt Perceptron}, {\tt MiniBatchKMeans}, {\tt PassiveAgressiveRegressor}, {\tt MultinomialNB}, and {\tt BernoulliNB}. For each, a so-called ``parameter grid'' was used, which is a mapping between algorithm-specific hyperparameters and lists of hyperparameter values. In each learning round, every single combination of the hyperparameters was tried for each learning algorithm, the idea being to conduct the experiments with variously-tuned learners. Without diving into the subject too much, hyperparameter refers to tunings of a learner, such as the number of iterations, etc. The combination of machine learning algorithm and parameter grid that yielded the best performance metrics at the end of the process is reported in the results.
+
+A number of different feature set combinations were experimented with: using the NLP feature set alone, the NLP feature set + the non-NLP feature set, i.e., the review/reviewer attributes, such as the number of friends that the reviewer has on Steam, and the non-NLP feature set alone. The aim here was to determine the role that the NLP features play in the modelling, whether or not the prediction label could be effectively modelled using only the non-NLP feature set, and whether or not both sets of features could be used in combination to produce a model that was more effective than that for either of the feature sets alone.
+
+Lastly, the raw values for each prediction label were rescaled, i.e., the distribution of raw label values was forced into a scale from 1 to 3, with 1 signifying a low total number of game-hours played/number of times a review was marked helpful, 2 signifying a moderate total number, and 3 a high total number. Furthermore, the scale of raw label values was not merely divided into equal-sized partitions, but rather was divided up into increasingly larger scale partitions. For example, only 10\% of the scale may be represented by the first ``bin'', 30\% of the scale may be represented by the second and 60\% by the last. This method of converting the raw label values to a three-point scale was used in order to attempt to deal with the highly positively skewed label value distribution. For the great majority of labels in this data-set, the vast majority of sample label values fell close to zero, relatively speaking, while the rest tapered off over a large range of values.
+
+\subsection{``Number of hours played'' experiments}
+\label{ssec:hours_played}
+
+For the game-hours played experiments, three games were tested: Arma 3, Counter Strike, and Dota 2. Arma 3 and Counter Strike are generally alike in that they are military-based, first-person shooter-type games while Dota 2 is a so-called ``MOBA'' (multiplayer online battle arena) video game. In Table 2, a number of performance metrics are displayed for each game experiment's best learner (i.e., best combindation of learning algorithm and hyperparameter set) and for a majority label-based system: accuracy, precision, quadratic weighted Cohen's kappa, and quadratic weighted ``off-by-one'' Cohen's kappa. Except for the majority label system, for which no machine learning was used, the type of machine learning algorithm is also presented. For Arma 3, results for each condition (only NLP features, only non-NLP features, and NLP + non-NLP features) are included while for Counter Strike and Dota 2 results are only presented for the NLP feature set-based experiments and the NLP + non-NLP feature set-based experiments.
+
+In general, the non-NLP features fared surprisingly well on their own, but in general the NLP feature set-based experiments yielded better results in comparison. The combination of NLP features and non-NLP features often translated into lower accuracy in comparison to the NLP feature set-based experiments, but higher precision. In two out of the three cases, the majority label system resulted in the highest accuracy, but the precision of the majority label system was always improved upon by the feature set-based experiments, sometimes greatly so. In terms of the kappa metrics (for which no results can be given for the majority label system since, by definition, it always predicted only one label, which results in an undefined value), the Arma 3 experiments show that the feature set-based models could not predict the label at even chance level, but, for example, for the Dota 2 experiments, we see that the NLP feature set model actually can predict the label at a slightly-above-chance level (even if that level would be unacceptably low). For the Counter Strike experiments, observe that the NLP feature set-based model actually outperformed the NLP + non-NLP feature set-based model in terms of accuracy (0.82 to 0.6) and it came close to matching its performance in terms of precision (0.69 to 0.71).
+
+Taken in whole, the results for the game-hours experiments do not reflect very well on the feature set-based experiments. They are often no better than the majority label system. While this fact may suggest that game-hours cannot be modelled with the feature sets, there are at least a couple indications of potential. On the one hand, some of the results show that the feature set-based models could at least to some degree perform at an above-chance level. On the other hand, the long-range perspective of these experiments is that they represent a real baseline system (the majority label baseline system that is used for comparison here is really but a poor choice for a baseline system as the decision is the same for each sample). Perhaps with better-designed features, performance will be able to be improved.
+
+\subsection{``Number of times marked helpful'' experiments}
+\label{ssec:helpful}
+
+For the experiments using the number of times a review was marked helpful as the prediction label, the results (presented in Table 3) are a little more favorable. Only Dota 2 was used for these experiments, mainly to get a taste for the kind of performance that might be expected for this prediction label. While the majority label system performs relatively well in terms of both accuracy (0.93) and precision (0.86), the feature set-based models actually perform even better (with the exception of the non-NLP feature set experiment, which matched the performance of the majority label system). Of particular note is the comparison between the NLP feature set-based model and the NLP + non-NLP feature set-based model: they both improve upon the majority label system in terms of accuracy (0.96 for both vs. 0.93 for the majority label system) and precision (0.97 and 0.96 for the NLP feature set-based system and the NLP + non-NLP feature set-based, respectively, vs. 0.86 for the majority label system). However, what is even more interesting is that the NLP feature set-based system outperforms the NLP + non-NLP feature set-based system in terms of the kappa metrics (0.77/0.78 for the NLP feature set-based system vs. 0.65/0.65 for the NLP + non-NLP feature set-based system). This additional boost in the kappa metrics signifies that the NLP feature set alone performs a great deal better than a system that uses the same features in addition to the review/reviewer attributes. In the case of the non-NLP features-only system, the system seems to have only learned the majority label as its performance largely matches that of the majority label system.
+
+These results, while limited in scope and representativeness, signal at least some potential for effectively modelling reviews in terms of the number of times they were marked as helpful. Recall that this attribute of reviews is being interpreted as a proxy for reviewer experience and/or review trustworthiness. If the results hold for other games, then the further development of the feature set and more experimentation along this line of research could very well lead to a system that can accurately predict reviewer experience. Thus, it is conceivable that a system could be built that could factor into review filtering/sorting algorithms in order to improve the quality of reviews.
 
 \section*{Acknowledgments}
 
-% include your own bib file like this:
-%\bibliographystyle{acl}
-%\bibliography{acl2015}
+Again I would like to thank Janette Martinez and Emily Olshefski, graduate students at Montclair State University, for their help with the initial stages of this work. I would also like to acknowledge the advice and help I received from my advisor, Dr. Eileen Fitzpatrick, also of Montclair State University. Lastly, I would like to acknowledge the almost unlimited amount of computing resources provided to me by both Montclair State University and my employer, Educational Testing Service (ETS).
 
 \begin{thebibliography}{}
 
