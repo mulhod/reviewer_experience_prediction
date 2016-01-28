@@ -67,11 +67,12 @@ def distributional_info(db: collection,
                         label: str,
                         games: list,
                         partition: str = 'all',
-                        bin_ranges: Optional[list] = None,
+                        bin_ranges: Optional[List[Tuple[float, float]]] = None,
                         lognormal: bool = False,
                         power_transform: Optional[float] = None,
                         limit: int = 0,
-                        batch_size: int = 50) -> dict:
+                        batch_size: int = 50) \
+    -> Dict[str, Union[Dict[str, Any], FreqDist]]:
     """
     Generate some distributional information regarding the given label
     (or for the implicit/transformed labels given a list of label bin
@@ -114,7 +115,7 @@ def distributional_info(db: collection,
                             values (default: None)
     :type power_transform: float or None
     :param limit: cursor limit (defaults to 0, which signifies no
-                                limit)
+                  limit)
     :type limit: int
 
     :returns: dictionary containing `id_strings_labels_dict` and
@@ -164,8 +165,8 @@ def distributional_info(db: collection,
     # Create a MongoDB cursor on the collection
     kwargs = {'limit': limit}
     proj = {'nlp_features': 0}
-    cursor = db.find(query, proj, **kwargs)
-    cursor.batch_size = batch_size
+    _cursor = db.find(query, proj, **kwargs)
+    _cursor.batch_size = batch_size
 
     # Validate `bin_ranges`
     if bin_ranges:
@@ -177,7 +178,7 @@ def distributional_info(db: collection,
 
     # Get review documents (only including label + ID string)
     samples = []
-    for doc in cursor:
+    for doc in _cursor:
         # Apply lognormal transformation and/or multiplication by 100
         # if this is a percentage value
         label_value = compute_label_value(get_label_in_doc(doc, label),
@@ -1084,7 +1085,8 @@ class ExperimentalData(object):
         # Construct the dataset
         self._construct_layered_dataset()
 
-    def _distributional_info(self, games: List[str]) -> Dict[str, dict]:
+    def _distributional_info(self, games: List[str]) -> \
+        Dict[str, Union[Dict[str, Any], FreqDist]]:
         """
         Call `distributional_info` with the given set of games.
 
@@ -1229,7 +1231,7 @@ class ExperimentalData(object):
 
         return test_set
 
-    def _generate_labels_dict(self) -> dict:
+    def _generate_labels_dict(self) -> Dict[Any, List[str]]:
         """
         Generate a dictionary of labels mapped to lists of
         ID strings.
@@ -1415,7 +1417,7 @@ class ExperimentalData(object):
                              .format('grid search' if grid_search else 'training',
                                      folds))
 
-    def _construct_layered_dataset(self):
+    def _construct_layered_dataset(self) -> None:
         """
         Build up a main training set consisting of multiple folds and
         possibly a grid search dataset containing samples from the same
