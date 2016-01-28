@@ -900,6 +900,7 @@ class ExperimentalData(object):
     lognormal = None
     power_transform = None
     labels_fdist = None
+    labels_id_strings = None
     id_strings_labels = None
     classes=None
 
@@ -1079,6 +1080,7 @@ class ExperimentalData(object):
                                            'lognormal': lognormal,
                                            'bin_ranges': bin_ranges,
                                            'batch_size': batch_size}
+        self.bin_ranges = bin_ranges
         self.test_bin_ranges = test_bin_ranges if test_bin_ranges else bin_ranges
         self.test_size = test_size
 
