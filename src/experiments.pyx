@@ -1144,10 +1144,10 @@ class ExperimentalData(object):
             self.id_strings_labels = id_strings_labels_test
             self.labels_fdist = labels_fdist_test
 
-        # Return if there are no samples from which to generate a test
-        # set (which should not be the case)
+        # Return an empty array if there are no samples from which to
+        # generate a test set (which should not be the case)
         if not id_strings_labels_test:
-            return
+            return np.array([])
 
         # Test data IDs
         prng = np.random.RandomState(12345)
