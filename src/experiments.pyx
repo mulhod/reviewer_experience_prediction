@@ -1268,8 +1268,11 @@ class ExperimentalData(object):
                                for this data-set
         :type n_folds_needed: int
 
-        :returns: a balanced array comprising a fold (sampling will be
-                  done according to `self.sampling`)
+        :returns: a balanced-label array comprising a fold (sampling
+                  will be done according to `self.sampling`) (NOTE: the
+                  returned array could possibly be 0 if there weren't
+                  enough samples to produce a fold of at least 10% of
+                  the desired size, etc.)
         :rtype: list
         """
 
@@ -1375,7 +1378,7 @@ class ExperimentalData(object):
 
         return fold_set
 
-    def _generate_dataset(self, grid_search: bool = False) -> np.array:
+    def _generate_dataset(self, grid_search: bool = False) -> (np.array, int):
         """
         Generate partitioned dataset for training rounds (or for the
         grid search rounds, if `grid_search` is True).
@@ -1386,9 +1389,9 @@ class ExperimentalData(object):
                             (defaults to False)
         :type grid_search: bool
 
-        :returns: dictionary mapping index numbers corresponding to
-                  dataset folds to arrays containing ID strings
-        :rtype: np.array
+        :returns: list of arrays containing ID strings representing each
+                  folds and the number of folds collected
+        :rtype: (np.array, int)
         """
 
         training_set = []
@@ -1412,7 +1415,7 @@ class ExperimentalData(object):
         # If the number of collected folds is not at least 75% of the
         # expected number, then raise an exception
         if folds_collected >= 0.75*folds:
-            return training_set
+            return training_set, folds_collected
         else:
             raise ValueError('Could not generate a {0} data-set consisting of '
                              'at least 75% of the desired size ({1}).'
@@ -1457,11 +1460,13 @@ class ExperimentalData(object):
         # sample IDs
         self.labels_id_strings = self._generate_labels_dict()
 
-        # Generate arrays of sample IDs for the main training data-set
-        # folds
+        # Generate arrays of sample IDs for the training and grid search
+        # data-set folds and reset the `folds`/`grid_search_folds`
+        # attributes, respectively, with the number of folds collected
+        # (hopefully the same value, but could be less if less folds
+        # were collected)
         if self.folds:
-            self.training_set = self._generate_dataset()
-
-        # Generate arrays of sample IDs for the grid search folds
+            self.training_set, self.folds = self._generate_dataset()
         if self.grid_search_folds:
-            self.grid_search_set = self._generate_dataset(grid_search=True)
+            (self.grid_search_set,
+             self.grid_search_folds) = self._generate_dataset(grid_search=True)
