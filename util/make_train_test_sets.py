@@ -5,6 +5,7 @@
 Script used to create training/test sets in a MongoDB database from
 review data extracted from flat files.
 """
+import logging
 from os import makedirs
 from os.path import (join,
                      exists,
@@ -18,8 +19,21 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 from src import (log_dir,
-                 data_dir)
-import src.reports_dir as default_reports_dir
+                 data_dir,
+                 formatter,
+                 reports_dir as default_reports_dir)
+
+# Initialize logging system
+logging_info = logging.INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(logging_info)
+sh = logging.StreamHandler()
+sh.setLevel(logging_info)
+logger.addHandler(sh)
+loginfo = logger.info
+logerr = logger.error
+logwarn = logger.warning
+
 
 def main():
     parser = \
@@ -103,12 +117,9 @@ def main():
     args = parser.parse_args()
 
     # Imports
-    import logging
     from os import listdir
-
     from pymongo import MongoClient
     from pymongo.errors import ConnectionFailure
-
     from src.datasets import get_game_files
     from src.mongodb import (connect_to_db,
                              insert_train_test_reviews)
@@ -131,30 +142,11 @@ def main():
     if not exists(log_file_dir):
         makedirs(log_file_dir, exist_ok=True)
 
-    # Initialize logging system
-    logging_info = logging.INFO
-    logger = logging.getLogger('make_train_test_sets')
-    logger.setLevel(logging_info)
-
-    # Create file handler
+    # Make file handler
     fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
-
-    # Create console handler
-    sh = logging.StreamHandler()
-    sh.setLevel(logging_info)
-
-    # Add nicer formatting
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                                  ' %(message)s')
     fh.setFormatter(formatter)
-    sh.setFormatter(formatter)
     logger.addHandler(fh)
-    logger.addHandler(sh)
-
-    loginfo = logger.info
-    logerr = logger.error
-    logwarn = logger.warning
 
     # Make sure value passed in via the --convert_to_bins/-bins option
     # flag makes sense and, if so, assign value to variable bins (if

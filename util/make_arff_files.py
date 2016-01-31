@@ -5,6 +5,7 @@
 Script used to generate ARFF files usable in Weka for the video game
 review data-sets.
 """
+import logging
 from os import makedirs
 from os.path import (join,
                      isdir,
@@ -15,7 +16,21 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 from src import (log_dir,
-                 data_dir)
+                 data_dir,
+                 formatter)
+
+# Initialize logging system
+logging_info = logging.INFO
+logger = logging.getLogger(__name__)
+logger.setLevel(logging_info)
+sh = logging.StreamHandler()
+sh.setLevel(logging_info)
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+loginfo = logger.info
+logerr = logger.error
+logwarn = logger.warning
+
 
 def main():
     parser = ArgumentParser(usage='python make_arff_files.py --game_files '
@@ -97,11 +112,8 @@ def main():
 
     # Imports
     import os
-    import logging
     from re import sub
-
     import numpy as np
-
     from src.mongodb import connect_to_db
     from src.datasets import (get_game_files,
                               get_bin_ranges,
@@ -126,29 +138,11 @@ def main():
     if not exists(log_file_dir):
         makedirs(log_file_dir, exist_ok=True)
 
-    # Initialize logging system
-    logging_info = logging.INFO
-    logger = logging.getLogger('make_arff_files')
-    logger.setLevel(logging_info)
-
-    # Create file handler
+    # Make file handler
     fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
-
-    # Create console handler
-    sh = logging.StreamHandler()
-    sh.setLevel(logging_info)
-
-    # Add nicer formatting
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s -'
-                                  ' %(message)s')
     fh.setFormatter(formatter)
-    sh.setFormatter(formatter)
     logger.addHandler(fh)
-    logger.addHandler(sh)
-    loginfo = logger.info
-    logerr = logger.error
-    logwarn = logger.warning
 
     # Check if the output directory exists
     output_dir = realpath(output_dir)

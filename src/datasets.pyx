@@ -57,12 +57,11 @@ from src import (Numeric,
                  data_dir as default_data_dir,
                  date_end_with_year_string_search)
 
-# Logging-related
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 loginfo = logger.info
 logdebug = logger.debug
-logwarn = logger.warning
 logerr = logger.error
+logwarn = logger.warning
 
 def get_game_files(games_str: str,
                    data_dir_path: str = default_data_dir) -> List[str]:

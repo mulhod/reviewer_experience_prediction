@@ -5,6 +5,7 @@
 Script used to run the web scraping tool in order to build the video
 game review corpus.
 """
+import logging
 from os import makedirs
 from os.path import (join,
                      dirname,
@@ -14,7 +15,18 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 from src import (log_dir,
-                 data_dir)
+                 data_dir,
+                 formatter)
+
+# Initialize logging system
+logger = logging.getLogger(__name__)
+logging_info = logging.INFO
+logger.setLevel(logging_info)
+sh = logging.StreamHandler()
+sh.setLevel(logging_info)
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+
 
 def main():
     parser = ArgumentParser(usage='./python get_review_data.py[ --appids '
@@ -54,9 +66,7 @@ def main():
     args = parser.parse_args()
 
     # Imports
-    import logging
     from json import dumps
-
     from data import (APPID_DICT,
                       parse_appids)
     from src import log_format_string
@@ -68,28 +78,11 @@ def main():
     if not exists(log_file_dir):
         makedirs(log_file_dir, exist_ok=True)
 
-    # Initialize logging system
-    logger = logging.getLogger()
-    logging_info = logging.INFO
-    logger = logging.getLogger('get_review_data')
-    logger.setLevel(logging_info)
-
-    # Create file handler
+    # Make file handler
     fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_info)
-
-    # Create console handler
-    sh = logging.StreamHandler()
-    sh.setLevel(logging_info)
-
-    # Add nicer formatting
-    formatter = logging.Formatter(log_format_string)
     fh.setFormatter(formatter)
-    sh.setFormatter(formatter)
     logger.addHandler(fh)
-    logger.addHandler(sh)
-
-    loginfo = logger.info
 
     # Make list of games for which to generate review data files
     if args.games:

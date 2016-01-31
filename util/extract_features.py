@@ -5,6 +5,7 @@
 Script used to extract features for review documents in the MongoDB
 database.
 """
+import logging
 from os import makedirs
 from os.path import (join,
                      dirname,
@@ -15,7 +16,21 @@ from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 
 from src import (log_dir,
+                 formatter,
                  project_dir)
+
+logger = logging.getLogger(__name__)
+logging_debug = logging.DEBUG
+logger.setLevel(logging_debug)
+loginfo = logger.info
+logdebug = logger.debug
+logerr = logger.error
+logwarn = logger.warning
+sh = logging.StreamHandler()
+sh.setLevel(logging_debug)
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+
 
 def main():
     parser = ArgumentParser(usage='python extract_features.py --game_files '
@@ -76,11 +91,8 @@ def main():
     args = parser.parse_args()
 
     # Imports
-    import logging
-
     from pymongo.errors import (BulkWriteError,
                                 ConnectionFailure)
-
     from src import log_format_string
     from src.mongodb import (connect_to_db,
                              bulk_extract_features_and_update_db)
@@ -106,22 +118,10 @@ def main():
     if not exists(log_file_dir):
         makedirs(log_file_dir, exist_ok=True)
 
-    # Setup logger and create logging handlers
-    logger = logging.getLogger('extract_features')
-    logging_debug = logging.DEBUG
-    logger.setLevel(logging_debug)
-    loginfo = logger.info
-    logdebug = logger.debug
-    logerr = logger.error
-    logwarn = logger.warning
-    formatter = logging.Formatter(log_format_string)
-    sh = logging.StreamHandler()
-    sh.setLevel(logging_debug)
+    # Setup file handler
     fh = logging.FileHandler(log_file_path)
     fh.setLevel(logging_debug)
-    sh.setFormatter(formatter)
     fh.setFormatter(formatter)
-    logger.addHandler(sh)
     logger.addHandler(fh)
 
     # Print out some logging information about the upcoming tasks

@@ -56,8 +56,7 @@ from src.datasets import (get_bin,
                           compute_label_value)
 
 # Logging-related
-logger = logging.getLogger()
-logerr = logger.error
+logger = logging.getLogger(__name__)
 
 NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
@@ -173,7 +172,7 @@ def distributional_info(db: collection,
         try:
             validate_bin_ranges(bin_ranges)
         except ValueError as e:
-            logerr(e)
+            logger.error(e)
             raise ValueError('"bin_ranges" could not be validated.')
 
     # Get review documents (only including label + ID string)

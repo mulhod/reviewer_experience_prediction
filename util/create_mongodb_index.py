@@ -1,6 +1,26 @@
-#!/usr/env python3.4
+"""
+Create an index in the MongoDB reviews collection on the
+'steam_id_number' key if one does not already exist.
+
+:author: Matt Mulholland
+:date: November, 2015
+"""
+import logging
+
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
+
+from src import formatter
+
+# Set up logger
+logger = logging.getLogger(__name__)
+logging_info = logging.INFO
+logger.setLevel(logging_info)
+sh = logging.StreamHandler()
+sh.setLevel(logging_info)
+sh.setFormatter(formatter)
+logger.addHandler(sh)
+
 
 def main(argv=None):
     parser = ArgumentParser(description='Run incremental learning '
@@ -27,21 +47,20 @@ def main(argv=None):
     from src.mongodb import connect_to_db
 
     # Connect to MongoDB database
-    print('Connecting to MongoDB database at {0}:{1}...'
-          .format(args.mongodb_host, args.mongodb_port),
-          file=sys.stderr)
+    logger.info('Connecting to MongoDB database at {0}:{1}...'
+                .format(args.mongodb_host, args.mongodb_port))
     try:
         db = connect_to_db(args.mongodb_host, args.mongodb_port)
     except ConnectionFailure as e:
-        print('Failed to connect to the MongoDB database collection.')
+        logger.error('Failed to connect to the MongoDB database collection.')
         raise e
 
     # Create index on 'steam_id_number' so that cursors can be sorted
     # on that particular key
-    print('Creating index on the "steam_id_number" key...', file=sys.stderr)
+    logger.info('Creating index on the "steam_id_number" key.')
     db.create_index('steam_id_number', ASCENDING)
-    print('Created new index "steam_id_number_1" in reviews collection.',
-          file=sys.stderr)
+    logger.info('Created new index named "steam_id_number_1" in the "reviews" '
+                'collection.')
 
 
 if __name__ == '__main__':

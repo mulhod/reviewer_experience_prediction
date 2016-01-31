@@ -1,4 +1,5 @@
 import re
+import logging
 from os.path import (join,
                      dirname,
                      realpath)
@@ -18,8 +19,7 @@ project_dir = dirname(dirname(realpath(__file__)))
 data_dir = join(project_dir, 'data')
 log_dir = join(project_dir, 'logs')
 reports_dir = join(project_dir, 'reports')
-
-log_format_string = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Type aliases
 Learner = Union[Perceptron,

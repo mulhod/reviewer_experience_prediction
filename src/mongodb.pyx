@@ -48,7 +48,7 @@ from src.datasets import (get_bin,
                           get_and_describe_dataset)
 
 # Logging-related
-logger = logging.getLogger()
+logger = logging.getLogger(__name__)
 loginfo = logger.info
 logdebug = logger.debug
 logwarn = logger.warning
