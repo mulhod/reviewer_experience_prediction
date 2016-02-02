@@ -486,7 +486,8 @@ def rescale_preds_and_fit_in_scale(y_preds: np.ndarray,
     # Convert the predictions to z-scores, then rescale to match the
     # training set distribution
     # Adapated from https://github.com/EducationalTestingService/skll/blob/master/skll/learner.py
-    y_preds = (((y_preds - y_preds.mean())/y_preds.std())*y_true_std) + y_true_mean
+    y_preds_rescaled = ((((y_preds - y_preds.mean())/y_preds.std())*y_true_std)
+                        + y_true_mean)
 
     # Get low/high ends of the scale
     scale = sorted(classes)
@@ -494,9 +495,15 @@ def rescale_preds_and_fit_in_scale(y_preds: np.ndarray,
     y_max = scale[-1]
 
     # Apply min and max constraints
-    y_preds = np.array([max(y_min, min(y_max, pred)) for pred in y_preds])
+    y_preds_rescaled = np.array([max(y_min, min(y_max, pred)) for pred
+                                 in y_preds_rescaled])
 
-    return y_preds
+    # Fit the original predicted labels into the scale without rescaling
+    # them also
+    y_preds_fitted_only = np.array([max(y_min, min(y_max, pred)) for pred
+                                    in y_preds])
+
+    return dict(rescaled=y_preds_rescaled, fitted_only=y_preds_fitted_only)
 
 
 def make_printable_confusion_matrix(y_test: np.ndarray, y_preds: np.ndarray,
