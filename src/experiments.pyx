@@ -815,9 +815,9 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              rescaled: bool,
                                              transformation_string: str) -> pd.Series:
     """
-    Evaluate predictions made by a learner during a round of learning
-    (e.g., in `src.learn.RunExperiments` and return a Series of metrics
-    and other data.
+    Evaluate predictions made by a learner during a round of a
+    cross-validation experiment (e.g., in `src.learn.RunExperiments`)
+    and return a series consisting of metrics and other data.
 
     :param y_test: actual values
     :type y_test: np.array
@@ -889,9 +889,8 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                        'iteration_rounds': iteration_rounds,
                        'learning_round': int(_round),
                        'prediction_label': prediction_label,
-                       'test_set_labels/test_set_predictions':
-                           list(zip(y_test, y_test_preds)),
-                       'learner': learner_name,
+                       'test_set_predictions': list(zip(y_test, y_test_preds)),
+                       'learner_type': learner_name,
                        'params': learner.get_params(),
                        'training_samples': n_train_samples,
                        'non-NLP features': ', '.join(non_nlp_features),
