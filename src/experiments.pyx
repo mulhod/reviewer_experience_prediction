@@ -457,49 +457,61 @@ def get_data_point(review_doc: Dict[str, Any],
     return {'y': y_value, 'id': id_string, 'x': feature_dict}
 
 
-def fit_preds_in_scale(y_preds: np.array, classes: np.array) -> np.array:
+def rescale_preds_and_fit_in_scale(y_preds: np.ndarray,
+                                   classes: np.ndarray,
+                                   y_true_mean: float,
+                                   y_true_std: float) -> Dict[str, np.ndarray]:
     """
-    Force values at either end of the scale to fit within the scale by
-    adding to or truncating the values.
+    Rescale predicted values based on the mean/standard deviation of the
+    original input values and fit values at either end of the scale
+    within the scale by adding to or truncating the values. Return both
+    the rescaled and unrescaled (i.e., only scale-fitted) versions.
 
     :param y_preds: array of predicted labels
-    :type y_preds: np.array
+    :type y_preds: np.ndarray
     :param classes: array of class labels
-    :type clases: np.array
+    :type clases: np.ndarray
+    :param y_true_mean: mean across all actual label values
+    :type y_true_mean: float
+    :param y_true_std: standard deviation of actual label value
+                       distribution
+    :type y_true_std: float
 
-    :returns: array of predicted labels
-    :rtype: np.array
+    :returns: dictionary storing a 'rescaled' key mapped to an array of
+              rescaled predicted labels and a 'fitted_only' key mapped
+              to an array of scale-fitted predicted labels
+    :rtype: Dict[str, np.ndarray]
     """
+
+    # Convert the predictions to z-scores, then rescale to match the
+    # training set distribution
+    # Adapated from https://github.com/EducationalTestingService/skll/blob/master/skll/learner.py
+    y_preds = (((y_preds - y_preds.mean())/y_preds.std())*y_true_std) + y_true_mean
 
     # Get low/high ends of the scale
     scale = sorted(classes)
-    low = scale[0]
-    high = scale[-1]
+    y_min = scale[0]
+    y_max = scale[-1]
 
-    cdef int i = 0
-    while i < len(y_preds):
-        if y_preds[i] < low:
-            y_preds[i] = low
-        elif y_preds[i] > high:
-            y_preds[i] = high
-        i += 1
+    # Apply min and max constraints
+    y_preds = np.array([max(y_min, min(y_max, pred)) for pred in y_preds])
 
     return y_preds
 
 
-def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
-                                    classes: np.array) -> tuple:
+def make_printable_confusion_matrix(y_test: np.ndarray, y_preds: np.ndarray,
+                                    classes: np.ndarray) -> tuple:
     """
     Produce a printable confusion matrix to use in the evaluation
     report (and also return the confusion matrix multi-dimensional
     array).
 
     :param y_test: array of actual labels
-    :type y_test: np.array
+    :type y_test: np.ndarray
     :param y_preds: array of predicted labels
-    :type y_preds: np.array
+    :type y_preds: np.ndarray
     :param classes: array of class labels
-    :type clases: np.array
+    :type clases: np.ndarray
 
     :returns: tuple consisting of a confusion matrix string and a
               confusion matrix multi-dimensional array
@@ -523,7 +535,7 @@ def make_printable_confusion_matrix(y_test: np.array, y_preds: np.array,
 def get_sorted_features_for_learner(learner: Union[Perceptron,
                                                    BernoulliNB,
                                                    MultinomialNB],
-                                    classes: np.array,
+                                    classes: np.ndarray,
                                     vectorizer: Vectorizer) \
     -> List[Dict[str, Union[str, float, int]]]:
     """
@@ -536,7 +548,7 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
                     among others)
     :type learner: Perceptron, BernoulliNB, or MultinomialNB
     :param classes: array of class labels
-    :type clases: np.array
+    :type clases: np.ndarray
     :param vectorizer: DictVectorizer or FeatureHasher
     :type vectorizer: Vectorizer instance
 
@@ -585,7 +597,7 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
 
 def print_model_weights(learner: Learner,
                         learner_name: str,
-                        classes: np.array,
+                        classes: np.ndarray,
                         games: set,
                         vectorizer: Vectorizer,
                         output_path: str) -> None:
@@ -602,7 +614,7 @@ def print_model_weights(learner: Learner,
     :param games: set of games (str)
     :type games: set
     :param classes: array of class labels
-    :type clases: np.array
+    :type clases: np.ndarray
     :param vectorizer: DictVectorizer or FeatureHasher
     :type vectorizer: Vectorizer instance
     :param output_path: path to output file
@@ -790,8 +802,10 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              games: set,
                                              test_games: set,
                                              _round: int,
+                                             iteration_rounds: int,
                                              n_train_samples: int,
                                              bin_ranges: List[Tuple[float, float]],
+                                             rescaled: bool,
                                              transformation_string: str) -> pd.Series:
     """
     Evaluate predictions made by a learner during a round of learning
@@ -820,8 +834,11 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     :type games: set
     :param test_games: set of test games
     :type test_games: set
-    :param _round: index of round of learning
+    :param _round: index corresponding to the cross-validation fold that
+                   is used as the test set
     :type _round: int
+    :param iteration_rounds: numer of rounds of iterative learning
+    :type iteration_rounds: int
     :param n_train_samples: number of samples used for training
     :type n_train_samples: int
     :param bin_ranges: list of ranges that define each bin, where each
@@ -841,6 +858,9 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                        values
     :type bin_ranges: list of tuples representing the minimum and
                       maximum values of a range of values (or None)
+    :param rescaled: whether or not predicted values were rescaled based
+                     on the mean/standard deviation of the input data
+    :type rescaled: bool
     :param transformation_string: string representation of transformation
     :type transformation_string: str
 
@@ -859,6 +879,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                            ', '.join(test_games)
                            if VALID_GAMES.difference(test_games)
                            else 'all_games',
+                       'iteration_rounds': iteration_rounds,
                        'learning_round': int(_round),
                        'prediction_label': prediction_label,
                        'test_set_labels/test_set_predictions':
@@ -868,6 +889,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                        'training_samples': n_train_samples,
                        'non-NLP features': ', '.join(non_nlp_features),
                        'NLP features': nlp_features,
+                       'rescaled': rescaled,
                        'transformation': transformation_string})
     if bin_ranges:
         stats_dict.update({'bin_ranges': bin_ranges})
@@ -901,7 +923,7 @@ class ExperimentalData(object):
     labels_fdist = None
     labels_id_strings = None
     id_strings_labels = None
-    classes=None
+    classes = None
 
     sampling_options = frozenset({'even', 'stratified'})
 
