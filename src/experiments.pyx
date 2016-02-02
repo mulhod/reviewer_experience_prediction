@@ -816,7 +816,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              transformation_string: str) -> pd.Series:
     """
     Evaluate predictions made by a learner during a round of a
-    cross-validation experiment (e.g., in `src.learn.RunExperiments`)
+    cross-validation experiment (e.g., in `src.learn.RunCVExperiments`)
     and return a series consisting of metrics and other data.
 
     :param y_test: actual values
@@ -901,6 +901,50 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
         stats_dict.update({'bin_ranges': bin_ranges})
 
     return pd.Series(stats_dict)
+
+
+def aggregate_cross_validation_experiments_stats(cv_learner_stats: List[List[pd.Series]]) \
+    -> List[pd.DataFrame]:
+    """
+    Compute average metrics across all cross-validation experiments.
+
+    :param cv_learner_stats: 
+    :type cv_learner_stats: list
+
+    :returns: list of dataframes containing the aggregated metrics
+              across each cross-validation experiment using a different
+              learner
+    :rtype: list
+    """
+
+    cv_learner_stats_aggregated = []
+    for cv_learner_stats_list in cv_learner_stats:
+        cv_learner_stats_aggregated_ = {}
+        num_cv_learner_stats_series = len(cv_learner_stats_list)
+        
+        # Aggregate the scalar value metrics
+        for metric in ['pearson_r', 'significance', 'precision_macro',
+                       'precision_weighted', 'f1_macro', 'f1_weighted',
+                       'accuracy', 'uwk', 'qwk', 'lwk', 'uwk_off_by_one',
+                       'qwk_off_by_one', 'lwk_off_by_one']:
+            cv_learner_stats_aggregated_['average_{0}'.format(metric)] = \
+                sum([cv_learner_stats_series[metric] for cv_learner_stats_series
+                     in cv_learner_stats_list])/num_cv_learner_stats_series
+        
+        # Aggregate the confusion matrices
+        conf_mat_sum = None
+        for cv_learner_stats_series in cv_learner_stats_list:
+            try:
+                conf_mat_sum += cv_learner_stats_series.confusion_matrix
+            except TypeError:
+                conf_mat_sum = cv_learner_stats_series.confusion_matrix
+        cv_learner_stats_aggregated_['aggregated_confusion_matrix'] = \
+            conf_mat_sum/num_cv_learner_stats_series
+        # Consider adding in the printable confusion matric
+
+        cv_learner_stats_aggregated.append(cv_learner_stats_aggregated_)
+
+    return cv_learner_stats_aggregated
 
 
 class ExperimentalData(object):
