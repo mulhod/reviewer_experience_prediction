@@ -97,7 +97,7 @@ setup(name='Reviewer Experience Prediction',
       entry_points={
           'console_scripts':
               ['extract_features = util.extract_features:main',
-               'learn = util.learn:main',
+               'cv_learn = util.cv_learn:main',
                'get_review_data = util.get_review_data:main',
                'make_arff_files = util.make_arff_files:main',
                'make_train_test_sets = util.make_train_test_sets:main',
