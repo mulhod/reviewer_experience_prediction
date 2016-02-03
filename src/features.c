@@ -468,7 +468,7 @@ struct __pyx_obj_3src_8features___pyx_scope_struct__extract_features {
 /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */
@@ -1023,10 +1023,10 @@ static char __pyx_k_whats_sub[] = "whats_sub";
 static char __pyx_k_would_not[] = "would not";
 static char __pyx_k_youre_sub[] = "youre_sub";
 static char __pyx_k_youve_sub[] = "youve_sub";
+static char __pyx_k_Collection[] = "Collection";
 static char __pyx_k_IGNORECASE[] = "IGNORECASE";
 static char __pyx_k_bwouldnt_b[] = "\\bwouldnt\\b";
 static char __pyx_k_cluster_id[] = "cluster_id";
-static char __pyx_k_collection[] = "collection";
 static char __pyx_k_havent_sub[] = "havent_sub";
 static char __pyx_k_num_badges[] = "num_badges";
 static char __pyx_k_num_groups[] = "num_groups";
@@ -1079,6 +1079,7 @@ static char __pyx_k_cluster_id_counter[] = "cluster_id_counter";
 static char __pyx_k_cluster_ids_extend[] = "cluster_ids_extend";
 static char __pyx_k_dep_counter_update[] = "dep_counter_update";
 static char __pyx_k_num_workshop_items[] = "num_workshop_items";
+static char __pyx_k_pymongo_collection[] = "pymongo.collection";
 static char __pyx_k_spaCy_sents_append[] = "spaCy_sents_append";
 static char __pyx_k_binarized_nlp_feats[] = "binarized_nlp_feats";
 static char __pyx_k_friend_player_level[] = "friend_player_level";
@@ -1118,6 +1119,7 @@ static PyObject *__pyx_n_s_ARENT;
 static PyObject *__pyx_n_s_BSON;
 static PyObject *__pyx_n_s_CANT;
 static PyObject *__pyx_kp_s_Class_for_objects_representing;
+static PyObject *__pyx_n_s_Collection;
 static PyObject *__pyx_n_s_Counter;
 static PyObject *__pyx_n_s_DIDNT;
 static PyObject *__pyx_n_s_DONT;
@@ -1198,7 +1200,6 @@ static PyObject *__pyx_n_s_cluster_ids_extend;
 static PyObject *__pyx_n_s_cngram;
 static PyObject *__pyx_n_s_cngram_counter;
 static PyObject *__pyx_n_s_cngram_counter_update;
-static PyObject *__pyx_n_s_collection;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_combinations;
 static PyObject *__pyx_n_s_compile;
@@ -1319,6 +1320,7 @@ static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_preprocessing_regex_funcs;
 static PyObject *__pyx_n_s_punctuation;
 static PyObject *__pyx_n_s_pymongo;
+static PyObject *__pyx_n_s_pymongo_collection;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
@@ -6333,14 +6335,14 @@ static PyObject *__pyx_pf_3src_8features_extract_features(CYTHON_UNUSED PyObject
 /* "src/features.pyx":337
  * 
  * 
- * def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
+ * def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
  *     """
  *     Collect the NLP features from the Mongo database collection for a
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8features_3get_nlp_features_from_db(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8features_2get_nlp_features_from_db[] = "\n    Collect the NLP features from the Mongo database collection for a\n    given review and return the decoded value.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param _id: MongoDB document's ObjectId\n    :type _id: ObjectId\n\n    :returns: dictionary of features if features were found; otherwise,\n              an empty dictionary\n    :rtype: dict\n    ";
+static char __pyx_doc_3src_8features_2get_nlp_features_from_db[] = "\n    Collect the NLP features from the Mongo database collection for a\n    given review and return the decoded value.\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param _id: MongoDB document's ObjectId\n    :type _id: ObjectId\n\n    :returns: dictionary of features if features were found; otherwise,\n              an empty dictionary\n    :rtype: dict\n    ";
 static PyMethodDef __pyx_mdef_3src_8features_3get_nlp_features_from_db = {"get_nlp_features_from_db", (PyCFunction)__pyx_pw_3src_8features_3get_nlp_features_from_db, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8features_2get_nlp_features_from_db};
 static PyObject *__pyx_pw_3src_8features_3get_nlp_features_from_db(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -6522,7 +6524,7 @@ static PyObject *__pyx_pf_3src_8features_2get_nlp_features_from_db(CYTHON_UNUSED
   /* "src/features.pyx":337
  * 
  * 
- * def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
+ * def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
  *     """
  *     Collect the NLP features from the Mongo database collection for a
  */
@@ -7000,14 +7002,14 @@ static PyObject *__pyx_gb_3src_8features_10generator(__pyx_CoroutineObject *__py
 /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8features_8bulk_extract_features[] = "\n    Extract NLP features from reviews in the MongoDB database for a\n    particular game/data partition in bulk and generate the feature\n    dictionaries and other information for use in updating the\n    database.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param game_cursor: MongoDB cursor\n    :type game_cursor: cursor\n    :param reuse_nlp_feats: reuse NLP features from database instead of\n                            extracting them all over again (default:\n                            True)\n    :type reuse_nlp_feats: bool\n    :param use_binarized_nlp_feats: use binarized NLP features\n                                    (default: True)\n    :type use_binarized_nlp_feats: bool\n    :param lowercase_text: whether or not to lower-case the review\n                           text (default: True)\n    :type lowercase_text: bool\n    :param lowercase_cngrams: whether or not to lower-case the\n                              character n-grams (default: False)\n    :type lowercase_cngrams: bool\n\n    :yields: dictionary containing a feature dictionary and an\n             `ObjectId` string to insert\n    :ytype: dict\n    ";
+static char __pyx_doc_3src_8features_8bulk_extract_features[] = "\n    Extract NLP features from reviews in the MongoDB database for a\n    particular game/data partition in bulk and generate the feature\n    dictionaries and other information for use in updating the\n    database.\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param game_cursor: MongoDB cursor\n    :type game_cursor: cursor\n    :param reuse_nlp_feats: reuse NLP features from database instead of\n                            extracting them all over again (default:\n                            True)\n    :type reuse_nlp_feats: bool\n    :param use_binarized_nlp_feats: use binarized NLP features\n                                    (default: True)\n    :type use_binarized_nlp_feats: bool\n    :param lowercase_text: whether or not to lower-case the review\n                           text (default: True)\n    :type lowercase_text: bool\n    :param lowercase_cngrams: whether or not to lower-case the\n                              character n-grams (default: False)\n    :type lowercase_cngrams: bool\n\n    :yields: dictionary containing a feature dictionary and an\n             `ObjectId` string to insert\n    :ytype: dict\n    ";
 static PyMethodDef __pyx_mdef_3src_8features_9bulk_extract_features = {"bulk_extract_features", (PyCFunction)__pyx_pw_3src_8features_9bulk_extract_features, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8features_8bulk_extract_features};
 static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -7027,7 +7029,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
     PyObject* values[6] = {0,0,0,0,0,0};
 
     /* "src/features.pyx":412
- * def bulk_extract_features(db: collection,
+ * def bulk_extract_features(db: Collection,
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,             # <<<<<<<<<<<<<<
  *                           use_binarized_nlp_feats: bool = True,
@@ -7140,7 +7142,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
   /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */
@@ -7700,7 +7702,7 @@ static PyObject *__pyx_gb_3src_8features_10generator(__pyx_CoroutineObject *__py
   /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */
@@ -8053,6 +8055,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BSON, __pyx_k_BSON, sizeof(__pyx_k_BSON), 0, 0, 1, 1},
   {&__pyx_n_s_CANT, __pyx_k_CANT, sizeof(__pyx_k_CANT), 0, 0, 1, 1},
   {&__pyx_kp_s_Class_for_objects_representing, __pyx_k_Class_for_objects_representing, sizeof(__pyx_k_Class_for_objects_representing), 0, 0, 1, 0},
+  {&__pyx_n_s_Collection, __pyx_k_Collection, sizeof(__pyx_k_Collection), 0, 0, 1, 1},
   {&__pyx_n_s_Counter, __pyx_k_Counter, sizeof(__pyx_k_Counter), 0, 0, 1, 1},
   {&__pyx_n_s_DIDNT, __pyx_k_DIDNT, sizeof(__pyx_k_DIDNT), 0, 0, 1, 1},
   {&__pyx_n_s_DONT, __pyx_k_DONT, sizeof(__pyx_k_DONT), 0, 0, 1, 1},
@@ -8133,7 +8136,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_cngram, __pyx_k_cngram, sizeof(__pyx_k_cngram), 0, 0, 1, 1},
   {&__pyx_n_s_cngram_counter, __pyx_k_cngram_counter, sizeof(__pyx_k_cngram_counter), 0, 0, 1, 1},
   {&__pyx_n_s_cngram_counter_update, __pyx_k_cngram_counter_update, sizeof(__pyx_k_cngram_counter_update), 0, 0, 1, 1},
-  {&__pyx_n_s_collection, __pyx_k_collection, sizeof(__pyx_k_collection), 0, 0, 1, 1},
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_combinations, __pyx_k_combinations, sizeof(__pyx_k_combinations), 0, 0, 1, 1},
   {&__pyx_n_s_compile, __pyx_k_compile, sizeof(__pyx_k_compile), 0, 0, 1, 1},
@@ -8254,6 +8256,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_preprocessing_regex_funcs, __pyx_k_preprocessing_regex_funcs, sizeof(__pyx_k_preprocessing_regex_funcs), 0, 0, 1, 1},
   {&__pyx_n_s_punctuation, __pyx_k_punctuation, sizeof(__pyx_k_punctuation), 0, 0, 1, 1},
   {&__pyx_n_s_pymongo, __pyx_k_pymongo, sizeof(__pyx_k_pymongo), 0, 0, 1, 1},
+  {&__pyx_n_s_pymongo_collection, __pyx_k_pymongo_collection, sizeof(__pyx_k_pymongo_collection), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
@@ -8726,7 +8729,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/features.pyx":337
  * 
  * 
- * def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
+ * def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
  *     """
  *     Collect the NLP features from the Mongo database collection for a
  */
@@ -8762,7 +8765,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */
@@ -9183,7 +9186,7 @@ PyMODINIT_FUNC PyInit_features(void)
  * from pymongo import cursor
  * from nltk.util import ngrams             # <<<<<<<<<<<<<<
  * from spacy.en import English
- * from pymongo import collection
+ * from skll.metrics import (kappa,
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9203,8 +9206,8 @@ PyMODINIT_FUNC PyInit_features(void)
  * from pymongo import cursor
  * from nltk.util import ngrams
  * from spacy.en import English             # <<<<<<<<<<<<<<
- * from pymongo import collection
  * from skll.metrics import (kappa,
+ *                           pearson)
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
@@ -9223,75 +9226,75 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":27
  * from nltk.util import ngrams
  * from spacy.en import English
- * from pymongo import collection             # <<<<<<<<<<<<<<
- * from skll.metrics import (kappa,
- *                           pearson)
- */
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_collection);
-  __Pyx_GIVEREF(__pyx_n_s_collection);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_collection);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pymongo, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_collection); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collection, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-
-  /* "src/features.pyx":28
- * from spacy.en import English
- * from pymongo import collection
  * from skll.metrics import (kappa,             # <<<<<<<<<<<<<<
  *                           pearson)
  * from bson.objectid import ObjectId
  */
-  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_INCREF(__pyx_n_s_kappa);
   __Pyx_GIVEREF(__pyx_n_s_kappa);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_kappa);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_kappa);
   __Pyx_INCREF(__pyx_n_s_pearson);
   __Pyx_GIVEREF(__pyx_n_s_pearson);
-  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_pearson);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_skll_metrics, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_pearson);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_skll_metrics, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_kappa); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_kappa, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_pearson); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 27; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pearson, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/features.pyx":29
+ * from skll.metrics import (kappa,
+ *                           pearson)
+ * from bson.objectid import ObjectId             # <<<<<<<<<<<<<<
+ * from pymongo.collection import Collection
+ * 
+ */
+  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_n_s_ObjectId);
+  __Pyx_GIVEREF(__pyx_n_s_ObjectId);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_ObjectId);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_bson_objectid, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_kappa); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ObjectId); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_kappa, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_pearson); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 28; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_pearson, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ObjectId, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/features.pyx":30
- * from skll.metrics import (kappa,
  *                           pearson)
- * from bson.objectid import ObjectId             # <<<<<<<<<<<<<<
+ * from bson.objectid import ObjectId
+ * from pymongo.collection import Collection             # <<<<<<<<<<<<<<
  * 
  * from src import Numeric
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_ObjectId);
-  __Pyx_GIVEREF(__pyx_n_s_ObjectId);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_ObjectId);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_bson_objectid, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_Collection);
+  __Pyx_GIVEREF(__pyx_n_s_Collection);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Collection);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pymongo_collection, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_ObjectId); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Collection); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ObjectId, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Collection, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":32
- * from bson.objectid import ObjectId
+ * from pymongo.collection import Collection
  * 
  * from src import Numeric             # <<<<<<<<<<<<<<
  * 
@@ -10891,7 +10894,7 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":337
  * 
  * 
- * def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
+ * def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:             # <<<<<<<<<<<<<<
  *     """
  *     Collect the NLP features from the Mongo database collection for a
  */
@@ -10927,7 +10930,7 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":410
  * 
  * 
- * def bulk_extract_features(db: collection,             # <<<<<<<<<<<<<<
+ * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
  *                           game_cursor: cursor,
  *                           reuse_nlp_feats: bool = True,
  */

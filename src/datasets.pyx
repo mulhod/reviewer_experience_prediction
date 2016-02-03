@@ -31,11 +31,11 @@ from typing import (Any,
                     Iterable,
                     Optional)
 from langdetect import detect
-from pymongo import collection
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
 import matplotlib.pyplot as plt
 from requests import get as rget
+from pymongo.collection import Collection
 from requests.exceptions import (Timeout,
                                  ConnectionError)
 from langdetect.lang_detect_exception import LangDetectException
@@ -1005,7 +1005,7 @@ def get_bin_ranges(float _min,
     return bin_ranges
 
 
-def get_bin_ranges_helper(db: collection,
+def get_bin_ranges_helper(db: Collection,
                           games: List[str],
                           label: str,
                           int nbins,
@@ -1025,7 +1025,7 @@ def get_bin_ranges_helper(db: collection,
     `x**power_transform` is used.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param games: list of games
     :type games: list
     :param label: prediction label
@@ -1219,7 +1219,7 @@ def get_bin(bin_ranges: List[Tuple[float, float]], float val) -> int:
     return -1
 
 
-def get_label_values(db: collection,
+def get_label_values(db: Collection,
                      games: List[str],
                      label: str,
                      lognormal: bool = False,
@@ -1242,7 +1242,7 @@ def get_label_values(db: collection,
     before doing any other transformation (if any).
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param games: list of games
     :type games: list
     :param label: feature label
@@ -1378,7 +1378,7 @@ def compute_label_value(value: Union[Numeric, str, bool],
 def write_arff_file(dest_path: str,
                     file_names: List[str],
                     reviews: Optional[List[Dict[str, Any]]] = None,
-                    db: Optional[collection] = None,
+                    db: Optional[Collection] = None,
                     make_train_test: bool = False,
                     bins=False) -> None:
     """
@@ -1390,7 +1390,7 @@ def write_arff_file(dest_path: str,
                     representing each data-point (defaults to None)
     :type reviews: list
     :param db: MongoDB reviews collection (None by default)
-    :type db: collection
+    :type db: Collection
     :param dest_path: path for .arff output file
     :type dest_path: str
     :param file_names: list of extension-less game file-names

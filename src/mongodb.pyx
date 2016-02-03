@@ -30,9 +30,9 @@ from typing import (Any,
                     Tuple,
                     Optional)
 from pymongo import (cursor,
-                     collection,
                      MongoClient)
 from bson.objectid import ObjectId
+from pymongo.collection import Collection
 from pymongo.bulk import BulkOperationBuilder
 from pymongo.errors import (AutoReconnect,
                             BulkWriteError,
@@ -58,7 +58,7 @@ logerr = logger.error
 bson_encode = BSON.encode
 
 def connect_to_db(host: str = 'localhost', port: int = 27017,
-                  tries: int = 10) -> collection:
+                  tries: int = 10) -> Collection:
     """
     Connect to database and return a collection object.
 
@@ -71,7 +71,7 @@ def connect_to_db(host: str = 'localhost', port: int = 27017,
     :type tries: int
 
     :rtype: MongoDB collection
-    :returns: collection
+    :returns: Collection
 
     :raises ConnectionFailure: if ConnectionFailure is encountered more
                                than `tries` times
@@ -98,7 +98,7 @@ def connect_to_db(host: str = 'localhost', port: int = 27017,
     return db['reviews']
 
 
-def create_game_cursor(db: collection,
+def create_game_cursor(db: Collection,
                        game_id: str,
                        data_partition: str,
                        int batch_size) -> cursor:
@@ -107,7 +107,7 @@ def create_game_cursor(db: collection,
     through game documents.
 
     :param db: Mongo reviews collection
-    :type db: collection
+    :type db: Collection
     :param game_id: game ID
     :type game_id: str
     :param data_partition: data partition, i.e., 'training', 'test',
@@ -149,7 +149,7 @@ def create_game_cursor(db: collection,
     return game_cursor
 
 
-def insert_train_test_reviews(db: collection,
+def insert_train_test_reviews(db: Collection,
                               file_path: str,
                               int max_size,
                               float percent_train,
@@ -164,7 +164,7 @@ def insert_train_test_reviews(db: collection,
     mechanisms.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param file_path: path to game reviews file
     :type file_path: str
     :param max_size: maximum size of training/test set combination (in
@@ -407,7 +407,7 @@ def generate_update_query(update_dict: Dict[str, Any],
                      'id_string': str(update_dict['_id'])}}
 
 
-def bulk_extract_features_and_update_db(db: collection,
+def bulk_extract_features_and_update_db(db: Collection,
                                         game: str,
                                         partition: str = 'all',
                                         reuse_nlp_feats: bool = True,
@@ -420,7 +420,7 @@ def bulk_extract_features_and_update_db(db: collection,
     partition and update the database.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param game: game ID
     :type game: str
     :param partition: partition of the data (leave unspecified or use

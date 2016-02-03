@@ -29,8 +29,7 @@ from typing import (Any,
                     Union,
                     Iterable,
                     Optional)
-from pymongo import (ASCENDING,
-                     collection)
+from pymongo import ASCENDING
 from scipy.stats import (mode,
                          linregress)
 from sklearn.base import BaseEstimator
@@ -38,6 +37,7 @@ from schema import (And,
                     Schema,
                     SchemaError,
                     Optional as Default)
+from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
 from sklearn.grid_search import (GridSearchCV,
@@ -102,7 +102,7 @@ class CVExperimentConfig(object):
     _n_features_feature_hashing = 2 ** 18
 
     def __init__(self,
-                 db: collection,
+                 db: Collection,
                  games: set,
                  learners: List[BaseEstimator],
                  param_grids: dict,
@@ -126,7 +126,7 @@ class CVExperimentConfig(object):
         Initialize object.
 
         :param db: MongoDB database collection object
-        :type db: collection
+        :type db: Collection
         :param games: set of games to use for training models
         :type games: set
         :param learners: algorithm classes to use for learning
@@ -196,12 +196,12 @@ class CVExperimentConfig(object):
 
         # Get dicionary of parameters (but remove "self" since that
         # doesn't need to be validated)
-        params = copy(dict(locals()))
+        params = dict(locals())
         del params['self']
 
         # Schema
         exp_schema = Schema(
-            {'db': collection,
+            {'db': lambda x: isinstance(x, Collection),
              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
              'learners':
                 lambda x: type(x) is list and all(issubclass(xi, BaseEstimator)
@@ -250,7 +250,7 @@ class CVExperimentConfig(object):
             raise e
 
         # Set up the experiment
-        self._further_validate()
+        self._further_validate_and_setup()
 
     def _further_validate_and_setup(self) -> None:
         """
@@ -363,6 +363,9 @@ class RunCVExperiments(object):
         self._vec = self._make_vectorizer(all_ids,
                                           hashed_features=self._cfg.hashed_features)
 
+        # Store all of the labels used for grid search and training
+        self._y_all = []
+
         # Learner-related variables
         self._param_grids = [list(ParameterGrid(param_grid)) for param_grid
                              in self._cfg.param_grids]
@@ -401,7 +404,6 @@ class RunCVExperiments(object):
 
         # Generate statistics for the majority baseline model
         if self._cfg.majority_baseline:
-            self._majority_label = None
             self._majority_baseline_stats = None
             self._evaluate_majority_baseline_model()
 
@@ -531,6 +533,10 @@ class RunCVExperiments(object):
         y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
         X_train = self._vec.transform(self._generate_samples(grid_search_all_ids, 'x'))
 
+        # Update `self._y_all` with all of the samples used during the
+        # grid search round
+        self._y_all.extend(y_train)
+
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
         # various grid search folds, but it will maintain the
@@ -595,7 +601,8 @@ class RunCVExperiments(object):
 
         # For each fold of the training set, train on all of the other
         # folds and evaluate on the one left out fold
-        for i, held_out_fold in enumerate(self._data.training_set)):
+        y_training_set_all = []
+        for i, held_out_fold in enumerate(self._data.training_set):
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
@@ -625,6 +632,9 @@ class RunCVExperiments(object):
             # Get test data
             y_test = list(self._generate_samples(held_out_fold, 'y'))
             X_test = self._vec.transform(self._generate_samples(held_out_fold, 'x'))
+
+            # Add test labels to `y_training_set_all`
+            y_training_set_all.extend(y_test)
 
             # Make predictions with the modified estimators
             for j, learner_name in enumerate(self._learner_names):
@@ -670,6 +680,10 @@ class RunCVExperiments(object):
                              self._cfg.rescale,
                              self._transformation_string)))
 
+        # Update `self._y_all` with all of the samples used during the
+        # cross-validation
+        self._y_all.extend(y_training_set_all)
+
     def _get_majority_baseline(self) -> np.ndarray:
         """
         Generate a majority baseline array of prediction labels.
@@ -678,8 +692,8 @@ class RunCVExperiments(object):
         :rtype: np.ndarray
         """
 
-        self._majority_label = mode(self._y_test).mode[0]
-        return np.array([self._majority_label]*len(self._y_test))
+        self._majority_label = max(set(self._y_all), key=self._y_all.count)
+        return np.array([self._majority_label]*len(self._y_all))
 
     def _evaluate_majority_baseline_model(self) -> None:
         """
@@ -689,10 +703,10 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        stats_dict = ext.compute_evaluation_metrics(self._y_test,
+        stats_dict = ext.compute_evaluation_metrics(self._y_all,
                                                     self._get_majority_baseline(),
-                                                    self._classes)
-        stats_dict.update({'test_games' if len(self._cfg.games) > 1 else 'test_game':
+                                                    self._data.classes)
+        stats_dict.update({'games' if len(self._cfg.games) > 1 else 'game':
                                self._games_string
                                if VALID_GAMES.difference(self._cfg.games)
                                else 'all_games',
@@ -701,8 +715,7 @@ class RunCVExperiments(object):
                            'learner': 'majority_baseline_model',
                            'transformation': self._transformation_string})
         if self._cfg.bin_ranges:
-            stats_dict.update({'bin_ranges': self._cfg.bin_ranges,
-                               'test_bin_ranges': self._cfg.bin_ranges})
+            stats_dict.update({'bin_ranges': self._cfg.bin_ranges})
         self._majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
@@ -768,7 +781,7 @@ class RunCVExperiments(object):
 
         if not ordering in self._orderings:
             msg = ('ordering parameter not in the set of possible orderings: '
-                   '{0}'.format(', '.join(self._orderings))
+                   '{0}'.format(', '.join(self._orderings)))
             logger.error(msg)
             raise ValueError(msg)
 
@@ -1170,7 +1183,6 @@ def main(argv=None):
                   bin_ranges=bin_ranges,
                   lognormal=lognormal,
                   power_transform=power_transform,
-                  training_rounds=training_rounds,
                   majority_baseline=evaluate_majority_baseline,
                   rescale=rescale_predictions,
                   file_handler=file_handler)

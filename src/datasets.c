@@ -1207,7 +1207,6 @@ static char __pyx_k_logging[] = "logging";
 static char __pyx_k_loginfo[] = "loginfo";
 static char __pyx_k_logwarn[] = "logwarn";
 static char __pyx_k_os_path[] = "os.path";
-static char __pyx_k_pymongo[] = "pymongo";
 static char __pyx_k_reports[] = "reports";
 static char __pyx_k_reviews[] = "reviews";
 static char __pyx_k_savefig[] = "savefig";
@@ -1263,12 +1262,12 @@ static char __pyx_k_set_label[] = "set_label";
 static char __pyx_k_space_sub[] = "space_sub";
 static char __pyx_k_time_orig[] = "time_orig";
 static char __pyx_k_APPID_DICT[] = "APPID_DICT";
+static char __pyx_k_Collection[] = "Collection";
 static char __pyx_k_IndexError[] = "IndexError";
 static char __pyx_k_NO_RATINGS[] = "NO_RATINGS";
 static char __pyx_k_ValueError[] = "ValueError";
 static char __pyx_k_bin_ranges[] = "bin_ranges";
 static char __pyx_k_breaks_sub[] = "breaks_sub";
-static char __pyx_k_collection[] = "collection";
 static char __pyx_k_file_names[] = "file_names";
 static char __pyx_k_first_time[] = "first_time";
 static char __pyx_k_game_files[] = "game_files";
@@ -1380,6 +1379,7 @@ static char __pyx_k_TIME_OUT_0_seconds[] = "TIME_OUT = {0} seconds";
 static char __pyx_k_almost_equal_begin[] = "almost_equal_begin";
 static char __pyx_k_num_workshop_items[] = "num_workshop_items";
 static char __pyx_k_profile_item_links[] = "profile_item_links";
+static char __pyx_k_pymongo_collection[] = "pymongo.collection";
 static char __pyx_k_ratingSummaryBlock[] = "ratingSummaryBlock";
 static char __pyx_k_sample_file_inputs[] = "sample_file_inputs";
 static char __pyx_k_0__length_histogram[] = "{0}_length_histogram";
@@ -1527,6 +1527,7 @@ static PyObject *__pyx_kp_s_Bin_values_are_too_big_0_0_0_1;
 static PyObject *__pyx_kp_s_Both_lognormal_and_power_transfo;
 static PyObject *__pyx_kp_s_Collecting_review_data_for_0_1;
 static PyObject *__pyx_kp_s_Collecting_review_data_from_the;
+static PyObject *__pyx_n_s_Collection;
 static PyObject *__pyx_n_s_ConnectionError;
 static PyObject *__pyx_kp_s_ConnectionError_encountered_Will;
 static PyObject *__pyx_kp_s_Could_not_cast_num_found_funny_v;
@@ -1663,7 +1664,6 @@ static PyObject *__pyx_n_s_bs4;
 static PyObject *__pyx_n_s_ceil;
 static PyObject *__pyx_n_s_close;
 static PyObject *__pyx_n_s_codecs;
-static PyObject *__pyx_n_s_collection;
 static PyObject *__pyx_n_s_column;
 static PyObject *__pyx_n_s_comma_sub;
 static PyObject *__pyx_n_s_comment_match_1;
@@ -1870,7 +1870,7 @@ static PyObject *__pyx_n_s_profile_page_html;
 static PyObject *__pyx_n_s_profile_small_header_name;
 static PyObject *__pyx_n_s_profile_soup;
 static PyObject *__pyx_n_s_profile_url;
-static PyObject *__pyx_n_s_pymongo;
+static PyObject *__pyx_n_s_pymongo_collection;
 static PyObject *__pyx_n_s_quotes_sub;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
@@ -18041,14 +18041,14 @@ static PyObject *__pyx_pf_3src_8datasets_7get_bin_ranges(CYTHON_UNUSED PyObject 
 /* "src/datasets.pyx":1008
  * 
  * 
- * def get_bin_ranges_helper(db: collection,             # <<<<<<<<<<<<<<
+ * def get_bin_ranges_helper(db: Collection,             # <<<<<<<<<<<<<<
  *                           games: List[str],
  *                           label: str,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8datasets_10get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8datasets_9get_bin_ranges_helper[] = "\n    Get bin ranges given a set of games, a label, the desired number of\n    bins, and the factor by which the bin sizes will be multiplied as\n    the index of the bins increase.\n\n    A set of raw data transformations can be specified as well.\n    `lognormal` can be set to True to transform raw values with the\n    natural log and `power_transform` can be specified as a positive,\n    non-zero float value to transform raw values such that\n    `x**power_transform` is used.\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: prediction label\n    :type label: str\n    :param nbins: number of bins into which the distribution is being\n                  sub-divided\n    :type nbins: int\n    :param factor: factor by which to multiply the bin sizes (default:\n                   1.0)\n    :type factor: float\n    :param lognormal: transform raw label values using `ln` (default:\n                      False)\n    :type lognormal: bool\n    :param power_transform: power by which to transform raw label\n                            values (default: None)\n    :type power_transform: float or None\n\n    :returns: list of tuples representing the minimum and maximum\n              values of each bin or None if `nbins` is 0\n    :rtype: list\n\n    :raises ValueError: if `nbins` is not greater than 1 or both\n                        `lognormal` and `power_transform` were\n                        specified\n    ";
+static char __pyx_doc_3src_8datasets_9get_bin_ranges_helper[] = "\n    Get bin ranges given a set of games, a label, the desired number of\n    bins, and the factor by which the bin sizes will be multiplied as\n    the index of the bins increase.\n\n    A set of raw data transformations can be specified as well.\n    `lognormal` can be set to True to transform raw values with the\n    natural log and `power_transform` can be specified as a positive,\n    non-zero float value to transform raw values such that\n    `x**power_transform` is used.\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param games: list of games\n    :type games: list\n    :param label: prediction label\n    :type label: str\n    :param nbins: number of bins into which the distribution is being\n                  sub-divided\n    :type nbins: int\n    :param factor: factor by which to multiply the bin sizes (default:\n                   1.0)\n    :type factor: float\n    :param lognormal: transform raw label values using `ln` (default:\n                      False)\n    :type lognormal: bool\n    :param power_transform: power by which to transform raw label\n                            values (default: None)\n    :type power_transform: float or None\n\n    :returns: list of tuples representing the minimum and maximum\n              values of each bin or None if `nbins` is 0\n    :rtype: list\n\n    :raises ValueError: if `nbins` is not greater than 1 or both\n                        `lognormal` and `power_transform` were\n                        specified\n    ";
 static PyMethodDef __pyx_mdef_3src_8datasets_10get_bin_ranges_helper = {"get_bin_ranges_helper", (PyCFunction)__pyx_pw_3src_8datasets_10get_bin_ranges_helper, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8datasets_9get_bin_ranges_helper};
 static PyObject *__pyx_pw_3src_8datasets_10get_bin_ranges_helper(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -18176,7 +18176,7 @@ static PyObject *__pyx_pw_3src_8datasets_10get_bin_ranges_helper(PyObject *__pyx
   /* "src/datasets.pyx":1008
  * 
  * 
- * def get_bin_ranges_helper(db: collection,             # <<<<<<<<<<<<<<
+ * def get_bin_ranges_helper(db: Collection,             # <<<<<<<<<<<<<<
  *                           games: List[str],
  *                           label: str,
  */
@@ -18769,7 +18769,7 @@ static PyObject *__pyx_pf_3src_8datasets_9get_bin_ranges_helper(CYTHON_UNUSED Py
   /* "src/datasets.pyx":1008
  * 
  * 
- * def get_bin_ranges_helper(db: collection,             # <<<<<<<<<<<<<<
+ * def get_bin_ranges_helper(db: Collection,             # <<<<<<<<<<<<<<
  *                           games: List[str],
  *                           label: str,
  */
@@ -20460,14 +20460,14 @@ static PyObject *__pyx_pf_3src_8datasets_13get_bin(CYTHON_UNUSED PyObject *__pyx
 /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8datasets_16get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8datasets_15get_label_values[] = "\n    Get all of the values for the given label in the data for the\n    given list of game(s). Optionally transform raw values with\n    `np.log` if lognormal is set to True (False by default).\n\n    A set of raw data transformations can be specified as well.\n    `lognormal` can be set to True to transform raw values with the\n    natural log and `power_transform` can be specified as a positive,\n    non-zero float value to transform raw values such that\n    `x**power_transform` is used.\n\n    The raw values of either `num_achievements_percentage` or\n    `found_helpful_percentage` labels (i.e., that have percentage\n    values between 0.0 and 1.0, inclusive) will be multiplied by 100\n    before doing any other transformation (if any).\n\n    :param db: MongoDB collection\n    :type db: collection\n    :param games: list of games\n    :type games: list\n    :param label: feature label\n    :type label: str\n    :param lognormal: transform raw label values using `ln` (default:\n                      False)\n    :type lognormal: bool\n    :param power_transform: power by which to transform raw label\n                            values (default: None)\n    :type power_transform: float or None\n\n    :returns: list of label values that are not equal to None or an\n              empty string\n    :rtype: list\n\n    :raises ValueError: if `lognormal` and `power_transform` were both\n                        specified\n    ";
+static char __pyx_doc_3src_8datasets_15get_label_values[] = "\n    Get all of the values for the given label in the data for the\n    given list of game(s). Optionally transform raw values with\n    `np.log` if lognormal is set to True (False by default).\n\n    A set of raw data transformations can be specified as well.\n    `lognormal` can be set to True to transform raw values with the\n    natural log and `power_transform` can be specified as a positive,\n    non-zero float value to transform raw values such that\n    `x**power_transform` is used.\n\n    The raw values of either `num_achievements_percentage` or\n    `found_helpful_percentage` labels (i.e., that have percentage\n    values between 0.0 and 1.0, inclusive) will be multiplied by 100\n    before doing any other transformation (if any).\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param games: list of games\n    :type games: list\n    :param label: feature label\n    :type label: str\n    :param lognormal: transform raw label values using `ln` (default:\n                      False)\n    :type lognormal: bool\n    :param power_transform: power by which to transform raw label\n                            values (default: None)\n    :type power_transform: float or None\n\n    :returns: list of label values that are not equal to None or an\n              empty string\n    :rtype: list\n\n    :raises ValueError: if `lognormal` and `power_transform` were both\n                        specified\n    ";
 static PyMethodDef __pyx_mdef_3src_8datasets_16get_label_values = {"get_label_values", (PyCFunction)__pyx_pw_3src_8datasets_16get_label_values, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8datasets_15get_label_values};
 static PyObject *__pyx_pw_3src_8datasets_16get_label_values(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -20573,7 +20573,7 @@ static PyObject *__pyx_pw_3src_8datasets_16get_label_values(PyObject *__pyx_self
   /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */
@@ -20638,7 +20638,7 @@ static PyObject *__pyx_lambda_funcdef_lambda(CYTHON_UNUSED PyObject *__pyx_self,
 /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */
@@ -21197,7 +21197,7 @@ static PyObject *__pyx_pf_3src_8datasets_15get_label_values(CYTHON_UNUSED PyObje
   /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */
@@ -21796,7 +21796,7 @@ static PyObject *__pyx_pf_3src_8datasets_17compute_label_value(CYTHON_UNUSED PyO
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8datasets_19write_arff_file[] = "\n    Write .arff file either for a list of reviews read in from a file\n    or list of files or for both the training and test partitions in\n    the MongoDB database.\n\n    :param reviews: list of dicts with hours/review keys-value mappings\n                    representing each data-point (defaults to None)\n    :type reviews: list\n    :param db: MongoDB reviews collection (None by default)\n    :type db: collection\n    :param dest_path: path for .arff output file\n    :type dest_path: str\n    :param file_names: list of extension-less game file-names\n    :type file_names: list\n    :param make_train_test: if True, use MongoDB collection to find\n                            reviews that are from the training and test\n                            partitions and make files for them instead\n                            of making one big file (defaults to False)\n    :type make_train_test: boolean\n    :param bins: if True or a list of bin range tuples, use collapsed\n                 hours played values (if `make_train_test` was also\n                 True, then the pre-computed collapsed hours values\n                 will be used (even if a list of ranges is passed in\n                 for some reason, i.e., the bin ranges will be\n                 ignored); if not, the passed-in value must be a list\n                 of 2-tuples representing the floating-point number\n                 ranges of the bins); if False, the original,\n                 unmodified hours played values will be used (default:\n                 False)\n    :type bins: boolean or list\n\n    :returns: None\n    :rtype: None\n\n    :raises ValueError: if the arguments conflict with each other, if\n                        arguments are missing, or if various other\n                        types of issues occur\n    ";
+static char __pyx_doc_3src_8datasets_19write_arff_file[] = "\n    Write .arff file either for a list of reviews read in from a file\n    or list of files or for both the training and test partitions in\n    the MongoDB database.\n\n    :param reviews: list of dicts with hours/review keys-value mappings\n                    representing each data-point (defaults to None)\n    :type reviews: list\n    :param db: MongoDB reviews collection (None by default)\n    :type db: Collection\n    :param dest_path: path for .arff output file\n    :type dest_path: str\n    :param file_names: list of extension-less game file-names\n    :type file_names: list\n    :param make_train_test: if True, use MongoDB collection to find\n                            reviews that are from the training and test\n                            partitions and make files for them instead\n                            of making one big file (defaults to False)\n    :type make_train_test: boolean\n    :param bins: if True or a list of bin range tuples, use collapsed\n                 hours played values (if `make_train_test` was also\n                 True, then the pre-computed collapsed hours values\n                 will be used (even if a list of ranges is passed in\n                 for some reason, i.e., the bin ranges will be\n                 ignored); if not, the passed-in value must be a list\n                 of 2-tuples representing the floating-point number\n                 ranges of the bins); if False, the original,\n                 unmodified hours played values will be used (default:\n                 False)\n    :type bins: boolean or list\n\n    :returns: None\n    :rtype: None\n\n    :raises ValueError: if the arguments conflict with each other, if\n                        arguments are missing, or if various other\n                        types of issues occur\n    ";
 static PyMethodDef __pyx_mdef_3src_8datasets_20write_arff_file = {"write_arff_file", (PyCFunction)__pyx_pw_3src_8datasets_20write_arff_file, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8datasets_19write_arff_file};
 static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_dest_path = 0;
@@ -21819,7 +21819,7 @@ static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self,
  * def write_arff_file(dest_path: str,
  *                     file_names: List[str],
  *                     reviews: Optional[List[Dict[str, Any]]] = None,             # <<<<<<<<<<<<<<
- *                     db: Optional[collection] = None,
+ *                     db: Optional[Collection] = None,
  *                     make_train_test: bool = False,
  */
     values[2] = ((PyObject *)Py_None);
@@ -21827,7 +21827,7 @@ static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self,
     /* "src/datasets.pyx":1381
  *                     file_names: List[str],
  *                     reviews: Optional[List[Dict[str, Any]]] = None,
- *                     db: Optional[collection] = None,             # <<<<<<<<<<<<<<
+ *                     db: Optional[Collection] = None,             # <<<<<<<<<<<<<<
  *                     make_train_test: bool = False,
  *                     bins=False) -> None:
  */
@@ -21835,7 +21835,7 @@ static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self,
 
     /* "src/datasets.pyx":1382
  *                     reviews: Optional[List[Dict[str, Any]]] = None,
- *                     db: Optional[collection] = None,
+ *                     db: Optional[Collection] = None,
  *                     make_train_test: bool = False,             # <<<<<<<<<<<<<<
  *                     bins=False) -> None:
  *     """
@@ -21843,7 +21843,7 @@ static PyObject *__pyx_pw_3src_8datasets_20write_arff_file(PyObject *__pyx_self,
     values[4] = ((PyObject *)Py_False);
 
     /* "src/datasets.pyx":1383
- *                     db: Optional[collection] = None,
+ *                     db: Optional[Collection] = None,
  *                     make_train_test: bool = False,
  *                     bins=False) -> None:             # <<<<<<<<<<<<<<
  *     """
@@ -24749,6 +24749,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Both_lognormal_and_power_transfo, __pyx_k_Both_lognormal_and_power_transfo, sizeof(__pyx_k_Both_lognormal_and_power_transfo), 0, 0, 1, 0},
   {&__pyx_kp_s_Collecting_review_data_for_0_1, __pyx_k_Collecting_review_data_for_0_1, sizeof(__pyx_k_Collecting_review_data_for_0_1), 0, 0, 1, 0},
   {&__pyx_kp_s_Collecting_review_data_from_the, __pyx_k_Collecting_review_data_from_the, sizeof(__pyx_k_Collecting_review_data_from_the), 0, 0, 1, 0},
+  {&__pyx_n_s_Collection, __pyx_k_Collection, sizeof(__pyx_k_Collection), 0, 0, 1, 1},
   {&__pyx_n_s_ConnectionError, __pyx_k_ConnectionError, sizeof(__pyx_k_ConnectionError), 0, 0, 1, 1},
   {&__pyx_kp_s_ConnectionError_encountered_Will, __pyx_k_ConnectionError_encountered_Will, sizeof(__pyx_k_ConnectionError_encountered_Will), 0, 0, 1, 0},
   {&__pyx_kp_s_Could_not_cast_num_found_funny_v, __pyx_k_Could_not_cast_num_found_funny_v, sizeof(__pyx_k_Could_not_cast_num_found_funny_v), 0, 0, 1, 0},
@@ -24885,7 +24886,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_ceil, __pyx_k_ceil, sizeof(__pyx_k_ceil), 0, 0, 1, 1},
   {&__pyx_n_s_close, __pyx_k_close, sizeof(__pyx_k_close), 0, 0, 1, 1},
   {&__pyx_n_s_codecs, __pyx_k_codecs, sizeof(__pyx_k_codecs), 0, 0, 1, 1},
-  {&__pyx_n_s_collection, __pyx_k_collection, sizeof(__pyx_k_collection), 0, 0, 1, 1},
   {&__pyx_n_s_column, __pyx_k_column, sizeof(__pyx_k_column), 0, 0, 1, 1},
   {&__pyx_n_s_comma_sub, __pyx_k_comma_sub, sizeof(__pyx_k_comma_sub), 0, 0, 1, 1},
   {&__pyx_n_s_comment_match_1, __pyx_k_comment_match_1, sizeof(__pyx_k_comment_match_1), 0, 0, 1, 1},
@@ -25092,7 +25092,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_profile_small_header_name, __pyx_k_profile_small_header_name, sizeof(__pyx_k_profile_small_header_name), 0, 0, 1, 1},
   {&__pyx_n_s_profile_soup, __pyx_k_profile_soup, sizeof(__pyx_k_profile_soup), 0, 0, 1, 1},
   {&__pyx_n_s_profile_url, __pyx_k_profile_url, sizeof(__pyx_k_profile_url), 0, 0, 1, 1},
-  {&__pyx_n_s_pymongo, __pyx_k_pymongo, sizeof(__pyx_k_pymongo), 0, 0, 1, 1},
+  {&__pyx_n_s_pymongo_collection, __pyx_k_pymongo_collection, sizeof(__pyx_k_pymongo_collection), 0, 0, 1, 1},
   {&__pyx_n_s_quotes_sub, __pyx_k_quotes_sub, sizeof(__pyx_k_quotes_sub), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
@@ -26120,7 +26120,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/datasets.pyx":1008
  * 
  * 
- * def get_bin_ranges_helper(db: collection,             # <<<<<<<<<<<<<<
+ * def get_bin_ranges_helper(db: Collection,             # <<<<<<<<<<<<<<
  *                           games: List[str],
  *                           label: str,
  */
@@ -26156,7 +26156,7 @@ static int __Pyx_InitCachedConstants(void) {
   /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */
@@ -26562,8 +26562,8 @@ PyMODINIT_FUNC PyInit_datasets(void)
  *                     Iterable,
  *                     Optional)
  * from langdetect import detect             # <<<<<<<<<<<<<<
- * from pymongo import collection
  * from bs4 import (BeautifulSoup,
+ *                  UnicodeDammit)
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 33; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -26582,94 +26582,94 @@ PyMODINIT_FUNC PyInit_datasets(void)
   /* "src/datasets.pyx":34
  *                     Optional)
  * from langdetect import detect
- * from pymongo import collection             # <<<<<<<<<<<<<<
- * from bs4 import (BeautifulSoup,
- *                  UnicodeDammit)
- */
-  __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_collection);
-  __Pyx_GIVEREF(__pyx_n_s_collection);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_collection);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pymongo, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_collection); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_collection, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-
-  /* "src/datasets.pyx":35
- * from langdetect import detect
- * from pymongo import collection
  * from bs4 import (BeautifulSoup,             # <<<<<<<<<<<<<<
  *                  UnicodeDammit)
  * import matplotlib.pyplot as plt
  */
-  __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyList_New(2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_n_s_BeautifulSoup);
   __Pyx_GIVEREF(__pyx_n_s_BeautifulSoup);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_BeautifulSoup);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_BeautifulSoup);
   __Pyx_INCREF(__pyx_n_s_UnicodeDammit);
   __Pyx_GIVEREF(__pyx_n_s_UnicodeDammit);
-  PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_UnicodeDammit);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_bs4, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_BeautifulSoup); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  PyList_SET_ITEM(__pyx_t_1, 1, __pyx_n_s_UnicodeDammit);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_bs4, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BeautifulSoup, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_UnicodeDammit); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UnicodeDammit, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_BeautifulSoup); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_BeautifulSoup, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_UnicodeDammit); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 34; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_UnicodeDammit, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 35; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "src/datasets.pyx":37
+  /* "src/datasets.pyx":36
  * from bs4 import (BeautifulSoup,
  *                  UnicodeDammit)
  * import matplotlib.pyplot as plt             # <<<<<<<<<<<<<<
  * from requests import get as rget
+ * from pymongo.collection import Collection
+ */
+  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_INCREF(__pyx_n_s__87);
+  __Pyx_GIVEREF(__pyx_n_s__87);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s__87);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 36; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "src/datasets.pyx":37
+ *                  UnicodeDammit)
+ * import matplotlib.pyplot as plt
+ * from requests import get as rget             # <<<<<<<<<<<<<<
+ * from pymongo.collection import Collection
  * from requests.exceptions import (Timeout,
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s__87);
-  __Pyx_GIVEREF(__pyx_n_s__87);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s__87);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_matplotlib_pyplot, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_get);
+  __Pyx_GIVEREF(__pyx_n_s_get);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_get);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_requests, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_plt, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_get); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_rget, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 37; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/datasets.pyx":38
- *                  UnicodeDammit)
  * import matplotlib.pyplot as plt
- * from requests import get as rget             # <<<<<<<<<<<<<<
+ * from requests import get as rget
+ * from pymongo.collection import Collection             # <<<<<<<<<<<<<<
  * from requests.exceptions import (Timeout,
  *                                  ConnectionError)
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_get);
-  __Pyx_GIVEREF(__pyx_n_s_get);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_get);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_requests, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_Collection);
+  __Pyx_GIVEREF(__pyx_n_s_Collection);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_Collection);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_pymongo_collection, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_get); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Collection); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_rget, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Collection, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 38; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/datasets.pyx":39
- * import matplotlib.pyplot as plt
  * from requests import get as rget
+ * from pymongo.collection import Collection
  * from requests.exceptions import (Timeout,             # <<<<<<<<<<<<<<
  *                                  ConnectionError)
  * from langdetect.lang_detect_exception import LangDetectException
@@ -27023,7 +27023,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
   /* "src/datasets.pyx":1008
  * 
  * 
- * def get_bin_ranges_helper(db: collection,             # <<<<<<<<<<<<<<
+ * def get_bin_ranges_helper(db: Collection,             # <<<<<<<<<<<<<<
  *                           games: List[str],
  *                           label: str,
  */
@@ -27059,7 +27059,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
   /* "src/datasets.pyx":1222
  * 
  * 
- * def get_label_values(db: collection,             # <<<<<<<<<<<<<<
+ * def get_label_values(db: Collection,             # <<<<<<<<<<<<<<
  *                      games: List[str],
  *                      label: str,
  */

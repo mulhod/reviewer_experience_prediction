@@ -24,10 +24,10 @@ from typing import (Dict,
 from pymongo import cursor
 from nltk.util import ngrams
 from spacy.en import English
-from pymongo import collection
 from skll.metrics import (kappa,
                           pearson)
 from bson.objectid import ObjectId
+from pymongo.collection import Collection
 
 from src import Numeric
 
@@ -334,13 +334,13 @@ def extract_features(review: Review,
     return feats
 
 
-def get_nlp_features_from_db(db: collection, _id: ObjectId) -> Dict[str, int]:
+def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:
     """
     Collect the NLP features from the Mongo database collection for a
     given review and return the decoded value.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param _id: MongoDB document's ObjectId
     :type _id: ObjectId
 
@@ -407,7 +407,7 @@ def binarize_nlp_features(nlp_features: Dict[str, int]) -> Dict[str, int]:
     return dict(Counter(list(nlp_features)))
 
 
-def bulk_extract_features(db: collection,
+def bulk_extract_features(db: Collection,
                           game_cursor: cursor,
                           reuse_nlp_feats: bool = True,
                           use_binarized_nlp_feats: bool = True,
@@ -420,7 +420,7 @@ def bulk_extract_features(db: collection,
     database.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param game_cursor: MongoDB cursor
     :type game_cursor: cursor
     :param reuse_nlp_feats: reuse NLP features from database instead of

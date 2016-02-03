@@ -23,9 +23,9 @@ from typing import (Any,
                     Optional)
 from skll.metrics import kappa
 from pymongo import (cursor,
-                     ASCENDING,
-                     collection)
+                     ASCENDING)
 from scipy.stats import pearsonr
+from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import (f1_score,
                              accuracy_score,
@@ -62,7 +62,7 @@ NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
 
 
-def distributional_info(db: collection,
+def distributional_info(db: Collection,
                         label: str,
                         games: list,
                         partition: str = 'all',
@@ -97,7 +97,7 @@ def distributional_info(db: collection,
     converted using that information.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param label: label used for prediction
     :type label: str
     :param games: list of game IDs
@@ -236,7 +236,7 @@ def get_label_in_doc(doc: Dict[str, Any],
             return achievement_progress[label]
 
 
-def evenly_distribute_samples(db: collection,
+def evenly_distribute_samples(db: Collection,
                               label: str,
                               games: List[str],
                               partition: str = 'test',
@@ -257,7 +257,7 @@ def evenly_distribute_samples(db: collection,
     unspecified (i.e., all of the data is used).
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param label: label used for prediction
     :type label: str
     :param games: list of game IDs
@@ -649,7 +649,7 @@ def print_model_weights(learner: Learner,
                          'dataframe for {0}...'.format(learner_name))
 
 
-def make_cursor(db: collection,
+def make_cursor(db: Collection,
                 partition: str = '',
                 projection: Dict[str, int] = {},
                 games: List[str] = [],
@@ -662,7 +662,7 @@ def make_cursor(db: collection,
     `id_string` values are within a given set of input values.
 
     :param db: MongoDB collection
-    :type db: collection
+    :type db: Collection
     :param partition: partition of MongoDB collection
     :type partition: str
     :param projection: projection for filtering out certain values from
@@ -978,7 +978,7 @@ class ExperimentalData(object):
     sampling_options = frozenset({'even', 'stratified'})
 
     def __init__(self,
-                 db: collection,
+                 db: Collection,
                  prediction_label: str,
                  games: set,
                  folds: int,
@@ -997,7 +997,7 @@ class ExperimentalData(object):
         Initialize an `ExperimentalData` object.
 
         :param db: MongoDB collection
-        :type db: collection
+        :type db: Collection
         :param prediction_label: label to use for prediction
         :type prediction_label: str
         :param games: set of games (str)
