@@ -33,7 +33,7 @@ Learner = Union[Perceptron,
                 PassiveAggressiveRegressor]
 Vectorizer = Union[DictVectorizer, FeatureHasher]
 Numeric = Union[int, float]
-Scorer = Optional[Union[str, Callable[[Iterable[Any], Iterable[Any]]]]]
+Scorer = Optional[Union[str, Callable[[Iterable[Any], Iterable[Any]], Any]]]
 
 # Seed for random state
 SEED = 123456789
