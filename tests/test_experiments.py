@@ -250,6 +250,15 @@ class ExperimentalDataTestCase(unittest.TestCase):
             assert_equal(_kwargs.get('sampling', 'stratified'),
                          exp_data.sampling)
 
+
+class CVExperimentConfigTestCase(unittest.TestCase):
+    """
+    Test the `CVExperimentConfig` class.
+    """
+
+    db = connect_to_db('localhost', 37017)
+    prediction_label = 'total_game_hours'
+
     def test_CVExperimenConfig_invalid(self):
         """
         Test the `CVExperimentConfig` class.
