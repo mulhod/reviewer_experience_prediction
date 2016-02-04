@@ -18,8 +18,8 @@ from src import (LEARNER_DICT,
                  DEFAULT_PARAM_GRIDS,
                  parse_non_nlp_features_string)
 from src.mongodb import connect_to_db
-from src.experimental import (ExperimentalData,
-                              CVExperimentConfig)
+from src.experiments import (ExperimentalData,
+                             CVExperimentConfig)
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
