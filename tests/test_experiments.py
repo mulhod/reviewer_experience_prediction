@@ -9,12 +9,17 @@ from collections import Counter
 
 import pudb
 import numpy as np
+from schema import SchemaError
 from nose2.compat import unittest
 from nose.tools import (assert_equal,
                         assert_raises)
 
+from src import (LEARNER_DICT,
+                 DEFAULT_PARAM_GRIDS,
+                 parse_non_nlp_features_string)
 from src.mongodb import connect_to_db
-from src.experimental import ExperimentalData
+from src.experimental import (ExperimentalData,
+                              CVExperimentConfig)
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
@@ -244,3 +249,60 @@ class ExperimentalDataTestCase(unittest.TestCase):
             # in as the parameter value (or the default value)
             assert_equal(_kwargs.get('sampling', 'stratified'),
                          exp_data.sampling)
+
+    def test_CVExperimenConfig_invalid(self):
+        """
+        Test the `CVExperimentConfig` class.
+        """
+
+        learner_abbrs = ['perc', 'pagr']
+        learners = [LEARNER_DICT[learner] for learner in learner_abbrs]
+        non_nlp_features = parse_non_nlp_features_string('all', 'total_game_hours')
+        param_grids = [DEFAULT_PARAM_GRIDS[LEARNER_DICT[learner]]
+                       for learner in learner_abbrs]
+        valid_kwargs = dict(db=self.db,
+                            games=set(['Dota_2']),
+                            learners=learners,
+                            param_grids=param_grids,
+                            training_rounds=10,
+                            training_samples_per_round=100,
+                            grid_search_samples_per_fold=50,
+                            non_nlp_features=non_nlp_features,
+                            prediction_label=self.prediction_label,
+                            objective='pearson_r',
+                            data_sampling='even',
+                            grid_search_folds=5,
+                            hashed_features=100000,
+                            nlp_features=True,
+                            bin_ranges=[(0.0, 225.1), (225.2, 2026.2),
+                                        (2026.3, 16435.0)],
+                            lognormal=False,
+                            power_transform=False,
+                            majority_baseline=True,
+                            rescale=True)
+        invalid_kwargs_list = [
+            # Invalid `db` value
+            dict(db='db',
+                 **{p: v for p, v in valid_kwargs.items() if p != 'db'}),
+            # Invalid games in `games` parameter value
+            dict(games=set(['Dota']),
+                 **{p: v for p, v in valid_kwargs.items() if p != 'games'}),
+            # Invalid `learners` parameter value
+            dict(learners=learner_abbrs,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # Invalid parameter grids in `param_grids` parameter value
+            dict(param_grids=[dict(a=1, b=2), dict(c='g', d=True)],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'param_grids'}),
+            # `learners` and `param_grids` of unequal size
+            dict(learners=[learners[0]],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # Invalid `training_rounds` parameter value (must be int)
+            dict(training_rounds=2.0,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'}),
+            # Invalid `training_rounds` parameter value (must be greater
+            # than 0)
+            dict(training_rounds=0,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'})
+            ]
+        for kwargs in invalid_kwargs_list:
+            assert_raises(SchemaError, CVExperimentConfig, **kwargs)
