@@ -32,11 +32,6 @@ from typing import (Any,
 from pymongo import ASCENDING
 from scipy.stats import (mode,
                          linregress)
-from sklearn.base import BaseEstimator
-from schema import (And,
-                    Schema,
-                    SchemaError,
-                    Optional as Default)
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
@@ -54,6 +49,7 @@ from sklearn.linear_model import (Perceptron,
 
 from data import APPID_DICT
 from src.mongodb import connect_to_db
+from src.datasets import get_bin_ranges_helper
 from src import (LABELS,
                  Learner,
                  Numeric,
@@ -71,8 +67,6 @@ from src import (LABELS,
                  parse_learners_string,
                  find_default_param_grid,
                  parse_non_nlp_features_string)
-from src.datasets import (validate_bin_ranges,
-                          get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running `RunCVExperiments`
@@ -89,188 +83,6 @@ sh = logging.StreamHandler()
 sh.setLevel(logging_debug)
 sh.setFormatter(formatter)
 logger.addHandler(sh)
-
-
-class CVExperimentConfig(object):
-    """
-    Class for representing configuration options for use with the
-    `RunCVExperiments` class.
-    """
-
-    # Default value to use for the `hashed_features` parameter if 0 is
-    # passed in.
-    _n_features_feature_hashing = 2 ** 18
-
-    def __init__(self,
-                 db: Collection,
-                 games: set,
-                 learners: List[BaseEstimator],
-                 param_grids: dict,
-                 training_rounds: int,
-                 training_samples_per_round: int,
-                 grid_search_samples_per_fold: int,
-                 non_nlp_features: List[str],
-                 prediction_label: str,
-                 objective: str,
-                 data_sampling: str = 'even',
-                 grid_search_folds: int = 5,
-                 hashed_features: Optional[int] = None,
-                 nlp_features: bool = True,
-                 bin_ranges: Optional[list] = None,
-                 lognormal: bool = False,
-                 power_transform: Optional[float] = None,
-                 majority_baseline: bool = True,
-                 rescale: bool = True,
-                 file_handler: logging.FileHandler = None) -> 'CVExperimentConfig':
-        """
-        Initialize object.
-
-        :param db: MongoDB database collection object
-        :type db: Collection
-        :param games: set of games to use for training models
-        :type games: set
-        :param learners: algorithm classes to use for learning
-        :type learners: list of BaseEstimator types
-        :param param_grids: list of dictionaries of parameters mapped
-                            to lists of values (must be aligned with
-                            list of learners)
-        :type param_grids: dict
-        :param training_rounds: number of training rounds to do (in
-                                addition to the grid search round)
-        :type training_rounds: int
-        :param training_samples_per_round: number of training samples
-                                           to use in each training round
-        :type training_samples_per_round: int
-        :param grid_search_samples_per_fold: number of samples to use
-                                             for each grid search fold
-        :type grid_search_samples_per_fold: int
-        :param non_nlp_features: list of non-NLP features to add into
-                                 the feature dictionaries 
-        :type non_nlp_features: list
-        :param prediction_label: feature to predict
-        :type prediction_label: str
-        :param objective: objective function to use in ranking the runs
-        :type objective: str
-        :param data_sampling: how the data should be sampled (i.e.,
-                              either 'even' or 'stratified')
-        :type data_sampling: str
-        :param grid_search_folds: number of grid search folds to use
-                                  (default: 5)
-        :type grid_search_folds: int
-        :param hashed_features: use FeatureHasher in place of
-                                DictVectorizer and use the given number
-                                of features (must be positive number or
-                                0, which will set it to the default
-                                number of features for feature hashing)
-        :type hashed_features: int
-        :param nlp_features: include NLP features (default: True)
-        :type nlp_features: bool
-        :param bin_ranges: list of tuples representing the maximum and
-                           minimum values corresponding to bins (for
-                           splitting up the distribution of prediction
-                           label values)
-        :type bin_ranges: list or None
-        :param lognormal: transform raw label values using `ln` (default:
-                          False)
-        :type lognormal: bool
-        :param power_transform: power by which to transform raw label
-                                values (default: None)
-        :type power_transform: float or None
-        :param majority_baseline: evaluate a majority baseline model
-        :type majority_baseline: bool
-        :param rescale: whether or not to rescale the predicted values
-                        based on the input value distribution (defaults
-                        to True, but set to False if this is a
-                        classification experiment)
-        :type rescale: bool
-        :param file_handler: file handler to use to direct logging
-                             messages to
-        :type file_handler: logging.FileHandler
-
-        :returns: instance of RunCVExperiments class
-        :rtype: RunCVExperiments
-
-        :raises ValueError: if the input parameters result in conflicts
-                            or are invalid
-        """
-
-        # Get dicionary of parameters (but remove "self" since that
-        # doesn't need to be validated)
-        params = dict(locals())
-        del params['self']
-
-        # Schema
-        exp_schema = Schema(
-            {'db': Collection,
-             'games': And(set, lambda x: x.issubset(VALID_GAMES)),
-             'learners':
-                lambda x: [BaseEstimator],
-             'param_grids': [{str: list}],
-             'training_rounds': And(int, lambda x: x > 1),
-             'training_samples_per_round': And(int, lambda x: x > 0),
-             'grid_search_samples_per_fold': And(int, lambda x: x > 0),
-             'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
-             'prediction_label': And(str, lambda x: (not x in params['non_nlp_features']
-                                                     and x in LABELS)),
-             'objective': str,
-             Default('data_sampling', default='even'):
-                And(str, lambda x: x in ex.ExperimentalData.sampling_options),
-             Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
-             Default('hashed_features', default=None):
-                (lambda x: x is None) or (type(x) is int and x > -1),
-             Default('nlp_features', default=True): bool,
-             Default('bin_ranges', default=None):
-                (lambda x: x is None) or And([(float, float)], lambda x: validate_bin_ranges(x)),
-             Default('lognormal', default=False): bool,
-             Default('power_transform', default=None):
-                (lambda x: x is None) or float,
-             Default('majority_baseline', default=True): bool,
-             Default('rescale', default=True): bool,
-             Default('file_handler', default=None):
-                (lambda x: x is None) or logging.FileHandler
-             }
-            )
-
-        # Validate the schema
-        try:
-            self.validated = exp_schema.validate(params)
-        except (ValueError, SchemaError) as e:
-            msg = ('The set of passed-in parameters was not able to be '
-                   'validated and/or the bin ranges values, if specified, were'
-                   ' not able to be validated.')
-            logger.error('{0}:\n\n{1}'.format(msg, e))
-            raise e
-
-        # Set up the experiment
-        self._further_validate_and_setup()
-
-    def _further_validate_and_setup(self) -> None:
-        """
-        Further validate the experiment's configuration settings and set
-        up certain configuration settings, such as adding the file
-        handler, setting the total number of hashed features to use,
-        etc.
-
-        :returns: None
-        :rtype: None
-        """
-
-        # Add the file handler to the logger
-        if self.validated['file_handler']:
-            logger.addHandler(self.validated['file_handler'])
-
-        # Make sure parameters make sense/are valid
-        if self.validated['hashed_features'] != None:
-            if self.validated['hashed_features'] < 0:
-                raise ValueError('Cannot use non-positive value, {0}, for the'
-                                 ' "hashed_features" parameter.'
-                                 .format(self.validated['hashed_features']))
-            else:
-                if self.validated['hashed_features'] == 0:
-                    self.validated['hashed_features'] = self._n_features_feature_hashing
-        if self.validated['lognormal'] and self.validated['power_transform']:
-            raise ValueError('Both "lognormal" and "power_transform" were '
-                             'specified simultaneously.')
 
 
 class RunCVExperiments(object):
@@ -396,8 +208,7 @@ class RunCVExperiments(object):
 
         # Generate statistics for the majority baseline model
         if self._cfg.majority_baseline:
-            self._majority_baseline_stats = None
-            self._evaluate_majority_baseline_model()
+            self._majority_baseline_stats = self._evaluate_majority_baseline_model()
 
     def _generate_experimental_data(self):
         """
@@ -687,12 +498,13 @@ class RunCVExperiments(object):
         self._majority_label = max(set(self._y_all), key=self._y_all.count)
         return np.array([self._majority_label]*len(self._y_all))
 
-    def _evaluate_majority_baseline_model(self) -> None:
+    def _evaluate_majority_baseline_model(self) -> pd.Series:
         """
         Evaluate the majority baseline model predictions.
 
-        :returns: None
-        :rtype: None
+        :returns: a Series containing the majority label system's
+                  performance metrics and attributes
+        :rtype: pd.Series
         """
 
         stats_dict = ext.compute_evaluation_metrics(self._y_all,
@@ -708,7 +520,7 @@ class RunCVExperiments(object):
                            'transformation': self._transformation_string})
         if self._cfg.bin_ranges:
             stats_dict.update({'bin_ranges': self._cfg.bin_ranges})
-        self._majority_baseline_stats = pd.DataFrame([pd.Series(stats_dict)])
+        return pd.Series(stats_dict)
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
         """
@@ -722,9 +534,8 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        (self._majority_baseline_stats
-         .to_csv(join(output_path, self._majority_baseline_report_name),
-                 index=False))
+        self._majority_baseline_stats.to_csv(join(output_path,
+                                                  self._majority_baseline_report_name)
 
     def generate_learning_reports(self, output_path: str,
                                   ordering: str = 'objective_last_round') -> None:
@@ -746,65 +557,12 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        # Rank the experiments by the given ordering type
-        try:
-            dfs = self._rank_experiments_by_objective(ordering=ordering)
-        except ValueError:
-            raise e
-
-        for i, df in enumerate(dfs):
+        for i, cv_learner_series_list in enumerate(self._cv_learner_stats):
+            df = pd.DataFrame(cv_learner_series_list)
             learner_name = df['learner'].iloc[0]
             df.to_csv(join(output_path,
-                           self._stats_name_template.format(learner_name, i + 1)),
+                           self._stats_name_template.format(learner_name)),
                       index=False)
-
-    def _rank_experiments_by_objective(self, ordering: str) -> List[pd.DataFrame]:
-        """
-        Rank the experiments in relation to their performance in the
-        objective function.
-
-        :param ordering: ordering type (see
-                         `RunCVExperiments._orderings`)
-        :type ordering: str
-
-        :returns: list of dataframes
-        :rtype: list
-        """
-
-        if not ordering in self._orderings:
-            msg = ('ordering parameter not in the set of possible orderings: '
-                   '{0}'.format(', '.join(self._orderings)))
-            logger.error(msg)
-            raise ValueError(msg)
-
-        # Keep track of the performance
-        dfs = []
-        performances = []
-
-        # Iterate over all experiments
-        for learner_param_grid_stats in self._learner_param_grid_stats:
-            for stats_df in learner_param_grid_stats:
-
-                # Fill "na" values with 0
-                stats_df = stats_df.fillna(value=0)
-                dfs.append(stats_df)
-
-                if ordering == 'objective_last_round':
-                    # Get the performance in the last round
-                    performances.append(stats_df[self._cfg.objective][len(stats_df) - 1])
-                elif ordering == 'objective_best_round':
-                    # Get the best performance (in any round)
-                    performances.append(stats_df[self._cfg.objective].max())
-                else:
-                    # Get the slope of the performance as the learning
-                    # round increases
-                    regression = linregress(stats_df['learning_round'],
-                                            stats_df[self._cfg.objective])
-                    performances.append(regression.slope)
-
-        # Sort dataframes on ordering value and return
-        return [df[1] for df
-                in sorted(zip(performances, dfs), key=lambda x: x[0], reverse=True)]
 
     def store_sorted_features(self, model_weights_path: str) -> None:
         """
@@ -825,19 +583,19 @@ class RunCVExperiments(object):
         # Generate feature weights files and a README.json providing
         # the parameters corresponding to each set of feature weights
         params_dict = {}
-        for (learner_list, learner_name) in zip(self._learner_lists,
-                                                self._learner_names):
+        for learner_name in self._cv_learners:
+
             # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
             if learner_name in self._no_introspection_learners:
                 continue
 
-            for i, learner in enumerate(learner_list):
+            for i, estimator in self._cv_learners[learner_name]:
 
                 # Get dataframe of the features/coefficients
                 try:
-                    ex.print_model_weights(learner,
+                    ex.print_model_weights(estimator,
                                            learner_name,
-                                           self._classes,
+                                           self._data.classes,
                                            self._cfg.games,
                                            self._vec,
                                            join(model_weights_path,
@@ -1156,7 +914,7 @@ def main(argv=None):
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
     try:
-        cfg = CVExperimentConfig(
+        cfg = ex.CVExperimentConfig(
                   db=db,
                   games=games,
                   learners=[LEARNER_DICT[learner] for learner in learners],
@@ -1176,8 +934,7 @@ def main(argv=None):
                   lognormal=lognormal,
                   power_transform=power_transform,
                   majority_baseline=evaluate_majority_baseline,
-                  rescale=rescale_predictions,
-                  file_handler=file_handler)
+                  rescale=rescale_predictions)
         experiments = RunCVExperiments(cfg)
     except ValueError as e:
         logerr('Encountered a ValueError while instantiating the '

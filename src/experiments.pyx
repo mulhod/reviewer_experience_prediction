@@ -25,6 +25,11 @@ from skll.metrics import kappa
 from pymongo import ASCENDING
 from scipy.stats import pearsonr
 from pymongo.cursor import Cursor
+from sklearn.base import BaseEstimator
+from schema import (And,
+                    Schema,
+                    SchemaError,
+                    Optional as Default)
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import (f1_score,
@@ -506,37 +511,34 @@ def rescale_preds_and_fit_in_scale(y_preds: np.ndarray,
     return dict(rescaled=y_preds_rescaled, fitted_only=y_preds_fitted_only)
 
 
-def make_printable_confusion_matrix(y_test: np.ndarray, y_preds: np.ndarray,
-                                    classes: np.ndarray) -> tuple:
+def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> tuple:
     """
     Produce a printable confusion matrix to use in the evaluation
     report (and also return the confusion matrix multi-dimensional
     array).
 
-    :param y_test: array of actual labels
-    :type y_test: np.ndarray
-    :param y_preds: array of predicted labels
-    :type y_preds: np.ndarray
-    :param classes: array of class labels
-    :type clases: np.ndarray
+    :param conf_mat: confusion matrix
+    :type conf_mat: np.ndarray
+    :param classes: set of class labels/values
+    :type classes: set
 
-    :returns: tuple consisting of a confusion matrix string and a
-              confusion matrix multi-dimensional array
+    :returns: a printable confusion matrix string
     :rtype: tuple
     """
 
-    cnfmat = confusion_matrix(y_test, np.round(y_preds), labels=classes).tolist()
+    conf_mat = conf_mat.tolist()
+    classes = sorted(classes)
     header = ('confusion_matrix (rounded predictions) (row=actual, '
               'col=machine, labels={0}):\n'.format(classes))
     tab_join = '\t'.join
     row_format = '{0}{1}\n'.format
     labels_list = [''] + [str(cls) for cls in classes]
     res = row_format(header, tab_join(labels_list))
-    for row, label in zip(cnfmat, classes):
+    for row, label in zip(conf_mat, classes):
         row = tab_join([str(x) for x in [label] + row])
         res = row_format(res, row)
 
-    return res, cnfmat
+    return conf_mat
 
 
 def get_sorted_features_for_learner(learner: Union[Perceptron,
@@ -751,9 +753,8 @@ def compute_evaluation_metrics(y_test: np.array,
 
     # Get confusion matrix (both the np.ndarray and the printable
     # one)
-    printable_cnfmat, cnfmat = make_printable_confusion_matrix(y_test,
-                                                               y_preds,
-                                                               classes)
+    conf_mat = confusion_matrix(y_test, y_preds, classes)
+    printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)
 
     return {'pearson_r': r,
             'significance': sig,
@@ -776,8 +777,8 @@ def compute_evaluation_metrics(y_test: np.array,
             'accuracy': accuracy_score(y_test,
                                        y_preds,
                                        normalize=True),
-            'confusion_matrix': cnfmat,
-            'printable_confusion_matrix': printable_cnfmat,
+            'confusion_matrix': conf_mat,
+            'printable_confusion_matrix': printable_conf_mat,
             'uwk': kappa(y_test, y_preds),
             'uwk_off_by_one': kappa(y_test,
                                     y_preds,
@@ -940,7 +941,7 @@ def aggregate_cross_validation_experiments_stats(cv_learner_stats: List[List[pd.
                 conf_mat_sum = cv_learner_stats_series.confusion_matrix
         cv_learner_stats_aggregated_['aggregated_confusion_matrix'] = \
             conf_mat_sum/num_cv_learner_stats_series
-        # Consider adding in the printable confusion matric
+        # Consider adding in the printable confusion matrices
 
         cv_learner_stats_aggregated.append(cv_learner_stats_aggregated_)
 
@@ -1541,3 +1542,177 @@ class ExperimentalData(object):
         if self.grid_search_folds:
             (self.grid_search_set,
              self.grid_search_folds) = self._generate_dataset(grid_search=True)
+
+
+class CVExperimentConfig(object):
+    """
+    Class for representing configuration options for use with the
+    `util.cv_learn.RunCVExperiments` class.
+    """
+
+    # Default value to use for the `hashed_features` parameter if 0 is
+    # passed in.
+    _n_features_feature_hashing = 2 ** 18
+
+    def __init__(self,
+                 db: Collection,
+                 games: set,
+                 learners: List[BaseEstimator],
+                 param_grids: dict,
+                 training_rounds: int,
+                 training_samples_per_round: int,
+                 grid_search_samples_per_fold: int,
+                 non_nlp_features: List[str],
+                 prediction_label: str,
+                 objective: str,
+                 data_sampling: str = 'even',
+                 grid_search_folds: int = 5,
+                 hashed_features: Optional[int] = None,
+                 nlp_features: bool = True,
+                 bin_ranges: Optional[list] = None,
+                 lognormal: bool = False,
+                 power_transform: Optional[float] = None,
+                 majority_baseline: bool = True,
+                 rescale: bool = True) -> 'CVExperimentConfig':
+        """
+        Initialize object.
+
+        :param db: MongoDB database collection object
+        :type db: Collection
+        :param games: set of games to use for training models
+        :type games: set
+        :param learners: algorithm classes to use for learning
+        :type learners: list of BaseEstimator types
+        :param param_grids: list of dictionaries of parameters mapped
+                            to lists of values (must be aligned with
+                            list of learners)
+        :type param_grids: dict
+        :param training_rounds: number of training rounds to do (in
+                                addition to the grid search round)
+        :type training_rounds: int
+        :param training_samples_per_round: number of training samples
+                                           to use in each training round
+        :type training_samples_per_round: int
+        :param grid_search_samples_per_fold: number of samples to use
+                                             for each grid search fold
+        :type grid_search_samples_per_fold: int
+        :param non_nlp_features: list of non-NLP features to add into
+                                 the feature dictionaries 
+        :type non_nlp_features: list
+        :param prediction_label: feature to predict
+        :type prediction_label: str
+        :param objective: objective function to use in ranking the runs
+        :type objective: str
+        :param data_sampling: how the data should be sampled (i.e.,
+                              either 'even' or 'stratified')
+        :type data_sampling: str
+        :param grid_search_folds: number of grid search folds to use
+                                  (default: 5)
+        :type grid_search_folds: int
+        :param hashed_features: use FeatureHasher in place of
+                                DictVectorizer and use the given number
+                                of features (must be positive number or
+                                0, which will set it to the default
+                                number of features for feature hashing)
+        :type hashed_features: int
+        :param nlp_features: include NLP features (default: True)
+        :type nlp_features: bool
+        :param bin_ranges: list of tuples representing the maximum and
+                           minimum values corresponding to bins (for
+                           splitting up the distribution of prediction
+                           label values)
+        :type bin_ranges: list or None
+        :param lognormal: transform raw label values using `ln` (default:
+                          False)
+        :type lognormal: bool
+        :param power_transform: power by which to transform raw label
+                                values (default: None)
+        :type power_transform: float or None
+        :param majority_baseline: evaluate a majority baseline model
+        :type majority_baseline: bool
+        :param rescale: whether or not to rescale the predicted values
+                        based on the input value distribution (defaults
+                        to True, but set to False if this is a
+                        classification experiment)
+        :type rescale: bool
+
+        :returns: instance of RunCVExperiments class
+        :rtype: RunCVExperiments
+
+        :raises ValueError: if the input parameters result in conflicts
+                            or are invalid
+        """
+
+        # Get dicionary of parameters (but remove "self" since that
+        # doesn't need to be validated and remove values set to None
+        # since they will be dealt with automatically)
+        params = dict(locals())
+        del params['self']
+        for param in list(params):
+            if params[param] is None:
+                del params[param]
+
+        # Schema
+        exp_schema = Schema(
+            {'db': Collection,
+             'games': And(set, lambda x: x.issubset(VALID_GAMES)),
+             'learners':
+                lambda x: [BaseEstimator],
+             'param_grids': [{str: list}],
+             'training_rounds': And(int, lambda x: x > 1),
+             'training_samples_per_round': And(int, lambda x: x > 0),
+             'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+             'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
+             'prediction_label':
+                 And(str,
+                     lambda x: not x in params['non_nlp_features'] and x in LABELS),
+             'objective': str,
+             Default('data_sampling', default='even'):
+                And(str, lambda x: x in ExperimentalData.sampling_options),
+             Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
+             Default('hashed_features', default=None): And(int, lambda x: x > -1),
+             Default('nlp_features', default=True): bool,
+             Default('bin_ranges', default=None):
+                And([(float, float)], lambda x: validate_bin_ranges(x) is None),
+             Default('lognormal', default=False): bool,
+             Default('power_transform', default=None): float,
+             Default('majority_baseline', default=True): bool,
+             Default('rescale', default=True): bool
+             }
+            )
+
+        # Validate the schema
+        try:
+            self.validated = exp_schema.validate(params)
+        except (ValueError, SchemaError) as e:
+            msg = ('The set of passed-in parameters was not able to be '
+                   'validated and/or the bin ranges values, if specified, were'
+                   ' not able to be validated.')
+            logger.error('{0}:\n\n{1}'.format(msg, e))
+            raise e
+
+        # Set up the experiment
+        self._further_validate_and_setup()
+
+    def _further_validate_and_setup(self) -> None:
+        """
+        Further validate the experiment's configuration settings and set
+        up certain configuration settings, such as setting the total
+        number of hashed features to use, etc.
+
+        :returns: None
+        :rtype: None
+        """
+
+        # Make sure parameters make sense/are valid
+        if self.validated['hashed_features'] != None:
+            if self.validated['hashed_features'] < 0:
+                raise ValueError('Cannot use non-positive value, {0}, for the'
+                                 ' "hashed_features" parameter.'
+                                 .format(self.validated['hashed_features']))
+            else:
+                if self.validated['hashed_features'] == 0:
+                    self.validated['hashed_features'] = self._n_features_feature_hashing
+        if self.validated['lognormal'] and self.validated['power_transform']:
+            raise ValueError('Both "lognormal" and "power_transform" were '
+                             'specified simultaneously.')
