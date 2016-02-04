@@ -1565,7 +1565,7 @@ class CVExperimentConfig(object):
                  grid_search_samples_per_fold: int,
                  non_nlp_features: List[str],
                  prediction_label: str,
-                 objective: str,
+                 objective: str = None,
                  data_sampling: str = 'even',
                  grid_search_folds: int = 5,
                  hashed_features: Optional[int] = None,
@@ -1602,8 +1602,12 @@ class CVExperimentConfig(object):
         :type non_nlp_features: list
         :param prediction_label: feature to predict
         :type prediction_label: str
-        :param objective: objective function to use in ranking the runs
-        :type objective: str
+        :param objective: objective function to use in ranking the runs;
+                          if left unspecified, the objective will be
+                          decided in `GridSearchCV` and will be either
+                          accuracy for classification or r2 for
+                          regression
+        :type objective: str or None
         :param data_sampling: how the data should be sampled (i.e.,
                               either 'even' or 'stratified')
         :type data_sampling: str
@@ -1667,7 +1671,7 @@ class CVExperimentConfig(object):
              'prediction_label':
                  And(str,
                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
-             'objective': lambda x: x in OBJ_FUNC_ABBRS_DICT,
+             Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
              Default('data_sampling', default='even'):
                 And(str, lambda x: x in ExperimentalData.sampling_options),
              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
