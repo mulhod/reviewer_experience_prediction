@@ -20285,7 +20285,7 @@ static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_sel
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  */
 
 /* Python wrapper */
@@ -20331,7 +20331,7 @@ static PyObject *__pyx_lambda_funcdef_lambda11(CYTHON_UNUSED PyObject *__pyx_sel
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  */
 
@@ -20377,7 +20377,7 @@ static PyObject *__pyx_lambda_funcdef_lambda12(CYTHON_UNUSED PyObject *__pyx_sel
 /* "src/experiments.pyx":1669
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  *              'prediction_label':
  */
@@ -20405,7 +20405,7 @@ static PyObject *__pyx_lambda_funcdef_lambda13(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda13", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -20423,7 +20423,7 @@ static PyObject *__pyx_lambda_funcdef_lambda13(CYTHON_UNUSED PyObject *__pyx_sel
 
 /* "src/experiments.pyx":1670
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),             # <<<<<<<<<<<<<<
  *              'prediction_label':
  *                  And(str,
@@ -21179,7 +21179,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  */
   __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
@@ -21219,7 +21219,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  */
   __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -21259,7 +21259,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   /* "src/experiments.pyx":1669
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  *              'prediction_label':
  */
@@ -21299,7 +21299,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
 
   /* "src/experiments.pyx":1670
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),             # <<<<<<<<<<<<<<
  *              'prediction_label':
  *                  And(str,

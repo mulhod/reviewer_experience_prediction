@@ -309,9 +309,49 @@ class CVExperimentConfigTestCase(unittest.TestCase):
             dict(training_rounds=2.0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'}),
             # Invalid `training_rounds` parameter value (must be greater
-            # than 0)
-            dict(training_rounds=0,
-                 **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'})
+            # than 1)
+            dict(training_rounds=1,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'}),
+            # Invalid `training_samples_per_round` parameter value (must
+            # be int)
+            dict(training_samples_per_round=1.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'training_samples_per_round'}),
+            # Invalid `training_samples_per_round` parameter value (must
+            # be greater than 0)
+            dict(training_samples_per_round=0.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'training_samples_per_round'}),
+            # Invalid `grid_search_samples_per_fold` parameter value
+            # (must be int)
+            dict(grid_search_samples_per_fold=50.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'grid_search_samples_per_fold'}),
+            # Invalid `grid_search_samples_per_fold` parameter value
+            # (must be greater than 1)
+            dict(grid_search_samples_per_fold=0.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'grid_search_samples_per_fold'}),
+            # Invalid `non_nlp_features` parameter value (must be set of
+            # valid features)
+            dict(non_nlp_features={'total_game_hours_last_three_weeks'},
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'non_nlp_features'}),
+            # Invalid `prediction_label` parameter value (must be in set
+            # of valid features)
+            dict(prediction_label={'total_game_hours_last_three_weeks'},
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'prediction_label'}),
+            # Invalid `objective` parameter value (must be in set of
+            # of valid objective function names)
+            dict(objective={'pearson'},
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'objective'}),
+            # Invalid `data_sampling` parameter value (must be in set of
+            # of valid sampling methods)
+            dict(data_sampling={'equal'},
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'data_sampling'})
             ]
         for kwargs in invalid_kwargs_list:
             assert_raises(SchemaError, CVExperimentConfig, **kwargs)

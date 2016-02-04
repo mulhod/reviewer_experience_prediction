@@ -1666,7 +1666,7 @@ class CVExperimentConfig(object):
              'param_grids': [{str: list}],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),
-             'grid_search_samples_per_fold': And(int, lambda x: x > 0),
+             'grid_search_samples_per_fold': And(int, lambda x: x > 1),
              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
              'prediction_label':
                  And(str,
