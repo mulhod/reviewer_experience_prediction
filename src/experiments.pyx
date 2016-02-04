@@ -54,6 +54,7 @@ from src import (LABELS,
                  HELPFUL_LABELS,
                  LEARNER_DICT_KEYS,
                  ACHIEVEMENTS_LABELS,
+                 OBJ_FUNC_ABBRS_DICT,
                  LEARNER_ABBRS_STRING,
                  LABELS_WITH_PCT_VALUES)
 from src.datasets import (get_bin,
@@ -1666,7 +1667,7 @@ class CVExperimentConfig(object):
              'prediction_label':
                  And(str,
                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
-             'objective': str,
+             'objective': lambda x: x in OBJ_FUNC_ABBRS_DICT,
              Default('data_sampling', default='even'):
                 And(str, lambda x: x in ExperimentalData.sampling_options),
              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
