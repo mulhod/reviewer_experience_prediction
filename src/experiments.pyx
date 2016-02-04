@@ -48,15 +48,8 @@ from src import (LABELS,
                  Learner,
                  Numeric,
                  Vectorizer,
-                 TIME_LABELS,
                  VALID_GAMES,
-                 FRIENDS_LABELS,
-                 HELPFUL_LABELS,
-                 LEARNER_DICT_KEYS,
-                 ACHIEVEMENTS_LABELS,
-                 OBJ_FUNC_ABBRS_DICT,
-                 LEARNER_ABBRS_STRING,
-                 LABELS_WITH_PCT_VALUES)
+                 OBJ_FUNC_ABBRS_DICT)
 from src.datasets import (get_bin,
                           validate_bin_ranges,
                           compute_label_value)
