@@ -30,8 +30,11 @@ from typing import (Any,
                     Iterable,
                     Optional)
 from pymongo import ASCENDING
+from skll.metrics import kappa
 from scipy.stats import (mode,
+                         pearsonr,
                          linregress)
+from sklearn.metrics import make_scorer
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
@@ -51,6 +54,7 @@ from data import APPID_DICT
 from src.mongodb import connect_to_db
 from src.datasets import get_bin_ranges_helper
 from src import (LABELS,
+                 Scorer,
                  Learner,
                  Numeric,
                  formatter,
@@ -209,6 +213,44 @@ class RunCVExperiments(object):
         # Generate statistics for the majority baseline model
         if self._cfg.majority_baseline:
             self._majority_baseline_stats = self._evaluate_majority_baseline_model()
+
+    def _resolve_objective_function(self) -> Scorer:
+        """
+        Resolve value of parameter to be passed in to the `scoring`
+        parameter in `GridSearchCV`, which can be `None`, a string, or a
+        callable.
+
+        :returns: a value to pass into the `scoring` parameter in
+                  `GridSearchCV`
+        :rtype: str, None, callable
+        """
+
+        if not self._cfg.objective:
+            return None
+
+        if self._cfg.objective == 'pearson_r':
+            scorer = make_scorer(pearsonr)
+        elif self._cfg.objective.startswith('uwk'):
+            if self._cfg.objective == 'uwk':
+                scorer = make_scorer(kappa)
+            else:
+                scorer = make_scorer(kappa, allow_off_by_one=True)
+        elif self._cfg.objective.startswith('lwk'):
+            if self._cfg.objective == 'lwk':
+                scorer = make_scorer(kappa, weights='linear')
+            else:
+                scorer = make_scorer(kappa, weights='linear',
+                                     allow_off_by_one=True)
+        elif self._cfg.objective.startswith('lwk'):
+            if self._cfg.objective == 'lwk':
+                scorer = make_scorer(kappa, weights='quadratic')
+            else:
+                scorer = make_scorer(kappa, weights='quadratic',
+                                     allow_off_by_one=True)
+        else:
+            scorer = self._cfg.objective
+
+        return scorer
 
     def _generate_experimental_data(self):
         """
@@ -382,7 +424,8 @@ class RunCVExperiments(object):
                 raise ValueError(msg)
             gs_cv = GridSearchCV(learner(),
                                  param_grid,
-                                 cv=self._gs_cv_folds)
+                                 cv=self._gs_cv_folds,
+                                 scoring=self._resolve_objective_function())
 
             # Do the grid search cross-validation
             gs_cv.fit(X_train, y_train)

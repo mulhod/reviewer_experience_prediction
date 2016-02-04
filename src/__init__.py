@@ -4,7 +4,11 @@ from os.path import (join,
                      dirname,
                      realpath)
 
-from typing import Union
+from typing import (Any,
+                    Union,
+                    Callable,
+                    Iterable,
+                    Optional)
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -29,6 +33,7 @@ Learner = Union[Perceptron,
                 PassiveAggressiveRegressor]
 Vectorizer = Union[DictVectorizer, FeatureHasher]
 Numeric = Union[int, float]
+Scorer = Optional[Union[str, Callable[[Iterable[Any], Iterable[Any]]]]]
 
 # Seed for random state
 SEED = 123456789
@@ -64,9 +69,10 @@ LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
 
 # Objective functions
 OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
-                       'significance': 'significance',
+                       'average_precision': "average precision",
                        'precision_macro': 'precision (macro)',
                        'precision_weighted': 'precision (weighted)',
+                       'recall': "recall",
                        'f1_macro': 'f1 (macro)',
                        'f1_weighted': 'f1 (weighted)',
                        'accuracy': 'accuracy',
