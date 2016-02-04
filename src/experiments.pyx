@@ -1721,3 +1721,5 @@ class CVExperimentConfig(object):
         if self.validated['lognormal'] and self.validated['power_transform']:
             raise ValueError('Both "lognormal" and "power_transform" were '
                              'specified simultaneously.')
+        if len(self.validated['learners']) != len(self.validated['param_grids']):
+            raise ValueError()
