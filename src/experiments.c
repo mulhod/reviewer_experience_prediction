@@ -22075,6 +22075,8 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
   int __pyx_t_7;
+  Py_ssize_t __pyx_t_8;
+  Py_ssize_t __pyx_t_9;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -22274,6 +22276,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  *             raise ValueError('Both "lognormal" and "power_transform" were '             # <<<<<<<<<<<<<<
  *                              'specified simultaneously.')
+ *         if len(self.validated['learners']) != len(self.validated['param_grids']):
  */
     __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1722; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
@@ -22287,6 +22290,48 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  *         if self.validated['lognormal'] and self.validated['power_transform']:             # <<<<<<<<<<<<<<
  *             raise ValueError('Both "lognormal" and "power_transform" were '
  *                              'specified simultaneously.')
+ */
+  }
+
+  /* "src/experiments.pyx":1724
+ *             raise ValueError('Both "lognormal" and "power_transform" were '
+ *                              'specified simultaneously.')
+ *         if len(self.validated['learners']) != len(self.validated['param_grids']):             # <<<<<<<<<<<<<<
+ *             raise ValueError()
+ */
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_learners); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_8 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_param_grids); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_9 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1724; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_3 = ((__pyx_t_8 != __pyx_t_9) != 0);
+  if (__pyx_t_3) {
+
+    /* "src/experiments.pyx":1725
+ *                              'specified simultaneously.')
+ *         if len(self.validated['learners']) != len(self.validated['param_grids']):
+ *             raise ValueError()             # <<<<<<<<<<<<<<
+ */
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_ValueError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1725; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1725; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+
+    /* "src/experiments.pyx":1724
+ *             raise ValueError('Both "lognormal" and "power_transform" were '
+ *                              'specified simultaneously.')
+ *         if len(self.validated['learners']) != len(self.validated['param_grids']):             # <<<<<<<<<<<<<<
+ *             raise ValueError()
  */
   }
 
@@ -24569,6 +24614,7 @@ static int __Pyx_InitCachedConstants(void) {
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  *             raise ValueError('Both "lognormal" and "power_transform" were '             # <<<<<<<<<<<<<<
  *                              'specified simultaneously.')
+ *         if len(self.validated['learners']) != len(self.validated['param_grids']):
  */
   __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_Both_lognormal_and_power_transfo); if (unlikely(!__pyx_tuple__47)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1722; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__47);
