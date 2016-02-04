@@ -29,8 +29,8 @@ from typing import (Any,
                     Union,
                     Tuple,
                     Optional)
-from pymongo import (cursor,
-                     MongoClient)
+from pymongo import MongoClient
+from pymongo.cursor import Cursor
 from bson.objectid import ObjectId
 from pymongo.collection import Collection
 from pymongo.bulk import BulkOperationBuilder
@@ -101,7 +101,7 @@ def connect_to_db(host: str = 'localhost', port: int = 27017,
 def create_game_cursor(db: Collection,
                        game_id: str,
                        data_partition: str,
-                       int batch_size) -> cursor:
+                       int batch_size) -> Cursor:
     """
     Create Cursor object with given game and partition to iterate
     through game documents.
@@ -117,8 +117,8 @@ def create_game_cursor(db: Collection,
     :param batch_size: size of each batch that the cursor returns
     :type batch_size: int
 
-    :returns: cursor on a MongoDB collection
-    :rtype: cursor
+    :returns: a cursor on a MongoDB collection
+    :rtype: Cursor
 
     :raises ValueError: if no matching documents were found
     """

@@ -469,7 +469,7 @@ struct __pyx_obj_3src_8features___pyx_scope_struct__extract_features {
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
 struct __pyx_obj_3src_8features___pyx_scope_struct_1_bulk_extract_features {
@@ -913,6 +913,7 @@ static char __pyx_k_strip[] = "strip";
 static char __pyx_k_tag_2[] = "tag_";
 static char __pyx_k_throw[] = "throw";
 static char __pyx_k_won_t[] = "won't";
+static char __pyx_k_Cursor[] = "Cursor";
 static char __pyx_k_HAVENT[] = "HAVENT";
 static char __pyx_k_I_have[] = "I have";
 static char __pyx_k_Review[] = "Review";
@@ -924,7 +925,6 @@ static char __pyx_k_append[] = "append";
 static char __pyx_k_bill_b[] = "\\bill\\b";
 static char __pyx_k_bive_b[] = "\\bive\\b";
 static char __pyx_k_cngram[] = "cngram";
-static char __pyx_k_cursor[] = "cursor";
 static char __pyx_k_decode[] = "decode";
 static char __pyx_k_extend[] = "extend";
 static char __pyx_k_format[] = "format";
@@ -972,7 +972,6 @@ static char __pyx_k_n_lefts[] = "n_lefts";
 static char __pyx_k_os_path[] = "os.path";
 static char __pyx_k_pearson[] = "pearson";
 static char __pyx_k_prepare[] = "__prepare__";
-static char __pyx_k_pymongo[] = "pymongo";
 static char __pyx_k_range_2[] = "_range";
 static char __pyx_k_updated[] = "updated";
 static char __pyx_k_warning[] = "warning";
@@ -1064,6 +1063,7 @@ static char __pyx_k_tokens_append[] = "tokens_append";
 static char __pyx_k_cngram_counter[] = "cngram_counter";
 static char __pyx_k_extracted_anew[] = "extracted_anew";
 static char __pyx_k_lowercase_text[] = "lowercase_text";
+static char __pyx_k_pymongo_cursor[] = "pymongo.cursor";
 static char __pyx_k_found_nlp_feats[] = "found_nlp_feats";
 static char __pyx_k_num_found_funny[] = "num_found_funny";
 static char __pyx_k_num_games_owned[] = "num_games_owned";
@@ -1121,6 +1121,7 @@ static PyObject *__pyx_n_s_CANT;
 static PyObject *__pyx_kp_s_Class_for_objects_representing;
 static PyObject *__pyx_n_s_Collection;
 static PyObject *__pyx_n_s_Counter;
+static PyObject *__pyx_n_s_Cursor;
 static PyObject *__pyx_n_s_DIDNT;
 static PyObject *__pyx_n_s_DONT;
 static PyObject *__pyx_n_s_Dict;
@@ -1203,7 +1204,6 @@ static PyObject *__pyx_n_s_cngram_counter_update;
 static PyObject *__pyx_n_s_collections;
 static PyObject *__pyx_n_s_combinations;
 static PyObject *__pyx_n_s_compile;
-static PyObject *__pyx_n_s_cursor;
 static PyObject *__pyx_n_s_date_updated;
 static PyObject *__pyx_n_s_db;
 static PyObject *__pyx_n_s_decode;
@@ -1319,8 +1319,8 @@ static PyObject *__pyx_n_s_pearson;
 static PyObject *__pyx_n_s_prepare;
 static PyObject *__pyx_n_s_preprocessing_regex_funcs;
 static PyObject *__pyx_n_s_punctuation;
-static PyObject *__pyx_n_s_pymongo;
 static PyObject *__pyx_n_s_pymongo_collection;
+static PyObject *__pyx_n_s_pymongo_cursor;
 static PyObject *__pyx_n_s_qualname;
 static PyObject *__pyx_n_s_r;
 static PyObject *__pyx_n_s_range;
@@ -7003,13 +7003,13 @@ static PyObject *__pyx_gb_3src_8features_10generator(__pyx_CoroutineObject *__py
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
 
 /* Python wrapper */
 static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_8features_8bulk_extract_features[] = "\n    Extract NLP features from reviews in the MongoDB database for a\n    particular game/data partition in bulk and generate the feature\n    dictionaries and other information for use in updating the\n    database.\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param game_cursor: MongoDB cursor\n    :type game_cursor: cursor\n    :param reuse_nlp_feats: reuse NLP features from database instead of\n                            extracting them all over again (default:\n                            True)\n    :type reuse_nlp_feats: bool\n    :param use_binarized_nlp_feats: use binarized NLP features\n                                    (default: True)\n    :type use_binarized_nlp_feats: bool\n    :param lowercase_text: whether or not to lower-case the review\n                           text (default: True)\n    :type lowercase_text: bool\n    :param lowercase_cngrams: whether or not to lower-case the\n                              character n-grams (default: False)\n    :type lowercase_cngrams: bool\n\n    :yields: dictionary containing a feature dictionary and an\n             `ObjectId` string to insert\n    :ytype: dict\n    ";
+static char __pyx_doc_3src_8features_8bulk_extract_features[] = "\n    Extract NLP features from reviews in the MongoDB database for a\n    particular game/data partition in bulk and generate the feature\n    dictionaries and other information for use in updating the\n    database.\n\n    :param db: MongoDB collection\n    :type db: Collection\n    :param game_cursor: a cursor on a MongoDB collection\n    :type game_cursor: Cursor\n    :param reuse_nlp_feats: reuse NLP features from database instead of\n                            extracting them all over again (default:\n                            True)\n    :type reuse_nlp_feats: bool\n    :param use_binarized_nlp_feats: use binarized NLP features\n                                    (default: True)\n    :type use_binarized_nlp_feats: bool\n    :param lowercase_text: whether or not to lower-case the review\n                           text (default: True)\n    :type lowercase_text: bool\n    :param lowercase_cngrams: whether or not to lower-case the\n                              character n-grams (default: False)\n    :type lowercase_cngrams: bool\n\n    :yields: dictionary containing a feature dictionary and an\n             `ObjectId` string to insert\n    :ytype: dict\n    ";
 static PyMethodDef __pyx_mdef_3src_8features_9bulk_extract_features = {"bulk_extract_features", (PyCFunction)__pyx_pw_3src_8features_9bulk_extract_features, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_8features_8bulk_extract_features};
 static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_db = 0;
@@ -7030,7 +7030,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
 
     /* "src/features.pyx":412
  * def bulk_extract_features(db: Collection,
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,             # <<<<<<<<<<<<<<
  *                           use_binarized_nlp_feats: bool = True,
  *                           lowercase_text: bool = True,
@@ -7038,7 +7038,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
     values[2] = ((PyObject *)Py_True);
 
     /* "src/features.pyx":413
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  *                           use_binarized_nlp_feats: bool = True,             # <<<<<<<<<<<<<<
  *                           lowercase_text: bool = True,
@@ -7143,7 +7143,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
 
@@ -7703,7 +7703,7 @@ static PyObject *__pyx_gb_3src_8features_10generator(__pyx_CoroutineObject *__py
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
 
@@ -8057,6 +8057,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Class_for_objects_representing, __pyx_k_Class_for_objects_representing, sizeof(__pyx_k_Class_for_objects_representing), 0, 0, 1, 0},
   {&__pyx_n_s_Collection, __pyx_k_Collection, sizeof(__pyx_k_Collection), 0, 0, 1, 1},
   {&__pyx_n_s_Counter, __pyx_k_Counter, sizeof(__pyx_k_Counter), 0, 0, 1, 1},
+  {&__pyx_n_s_Cursor, __pyx_k_Cursor, sizeof(__pyx_k_Cursor), 0, 0, 1, 1},
   {&__pyx_n_s_DIDNT, __pyx_k_DIDNT, sizeof(__pyx_k_DIDNT), 0, 0, 1, 1},
   {&__pyx_n_s_DONT, __pyx_k_DONT, sizeof(__pyx_k_DONT), 0, 0, 1, 1},
   {&__pyx_n_s_Dict, __pyx_k_Dict, sizeof(__pyx_k_Dict), 0, 0, 1, 1},
@@ -8139,7 +8140,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_collections, __pyx_k_collections, sizeof(__pyx_k_collections), 0, 0, 1, 1},
   {&__pyx_n_s_combinations, __pyx_k_combinations, sizeof(__pyx_k_combinations), 0, 0, 1, 1},
   {&__pyx_n_s_compile, __pyx_k_compile, sizeof(__pyx_k_compile), 0, 0, 1, 1},
-  {&__pyx_n_s_cursor, __pyx_k_cursor, sizeof(__pyx_k_cursor), 0, 0, 1, 1},
   {&__pyx_n_s_date_updated, __pyx_k_date_updated, sizeof(__pyx_k_date_updated), 0, 0, 1, 1},
   {&__pyx_n_s_db, __pyx_k_db, sizeof(__pyx_k_db), 0, 0, 1, 1},
   {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
@@ -8255,8 +8255,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
   {&__pyx_n_s_preprocessing_regex_funcs, __pyx_k_preprocessing_regex_funcs, sizeof(__pyx_k_preprocessing_regex_funcs), 0, 0, 1, 1},
   {&__pyx_n_s_punctuation, __pyx_k_punctuation, sizeof(__pyx_k_punctuation), 0, 0, 1, 1},
-  {&__pyx_n_s_pymongo, __pyx_k_pymongo, sizeof(__pyx_k_pymongo), 0, 0, 1, 1},
   {&__pyx_n_s_pymongo_collection, __pyx_k_pymongo_collection, sizeof(__pyx_k_pymongo_collection), 0, 0, 1, 1},
+  {&__pyx_n_s_pymongo_cursor, __pyx_k_pymongo_cursor, sizeof(__pyx_k_pymongo_cursor), 0, 0, 1, 1},
   {&__pyx_n_s_qualname, __pyx_k_qualname, sizeof(__pyx_k_qualname), 0, 0, 1, 1},
   {&__pyx_n_s_r, __pyx_k_r, sizeof(__pyx_k_r), 0, 0, 1, 1},
   {&__pyx_n_s_range, __pyx_k_range, sizeof(__pyx_k_range), 0, 0, 1, 1},
@@ -8766,7 +8766,7 @@ static int __Pyx_InitCachedConstants(void) {
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
   __pyx_tuple__54 = PyTuple_Pack(14, __pyx_n_s_db, __pyx_n_s_game_cursor, __pyx_n_s_reuse_nlp_feats, __pyx_n_s_use_binarized_nlp_feats, __pyx_n_s_lowercase_text, __pyx_n_s_lowercase_cngrams, __pyx_n_s_game_doc, __pyx_n_s_nlp_feats, __pyx_n_s_game_doc_get, __pyx_n_s_review_text, __pyx_n_s_binarized_nlp_feats, __pyx_n_s_id, __pyx_n_s_found_nlp_feats, __pyx_n_s_extracted_anew); if (unlikely(!__pyx_tuple__54)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -9137,7 +9137,7 @@ PyMODINIT_FUNC PyInit_features(void)
  * from bson import BSON
  * from typing import (Dict,             # <<<<<<<<<<<<<<
  *                     Union)
- * from pymongo import cursor
+ * from nltk.util import ngrams
  */
   __pyx_t_2 = PyList_New(2); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 22; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9163,69 +9163,69 @@ PyMODINIT_FUNC PyInit_features(void)
   /* "src/features.pyx":24
  * from typing import (Dict,
  *                     Union)
- * from pymongo import cursor             # <<<<<<<<<<<<<<
- * from nltk.util import ngrams
+ * from nltk.util import ngrams             # <<<<<<<<<<<<<<
  * from spacy.en import English
+ * from pymongo.cursor import Cursor
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_cursor);
-  __Pyx_GIVEREF(__pyx_n_s_cursor);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_cursor);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pymongo, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_ngrams);
+  __Pyx_GIVEREF(__pyx_n_s_ngrams);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_ngrams);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_nltk_util, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_cursor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_ngrams); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_cursor, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ngrams, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 24; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/features.pyx":25
  *                     Union)
- * from pymongo import cursor
- * from nltk.util import ngrams             # <<<<<<<<<<<<<<
- * from spacy.en import English
+ * from nltk.util import ngrams
+ * from spacy.en import English             # <<<<<<<<<<<<<<
+ * from pymongo.cursor import Cursor
  * from skll.metrics import (kappa,
  */
   __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_INCREF(__pyx_n_s_ngrams);
-  __Pyx_GIVEREF(__pyx_n_s_ngrams);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_ngrams);
-  __pyx_t_1 = __Pyx_Import(__pyx_n_s_nltk_util, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_English);
+  __Pyx_GIVEREF(__pyx_n_s_English);
+  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_n_s_English);
+  __pyx_t_1 = __Pyx_Import(__pyx_n_s_spacy_en, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_ngrams); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_English); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_ngrams, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_English, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":26
- * from pymongo import cursor
  * from nltk.util import ngrams
- * from spacy.en import English             # <<<<<<<<<<<<<<
+ * from spacy.en import English
+ * from pymongo.cursor import Cursor             # <<<<<<<<<<<<<<
  * from skll.metrics import (kappa,
  *                           pearson)
  */
   __pyx_t_1 = PyList_New(1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __Pyx_INCREF(__pyx_n_s_English);
-  __Pyx_GIVEREF(__pyx_n_s_English);
-  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_English);
-  __pyx_t_2 = __Pyx_Import(__pyx_n_s_spacy_en, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_INCREF(__pyx_n_s_Cursor);
+  __Pyx_GIVEREF(__pyx_n_s_Cursor);
+  PyList_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_Cursor);
+  __pyx_t_2 = __Pyx_Import(__pyx_n_s_pymongo_cursor, __pyx_t_1, -1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_English); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_ImportFrom(__pyx_t_2, __pyx_n_s_Cursor); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_English, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Cursor, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 26; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/features.pyx":27
- * from nltk.util import ngrams
  * from spacy.en import English
+ * from pymongo.cursor import Cursor
  * from skll.metrics import (kappa,             # <<<<<<<<<<<<<<
  *                           pearson)
  * from bson.objectid import ObjectId
@@ -10931,7 +10931,7 @@ PyMODINIT_FUNC PyInit_features(void)
  * 
  * 
  * def bulk_extract_features(db: Collection,             # <<<<<<<<<<<<<<
- *                           game_cursor: cursor,
+ *                           game_cursor: Cursor,
  *                           reuse_nlp_feats: bool = True,
  */
   __pyx_t_22 = PyCFunction_NewEx(&__pyx_mdef_3src_8features_9bulk_extract_features, NULL, __pyx_n_s_src_features); if (unlikely(!__pyx_t_22)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 410; __pyx_clineno = __LINE__; goto __pyx_L1_error;}

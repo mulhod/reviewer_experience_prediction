@@ -22,9 +22,9 @@ from typing import (Any,
                     Union,
                     Optional)
 from skll.metrics import kappa
-from pymongo import (cursor,
-                     ASCENDING)
+from pymongo import ASCENDING
 from scipy.stats import pearsonr
+from pymongo.cursor import Cursor
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.metrics import (f1_score,
@@ -655,7 +655,7 @@ def make_cursor(db: Collection,
                 games: List[str] = [],
                 sorting_args: List[Tuple[str, int]] = [('steam_id_number', ASCENDING)],
                 batch_size: int = 50,
-                id_strings: List[str] = []) -> cursor:
+                id_strings: List[str] = []) -> Cursor:
     """
     Make cursor (for a specific set of games and/or a specific
     partition of the data, if specified) or for for data whose
@@ -681,8 +681,8 @@ def make_cursor(db: Collection,
                        of specific `id_string` values)
     :type id_strings: list
 
-    :returns: cursor on a MongoDB collection
-    :rtype: cursor
+    :returns: a cursor on a MongoDB collection
+    :rtype: Cursor
 
     :raises ValueError: if `games` contains unrecognized games,
                         `batch_size` is less than 1, `partition` is an

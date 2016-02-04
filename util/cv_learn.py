@@ -201,41 +201,33 @@ class CVExperimentConfig(object):
 
         # Schema
         exp_schema = Schema(
-            {'db': lambda x: isinstance(x, Collection),
+            {'db': Collection,
              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
              'learners':
-                lambda x: type(x) is list and all(issubclass(xi, BaseEstimator)
-                                                  for xi in x),
-             'param_grids': dict,
+                lambda x: [BaseEstimator],
+             'param_grids': [{str: list}],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),
              'grid_search_samples_per_fold': And(int, lambda x: x > 0),
-             'non_nlp_features':
-                lambda x: (type(x) is list
-                           and all(type(xi) is str for xi in x)
-                           and LABELS.issuperset(x)),
+             'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
              'prediction_label': And(str, lambda x: (not x in params['non_nlp_features']
                                                      and x in LABELS)),
              'objective': str,
              Default('data_sampling', default='even'):
-                lambda x: x in ex.ExperimentalData.sampling_options,
+                And(str, lambda x: x in ex.ExperimentalData.sampling_options),
              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
              Default('hashed_features', default=None):
-                lambda x: x is None or (type(x) is int and x > -1),
+                (lambda x: x is None) or (type(x) is int and x > -1),
              Default('nlp_features', default=True): bool,
              Default('bin_ranges', default=None):
-                lambda x: x is None or (type(x) is list
-                                        and all(type(xi) is tuple for xi in x)
-                                        and all(all(type(xii) is float for xii in xi)
-                                                for xi in x)
-                                        and validate_bin_ranges(x)),
+                (lambda x: x is None) or And([(float, float)], lambda x: validate_bin_ranges(x)),
              Default('lognormal', default=False): bool,
              Default('power_transform', default=None):
-                lambda x: x is None or type(x) is float,
+                (lambda x: x is None) or float,
              Default('majority_baseline', default=True): bool,
              Default('rescale', default=True): bool,
              Default('file_handler', default=None):
-                lambda x: x is None or type(x) is logging.FileHandler
+                (lambda x: x is None) or logging.FileHandler
              }
             )
 

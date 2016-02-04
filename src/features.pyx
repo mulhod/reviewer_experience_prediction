@@ -21,9 +21,9 @@ import numpy as np
 from bson import BSON
 from typing import (Dict,
                     Union)
-from pymongo import cursor
 from nltk.util import ngrams
 from spacy.en import English
+from pymongo.cursor import Cursor
 from skll.metrics import (kappa,
                           pearson)
 from bson.objectid import ObjectId
@@ -408,7 +408,7 @@ def binarize_nlp_features(nlp_features: Dict[str, int]) -> Dict[str, int]:
 
 
 def bulk_extract_features(db: Collection,
-                          game_cursor: cursor,
+                          game_cursor: Cursor,
                           reuse_nlp_feats: bool = True,
                           use_binarized_nlp_feats: bool = True,
                           lowercase_text: bool = True,
@@ -421,8 +421,8 @@ def bulk_extract_features(db: Collection,
 
     :param db: MongoDB collection
     :type db: Collection
-    :param game_cursor: MongoDB cursor
-    :type game_cursor: cursor
+    :param game_cursor: a cursor on a MongoDB collection
+    :type game_cursor: Cursor
     :param reuse_nlp_feats: reuse NLP features from database instead of
                             extracting them all over again (default:
                             True)
