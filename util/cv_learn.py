@@ -114,14 +114,13 @@ class RunCVExperiments(object):
                             'objective_best_round',
                             'objective_slope'})
 
-    def __init__(self, config: CVExperimentConfig) -> 'RunCVExperiments':
+    def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
         Initialize object.
 
-        :param config: an `CVExperimentConfig` instance containing
-                       information about the experiment, the values for
-                       various settings, etc.
-        :type config: CVExperimentConfig
+        :param config: a `CVConfig` instance containing configuration
+                       options relating to the experiment, etc.
+        :type config: CVConfig
         """
 
         # Experiment configuration settings
@@ -368,7 +367,7 @@ class RunCVExperiments(object):
         Do grid search round.
 
         :returns: dictionary of learner names mapped to already-fitted
-                  GridSearchCV instances, including attributes such as
+                  `GridSearchCV` instances, including attributes such as
                   `best_estimator_`
         :rtype: dict
         """
@@ -957,7 +956,7 @@ def main(argv=None):
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
     try:
-        cfg = ex.CVExperimentConfig(
+        cfg = ex.CVConfig(
                   db=db,
                   games=games,
                   learners=[LEARNER_DICT[learner] for learner in learners],
@@ -980,9 +979,8 @@ def main(argv=None):
                   rescale=rescale_predictions)
         experiments = RunCVExperiments(cfg)
     except ValueError as e:
-        logerr('Encountered a ValueError while instantiating the '
-               '`CVExperimentConfig` or `RunCVExperiments` instance: '
-               '{0}'.format(e))
+        logerr('Encountered a ValueError while instantiating the CVConfig or '
+               'RunCVExperiments instances: {0}'.format(e))
         raise e
 
     # Generate evaluation reports for the various learner/parameter

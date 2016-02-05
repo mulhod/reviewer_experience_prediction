@@ -18,8 +18,8 @@ from src import (LEARNER_DICT,
                  DEFAULT_PARAM_GRIDS,
                  parse_non_nlp_features_string)
 from src.mongodb import connect_to_db
-from src.experiments import (ExperimentalData,
-                             CVExperimentConfig)
+from src.experiments import (CVConfig,
+                             ExperimentalData)
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
@@ -38,33 +38,45 @@ class ExperimentalDataTestCase(unittest.TestCase):
             # `games` contains unrecognized entries
             dict(games=set(['Dota']),
                  folds=0,
-                 grid_search_folds=0),
+                 fold_size=0,
+                 grid_search_folds=0,
+                 grid_search_fold_size=0),
             # `test_games` contains unrecognized entries
             dict(games=set(['Dota_2']),
                  test_games=set(['Dota']),
                  folds=0,
-                 grid_search_folds=0),
+                 fold_size=0,
+                 grid_search_folds=0,
+                 grid_search_fold_size=0),
             # `games` is empty
             dict(games=set(),
                  folds=0,
-                 grid_search_folds=0),
+                 fold_size=0,
+                 grid_search_folds=0,
+                 grid_search_fold_size=0),
             # `batch_size` < 1
             dict(games=set(['Dota_2']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  batch_size=0),
             # `test_bin_ranges` is specified but not `bin_ranges`
             dict(games=set(['Dota_2', 'Arma_3']),
                  test_games=set(['Counter_Strike']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  test_bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
                  test_size=50),
             # `test_bin_ranges` is not the same length as `bin_ranges`
             dict(games=set(['Dota_2', 'Arma_3']),
                  test_games=set(['Counter_Strike']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  bin_ranges=[(0.0, 200.1), (200.2, 1896.7), (1896.8, 9041.4),
                              (9041.5, 16435.0)],
                  test_bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
@@ -73,28 +85,34 @@ class ExperimentalDataTestCase(unittest.TestCase):
             # "stratified")
             dict(games=set(['Dota_2']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  sampling='random'),
             # `folds` is set to 0, but `fold_size` is set to a non-zero value
             dict(games=set(['Dota_2']),
                  folds=0,
                  fold_size=100,
-                 grid_search_folds=0),
+                 grid_search_folds=0,
+                 grid_search_fold_size=0),
             # `grid_search_folds` is set to 0, but
             # `grid_search_fold_size` is set to a non-zero value
             dict(games=set(['Dota_2']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=0,
                  grid_search_fold_size=50),
             # `fold_size` is set to 0, but `folds` is set to a non-zero value
             dict(games=set(['Dota_2']),
                  folds=5,
                  fold_size=0,
-                 grid_search_folds=0),
+                 grid_search_folds=0,
+                 grid_search_fold_size=0),
             # `grid_search_fold_size` is set to 0, but `grid_search_folds` is
             # set to a non-zero value
             dict(games=set(['Dota_2']),
                  folds=0,
+                 fold_size=0,
                  grid_search_folds=5,
                  grid_search_fold_size=0)
             ]
@@ -103,21 +121,29 @@ class ExperimentalDataTestCase(unittest.TestCase):
         # non-negative, so test setting them to a negative value
         kwargs += [dict(games=set(['Dota_2']),
                         folds=-1,
-                        grid_search_folds=0),
+                        fold_size=0,
+                        grid_search_folds=0,
+                        grid_search_fold_size=0),
                    dict(games=set(['Dota_2']),
                         folds=0,
-                        grid_search_folds=-1),
+                        fold_size=0,
+                        grid_search_folds=-1,
+                        grid_search_fold_size=0),
                    dict(games=set(['Dota_2']),
                         folds=5,
                         fold_size=-1,
-                        grid_search_folds=0),
+                        grid_search_folds=0,
+                        grid_search_fold_size=0),
                    dict(games=set(['Dota_2']),
                         folds=0,
+                        fold_size=0,
                         grid_search_folds=3,
                         grid_search_fold_size=-1),
                    dict(games=set(['Dota_2']),
                         folds=0,
+                        fold_size=0,
                         grid_search_folds=0,
+                        grid_search_fold_size=0,
                         test_size=-1)]
 
         for _kwargs in kwargs:
@@ -144,6 +170,7 @@ class ExperimentalDataTestCase(unittest.TestCase):
             # Setting `folds` to 0 (i.e., not generating a main training
             # set)
             dict(folds=0,
+                 fold_size=0,
                  grid_search_folds=3,
                  grid_search_fold_size=15,
                  bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)]),
@@ -152,12 +179,14 @@ class ExperimentalDataTestCase(unittest.TestCase):
             dict(folds=3,
                  fold_size=15,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)]),
             # Specifying a set of test games (equal to games) and test
             # bin ranges
             dict(folds=3,
                  fold_size=15,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  test_games=games_set,
                  bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
                  test_bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)]),
@@ -166,6 +195,7 @@ class ExperimentalDataTestCase(unittest.TestCase):
             dict(folds=3,
                  fold_size=15,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  test_size=30,
                  test_games=set(['Dota_2', 'Arma_3']),
                  bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
@@ -175,6 +205,7 @@ class ExperimentalDataTestCase(unittest.TestCase):
             dict(folds=3,
                  fold_size=15,
                  grid_search_folds=0,
+                 grid_search_fold_size=0,
                  test_size=30,
                  test_games=set(['Football_Manager_2015', 'Arma_3']),
                  bin_ranges=[(0.0, 225.1), (225.2, 2026.2), (2026.3, 16435.0)],
@@ -251,17 +282,17 @@ class ExperimentalDataTestCase(unittest.TestCase):
                          exp_data.sampling)
 
 
-class CVExperimentConfigTestCase(unittest.TestCase):
+class CVConfigTestCase(unittest.TestCase):
     """
-    Test the `CVExperimentConfig` class.
+    Test the `CVConfig` class.
     """
 
     db = connect_to_db('localhost', 37017)
     prediction_label = 'total_game_hours'
 
-    def test_CVExperimenConfig_invalid(self):
+    def test_CVConfig_invalid(self):
         """
-        Test the `CVExperimentConfig` class.
+        Test the `CVConfig` class.
         """
 
         learner_abbrs = ['perc', 'pagr']
@@ -286,7 +317,7 @@ class CVExperimentConfigTestCase(unittest.TestCase):
                             bin_ranges=[(0.0, 225.1), (225.2, 2026.2),
                                         (2026.3, 16435.0)],
                             lognormal=False,
-                            power_transform=False,
+                            power_transform=None,
                             majority_baseline=True,
                             rescale=True)
         invalid_kwargs_list = [
@@ -294,10 +325,10 @@ class CVExperimentConfigTestCase(unittest.TestCase):
             dict(db='db',
                  **{p: v for p, v in valid_kwargs.items() if p != 'db'}),
             # Invalid games in `games` parameter value
-            dict(games=set(['Dota']),
+            dict(games={'Dota'},
                  **{p: v for p, v in valid_kwargs.items() if p != 'games'}),
             # Invalid `learners` parameter value
-            dict(learners=learner_abbrs,
+            dict(learners=['perceptron', 'passiveagressive'],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
             # Invalid parameter grids in `param_grids` parameter value
             dict(param_grids=[dict(a=1, b=2), dict(c='g', d=True)],
@@ -354,4 +385,4 @@ class CVExperimentConfigTestCase(unittest.TestCase):
                     if p != 'data_sampling'})
             ]
         for kwargs in invalid_kwargs_list:
-            assert_raises(SchemaError, CVExperimentConfig, **kwargs)
+            assert_raises(SchemaError, CVConfig, **kwargs)

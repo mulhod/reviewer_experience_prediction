@@ -1538,10 +1538,10 @@ class ExperimentalData(object):
              self.grid_search_folds) = self._generate_dataset(grid_search=True)
 
 
-class CVExperimentConfig(object):
+class CVConfig(object):
     """
-    Class for representing configuration options for use with the
-    `util.cv_learn.RunCVExperiments` class.
+    Class for representing a set of configuration options for use with
+    the `util.cv_learn.RunCVExperiments` class.
     """
 
     # Default value to use for the `hashed_features` parameter if 0 is
@@ -1567,7 +1567,7 @@ class CVExperimentConfig(object):
                  lognormal: bool = False,
                  power_transform: Optional[float] = None,
                  majority_baseline: bool = True,
-                 rescale: bool = True) -> 'CVExperimentConfig':
+                 rescale: bool = True) -> 'CVConfig':
         """
         Initialize object.
 
@@ -1634,8 +1634,8 @@ class CVExperimentConfig(object):
                         classification experiment)
         :type rescale: bool
 
-        :returns: instance of RunCVExperiments class
-        :rtype: RunCVExperiments
+        :returns: instance of `CVConfig` class
+        :rtype: CVConfig
 
         :raises ValueError: if the input parameters result in conflicts
                             or are invalid
@@ -1654,8 +1654,7 @@ class CVExperimentConfig(object):
         exp_schema = Schema(
             {'db': Collection,
              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
-             'learners':
-                lambda x: [BaseEstimator],
+             'learners': [BaseEstimator],
              'param_grids': [{str: list}],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),

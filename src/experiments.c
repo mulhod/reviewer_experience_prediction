@@ -1335,6 +1335,7 @@ static char __pyx_k_timeout[] = "timeout";
 static char __pyx_k_weights[] = "weights";
 static char __pyx_k_y_preds[] = "y_preds";
 static char __pyx_k_y_value[] = "y_value";
+static char __pyx_k_CVConfig[] = "CVConfig";
 static char __pyx_k_FreqDist[] = "FreqDist";
 static char __pyx_k_Optional[] = "Optional";
 static char __pyx_k_accuracy[] = "accuracy";
@@ -1457,6 +1458,7 @@ static char __pyx_k_self_fold_size[] = "self.fold_size";
 static char __pyx_k_size_parameter[] = "size_parameter";
 static char __pyx_k_transformation[] = "transformation";
 static char __pyx_k_uwk_off_by_one[] = "uwk_off_by_one";
+static char __pyx_k_CVConfig___init[] = "CVConfig.__init__";
 static char __pyx_k_MiniBatchKMeans[] = "MiniBatchKMeans";
 static char __pyx_k_folds_collected[] = "folds_collected";
 static char __pyx_k_folds_parameter[] = "folds_parameter";
@@ -1498,7 +1500,6 @@ static char __pyx_k_labels_id_strings[] = "labels_id_strings";
 static char __pyx_k_majority_baseline[] = "majority_baseline";
 static char __pyx_k_n_folds_collected[] = "n_folds_collected";
 static char __pyx_k_n_label_test_data[] = "n_label_test_data";
-static char __pyx_k_CVExperimentConfig[] = "CVExperimentConfig";
 static char __pyx_k_precision_weighted[] = "precision_weighted";
 static char __pyx_k_printable_conf_mat[] = "printable_conf_mat";
 static char __pyx_k_pymongo_collection[] = "pymongo.collection";
@@ -1529,7 +1530,6 @@ static char __pyx_k_self_grid_search_folds[] = "self.grid_search_folds";
 static char __pyx_k_ExperimentalData___init[] = "ExperimentalData.__init__";
 static char __pyx_k_cv_learner_stats_series[] = "cv_learner_stats_series";
 static char __pyx_k_n_label_test_data_actual[] = "n_label_test_data_actual";
-static char __pyx_k_CVExperimentConfig___init[] = "CVExperimentConfig.__init__";
 static char __pyx_k_NO_INTROSPECTION_LEARNERS[] = "NO_INTROSPECTION_LEARNERS";
 static char __pyx_k_construct_layered_dataset[] = "_construct_layered_dataset";
 static char __pyx_k_evenly_distribute_samples[] = "evenly_distribute_samples";
@@ -1558,11 +1558,12 @@ static char __pyx_k_rescale_preds_and_fit_in_scale[] = "rescale_preds_and_fit_in
 static char __pyx_k_0_fold_size_is_a_non_zero_value[] = "\"{0}fold_size\" is a non-zero value, but the corresponding \"{0}folds\" is specifically set to 0.";
 static char __pyx_k_0_folds_is_a_non_zero_value_but[] = "\"{0}folds\" is a non-zero value, but the corresponding \"{0}fold_size\" is either unspecified or set to 0.";
 static char __pyx_k_All_or_some_of_the_games_in_the[] = "All or some of the games in the given list of games, {0}, are not in list of available games";
+static char __pyx_k_CVConfig___init___locals_lambda[] = "CVConfig.__init__.<locals>.<lambda>";
 static char __pyx_k_Can_not_get_feature_weights_for[] = "Can not get feature weights for learners of type {0}";
 static char __pyx_k_Cannot_specify_both_a_set_of_ID[] = "Cannot specify both a set of ID strings and a partition and/or a set of games simultaneously.";
 static char __pyx_k_Cannot_use_non_positive_value_0[] = "Cannot use non-positive value, {0}, for the \"hashed_features\" parameter.";
 static char __pyx_k_Class_for_objects_storing_train[] = "\n    Class for objects storing training and grid search datasets,\n    organized into folds, and a test set dataset. Each dataset contains\n    an array or list of arrays of sample IDs corresponding to data\n    samples in a collection.\n    ";
-static char __pyx_k_Class_for_representing_configur[] = "\n    Class for representing configuration options for use with the\n    `util.cv_learn.RunCVExperiments` class.\n    ";
+static char __pyx_k_Class_for_representing_a_set_of[] = "\n    Class for representing a set of configuration options for use with\n    the `util.cv_learn.RunCVExperiments` class.\n    ";
 static char __pyx_k_Could_not_generate_a_0_data_set[] = "Could not generate a {0} data-set consisting of at least 75% of the desired size ({1}).";
 static char __pyx_k_Could_not_generate_a_stratified[] = "Could not generate a stratified test set that is equal to the desired size or even 50% of the desired size.";
 static char __pyx_k_ExperimentalData__make_test_set[] = "ExperimentalData._make_test_set.<locals>.<lambda>";
@@ -1580,8 +1581,7 @@ static char __pyx_k_make_printable_confusion_matrix[] = "make_printable_confusio
 static char __pyx_k_partition_is_invalid_must_be_tr[] = "\"partition\" is invalid (must be \"training\" or \"test\", if specified): {0}";
 static char __pyx_k_test_size_should_be_specified_a[] = "\"test_size\" should be specified as a value greater than 0 when \"games\" differs from \"test_games\" (i.e., when a test set needs to be constructed).";
 static char __pyx_k_Both_lognormal_and_power_transfo[] = "Both \"lognormal\" and \"power_transform\" were specified simultaneously.";
-static char __pyx_k_CVExperimentConfig___init___loca[] = "CVExperimentConfig.__init__.<locals>.<lambda>";
-static char __pyx_k_CVExperimentConfig__further_vali[] = "CVExperimentConfig._further_validate_and_setup";
+static char __pyx_k_CVConfig__further_validate_and_s[] = "CVConfig._further_validate_and_setup";
 static char __pyx_k_Could_not_generate_features_feat[] = "Could not generate features/feature coefficients dataframe for {0}...";
 static char __pyx_k_Could_not_generate_fold_due_to_a[] = "Could not generate fold due to a lack of samples.";
 static char __pyx_k_Could_not_get_feature_coefficien[] = "Could not get feature coefficients!";
@@ -1621,15 +1621,15 @@ static PyObject *__pyx_n_s_BSON;
 static PyObject *__pyx_n_s_BaseEstimator;
 static PyObject *__pyx_n_s_BernoulliNB;
 static PyObject *__pyx_kp_s_Both_lognormal_and_power_transfo;
-static PyObject *__pyx_n_s_CVExperimentConfig;
-static PyObject *__pyx_n_s_CVExperimentConfig___init;
-static PyObject *__pyx_n_s_CVExperimentConfig___init___loca;
-static PyObject *__pyx_n_s_CVExperimentConfig__further_vali;
+static PyObject *__pyx_n_s_CVConfig;
+static PyObject *__pyx_n_s_CVConfig___init;
+static PyObject *__pyx_n_s_CVConfig___init___locals_lambda;
+static PyObject *__pyx_n_s_CVConfig__further_validate_and_s;
 static PyObject *__pyx_kp_s_Can_not_get_feature_weights_for;
 static PyObject *__pyx_kp_s_Cannot_specify_both_a_set_of_ID;
 static PyObject *__pyx_kp_s_Cannot_use_non_positive_value_0;
 static PyObject *__pyx_kp_s_Class_for_objects_storing_train;
-static PyObject *__pyx_kp_s_Class_for_representing_configur;
+static PyObject *__pyx_kp_s_Class_for_representing_a_set_of;
 static PyObject *__pyx_n_s_Collection;
 static PyObject *__pyx_kp_s_Could_not_generate_a_0_data_set;
 static PyObject *__pyx_kp_s_Could_not_generate_a_stratified;
@@ -2059,19 +2059,18 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_10_generate_data
 static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_26_construct_layered_dataset_genexpr(PyObject *__pyx_self); /* proto */
 static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_12_construct_layered_dataset(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda9(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda11(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda12(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda13(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_lambda_funcdef_lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
+static PyObject *__pyx_lambda_funcdef_lambda15(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda16(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda17(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda18(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
 static PyObject *__pyx_lambda_funcdef_lambda19(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_learners, PyObject *__pyx_v_param_grids, PyObject *__pyx_v_training_rounds, PyObject *__pyx_v_training_samples_per_round, PyObject *__pyx_v_grid_search_samples_per_fold, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_objective, PyObject *__pyx_v_data_sampling, PyObject *__pyx_v_grid_search_folds, PyObject *__pyx_v_hashed_features, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_majority_baseline, PyObject *__pyx_v_rescale); /* proto */
-static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_validate_and_setup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_8CVConfig___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_learners, PyObject *__pyx_v_param_grids, PyObject *__pyx_v_training_rounds, PyObject *__pyx_v_training_samples_per_round, PyObject *__pyx_v_grid_search_samples_per_fold, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_objective, PyObject *__pyx_v_data_sampling, PyObject *__pyx_v_grid_search_folds, PyObject *__pyx_v_hashed_features, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_majority_baseline, PyObject *__pyx_v_rescale); /* proto */
+static PyObject *__pyx_pf_3src_11experiments_8CVConfig_2_further_validate_and_setup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self); /* proto */
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct__distributional_info(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_1_genexpr(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_3src_11experiments___pyx_scope_struct_2_evenly_distribute_samples(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -19819,10 +19818,10 @@ static PyObject *__pyx_pf_3src_11experiments_16ExperimentalData_12_construct_lay
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_3src_11experiments_18CVExperimentConfig___init__[] = "\n        Initialize object.\n\n        :param db: MongoDB database collection object\n        :type db: Collection\n        :param games: set of games to use for training models\n        :type games: set\n        :param learners: algorithm classes to use for learning\n        :type learners: list of BaseEstimator types\n        :param param_grids: list of dictionaries of parameters mapped\n                            to lists of values (must be aligned with\n                            list of learners)\n        :type param_grids: dict\n        :param training_rounds: number of training rounds to do (in\n                                addition to the grid search round)\n        :type training_rounds: int\n        :param training_samples_per_round: number of training samples\n                                           to use in each training round\n        :type training_samples_per_round: int\n        :param grid_search_samples_per_fold: number of samples to use\n                                             for each grid search fold\n        :type grid_search_samples_per_fold: int\n        :param non_nlp_features: list of non-NLP features to add into\n                                 the feature dictionaries \n        :type non_nlp_features: list\n        :param prediction_label: feature to predict\n        :type prediction_label: str\n        :param objective: objective function to use in ranking the runs;\n                          if left unspecified, the objective will be\n                          decided in `GridSearchCV` and will be either\n                          accuracy for classification or r2 for\n                          regression\n        :type objective: str or None\n        :param data_sampling: how the data should be sampled (i.e.,\n                              either 'even' or 'stratified')\n        :type data_sampling: str\n        :param grid_search_folds: number of grid search folds to use\n                                  (default: 5)""\n        :type grid_search_folds: int\n        :param hashed_features: use FeatureHasher in place of\n                                DictVectorizer and use the given number\n                                of features (must be positive number or\n                                0, which will set it to the default\n                                number of features for feature hashing)\n        :type hashed_features: int\n        :param nlp_features: include NLP features (default: True)\n        :type nlp_features: bool\n        :param bin_ranges: list of tuples representing the maximum and\n                           minimum values corresponding to bins (for\n                           splitting up the distribution of prediction\n                           label values)\n        :type bin_ranges: list or None\n        :param lognormal: transform raw label values using `ln` (default:\n                          False)\n        :type lognormal: bool\n        :param power_transform: power by which to transform raw label\n                                values (default: None)\n        :type power_transform: float or None\n        :param majority_baseline: evaluate a majority baseline model\n        :type majority_baseline: bool\n        :param rescale: whether or not to rescale the predicted values\n                        based on the input value distribution (defaults\n                        to True, but set to False if this is a\n                        classification experiment)\n        :type rescale: bool\n\n        :returns: instance of RunCVExperiments class\n        :rtype: RunCVExperiments\n\n        :raises ValueError: if the input parameters result in conflicts\n                            or are invalid\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_1__init__ = {"__init__", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_18CVExperimentConfig___init__};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_3src_11experiments_8CVConfig___init__[] = "\n        Initialize object.\n\n        :param db: MongoDB database collection object\n        :type db: Collection\n        :param games: set of games to use for training models\n        :type games: set\n        :param learners: algorithm classes to use for learning\n        :type learners: list of BaseEstimator types\n        :param param_grids: list of dictionaries of parameters mapped\n                            to lists of values (must be aligned with\n                            list of learners)\n        :type param_grids: dict\n        :param training_rounds: number of training rounds to do (in\n                                addition to the grid search round)\n        :type training_rounds: int\n        :param training_samples_per_round: number of training samples\n                                           to use in each training round\n        :type training_samples_per_round: int\n        :param grid_search_samples_per_fold: number of samples to use\n                                             for each grid search fold\n        :type grid_search_samples_per_fold: int\n        :param non_nlp_features: list of non-NLP features to add into\n                                 the feature dictionaries \n        :type non_nlp_features: list\n        :param prediction_label: feature to predict\n        :type prediction_label: str\n        :param objective: objective function to use in ranking the runs;\n                          if left unspecified, the objective will be\n                          decided in `GridSearchCV` and will be either\n                          accuracy for classification or r2 for\n                          regression\n        :type objective: str or None\n        :param data_sampling: how the data should be sampled (i.e.,\n                              either 'even' or 'stratified')\n        :type data_sampling: str\n        :param grid_search_folds: number of grid search folds to use\n                                  (default: 5)""\n        :type grid_search_folds: int\n        :param hashed_features: use FeatureHasher in place of\n                                DictVectorizer and use the given number\n                                of features (must be positive number or\n                                0, which will set it to the default\n                                number of features for feature hashing)\n        :type hashed_features: int\n        :param nlp_features: include NLP features (default: True)\n        :type nlp_features: bool\n        :param bin_ranges: list of tuples representing the maximum and\n                           minimum values corresponding to bins (for\n                           splitting up the distribution of prediction\n                           label values)\n        :type bin_ranges: list or None\n        :param lognormal: transform raw label values using `ln` (default:\n                          False)\n        :type lognormal: bool\n        :param power_transform: power by which to transform raw label\n                                values (default: None)\n        :type power_transform: float or None\n        :param majority_baseline: evaluate a majority baseline model\n        :type majority_baseline: bool\n        :param rescale: whether or not to rescale the predicted values\n                        based on the input value distribution (defaults\n                        to True, but set to False if this is a\n                        classification experiment)\n        :type rescale: bool\n\n        :returns: instance of `CVConfig` class\n        :rtype: CVConfig\n\n        :raises ValueError: if the input parameters result in conflicts\n                            or are invalid\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_1__init__ = {"__init__", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_1__init__, METH_VARARGS|METH_KEYWORDS, __pyx_doc_3src_11experiments_8CVConfig___init__};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_1__init__(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_self = 0;
   PyObject *__pyx_v_db = 0;
   PyObject *__pyx_v_games = 0;
@@ -19905,7 +19904,7 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyOb
  *                  lognormal: bool = False,
  *                  power_transform: Optional[float] = None,             # <<<<<<<<<<<<<<
  *                  majority_baseline: bool = True,
- *                  rescale: bool = True) -> 'CVExperimentConfig':
+ *                  rescale: bool = True) -> 'CVConfig':
  */
     values[17] = ((PyObject *)((PyObject *)Py_None));
 
@@ -19913,7 +19912,7 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyOb
  *                  lognormal: bool = False,
  *                  power_transform: Optional[float] = None,
  *                  majority_baseline: bool = True,             # <<<<<<<<<<<<<<
- *                  rescale: bool = True) -> 'CVExperimentConfig':
+ *                  rescale: bool = True) -> 'CVConfig':
  *         """
  */
     values[18] = ((PyObject *)((PyObject *)Py_True));
@@ -19921,7 +19920,7 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyOb
     /* "src/experiments.pyx":1570
  *                  power_transform: Optional[float] = None,
  *                  majority_baseline: bool = True,
- *                  rescale: bool = True) -> 'CVExperimentConfig':             # <<<<<<<<<<<<<<
+ *                  rescale: bool = True) -> 'CVConfig':             # <<<<<<<<<<<<<<
  *         """
  *         Initialize object.
  */
@@ -20108,11 +20107,11 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyOb
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("__init__", 0, 10, 20, PyTuple_GET_SIZE(__pyx_args)); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L3_error;}
   __pyx_L3_error:;
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_3src_11experiments_18CVExperimentConfig___init__(__pyx_self, __pyx_v_self, __pyx_v_db, __pyx_v_games, __pyx_v_learners, __pyx_v_param_grids, __pyx_v_training_rounds, __pyx_v_training_samples_per_round, __pyx_v_grid_search_samples_per_fold, __pyx_v_non_nlp_features, __pyx_v_prediction_label, __pyx_v_objective, __pyx_v_data_sampling, __pyx_v_grid_search_folds, __pyx_v_hashed_features, __pyx_v_nlp_features, __pyx_v_bin_ranges, __pyx_v_lognormal, __pyx_v_power_transform, __pyx_v_majority_baseline, __pyx_v_rescale);
+  __pyx_r = __pyx_pf_3src_11experiments_8CVConfig___init__(__pyx_self, __pyx_v_self, __pyx_v_db, __pyx_v_games, __pyx_v_learners, __pyx_v_param_grids, __pyx_v_training_rounds, __pyx_v_training_samples_per_round, __pyx_v_grid_search_samples_per_fold, __pyx_v_non_nlp_features, __pyx_v_prediction_label, __pyx_v_objective, __pyx_v_data_sampling, __pyx_v_grid_search_folds, __pyx_v_hashed_features, __pyx_v_nlp_features, __pyx_v_bin_ranges, __pyx_v_lognormal, __pyx_v_power_transform, __pyx_v_majority_baseline, __pyx_v_rescale);
 
   /* "src/experiments.pyx":1551
  *     _n_features_feature_hashing = 2 ** 18
@@ -20131,14 +20130,14 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_1__init__(PyOb
  *         exp_schema = Schema(
  *             {'db': Collection,
  *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),             # <<<<<<<<<<<<<<
- *              'learners':
- *                 lambda x: [BaseEstimator],
+ *              'learners': [BaseEstimator],
+ *              'param_grids': [{str: list}],
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___lambda9(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___lambda9 = {"lambda9", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___lambda9, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___lambda9(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___lambda9(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___lambda9 = {"lambda9", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___lambda9, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___lambda9(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda9 (wrapper)", 0);
@@ -20203,7 +20202,7 @@ static PyObject *__pyx_lambda_funcdef_lambda9(CYTHON_UNUSED PyObject *__pyx_self
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda9", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda9", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20211,18 +20210,18 @@ static PyObject *__pyx_lambda_funcdef_lambda9(CYTHON_UNUSED PyObject *__pyx_self
   return __pyx_r;
 }
 
-/* "src/experiments.pyx":1658
- *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
- *              'learners':
- *                 lambda x: [BaseEstimator],             # <<<<<<<<<<<<<<
+/* "src/experiments.pyx":1659
+ *              'learners': [BaseEstimator],
  *              'param_grids': [{str: list}],
- *              'training_rounds': And(int, lambda x: x > 1),
+ *              'training_rounds': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
+ *              'training_samples_per_round': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___1lambda10(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___1lambda10 = {"lambda10", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___1lambda10, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___1lambda10(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___1lambda10(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___1lambda10 = {"lambda10", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___1lambda10, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___1lambda10(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda10 (wrapper)", 0);
@@ -20233,32 +20232,24 @@ static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___1lam
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_self, CYTHON_UNUSED PyObject *__pyx_v_x) {
+static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda10", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_BaseEstimator); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyList_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyList_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
   goto __pyx_L0;
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda10", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda10", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20267,17 +20258,17 @@ static PyObject *__pyx_lambda_funcdef_lambda10(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 /* "src/experiments.pyx":1660
- *                 lambda x: [BaseEstimator],
  *              'param_grids': [{str: list}],
- *              'training_rounds': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
- *              'training_samples_per_round': And(int, lambda x: x > 0),
+ *              'training_rounds': And(int, lambda x: x > 1),
+ *              'training_samples_per_round': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
  *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
+ *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___2lambda11(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___2lambda11 = {"lambda11", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___2lambda11, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___2lambda11(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___2lambda11(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___2lambda11 = {"lambda11", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___2lambda11, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___2lambda11(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda11 (wrapper)", 0);
@@ -20297,7 +20288,7 @@ static PyObject *__pyx_lambda_funcdef_lambda11(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda11", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -20305,7 +20296,7 @@ static PyObject *__pyx_lambda_funcdef_lambda11(CYTHON_UNUSED PyObject *__pyx_sel
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda11", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda11", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20314,17 +20305,17 @@ static PyObject *__pyx_lambda_funcdef_lambda11(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 /* "src/experiments.pyx":1661
- *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),
- *              'training_samples_per_round': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
+ *              'training_samples_per_round': And(int, lambda x: x > 0),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
+ *              'prediction_label':
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___3lambda12(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___3lambda12 = {"lambda12", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___3lambda12, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___3lambda12(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___3lambda12(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___3lambda12 = {"lambda12", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___3lambda12, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___3lambda12(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda12 (wrapper)", 0);
@@ -20344,7 +20335,7 @@ static PyObject *__pyx_lambda_funcdef_lambda12(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda12", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -20352,7 +20343,7 @@ static PyObject *__pyx_lambda_funcdef_lambda12(CYTHON_UNUSED PyObject *__pyx_sel
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda12", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda12", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20361,17 +20352,17 @@ static PyObject *__pyx_lambda_funcdef_lambda12(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 /* "src/experiments.pyx":1662
- *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
- *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
+ *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
+ *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),             # <<<<<<<<<<<<<<
  *              'prediction_label':
+ *                  And(str,
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___4lambda13(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___4lambda13 = {"lambda13", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___4lambda13, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___4lambda13(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___4lambda13(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___4lambda13 = {"lambda13", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___4lambda13, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___4lambda13(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda13 (wrapper)", 0);
@@ -20386,64 +20377,17 @@ static PyObject *__pyx_lambda_funcdef_lambda13(CYTHON_UNUSED PyObject *__pyx_sel
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lambda13", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda13", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "src/experiments.pyx":1663
- *              'training_samples_per_round': And(int, lambda x: x > 0),
- *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
- *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),             # <<<<<<<<<<<<<<
- *              'prediction_label':
- *                  And(str,
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___5lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___5lambda14 = {"lambda14", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___5lambda14, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___5lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("lambda14 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_lambda14(__pyx_self, ((PyObject *)__pyx_v_x));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lambda14", 0);
+  __Pyx_RefNannySetupContext("lambda13", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LABELS); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LABELS); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_issuperset); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_issuperset); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -20457,16 +20401,16 @@ static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_sel
     }
   }
   if (!__pyx_t_2) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_v_x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
     __Pyx_INCREF(__pyx_v_x);
     __Pyx_GIVEREF(__pyx_v_x);
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_x);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
@@ -20481,7 +20425,7 @@ static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_sel
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda14", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda13", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20489,7 +20433,7 @@ static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "src/experiments.pyx":1666
+/* "src/experiments.pyx":1665
  *              'prediction_label':
  *                  And(str,
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),             # <<<<<<<<<<<<<<
@@ -20498,20 +20442,20 @@ static PyObject *__pyx_lambda_funcdef_lambda14(CYTHON_UNUSED PyObject *__pyx_sel
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___6lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___6lambda15 = {"lambda15", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___6lambda15, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___6lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___5lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___5lambda14 = {"lambda14", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___5lambda14, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___5lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("lambda15 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_lambda15(__pyx_self, ((PyObject *)__pyx_v_x));
+  __Pyx_RefNannySetupContext("lambda14 (wrapper)", 0);
+  __pyx_r = __pyx_lambda_funcdef_lambda14(__pyx_self, ((PyObject *)__pyx_v_x));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_lambda_funcdef_lambda14(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   struct __pyx_obj_3src_11experiments___pyx_scope_struct_11___init__ *__pyx_cur_scope;
   struct __pyx_obj_3src_11experiments___pyx_scope_struct_11___init__ *__pyx_outer_scope;
   PyObject *__pyx_r = NULL;
@@ -20522,32 +20466,32 @@ static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *_
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lambda15", 0);
+  __Pyx_RefNannySetupContext("lambda14", 0);
   __pyx_outer_scope = (struct __pyx_obj_3src_11experiments___pyx_scope_struct_11___init__ *) __Pyx_CyFunction_GetClosure(__pyx_self);
   __pyx_cur_scope = __pyx_outer_scope;
   __Pyx_XDECREF(__pyx_r);
-  if (unlikely(!__pyx_cur_scope->__pyx_v_params)) { __Pyx_RaiseClosureNameError("params"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
+  if (unlikely(!__pyx_cur_scope->__pyx_v_params)) { __Pyx_RaiseClosureNameError("params"); {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;} }
   if (unlikely(__pyx_cur_scope->__pyx_v_params == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
-  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_n_s_non_nlp_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_cur_scope->__pyx_v_params, __pyx_n_s_non_nlp_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_NE)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_NE)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_3) {
   } else {
-    __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_1 = __pyx_t_2;
     __pyx_t_2 = 0;
     goto __pyx_L3_bool_binop_done;
   }
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LABELS); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LABELS); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = __pyx_t_2;
   __pyx_t_2 = 0;
@@ -20560,7 +20504,7 @@ static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *_
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
   __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda15", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda14", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20568,7 +20512,7 @@ static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *_
   return __pyx_r;
 }
 
-/* "src/experiments.pyx":1667
+/* "src/experiments.pyx":1666
  *                  And(str,
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,             # <<<<<<<<<<<<<<
@@ -20577,9 +20521,62 @@ static PyObject *__pyx_lambda_funcdef_lambda15(PyObject *__pyx_self, PyObject *_
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___7lambda16(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___7lambda16 = {"lambda16", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___7lambda16, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___7lambda16(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___6lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___6lambda15 = {"lambda15", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___6lambda15, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___6lambda15(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("lambda15 (wrapper)", 0);
+  __pyx_r = __pyx_lambda_funcdef_lambda15(__pyx_self, ((PyObject *)__pyx_v_x));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_lambda_funcdef_lambda15(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  int __pyx_lineno = 0;
+  const char *__pyx_filename = NULL;
+  int __pyx_clineno = 0;
+  __Pyx_RefNannySetupContext("lambda15", 0);
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_OBJ_FUNC_ABBRS_DICT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda15", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "src/experiments.pyx":1668
+ *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
+ *              Default('data_sampling', default='even'):
+ *                 And(str, lambda x: x in ExperimentalData.sampling_options),             # <<<<<<<<<<<<<<
+ *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
+ *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___7lambda16(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___7lambda16 = {"lambda16", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___7lambda16, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___7lambda16(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda16 (wrapper)", 0);
@@ -20594,26 +20591,31 @@ static PyObject *__pyx_lambda_funcdef_lambda16(CYTHON_UNUSED PyObject *__pyx_sel
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_t_2;
+  PyObject *__pyx_t_2 = NULL;
+  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda16", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_OBJ_FUNC_ABBRS_DICT); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_ExperimentalData); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_1, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sampling_options); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_2); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
+  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda16", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda16", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20622,17 +20624,17 @@ static PyObject *__pyx_lambda_funcdef_lambda16(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 /* "src/experiments.pyx":1669
- *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  *              Default('data_sampling', default='even'):
- *                 And(str, lambda x: x in ExperimentalData.sampling_options),             # <<<<<<<<<<<<<<
- *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
+ *                 And(str, lambda x: x in ExperimentalData.sampling_options),
+ *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
+ *              Default('nlp_features', default=True): bool,
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___8lambda17(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___8lambda17 = {"lambda17", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___8lambda17, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___8lambda17(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___8lambda17(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___8lambda17 = {"lambda17", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___8lambda17, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___8lambda17(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda17 (wrapper)", 0);
@@ -20647,31 +20649,20 @@ static PyObject *__pyx_lambda_funcdef_lambda17(CYTHON_UNUSED PyObject *__pyx_sel
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  int __pyx_t_3;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda17", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_ExperimentalData); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_sampling_options); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = (__Pyx_PySequence_ContainsTF(__pyx_v_x, __pyx_t_2, Py_EQ)); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyBool_FromLong(__pyx_t_3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_r = __pyx_t_2;
-  __pyx_t_2 = 0;
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
   goto __pyx_L0;
 
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda17", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda17", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20680,17 +20671,17 @@ static PyObject *__pyx_lambda_funcdef_lambda17(CYTHON_UNUSED PyObject *__pyx_sel
 }
 
 /* "src/experiments.pyx":1670
- *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
- *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
- *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
+ *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
+ *              Default('hashed_features', default=None): And(int, lambda x: x > -1),             # <<<<<<<<<<<<<<
  *              Default('nlp_features', default=True): bool,
+ *              Default('bin_ranges', default=None):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___9lambda18(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___9lambda18 = {"lambda18", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___9lambda18, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___9lambda18(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___9lambda18(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___9lambda18 = {"lambda18", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___9lambda18, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___9lambda18(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda18 (wrapper)", 0);
@@ -20710,7 +20701,7 @@ static PyObject *__pyx_lambda_funcdef_lambda18(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("lambda18", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_neg_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
@@ -20718,7 +20709,7 @@ static PyObject *__pyx_lambda_funcdef_lambda18(CYTHON_UNUSED PyObject *__pyx_sel
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda18", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda18", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20726,18 +20717,18 @@ static PyObject *__pyx_lambda_funcdef_lambda18(CYTHON_UNUSED PyObject *__pyx_sel
   return __pyx_r;
 }
 
-/* "src/experiments.pyx":1671
- *                 And(str, lambda x: x in ExperimentalData.sampling_options),
- *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
- *              Default('hashed_features', default=None): And(int, lambda x: x > -1),             # <<<<<<<<<<<<<<
+/* "src/experiments.pyx":1673
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):
+ *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),             # <<<<<<<<<<<<<<
+ *              Default('lognormal', default=False): bool,
+ *              Default('power_transform', default=None): float,
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___10lambda19(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___10lambda19 = {"lambda19", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___10lambda19, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___10lambda19(PyObject *__pyx_self, PyObject *__pyx_v_x) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___10lambda19(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_8__init___10lambda19 = {"lambda19", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_8__init___10lambda19, METH_O, 0};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_8__init___10lambda19(PyObject *__pyx_self, PyObject *__pyx_v_x) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("lambda19 (wrapper)", 0);
@@ -20752,53 +20743,6 @@ static PyObject *__pyx_lambda_funcdef_lambda19(CYTHON_UNUSED PyObject *__pyx_sel
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  int __pyx_lineno = 0;
-  const char *__pyx_filename = NULL;
-  int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lambda19", 0);
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyObject_RichCompare(__pyx_v_x, __pyx_int_neg_1, Py_GT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda19", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "src/experiments.pyx":1674
- *              Default('nlp_features', default=True): bool,
- *              Default('bin_ranges', default=None):
- *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),             # <<<<<<<<<<<<<<
- *              Default('lognormal', default=False): bool,
- *              Default('power_transform', default=None): float,
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___11lambda20(PyObject *__pyx_self, PyObject *__pyx_v_x); /*proto*/
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___11lambda20 = {"lambda20", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___11lambda20, METH_O, 0};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_8__init___11lambda20(PyObject *__pyx_self, PyObject *__pyx_v_x) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("lambda20 (wrapper)", 0);
-  __pyx_r = __pyx_lambda_funcdef_lambda20(__pyx_self, ((PyObject *)__pyx_v_x));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
   PyObject *__pyx_t_2 = NULL;
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
@@ -20806,9 +20750,9 @@ static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_sel
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("lambda20", 0);
+  __Pyx_RefNannySetupContext("lambda19", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_validate_bin_ranges); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_validate_bin_ranges); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -20821,23 +20765,23 @@ static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_sel
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_x); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     __Pyx_INCREF(__pyx_v_x);
     __Pyx_GIVEREF(__pyx_v_x);
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_x);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_5 = (__pyx_t_1 == Py_None);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -20849,7 +20793,7 @@ static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_sel
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__.lambda20", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__.lambda19", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -20865,7 +20809,7 @@ static PyObject *__pyx_lambda_funcdef_lambda20(CYTHON_UNUSED PyObject *__pyx_sel
  *                  games: set,
  */
 
-static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_learners, PyObject *__pyx_v_param_grids, PyObject *__pyx_v_training_rounds, PyObject *__pyx_v_training_samples_per_round, PyObject *__pyx_v_grid_search_samples_per_fold, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_objective, PyObject *__pyx_v_data_sampling, PyObject *__pyx_v_grid_search_folds, PyObject *__pyx_v_hashed_features, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_majority_baseline, PyObject *__pyx_v_rescale) {
+static PyObject *__pyx_pf_3src_11experiments_8CVConfig___init__(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self, PyObject *__pyx_v_db, PyObject *__pyx_v_games, PyObject *__pyx_v_learners, PyObject *__pyx_v_param_grids, PyObject *__pyx_v_training_rounds, PyObject *__pyx_v_training_samples_per_round, PyObject *__pyx_v_grid_search_samples_per_fold, PyObject *__pyx_v_non_nlp_features, PyObject *__pyx_v_prediction_label, PyObject *__pyx_v_objective, PyObject *__pyx_v_data_sampling, PyObject *__pyx_v_grid_search_folds, PyObject *__pyx_v_hashed_features, PyObject *__pyx_v_nlp_features, PyObject *__pyx_v_bin_ranges, PyObject *__pyx_v_lognormal, PyObject *__pyx_v_power_transform, PyObject *__pyx_v_majority_baseline, PyObject *__pyx_v_rescale) {
   struct __pyx_obj_3src_11experiments___pyx_scope_struct_11___init__ *__pyx_cur_scope;
   PyObject *__pyx_v_param = NULL;
   PyObject *__pyx_v_exp_schema = NULL;
@@ -21080,7 +21024,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  *         exp_schema = Schema(
  *             {'db': Collection,             # <<<<<<<<<<<<<<
  *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
- *              'learners':
+ *              'learners': [BaseEstimator],
  */
   __pyx_t_6 = PyDict_New(); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_6);
@@ -21093,12 +21037,12 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  *         exp_schema = Schema(
  *             {'db': Collection,
  *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),             # <<<<<<<<<<<<<<
- *              'learners':
- *                 lambda x: [BaseEstimator],
+ *              'learners': [BaseEstimator],
+ *              'param_grids': [{str: list}],
  */
   __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1656; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___lambda9, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1656; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___lambda9, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1656; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_10 = NULL;
   __pyx_t_3 = 0;
@@ -21130,60 +21074,65 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_games, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1658
+  /* "src/experiments.pyx":1657
+ *             {'db': Collection,
  *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
- *              'learners':
- *                 lambda x: [BaseEstimator],             # <<<<<<<<<<<<<<
+ *              'learners': [BaseEstimator],             # <<<<<<<<<<<<<<
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),
  */
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___1lambda10, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_BaseEstimator); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1657; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_learners, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-
-  /* "src/experiments.pyx":1659
- *              'learners':
- *                 lambda x: [BaseEstimator],
- *              'param_grids': [{str: list}],             # <<<<<<<<<<<<<<
- *              'training_rounds': And(int, lambda x: x > 1),
- *              'training_samples_per_round': And(int, lambda x: x > 0),
- */
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, ((PyObject *)(&PyString_Type)), ((PyObject *)(&PyList_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_8 = PyList_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyList_New(1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1657; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_7);
   PyList_SET_ITEM(__pyx_t_8, 0, __pyx_t_7);
   __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_param_grids, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_learners, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "src/experiments.pyx":1660
- *                 lambda x: [BaseEstimator],
+  /* "src/experiments.pyx":1658
+ *              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
+ *              'learners': [BaseEstimator],
+ *              'param_grids': [{str: list}],             # <<<<<<<<<<<<<<
+ *              'training_rounds': And(int, lambda x: x > 1),
+ *              'training_samples_per_round': And(int, lambda x: x > 0),
+ */
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_8, ((PyObject *)(&PyString_Type)), ((PyObject *)(&PyList_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyList_New(1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1658; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_8);
+  PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_8);
+  __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_param_grids, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+
+  /* "src/experiments.pyx":1659
+ *              'learners': [BaseEstimator],
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'training_samples_per_round': And(int, lambda x: x > 0),
  *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___2lambda11, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_11 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___1lambda10, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __pyx_t_9 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_9)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_9);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_10 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_10 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_10);
   if (__pyx_t_9) {
     __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -21194,37 +21143,37 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_11);
   PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_3, __pyx_t_11);
   __pyx_t_11 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_10, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1659; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_training_rounds, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_training_rounds, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1661
+  /* "src/experiments.pyx":1660
  *              'param_grids': [{str: list}],
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),             # <<<<<<<<<<<<<<
  *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___3lambda12, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___2lambda11, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_10);
   __pyx_t_11 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_11 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_11)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_11);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   if (__pyx_t_11) {
     __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -21235,37 +21184,37 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_10);
   PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_3, __pyx_t_10);
   __pyx_t_10 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_9, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1660; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_training_samples_per_round, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_training_samples_per_round, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1662
+  /* "src/experiments.pyx":1661
  *              'training_rounds': And(int, lambda x: x > 1),
  *              'training_samples_per_round': And(int, lambda x: x > 0),
  *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  *              'prediction_label':
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___4lambda13, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___3lambda12, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_10 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_11 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   if (__pyx_t_10) {
     __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -21276,40 +21225,40 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_9);
   PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_3, __pyx_t_9);
   __pyx_t_9 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1661; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_grid_search_samples_per_fold, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_grid_search_samples_per_fold, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1663
+  /* "src/experiments.pyx":1662
  *              'training_samples_per_round': And(int, lambda x: x > 0),
  *              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),             # <<<<<<<<<<<<<<
  *              'prediction_label':
  *                  And(str,
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_11 = PySet_New(0); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_11 = PySet_New(0); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  if (PySet_Add(__pyx_t_11, ((PyObject *)(&PyString_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___5lambda14, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PySet_Add(__pyx_t_11, ((PyObject *)(&PyString_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___4lambda13, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_10 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_12 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   if (__pyx_t_10) {
     __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -21320,45 +21269,45 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_3, __pyx_t_9);
   __pyx_t_11 = 0;
   __pyx_t_9 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1663; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_12, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1662; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_non_nlp_features, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_non_nlp_features, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1665
+  /* "src/experiments.pyx":1664
  *              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
  *              'prediction_label':
  *                  And(str,             # <<<<<<<<<<<<<<
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1664; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
 
-  /* "src/experiments.pyx":1666
+  /* "src/experiments.pyx":1665
  *              'prediction_label':
  *                  And(str,
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),             # <<<<<<<<<<<<<<
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  *              Default('data_sampling', default='even'):
  */
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___6lambda15, 0, __pyx_n_s_CVExperimentConfig___init___loca, ((PyObject*)__pyx_cur_scope), __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___5lambda14, 0, __pyx_n_s_CVConfig___init___locals_lambda, ((PyObject*)__pyx_cur_scope), __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_9 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_9)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_9);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_11 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1664; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   if (__pyx_t_9) {
     __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -21369,76 +21318,76 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_12);
   PyTuple_SET_ITEM(__pyx_t_11, 1+__pyx_t_3, __pyx_t_12);
   __pyx_t_12 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_11, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1665; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_11, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1664; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_prediction_label, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_n_s_prediction_label, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1667
+  /* "src/experiments.pyx":1666
  *                  And(str,
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,             # <<<<<<<<<<<<<<
  *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__37, __pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__37, __pyx_t_8); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_7 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___7lambda16, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_11, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___6lambda15, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_11, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "src/experiments.pyx":1668
+  /* "src/experiments.pyx":1667
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  *              Default('data_sampling', default='even'):             # <<<<<<<<<<<<<<
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_11);
-  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, __pyx_n_s_even) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__38, __pyx_t_11); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_11);
+  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, __pyx_n_s_even) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__38, __pyx_t_11); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "src/experiments.pyx":1669
+  /* "src/experiments.pyx":1668
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),             # <<<<<<<<<<<<<<
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___8lambda17, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___7lambda16, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_9 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
-    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_7);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
+    __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_8);
     if (likely(__pyx_t_9)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
       __Pyx_INCREF(__pyx_t_9);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_7, function);
+      __Pyx_DECREF_SET(__pyx_t_8, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_10 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_10 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_10);
   if (__pyx_t_9) {
     __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -21449,33 +21398,33 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_12);
   PyTuple_SET_ITEM(__pyx_t_10, 1+__pyx_t_3, __pyx_t_12);
   __pyx_t_12 = 0;
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_10, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_10, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, __pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, __pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "src/experiments.pyx":1670
+  /* "src/experiments.pyx":1669
  *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,
  */
-  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, __pyx_int_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__39, __pyx_t_8); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
+  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, __pyx_int_5) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__39, __pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___9lambda18, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_10 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___8lambda17, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_10)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_10);
   __pyx_t_12 = NULL;
   __pyx_t_3 = 0;
@@ -21489,7 +21438,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   if (__pyx_t_12) {
     __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -21500,47 +21449,47 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_10);
   PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_3, __pyx_t_10);
   __pyx_t_10 = 0;
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_9, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1671
+  /* "src/experiments.pyx":1670
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),             # <<<<<<<<<<<<<<
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__40, __pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___10lambda19, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__40, __pyx_t_8); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_11);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_9 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___9lambda18, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __pyx_t_10 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_7);
     if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_8, function);
+      __Pyx_DECREF_SET(__pyx_t_7, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_12 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   if (__pyx_t_10) {
     __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -21551,60 +21500,60 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_GIVEREF(__pyx_t_9);
   PyTuple_SET_ITEM(__pyx_t_12, 1+__pyx_t_3, __pyx_t_9);
   __pyx_t_9 = 0;
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_12, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_12, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_12); __pyx_t_12 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_11, __pyx_t_7) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_11, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "src/experiments.pyx":1672
+  /* "src/experiments.pyx":1671
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,             # <<<<<<<<<<<<<<
  *              Default('bin_ranges', default=None):
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  */
-  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_11);
-  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__41, __pyx_t_11); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_11);
+  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__41, __pyx_t_11); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1673
+  /* "src/experiments.pyx":1672
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):             # <<<<<<<<<<<<<<
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_11);
-  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__42, __pyx_t_11); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  __pyx_t_11 = PyDict_New(); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_11);
+  if (PyDict_SetItem(__pyx_t_11, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__42, __pyx_t_11); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "src/experiments.pyx":1674
+  /* "src/experiments.pyx":1673
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),             # <<<<<<<<<<<<<<
  *              Default('lognormal', default=False): bool,
  *              Default('power_transform', default=None): float,
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_And); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
+  __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   __Pyx_INCREF(((PyObject *)(&PyFloat_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyFloat_Type)));
@@ -21612,26 +21561,26 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_INCREF(((PyObject *)(&PyFloat_Type)));
   __Pyx_GIVEREF(((PyObject *)(&PyFloat_Type)));
   PyTuple_SET_ITEM(__pyx_t_12, 1, ((PyObject *)(&PyFloat_Type)));
-  __pyx_t_9 = PyList_New(1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyList_New(1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_GIVEREF(__pyx_t_12);
   PyList_SET_ITEM(__pyx_t_9, 0, __pyx_t_12);
   __pyx_t_12 = 0;
-  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_8__init___11lambda20, 0, __pyx_n_s_CVExperimentConfig___init___loca, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_12 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_8__init___10lambda19, 0, __pyx_n_s_CVConfig___init___locals_lambda, NULL, __pyx_n_s_src_experiments, __pyx_d, NULL); if (unlikely(!__pyx_t_12)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_12);
   __pyx_t_10 = NULL;
   __pyx_t_3 = 0;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
-    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_8);
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
+    __pyx_t_10 = PyMethod_GET_SELF(__pyx_t_7);
     if (likely(__pyx_t_10)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
       __Pyx_INCREF(__pyx_t_10);
       __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_8, function);
+      __Pyx_DECREF_SET(__pyx_t_7, function);
       __pyx_t_3 = 1;
     }
   }
-  __pyx_t_13 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_13 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_13);
   if (__pyx_t_10) {
     __Pyx_GIVEREF(__pyx_t_10); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_10); __pyx_t_10 = NULL;
@@ -21642,89 +21591,89 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_3, __pyx_t_12);
   __pyx_t_9 = 0;
   __pyx_t_12 = 0;
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_13, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_13, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, __pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, __pyx_t_11) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "src/experiments.pyx":1675
+  /* "src/experiments.pyx":1674
  *              Default('bin_ranges', default=None):
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,             # <<<<<<<<<<<<<<
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,
  */
-  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__43, __pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_False) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__43, __pyx_t_8); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1676
+  /* "src/experiments.pyx":1675
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,
  *              Default('power_transform', default=None): float,             # <<<<<<<<<<<<<<
  *              Default('majority_baseline', default=True): bool,
  *              Default('rescale', default=True): bool
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__44, __pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__44, __pyx_t_8); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   if (PyDict_SetItem(__pyx_t_6, __pyx_t_11, ((PyObject *)(&PyFloat_Type))) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "src/experiments.pyx":1677
+  /* "src/experiments.pyx":1676
  *              Default('lognormal', default=False): bool,
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,             # <<<<<<<<<<<<<<
  *              Default('rescale', default=True): bool
  *              }
  */
-  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__45, __pyx_t_7); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_tuple__45, __pyx_t_8); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_7);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (PyDict_SetItem(__pyx_t_6, __pyx_t_8, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
+  if (PyDict_SetItem(__pyx_t_6, __pyx_t_7, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1655; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-  /* "src/experiments.pyx":1678
+  /* "src/experiments.pyx":1677
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,
  *              Default('rescale', default=True): bool             # <<<<<<<<<<<<<<
  *              }
  *             )
  */
-  __pyx_t_8 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_7 = PyDict_New(); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_GetModuleGlobalName(__pyx_n_s_Default); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_7);
-  if (PyDict_SetItem(__pyx_t_7, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_tuple__46, __pyx_t_7); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_8);
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_default, Py_True) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_tuple__46, __pyx_t_8); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_11);
-  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "src/experiments.pyx":1679
+  /* "src/experiments.pyx":1678
  *              Default('majority_baseline', default=True): bool,
  *              Default('rescale', default=True): bool
  *              }             # <<<<<<<<<<<<<<
@@ -21748,21 +21697,21 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_7 = PyTuple_New(1+1); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-    __Pyx_GOTREF(__pyx_t_7);
-    __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_11); __pyx_t_11 = NULL;
+    __pyx_t_8 = PyTuple_New(1+1); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __Pyx_GOTREF(__pyx_t_8);
+    __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_11); __pyx_t_11 = NULL;
     __Pyx_GIVEREF(__pyx_t_6);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+1, __pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_8, 0+1, __pyx_t_6);
     __pyx_t_6 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_7, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_8, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1654; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_exp_schema = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "src/experiments.pyx":1683
+  /* "src/experiments.pyx":1682
  * 
  *         # Validate the schema
  *         try:             # <<<<<<<<<<<<<<
@@ -21776,44 +21725,44 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
     __Pyx_XGOTREF(__pyx_t_16);
     /*try:*/ {
 
-      /* "src/experiments.pyx":1684
+      /* "src/experiments.pyx":1683
  *         # Validate the schema
  *         try:
  *             self.validated = exp_schema.validate(params)             # <<<<<<<<<<<<<<
  *         except (ValueError, SchemaError) as e:
  *             msg = ('The set of passed-in parameters was not able to be '
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_exp_schema, __pyx_n_s_validate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_exp_schema, __pyx_n_s_validate); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1683; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_7 = NULL;
+      __pyx_t_8 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
-        __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_2);
-        if (likely(__pyx_t_7)) {
+        __pyx_t_8 = PyMethod_GET_SELF(__pyx_t_2);
+        if (likely(__pyx_t_8)) {
           PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-          __Pyx_INCREF(__pyx_t_7);
+          __Pyx_INCREF(__pyx_t_8);
           __Pyx_INCREF(function);
           __Pyx_DECREF_SET(__pyx_t_2, function);
         }
       }
-      if (!__pyx_t_7) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_params); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
+      if (!__pyx_t_8) {
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_cur_scope->__pyx_v_params); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1683; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1683; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
         __Pyx_GOTREF(__pyx_t_6);
-        __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
+        __Pyx_GIVEREF(__pyx_t_8); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_8); __pyx_t_8 = NULL;
         __Pyx_INCREF(__pyx_cur_scope->__pyx_v_params);
         __Pyx_GIVEREF(__pyx_cur_scope->__pyx_v_params);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_cur_scope->__pyx_v_params);
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1683; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_validated, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
+      if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_n_s_validated, __pyx_t_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1683; __pyx_clineno = __LINE__; goto __pyx_L6_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-      /* "src/experiments.pyx":1683
+      /* "src/experiments.pyx":1682
  * 
  *         # Validate the schema
  *         try:             # <<<<<<<<<<<<<<
@@ -21830,34 +21779,34 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_XDECREF(__pyx_t_12); __pyx_t_12 = 0;
     __Pyx_XDECREF(__pyx_t_13); __pyx_t_13 = 0;
-    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
+    __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
     __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_XDECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-    /* "src/experiments.pyx":1685
+    /* "src/experiments.pyx":1684
  *         try:
  *             self.validated = exp_schema.validate(params)
  *         except (ValueError, SchemaError) as e:             # <<<<<<<<<<<<<<
  *             msg = ('The set of passed-in parameters was not able to be '
  *                    'validated and/or the bin ranges values, if specified, were'
  */
-    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_SchemaError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1685; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+    __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_SchemaError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_17 = PyErr_ExceptionMatches(__pyx_builtin_ValueError) || PyErr_ExceptionMatches(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_17) {
-      __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1685; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __Pyx_AddTraceback("src.experiments.CVConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      if (__Pyx_GetException(&__pyx_t_1, &__pyx_t_2, &__pyx_t_6) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1684; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_INCREF(__pyx_t_2);
       __pyx_v_e = __pyx_t_2;
 
-      /* "src/experiments.pyx":1686
+      /* "src/experiments.pyx":1685
  *             self.validated = exp_schema.validate(params)
  *         except (ValueError, SchemaError) as e:
  *             msg = ('The set of passed-in parameters was not able to be '             # <<<<<<<<<<<<<<
@@ -21867,19 +21816,19 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
       __Pyx_INCREF(__pyx_kp_s_The_set_of_passed_in_parameters);
       __pyx_v_msg = __pyx_kp_s_The_set_of_passed_in_parameters;
 
-      /* "src/experiments.pyx":1689
+      /* "src/experiments.pyx":1688
  *                    'validated and/or the bin ranges values, if specified, were'
  *                    ' not able to be validated.')
  *             logger.error('{0}:\n\n{1}'.format(msg, e))             # <<<<<<<<<<<<<<
  *             raise e
  * 
  */
-      __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_logger); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __pyx_t_11 = __Pyx_GetModuleGlobalName(__pyx_n_s_logger); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
       __Pyx_GOTREF(__pyx_t_11);
-      __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_error); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
-      __Pyx_GOTREF(__pyx_t_8);
+      __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_11, __pyx_n_s_error); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_2, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __pyx_t_13 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_0_1_2, __pyx_n_s_format); if (unlikely(!__pyx_t_13)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
       __Pyx_GOTREF(__pyx_t_13);
       __pyx_t_12 = NULL;
       __pyx_t_3 = 0;
@@ -21893,7 +21842,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
           __pyx_t_3 = 1;
         }
       }
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_3); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_12) {
         __Pyx_GIVEREF(__pyx_t_12); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_12); __pyx_t_12 = NULL;
@@ -21904,39 +21853,39 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
       __Pyx_INCREF(__pyx_v_e);
       __Pyx_GIVEREF(__pyx_v_e);
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_3, __pyx_v_e);
-      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_9, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_13, __pyx_t_9, NULL); if (unlikely(!__pyx_t_11)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       __pyx_t_13 = NULL;
-      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_8))) {
-        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_8);
+      if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_7))) {
+        __pyx_t_13 = PyMethod_GET_SELF(__pyx_t_7);
         if (likely(__pyx_t_13)) {
-          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_8);
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_7);
           __Pyx_INCREF(__pyx_t_13);
           __Pyx_INCREF(function);
-          __Pyx_DECREF_SET(__pyx_t_8, function);
+          __Pyx_DECREF_SET(__pyx_t_7, function);
         }
       }
       if (!__pyx_t_13) {
-        __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_8, __pyx_t_11); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+        __pyx_t_8 = __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_11); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
         __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-        __Pyx_GOTREF(__pyx_t_7);
+        __Pyx_GOTREF(__pyx_t_8);
       } else {
-        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+        __pyx_t_9 = PyTuple_New(1+1); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
         __Pyx_GOTREF(__pyx_t_9);
         __Pyx_GIVEREF(__pyx_t_13); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_13); __pyx_t_13 = NULL;
         __Pyx_GIVEREF(__pyx_t_11);
         PyTuple_SET_ITEM(__pyx_t_9, 0+1, __pyx_t_11);
         __pyx_t_11 = 0;
-        __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, NULL); if (unlikely(!__pyx_t_7)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
-        __Pyx_GOTREF(__pyx_t_7);
+        __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_7, __pyx_t_9, NULL); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1688; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+        __Pyx_GOTREF(__pyx_t_8);
         __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
       }
-      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-      /* "src/experiments.pyx":1690
+      /* "src/experiments.pyx":1689
  *                    ' not able to be validated.')
  *             logger.error('{0}:\n\n{1}'.format(msg, e))
  *             raise e             # <<<<<<<<<<<<<<
@@ -21944,12 +21893,12 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  *         # Set up the experiment
  */
       __Pyx_Raise(__pyx_v_e, 0, 0, 0);
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1690; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1689; __pyx_clineno = __LINE__; goto __pyx_L8_except_error;}
     }
     goto __pyx_L8_except_error;
     __pyx_L8_except_error:;
 
-    /* "src/experiments.pyx":1683
+    /* "src/experiments.pyx":1682
  * 
  *         # Validate the schema
  *         try:             # <<<<<<<<<<<<<<
@@ -21964,14 +21913,14 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
     __pyx_L13_try_end:;
   }
 
-  /* "src/experiments.pyx":1693
+  /* "src/experiments.pyx":1692
  * 
  *         # Set up the experiment
  *         self._further_validate_and_setup()             # <<<<<<<<<<<<<<
  * 
  *     def _further_validate_and_setup(self) -> None:
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_further_validate_and_setup); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1693; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_further_validate_and_setup); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1692; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_1 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -21984,10 +21933,10 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
     }
   }
   if (__pyx_t_1) {
-    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1693; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1692; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   } else {
-    __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1693; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_6 = __Pyx_PyObject_CallNoArg(__pyx_t_2); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1692; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   }
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -22015,7 +21964,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_12);
   __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig.__init__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_param);
@@ -22028,7 +21977,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
   return __pyx_r;
 }
 
-/* "src/experiments.pyx":1695
+/* "src/experiments.pyx":1694
  *         self._further_validate_and_setup()
  * 
  *     def _further_validate_and_setup(self) -> None:             # <<<<<<<<<<<<<<
@@ -22037,21 +21986,21 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig___init__(CYTHO
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_3_further_validate_and_setup(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
-static char __pyx_doc_3src_11experiments_18CVExperimentConfig_2_further_validate_and_setup[] = "\n        Further validate the experiment's configuration settings and set\n        up certain configuration settings, such as setting the total\n        number of hashed features to use, etc.\n\n        :returns: None\n        :rtype: None\n        ";
-static PyMethodDef __pyx_mdef_3src_11experiments_18CVExperimentConfig_3_further_validate_and_setup = {"_further_validate_and_setup", (PyCFunction)__pyx_pw_3src_11experiments_18CVExperimentConfig_3_further_validate_and_setup, METH_O, __pyx_doc_3src_11experiments_18CVExperimentConfig_2_further_validate_and_setup};
-static PyObject *__pyx_pw_3src_11experiments_18CVExperimentConfig_3_further_validate_and_setup(PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_3_further_validate_and_setup(PyObject *__pyx_self, PyObject *__pyx_v_self); /*proto*/
+static char __pyx_doc_3src_11experiments_8CVConfig_2_further_validate_and_setup[] = "\n        Further validate the experiment's configuration settings and set\n        up certain configuration settings, such as setting the total\n        number of hashed features to use, etc.\n\n        :returns: None\n        :rtype: None\n        ";
+static PyMethodDef __pyx_mdef_3src_11experiments_8CVConfig_3_further_validate_and_setup = {"_further_validate_and_setup", (PyCFunction)__pyx_pw_3src_11experiments_8CVConfig_3_further_validate_and_setup, METH_O, __pyx_doc_3src_11experiments_8CVConfig_2_further_validate_and_setup};
+static PyObject *__pyx_pw_3src_11experiments_8CVConfig_3_further_validate_and_setup(PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("_further_validate_and_setup (wrapper)", 0);
-  __pyx_r = __pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_validate_and_setup(__pyx_self, ((PyObject *)__pyx_v_self));
+  __pyx_r = __pyx_pf_3src_11experiments_8CVConfig_2_further_validate_and_setup(__pyx_self, ((PyObject *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_validate_and_setup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
+static PyObject *__pyx_pf_3src_11experiments_8CVConfig_2_further_validate_and_setup(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -22068,54 +22017,54 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("_further_validate_and_setup", 0);
 
-  /* "src/experiments.pyx":1706
+  /* "src/experiments.pyx":1705
  * 
  *         # Make sure parameters make sense/are valid
  *         if self.validated['hashed_features'] != None:             # <<<<<<<<<<<<<<
  *             if self.validated['hashed_features'] < 0:
  *                 raise ValueError('Cannot use non-positive value, {0}, for the'
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1705; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1705; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, Py_None, Py_NE); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1705; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1705; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (__pyx_t_3) {
 
-    /* "src/experiments.pyx":1707
+    /* "src/experiments.pyx":1706
  *         # Make sure parameters make sense/are valid
  *         if self.validated['hashed_features'] != None:
  *             if self.validated['hashed_features'] < 0:             # <<<<<<<<<<<<<<
  *                 raise ValueError('Cannot use non-positive value, {0}, for the'
  *                                  ' "hashed_features" parameter.'
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+    __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = PyObject_RichCompare(__pyx_t_2, __pyx_int_0, Py_LT); __Pyx_XGOTREF(__pyx_t_1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1706; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     if (__pyx_t_3) {
 
-      /* "src/experiments.pyx":1710
+      /* "src/experiments.pyx":1709
  *                 raise ValueError('Cannot use non-positive value, {0}, for the'
  *                                  ' "hashed_features" parameter.'
  *                                  .format(self.validated['hashed_features']))             # <<<<<<<<<<<<<<
  *             else:
  *                 if self.validated['hashed_features'] == 0:
  */
-      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Cannot_use_non_positive_value_0, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_Cannot_use_non_positive_value_0, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
-      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_4);
-      __pyx_t_5 = PyObject_GetItem(__pyx_t_4, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_5 = PyObject_GetItem(__pyx_t_4, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_5 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       __pyx_t_4 = NULL;
@@ -22129,42 +22078,42 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
         }
       }
       if (!__pyx_t_4) {
-        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
         __Pyx_GOTREF(__pyx_t_1);
       } else {
-        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_6 = PyTuple_New(1+1); if (unlikely(!__pyx_t_6)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_4); __pyx_t_4 = NULL;
         __Pyx_GIVEREF(__pyx_t_5);
         PyTuple_SET_ITEM(__pyx_t_6, 0+1, __pyx_t_5);
         __pyx_t_5 = 0;
-        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1710; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_6, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1709; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-      /* "src/experiments.pyx":1708
+      /* "src/experiments.pyx":1707
  *         if self.validated['hashed_features'] != None:
  *             if self.validated['hashed_features'] < 0:
  *                 raise ValueError('Cannot use non-positive value, {0}, for the'             # <<<<<<<<<<<<<<
  *                                  ' "hashed_features" parameter.'
  *                                  .format(self.validated['hashed_features']))
  */
-      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1708; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_GIVEREF(__pyx_t_1);
       PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1);
       __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1708; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
       __Pyx_Raise(__pyx_t_1, 0, 0, 0);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1708; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1707; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-      /* "src/experiments.pyx":1707
+      /* "src/experiments.pyx":1706
  *         # Make sure parameters make sense/are valid
  *         if self.validated['hashed_features'] != None:
  *             if self.validated['hashed_features'] < 0:             # <<<<<<<<<<<<<<
@@ -22173,7 +22122,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  */
     }
 
-    /* "src/experiments.pyx":1712
+    /* "src/experiments.pyx":1711
  *                                  .format(self.validated['hashed_features']))
  *             else:
  *                 if self.validated['hashed_features'] == 0:             # <<<<<<<<<<<<<<
@@ -22181,34 +22130,34 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  */
     /*else*/ {
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1711; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+      __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_hashed_features); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1711; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
       __Pyx_GOTREF(__pyx_t_2);
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-      __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_1 = __Pyx_PyInt_EqObjC(__pyx_t_2, __pyx_int_0, 0, 0); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1711; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+      __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_3 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1711; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
       __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
       if (__pyx_t_3) {
 
-        /* "src/experiments.pyx":1713
+        /* "src/experiments.pyx":1712
  *             else:
  *                 if self.validated['hashed_features'] == 0:
  *                     self.validated['hashed_features'] = self._n_features_feature_hashing             # <<<<<<<<<<<<<<
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  *             raise ValueError('Both "lognormal" and "power_transform" were '
  */
-        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_features_feature_hashing); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_n_features_feature_hashing); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_1);
-        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_GOTREF(__pyx_t_2);
-        if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_s_hashed_features, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+        if (unlikely(PyObject_SetItem(__pyx_t_2, __pyx_n_s_hashed_features, __pyx_t_1) < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1712; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
         __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
         __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-        /* "src/experiments.pyx":1712
+        /* "src/experiments.pyx":1711
  *                                  .format(self.validated['hashed_features']))
  *             else:
  *                 if self.validated['hashed_features'] == 0:             # <<<<<<<<<<<<<<
@@ -22218,7 +22167,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
       }
     }
 
-    /* "src/experiments.pyx":1706
+    /* "src/experiments.pyx":1705
  * 
  *         # Make sure parameters make sense/are valid
  *         if self.validated['hashed_features'] != None:             # <<<<<<<<<<<<<<
@@ -22227,50 +22176,50 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  */
   }
 
-  /* "src/experiments.pyx":1714
+  /* "src/experiments.pyx":1713
  *                 if self.validated['hashed_features'] == 0:
  *                     self.validated['hashed_features'] = self._n_features_feature_hashing
  *         if self.validated['lognormal'] and self.validated['power_transform']:             # <<<<<<<<<<<<<<
  *             raise ValueError('Both "lognormal" and "power_transform" were '
  *                              'specified simultaneously.')
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_lognormal); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_lognormal); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   if (__pyx_t_7) {
   } else {
     __pyx_t_3 = __pyx_t_7;
     goto __pyx_L7_bool_binop_done;
   }
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_power_transform); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_power_transform); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_1); if (unlikely(__pyx_t_7 < 0)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1713; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = __pyx_t_7;
   __pyx_L7_bool_binop_done:;
   if (__pyx_t_3) {
 
-    /* "src/experiments.pyx":1715
+    /* "src/experiments.pyx":1714
  *                     self.validated['hashed_features'] = self._n_features_feature_hashing
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  *             raise ValueError('Both "lognormal" and "power_transform" were '             # <<<<<<<<<<<<<<
  *                              'specified simultaneously.')
  *         if len(self.validated['learners']) != len(self.validated['param_grids']):
  */
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1715; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__47, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1715; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "src/experiments.pyx":1714
+    /* "src/experiments.pyx":1713
  *                 if self.validated['hashed_features'] == 0:
  *                     self.validated['hashed_features'] = self._n_features_feature_hashing
  *         if self.validated['lognormal'] and self.validated['power_transform']:             # <<<<<<<<<<<<<<
@@ -22279,41 +22228,41 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  */
   }
 
-  /* "src/experiments.pyx":1717
+  /* "src/experiments.pyx":1716
  *             raise ValueError('Both "lognormal" and "power_transform" were '
  *                              'specified simultaneously.')
  *         if len(self.validated['learners']) != len(self.validated['param_grids']):             # <<<<<<<<<<<<<<
  *             raise ValueError()
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_learners); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_2 = PyObject_GetItem(__pyx_t_1, __pyx_n_s_learners); if (unlikely(__pyx_t_2 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_8 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyObject_Length(__pyx_t_2); if (unlikely(__pyx_t_8 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_v_self, __pyx_n_s_validated); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_param_grids); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
+  __pyx_t_1 = PyObject_GetItem(__pyx_t_2, __pyx_n_s_param_grids); if (unlikely(__pyx_t_1 == NULL)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;};
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_9 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_9 = PyObject_Length(__pyx_t_1); if (unlikely(__pyx_t_9 == -1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1716; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_3 = ((__pyx_t_8 != __pyx_t_9) != 0);
   if (__pyx_t_3) {
 
-    /* "src/experiments.pyx":1718
+    /* "src/experiments.pyx":1717
  *                              'specified simultaneously.')
  *         if len(self.validated['learners']) != len(self.validated['param_grids']):
  *             raise ValueError()             # <<<<<<<<<<<<<<
  */
-    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_ValueError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1718; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    __pyx_t_1 = __Pyx_PyObject_CallNoArg(__pyx_builtin_ValueError); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_Raise(__pyx_t_1, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1718; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+    {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1717; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
-    /* "src/experiments.pyx":1717
+    /* "src/experiments.pyx":1716
  *             raise ValueError('Both "lognormal" and "power_transform" were '
  *                              'specified simultaneously.')
  *         if len(self.validated['learners']) != len(self.validated['param_grids']):             # <<<<<<<<<<<<<<
@@ -22321,7 +22270,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
  */
   }
 
-  /* "src/experiments.pyx":1695
+  /* "src/experiments.pyx":1694
  *         self._further_validate_and_setup()
  * 
  *     def _further_validate_and_setup(self) -> None:             # <<<<<<<<<<<<<<
@@ -22338,7 +22287,7 @@ static PyObject *__pyx_pf_3src_11experiments_18CVExperimentConfig_2_further_vali
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("src.experiments.CVExperimentConfig._further_validate_and_setup", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("src.experiments.CVConfig._further_validate_and_setup", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -23751,15 +23700,15 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_BaseEstimator, __pyx_k_BaseEstimator, sizeof(__pyx_k_BaseEstimator), 0, 0, 1, 1},
   {&__pyx_n_s_BernoulliNB, __pyx_k_BernoulliNB, sizeof(__pyx_k_BernoulliNB), 0, 0, 1, 1},
   {&__pyx_kp_s_Both_lognormal_and_power_transfo, __pyx_k_Both_lognormal_and_power_transfo, sizeof(__pyx_k_Both_lognormal_and_power_transfo), 0, 0, 1, 0},
-  {&__pyx_n_s_CVExperimentConfig, __pyx_k_CVExperimentConfig, sizeof(__pyx_k_CVExperimentConfig), 0, 0, 1, 1},
-  {&__pyx_n_s_CVExperimentConfig___init, __pyx_k_CVExperimentConfig___init, sizeof(__pyx_k_CVExperimentConfig___init), 0, 0, 1, 1},
-  {&__pyx_n_s_CVExperimentConfig___init___loca, __pyx_k_CVExperimentConfig___init___loca, sizeof(__pyx_k_CVExperimentConfig___init___loca), 0, 0, 1, 1},
-  {&__pyx_n_s_CVExperimentConfig__further_vali, __pyx_k_CVExperimentConfig__further_vali, sizeof(__pyx_k_CVExperimentConfig__further_vali), 0, 0, 1, 1},
+  {&__pyx_n_s_CVConfig, __pyx_k_CVConfig, sizeof(__pyx_k_CVConfig), 0, 0, 1, 1},
+  {&__pyx_n_s_CVConfig___init, __pyx_k_CVConfig___init, sizeof(__pyx_k_CVConfig___init), 0, 0, 1, 1},
+  {&__pyx_n_s_CVConfig___init___locals_lambda, __pyx_k_CVConfig___init___locals_lambda, sizeof(__pyx_k_CVConfig___init___locals_lambda), 0, 0, 1, 1},
+  {&__pyx_n_s_CVConfig__further_validate_and_s, __pyx_k_CVConfig__further_validate_and_s, sizeof(__pyx_k_CVConfig__further_validate_and_s), 0, 0, 1, 1},
   {&__pyx_kp_s_Can_not_get_feature_weights_for, __pyx_k_Can_not_get_feature_weights_for, sizeof(__pyx_k_Can_not_get_feature_weights_for), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_specify_both_a_set_of_ID, __pyx_k_Cannot_specify_both_a_set_of_ID, sizeof(__pyx_k_Cannot_specify_both_a_set_of_ID), 0, 0, 1, 0},
   {&__pyx_kp_s_Cannot_use_non_positive_value_0, __pyx_k_Cannot_use_non_positive_value_0, sizeof(__pyx_k_Cannot_use_non_positive_value_0), 0, 0, 1, 0},
   {&__pyx_kp_s_Class_for_objects_storing_train, __pyx_k_Class_for_objects_storing_train, sizeof(__pyx_k_Class_for_objects_storing_train), 0, 0, 1, 0},
-  {&__pyx_kp_s_Class_for_representing_configur, __pyx_k_Class_for_representing_configur, sizeof(__pyx_k_Class_for_representing_configur), 0, 0, 1, 0},
+  {&__pyx_kp_s_Class_for_representing_a_set_of, __pyx_k_Class_for_representing_a_set_of, sizeof(__pyx_k_Class_for_representing_a_set_of), 0, 0, 1, 0},
   {&__pyx_n_s_Collection, __pyx_k_Collection, sizeof(__pyx_k_Collection), 0, 0, 1, 1},
   {&__pyx_kp_s_Could_not_generate_a_0_data_set, __pyx_k_Could_not_generate_a_0_data_set, sizeof(__pyx_k_Could_not_generate_a_0_data_set), 0, 0, 1, 0},
   {&__pyx_kp_s_Could_not_generate_a_stratified, __pyx_k_Could_not_generate_a_stratified, sizeof(__pyx_k_Could_not_generate_a_stratified), 0, 0, 1, 0},
@@ -24478,124 +24427,124 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__35);
   __Pyx_GIVEREF(__pyx_tuple__35);
 
-  /* "src/experiments.pyx":1667
+  /* "src/experiments.pyx":1666
  *                  And(str,
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,             # <<<<<<<<<<<<<<
  *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  */
-  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_objective); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__37 = PyTuple_Pack(1, __pyx_n_s_objective); if (unlikely(!__pyx_tuple__37)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1666; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__37);
   __Pyx_GIVEREF(__pyx_tuple__37);
 
-  /* "src/experiments.pyx":1668
+  /* "src/experiments.pyx":1667
  *                      lambda x: not x in params['non_nlp_features'] and x in LABELS),
  *              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
  *              Default('data_sampling', default='even'):             # <<<<<<<<<<<<<<
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  */
-  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_n_s_data_sampling); if (unlikely(!__pyx_tuple__38)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1668; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__38 = PyTuple_Pack(1, __pyx_n_s_data_sampling); if (unlikely(!__pyx_tuple__38)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1667; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__38);
   __Pyx_GIVEREF(__pyx_tuple__38);
 
-  /* "src/experiments.pyx":1670
+  /* "src/experiments.pyx":1669
  *              Default('data_sampling', default='even'):
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),             # <<<<<<<<<<<<<<
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,
  */
-  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_s_grid_search_folds); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__39 = PyTuple_Pack(1, __pyx_n_s_grid_search_folds); if (unlikely(!__pyx_tuple__39)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1669; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__39);
   __Pyx_GIVEREF(__pyx_tuple__39);
 
-  /* "src/experiments.pyx":1671
+  /* "src/experiments.pyx":1670
  *                 And(str, lambda x: x in ExperimentalData.sampling_options),
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),             # <<<<<<<<<<<<<<
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):
  */
-  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_s_hashed_features); if (unlikely(!__pyx_tuple__40)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__40 = PyTuple_Pack(1, __pyx_n_s_hashed_features); if (unlikely(!__pyx_tuple__40)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1670; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__40);
   __Pyx_GIVEREF(__pyx_tuple__40);
 
-  /* "src/experiments.pyx":1672
+  /* "src/experiments.pyx":1671
  *              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,             # <<<<<<<<<<<<<<
  *              Default('bin_ranges', default=None):
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  */
-  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_nlp_features); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__41 = PyTuple_Pack(1, __pyx_n_s_nlp_features); if (unlikely(!__pyx_tuple__41)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1671; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__41);
   __Pyx_GIVEREF(__pyx_tuple__41);
 
-  /* "src/experiments.pyx":1673
+  /* "src/experiments.pyx":1672
  *              Default('hashed_features', default=None): And(int, lambda x: x > -1),
  *              Default('nlp_features', default=True): bool,
  *              Default('bin_ranges', default=None):             # <<<<<<<<<<<<<<
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,
  */
-  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_s_bin_ranges); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1673; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__42 = PyTuple_Pack(1, __pyx_n_s_bin_ranges); if (unlikely(!__pyx_tuple__42)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1672; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__42);
   __Pyx_GIVEREF(__pyx_tuple__42);
 
-  /* "src/experiments.pyx":1675
+  /* "src/experiments.pyx":1674
  *              Default('bin_ranges', default=None):
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,             # <<<<<<<<<<<<<<
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,
  */
-  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_s_lognormal); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__43 = PyTuple_Pack(1, __pyx_n_s_lognormal); if (unlikely(!__pyx_tuple__43)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1674; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__43);
   __Pyx_GIVEREF(__pyx_tuple__43);
 
-  /* "src/experiments.pyx":1676
+  /* "src/experiments.pyx":1675
  *                 And([(float, float)], lambda x: validate_bin_ranges(x) is None),
  *              Default('lognormal', default=False): bool,
  *              Default('power_transform', default=None): float,             # <<<<<<<<<<<<<<
  *              Default('majority_baseline', default=True): bool,
  *              Default('rescale', default=True): bool
  */
-  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_power_transform); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__44 = PyTuple_Pack(1, __pyx_n_s_power_transform); if (unlikely(!__pyx_tuple__44)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1675; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__44);
   __Pyx_GIVEREF(__pyx_tuple__44);
 
-  /* "src/experiments.pyx":1677
+  /* "src/experiments.pyx":1676
  *              Default('lognormal', default=False): bool,
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,             # <<<<<<<<<<<<<<
  *              Default('rescale', default=True): bool
  *              }
  */
-  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_majority_baseline); if (unlikely(!__pyx_tuple__45)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__45 = PyTuple_Pack(1, __pyx_n_s_majority_baseline); if (unlikely(!__pyx_tuple__45)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1676; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__45);
   __Pyx_GIVEREF(__pyx_tuple__45);
 
-  /* "src/experiments.pyx":1678
+  /* "src/experiments.pyx":1677
  *              Default('power_transform', default=None): float,
  *              Default('majority_baseline', default=True): bool,
  *              Default('rescale', default=True): bool             # <<<<<<<<<<<<<<
  *              }
  *             )
  */
-  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_rescale); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1678; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__46 = PyTuple_Pack(1, __pyx_n_s_rescale); if (unlikely(!__pyx_tuple__46)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1677; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__46);
   __Pyx_GIVEREF(__pyx_tuple__46);
 
-  /* "src/experiments.pyx":1715
+  /* "src/experiments.pyx":1714
  *                     self.validated['hashed_features'] = self._n_features_feature_hashing
  *         if self.validated['lognormal'] and self.validated['power_transform']:
  *             raise ValueError('Both "lognormal" and "power_transform" were '             # <<<<<<<<<<<<<<
  *                              'specified simultaneously.')
  *         if len(self.validated['learners']) != len(self.validated['param_grids']):
  */
-  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_Both_lognormal_and_power_transfo); if (unlikely(!__pyx_tuple__47)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1715; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__47 = PyTuple_Pack(1, __pyx_kp_s_Both_lognormal_and_power_transfo); if (unlikely(!__pyx_tuple__47)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1714; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__47);
   __Pyx_GIVEREF(__pyx_tuple__47);
 
@@ -24860,17 +24809,17 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__92);
   __Pyx_GIVEREF(__pyx_tuple__92);
 
-  /* "src/experiments.pyx":1695
+  /* "src/experiments.pyx":1694
  *         self._further_validate_and_setup()
  * 
  *     def _further_validate_and_setup(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Further validate the experiment's configuration settings and set
  */
-  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_tuple__93 = PyTuple_Pack(1, __pyx_n_s_self); if (unlikely(!__pyx_tuple__93)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_tuple__93);
   __Pyx_GIVEREF(__pyx_tuple__93);
-  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mmulholland_Documents_revi, __pyx_n_s_further_validate_and_setup, 1695, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_codeobj__94 = (PyObject*)__Pyx_PyCode_New(1, 0, 1, 0, 0, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple__93, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_home_mmulholland_Documents_revi, __pyx_n_s_further_validate_and_setup, 1694, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__94)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -26738,9 +26687,9 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1541
  * 
  * 
- * class CVExperimentConfig(object):             # <<<<<<<<<<<<<<
+ * class CVConfig(object):             # <<<<<<<<<<<<<<
  *     """
- *     Class for representing configuration options for use with the
+ *     Class for representing a set of configuration options for use with
  */
   __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
@@ -26749,7 +26698,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_builtin_object);
   __pyx_t_5 = __Pyx_CalculateMetaclass(NULL, __pyx_t_3); if (unlikely(!__pyx_t_5)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_5, __pyx_t_3, __pyx_n_s_CVExperimentConfig, __pyx_n_s_CVExperimentConfig, (PyObject *) NULL, __pyx_n_s_src_experiments, __pyx_kp_s_Class_for_representing_configur); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_1 = __Pyx_Py3MetaclassPrepare(__pyx_t_5, __pyx_t_3, __pyx_n_s_CVConfig, __pyx_n_s_CVConfig, (PyObject *) NULL, __pyx_n_s_src_experiments, __pyx_kp_s_Class_for_representing_a_set_of); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
 
   /* "src/experiments.pyx":1549
@@ -26950,7 +26899,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *                  lognormal: bool = False,
  *                  power_transform: Optional[float] = None,             # <<<<<<<<<<<<<<
  *                  majority_baseline: bool = True,
- *                  rescale: bool = True) -> 'CVExperimentConfig':
+ *                  rescale: bool = True) -> 'CVConfig':
  */
   __pyx_t_9 = __Pyx_GetModuleGlobalName(__pyx_n_s_Optional); if (unlikely(!__pyx_t_9)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1568; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_9);
@@ -26964,7 +26913,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *                  lognormal: bool = False,
  *                  power_transform: Optional[float] = None,
  *                  majority_baseline: bool = True,             # <<<<<<<<<<<<<<
- *                  rescale: bool = True) -> 'CVExperimentConfig':
+ *                  rescale: bool = True) -> 'CVConfig':
  *         """
  */
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_majority_baseline, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
@@ -26972,12 +26921,12 @@ PyMODINIT_FUNC PyInit_experiments(void)
   /* "src/experiments.pyx":1570
  *                  power_transform: Optional[float] = None,
  *                  majority_baseline: bool = True,
- *                  rescale: bool = True) -> 'CVExperimentConfig':             # <<<<<<<<<<<<<<
+ *                  rescale: bool = True) -> 'CVConfig':             # <<<<<<<<<<<<<<
  *         """
  *         Initialize object.
  */
   if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_rescale, ((PyObject*)&PyBool_Type)) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, __pyx_n_s_CVExperimentConfig) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_return, __pyx_n_s_CVConfig) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
 
   /* "src/experiments.pyx":1551
  *     _n_features_feature_hashing = 2 ** 18
@@ -26986,7 +26935,7 @@ PyMODINIT_FUNC PyInit_experiments(void)
  *                  db: Collection,
  *                  games: set,
  */
-  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_1__init__, 0, __pyx_n_s_CVExperimentConfig___init, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__91)); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_1__init__, 0, __pyx_n_s_CVConfig___init, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__91)); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_CyFunction_SetDefaultsTuple(__pyx_t_8, __pyx_tuple__92);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_8, __pyx_t_4);
@@ -26994,33 +26943,33 @@ PyMODINIT_FUNC PyInit_experiments(void)
   if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_init, __pyx_t_8) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1551; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-  /* "src/experiments.pyx":1695
+  /* "src/experiments.pyx":1694
  *         self._further_validate_and_setup()
  * 
  *     def _further_validate_and_setup(self) -> None:             # <<<<<<<<<<<<<<
  *         """
  *         Further validate the experiment's configuration settings and set
  */
-  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_8 = PyDict_New(); if (unlikely(!__pyx_t_8)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_8);
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_return, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_18CVExperimentConfig_3_further_validate_and_setup, 0, __pyx_n_s_CVExperimentConfig__further_vali, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_return, Py_None) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_CyFunction_NewEx(&__pyx_mdef_3src_11experiments_8CVConfig_3_further_validate_and_setup, 0, __pyx_n_s_CVConfig__further_validate_and_s, NULL, __pyx_n_s_src_experiments, __pyx_d, ((PyObject *)__pyx_codeobj__94)); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_CyFunction_SetAnnotationsDict(__pyx_t_4, __pyx_t_8);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_further_validate_and_setup, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1695; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyObject_SetItem(__pyx_t_1, __pyx_n_s_further_validate_and_setup, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1694; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
   /* "src/experiments.pyx":1541
  * 
  * 
- * class CVExperimentConfig(object):             # <<<<<<<<<<<<<<
+ * class CVConfig(object):             # <<<<<<<<<<<<<<
  *     """
- *     Class for representing configuration options for use with the
+ *     Class for representing a set of configuration options for use with
  */
-  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_CVExperimentConfig, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_4 = __Pyx_Py3ClassCreate(__pyx_t_5, __pyx_n_s_CVConfig, __pyx_t_3, __pyx_t_1, NULL, 0, 1); if (unlikely(!__pyx_t_4)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CVExperimentConfig, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_CVConfig, __pyx_t_4) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 1541; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
