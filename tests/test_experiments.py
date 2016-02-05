@@ -382,7 +382,65 @@ class CVConfigTestCase(unittest.TestCase):
             # of valid sampling methods)
             dict(data_sampling={'equal'},
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'data_sampling'})
+                    if p != 'data_sampling'}),
+            # Invalid `grid_search_folds` parameter value (must be int)
+            dict(grid_search_folds=0.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'grid_search_folds'}),
+            # Invalid `grid_search_folds` parameter value (must be
+            # greater than 1)
+            dict(grid_search_folds=1,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'grid_search_folds'}),
+            # Invalid `hashed_features` parameter value (must be
+            # non-negative or None)
+            dict(hashed_features=-1,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'hashed_features'}),
+            # Invalid `hashed_features` parameter value (must be
+            # non-negative)
+            dict(hashed_features=False,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'hashed_features'}),
+            # Invalid `nlp_features` parameter value (must be boolean)
+            dict(nlp_features=None,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'nlp_features'}),
+            # Invalid `nlp_features` parameter value (must be boolean)
+            dict(nlp_features=set(),
+                 **{p: v for p, v in valid_kwargs.items() if p != 'nlp_features'}),
+            # Invalid `bin_ranges` parameter value (must be list of
+            # tuples -- or None)
+            dict(bin_ranges=[[0.2, 100.3], [100.5, 200.6]],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
+            # Invalid `bin_ranges` parameter value (must be list of
+            # tuples containing floats -- or None)
+            dict(bin_ranges=[(0, 99), (100, 200)],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
+            # Invalid `bin_ranges` parameter value (must be valid list
+            # of bin ranges -- or None)
+            dict(bin_ranges=[(0.9, 99.7), (99.9, 0.2)],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
+            # Invalid `lognormal` parameter value (must be boolean)
+            dict(lognormal=None,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'lognormal'}),
+            # Invalid `power_transform` parameter value (must be float
+            # or None)
+            dict(lognormal=False,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'power_transform'}),
+            # Invalid `power_transform` parameter value (must be float
+            # or None)
+            dict(lognormal=3,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'power_transform'}),
+            # Invalid `majority_baseline` parameter value (must be
+            # boolean)
+            dict(majority_baseline=None,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'majority_baseline'}),
+            # Invalid `rescale` parameter value (must be boolean)
+            dict(rescale=None,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
             ]
         for kwargs in invalid_kwargs_list:
             assert_raises(SchemaError, CVConfig, **kwargs)
