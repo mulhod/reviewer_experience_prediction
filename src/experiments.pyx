@@ -49,6 +49,7 @@ from src import (LABELS,
                  Numeric,
                  Vectorizer,
                  VALID_GAMES,
+                 LEARNER_DICT_KEYS,
                  OBJ_FUNC_ABBRS_DICT)
 from src.datasets import (get_bin,
                           validate_bin_ranges,
@@ -1654,7 +1655,9 @@ class CVConfig(object):
         exp_schema = Schema(
             {'db': Collection,
              'games': And(set, lambda x: x.issubset(VALID_GAMES)),
-             'learners': [BaseEstimator],
+             'learners': And([str],
+                             lambda learners: all(learner in LEARNER_DICT_KEYS
+                                                  for learner in learners)),
              'param_grids': [{str: list}],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),
