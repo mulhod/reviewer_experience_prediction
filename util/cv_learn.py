@@ -114,13 +114,14 @@ class RunCVExperiments(object):
                             'objective_best_round',
                             'objective_slope'})
 
-    def __init__(self, config: CVConfig) -> 'RunCVExperiments':
+    def __init__(self, config: ex.CVConfig) -> 'RunCVExperiments':
         """
         Initialize object.
 
-        :param config: a `CVConfig` instance containing configuration
-                       options relating to the experiment, etc.
-        :type config: CVConfig
+        :param config: an `ex.CVConfig` instance containing
+                       configuration options relating to the experiment,
+                       etc.
+        :type config: ex.CVConfig
         """
 
         # Experiment configuration settings
@@ -416,7 +417,7 @@ class RunCVExperiments(object):
                 msg = ('Either there weren\'t enough folds after collecting '
                        'data (via `ExperimentalData`) to do the grid search '
                        'round or the number of folds had to be reduced to such'
-                       ' a degree that it would mean +25\% reduction in the '
+                       ' a degree that it would mean a +25\% reduction in the '
                        'total number of folds used during the grid search '
                        'round.')
                 logger.error(msg)
@@ -577,7 +578,7 @@ class RunCVExperiments(object):
         """
 
         self._majority_baseline_stats.to_csv(join(output_path,
-                                                  self._majority_baseline_report_name)
+                                                  self._majority_baseline_report_name))
 
     def generate_learning_reports(self, output_path: str,
                                   ordering: str = 'objective_last_round') -> None:

@@ -427,12 +427,12 @@ class CVConfigTestCase(unittest.TestCase):
             # or None)
             dict(lognormal=False,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'power_transform'}),
+                    if p != 'lognormal'}),
             # Invalid `power_transform` parameter value (must be float
             # or None)
             dict(lognormal=3,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'power_transform'}),
+                    if p != 'lognormal'}),
             # Invalid `majority_baseline` parameter value (must be
             # boolean)
             dict(majority_baseline=None,
