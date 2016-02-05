@@ -760,22 +760,16 @@ def main(argv=None):
                   'the expected scale. Don\'t use if the experiment involves '
                   'labels rather than numeric values.',
              action='store_true',
-             default=True)
+             default=False)
     _add_arg('-obj', '--obj_func',
              help='Objective function to use in determining which learner/set'
                   ' of parameters resulted in the best performance.',
              choices=OBJ_FUNC_ABBRS_DICT.keys(),
              default='qwk')
-    _add_arg('-order_by', '--order_outputs_by',
-             help='Order output reports by best last round objective '
-                  'performance, best learning round objective performance, or'
-                  ' by best objective slope.',
-             choices=RunCVExperiments._orderings,
-             default='objective_last_round')
     _add_arg('-baseline', '--evaluate_majority_baseline',
              help='Evaluate the majority baseline model.',
              action='store_true',
-             default=True)
+             default=False)
     _add_arg('-save_best', '--save_best_features',
              help='Get the best features from each model and write them out '
                   'to files.',
@@ -819,7 +813,6 @@ def main(argv=None):
     host = args.mongodb_host
     port = args.mongodb_port
     obj_func = args.obj_func
-    ordering = args.order_outputs_by
     evaluate_majority_baseline = args.evaluate_majority_baseline
     save_best_features = args.save_best_features
 
@@ -983,15 +976,6 @@ def main(argv=None):
         logerr('Encountered a ValueError while instantiating the CVConfig or '
                'RunCVExperiments instances: {0}'.format(e))
         raise e
-
-    # Generate evaluation reports for the various learner/parameter
-    # grid combinations, ranking experiments in terms of their
-    # performance with respect to the objective function in the last
-    # round of learning, their best performance (in any round), or the
-    # slope of their performance as the round increases
-    loginfo('Generating reports for the incremental learning runs ordered by '
-            '{0}...'.format(ordering))
-    experiments.generate_learning_reports(output_dir, ordering)
 
     # Generate evaluation report for the majority baseline model, if
     # specified
