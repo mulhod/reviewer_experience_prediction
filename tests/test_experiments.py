@@ -1,5 +1,6 @@
 """
-Test various functions/classes in the `experiments` module.
+Test various functions/classes in the `experiments` module + the
+`CVConfig` class in the `util.cv_learn` module.
 
 A MongoDB database must be up and running and accessible at port 37017
 on `localhost`. 
@@ -7,18 +8,17 @@ on `localhost`.
 from itertools import chain
 from collections import Counter
 
-import numpy as np
 from schema import SchemaError
 from nose2.compat import unittest
 from nose.tools import (assert_equal,
                         assert_raises)
 
+from util.cv_learn import CVConfig
 from src import (LEARNER_DICT,
                  DEFAULT_PARAM_GRIDS,
                  parse_non_nlp_features_string)
 from src.mongodb import connect_to_db
-from src.experiments import (CVConfig,
-                             ExperimentalData)
+from src.experiments import ExperimentalData
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
@@ -412,29 +412,39 @@ class CVConfigTestCase(unittest.TestCase):
             # tuples containing floats -- or None)
             dict(bin_ranges=[(0, 99), (100, 200)],
                  **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
-            # Invalid `lognormal` parameter value (must be boolean)
-            dict(lognormal=None,
+            # Invalid `bin_ranges` parameter value (must be valid list
+            # of bin ranges)
+            dict(bin_ranges=[(0.9, 99.7), (99.9, 0.2)],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
+            # Invalid `lognormal` parameter value (must be boolean or
+            # None)
+            dict(lognormal=0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'lognormal'}),
             # Invalid `power_transform` parameter value (must be float
             # or None)
-            dict(lognormal=False,
+            dict(power_transform=False,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'lognormal'}),
+                    if p != 'power_transform'}),
             # Invalid `power_transform` parameter value (must be float
             # or None)
-            dict(lognormal=3,
+            dict(power_transform=3,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'lognormal'}),
+                    if p != 'power_transform'}),
             # Invalid `majority_baseline` parameter value (must be
-            # boolean)
-            dict(majority_baseline=None,
+            # boolean or None)
+            dict(majority_baseline=0,
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'majority_baseline'}),
-            # Invalid `rescale` parameter value (must be boolean)
-            dict(rescale=None,
+            # Invalid `rescale` parameter value (must be boolean or None)
+            dict(rescale=0,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
+            ]
+        invalid_kwargs_list_SchemaError2 = [
+            dict(rescale=0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
             ]
         for kwargs in invalid_kwargs_list_SchemaError:
+            #pudb.set_trace()
             assert_raises(SchemaError, CVConfig, **kwargs)
 
         # Combinations of parameters that should cause `ValueError`s to
@@ -442,11 +452,7 @@ class CVConfigTestCase(unittest.TestCase):
         invalid_kwargs_list_ValueError = [
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
-                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
-            # Invalid `bin_ranges` parameter value (must be valid list
-            # of bin ranges)
-            dict(bin_ranges=[(0.9, 99.7), (99.9, 0.2)],
-                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'})
             ]
         for kwargs in invalid_kwargs_list_ValueError:
             assert_raises(ValueError, CVConfig, **kwargs)

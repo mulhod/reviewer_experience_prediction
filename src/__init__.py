@@ -1,5 +1,5 @@
-import re
 import logging
+from re import recompile
 from os.path import (join,
                      dirname,
                      realpath)
@@ -115,29 +115,29 @@ LABELS_WITH_PCT_VALUES = frozenset({'num_achievements_percentage',
 VALID_GAMES = frozenset([game for game in list(APPID_DICT) if game != 'sample'])
 
 # Regular expressions
-FLOAT_ONE_DEC = re.compile(r'^\-?\d+\.\d$')
+FLOAT_ONE_DEC = recompile(r'^\-?\d+\.\d$')
 test_float_decimal_places = FLOAT_ONE_DEC.search
 
 # Data-scraping regular expressions
-SPACE = re.compile(r'[\s]+')
+SPACE = recompile(r'[\s]+')
 space_sub = SPACE.sub
-BREAKS_REGEX = re.compile(r'\<br\>')
+BREAKS_REGEX = recompile(r'\<br\>')
 breaks_sub = BREAKS_REGEX.sub
-COMMA = re.compile(r',')
+COMMA = recompile(r',')
 comma_sub = COMMA.sub
-HELPFUL_OR_FUNNY = re.compile('(helpful|funny)')
+HELPFUL_OR_FUNNY = recompile('(helpful|funny)')
 helpful_or_funny_search = HELPFUL_OR_FUNNY.search
-DATE_END_WITH_YEAR_STRING = re.compile(r', \d{4}$')
+DATE_END_WITH_YEAR_STRING = recompile(r', \d{4}$')
 date_end_with_year_string_search = DATE_END_WITH_YEAR_STRING.search
-COMMENT_RE_1 = re.compile(r'<span id="commentthread[^<]+')
+COMMENT_RE_1 = recompile(r'<span id="commentthread[^<]+')
 comment_re_1_search = COMMENT_RE_1.search
-COMMENT_RE_2 = re.compile(r'>(\d*)$')
+COMMENT_RE_2 = recompile(r'>(\d*)$')
 comment_re_2_search = COMMENT_RE_2.search
-UNDERSCORE = re.compile(r'_')
+UNDERSCORE = recompile(r'_')
 underscore_sub = UNDERSCORE.sub
-QUOTES = re.compile(r'\'|"')
+QUOTES = recompile(r'\'|"')
 quotes_sub = QUOTES.sub
-BACKSLASH = re.compile(r'\\')
+BACKSLASH = recompile(r'\\')
 backslash_sub = BACKSLASH.sub
 
 

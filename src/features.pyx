@@ -8,12 +8,8 @@ generation, etc.
 """
 import logging
 from math import ceil
-from time import sleep
-from json import dumps
-from os.path import join
 from string import punctuation
 from collections import Counter
-from itertools import combinations
 from re import (IGNORECASE,
                 compile as recompile)
 
@@ -24,8 +20,6 @@ from typing import (Dict,
 from nltk.util import ngrams
 from spacy.en import English
 from pymongo.cursor import Cursor
-from skll.metrics import (kappa,
-                          pearson)
 from bson.objectid import ObjectId
 from pymongo.collection import Collection
 

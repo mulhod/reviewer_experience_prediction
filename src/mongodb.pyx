@@ -11,13 +11,7 @@ file-path) and inserts them into the the MongoDB database
 ('reviews_project') under the 'reviews' collection.
 """
 import logging
-from sys import exit
 from math import ceil
-from time import sleep
-from random import (seed,
-                    randint,
-                    shuffle)
-from json import dumps
 from os.path import (basename,
                      splitext)
 
@@ -31,11 +25,9 @@ from typing import (Any,
                     Optional)
 from pymongo import MongoClient
 from pymongo.cursor import Cursor
-from bson.objectid import ObjectId
 from pymongo.collection import Collection
 from pymongo.bulk import BulkOperationBuilder
-from pymongo.errors import (AutoReconnect,
-                            BulkWriteError,
+from pymongo.errors import (BulkWriteError,
                             InvalidOperation,
                             ConnectionFailure,
                             DuplicateKeyError)
@@ -198,12 +190,13 @@ def insert_train_test_reviews(db: Collection,
 
     :returns: None
     :rtype: None
+
+    :raises ValueError: if encountering an exception while writing to
+                        the MongoDB collection
     """
 
-    # Seed the random number generator (hopefully ensuring that
-    # repeated iterations will result in the same behavior from
-    # random.randint and random.shuffle)
-    seed(1)
+    # Make a random state object
+    prng = np.random.RandomState(1)
 
     game = splitext(basename(file_path))[0]
     appid = APPID_DICT[game]
@@ -239,8 +232,8 @@ def insert_train_test_reviews(db: Collection,
     else:
         bin_ranges = False
 
-    # Shuffle the list of reviews so that we randomize it
-    shuffle(reviews)
+    # Shuffle the list of reviews
+    prng.shuffle(reviews)
 
     # Get the training and test sets and the set of extra reviews
     # (which might get pulled in later if necessary)
@@ -300,8 +293,10 @@ def insert_train_test_reviews(db: Collection,
         try:
             result = bulk.execute()
         except BulkWriteError as bwe:
-            logdebug(bwe.details)
-            exit(1)
+            msg = ('Encounterd a BulkWriteError while writing documents to the'
+                   ' MongoDB collection:\n\n{0}'.format(bwe.details))
+            logerr(msg)
+            raise ValueError(msg)
         logdebug(repr(result))
 
         # Print out some information about how many reviews were added

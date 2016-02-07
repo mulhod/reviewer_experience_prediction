@@ -14,15 +14,12 @@ from itertools import chain
 from os.path import (join,
                      isdir,
                      isfile,
-                     exists,
                      dirname,
                      realpath)
 from warnings import filterwarnings
 
 import numpy as np
-import scipy as sp
 import pandas as pd
-from bson import BSON
 from typing import (Any,
                     Dict,
                     List,
@@ -31,10 +28,13 @@ from typing import (Any,
                     Optional)
 from pymongo import ASCENDING
 from skll.metrics import kappa
-from scipy.stats import (mode,
-                         pearsonr,
-                         linregress)
+from scipy.stats import pearsonr
 from sklearn.metrics import make_scorer
+from schema import (Or,
+                    And,
+                    Schema,
+                    SchemaError,
+                    Optional as Default)
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
@@ -50,9 +50,7 @@ from sklearn.feature_extraction import (FeatureHasher,
 from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
-from data import APPID_DICT
 from src.mongodb import connect_to_db
-from src.datasets import get_bin_ranges_helper
 from src import (LABELS,
                  Scorer,
                  Learner,
@@ -63,6 +61,7 @@ from src import (LABELS,
                  LEARNER_DICT,
                  LABELS_STRING,
                  experiments as ex,
+                 LEARNER_DICT_KEYS,
                  parse_games_string,
                  LEARNER_ABBRS_DICT,
                  OBJ_FUNC_ABBRS_DICT,
@@ -71,6 +70,8 @@ from src import (LABELS,
                  parse_learners_string,
                  find_default_param_grid,
                  parse_non_nlp_features_string)
+from src.datasets import (validate_bin_ranges,
+                          get_bin_ranges_helper)
 
 # Filter out warnings since there will be a lot of
 # "UndefinedMetricWarning" warnings when running `RunCVExperiments`
@@ -87,6 +88,195 @@ sh = logging.StreamHandler()
 sh.setLevel(logging_debug)
 sh.setFormatter(formatter)
 logger.addHandler(sh)
+
+
+class CVConfig(object):
+    """
+    Class for representing a set of configuration options for use with
+    the `RunCVExperiments` class.
+    """
+
+    # Default value to use for the `hashed_features` parameter if 0 is
+    # passed in.
+    _n_features_feature_hashing = 2 ** 18
+
+    def __init__(self,
+                 db: Collection,
+                 games: set,
+                 learners: List[str],
+                 param_grids: dict,
+                 training_rounds: int,
+                 training_samples_per_round: int,
+                 grid_search_samples_per_fold: int,
+                 non_nlp_features: set,
+                 prediction_label: str,
+                 objective: str = None,
+                 data_sampling: str = 'even',
+                 grid_search_folds: int = 5,
+                 hashed_features: Optional[int] = None,
+                 nlp_features: bool = True,
+                 bin_ranges: Optional[list] = None,
+                 lognormal: bool = False,
+                 power_transform: Optional[float] = None,
+                 majority_baseline: bool = True,
+                 rescale: bool = True) -> 'CVConfig':
+        """
+        Initialize object.
+
+        :param db: MongoDB database collection object
+        :type db: Collection
+        :param games: set of games to use for training models
+        :type games: set
+        :param learners: list of abbreviated names corresponding to
+                         the available learning algorithms (see
+                         `src.LEARNER_ABBRS_DICT`, etc.)
+        :type learners: list
+        :param param_grids: list of dictionaries of parameters mapped
+                            to lists of values (must be aligned with
+                            list of learners)
+        :type param_grids: dict
+        :param training_rounds: number of training rounds to do (in
+                                addition to the grid search round)
+        :type training_rounds: int
+        :param training_samples_per_round: number of training samples
+                                           to use in each training round
+        :type training_samples_per_round: int
+        :param grid_search_samples_per_fold: number of samples to use
+                                             for each grid search fold
+        :type grid_search_samples_per_fold: int
+        :param non_nlp_features: set of non-NLP features to add into the
+                                 feature dictionaries 
+        :type non_nlp_features: set
+        :param prediction_label: feature to predict
+        :type prediction_label: str
+        :param objective: objective function to use in ranking the runs;
+                          if left unspecified, the objective will be
+                          decided in `GridSearchCV` and will be either
+                          accuracy for classification or r2 for
+                          regression
+        :type objective: str or None
+        :param data_sampling: how the data should be sampled (i.e.,
+                              either 'even' or 'stratified')
+        :type data_sampling: str
+        :param grid_search_folds: number of grid search folds to use
+                                  (default: 5)
+        :type grid_search_folds: int
+        :param hashed_features: use FeatureHasher in place of
+                                DictVectorizer and use the given number
+                                of features (must be positive number or
+                                0, which will set it to the default
+                                number of features for feature hashing)
+        :type hashed_features: int
+        :param nlp_features: include NLP features (default: True)
+        :type nlp_features: bool
+        :param bin_ranges: list of tuples representing the maximum and
+                           minimum values corresponding to bins (for
+                           splitting up the distribution of prediction
+                           label values)
+        :type bin_ranges: list or None
+        :param lognormal: transform raw label values using `ln` (default:
+                          False)
+        :type lognormal: bool
+        :param power_transform: power by which to transform raw label
+                                values (default: False)
+        :type power_transform: float or None
+        :param majority_baseline: evaluate a majority baseline model
+        :type majority_baseline: bool
+        :param rescale: whether or not to rescale the predicted values
+                        based on the input value distribution (defaults
+                        to True, but set to False if this is a
+                        classification experiment)
+        :type rescale: bool
+
+        :returns: instance of `CVConfig` class
+        :rtype: CVConfig
+
+        :raises ValueError: if the input parameters result in conflicts
+                            or are invalid
+        """
+
+        # Get dicionary of parameters (but remove "self" since that
+        # doesn't need to be validated and remove values set to None
+        # since they will be dealt with automatically)
+        params = dict(locals())
+        del params['self']
+        for param in list(params):
+            if params[param] is None:
+                del params[param]
+
+        # Schema
+        exp_schema = Schema(
+            {'db': Collection,
+             'games': And(set, lambda x: x.issubset(VALID_GAMES)),
+             'learners': And([str],
+                             lambda learners: all(learner in LEARNER_DICT_KEYS
+                                                  for learner in learners)),
+             'param_grids': [{str: list}],
+             'training_rounds': And(int, lambda x: x > 1),
+             'training_samples_per_round': And(int, lambda x: x > 0),
+             'grid_search_samples_per_fold': And(int, lambda x: x > 1),
+             'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
+             'prediction_label':
+                 And(str,
+                     lambda x: x in LABELS and not x in params['non_nlp_features']),
+             Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
+             Default('data_sampling', default='even'):
+                And(str, lambda x: x in ex.ExperimentalData.sampling_options),
+             Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
+             Default('hashed_features', default=None):
+                Or(None,
+                   lambda x: not isinstance(x, bool)
+                             and isinstance(x, int)
+                             and x > -1),
+             Default('nlp_features', default=True): bool,
+             Default('bin_ranges', default=None):
+                Or(None,
+                   And([(float, float)],
+                       lambda x: validate_bin_ranges(x) is None)),
+             Default('lognormal', default=False): bool,
+             Default('power_transform', default=None): Or(None, float),
+             Default('majority_baseline', default=True): bool,
+             Default('rescale', default=True): bool
+             }
+            )
+
+        # Validate the schema
+        try:
+            self.validated = exp_schema.validate(params)
+        except (ValueError, SchemaError) as e:
+            msg = ('The set of passed-in parameters was not able to be '
+                   'validated and/or the bin ranges values, if specified, were'
+                   ' not able to be validated.')
+            logger.error('{0}:\n\n{1}'.format(msg, e))
+            raise e
+
+        # Set up the experiment
+        self._further_validate_and_setup()
+
+    def _further_validate_and_setup(self) -> None:
+        """
+        Further validate the experiment's configuration settings and set
+        up certain configuration settings, such as setting the total
+        number of hashed features to use, etc.
+
+        :returns: None
+        :rtype: None
+        """
+
+        # Make sure parameters make sense/are valid
+        if self.validated['hashed_features'] != None:
+            if self.validated['hashed_features'] < 0:
+                raise ValueError('Cannot use non-positive value, {0}, for the'
+                                 ' "hashed_features" parameter.'
+                                 .format(self.validated['hashed_features']))
+            else:
+                if self.validated['hashed_features'] == 0:
+                    self.validated['hashed_features'] = self._n_features_feature_hashing
+        if self.validated['lognormal'] and self.validated['power_transform']:
+            raise ValueError('Both "lognormal" and "power_transform" were '
+                             'specified simultaneously.')
+        if len(self.validated['learners']) != len(self.validated['param_grids']):
+            raise ValueError()
 
 
 class RunCVExperiments(object):
@@ -114,14 +304,13 @@ class RunCVExperiments(object):
                             'objective_best_round',
                             'objective_slope'})
 
-    def __init__(self, config: ex.CVConfig) -> 'RunCVExperiments':
+    def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
         Initialize object.
 
-        :param config: an `ex.CVConfig` instance containing
-                       configuration options relating to the experiment,
-                       etc.
-        :type config: ex.CVConfig
+        :param config: an `CVConfig` instance containing configuration
+                       options relating to the experiment, etc.
+        :type config: CVConfig
         """
 
         # Experiment configuration settings
@@ -950,7 +1139,7 @@ def main(argv=None):
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
     try:
-        cfg = ex.CVConfig(
+        cfg = CVConfig(
                   db=db,
                   games=games,
                   learners=[LEARNER_DICT[learner] for learner in learners],

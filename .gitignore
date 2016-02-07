@@ -7,3 +7,4 @@ src/*.so
 Reviewer_Experience_Prediction.egg-info/
 build/
 dist/
+*.sublime*
