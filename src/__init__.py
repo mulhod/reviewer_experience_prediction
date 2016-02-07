@@ -1,8 +1,8 @@
 import logging
-from re import recompile
 from os.path import (join,
                      dirname,
                      realpath)
+from re import compile as recompile
 
 from typing import (Any,
                     Union,
