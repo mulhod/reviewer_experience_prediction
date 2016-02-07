@@ -401,8 +401,9 @@ class CVConfigTestCase(unittest.TestCase):
             dict(hashed_features=False,
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'hashed_features'}),
-            # Invalid `nlp_features` parameter value (must be boolean)
-            dict(nlp_features=None,
+            # Invalid `nlp_features` parameter value (must be boolean or
+            # None)
+            dict(nlp_features=1,
                  **{p: v for p, v in valid_kwargs.items() if p != 'nlp_features'}),
             # Invalid `bin_ranges` parameter value (must be list of
             # tuples -- or None)
@@ -430,6 +431,18 @@ class CVConfigTestCase(unittest.TestCase):
             dict(power_transform=3,
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'power_transform'}),
+            # Invalid `power_transform` parameter value (must be float
+            # that is not equal to 0.0)
+            dict(power_transform=0.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'power_transform'}),
+            # The `power_transform` and `lognormal` parameter values
+            # were set as 2.0 and True, respectively, i.e., both were
+            # set
+            dict(power_transform=2.0,
+                 lognormal=True,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if not p in ['power_transform', 'lognormal']}),
             # Invalid `majority_baseline` parameter value (must be
             # boolean or None)
             dict(majority_baseline=0,
@@ -437,22 +450,10 @@ class CVConfigTestCase(unittest.TestCase):
                     if p != 'majority_baseline'}),
             # Invalid `rescale` parameter value (must be boolean or None)
             dict(rescale=0,
-                 **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
-            ]
-        invalid_kwargs_list_SchemaError2 = [
-            dict(rescale=0,
-                 **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
-            ]
-        for kwargs in invalid_kwargs_list_SchemaError:
-            #pudb.set_trace()
-            assert_raises(SchemaError, CVConfig, **kwargs)
-
-        # Combinations of parameters that should cause `ValueError`s to
-        # be raised
-        invalid_kwargs_list_ValueError = [
+                 **{p: v for p, v in valid_kwargs.items() if p != 'rescale'}),
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'})
             ]
-        for kwargs in invalid_kwargs_list_ValueError:
-            assert_raises(ValueError, CVConfig, **kwargs)
+        for kwargs in invalid_kwargs_list_SchemaError:
+            assert_raises(SchemaError, CVConfig, **kwargs)

@@ -234,7 +234,8 @@ class CVConfig(object):
                    And([(float, float)],
                        lambda x: validate_bin_ranges(x) is None)),
              Default('lognormal', default=False): bool,
-             Default('power_transform', default=None): Or(None, float),
+             Default('power_transform', default=None):
+                Or(None, And(float, lambda x: x != 0.0)),
              Default('majority_baseline', default=True): bool,
              Default('rescale', default=True): bool
              }
@@ -264,19 +265,18 @@ class CVConfig(object):
         """
 
         # Make sure parameters make sense/are valid
-        if self.validated['hashed_features'] != None:
-            if self.validated['hashed_features'] < 0:
-                raise ValueError('Cannot use non-positive value, {0}, for the'
-                                 ' "hashed_features" parameter.'
-                                 .format(self.validated['hashed_features']))
-            else:
-                if self.validated['hashed_features'] == 0:
-                    self.validated['hashed_features'] = self._n_features_feature_hashing
+        if (self.validated['hashed_features'] is not None
+            and self.validated['hashed_features'] == 0):
+                self.validated['hashed_features'] = self._n_features_feature_hashing
         if self.validated['lognormal'] and self.validated['power_transform']:
-            raise ValueError('Both "lognormal" and "power_transform" were '
-                             'specified simultaneously.')
+            raise SchemaError(autos=None,
+                              errors='Both "lognormal" and "power_transform" '
+                                     'were set simultaneously.')
         if len(self.validated['learners']) != len(self.validated['param_grids']):
-            raise ValueError()
+            raise SchemaError(autos=None,
+                              errors='The "learners" and "param_grids" '
+                                      'parameters were both set and the '
+                                      'lengths of the lists are unequal.')
 
 
 class RunCVExperiments(object):
