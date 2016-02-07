@@ -1,21 +1,16 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2015.9.24)  26 JAN 2016 12:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  7 FEB 2016 02:44
 entering extended mode
+ restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
 **NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex
 (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex
-LaTeX2e <2005/12/01>
-Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
-erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
- french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
-us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
-tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
-turkish, ukenglish, ukrainian, loaded.
-(/usr/share/texmf/tex/latex/base/article.cls
-Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
-(/usr/share/texmf/tex/latex/base/size10.clo
-File: size10.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
+LaTeX2e <2011/06/27>
+Babel <3.9h> and hyphenation patterns for 78 languages loaded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -31,22 +26,21 @@ File: size10.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
 ) (./acl2015.sty
 Conference Style for ACL 2015 -- released December 7, 2014
 \titlebox=\skip43
-) (/usr/share/texmf/tex/latex/psnfss/times.sty
+) (/usr/share/texlive/texmf-dist/tex/latex/psnfss/times.sty
 Package: times 2005/04/12 PSNFSS-v9.2a (SPQR) 
 )
-(/usr/share/texmf/tex/latex/ltxmisc/url.sty
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip10
-Package: url 2005/06/27  ver 3.2  Verb mode for urls, etc.
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-(/usr/share/texmf/tex/latex/base/latexsym.sty
+(/usr/share/texlive/texmf-dist/tex/latex/base/latexsym.sty
 Package: latexsym 1998/08/17 v2.2e Standard LaTeX package (lasy symbols)
 \symlasy=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `lasy' in version `bold'
 (Font)                  U/lasy/m/n --> U/lasy/b/n on input line 47.
 )
-(/usr/share/texmf/tex/latex/lipsum/lipsum.sty
-Package: lipsum 2005/01/26 v1.0 150 paragraphs of Lorem Ipsum dummy text
-File: lipsum.dtx 2005/01/26 v1.0 150 paragraphs of Lorem Ipsum dummy text
+(/usr/share/texlive/texmf-dist/tex/latex/lipsum/lipsum.sty
+Package: lipsum 2011/04/14 v1.2 150 paragraphs of Lorem Ipsum dummy text
 \c@lips@count=\count87
 )
 
@@ -70,7 +64,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 42.
 LaTeX Font Info:    ... okay on input line 42.
 LaTeX Font Info:    Try loading font information for OT1+ptm on input line 42.
 
-(/usr/share/texmf/tex/latex/psnfss/ot1ptm.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
@@ -83,14 +77,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 43.
 LaTeX Font Info:    Try loading font information for U+lasy on input line 43.
 
-(/usr/share/texmf/tex/latex/base/ulasy.fd
+(/usr/share/texlive/texmf-dist/tex/latex/base/ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `OT1/ptm/b/n' tried instead on input line 43.
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 43.
 
-(/usr/share/texmf/tex/latex/psnfss/ot1pcr.fd
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
@@ -105,7 +99,8 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 79.
 LaTeX Font Info:    Try loading font information for OMS+ptm on input line 82.
- (/usr/share/texmf/tex/latex/psnfss/omsptm.fd
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
@@ -251,24 +246,27 @@ Underfull \vbox (badness 3291) has occurred while \output is active []
 
 ] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
 Here is how much of TeX's memory you used:
- 666 strings out of 256214
- 8393 string characters out of 1917000
- 151745 words of memory out of 1500000
- 3982 multiletter control sequences out of 10000+200000
- 18281 words of font info for 46 fonts, out of 1200000 for 2000
- 645 hyphenation exceptions out of 8191
- 23i,9n,19p,1721b,258s stack positions out of 5000i,500n,6000p,200000b,15000s
+ 672 strings out of 493304
+ 8726 string characters out of 6139871
+ 160535 words of memory out of 5000000
+ 4162 multiletter control sequences out of 15000+600000
+ 18281 words of font info for 46 fonts, out of 8000000 for 9000
+ 957 hyphenation exceptions out of 8191
+ 23i,9n,19p,1721b,258s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/te
-xmf/fonts/enc/dvips/base/8r.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmmi10
-.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts
-/type1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmsy10.pfb>
-</usr/share/texmf/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf/fonts/ty
-pe1/urw/times/utmb8a.pfb></usr/share/texmf/fonts/type1/urw/times/utmr8a.pfb></u
-sr/share/texmf/fonts/type1/urw/times/utmri8a.pfb>
+xlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf
+-dist/fonts/type1/urw/times/utmri8a.pfb>
 Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (8 
-pages, 112686 bytes).
+pages, 127312 bytes).
 PDF statistics:
- 62 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 131072)
+ 64 PDF objects out of 1000 (max. 8388607)
+ 45 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

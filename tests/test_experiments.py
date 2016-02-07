@@ -318,7 +318,10 @@ class CVConfigTestCase(unittest.TestCase):
                             power_transform=None,
                             majority_baseline=True,
                             rescale=True)
-        invalid_kwargs_list = [
+        
+        # Combinations of parameters that should cause `SchemaError`s to
+        # be raised
+        invalid_kwargs_list_SchemaError = [
             # Invalid `db` value
             dict(db='db',
                  **{p: v for p, v in valid_kwargs.items() if p != 'db'}),
@@ -366,17 +369,17 @@ class CVConfigTestCase(unittest.TestCase):
                     if p != 'non_nlp_features'}),
             # Invalid `prediction_label` parameter value (must be in set
             # of valid features)
-            dict(prediction_label={'total_game_hours_last_three_weeks'},
+            dict(prediction_label='total_game_hours_last_three_weeks',
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'prediction_label'}),
             # Invalid `objective` parameter value (must be in set of
             # of valid objective function names)
-            dict(objective={'pearson'},
+            dict(objective='pearson',
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'objective'}),
             # Invalid `data_sampling` parameter value (must be in set of
             # of valid sampling methods)
-            dict(data_sampling={'equal'},
+            dict(data_sampling='equal',
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'data_sampling'}),
             # Invalid `grid_search_folds` parameter value (must be int)
@@ -401,9 +404,6 @@ class CVConfigTestCase(unittest.TestCase):
             # Invalid `nlp_features` parameter value (must be boolean)
             dict(nlp_features=None,
                  **{p: v for p, v in valid_kwargs.items() if p != 'nlp_features'}),
-            # Invalid `nlp_features` parameter value (must be boolean)
-            dict(nlp_features=set(),
-                 **{p: v for p, v in valid_kwargs.items() if p != 'nlp_features'}),
             # Invalid `bin_ranges` parameter value (must be list of
             # tuples -- or None)
             dict(bin_ranges=[[0.2, 100.3], [100.5, 200.6]],
@@ -411,10 +411,6 @@ class CVConfigTestCase(unittest.TestCase):
             # Invalid `bin_ranges` parameter value (must be list of
             # tuples containing floats -- or None)
             dict(bin_ranges=[(0, 99), (100, 200)],
-                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
-            # Invalid `bin_ranges` parameter value (must be valid list
-            # of bin ranges -- or None)
-            dict(bin_ranges=[(0.9, 99.7), (99.9, 0.2)],
                  **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
             # Invalid `lognormal` parameter value (must be boolean)
             dict(lognormal=None,
@@ -438,13 +434,19 @@ class CVConfigTestCase(unittest.TestCase):
             dict(rescale=None,
                  **{p: v for p, v in valid_kwargs.items() if p != 'rescale'})
             ]
-        for kwargs in invalid_kwargs_list:
+        for kwargs in invalid_kwargs_list_SchemaError:
             assert_raises(SchemaError, CVConfig, **kwargs)
 
-        invalid_kwargs_list = [
+        # Combinations of parameters that should cause `ValueError`s to
+        # be raised
+        invalid_kwargs_list_ValueError = [
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
-                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'})
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # Invalid `bin_ranges` parameter value (must be valid list
+            # of bin ranges)
+            dict(bin_ranges=[(0.9, 99.7), (99.9, 0.2)],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'bin_ranges'}),
             ]
-        for kwarfs in invalid_kwargs_list:
+        for kwargs in invalid_kwargs_list_ValueError:
             assert_raises(ValueError, CVConfig, **kwargs)

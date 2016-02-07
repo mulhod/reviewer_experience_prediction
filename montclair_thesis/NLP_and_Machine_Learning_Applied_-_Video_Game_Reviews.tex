@@ -64,7 +64,7 @@ In the realm of deception detection, ground truth -- information that can be ver
 
 In this paper, I propose a fundamental reframing of the issue: the problem should not be about whether or not a given review is fake, but rather about measuring the amount of experience a reviewer has with the product being reviewed. Reviews for products of which the reviewer has little to no experience -- whether they have been written in bad faith or simply from a relatively uninformed perspective -- could be distinguished from reviews for which the reviewer does have experience with the product being reviewed. Further, different levels of experience -- say, moderate or high -- could be distinguished from one another.
 
-A system that could accurately predict the amount of experience a reviewer has given only the review text or some combination of the review text and other attributes of the review/reviewer, such as the number of times a review has been marked as helpful, could be useful in a production environment as a component in a review-filtering and/or -sorting algorithm.
+A system that could accurately predict the amount of experience a reviewer has, given only the review text or some combination of the review text and other attributes of the review/reviewer, such as the number of times a review has been marked as helpful, could be useful in a production environment as a component in a review-filtering and/or -sorting algorithm.
 
 \subsection{How is experience measured?}
 \label{ssec:experience}
@@ -107,7 +107,7 @@ The main motivation of the machine learning experiments was to determine whether
 %\url{http://acl2015.org/publication.html}. Please check this website 
 %regularly.
 
-\section{Related Works}
+\section{Related Work}
 \label{sec:related}
 
 While this paper does not fall under the purview of typical deception detection work, influences from other deception detection research form the basis for some of the underlying ideas of this research. ~\cite{Jindal:08} used product review data from {\tt Amazon.com} to find ``opinion spam''. Discovering opinion spam led to research into deceptive reviews. Since there was no gold standard data to work from at that time, they initiated detection of such spam by first detecting duplicate reviews and then by using supervised learning with manually-labeled training examples. They gathered reviews from different categories such as music, books, and DVDs, but video games were not specifically included. Amazon reviews were also used by~\cite{Forn:14} to test identification of fake reviews using crowdsourcing.
@@ -267,7 +267,7 @@ Five machine learning algorithms were used: {\tt Perceptron}, {\tt MiniBatchKMea
 
 A number of different feature set combinations were experimented with: using the NLP feature set alone, the NLP feature set + the non-NLP feature set, i.e., the review/reviewer attributes, such as the number of friends that the reviewer has on Steam, and the non-NLP feature set alone. The aim here was to determine the role that the NLP features play in the modelling, whether or not the prediction label could be effectively modelled using only the non-NLP feature set, and whether or not both sets of features could be used in combination to produce a model that was more effective than that for either of the feature sets alone.
 
-Lastly, the raw values for each prediction label were rescaled, i.e., the distribution of raw label values was forced into a scale from 1 to 3, with 1 signifying a low total number of game-hours played/number of times a review was marked helpful, 2 signifying a moderate total number, and 3 a high total number. Furthermore, the scale of raw label values was not merely divided into equal-sized partitions, but rather was divided up into increasingly larger scale partitions. For example, only 10\% of the scale may be represented by the first ``bin'', 30\% of the scale may be represented by the second and 60\% by the last. This method of converting the raw label values to a three-point scale was used in order to attempt to deal with the highly positively skewed label value distribution. For the great majority of labels in this data-set, the raw values fell close to zero, relatively speaking, while the rest tapered off over a large range of values.
+Lastly, the raw values for each prediction label were rescaled, i.e., the distribution of raw label values was forced into a scale from 1 to 3, with 1 signifying a low total number of game-hours played/number of times a review was marked helpful, 2 signifying a moderate total number, and 3 a high total number. Furthermore, the scale of raw label values was not merely divided into equal-sized partitions, but rather was divided up into increasingly larger scale partitions. For example, only 10\% of the scale may be represented by the first ``bin'', 30\% of the scale may be represented by the second and 60\% by the last. This method of converting the raw label values to a three-point scale was used with both of the prediction labels in order to attempt to deal with the highly positively skewed label value distribution. For the great majority of labels in this data-set, the values tended to fall close to zero while the rest tapered off over a large range of values.
 
 \subsection{``Number of hours played'' experiments}
 \label{ssec:hours_played}

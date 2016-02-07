@@ -26,7 +26,8 @@ from pymongo import ASCENDING
 from scipy.stats import pearsonr
 from pymongo.cursor import Cursor
 from sklearn.base import BaseEstimator
-from schema import (And,
+from schema import (Or,
+                    And,
                     Schema,
                     SchemaError,
                     Optional as Default)
@@ -1557,7 +1558,7 @@ class CVConfig(object):
                  training_rounds: int,
                  training_samples_per_round: int,
                  grid_search_samples_per_fold: int,
-                 non_nlp_features: List[str],
+                 non_nlp_features: set,
                  prediction_label: str,
                  objective: str = None,
                  data_sampling: str = 'even',
@@ -1591,9 +1592,9 @@ class CVConfig(object):
         :param grid_search_samples_per_fold: number of samples to use
                                              for each grid search fold
         :type grid_search_samples_per_fold: int
-        :param non_nlp_features: list of non-NLP features to add into
-                                 the feature dictionaries 
-        :type non_nlp_features: list
+        :param non_nlp_features: set of non-NLP features to add into the
+                                 feature dictionaries 
+        :type non_nlp_features: set
         :param prediction_label: feature to predict
         :type prediction_label: str
         :param objective: objective function to use in ranking the runs;
@@ -1665,17 +1666,23 @@ class CVConfig(object):
              'non_nlp_features': And({str}, lambda x: LABELS.issuperset(x)),
              'prediction_label':
                  And(str,
-                     lambda x: not x in params['non_nlp_features'] and x in LABELS),
+                     lambda x: x in LABELS and not x in params['non_nlp_features']),
              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
              Default('data_sampling', default='even'):
                 And(str, lambda x: x in ExperimentalData.sampling_options),
              Default('grid_search_folds', default=5): And(int, lambda x: x > 1),
-             Default('hashed_features', default=None): And(int, lambda x: x > -1),
+             Default('hashed_features', default=None):
+                Or(None,
+                   lambda x: not isinstance(x, bool)
+                             and isinstance(x, int)
+                             and x > -1),
              Default('nlp_features', default=True): bool,
              Default('bin_ranges', default=None):
-                And([(float, float)], lambda x: validate_bin_ranges(x) is None),
+                Or(None,
+                   And([(float, float)],
+                       lambda x: validate_bin_ranges(x) is None)),
              Default('lognormal', default=False): bool,
-             Default('power_transform', default=None): float,
+             Default('power_transform', default=None): Or(None, float),
              Default('majority_baseline', default=True): bool,
              Default('rescale', default=True): bool
              }
