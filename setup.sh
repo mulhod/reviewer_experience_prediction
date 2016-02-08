@@ -21,10 +21,12 @@ conda config --add channels pypi
 # does not work as it is not recognized as a valid package name)
 conda create --yes -n reviews python=3.4
 # And now install all of the packages we need
-export BASH_VERSION="something" # Hack...
+bash -c "$(cat << setup_in_bash.sh
+#!/bin/bash
+export PATH=$PATH:/opt/python/conda_default/bin
 source activate reviews
 conda install --yes --file conda_requirements.txt
-if [[ $? -gt 0 ]]; then
+if [ $? -gt 0 ]; then
     echo "\"conda install --yes --file conda_requirements.txt\" failed. " \
          "Exiting.\n"
     cd ${ORIG_DIR}
@@ -37,7 +39,7 @@ echo "Created \"reviews\" environment successfully! To use environment, run" \
 echo "Installing some extra packages with pip (since conda does not seem to" \
      "want to install them)...\n"
 pip install skll==1.1.0 langdetect==1.0.5 argparse pudb nose2==0.5.0 typing==3.5.0.1 schema==0.4.0
-if [[ $? -gt 0 ]]; then
+if [ $? -gt 0 ]; then
     echo "pip installation of langdetect and argparse failed. Exiting.\n"
     cd ${ORIG_DIR}
     exit 1
@@ -59,3 +61,4 @@ echo "If changes are made to the Cython extensions, run the following to " \
 echo "Setup complete. Use \"source activate reviews\" to activate conda" \
      "environment.\n"
 cd ${ORIG_DIR}
+setup_in_bash.sh)"
