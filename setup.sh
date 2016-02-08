@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 # Works on some types of systems, but maybe not others
 # Note: having conda installed is a requirement (currently)
@@ -7,6 +7,7 @@
 
 set -eu
 
+export PATH=$PATH:/opt/python/conda_default/bin
 ORIG_DIR=$(pwd)
 THIS_DIR=$(dirname $(readlink -f $0))
 cd ${THIS_DIR}
@@ -21,9 +22,6 @@ conda config --add channels pypi
 # does not work as it is not recognized as a valid package name)
 conda create --yes -n reviews python=3.4
 # And now install all of the packages we need
-bash -c "$(cat << setup_in_bash.sh
-#!/bin/bash
-export PATH=$PATH:/opt/python/conda_default/bin
 source activate reviews
 conda install --yes --file conda_requirements.txt
 if [ $? -gt 0 ]; then
@@ -61,4 +59,3 @@ echo "If changes are made to the Cython extensions, run the following to " \
 echo "Setup complete. Use \"source activate reviews\" to activate conda" \
      "environment.\n"
 cd ${ORIG_DIR}
-setup_in_bash.sh)"
