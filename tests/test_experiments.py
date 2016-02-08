@@ -8,7 +8,6 @@ on `localhost`.
 from itertools import chain
 from collections import Counter
 
-import pudb
 from schema import SchemaError
 from nose2.compat import unittest
 from nose.tools import (assert_equal,

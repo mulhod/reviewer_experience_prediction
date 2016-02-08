@@ -290,23 +290,12 @@ class RunCVExperiments(object):
     """
 
     # Constants
-    _nan = float("NaN")
     _default_cursor_batch_size = 50
-
-    # Available learners, labels, orderings
-    _learners_requiring_classes = frozenset({'BernoulliNB',
-                                             'MultinomialNB',
-                                             'Perceptron'})
+    #_learners_requiring_classes = frozenset({'BernoulliNB',
+    #                                         'MultinomialNB',
+    #                                         'Perceptron'})
     _no_introspection_learners = frozenset({'MiniBatchKMeans',
                                             'PassiveAggressiveRegressor'})
-    _learner_names_dict = {MiniBatchKMeans: 'MiniBatchKMeans',
-                           BernoulliNB: 'BernoulliNB',
-                           MultinomialNB: 'MultinomialNB',
-                           Perceptron: 'Perceptron',
-                           PassiveAggressiveRegressor: 'PassiveAggressiveRegressor'}
-    _orderings = frozenset({'objective_last_round',
-                            'objective_best_round',
-                            'objective_slope'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
@@ -370,7 +359,8 @@ class RunCVExperiments(object):
         # Learner-related variables
         self._param_grids = [list(ParameterGrid(param_grid)) for param_grid
                              in self._cfg.param_grids]
-        self._learner_names = [self._learner_names_dict[learner] for learner
+        self._learners = [LEARNER_DICT[learner] for learner in self._cfg.learners]
+        self._learner_names = [LEARNER_ABBRS_DICT[learner] for learner
                                in self._cfg.learners]
 
         # Do grid search round
@@ -593,10 +583,9 @@ class RunCVExperiments(object):
                     'the number of folds.'
                     .format(self._data.grid_search_folds))
         learner_gs_cv_dict = {}
-        for learner, param_grid in zip(self._cfg.learners, self._cfg.param_grids):
-
-            # Get name of learner
-            learner_name = self._learner_names_dict[learner]
+        for learner, learner_name, param_grid in zip(self._learners,
+                                                     self._learner_names,
+                                                     self._cfg.param_grids):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
@@ -773,8 +762,7 @@ class RunCVExperiments(object):
         self._majority_baseline_stats.to_csv(join(output_path,
                                                   self._majority_baseline_report_name))
 
-    def generate_learning_reports(self, output_path: str,
-                                  ordering: str = 'objective_last_round') -> None:
+    def generate_learning_reports(self, output_path: str) -> None:
         """
         Generate experimental reports for each run represented in the
         lists of input dataframes.
@@ -785,9 +773,6 @@ class RunCVExperiments(object):
 
         :param output_path: path to destination directory
         :type output_path: str
-        :param ordering: ordering type for ranking the reports (see
-                         `RunCVExperiments._orderings`)
-        :type ordering: str
 
         :returns: None
         :rtype: None
@@ -796,8 +781,7 @@ class RunCVExperiments(object):
         for i, cv_learner_series_list in enumerate(self._cv_learner_stats):
             df = pd.DataFrame(cv_learner_series_list)
             learner_name = df['learner'].iloc[0]
-            df.to_csv(join(output_path,
-                           self._stats_name_template.format(learner_name)),
+            df.to_csv(join(output_path, self._stats_name_template.format(learner_name)),
                       index=False)
 
     def store_sorted_features(self, model_weights_path: str) -> None:
@@ -1146,7 +1130,7 @@ def main(argv=None):
         cfg = CVConfig(
                   db=db,
                   games=games,
-                  learners=[LEARNER_DICT[learner] for learner in learners],
+                  learners=learners,
                   param_grids=[find_default_param_grid(learner)
                                for learner in learners],
                   training_rounds=training_rounds,
