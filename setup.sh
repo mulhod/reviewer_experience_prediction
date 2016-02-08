@@ -21,6 +21,7 @@ conda config --add channels pypi
 # does not work as it is not recognized as a valid package name)
 conda create --yes -n reviews python=3.4
 # And now install all of the packages we need
+export BASH_VERSION="something" # Hack...
 source activate reviews
 conda install --yes --file conda_requirements.txt
 if [[ $? -gt 0 ]]; then
