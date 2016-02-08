@@ -504,7 +504,7 @@ class CVConfigTestCase(unittest.TestCase):
                             non_nlp_features=non_nlp_features,
                             prediction_label=self.prediction_label,
                             objective='pearson_r',
-                            data_sampling='even',
+                            data_sampling='stratified',
                             grid_search_folds=5,
                             hashed_features=100000,
                             nlp_features=True,
@@ -522,7 +522,57 @@ class CVConfigTestCase(unittest.TestCase):
                     in ['objective', 'data_sampling', 'grid_search_folds',
                         'hashed_features', 'nlp_features', 'bin_ranges',
                         'lognormal', 'power_transform', 'majority_baseline',
-                        'rescale']})
+                        'rescale']}),
+            # Only specify non-default parameters + `objective`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['data_sampling', 'grid_search_folds', 'hashed_features',
+                        'nlp_features', 'bin_ranges', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `data_sampling`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'grid_search_folds', 'hashed_features',
+                        'nlp_features', 'bin_ranges', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `grid_search_folds`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'hashed_features',
+                        'nlp_features', 'bin_ranges', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `hashed_features`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'nlp_features', 'bin_ranges', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `nlp_features`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'bin_ranges', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `bin_ranges`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'lognormal',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `lognormal`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'bin_ranges',
+                        'power_transform', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `power_transform`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'bin_ranges',
+                        'lognormal', 'majority_baseline', 'rescale']}),
+            # Only specify non-default parameters + `majority_baseline`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'bin_ranges',
+                        'lognormal', 'power_transform', 'rescale']}),
+            # Only specify non-default parameters + `rescale`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'bin_ranges',
+                        'lognormal', 'power_transform']}),
             ]
         for kwargs in valid_kwargs_list:
 
@@ -570,7 +620,7 @@ class CVConfigTestCase(unittest.TestCase):
                     and not cfg['prediction_label'] in cfg['non_nlp_features'])
             if 'nlp_features' in kwargs:
                 assert 'nlp_features' in cfg
-                assert isinstance(cfg['hashed_features'], bool)
+                assert isinstance(cfg['nlp_features'], bool)
                 assert_equal(cfg['nlp_features'], kwargs['nlp_features'])
             else:
                 assert_equal(cfg['nlp_features'], True)
