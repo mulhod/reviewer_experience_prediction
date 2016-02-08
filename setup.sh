@@ -8,6 +8,7 @@
 set -eu
 
 export PATH=$PATH:/opt/python/conda_default/bin
+export CONDA_OLD_PS1="something" # Hack
 ORIG_DIR=$(pwd)
 THIS_DIR=$(dirname $(readlink -f $0))
 cd ${THIS_DIR}
