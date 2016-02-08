@@ -8,24 +8,37 @@ on `localhost`.
 from itertools import chain
 from collections import Counter
 
+import pudb
 from schema import SchemaError
 from nose2.compat import unittest
 from nose.tools import (assert_equal,
                         assert_raises)
+from pymongo.collection import Collection
+from pymongo.errors import (AutoReconnect,
+                            ConnectionFailure)
 
 from util.cv_learn import CVConfig
-from src import (LEARNER_DICT,
-                 DEFAULT_PARAM_GRIDS,
-                 parse_non_nlp_features_string)
 from src.mongodb import connect_to_db
+from src.datasets import validate_bin_ranges
 from src.experiments import ExperimentalData
+from src import (LABELS,
+                 LEARNER_DICT,
+                 LEARNER_DICT_KEYS,
+                 DEFAULT_PARAM_GRIDS,
+                 OBJ_FUNC_ABBRS_DICT,
+                 parse_non_nlp_features_string)
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
     Test the `ExperimentalData` class.
     """
 
-    db = connect_to_db('localhost', 37017)
+    try:
+        db = connect_to_db('localhost', 37017)
+    except AutoReconnect as e:
+        raise ConnectionFailure('Could not connect to MongoDB client. Make '
+                                'sure a tunnel is set up (or some other method'
+                                ' is used) before running the tests.')
     prediction_label = 'total_game_hours'
 
     def test_ExperimentalData_invalid(self):
@@ -286,12 +299,17 @@ class CVConfigTestCase(unittest.TestCase):
     Test the `CVConfig` class.
     """
 
-    db = connect_to_db('localhost', 37017)
+    try:
+        db = connect_to_db('localhost', 37017)
+    except AutoReconnect as e:
+        raise ConnectionFailure('Could not connect to MongoDB client. Make '
+                                'sure a tunnel is set up (or some other method'
+                                ' is used) before running the tests.')
     prediction_label = 'total_game_hours'
 
     def test_CVConfig_invalid(self):
         """
-        Test the `CVConfig` class.
+        Test invalid parameter values for the `CVConfig` class.
         """
 
         learners = ['perc', 'pagr']
@@ -319,9 +337,8 @@ class CVConfigTestCase(unittest.TestCase):
                             majority_baseline=True,
                             rescale=True)
         
-        # Combinations of parameters that should cause `SchemaError`s to
-        # be raised
-        invalid_kwargs_list_SchemaError = [
+        # Combinations of parameters that should cause a `SchemaError`
+        invalid_kwargs_list = [
             # Invalid `db` value
             dict(db='db',
                  **{p: v for p, v in valid_kwargs.items() if p != 'db'}),
@@ -332,9 +349,19 @@ class CVConfigTestCase(unittest.TestCase):
             # abbreviations)
             dict(learners=['perceptron', 'passiveagressive'],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # Invalid `learners` parameter value (empty)
+            dict(learners=[],
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
             # Invalid parameter grids in `param_grids` parameter value
             dict(param_grids=[dict(a=1, b=2), dict(c='g', d=True)],
                  **{p: v for p, v in valid_kwargs.items() if p != 'param_grids'}),
+            # `learners`/`param_grids` unequal in length
+            dict(learners=['perc', 'pagr'],
+                 param_grids=[DEFAULT_PARAM_GRIDS[LEARNER_DICT[learner]]
+                              for learner in ['perc', 'pagr', 'mbkm']],
+                 bin_ranges=None,
+                 **{p: v for p, v in valid_kwargs.items() if not p
+                    in ['learners', 'param_grids', 'bin_ranges']}),
             # Invalid `training_rounds` parameter value (must be int)
             dict(training_rounds=2.0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'training_rounds'}),
@@ -455,5 +482,165 @@ class CVConfigTestCase(unittest.TestCase):
             dict(learners=[learners[0]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'})
             ]
-        for kwargs in invalid_kwargs_list_SchemaError:
+        for kwargs in invalid_kwargs_list:
             assert_raises(SchemaError, CVConfig, **kwargs)
+
+    def test_CVConfig_valid(self):
+        """
+        Test valid parameter values for the `CVConfig` class.
+        """
+
+        learners = ['perc', 'pagr']
+        non_nlp_features = parse_non_nlp_features_string('all', 'total_game_hours')
+        param_grids = [DEFAULT_PARAM_GRIDS[LEARNER_DICT[learner]]
+                       for learner in learners]
+        valid_kwargs = dict(db=self.db,
+                            games=set(['Dota_2']),
+                            learners=learners,
+                            param_grids=param_grids,
+                            training_rounds=10,
+                            training_samples_per_round=100,
+                            grid_search_samples_per_fold=50,
+                            non_nlp_features=non_nlp_features,
+                            prediction_label=self.prediction_label,
+                            objective='pearson_r',
+                            data_sampling='even',
+                            grid_search_folds=5,
+                            hashed_features=100000,
+                            nlp_features=True,
+                            bin_ranges=[(0.0, 225.1), (225.2, 2026.2),
+                                        (2026.3, 16435.0)],
+                            lognormal=False,
+                            power_transform=None,
+                            majority_baseline=True,
+                            rescale=True)
+
+        # Combinations of parameters
+        valid_kwargs_list = [
+            # Only specify non-default parameters
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in ['objective', 'data_sampling', 'grid_search_folds',
+                        'hashed_features', 'nlp_features', 'bin_ranges',
+                        'lognormal', 'power_transform', 'majority_baseline',
+                        'rescale']})
+            ]
+        for kwargs in valid_kwargs_list:
+
+            # Make the configuration object
+            cfg = CVConfig(**kwargs).validated
+
+            # `db`
+            assert_equal(cfg['db'], kwargs['db'])
+
+            # `games`
+            assert_equal(cfg['games'], kwargs['games'])
+
+            # `learners`
+            assert_equal(cfg['learners'], kwargs['learners'])
+            assert (isinstance(cfg['learners'], list)
+                    and all(learner in LEARNER_DICT_KEYS for learner in learners))
+            assert_equal(len(cfg['learners']), len(cfg['param_grids']))
+
+            # `param_grids`
+            assert (isinstance(cfg['param_grids'], list)
+                    and all(isinstance(pgrid, dict) for pgrid in cfg['param_grids'])
+                    and all(all(isinstance(param, str) for param in pgrid)
+                            for pgrid in cfg['param_grids'])
+                    and all(all(isinstance(pgrid[param], list) for param in pgrid)
+                            for pgrid in cfg['param_grids'])
+                    and len(cfg['param_grids']) > 0)
+
+            # `training_rounds`, `training_samples_per_round`,
+            # `grid_search_samples_per_fold`, and `grid_search_folds`
+            assert cfg['training_rounds'] > 1
+            assert cfg['training_samples_per_round'] > 0
+            assert cfg['grid_search_samples_per_fold'] > 1
+            if 'grid_search_folds' in kwargs:
+                assert 'grid_search_folds' in cfg
+                assert cfg['grid_search_folds'] > 1
+                assert_equal(cfg['grid_search_folds'], kwargs['grid_search_folds'])
+            else:
+                assert_equal(cfg['grid_search_folds'], 5)
+
+            # `nlp_features`, `non_nlp_features`, and `prediction_label`
+            assert (isinstance(cfg['non_nlp_features'], set)
+                    and cfg['non_nlp_features'].issubset(LABELS))
+            assert (isinstance(cfg['prediction_label'], str)
+                    and cfg['prediction_label'] in LABELS
+                    and not cfg['prediction_label'] in cfg['non_nlp_features'])
+            if 'nlp_features' in kwargs:
+                assert 'nlp_features' in cfg
+                assert isinstance(cfg['hashed_features'], bool)
+                assert_equal(cfg['nlp_features'], kwargs['nlp_features'])
+            else:
+                assert_equal(cfg['nlp_features'], True)
+
+            # `objective`
+            if 'objective' in kwargs:
+                assert 'objective' in cfg
+                assert cfg['objective'] in OBJ_FUNC_ABBRS_DICT
+                assert_equal(cfg['objective'], kwargs['objective'])
+            else:
+                assert_equal(cfg['objective'], None)
+
+            # `data_sampling`
+            if 'data_sampling' in kwargs:
+                assert 'data_sampling' in cfg
+                assert cfg['data_sampling'] in ExperimentalData.sampling_options
+                assert_equal(cfg['data_sampling'], kwargs['data_sampling'])
+            else:
+                assert_equal(cfg['data_sampling'], 'even')
+
+            # `hashed_features`
+            if 'hashed_features' in kwargs:
+                assert 'hashed_features' in cfg
+                if cfg['hashed_features'] is not None:
+                    assert cfg['hashed_features'] > -1
+                assert_equal(cfg['hashed_features'], kwargs['hashed_features'])
+            else:
+                assert_equal(cfg['hashed_features'], None)
+
+            # `bin_ranges`
+            if 'bin_ranges' in kwargs:
+                assert 'bin_ranges' in cfg
+                assert (isinstance(cfg['bin_ranges'], list)
+                        and all((isinstance(bin_, tuple)
+                                 and all(isinstance(val, float) for val in bin_))
+                                for bin_ in cfg['bin_ranges']))
+                assert_equal(cfg['bin_ranges'], kwargs['bin_ranges'])
+                validate_bin_ranges(cfg['bin_ranges'])
+            else:
+                assert_equal(cfg['bin_ranges'], None)
+
+            # `lognormal`
+            if 'lognormal' in kwargs:
+                assert 'lognormal' in cfg
+                assert isinstance(cfg['lognormal'], bool)
+                assert_equal(cfg['lognormal'], kwargs['lognormal'])
+            else:
+                assert_equal(cfg['lognormal'], False)
+
+            # `power_transform`
+            if 'power_transform' in kwargs:
+                assert 'power_transform' in cfg
+                assert (cfg['power_transform'] is None
+                        or isinstance(cfg['power_transform'], bool))
+                assert_equal(cfg['power_transform'], kwargs['power_transform'])
+            else:
+                assert_equal(cfg['power_transform'], None)
+
+            # `majority_baseline`
+            if 'majority_baseline' in kwargs:
+                assert 'majority_baseline' in cfg
+                assert isinstance(cfg['majority_baseline'], bool)
+                assert_equal(cfg['majority_baseline'], kwargs['majority_baseline'])
+            else:
+                assert_equal(cfg['majority_baseline'], True)
+
+            # `rescale`
+            if 'rescale' in kwargs:
+                assert 'rescale' in cfg
+                assert isinstance(cfg['rescale'], bool)
+                assert_equal(cfg['rescale'], kwargs['rescale'])
+            else:
+                assert_equal(cfg['rescale'], True)

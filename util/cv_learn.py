@@ -265,6 +265,10 @@ class CVConfig(object):
         """
 
         # Make sure parameters make sense/are valid
+        if len(self.validated['learners']) != len(self.validated['param_grids']):
+            raise SchemaError(autos=None,
+                              errors='The lists of of learners and parameter '
+                                     'grids must be the same size.')
         if (self.validated['hashed_features'] is not None
             and self.validated['hashed_features'] == 0):
                 self.validated['hashed_features'] = self._n_features_feature_hashing
