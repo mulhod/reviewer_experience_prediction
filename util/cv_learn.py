@@ -961,10 +961,10 @@ def main(argv=None):
              type=int,
              default=37017)
     _add_arg('-log', '--log_file_path',
-             help='Path to feature extraction log file. If no path is '
-                  'specified, then a "logs" directory will be created within '
-                  'the directory specified via the --output_dir argument and '
-                  'a log will automatically be stored.',
+             help='Path to log file. If no path is specified, then a "logs" '
+                  'directory will be created within the directory specified '
+                  'via the --output_dir argument and a log will automatically '
+                  'be stored.',
              type=str,
              required=False)
     args = parser.parse_args()
@@ -1126,6 +1126,7 @@ def main(argv=None):
 
     # Do learning experiments
     loginfo('Starting incremental learning experiments...')
+    learners = sorted(learners)
     try:
         cfg = CVConfig(
                   db=db,
