@@ -315,12 +315,11 @@ class RunCVExperiments(object):
         self._games_string = ', '.join(self._cfg.games)
 
         # Templates for report file names
-        self._report_name_template = ('{0}_{1}_{2}_{3}.csv'
-                                      .format(self._games_string, '{0}', '{1}', '{2}'))
-        self._stats_name_template = (self._report_name_template
-                                     .format('{0}', 'stats', '{1}'))
-        self._model_weights_name_template = (self._report_name_template
-                                             .format('{0}', 'model_weights', '{1}'))
+        self._stats_name_template = ('{0}_{1}_{2}.csv'
+                                     .format(self._games_string, '{0}', 'stats'))
+        self._model_weights_name_template = ('{0}_{1}_{2}_{3}.csv'
+                                             .format(self._games_string, '{0}',
+                                                     'model_weights', '{1}'))
         if self._cfg.majority_baseline:
             self._majority_baseline_report_name = \
                 '{0}_majority_baseline_model_stats.csv'.format(self._games_string)
@@ -450,7 +449,7 @@ class RunCVExperiments(object):
                                    grid_search_folds=self._cfg.grid_search_folds,
                                    grid_search_fold_size=
                                        self._cfg.grid_search_samples_per_fold,
-                                   sampling=data_sampling,
+                                   sampling=self._cfg.data_sampling,
                                    lognormal=self._cfg.lognormal,
                                    power_transform=self._cfg.power_transform,
                                    bin_ranges=self._cfg.bin_ranges,
