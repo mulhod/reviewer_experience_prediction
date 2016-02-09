@@ -488,24 +488,6 @@ class RunCVExperiments(object):
         if not ids:
             raise ValueError('The "ids" parameter is empty.')
 
-        self._fit_vectorizer(vec, ids)
-
-        return vec
-
-    def _fit_vectorizer(self, vec: Vectorizer, ids: List[str]) -> Vectorizer:
-        """
-        Fit a vectorizer with all samples corresponding to the given
-        list of IDs.
-        
-        :param vec: vectorizer instance
-        :type vec: DictVectorizer or FeatureHasher
-        :param ids: list of sample ID strings
-        :type ids: list
-
-        :returns: None
-        :rtype: None
-        """
-
         vec.fit(self._generate_samples(ids, 'x'))
 
         return vec
