@@ -25,7 +25,7 @@ from src import (log_dir,
 
 # Initialize logging system
 logging_info = logging.INFO
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('util.make_train_test_sets')
 logger.setLevel(logging_info)
 sh = logging.StreamHandler()
 sh.setLevel(logging_info)

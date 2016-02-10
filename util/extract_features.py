@@ -19,7 +19,7 @@ from src import (log_dir,
                  formatter,
                  project_dir)
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('util.extract_features')
 logging_debug = logging.DEBUG
 logger.setLevel(logging_debug)
 loginfo = logger.info

@@ -19,7 +19,7 @@ from src import (log_dir,
                  formatter)
 
 # Initialize logging system
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('util.get_review_data')
 logging_info = logging.INFO
 logger.setLevel(logging_info)
 sh = logging.StreamHandler()

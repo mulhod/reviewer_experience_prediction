@@ -78,7 +78,7 @@ from src.datasets import (validate_bin_ranges,
 filterwarnings("ignore")
 
 # Set up logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('util.cv_learn')
 logging_debug = logging.DEBUG
 logger.setLevel(logging_debug)
 loginfo = logger.info
@@ -492,7 +492,7 @@ class RunCVExperiments(object):
 
         return vec
 
-    def _generate_samples(ids: List[str], key: Optional[str] = None) \
+    def _generate_samples(self, ids: List[str], key: Optional[str] = None) \
         -> Iterable[Union[Dict[str, Any], str, Numeric]]:
         """
         Generate feature dictionaries for the review samples in the

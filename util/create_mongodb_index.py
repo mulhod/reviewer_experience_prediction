@@ -13,7 +13,7 @@ from argparse import (ArgumentParser,
 from src import formatter
 
 # Set up logger
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('util.create_mongodb_index')
 logging_info = logging.INFO
 logger.setLevel(logging_info)
 sh = logging.StreamHandler()

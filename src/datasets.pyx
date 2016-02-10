@@ -57,7 +57,7 @@ from src import (Numeric,
                  data_dir as default_data_dir,
                  date_end_with_year_string_search)
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('src.datasets')
 loginfo = logger.info
 logdebug = logger.debug
 logerr = logger.error

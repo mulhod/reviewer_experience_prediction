@@ -40,7 +40,7 @@ from src.datasets import (get_bin,
                           get_and_describe_dataset)
 
 # Logging-related
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('src.mongodb')
 loginfo = logger.info
 logdebug = logger.debug
 logwarn = logger.warning

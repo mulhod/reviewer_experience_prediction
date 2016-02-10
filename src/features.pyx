@@ -29,7 +29,7 @@ bson_decode = BSON.decode
 spaCy_nlp = English()
 
 # Logging-related
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('src.features')
 logwarn = logger.warning
 logerr = logger.error
 

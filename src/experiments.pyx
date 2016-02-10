@@ -42,7 +42,7 @@ from src.datasets import (validate_bin_ranges,
                           compute_label_value)
 
 # Logging-related
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('src.experiments')
 
 NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
