@@ -1,0 +1,17 @@
+skll==1.1.0
+langdetect
+argparse
+pudb
+nose2
+typing
+schema
+cython
+jupyter
+lxml
+matplotlib
+nltk
+pandas
+pymongo==2.8
+requests
+seaborn
+spacy==0.70

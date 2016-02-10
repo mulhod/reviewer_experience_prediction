@@ -1,5 +1,6 @@
 from sys import (exit,
-                 stderr)
+                 stderr,
+                 version_info)
 from os import (getcwd,
                 listdir)
 from shutil import copy
@@ -11,6 +12,9 @@ from getpass import getuser
 from subprocess import getoutput
 from setuptools import setup
 from distutils.extension import Extension
+
+if version_info < (3, 0):
+    raise Exception('Installation requires Python >= 3.0.')
 
 # Set this to True to enable building extensions using Cython.
 # Set it to False to build extensions from the C file (that
@@ -33,6 +37,10 @@ cmdclass = {}
 def readme():
     with open('README.md') as f:
         return f.read()
+
+def reqs():
+    with open('requirements.txt') as f:
+        return f.read().splitlines()
 
 # Hackish way of doing this. Find better way...
 root_env = getoutput('conda info | grep "package cache :"'
@@ -88,6 +96,8 @@ setup(name='Reviewer Experience Prediction',
       version='0.1',
       author='Matt Mulholland et al.',
       author_email='mulhodm@gmail.com',
+      setup_requires=['numpy'],
+      install_requires=reqs(),
       packages=['data', 'src', 'util', 'tests'],
       package_data={'data': ['*.jsonlines']},
       include_package_data=True,
