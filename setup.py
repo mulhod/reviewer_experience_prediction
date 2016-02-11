@@ -27,10 +27,9 @@ if USE_CYTHON:
     try:
         from Cython.Distutils import build_ext
     except ImportError:
-        if USE_CYTHON=='auto':
-            USE_CYTHON=False
-        else:
-            raise
+        stderr.write('\"cython\" is not installed. Forcing \"USE_CYTHON\" to '
+                     '\"False\" to install.')
+        USE_CYTHON = False
 
 cmdclass = {}
 
