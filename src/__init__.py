@@ -68,13 +68,16 @@ LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
                                   for abbr, learner in LEARNER_ABBRS_DICT.items()])
 
 # Objective functions
-OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson's r",
+OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson product-moment correlation",
+                       'spearman': 'Spearman\'s rank correlation coefficient',
+                       'kendall_tau': 'Kendall-Tau rank correlation coefficient',
                        'average_precision': "average precision",
                        'precision_macro': 'precision (macro)',
                        'precision_weighted': 'precision (weighted)',
                        'recall': "recall",
                        'f1_macro': 'f1 (macro)',
                        'f1_weighted': 'f1 (weighted)',
+                       'f1_score_least_frequent': 'f1 (least frequent class)',
                        'accuracy': 'accuracy',
                        'uwk': 'unweighted kappa',
                        'uwk_off_by_one': 'unweighted kappa (off by one)',

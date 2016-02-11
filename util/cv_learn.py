@@ -27,8 +27,6 @@ from typing import (Any,
                     Iterable,
                     Optional)
 from pymongo import ASCENDING
-from skll.metrics import kappa
-from scipy.stats import pearsonr
 from sklearn.metrics import make_scorer
 from schema import (Or,
                     And,
@@ -42,6 +40,11 @@ from sklearn.grid_search import (GridSearchCV,
                                  ParameterGrid)
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
+from skll.metrics import (kappa,
+                          pearson,
+                          spearman,
+                          kendall_tau,
+                          f1_score_least_frequent)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 from sklearn.cross_validation import StratifiedKFold
@@ -403,36 +406,35 @@ class RunCVExperiments(object):
         callable.
 
         :returns: a value to pass into the `scoring` parameter in
-                  `GridSearchCV`
+                  `GridSearchCV`, which can be None to use the default,
+                  a string value that represents one of the scoring
+                  functions, or a custom scorer function (via
+                  `make_scorer`)
         :rtype: str, None, callable
         """
 
-        if not self._cfg.objective:
-            return None
-
         if self._cfg.objective == 'pearson_r':
-            scorer = make_scorer(pearsonr)
-        elif self._cfg.objective.startswith('uwk'):
+            return make_scorer(pearson)
+        if self._cfg.objective == 'spearman':
+            return make_scorer(spearman)
+        if self._cfg.objective == 'kendall_tau':
+            return make_scorer(kendall_tau)
+        if self._cfg.objective == 'f1_score_least_frequent':
+            return make_scorer(f1_score_least_frequent)
+        if self._cfg.objective.startswith('uwk'):
             if self._cfg.objective == 'uwk':
-                scorer = make_scorer(kappa)
-            else:
-                scorer = make_scorer(kappa, allow_off_by_one=True)
-        elif self._cfg.objective.startswith('lwk'):
+                return make_scorer(kappa)
+            return make_scorer(kappa, allow_off_by_one=True)
+        if self._cfg.objective.startswith('lwk'):
             if self._cfg.objective == 'lwk':
-                scorer = make_scorer(kappa, weights='linear')
-            else:
-                scorer = make_scorer(kappa, weights='linear',
-                                     allow_off_by_one=True)
-        elif self._cfg.objective.startswith('lwk'):
+                return make_scorer(kappa, weights='linear')
+            return make_scorer(kappa, weights='linear', allow_off_by_one=True)
+        if self._cfg.objective.startswith('lwk'):
             if self._cfg.objective == 'lwk':
-                scorer = make_scorer(kappa, weights='quadratic')
-            else:
-                scorer = make_scorer(kappa, weights='quadratic',
-                                     allow_off_by_one=True)
-        else:
-            scorer = self._cfg.objective
-
-        return scorer
+                return make_scorer(kappa, weights='quadratic')
+            return make_scorer(kappa, weights='quadratic',
+                               allow_off_by_one=True)
+        return self._cfg.objective
 
     def _generate_experimental_data(self):
         """

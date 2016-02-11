@@ -17,7 +17,10 @@ from typing import (Any,
                     Tuple,
                     Union,
                     Optional)
-from skll.metrics import kappa
+from skll.metrics import (kappa,
+                          spearman,
+                          kendall_tau,
+                          f1_score_least_frequent)
 from pymongo import ASCENDING
 from scipy.stats import pearsonr
 from pymongo.cursor import Cursor
@@ -739,6 +742,8 @@ def compute_evaluation_metrics(y_test: np.array,
 
     return {'pearson_r': r,
             'significance': sig,
+            'spearman': spearman(y_test, y_preds),
+            'kendall_tau': kendall_tau(y_test, y_preds),
             'precision_macro': precision_score(y_test,
                                                y_preds,
                                                labels=classes,
@@ -755,6 +760,7 @@ def compute_evaluation_metrics(y_test: np.array,
                                     y_preds,
                                     labels=classes,
                                     average='weighted'),
+            'f1_score_least_frequent': f1_score_least_frequent(y_test, y_preds),
             'accuracy': accuracy_score(y_test,
                                        y_preds,
                                        normalize=True),
@@ -905,10 +911,11 @@ def aggregate_cross_validation_experiments_stats(cv_learner_stats: List[List[pd.
         num_cv_learner_stats_series = len(cv_learner_stats_list)
         
         # Aggregate the scalar value metrics
-        for metric in ['pearson_r', 'significance', 'precision_macro',
-                       'precision_weighted', 'f1_macro', 'f1_weighted',
-                       'accuracy', 'uwk', 'qwk', 'lwk', 'uwk_off_by_one',
-                       'qwk_off_by_one', 'lwk_off_by_one']:
+        for metric in ['pearson_r', 'significance', 'spearman', 'kendall_tau',
+                       'precision_macro', 'precision_weighted', 'f1_macro',
+                       'f1_weighted', 'f1_score_least_frequent', 'accuracy',
+                       'uwk', 'qwk', 'lwk', 'uwk_off_by_one', 'qwk_off_by_one',
+                       'lwk_off_by_one']:
             cv_learner_stats_aggregated_['average_{0}'.format(metric)] = \
                 sum([cv_learner_stats_series[metric] for cv_learner_stats_series
                      in cv_learner_stats_list])/num_cv_learner_stats_series
