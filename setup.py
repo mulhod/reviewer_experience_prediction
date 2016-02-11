@@ -12,6 +12,7 @@ from getpass import getuser
 from subprocess import getoutput
 from setuptools import setup
 from distutils.extension import Extension
+from distutils.command.build import build as _build
 
 if version_info < (3, 0):
     raise Exception('Installation requires Python >= 3.0.')
@@ -23,48 +24,65 @@ if version_info < (3, 0):
 # from the C file.
 USE_CYTHON = True
 
-if USE_CYTHON:
-    try:
-        from Cython.Distutils import build_ext
-    except ImportError:
-        stderr.write('\"cython\" is not installed. Forcing \"USE_CYTHON\" to '
-                     '\"False\" to install.')
-        USE_CYTHON = False
-
 cmdclass = {}
+
+class build(_build):
+    def run(self):
+        __builtins__.__NUMPY_SETUP__ = False
+        import numpy
+        print(numpy.get_include())
+        _build.run(self)
+
 
 def readme():
     with open('README.md') as f:
         return f.read()
 
+
 def reqs():
     with open('requirements.txt') as f:
         return f.read().splitlines()
 
-# Hackish way of doing this. Find better way...
-root_env = getoutput('conda info | grep "package cache :"'
-                     ' | awk \'{print $4}\'')
-# Try to guess the location of the conda installation
-if not root_env:
-    root_env = '/home/{}/conda'.format(getuser())
-python_header_dir = join(root_env,
-                         '.pkgs/python-3.4.3-0/include/python3.4m')
 
-if USE_CYTHON:
-    ext_modules = [Extension('src.features',
-                             ['src/features.pyx'],
-                             include_dirs=[python_header_dir]),
-                   Extension('src.experiments',
-                             ['src/experiments.pyx'],
-                             include_dirs=[python_header_dir]),
-                   Extension('src.datasets',
-                             ['src/datasets.pyx'],
-                             include_dirs=[python_header_dir]),
-                   Extension('src.mongodb',
-                             ['src/mongodb.pyx'],
-                             include_dirs=[python_header_dir])]
-    cmdclass.update({'build_ext': build_ext})
-else:
+def get_python_header_dir():
+    # Hackish way of doing this. Find better way...
+    root_env = getoutput('conda info | grep "package cache :"'
+                         ' | awk \'{print $4}\'')
+    # Try to guess the location of the conda installation
+    if not root_env:
+        root_env = '/home/{}/conda'.format(getuser())
+    return join(root_env, '.pkgs', 'python-3.4.3-0', 'include', 'python3.4m')
+
+
+def get_ext_modules(use_cython=USE_CYTHON):
+    
+    global cmdclass
+    python_header_dir = get_python_header_dir()
+
+    if use_cython:
+        try:
+            from Cython.Distutils import build_ext
+        except ImportError:
+            stderr.write('\"cython\" is not installed. Forcing \"USE_CYTHON\" '
+                         'to \"False\" in order to install.\n')
+            use_cython = False
+
+    if use_cython:
+        ext_modules = [Extension('src.features',
+                                 ['src/features.pyx'],
+                                 include_dirs=[python_header_dir]),
+                       Extension('src.experiments',
+                                 ['src/experiments.pyx'],
+                                 include_dirs=[python_header_dir]),
+                       Extension('src.datasets',
+                                 ['src/datasets.pyx'],
+                                 include_dirs=[python_header_dir]),
+                       Extension('src.mongodb',
+                                 ['src/mongodb.pyx'],
+                                 include_dirs=[python_header_dir])]
+        cmdclass.update({'build_ext': build_ext})
+        return ext_modules
+
     ext_modules = [Extension('src.features',
                              ['src/features.c'],
                              include_dirs=[python_header_dir]),
@@ -77,6 +95,8 @@ else:
                    Extension('src.mongodb',
                              ['src/mongodb.c'],
                              include_dirs=[python_header_dir])]
+    return ext_modules
+
 
 setup(name='Reviewer Experience Prediction',
       description='Repository developed for graduate research at Montclair '
@@ -100,8 +120,8 @@ setup(name='Reviewer Experience Prediction',
       packages=['data', 'src', 'util', 'tests'],
       package_data={'data': ['*.jsonlines']},
       include_package_data=True,
+      ext_modules=get_ext_modules(),
       cmdclass=cmdclass,
-      ext_modules=ext_modules,
       scripts=['setup.sh', 'util/get_review_data_all_games.sh'],
       entry_points={
           'console_scripts':
