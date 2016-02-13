@@ -16,6 +16,7 @@ from typing import (Any,
                     Dict,
                     Tuple,
                     Union,
+                    Iterable,
                     Optional)
 from skll.metrics import (kappa,
                           spearman,
@@ -53,7 +54,7 @@ NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
 
 def distributional_info(db: Collection,
                         label: str,
-                        games: list,
+                        games: List[str],
                         partition: str = 'all',
                         bin_ranges: Optional[List[Tuple[float, float]]] = None,
                         lognormal: bool = False,
@@ -641,7 +642,7 @@ def make_cursor(db: Collection,
                 games: List[str] = [],
                 sorting_args: List[Tuple[str, int]] = [('steam_id_number', ASCENDING)],
                 batch_size: int = 50,
-                id_strings: List[str] = []) -> Cursor:
+                id_strings: Iterable[str] = []) -> Cursor:
     """
     Make cursor (for a specific set of games and/or a specific
     partition of the data, if specified) or for for data whose
@@ -662,10 +663,10 @@ def make_cursor(db: Collection,
     :type sorting_args: list
     :param batch_size: batch size to use for the returned cursor
     :type batch_size: int
-    :param id_strings: list of ID strings (pass an empty list if not
-                       constraining the cursor to documents with a set
-                       of specific `id_string` values)
-    :type id_strings: list
+    :param id_strings: list (or iterable) of ID strings (pass an empty
+                       list if not constraining the cursor to documents
+                       with a set of specific `id_string` values)
+    :type id_strings: Iterable
 
     :returns: a cursor on a MongoDB collection
     :rtype: Cursor
@@ -676,6 +677,8 @@ def make_cursor(db: Collection,
                         specified simultaneously with `partition`
                         and/or `games`
     """
+
+    id_stings = list(id_strings)
 
     # Validate parameters
     if id_strings and (partition or games):

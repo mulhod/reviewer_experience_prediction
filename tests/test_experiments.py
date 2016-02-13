@@ -8,6 +8,7 @@ on `localhost`.
 from itertools import chain
 from collections import Counter
 
+import numpy as np
 from schema import SchemaError
 from nose2.compat import unittest
 from nose.tools import (assert_equal,
@@ -19,13 +20,62 @@ from pymongo.errors import (AutoReconnect,
 from util.cv_learn import CVConfig
 from src.mongodb import connect_to_db
 from src.datasets import validate_bin_ranges
-from src.experiments import ExperimentalData
+from src.experiments import (make_cursor,
+                             ExperimentalData)
 from src import (LABELS,
                  LEARNER_DICT,
                  LEARNER_DICT_KEYS,
                  DEFAULT_PARAM_GRIDS,
                  OBJ_FUNC_ABBRS_DICT,
                  parse_non_nlp_features_string)
+
+class MakeCursorTestCase(unittest.TestCase):
+    """
+    Test the `make_cursor` function.
+    """
+
+    db = None
+    ids = None
+
+    def setUp(self):
+
+        # Connect to MongoDB collection
+        try:
+            self.db = connect_to_db('localhost', 37017)
+        except AutoReconnect as e:
+            raise ConnectionFailure('Could not connect to MongoDB client. Make '
+                                    'sure a tunnel is set up (or some other method'
+                                    ' is used) before running the tests.')
+
+        # IDs to test
+        self.ids = ['5690a60fe76db81bef5c46f8', '5690a60fe76db81bef5c275f',
+               '5690a60fe76db81bef5c49e9', '5690a60fe76db81bef5c3a67',
+               '5690a60fe76db81bef5c2d26', '5690a60fe76db81bef5c2756',
+               '5690a60fe76db81bef5c2bc9', '5690a60fe76db81bef5c3ab1',
+               '5690a60fe76db81bef5c3a71', '5690a60fe76db81bef5c2edf',
+               '5690a60fe76db81bef5c2f72', '5690a60fe76db81bef5c4305',
+               '5690a60fe76db81bef5c3ee9', '5690a60fe76db81bef5c4ab6',
+               '5690a60fe76db81bef5c43cf', '5690a60fe76db81bef5c47f1',
+               '5690a60fe76db81bef5c2b0b', '5690a60fe76db81bef5c4920',
+               '5690a60fe76db81bef5c49d9', '5690a60fe76db81bef5c3048',
+               '5690a60fe76db81bef5c4057', '5690a60fe76db81bef5c3902',
+               '5690a60fe76db81bef5c2702', '5690a60fe76db81bef5c461d',
+               '5690a60fe76db81bef5c4b2d', '5690a60fe76db81bef5c3176',
+               '5690a60fe76db81bef5c338a', '5690a60fe76db81bef5c2c01',
+               '5690a60fe76db81bef5c3836', '5690a60fe76db81bef5c3b07']
+
+    def test_valid_id_strings_input(self):
+        """
+        Test `make_cursor` with valid sets of ID strings.
+        """
+
+        for _type in [list, np.array, iter, set, dict]:
+            if _type is dict:
+                ids = dict(zip(self.ids, self.ids))
+            else:
+                ids = _type(self.ids)
+            make_cursor(self.db, id_strings=ids)
+
 
 class ExperimentalDataTestCase(unittest.TestCase):
     """
