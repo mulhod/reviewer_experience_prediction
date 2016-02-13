@@ -617,7 +617,7 @@ class RunCVExperiments(object):
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
-            training_folds = self._data.training_set[:i] + self_data.training_set[i + 1:]
+            training_folds = self._data.training_set[:i] + self._data.training_set[i + 1:]
             y_train_all = []
             for training_fold in training_folds:
 
