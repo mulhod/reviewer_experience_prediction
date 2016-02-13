@@ -293,11 +293,11 @@ class RunCVExperiments(object):
     """
 
     # Constants
-    _default_cursor_batch_size = 50
-    #_learners_requiring_classes = frozenset({'BernoulliNB',
+    default_cursor_batch_size_ = 50
+    #learners_requiring_classes_ = frozenset({'BernoulliNB',
     #                                         'MultinomialNB',
     #                                         'Perceptron'})
-    _no_introspection_learners = frozenset({'MiniBatchKMeans',
+    no_introspection_learners_ = frozenset({'MiniBatchKMeans',
                                             'PassiveAggressiveRegressor'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
@@ -310,65 +310,66 @@ class RunCVExperiments(object):
         """
 
         # Experiment configuration settings
-        self._cfg = pd.Series(config.validated)
+        self.cfg_ = pd.Series(config.validated)
+        cfg = self.cfg_
 
         # Games
-        if not self._cfg.games:
+        if not cfg.games:
             raise ValueError('The set of games must be greater than zero!')
-        self._games_string = ', '.join(self._cfg.games)
+        self.games_string_ = ', '.join(cfg.games)
 
         # Templates for report file names
-        self._stats_name_template = ('{0}_{1}_{2}.csv'
-                                     .format(self._games_string, '{0}', 'stats'))
-        self._model_weights_name_template = ('{0}_{1}_{2}_{3}.csv'
-                                             .format(self._games_string, '{0}',
+        self.stats_name_template_ = ('{0}_{1}_{2}.csv'
+                                     .format(self.games_string_, '{0}', 'stats'))
+        self.model_weights_name_template_ = ('{0}_{1}_{2}_{3}.csv'
+                                             .format(self.games_string_, '{0}',
                                                      'model_weights', '{1}'))
-        if self._cfg.majority_baseline:
-            self._majority_baseline_report_name = \
-                '{0}_majority_baseline_model_stats.csv'.format(self._games_string)
-        if self._cfg.lognormal or self._cfg.power_transform:
-            self._transformation_string = ('ln' if self._cfg.lognormal
-                                           else 'x**{0}'.format(self._cfg.power_transform))
+        if cfg.majority_baseline:
+            self.majority_baseline_report_name_ = \
+                '{0}_majority_baseline_model_stats.csv'.format(self.games_string_)
+        if cfg.lognormal or cfg.power_transform:
+            self.transformation_string_ = ('ln' if cfg.lognormal
+                                           else 'x**{0}'.format(cfg.power_transform))
         else:
-            self._transformation_string = 'None'
+            self.transformation_string_ = 'None'
 
         # Objective function
-        if not self._cfg.objective in OBJ_FUNC_ABBRS_DICT:
+        if not cfg.objective in OBJ_FUNC_ABBRS_DICT:
             raise ValueError('Unrecognized objective function used: {0}. '
                              'These are the available objective functions: {1}.'
-                             .format(self._cfg.objective, OBJ_FUNC_ABBRS_STRING))
+                             .format(cfg.objective, OBJ_FUNC_ABBRS_STRING))
 
         # Data-set- and database-related variables
-        self._batch_size = \
-            (self._cfg.training_samples_per_round
-             if self._cfg.training_samples_per_round < self._default_cursor_batch_size
-             else self._default_cursor_batch_size)
-        self._projection = {'_id': 0}
-        if not self._cfg.nlp_features:
-            self._projection['nlp_features'] = 0
-        self._data = self._generate_experimental_data()
+        self.batch_size_ = \
+            (cfg.training_samples_per_round
+             if cfg.training_samples_per_round < self.default_cursor_batch_size_
+             else self.default_cursor_batch_size_)
+        self.projection_ = {'_id': 0}
+        if not cfg.nlp_features:
+            self.projection_['nlp_features'] = 0
+        self.data_ = self._generate_experimental_data()
 
         # Create and fit a vectorizer with all possible samples
-        train_ids = list(chain(*self._data.training_set))
-        grid_search_ids = list(chain(*self._data.grid_search_set))
+        train_ids = list(chain(*self.data_.training_set))
+        grid_search_ids = list(chain(*self.data_.grid_search_set))
         all_ids = train_ids + grid_search_ids
-        self._vec = self._make_vectorizer(all_ids,
-                                          hashed_features=self._cfg.hashed_features)
+        self.vec_ = self._make_vectorizer(all_ids,
+                                          hashed_features=cfg.hashed_features)
 
         # Store all of the labels used for grid search and training
-        self._y_all = []
+        self.y_all_ = []
 
         # Learner-related variables
-        self._param_grids = [list(ParameterGrid(param_grid)) for param_grid
-                             in self._cfg.param_grids]
-        self._learners = [LEARNER_DICT[learner] for learner in self._cfg.learners]
-        self._learner_names = [LEARNER_ABBRS_DICT[learner] for learner
-                               in self._cfg.learners]
+        self.param_grids_ = [list(ParameterGrid(param_grid)) for param_grid
+                             in cfg.param_grids]
+        self.learners_ = [LEARNER_DICT[learner] for learner in cfg.learners]
+        self.learner_names_ = [LEARNER_ABBRS_DICT[learner] for learner
+                               in cfg.learners]
 
         # Do grid search round
         logger.info('Executing parameter grid search learning round...')
-        self._gs_cv_folds = None
-        self._learner_gs_cv_dict = self._do_grid_search_round()
+        self.gs_cv_folds_ = None
+        self.learner_gs_cv_dict_ = self._do_grid_search_round()
         
         # Make a dictionary mapping each learner name to a list of
         # individual copies of the grid search cross-validation round's
@@ -376,27 +377,27 @@ class RunCVExperiments(object):
         # the number of folds in the training set since each of these
         # estimator instances will be incrementally improved upon and
         # evaluated
-        self._cv_learners = [[copy(self._learner_gs_cv_dict[learner_name])
-                              for learner_name in self._learner_names]
-                             for _ in range(self._data.folds)]
-        self._cv_learners = dict(zip(self._learner_names,
-                                     zip(*self._cv_learners)))
-        self._cv_learners = {k: list(v) for k, v in self._cv_learners.items()}
+        self.cv_learners_ = [[copy(self.learner_gs_cv_dict_[learner_name])
+                              for learner_name in self._earner_names_]
+                             for _ in range(self.data_.folds)]
+        self.cv_learners_ = dict(zip(self.learner_names_,
+                                     zip(*self.cv_learners_)))
+        self.cv_learners_ = {k: list(v) for k, v in self.cv_learners_.items()}
 
         # Make a list of empty lists corresponding to each learner,
         # which will be used to hold the performance stats for each
         # cross-validation leave-one-fold-out sub-experiment
-        self._cv_learner_stats = [[] for _ in self._cfg.learners]
+        self.cv_learner_stats_ = [[] for _ in cfg.learners]
 
         # Do incremental learning experiments
         logger.info('Incremental learning cross-validation experiments '
                     'initialized...')
         self._do_training_cross_validation()
-        self._training_cross_validation_experiment_stats = \
-            ex.aggregate_cross_validation_experiments_stats(self._cv_learner_stats)
+        self.training_cross_validation_experiment_stats_ = \
+            ex.aggregate_cross_validation_experiments_stats(self.cv_learner_stats_)
 
         # Generate statistics for the majority baseline model
-        if self._cfg.majority_baseline:
+        if cfg.majority_baseline:
             self._majority_baseline_stats = self._evaluate_majority_baseline_model()
 
     def _resolve_objective_function(self) -> Scorer:
@@ -413,28 +414,29 @@ class RunCVExperiments(object):
         :rtype: str, None, callable
         """
 
-        if self._cfg.objective == 'pearson_r':
+        objective = self.cfg_.objective
+        if objective == 'pearson_r':
             return make_scorer(pearson)
-        if self._cfg.objective == 'spearman':
+        if objective == 'spearman':
             return make_scorer(spearman)
-        if self._cfg.objective == 'kendall_tau':
+        if objective == 'kendall_tau':
             return make_scorer(kendall_tau)
-        if self._cfg.objective == 'f1_score_least_frequent':
+        if objective == 'f1_score_least_frequent':
             return make_scorer(f1_score_least_frequent)
-        if self._cfg.objective.startswith('uwk'):
-            if self._cfg.objective == 'uwk':
+        if objective.startswith('uwk'):
+            if objective == 'uwk':
                 return make_scorer(kappa)
             return make_scorer(kappa, allow_off_by_one=True)
-        if self._cfg.objective.startswith('lwk'):
-            if self._cfg.objective == 'lwk':
+        if objective.startswith('lwk'):
+            if objective == 'lwk':
                 return make_scorer(kappa, weights='linear')
             return make_scorer(kappa, weights='linear', allow_off_by_one=True)
-        if self._cfg.objective.startswith('lwk'):
-            if self._cfg.objective == 'lwk':
+        if objective.startswith('lwk'):
+            if objective == 'lwk':
                 return make_scorer(kappa, weights='quadratic')
             return make_scorer(kappa, weights='quadratic',
                                allow_off_by_one=True)
-        return self._cfg.objective
+        return objective
 
     def _generate_experimental_data(self):
         """
@@ -443,19 +445,20 @@ class RunCVExperiments(object):
         """
 
         logger.info('Extracting dataset...')
-        return ex.ExperimentalData(db=self._cfg.db,
-                                   prediction_label=self._cfg.prediction_label,
-                                   games=self._cfg.games,
-                                   folds=self._cfg.training_rounds,
-                                   fold_size=self._cfg.training_samples_per_round,
-                                   grid_search_folds=self._cfg.grid_search_folds,
+        cfg = self.cfg_
+        return ex.ExperimentalData(db=cfg.db,
+                                   prediction_label=cfg.prediction_label,
+                                   games=cfg.games,
+                                   folds=cfg.training_rounds,
+                                   fold_size=cfg.training_samples_per_round,
+                                   grid_search_folds=cfg.grid_search_folds,
                                    grid_search_fold_size=
-                                       self._cfg.grid_search_samples_per_fold,
-                                   sampling=self._cfg.data_sampling,
-                                   lognormal=self._cfg.lognormal,
-                                   power_transform=self._cfg.power_transform,
-                                   bin_ranges=self._cfg.bin_ranges,
-                                   batch_size=self._batch_size)
+                                       cfg.grid_search_samples_per_fold,
+                                   sampling=cfg.data_sampling,
+                                   lognormal=cfg.lognormal,
+                                   power_transform=cfg.power_transform,
+                                   bin_ranges=cfg.bin_ranges,
+                                   batch_size=self.batch_size_)
 
     def _make_vectorizer(self, ids: List[str],
                          hashed_features: Optional[int] = None) -> Vectorizer:
@@ -513,17 +516,19 @@ class RunCVExperiments(object):
         :yields: feature dictionary
         :ytype: dict, str, int, float, etc.
         """
-        for doc in ex.make_cursor(self._cfg.db,
-                                  projection=self._projection,
-                                  batch_size=self._batch_size,
+
+        cfg = self.cfg_
+        for doc in ex.make_cursor(cfg.db,
+                                  projection=self.projection_,
+                                  batch_size=self.batch_size_,
                                   id_strings=ids):
             sample = ex.get_data_point(doc,
-                                       prediction_label=self._cfg.prediction_label,
-                                       nlp_features=self._cfg.nlp_features,
-                                       non_nlp_features=self._cfg.non_nlp_features,
-                                       lognormal=self._cfg.lognormal,
-                                       power_transform=self._cfg.power_transform,
-                                       bin_ranges=self._cfg.bin_ranges)
+                                       prediction_label=cfg.prediction_label,
+                                       nlp_features=cfg.nlp_features,
+                                       non_nlp_features=cfg.non_nlp_features,
+                                       lognormal=cfg.lognormal,
+                                       power_transform=cfg.power_transform,
+                                       bin_ranges=cfg.bin_ranges)
 
             # Either yield the sample given the specified key or yield
             # the whole sample
@@ -540,13 +545,13 @@ class RunCVExperiments(object):
         """
 
         # Get the data to use, vectorizing the sample feature dictionaries
-        grid_search_all_ids = list(chain(*self._data.grid_search_set))
+        grid_search_all_ids = list(chain(*self.data_.grid_search_set))
         y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
-        X_train = self._vec.transform(self._generate_samples(grid_search_all_ids, 'x'))
+        X_train = self.vec_.transform(self._generate_samples(grid_search_all_ids, 'x'))
 
-        # Update `self._y_all` with all of the samples used during the
+        # Update `self.y_all_` with all of the samples used during the
         # grid search round
-        self._y_all.extend(y_train)
+        self.y_all_.extend(y_train)
 
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
@@ -555,8 +560,8 @@ class RunCVExperiments(object):
         # `RandomState` object, it should always happen in the exact
         # same way.
         prng = np.random.RandomState(12345)
-        self._gs_cv_folds = StratifiedKFold(y=y_train,
-                                            n_folds=self._data.grid_search_folds,
+        self.gs_cv_folds_ = StratifiedKFold(y=y_train,
+                                            n_folds=self.data_.grid_search_folds,
                                             shuffle=True,
                                             random_state=prng)
 
@@ -564,11 +569,11 @@ class RunCVExperiments(object):
         # cross-validation for each
         logger.info('Doing a grid search cross-validation round with {0} as '
                     'the number of folds.'
-                    .format(self._data.grid_search_folds))
+                    .format(self.data_.grid_search_folds))
         learner_gs_cv_dict = {}
-        for learner, learner_name, param_grid in zip(self._learners,
-                                                     self._learner_names,
-                                                     self._cfg.param_grids):
+        for learner, learner_name, param_grid in zip(self.learners_,
+                                                     self.learner_names_,
+                                                     self.cfg_.param_grids):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
@@ -576,9 +581,9 @@ class RunCVExperiments(object):
                 param_grid['batch_size'] = len(y_train)
 
             # Make `GridSearchCV` instance
-            folds_diff = self._cfg.grid_search_folds - self._data.grid_search_folds
-            if (self._data.grid_search_folds < 2
-                or folds_diff/self._cfg.grid_search_folds > 0.25):
+            folds_diff = self.cfg_.grid_search_folds - self.data_.grid_search_folds
+            if (self.data_.grid_search_folds < 2
+                or folds_diff/self.cfg_.grid_search_folds > 0.25):
                 msg = ('Either there weren\'t enough folds after collecting '
                        'data (via `ExperimentalData`) to do the grid search '
                        'round or the number of folds had to be reduced to such'
@@ -589,7 +594,7 @@ class RunCVExperiments(object):
                 raise ValueError(msg)
             gs_cv = GridSearchCV(learner(),
                                  param_grid,
-                                 cv=self._gs_cv_folds,
+                                 cv=self.gs_cv_folds_,
                                  scoring=self._resolve_objective_function())
 
             # Do the grid search cross-validation
@@ -610,30 +615,32 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
+        cfg = self.cfg_
+
         # For each fold of the training set, train on all of the other
         # folds and evaluate on the one left out fold
         y_training_set_all = []
-        for i, held_out_fold in enumerate(self._data.training_set):
+        for i, held_out_fold in enumerate(self.data_.training_set):
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
-            training_folds = self._data.training_set[:i] + self._data.training_set[i + 1:]
+            training_folds = self.data_.training_set[:i] + self.data_.training_set[i + 1:]
             y_train_all = []
             for training_fold in training_folds:
 
                 # Get the training data
                 y_train = list(self._generate_samples(training_fold, 'y'))
-                X_train = self._vec.transform(self._generate_samples(training_fold, 'x'))
+                X_train = self.vec_.transform(self._generate_samples(training_fold, 'x'))
 
                 # Store the actual input values so that rescaling can be
                 # done later
                 y_train_all.extend(y_train)
 
                 # Iterate over the learners
-                for learner_name in self._learner_names:
+                for learner_name in self.learner_names_:
 
                     # Partially fit each estimator with the new training data
-                    self._cv_learners[learner_name][i].partial_fit(X_train, y_train)
+                    self.cv_learners_[learner_name][i].partial_fit(X_train, y_train)
 
             # Get mean and standard deviation for actual values
             y_train_all = np.array(y_train_all)
@@ -642,17 +649,17 @@ class RunCVExperiments(object):
 
             # Get test data
             y_test = list(self._generate_samples(held_out_fold, 'y'))
-            X_test = self._vec.transform(self._generate_samples(held_out_fold, 'x'))
+            X_test = self.vec_.transform(self._generate_samples(held_out_fold, 'x'))
 
             # Add test labels to `y_training_set_all`
             y_training_set_all.extend(y_test)
 
             # Make predictions with the modified estimators
-            for j, learner_name in enumerate(self._learner_names):
+            for j, learner_name in enumerate(self.learner_names_):
 
                 # Make predictions with the given estimator,rounding the
                 # predictions
-                y_test_preds = np.round(self._cv_learners[learner_name][i]
+                y_test_preds = np.round(self.cv_learners_[learner_name][i]
                                         .predict(X_test))
 
                 # Rescale the predicted values based on the
@@ -662,38 +669,38 @@ class RunCVExperiments(object):
                 # of possible values)
                 y_test_preds_dict = \
                     ex.rescale_preds_and_fit_in_scale(y_test_preds,
-                                                      self._data.classes,
+                                                      self.data_.classes,
                                                       y_train_mean,
                                                       y_train_std)
 
-                if self._cfg.rescale:
+                if cfg.rescale:
                     y_test_preds = y_test_preds_dict['rescaled']
                 else:
                     y_test_preds = y_test_preds_dict['fitted_only']
 
                 # Evaluate the predictions and add to list of evaluation
                 # reports for each learner
-                (self._cv_learner_stats[j]
+                (self.cv_learner_stats_[j]
                  .append(ex.evaluate_predictions_from_learning_round(
                              y_test,
                              y_test_preds,
-                             self._data.classes,
-                             self._cfg.prediction_label,
-                             self._cfg.non_nlp_features,
-                             self._cfg.nlp_features,
-                             self._cv_learners[learner_name][i],
+                             self.data_.classes,
+                             cfg.prediction_label,
+                             cfg.non_nlp_features,
+                             cfg.nlp_features,
+                             self.cv_learners_[learner_name][i],
                              learner_name,
-                             self._cfg.games,
-                             self._cfg.games,
+                             cfg.games,
+                             cfg.games,
                              i,
                              len(y_train_all),
-                             self._cfg.bin_ranges,
-                             self._cfg.rescale,
-                             self._transformation_string)))
+                             cfg.bin_ranges,
+                             cfg.rescale,
+                             self.transformation_string_)))
 
-        # Update `self._y_all` with all of the samples used during the
+        # Update `self.y_all_` with all of the samples used during the
         # cross-validation
-        self._y_all.extend(y_training_set_all)
+        self.y_all_.extend(y_training_set_all)
 
     def _get_majority_baseline(self) -> np.ndarray:
         """
@@ -703,8 +710,8 @@ class RunCVExperiments(object):
         :rtype: np.ndarray
         """
 
-        self._majority_label = max(set(self._y_all), key=self._y_all.count)
-        return np.array([self._majority_label]*len(self._y_all))
+        self._majority_label = max(set(self.y_all_), key=self.y_all_.count)
+        return np.array([self._majority_label]*len(self.y_all_))
 
     def _evaluate_majority_baseline_model(self) -> pd.Series:
         """
@@ -715,19 +722,20 @@ class RunCVExperiments(object):
         :rtype: pd.Series
         """
 
-        stats_dict = ext.compute_evaluation_metrics(self._y_all,
+        cfg = self.cfg_
+        stats_dict = ext.compute_evaluation_metrics(self.y_all_,
                                                     self._get_majority_baseline(),
-                                                    self._data.classes)
-        stats_dict.update({'games' if len(self._cfg.games) > 1 else 'game':
-                               self._games_string
-                               if VALID_GAMES.difference(self._cfg.games)
+                                                    self.data_.classes)
+        stats_dict.update({'games' if len(cfg.games) > 1 else 'game':
+                               self.games_string_
+                               if VALID_GAMES.difference(cfg.games)
                                else 'all_games',
-                           'prediction_label': self._cfg.prediction_label,
+                           'prediction_label': cfg.prediction_label,
                            'majority_label': self._majority_label,
                            'learner': 'majority_baseline_model',
-                           'transformation': self._transformation_string})
-        if self._cfg.bin_ranges:
-            stats_dict.update({'bin_ranges': self._cfg.bin_ranges})
+                           'transformation': self.transformation_string_})
+        if cfg.bin_ranges:
+            stats_dict.update({'bin_ranges': cfg.bin_ranges})
         return pd.Series(stats_dict)
 
     def generate_majority_baseline_report(self, output_path: str) -> None:
@@ -743,7 +751,7 @@ class RunCVExperiments(object):
         """
 
         self._majority_baseline_stats.to_csv(join(output_path,
-                                                  self._majority_baseline_report_name))
+                                                  self.majority_baseline_report_name_))
 
     def generate_learning_reports(self, output_path: str) -> None:
         """
@@ -761,11 +769,15 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        for i, cv_learner_series_list in enumerate(self._cv_learner_stats):
+        for i, cv_learner_series_list in enumerate(self.cv_learner_stats_):
             df = pd.DataFrame(cv_learner_series_list)
             learner_name = df['learner'].iloc[0]
-            df.to_csv(join(output_path, self._stats_name_template.format(learner_name)),
+            df.to_csv(join(output_path,
+                           self.stats_name_template_.format(learner_name)),
                       index=False)
+
+        #for i, training_cross_validation_experiment_stats_df \
+        #    in self.training_cross_validation_experiment_stats_:
 
     def store_sorted_features(self, model_weights_path: str) -> None:
         """
@@ -786,23 +798,23 @@ class RunCVExperiments(object):
         # Generate feature weights files and a README.json providing
         # the parameters corresponding to each set of feature weights
         params_dict = {}
-        for learner_name in self._cv_learners:
+        for learner_name in self.cv_learners_:
 
             # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
-            if learner_name in self._no_introspection_learners:
+            if learner_name in self.no_introspection_learners_:
                 continue
 
-            for i, estimator in self._cv_learners[learner_name]:
+            for i, estimator in self.cv_learners_[learner_name]:
 
                 # Get dataframe of the features/coefficients
                 try:
                     ex.print_model_weights(estimator,
                                            learner_name,
-                                           self._data.classes,
-                                           self._cfg.games,
-                                           self._vec,
+                                           self.data_.classes,
+                                           self.cfg_.games,
+                                           self.vec_,
                                            join(model_weights_path,
-                                                self._model_weights_name_template
+                                                self.model_weights_name_template_
                                                 .format(learner_name, i + 1)))
                     params_dict.setdefault(learner_name, {})
                     params_dict[learner_name][i] = learner.get_params()
