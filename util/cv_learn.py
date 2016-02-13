@@ -824,24 +824,24 @@ def main(argv=None):
                             formatter_class=ArgumentDefaultsHelpFormatter,
                             conflict_handler='resolve')
     _add_arg = parser.add_argument
-    _add_arg('-g', '--games',
+    _add_arg('--games',
              help='Game(s) to use in experiments; or "all" to use data from '
                   'all games.',
              type=str,
              required=True)
-    _add_arg('-out', '--output_dir',
+    _add_arg('--out_dir',
              help='Directory in which to output data related to the results '
                   'of the conducted experiments.',
              type=str,
              required=True)
-    _add_arg('--training_rounds',
+    _add_arg('--train_rounds',
              help='The maximum number of rounds of learning to conduct (the '
                   'number of rounds will necessarily be limited by the amount'
                   ' of training data and the number of samples used per '
                   'round). Use "0" to do as many rounds as possible.',
              type=int,
              default=0)
-    _add_arg('--max_training_samples_per_round',
+    _add_arg('--train_samples_per_round',
              help='The maximum number of training samples to use in each '
                   'round.',
              type=int,
@@ -851,16 +851,16 @@ def main(argv=None):
                   'round.',
              type=int,
              default=5)
-    _add_arg('--max_grid_search_samples_per_fold',
+    _add_arg('--grid_search_samples_per_fold',
              help='The maximum number of training samples to use in each grid '
                   'search fold.',
              type=int,
              default=1000)
-    _add_arg('-label', '--prediction_label',
+    _add_arg('--prediction_label',
              help='Label to predict.',
              choices=LABELS,
              default='total_game_hours_bin')
-    _add_arg('-non_nlp', '--non_nlp_features',
+    _add_arg('--non_nlp_features',
              help='Comma-separated list of non-NLP features to combine with '
                   'the NLP features in creating a model. Use "all" to use all'
                   ' available features, "none" to use no non-NLP features. If'
@@ -868,7 +868,7 @@ def main(argv=None):
                   'left out entirely.',
              type=str,
              default='none')
-    _add_arg('-only_non_nlp', '--only_non_nlp_features',
+    _add_arg('--only_non_nlp_features',
              help="Don't use any NLP features.",
              action='store_true',
              default=False)
@@ -876,7 +876,7 @@ def main(argv=None):
              help="Method used for sampling the data.",
              choices=ex.ExperimentalData.sampling_options,
              default='even')
-    _add_arg('-l', '--learners',
+    _add_arg('--learners',
              help='Comma-separated list of learning algorithms to try. Refer '
                   'to list of learners above to find out which abbreviations '
                   'stand for which learners. Set of available learners: {0}. '
@@ -884,7 +884,7 @@ def main(argv=None):
                   .format(LEARNER_ABBRS_STRING),
              type=str,
              default='all')
-    _add_arg('-bin', '--nbins',
+    _add_arg('--nbins',
              help='Number of bins to split up the distribution of prediction '
                   'label values into. Use 0 (or don\'t specify) if the values'
                   ' should not be collapsed into bins. Note: Only use this '
@@ -892,7 +892,7 @@ def main(argv=None):
                   'are numeric.',
              type=int,
              default=0)
-    _add_arg('-factor', '--bin_factor',
+    _add_arg('--bin_factor',
              help='Factor by which to multiply the size of each bin. Defaults'
                   ' to 1.0 if --nbins is specified.',
              type=float,
@@ -910,27 +910,27 @@ def main(argv=None):
                   'learning from them.',
              type=float,
              default=None)
-    _add_arg('-feature_hasher', '--use_feature_hasher',
+    _add_arg('--use_feature_hasher',
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
              default=False)
-    _add_arg('-rescale', '--rescale_predictions',
+    _add_arg('--rescale_predictions',
              help='Rescale prediction values based on the mean/standard '
                   'deviation of the input values and fit all predictions into '
                   'the expected scale. Don\'t use if the experiment involves '
                   'labels rather than numeric values.',
              action='store_true',
              default=False)
-    _add_arg('-obj', '--obj_func',
+    _add_arg('--objective',
              help='Objective function to use in determining which learner/set'
                   ' of parameters resulted in the best performance.',
              choices=OBJ_FUNC_ABBRS_DICT.keys(),
              default='qwk')
-    _add_arg('-baseline', '--evaluate_majority_baseline',
+    _add_arg('--evaluate_maj_baseline',
              help='Evaluate the majority baseline model.',
              action='store_true',
              default=False)
-    _add_arg('-save_best', '--save_best_features',
+    _add_arg('--save_best_features',
              help='Get the best features from each model and write them out '
                   'to files.',
              action='store_true',
@@ -954,10 +954,10 @@ def main(argv=None):
 
     # Command-line arguments and flags
     games = parse_games_string(args.games)
-    training_rounds = args.training_rounds
-    max_training_samples_per_round = args.max_training_samples_per_round
+    train_rounds = args.train_rounds
+    train_samples_per_round = args.train_samples_per_round
     grid_search_folds = args.grid_search_folds
-    max_grid_search_samples_per_fold = args.max_grid_search_samples_per_fold
+    grid_search_samples_per_fold = args.grid_search_samples_per_fold
     prediction_label = args.prediction_label
     non_nlp_features = parse_non_nlp_features_string(args.non_nlp_features,
                                                      prediction_label)
@@ -972,27 +972,27 @@ def main(argv=None):
     learners = parse_learners_string(args.learners)
     host = args.mongodb_host
     port = args.mongodb_port
-    obj_func = args.obj_func
-    evaluate_majority_baseline = args.evaluate_majority_baseline
+    objective = args.objective
+    evaluate_maj_baseline = args.evaluate_maj_baseline
     save_best_features = args.save_best_features
 
     # Validate the input arguments
-    if isfile(realpath(args.output_dir)):
+    if isfile(realpath(args.out_dir)):
         raise FileExistsError('The specified output destination is the name '
                               'of a currently existing file.')
     else:
-        output_dir = realpath(args.output_dir)
+        output_dir = realpath(args.out_dir)
         
     if save_best_features:
         if learners.issubset(RunCVExperiments._no_introspection_learners):
             loginfo('The specified set of learners do not work with the '
                     'current way of extracting features from models and, '
-                    'thus, -save_best/--save_best_features, will be ignored.')
+                    'thus, --save_best_features, will be ignored.')
             save_best_features = False
         if feature_hashing:
-            raise ValueError('The --save_best_features/-save_best option '
-                             'cannot be used in conjunction with the '
-                             '--use_feature_hasher/-feature_hasher option.')
+            raise ValueError('The --save_best_features option cannot be used '
+                             'in conjunction with the --use_feature_hasher '
+                             'option.')
     if args.log_file_path:
         if isdir(realpath(args.log_file_path)):
             raise FileExistsError('The specified log file path is the name of'
@@ -1023,13 +1023,13 @@ def main(argv=None):
                     ', '.join(games) if VALID_GAMES.difference(games)
                     else 'all games'))
     loginfo('Maximum number of learning rounds to conduct: {0}'
-            .format(training_rounds))
+            .format(train_rounds))
     loginfo('Maximum number of training samples to use in each round: {0}'
-            .format(max_training_samples_per_round))
+            .format(train_samples_per_round))
     loginfo('Maximum number of grid search folds to use during the grid search'
             ' round: {0}'.format(grid_search_folds))
     loginfo('Maximum number of training samples to use in each grid search '
-            'fold: {0}'.format(max_grid_search_samples_per_fold))
+            'fold: {0}'.format(grid_search_samples_per_fold))
     loginfo('Prediction label: {0}'.format(prediction_label))
     loginfo('Data sampling method: {0}'.format(data_sampling))
     loginfo('Lognormal transformation: {0}'.format(lognormal))
@@ -1064,7 +1064,7 @@ def main(argv=None):
                 'deviation of the input values.')
     loginfo('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                               for learner in learners])))
-    loginfo('Using {0} as the objective function'.format(obj_func))
+    loginfo('Using {0} as the objective function'.format(objective))
 
     # Connect to running Mongo server
     loginfo('MongoDB host: {0}'.format(host))
@@ -1117,12 +1117,12 @@ def main(argv=None):
                   learners=learners,
                   param_grids=[find_default_param_grid(learner)
                                for learner in learners],
-                  training_rounds=training_rounds,
-                  training_samples_per_round=max_training_samples_per_round,
-                  grid_search_samples_per_fold=max_grid_search_samples_per_fold,
+                  training_rounds=train_rounds,
+                  training_samples_per_round=train_samples_per_round,
+                  grid_search_samples_per_fold=grid_search_samples_per_fold,
                   non_nlp_features=non_nlp_features,
                   prediction_label=prediction_label,
-                  objective=obj_func,
+                  objective=objective,
                   data_sampling=data_sampling,
                   grid_search_folds=grid_search_folds,
                   hashed_features=0 if feature_hashing else None,
@@ -1130,7 +1130,7 @@ def main(argv=None):
                   bin_ranges=bin_ranges,
                   lognormal=lognormal,
                   power_transform=power_transform,
-                  majority_baseline=evaluate_majority_baseline,
+                  majority_baseline=evaluate_maj_baseline,
                   rescale=rescale_predictions)
         experiments = RunCVExperiments(cfg)
     except ValueError as e:
@@ -1140,7 +1140,7 @@ def main(argv=None):
 
     # Generate evaluation report for the majority baseline model, if
     # specified
-    if evaluate_majority_baseline:
+    if evaluate_maj_baseline:
         loginfo('Generating report for the majority baseline model...')
         loginfo('Majority label: {0}'.format(experiments.majority_label))
         experiments.generate_majority_baseline_report(output_dir)
