@@ -370,6 +370,9 @@ class RunCVExperiments(object):
         logger.info('Executing parameter grid search learning round...')
         self.gs_cv_folds_ = None
         self.learner_gs_cv_dict_ = self._do_grid_search_round()
+        self.best_estimators_gs_cv_dict = \
+            {learner_name: learner_gs_cvbest_estimator_
+             for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
         
         # Make a dictionary mapping each learner name to a list of
         # individual copies of the grid search cross-validation round's
@@ -377,8 +380,8 @@ class RunCVExperiments(object):
         # the number of folds in the training set since each of these
         # estimator instances will be incrementally improved upon and
         # evaluated
-        self.cv_learners_ = [[copy(self.learner_gs_cv_dict_[learner_name])
-                              for learner_name in self._earner_names_]
+        self.cv_learners_ = [[copy(self.best_estimators_gs_cv_dict[learner_name])
+                              for learner_name in self._learner_names_]
                              for _ in range(self.data_.folds)]
         self.cv_learners_ = dict(zip(self.learner_names_,
                                      zip(*self.cv_learners_)))
