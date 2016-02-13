@@ -371,7 +371,7 @@ class RunCVExperiments(object):
         self.gs_cv_folds_ = None
         self.learner_gs_cv_dict_ = self._do_grid_search_round()
         self.best_estimators_gs_cv_dict = \
-            {learner_name: learner_gs_cvbest_estimator_
+            {learner_name: learner_gs_cv.best_estimator_
              for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
         
         # Make a dictionary mapping each learner name to a list of
