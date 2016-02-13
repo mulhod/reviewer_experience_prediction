@@ -678,10 +678,8 @@ def make_cursor(db: Collection,
                         and/or `games`
     """
 
-    id_stings = list(id_strings)
-
     # Validate parameters
-    if id_strings and (partition or games):
+    if id_strings is not None and (partition or games):
         raise ValueError('Cannot specify both a set of ID strings and a '
                          'partition and/or a set of games simultaneously.')
 
@@ -707,8 +705,13 @@ def make_cursor(db: Collection,
         query['game'] = games[0]
     elif games:
         query['game'] = {'$in': games}
-    if id_strings:
-        query['id_string'] = {'$in': id_strings}
+    if (id_strings is not None
+        and (isinstance(id_strings, list)
+             or isinstance(id_strings, np.ndarray)
+             or isinstance(id_strings, set)
+             or isinstance(id_strings, dict))
+        and len(id_strings) != 0):
+        query['id_string'] = {'$in': list(id_strings)}
     _cursor = db.find(query, projection, timeout=False)
     _cursor.batch_size = batch_size
     if sorting_args:
