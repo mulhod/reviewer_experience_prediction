@@ -14,6 +14,7 @@ from itertools import chain
 from os.path import (join,
                      isdir,
                      isfile,
+                     exists,
                      dirname,
                      realpath)
 from warnings import filterwarnings
@@ -113,6 +114,7 @@ class CVConfig(object):
                  grid_search_samples_per_fold: int,
                  non_nlp_features: set,
                  prediction_label: str,
+                 output_path: str,
                  objective: str = None,
                  data_sampling: str = 'even',
                  grid_search_folds: int = 5,
@@ -157,6 +159,8 @@ class CVConfig(object):
                           decided in `GridSearchCV` and will be either
                           accuracy for classification or r2 for
                           regression
+        :param output_path: path for output reports, etc.
+        :type output_path: str
         :type objective: str or None
         :param data_sampling: how the data should be sampled (i.e.,
                               either 'even' or 'stratified')
@@ -222,6 +226,7 @@ class CVConfig(object):
              'prediction_label':
                  And(str,
                      lambda x: x in LABELS and not x in params['non_nlp_features']),
+             'output_path': And(str, lambda x: exists(output_path)),
              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
              Default('data_sampling', default='even'):
                 And(str, lambda x: x in ex.ExperimentalData.sampling_options),
@@ -318,15 +323,19 @@ class RunCVExperiments(object):
             raise ValueError('The set of games must be greater than zero!')
         self.games_string_ = ', '.join(cfg.games)
 
-        # Templates for report file names
-        self.stats_name_template_ = ('{0}_{1}_{2}.csv'
-                                     .format(self.games_string_, '{0}', 'stats'))
-        self.model_weights_name_template_ = ('{0}_{1}_{2}_{3}.csv'
-                                             .format(self.games_string_, '{0}',
-                                                     'model_weights', '{1}'))
+        # Output path and output file names/templates
+        self.stats_report_path_ = join(cfg.output_path,
+                                       '{0}_cv_stats.csv'.format(self.games_string_)))
+        self.aggregated_stats_report_path_ = join(cfg.output_path,
+                                                  '{0}_cv_stats_aggregated.csv'
+                                                  .format(self.games_string_))
+        self.model_weights_path_template_ = join(cfg.output_path,
+                                                 '{0}_{1}_model_weights_{2}.csv'
+                                                 .format(self.games_string_, '{0}',
+                                                         '{1}'))
         if cfg.majority_baseline:
-            self.majority_baseline_report_name_ = \
-                '{0}_majority_baseline_model_stats.csv'.format(self.games_string_)
+            self.majority_baseline_report_path_ = \
+                '{0}_maj_baseline_stats.csv'.format(self.games_string_)
         if cfg.lognormal or cfg.power_transform:
             self.transformation_string_ = ('ln' if cfg.lognormal
                                            else 'x**{0}'.format(cfg.power_transform))
@@ -396,8 +405,12 @@ class RunCVExperiments(object):
         logger.info('Incremental learning cross-validation experiments '
                     'initialized...')
         self._do_training_cross_validation()
-        self.training_cross_validation_experiment_stats_ = \
+        self.training_cv_aggregated_stats_ = \
             ex.aggregate_cross_validation_experiments_stats(self.cv_learner_stats_)
+
+        # Generate a report with the results from the cross-validation
+        # experiments
+        self.generate_learning_reports()
 
         # Generate statistics for the majority baseline model
         if cfg.majority_baseline:
@@ -685,21 +698,23 @@ class RunCVExperiments(object):
                 # reports for each learner
                 (self.cv_learner_stats_[j]
                  .append(ex.evaluate_predictions_from_learning_round(
-                             y_test,
-                             y_test_preds,
-                             self.data_.classes,
-                             cfg.prediction_label,
-                             cfg.non_nlp_features,
-                             cfg.nlp_features,
-                             self.cv_learners_[learner_name][i],
-                             learner_name,
-                             cfg.games,
-                             cfg.games,
-                             i,
-                             len(y_train_all),
-                             cfg.bin_ranges,
-                             cfg.rescale,
-                             self.transformation_string_)))
+                             y_test=y_test,
+                             y_test_preds=y_test_preds,
+                             classes=self.data_.classes,
+                             prediction_label=cfg.prediction_label,
+                             non_nlp_features=cfg.non_nlp_features,
+                             nlp_features=cfg.nlp_features,
+                             learner=self.cv_learners_[learner_name][i],
+                             learner_name=learner_name,
+                             games=cfg.games,
+                             test_games=cfg.games,
+                             _round=i,
+                             iteration_rounds=self._data.folds,
+                             n_train_samples=len(y_train_all),
+                             n_test_samples=len(held_out_fold),
+                             bin_ranges=cfg.bin_ranges,
+                             rescaled=cfg.rescale,
+                             transformation_string=self.transformation_string_)))
 
         # Update `self.y_all_` with all of the samples used during the
         # cross-validation
@@ -741,29 +756,22 @@ class RunCVExperiments(object):
             stats_dict.update({'bin_ranges': cfg.bin_ranges})
         return pd.Series(stats_dict)
 
-    def generate_majority_baseline_report(self, output_path: str) -> None:
+    def generate_majority_baseline_report(self) -> None:
         """
         Generate a CSV file reporting on the performance of the
         majority baseline model.
-
-        :param output_path: path to destination directory
-        :type: str
 
         :returns: None
         :rtype: None
         """
 
-        self._majority_baseline_stats.to_csv(join(output_path,
-                                                  self.majority_baseline_report_name_))
+        (self._majority_baseline_stats
+         .to_csv(join(output_path,
+                      self.majority_baseline_report_path_)))
 
     def generate_learning_reports(self, output_path: str) -> None:
         """
-        Generate experimental reports for each run represented in the
-        lists of input dataframes.
-
-        The output files will have indices in their names, which simply
-        correspond to the sequence in which they occur in the list of
-        input dataframes.
+        Generate report for the cross-validation experiments.
 
         :param output_path: path to destination directory
         :type output_path: str
@@ -772,15 +780,13 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        for i, cv_learner_series_list in enumerate(self.cv_learner_stats_):
-            df = pd.DataFrame(cv_learner_series_list)
-            learner_name = df['learner'].iloc[0]
-            df.to_csv(join(output_path,
-                           self.stats_name_template_.format(learner_name)),
-                      index=False)
+        df = pd.DataFrame(chain(*self.cv_learner_stats_))
+        df.to_csv(self.stats_report_path_.format(learner_name),
+                  index=False)
 
-        #for i, training_cross_validation_experiment_stats_df \
-        #    in self.training_cross_validation_experiment_stats_:
+        (self.training_cv_aggregated_stats_
+         .to_csv(self.aggregated_stats_report_path_.format(learner_name),
+                 index=False))
 
     def store_sorted_features(self, model_weights_path: str) -> None:
         """
@@ -796,7 +802,7 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        makedirs(model_weights_path, exist_ok=True)
+        makedirs(dirname(self.model_weights_path_template_), exist_ok=True)
 
         # Generate feature weights files and a README.json providing
         # the parameters corresponding to each set of feature weights
@@ -816,9 +822,8 @@ class RunCVExperiments(object):
                                            self.data_.classes,
                                            self.cfg_.games,
                                            self.vec_,
-                                           join(model_weights_path,
-                                                self.model_weights_name_template_
-                                                .format(learner_name, i + 1)))
+                                           self.model_weights_path_template_
+                                           .format(learner_name, i + 1)))
                     params_dict.setdefault(learner_name, {})
                     params_dict[learner_name][i] = learner.get_params()
                 except ValueError:
@@ -829,7 +834,8 @@ class RunCVExperiments(object):
         # Save parameters file also
         if params_dict:
             dump(params_dict,
-                 open(join(model_weights_path, 'model_params_readme.json'), 'w'),
+                 open(join(dirname(self.model_weights_path_template_),
+                           'model_params_readme.json'), 'w'),
                  indent=4)
 
 
@@ -961,8 +967,8 @@ def main(argv=None):
     _add_arg('-log', '--log_file_path',
              help='Path to log file. If no path is specified, then a "logs" '
                   'directory will be created within the directory specified '
-                  'via the --output_dir argument and a log will automatically '
-                  'be stored.',
+                  'via the --out_dir argument and a log will automatically be '
+                  'stored.',
              type=str,
              required=False)
     args = parser.parse_args()
@@ -996,7 +1002,7 @@ def main(argv=None):
         raise FileExistsError('The specified output destination is the name '
                               'of a currently existing file.')
     else:
-        output_dir = realpath(args.out_dir)
+        output_path = realpath(args.out_dir)
         
     if save_best_features:
         if learners.issubset(RunCVExperiments._no_introspection_learners):
@@ -1015,14 +1021,14 @@ def main(argv=None):
         else:
             log_file_path = realpath(args.log_file_path)
     else:
-        log_file_path = join(output_dir, 'logs', 'learn.log')
+        log_file_path = join(output_path, 'logs', 'learn.log')
     log_dir = dirname(log_file_path)
     if lognormal and power_transform:
         raise ValueError('Both "lognormal" and "power_transform" were '
                          'specified simultaneously.')
 
     # Output results files to output directory
-    makedirs(output_dir, exist_ok=True)
+    makedirs(output_path, exist_ok=True)
     makedirs(log_dir, exist_ok=True)
 
     # Set up file handler
@@ -1032,7 +1038,7 @@ def main(argv=None):
     logger.addHandler(file_handler)
 
     # Log a bunch of job attributes
-    loginfo('Output directory: {0}'.format(output_dir))
+    loginfo('Output directory: {0}'.format(output_path))
     loginfo('Game{0} to train/evaluate models on: {1}'
             .format('s' if len(games) > 1 else '',
                     ', '.join(games) if VALID_GAMES.difference(games)
@@ -1137,6 +1143,7 @@ def main(argv=None):
                   grid_search_samples_per_fold=grid_search_samples_per_fold,
                   non_nlp_features=non_nlp_features,
                   prediction_label=prediction_label,
+                  output_path=output_path,
                   objective=objective,
                   data_sampling=data_sampling,
                   grid_search_folds=grid_search_folds,
@@ -1158,13 +1165,13 @@ def main(argv=None):
     if evaluate_maj_baseline:
         loginfo('Generating report for the majority baseline model...')
         loginfo('Majority label: {0}'.format(experiments.majority_label))
-        experiments.generate_majority_baseline_report(output_dir)
+        experiments.generate_majority_baseline_report()
 
     # Save the best-performing features
     if save_best_features:
         loginfo('Generating feature coefficient output files for each model '
                 '(after all learning rounds)...')
-        model_weights_dir = join(output_dir, 'model_weights')
+        model_weights_dir = join(output_path, 'model_weights')
         makedirs(model_weights_dir, exist_ok=True)
         experiments.store_sorted_features(model_weights_dir)
 

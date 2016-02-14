@@ -805,6 +805,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              _round: int,
                                              iteration_rounds: int,
                                              n_train_samples: int,
+                                             n_test_samples: int,
                                              bin_ranges: List[Tuple[float, float]],
                                              rescaled: bool,
                                              transformation_string: str) -> pd.Series:
@@ -842,6 +843,8 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     :type iteration_rounds: int
     :param n_train_samples: number of samples used for training
     :type n_train_samples: int
+    :param n_test_samples: int
+    :type n_test_samples: number of samples used for testing
     :param bin_ranges: list of ranges that define each bin, where each
                        bin should be represented as a tuple with the
                        first value, a float that is precise to one
@@ -887,6 +890,7 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                        'learner_type': learner_name,
                        'params': learner.get_params(),
                        'training_samples': n_train_samples,
+                       'test_samples': n_test_samples,
                        'non-NLP features': ', '.join(non_nlp_features),
                        'NLP features': nlp_features,
                        'rescaled': rescaled,
@@ -897,31 +901,35 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     return pd.Series(stats_dict)
 
 
-def aggregate_cross_validation_experiments_stats(cv_learner_stats: List[List[pd.Series]]) \
-    -> List[pd.DataFrame]:
+def aggregate_cross_validation_experiments_stats(cv_learner_stats: pd.DataFrame) \
+    -> List[pd.Series]:
     """
     Compute average metrics across all cross-validation experiments.
 
     :param cv_learner_stats: 
     :type cv_learner_stats: list
 
-    :returns: list of dataframes containing the aggregated metrics
-              across each cross-validation experiment using a different
-              learner
-    :rtype: list
+    :returns: dataframe containing the aggregated metrics across each
+              cross-validation experiment using a different learner
+    :rtype: dataframe
     """
 
     cv_learner_stats_aggregated = []
+    metrics = ['pearson_r', 'significance', 'spearman', 'kendall_tau',
+               'precision_macro', 'precision_weighted', 'f1_macro',
+               'f1_weighted', 'f1_score_least_frequent', 'accuracy', 'uwk',
+               'qwk', 'lwk', 'uwk_off_by_one', 'qwk_off_by_one',
+               'lwk_off_by_one']
+    non_metrics = [label for label in dict(cv_learner_stats[0][0])
+                   if not label in metrics]
     for cv_learner_stats_list in cv_learner_stats:
-        cv_learner_stats_aggregated_ = {}
+        cv_learner_stats_aggregated_ = \
+            {label: value for label, value in cv_learner_stats_list[0].items()
+             if not label in metrics}
         num_cv_learner_stats_series = len(cv_learner_stats_list)
         
         # Aggregate the scalar value metrics
-        for metric in ['pearson_r', 'significance', 'spearman', 'kendall_tau',
-                       'precision_macro', 'precision_weighted', 'f1_macro',
-                       'f1_weighted', 'f1_score_least_frequent', 'accuracy',
-                       'uwk', 'qwk', 'lwk', 'uwk_off_by_one', 'qwk_off_by_one',
-                       'lwk_off_by_one']:
+        for metric in metrics:
             cv_learner_stats_aggregated_['average_{0}'.format(metric)] = \
                 sum([cv_learner_stats_series[metric] for cv_learner_stats_series
                      in cv_learner_stats_list])/num_cv_learner_stats_series
@@ -937,9 +945,9 @@ def aggregate_cross_validation_experiments_stats(cv_learner_stats: List[List[pd.
             conf_mat_sum/num_cv_learner_stats_series
         # Consider adding in the printable confusion matrices
 
-        cv_learner_stats_aggregated.append(cv_learner_stats_aggregated_)
+        cv_learner_stats_aggregated.append(pd.Series(cv_learner_stats_aggregated_))
 
-    return cv_learner_stats_aggregated
+    return pd.DataFrame(cv_learner_stats_aggregated)
 
 
 class ExperimentalData(object):
