@@ -708,7 +708,7 @@ class RunCVExperiments(object):
                              games=cfg.games,
                              test_games=cfg.games,
                              _round=i,
-                             iteration_rounds=self._data.folds,
+                             iteration_rounds=self.data_.folds,
                              n_train_samples=len(y_train_all),
                              n_test_samples=len(held_out_fold),
                              bin_ranges=cfg.bin_ranges,
