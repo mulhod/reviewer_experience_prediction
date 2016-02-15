@@ -14,7 +14,6 @@ from itertools import chain
 from os.path import (join,
                      isdir,
                      isfile,
-                     exists,
                      dirname,
                      realpath)
 from warnings import filterwarnings
@@ -226,7 +225,7 @@ class CVConfig(object):
              'prediction_label':
                  And(str,
                      lambda x: x in LABELS and not x in params['non_nlp_features']),
-             'output_path': And(str, lambda x: exists(output_path)),
+             'output_path': And(str, lambda x: isdir(output_path)),
              Default('objective', default=None): lambda x: x in OBJ_FUNC_ABBRS_DICT,
              Default('data_sampling', default='even'):
                 And(str, lambda x: x in ex.ExperimentalData.sampling_options),

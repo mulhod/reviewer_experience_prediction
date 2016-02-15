@@ -930,7 +930,10 @@ def aggregate_cross_validation_experiments_stats(cv_learner_stats: pd.DataFrame)
     """
 
     cv_learner_stats_aggregated = []
-    metrics = ['pearson_r', 'significance', 'spearman', 'kendall_tau',
+    metrics = ['pearson_r_unrounded', 'significance_unrounded',
+               'pearson_r_rounded', 'significance_rounded',
+               'spearman_unrounded', 'spearman_rounded',
+               'kendall_tau_unrounded', 'kendall_tau_rounded',
                'precision_macro', 'precision_weighted', 'f1_macro',
                'f1_weighted', 'f1_score_least_frequent', 'accuracy', 'uwk',
                'qwk', 'lwk', 'uwk_off_by_one', 'qwk_off_by_one',

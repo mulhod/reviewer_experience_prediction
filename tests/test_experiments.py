@@ -5,6 +5,13 @@ Test various functions/classes in the `experiments` module + the
 A MongoDB database must be up and running and accessible at port 37017
 on `localhost`. 
 """
+from os import (unlink,
+                makedirs)
+from shutil import rmtree
+from os.path import (join,
+                     exists,
+                     dirname,
+                     realpath)
 from itertools import chain
 from collections import Counter
 
@@ -28,6 +35,8 @@ from src import (LABELS,
                  DEFAULT_PARAM_GRIDS,
                  OBJ_FUNC_ABBRS_DICT,
                  parse_non_nlp_features_string)
+
+this_dir = dirname(realpath(__file__))
 
 class MakeCursorTestCase(unittest.TestCase):
     """
@@ -348,13 +357,22 @@ class CVConfigTestCase(unittest.TestCase):
     Test the `CVConfig` class.
     """
 
-    try:
-        db = connect_to_db('localhost', 37017)
-    except AutoReconnect as e:
-        raise ConnectionFailure('Could not connect to MongoDB client. Make '
-                                'sure a tunnel is set up (or some other method'
-                                ' is used) before running the tests.')
-    prediction_label = 'total_game_hours'
+    def setUp(self):
+        try:
+            self.db = connect_to_db('localhost', 37017)
+        except AutoReconnect as e:
+            raise ConnectionFailure('Could not connect to MongoDB client. Make'
+                                    'sure a tunnel is set up (or some other '
+                                    'method is used) before running the '
+                                    'tests.')
+        self.prediction_label = 'total_game_hours'
+        self.output_path = join(this_dir, 'test_output')
+        if exists(self.output_path):
+            rmtree(self.output_path)
+        makedirs(self.output_path)
+
+    def tearDown(self):
+        rmtree(self.output_path)
 
     def test_CVConfig_invalid(self):
         """
@@ -374,6 +392,7 @@ class CVConfigTestCase(unittest.TestCase):
                             grid_search_samples_per_fold=50,
                             non_nlp_features=non_nlp_features,
                             prediction_label=self.prediction_label,
+                            output_path=self.output_path,
                             objective='pearson_r',
                             data_sampling='even',
                             grid_search_folds=5,
@@ -453,6 +472,14 @@ class CVConfigTestCase(unittest.TestCase):
             dict(objective='pearson',
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'objective'}),
+            # Invalid `output_path` parameter value (must be string)
+            dict(output_path=None,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'output_path'}),
+            # Invalid `output_path` parameter value (must exist)
+            dict(output_path=join(self.output_path, 'does_not_exist'),
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'output_path'}),
             # Invalid `data_sampling` parameter value (must be in set of
             # of valid sampling methods)
             dict(data_sampling='equal',
@@ -552,6 +579,7 @@ class CVConfigTestCase(unittest.TestCase):
                             grid_search_samples_per_fold=50,
                             non_nlp_features=non_nlp_features,
                             prediction_label=self.prediction_label,
+                            output_path=self.output_path,
                             objective='pearson_r',
                             data_sampling='stratified',
                             grid_search_folds=5,
