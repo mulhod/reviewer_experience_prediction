@@ -738,37 +738,52 @@ def compute_evaluation_metrics(y_test: np.array,
     :rtype: dict
     """
 
-    # Get Pearson r and significance
-    r, sig = pearsonr(y_test, y_preds)
-
-    # Get rounded values for confusion matrix and kappa value metrics
+    # Compute rounded values
     rounded_y_test = [np.round(y) for y in y_test]
     rounded_y_preds = [np.round(y) for y in y_preds]
 
-    # Get confusion matrix (both the np.ndarray and the printable
+    # Compute Pearson correlation and significance for rounded/unrounded
+    # values
+    unrounded_pearson, unrounded_sig = pearsonr(y_test, y_preds)
+    rounded_pearson, rounded_sig = pearsonr(rounded_y_test, rounded_y_preds)
+
+    # Compute Spearman correlation for rounded/unrounded values
+    unrounded_spearman = spearman(y_test, y_preds)
+    rounded_spearman = spearman(rounded_y_test, rounded_y_preds)
+
+    # Compute Kendall-Tau metric for rounded/unrounded values
+    unrounded_kendall_tau = kendall_tau(y_test, y_preds)
+    rounded_kendall_tau = kendall_tau(rounded_y_test, rounded_y_preds)
+
+    # Get the confusion matrix (both the np.ndarray and the printable
     # one)
     conf_mat = confusion_matrix(rounded_y_test, rounded_y_preds)
     printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)
 
-    return {'pearson_r': r,
-            'significance': sig,
-            'spearman': spearman(y_test, y_preds),
-            'kendall_tau': kendall_tau(y_test, y_preds),
-            'precision_macro': precision_score(y_test,
-                                               y_preds,
+    return {'pearson_r_unrounded': unrounded_pearson,
+            'significance_unrounded': unrounded_sig,
+            'pearson_r_rounded': rounded_pearson,
+            'significance_rounded': rounded_sig,
+            'spearman_unrounded': unrounded_spearman,
+            'spearman_rounded': rounded_spearman,
+            'kendall_tau_unrounded': unrounded_kendall_tau,
+            'kendall_tau_rounded': rounded_kendall_tau,
+            'precision_macro': precision_score(rounded_y_test,
+                                               rounded_y_preds,
                                                average='macro'),
-            'precision_weighted': precision_score(y_test,
-                                                  y_preds,
+            'precision_weighted': precision_score(rounded_y_test,
+                                                  rounded_y_preds,
                                                   average='weighted'),
-            'f1_macro': f1_score(y_test,
-                                 y_preds,
+            'f1_macro': f1_score(rounded_y_test,
+                                 rounded_y_preds,
                                  average='macro'),
-            'f1_weighted': f1_score(y_test,
-                                    y_preds,
+            'f1_weighted': f1_score(rounded_y_test,
+                                    rounded_y_preds,
                                     average='weighted'),
-            'f1_score_least_frequent': f1_score_least_frequent(y_test, y_preds),
-            'accuracy': accuracy_score(y_test,
-                                       y_preds,
+            'f1_score_least_frequent': f1_score_least_frequent(rounded_y_test,
+                                                               rounded_y_preds),
+            'accuracy': accuracy_score(rounded_y_test,
+                                       rounded_y_preds,
                                        normalize=True),
             'confusion_matrix': conf_mat,
             'printable_confusion_matrix': printable_conf_mat,
