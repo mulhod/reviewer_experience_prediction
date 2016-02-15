@@ -325,7 +325,7 @@ class RunCVExperiments(object):
 
         # Output path and output file names/templates
         self.stats_report_path_ = join(cfg.output_path,
-                                       '{0}_cv_stats.csv'.format(self.games_string_)))
+                                       '{0}_cv_stats.csv'.format(self.games_string_))
         self.aggregated_stats_report_path_ = join(cfg.output_path,
                                                   '{0}_cv_stats_aggregated.csv'
                                                   .format(self.games_string_))
@@ -390,7 +390,7 @@ class RunCVExperiments(object):
         # estimator instances will be incrementally improved upon and
         # evaluated
         self.cv_learners_ = [[copy(self.best_estimators_gs_cv_dict[learner_name])
-                              for learner_name in self._learner_names_]
+                              for learner_name in self.learner_names_]
                              for _ in range(self.data_.folds)]
         self.cv_learners_ = dict(zip(self.learner_names_,
                                      zip(*self.cv_learners_)))
@@ -583,9 +583,8 @@ class RunCVExperiments(object):
 
         # Iterate over the learners/parameter grids, executing the grid search
         # cross-validation for each
-        logger.info('Doing a grid search cross-validation round with {0} as '
-                    'the number of folds.'
-                    .format(self.data_.grid_search_folds))
+        logger.info('Doing a grid search cross-validation round with {0} folds'
+                    '.'.format(self.data_.grid_search_folds))
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grid in zip(self.learners_,
                                                      self.learner_names_,
@@ -823,7 +822,7 @@ class RunCVExperiments(object):
                                            self.cfg_.games,
                                            self.vec_,
                                            self.model_weights_path_template_
-                                           .format(learner_name, i + 1)))
+                                           .format(learner_name, i + 1))
                     params_dict.setdefault(learner_name, {})
                     params_dict[learner_name][i] = learner.get_params()
                 except ValueError:
