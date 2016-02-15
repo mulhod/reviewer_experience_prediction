@@ -743,7 +743,7 @@ def compute_evaluation_metrics(y_test: np.array,
 
     # Get confusion matrix (both the np.ndarray and the printable
     # one)
-    conf_mat = confusion_matrix(y_test, y_preds, classes)
+    conf_mat = confusion_matrix(y_test, y_preds)
     printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)
 
     return {'pearson_r': r,

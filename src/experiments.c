@@ -10011,7 +10011,7 @@ static PyObject *__pyx_pf_3src_11experiments_21compute_evaluation_metrics(CYTHON
   /* "src/experiments.pyx":746
  *     # Get confusion matrix (both the np.ndarray and the printable
  *     # one)
- *     conf_mat = confusion_matrix(y_test, y_preds, classes)             # <<<<<<<<<<<<<<
+ *     conf_mat = confusion_matrix(y_test, y_preds)             # <<<<<<<<<<<<<<
  *     printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)
  * 
  */
@@ -10029,7 +10029,7 @@ static PyObject *__pyx_pf_3src_11experiments_21compute_evaluation_metrics(CYTHON
       __pyx_t_4 = 1;
     }
   }
-  __pyx_t_3 = PyTuple_New(3+__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 746; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_3 = PyTuple_New(2+__pyx_t_4); if (unlikely(!__pyx_t_3)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 746; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_3);
   if (__pyx_t_2) {
     __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_2); __pyx_t_2 = NULL;
@@ -10040,9 +10040,6 @@ static PyObject *__pyx_pf_3src_11experiments_21compute_evaluation_metrics(CYTHON
   __Pyx_INCREF(__pyx_v_y_preds);
   __Pyx_GIVEREF(__pyx_v_y_preds);
   PyTuple_SET_ITEM(__pyx_t_3, 1+__pyx_t_4, __pyx_v_y_preds);
-  __Pyx_INCREF(__pyx_v_classes);
-  __Pyx_GIVEREF(__pyx_v_classes);
-  PyTuple_SET_ITEM(__pyx_t_3, 2+__pyx_t_4, __pyx_v_classes);
   __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_3, NULL); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 746; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
@@ -10052,7 +10049,7 @@ static PyObject *__pyx_pf_3src_11experiments_21compute_evaluation_metrics(CYTHON
 
   /* "src/experiments.pyx":747
  *     # one)
- *     conf_mat = confusion_matrix(y_test, y_preds, classes)
+ *     conf_mat = confusion_matrix(y_test, y_preds)
  *     printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)             # <<<<<<<<<<<<<<
  * 
  *     return {'pearson_r': r,
