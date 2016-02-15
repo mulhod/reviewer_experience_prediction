@@ -741,9 +741,13 @@ def compute_evaluation_metrics(y_test: np.array,
     # Get Pearson r and significance
     r, sig = pearsonr(y_test, y_preds)
 
+    # Get rounded values for confusion matrix and kappa value metrics
+    rounded_y_test = [np.round(y) for y in y_test]
+    rounded_y_preds = [np.round(y) for y in y_preds]
+
     # Get confusion matrix (both the np.ndarray and the printable
     # one)
-    conf_mat = confusion_matrix(y_test, y_preds)
+    conf_mat = confusion_matrix(rounded_y_test, rounded_y_preds)
     printable_conf_mat = make_printable_confusion_matrix(conf_mat, classes)
 
     return {'pearson_r': r,
@@ -768,22 +772,22 @@ def compute_evaluation_metrics(y_test: np.array,
                                        normalize=True),
             'confusion_matrix': conf_mat,
             'printable_confusion_matrix': printable_conf_mat,
-            'uwk': kappa(y_test, y_preds),
-            'uwk_off_by_one': kappa(y_test,
-                                    y_preds,
+            'uwk': kappa(rounded_y_test, rounded_y_preds),
+            'uwk_off_by_one': kappa(rounded_y_test,
+                                    rounded_y_preds,
                                     allow_off_by_one=True),
-            'qwk': kappa(y_test,
-                             y_preds,
-                             weights='quadratic'),
-            'qwk_off_by_one': kappa(y_test,
-                                    y_preds,
+            'qwk': kappa(rounded_y_test,
+                         rounded_y_preds,
+                         weights='quadratic'),
+            'qwk_off_by_one': kappa(rounded_y_test,
+                                    rounded_y_preds,
                                     weights='quadratic',
                                     allow_off_by_one=True),
-            'lwk': kappa(y_test,
-                         y_preds,
+            'lwk': kappa(rounded_y_test,
+                         rounded_y_preds,
                          weights='linear'),
-            'lwk_off_by_one': kappa(y_test,
-                                    y_preds,
+            'lwk_off_by_one': kappa(rounded_y_test,
+                                    rounded_y_preds,
                                     weights='linear',
                                     allow_off_by_one=True)}
 
