@@ -76,7 +76,6 @@ LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
 OBJ_FUNC_ABBRS_DICT = {'pearson_r': "Pearson product-moment correlation",
                        'spearman': 'Spearman\'s rank correlation coefficient',
                        'kendall_tau': 'Kendall-Tau rank correlation coefficient',
-                       'average_precision': "average precision",
                        'precision_macro': 'precision (macro)',
                        'precision_weighted': 'precision (weighted)',
                        'recall': "recall",

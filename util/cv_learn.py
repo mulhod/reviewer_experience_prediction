@@ -435,26 +435,46 @@ class RunCVExperiments(object):
         objective = self.cfg_.objective
         if objective == 'accuracy':
             return make_scorer(ex.accuracy_score_round_inputs)
+        if objective.startswith('precision'):
+            if objective.endswith('macro'):
+                return make_scorer(ex.precision_score_round_inputs,
+                                   average='macro')
+            elif objective.endswith('weighted'):
+                return make_scorer(ex.precision_score_round_inputs,
+                                   average='weighted')
+        if objective.startswith('f1'):
+            if objective.endswith('macro'):
+                return make_scorer(ex.f1_score_round_inputs,
+                                   average='macro')
+            elif objective.endswith('weighted'):
+                return make_scorer(ex.f1_score_round_inputs,
+                                   average='weighted')
+            elif objective.endswith('least_frequent'):
+                return make_scorer(ex.f1_score_least_frequent_round_inputs)
         if objective == 'pearson_r':
             return make_scorer(pearson)
         if objective == 'spearman':
             return make_scorer(spearman)
         if objective == 'kendall_tau':
             return make_scorer(kendall_tau)
-        if objective == 'f1_score_least_frequent':
-            return make_scorer(f1_score_least_frequent)
         if objective.startswith('uwk'):
             if objective == 'uwk':
-                return make_scorer(kappa)
-            return make_scorer(kappa, allow_off_by_one=True)
+                return make_scorer(ex.kappa_round_inputs)
+            return make_scorer(ex.kappa_round_inputs,
+                               allow_off_by_one=True)
         if objective.startswith('lwk'):
             if objective == 'lwk':
-                return make_scorer(kappa, weights='linear')
-            return make_scorer(kappa, weights='linear', allow_off_by_one=True)
+                return make_scorer(ex.kappa_round_inputs,
+                                   weights='linear')
+            return make_scorer(ex.kappa_round_inputs,
+                               weights='linear',
+                               allow_off_by_one=True)
         if objective.startswith('lwk'):
             if objective == 'lwk':
-                return make_scorer(kappa, weights='quadratic')
-            return make_scorer(kappa, weights='quadratic',
+                return make_scorer(ex.kappa_round_inputs,
+                                   weights='quadratic')
+            return make_scorer(ex.kappa_round_inputs,
+                               weights='quadratic',
                                allow_off_by_one=True)
         return objective
 
@@ -711,7 +731,7 @@ class RunCVExperiments(object):
                              learner_name=learner_name,
                              games=cfg.games,
                              test_games=cfg.games,
-                             _round=i,
+                             _round=i + 1,
                              iteration_rounds=self.data_.folds,
                              n_train_samples=len(y_train_all),
                              n_test_samples=len(held_out_fold),
@@ -783,10 +803,16 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        df = pd.DataFrame(chain(*self.cv_learner_stats_))
-        df.to_csv(self.stats_report_path_.format(learner_name),
-                  index=False)
+        # Generate a report consisting of the evaluation metrics for
+        # each sub-experiment comprising each cross-validation
+        # experiment for each learner
+        (pd.DataFrame(list(chain(*self.cv_learner_stats_)))
+         .to_csv(self.stats_report_path_.format(learner_name),
+                 index=False))
 
+        # Generate a report consisting of the aggregated evaluation
+        # metrics from each cross-validation experiment with each
+        # learner
         self.training_cv_aggregated_stats_.to_csv(output_path, index=False)
 
     def store_sorted_features(self, model_weights_path: str) -> None:

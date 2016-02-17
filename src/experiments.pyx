@@ -53,25 +53,6 @@ NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
 
 
-def accuracy_score_round_inputs(y_true: Sequence[Numeric],
-                                y_pred: Sequence[Numeric],
-                                **kwargs) -> ScoringFunction:
-    """
-    Compute accuracy with rounded labels.
-
-    :param y_true: true labels
-    :type y_true: sequence of numeric labels
-    :param y_pred: predicted labels
-    :type y_pred: sequence of numeric labels
-    :param kwargs: keyword arguments to pass to `accuracy_score` function
-    :type kwargs: Dict[str, Any]
-    """
-
-    return accuracy_score(np.round(y_true),
-                          np.round(y_pred),
-                          **kwargs)
-
-
 def distributional_info(db: Collection,
                         label: str,
                         games: List[str],
@@ -738,6 +719,98 @@ def make_cursor(db: Collection,
         _cursor = _cursor.sort(sorting_args)
 
     return _cursor
+
+
+def accuracy_score_round_inputs(y_true: Sequence[Numeric],
+                                y_pred: Sequence[Numeric],
+                                **kwargs) -> ScoringFunction:
+    """
+    Compute accuracy with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `accuracy_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return accuracy_score(np.round(y_true),
+                          np.round(y_pred),
+                          **kwargs)
+
+
+def precision_score_round_inputs(y_true: Sequence[Numeric],
+                                 y_pred: Sequence[Numeric],
+                                 **kwargs) -> ScoringFunction:
+    """
+    Compute precision with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `precision_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return precision_score(np.round(y_true),
+                           np.round(y_pred),
+                           **kwargs)
+
+
+def f1_score_round_inputs(y_true: Sequence[Numeric],
+                          y_pred: Sequence[Numeric],
+                          **kwargs) -> ScoringFunction:
+    """
+    Compute F1 score with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `precision_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return f1_score(np.round(y_true),
+                    np.round(y_pred),
+                    **kwargs)
+
+
+def f1_score_least_frequent_round_inputs(y_true: Sequence[Numeric],
+                                         y_pred: Sequence[Numeric]) -> ScoringFunction:
+    """
+    Compute F1 score of the least frequent class with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `precision_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return f1_score_least_frequent(np.round(y_true), np.round(y_pred))
+
+
+def kappa_round_inputs(y_true: Sequence[Numeric],
+                       y_pred: Sequence[Numeric],
+                       **kwargs) -> ScoringFunction:
+    """
+    Compute Cohen's kappa aggreement metric with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `precision_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return kappa(np.round(y_true),
+                 np.round(y_pred),
+                 **kwargs)
 
 
 def compute_evaluation_metrics(y_test: np.array,
