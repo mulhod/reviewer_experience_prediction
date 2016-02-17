@@ -36,6 +36,9 @@ from schema import (Or,
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
+#from sklearn.metrics import (f1_score,
+#                             accuracy_score,
+#                             precision_score)
 from sklearn.grid_search import (GridSearchCV,
                                  ParameterGrid)
 from sklearn.naive_bayes import (BernoulliNB,
@@ -430,6 +433,8 @@ class RunCVExperiments(object):
         """
 
         objective = self.cfg_.objective
+        if objective == 'accuracy':
+            return make_scorer(ex.accuracy_score_round_inputs)
         if objective == 'pearson_r':
             return make_scorer(pearson)
         if objective == 'spearman':

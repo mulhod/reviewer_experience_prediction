@@ -16,7 +16,7 @@ from typing import (Any,
                     Dict,
                     Tuple,
                     Union,
-                    Iterable,
+                    Sequence,
                     Optional)
 from skll.metrics import (kappa,
                           spearman,
@@ -41,7 +41,8 @@ from src import (LABELS,
                  Learner,
                  Numeric,
                  Vectorizer,
-                 VALID_GAMES)
+                 VALID_GAMES,
+                 ScoringFunction)
 from src.datasets import (validate_bin_ranges,
                           compute_label_value)
 
@@ -50,6 +51,25 @@ logger = logging.getLogger('src.experiments')
 
 NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
                                        PassiveAggressiveRegressor})
+
+
+def accuracy_score_round_inputs(y_true: Sequence[Numeric],
+                                y_pred: Sequence[Numeric],
+                                **kwargs) -> ScoringFunction:
+    """
+    Compute accuracy with rounded labels.
+
+    :param y_true: true labels
+    :type y_true: sequence of numeric labels
+    :param y_pred: predicted labels
+    :type y_pred: sequence of numeric labels
+    :param kwargs: keyword arguments to pass to `accuracy_score` function
+    :type kwargs: Dict[str, Any]
+    """
+
+    return accuracy_score(np.round(y_true),
+                          np.round(y_pred),
+                          **kwargs)
 
 
 def distributional_info(db: Collection,
@@ -642,7 +662,7 @@ def make_cursor(db: Collection,
                 games: List[str] = [],
                 sorting_args: List[Tuple[str, int]] = [('steam_id_number', ASCENDING)],
                 batch_size: int = 50,
-                id_strings: Iterable[str] = []) -> Cursor:
+                id_strings: Sequence[str] = []) -> Cursor:
     """
     Make cursor (for a specific set of games and/or a specific
     partition of the data, if specified) or for for data whose
@@ -666,7 +686,7 @@ def make_cursor(db: Collection,
     :param id_strings: list (or iterable) of ID strings (pass an empty
                        list if not constraining the cursor to documents
                        with a set of specific `id_string` values)
-    :type id_strings: Iterable
+    :type id_strings: sequence
 
     :returns: a cursor on a MongoDB collection
     :rtype: Cursor

@@ -6,8 +6,9 @@ from re import compile as recompile
 
 from typing import (Any,
                     Union,
+                    TypeVar,
                     Callable,
-                    Iterable,
+                    Sequence,
                     Optional)
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
@@ -33,7 +34,11 @@ Learner = Union[Perceptron,
                 PassiveAggressiveRegressor]
 Vectorizer = Union[DictVectorizer, FeatureHasher]
 Numeric = Union[int, float]
-Scorer = Optional[Union[str, Callable[[Iterable[Any], Iterable[Any]], Any]]]
+Generic = TypeVar('Generic')
+ScoringFunction = Callable[[Sequence[Numeric],
+                            Sequence[Numeric]],
+                           Numeric]
+Scorer = Optional[Union[str, ScoringFunction]]
 
 # Seed for random state
 SEED = 123456789
