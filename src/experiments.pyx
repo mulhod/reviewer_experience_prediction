@@ -1603,9 +1603,10 @@ class ExperimentalData(object):
             return training_set, folds_collected
         else:
             raise ValueError('Could not generate a {0} data-set consisting of '
-                             'at least 75% of the desired size ({1}).'
-                             .format('grid search' if grid_search else 'training',
-                                     folds))
+                             'at least 75% of the desired number of folds '
+                             '({1}).'.format('grid search' if grid_search
+                                             else 'training',
+                                             folds))
 
     def _construct_layered_dataset(self) -> None:
         """
