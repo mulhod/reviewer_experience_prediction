@@ -36,9 +36,6 @@ from schema import (Or,
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
-#from sklearn.metrics import (f1_score,
-#                             accuracy_score,
-#                             precision_score)
 from sklearn.grid_search import (GridSearchCV,
                                  ParameterGrid)
 from sklearn.naive_bayes import (BernoulliNB,
@@ -302,9 +299,6 @@ class RunCVExperiments(object):
 
     # Constants
     default_cursor_batch_size_ = 50
-    #learners_requiring_classes_ = frozenset({'BernoulliNB',
-    #                                         'MultinomialNB',
-    #                                         'Perceptron'})
     no_introspection_learners_ = frozenset({'MiniBatchKMeans',
                                             'PassiveAggressiveRegressor'})
 
@@ -662,6 +656,9 @@ class RunCVExperiments(object):
         y_training_set_all = []
         for i, held_out_fold in enumerate(self.data_.training_set):
 
+            logger.info('Cross-validation sub-experiment #{} in progress'
+                        .format(i + 1))
+
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
             training_folds = self.data_.training_set[:i] + self.data_.training_set[i + 1:]
@@ -840,7 +837,7 @@ class RunCVExperiments(object):
             if learner_name in self.no_introspection_learners_:
                 continue
 
-            for i, estimator in self.cv_learners_[learner_name]:
+            for i, estimator in enumerate(self.cv_learners_[learner_name]):
 
                 # Get dataframe of the features/coefficients
                 try:
@@ -852,7 +849,7 @@ class RunCVExperiments(object):
                                            self.model_weights_path_template_
                                            .format(learner_name, i + 1))
                     params_dict.setdefault(learner_name, {})
-                    params_dict[learner_name][i] = learner.get_params()
+                    params_dict[learner_name][i] = estimator.get_params()
                 except ValueError:
                     logger.error('Could not generate features/feature '
                                  'coefficients dataframe for {0}...'
