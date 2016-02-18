@@ -5,6 +5,8 @@ from os.path import (join,
 from re import compile as recompile
 
 from typing import (Any,
+                    Dict,
+                    List,
                     Union,
                     TypeVar,
                     Callable,
@@ -32,6 +34,7 @@ Learner = Union[Perceptron,
                 BernoulliNB,
                 MultinomialNB,
                 PassiveAggressiveRegressor]
+ParamGrid = Dict[Learner, Dict[str, List[Any]]]
 Vectorizer = Union[DictVectorizer, FeatureHasher]
 Numeric = Union[int, float]
 Generic = TypeVar('Generic')
@@ -149,7 +152,7 @@ backslash_sub = BACKSLASH.sub
 
 
 def find_default_param_grid(learner: str,
-                            param_grids_dict: dict = DEFAULT_PARAM_GRIDS) -> dict:
+                            param_grids_dict: ParamGrid = DEFAULT_PARAM_GRIDS) -> dict:
     """
     Finds the default parameter grid for the specified learner.
 

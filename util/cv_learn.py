@@ -61,6 +61,7 @@ from src import (LABELS,
                  Scorer,
                  Learner,
                  Numeric,
+                 ParamGrid,
                  formatter,
                  Vectorizer,
                  VALID_GAMES,
@@ -110,7 +111,7 @@ class CVConfig(object):
                  db: Collection,
                  games: set,
                  learners: List[str],
-                 param_grids: dict,
+                 param_grids: List[ParamGrid],
                  training_rounds: int,
                  training_samples_per_round: int,
                  grid_search_samples_per_fold: int,
@@ -1032,7 +1033,7 @@ def main(argv=None):
         output_path = realpath(args.out_dir)
         
     if save_best_features:
-        if learners.issubset(RunCVExperiments._no_introspection_learners):
+        if learners.issubset(RunCVExperiments.no_introspection_learners_):
             loginfo('The specified set of learners do not work with the '
                     'current way of extracting features from models and, '
                     'thus, --save_best_features, will be ignored.')
