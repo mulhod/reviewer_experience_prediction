@@ -256,7 +256,7 @@ class CVConfig(object):
             msg = ('The set of passed-in parameters was not able to be '
                    'validated and/or the bin ranges values, if specified, were'
                    ' not able to be validated.')
-            logger.error('{0}:\n\n{1}'.format(msg, e))
+            logerr('{0}:\n\n{1}'.format(msg, e))
             raise e
 
         # Set up the experiment
@@ -373,7 +373,7 @@ class RunCVExperiments(object):
                                in cfg.learners]
 
         # Do grid search round
-        logger.info('Executing parameter grid search learning round...')
+        loginfo('Executing parameter grid search learning round...')
         self.gs_cv_folds_ = None
         self.learner_gs_cv_dict_ = self._do_grid_search_round()
         self.best_estimators_gs_cv_dict = \
@@ -399,8 +399,8 @@ class RunCVExperiments(object):
         self.cv_learner_stats_ = [[] for _ in cfg.learners]
 
         # Do incremental learning experiments
-        logger.info('Incremental learning cross-validation experiments '
-                    'initialized...')
+        loginfo('Incremental learning cross-validation experiments '
+                'initialized...')
         self._do_training_cross_validation()
         self.training_cv_aggregated_stats_ = \
             ex.aggregate_cross_validation_experiments_stats(self.cv_learner_stats_)
@@ -464,8 +464,8 @@ class RunCVExperiments(object):
             return make_scorer(ex.kappa_round_inputs,
                                weights='linear',
                                allow_off_by_one=True)
-        if objective.startswith('lwk'):
-            if objective == 'lwk':
+        if objective.startswith('qwk'):
+            if objective == 'qwk':
                 return make_scorer(ex.kappa_round_inputs,
                                    weights='quadratic')
             return make_scorer(ex.kappa_round_inputs,
@@ -479,7 +479,7 @@ class RunCVExperiments(object):
         data to be used for grid search, training, etc.
         """
 
-        logger.info('Extracting dataset...')
+        loginfo('Extracting dataset...')
         cfg = self.cfg_
         return ex.ExperimentalData(db=cfg.db,
                                    prediction_label=cfg.prediction_label,
@@ -602,8 +602,8 @@ class RunCVExperiments(object):
 
         # Iterate over the learners/parameter grids, executing the grid search
         # cross-validation for each
-        logger.info('Doing a grid search cross-validation round with {0} folds'
-                    '.'.format(self.data_.grid_search_folds))
+        loginfo('Doing a grid search cross-validation round with {0} folds.'
+                .format(self.data_.grid_search_folds))
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grid in zip(self.learners_,
                                                      self.learner_names_,
@@ -624,7 +624,7 @@ class RunCVExperiments(object):
                        ' a degree that it would mean a +25\% reduction in the '
                        'total number of folds used during the grid search '
                        'round.')
-                logger.error(msg)
+                logerr(msg)
                 raise ValueError(msg)
             gs_cv = GridSearchCV(learner(),
                                  param_grid,
@@ -656,8 +656,8 @@ class RunCVExperiments(object):
         y_training_set_all = []
         for i, held_out_fold in enumerate(self.data_.training_set):
 
-            logger.info('Cross-validation sub-experiment #{} in progress'
-                        .format(i + 1))
+            loginfo('Cross-validation sub-experiment #{} in progress'
+                    .format(i + 1))
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
@@ -851,9 +851,8 @@ class RunCVExperiments(object):
                     params_dict.setdefault(learner_name, {})
                     params_dict[learner_name][i] = estimator.get_params()
                 except ValueError:
-                    logger.error('Could not generate features/feature '
-                                 'coefficients dataframe for {0}...'
-                                 .format(learner_name))
+                    loggerr('Could not generate features/feature coefficients '
+                            'dataframe for {0}...'.format(learner_name))
 
         # Save parameters file also
         if params_dict:
@@ -1178,10 +1177,15 @@ def main(argv=None):
                   power_transform=power_transform,
                   majority_baseline=evaluate_maj_baseline,
                   rescale=rescale_predictions)
+    except (SchemaError, ValueError) as e:
+        logerr('Encountered an exception while instantiating the CVConfig '
+               'instance: {0}'.format(e))
+        raise e
+    try:
         experiments = RunCVExperiments(cfg)
     except ValueError as e:
-        logerr('Encountered a ValueError while instantiating the CVConfig or '
-               'RunCVExperiments instances: {0}'.format(e))
+        logerr('Encountered an exception while instantiating the '
+               'RunCVExperiments instance: {0}'.format(e))
         raise e
 
     # Generate evaluation report for the majority baseline model, if
