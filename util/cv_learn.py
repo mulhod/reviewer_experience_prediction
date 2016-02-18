@@ -376,27 +376,6 @@ class RunCVExperiments(object):
         loginfo('Executing parameter grid search learning round...')
         self.gs_cv_folds_ = None
         self.learner_gs_cv_dict_ = self._do_grid_search_round()
-        self.best_estimators_gs_cv_dict = \
-            {learner_name: learner_gs_cv.best_estimator_
-             for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
-        
-        # Make a dictionary mapping each learner name to a list of
-        # individual copies of the grid search cross-validation round's
-        # best estimator instances, with the length of the list equal to
-        # the number of folds in the training set since each of these
-        # estimator instances will be incrementally improved upon and
-        # evaluated
-        self.cv_learners_ = [[copy(self.best_estimators_gs_cv_dict[learner_name])
-                              for learner_name in self.learner_names_]
-                             for _ in range(self.data_.folds)]
-        self.cv_learners_ = dict(zip(self.learner_names_,
-                                     zip(*self.cv_learners_)))
-        self.cv_learners_ = {k: list(v) for k, v in self.cv_learners_.items()}
-
-        # Make a list of empty lists corresponding to each learner,
-        # which will be used to hold the performance stats for each
-        # cross-validation leave-one-fold-out sub-experiment
-        self.cv_learner_stats_ = [[] for _ in cfg.learners]
 
         # Do incremental learning experiments
         loginfo('Incremental learning cross-validation experiments '
@@ -607,7 +586,7 @@ class RunCVExperiments(object):
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grid in zip(self.learners_,
                                                      self.learner_names_,
-                                                     self.cfg_.param_grids):
+                                                     self.param_grids_):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
@@ -650,6 +629,29 @@ class RunCVExperiments(object):
         """
 
         cfg = self.cfg_
+
+        # Get list of "best" estimators from the grid search round
+        self.best_estimators_gs_cv_dict = \
+            {learner_name: learner_gs_cv.best_estimator_
+             for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
+
+        # Make a dictionary mapping each learner name to a list of
+        # individual copies of the grid search cross-validation round's
+        # best estimator instances, with the length of the list equal to
+        # the number of folds in the training set since each of these
+        # estimator instances will be incrementally improved upon and
+        # evaluated
+        self.cv_learners_ = [[copy(self.best_estimators_gs_cv_dict[learner_name])
+                              for learner_name in self.learner_names_]
+                             for _ in range(self.data_.folds)]
+        self.cv_learners_ = dict(zip(self.learner_names_,
+                                     zip(*self.cv_learners_)))
+        self.cv_learners_ = {k: list(v) for k, v in self.cv_learners_.items()}
+
+        # Make a list of empty lists corresponding to each learner,
+        # which will be used to hold the performance stats for each
+        # cross-validation leave-one-fold-out sub-experiment
+        self.cv_learner_stats_ = [[] for _ in cfg.learners]
 
         # For each fold of the training set, train on all of the other
         # folds and evaluate on the one left out fold
