@@ -413,7 +413,7 @@ class RunCVExperiments(object):
 
         # Generate a report with the results from the cross-validation
         # experiments
-        self.generate_learning_reports(self.aggregated_stats_report_path_)
+        self.generate_learning_reports()
 
         # Generate statistics for the majority baseline model
         if cfg.majority_baseline:
@@ -793,12 +793,9 @@ class RunCVExperiments(object):
          .to_csv(join(output_path,
                       self.majority_baseline_report_path_)))
 
-    def generate_learning_reports(self, output_path: str) -> None:
+    def generate_learning_reports(self) -> None:
         """
         Generate report for the cross-validation experiments.
-
-        :param output_path: path to destination directory
-        :type output_path: str
 
         :returns: None
         :rtype: None
@@ -808,13 +805,15 @@ class RunCVExperiments(object):
         # each sub-experiment comprising each cross-validation
         # experiment for each learner
         (pd.DataFrame(list(chain(*self.cv_learner_stats_)))
-         .to_csv(self.stats_report_path_.format(learner_name),
+         .to_csv(self.stats_report_path_,
                  index=False))
 
         # Generate a report consisting of the aggregated evaluation
         # metrics from each cross-validation experiment with each
         # learner
-        self.training_cv_aggregated_stats_.to_csv(output_path, index=False)
+        (self.training_cv_aggregated_stats_
+         .to_csv(self.aggregated_stats_report_path_,
+                 index=False))
 
     def store_sorted_features(self, model_weights_path: str) -> None:
         """
