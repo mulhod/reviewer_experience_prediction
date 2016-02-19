@@ -36,8 +36,7 @@ from schema import (Or,
 from pymongo.collection import Collection
 from sklearn.cluster import MiniBatchKMeans
 from pymongo.errors import ConnectionFailure
-from sklearn.grid_search import (GridSearchCV,
-                                 ParameterGrid)
+from sklearn.grid_search import GridSearchCV
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from skll.metrics import (kappa,
@@ -366,8 +365,6 @@ class RunCVExperiments(object):
         self.y_all_ = []
 
         # Learner-related variables
-        self.param_grids_ = [list(ParameterGrid(param_grid)) for param_grid
-                             in cfg.param_grids]
         self.learners_ = [LEARNER_DICT[learner] for learner in cfg.learners]
         self.learner_names_ = [LEARNER_ABBRS_DICT[learner] for learner
                                in cfg.learners]
@@ -586,12 +583,12 @@ class RunCVExperiments(object):
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grid in zip(self.learners_,
                                                      self.learner_names_,
-                                                     self.param_grids_):
+                                                     self.cfg_.param_grids_):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
             if learner_name == 'MiniBatchKMeans':
-                param_grid['batch_size'] = len(y_train)
+                param_grid['batch_size'] = [len(y_train)]
 
             # Make `GridSearchCV` instance
             folds_diff = self.cfg_.grid_search_folds - self.data_.grid_search_folds
