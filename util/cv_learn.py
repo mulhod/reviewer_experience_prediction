@@ -583,7 +583,7 @@ class RunCVExperiments(object):
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grid in zip(self.learners_,
                                                      self.learner_names_,
-                                                     self.cfg_.param_grids_):
+                                                     self.cfg_.param_grids):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
