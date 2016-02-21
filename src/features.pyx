@@ -17,7 +17,7 @@ import numpy as np
 from bson import BSON
 from typing import (Dict,
                     Union,
-                    Generator)
+                    Iterable)
 from nltk.util import ngrams
 from spacy.en import English
 from pymongo.cursor import Cursor
@@ -408,7 +408,7 @@ def bulk_extract_features(db: Collection,
                           use_binarized_nlp_feats: bool = True,
                           lowercase_text: bool = True,
                           lowercase_cngrams: bool = False) \
-    -> Generator[Dict[str, Union[Dict[str, int], str]]]:
+    -> Iterable[Dict[str, Union[Dict[str, int], str]]]:
     """
     Extract NLP features from reviews in the MongoDB database for a
     particular game/data partition in bulk and generate the feature

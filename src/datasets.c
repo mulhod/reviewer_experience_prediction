@@ -1194,6 +1194,7 @@ static char __pyx_k_timeout[] = "timeout";
 static char __pyx_k_warning[] = "warning";
 static char __pyx_k_0_2015_1[] = "{0}, 2015, {1}";
 static char __pyx_k_BASE_URL[] = "BASE_URL";
+static char __pyx_k_Iterable[] = "Iterable";
 static char __pyx_k_Optional[] = "Optional";
 static char __pyx_k_attained[] = "attained";
 static char __pyx_k_basename[] = "basename";
@@ -1212,7 +1213,6 @@ static char __pyx_k_training[] = "training";
 static char __pyx_k_username[] = "username";
 static char __pyx_k_ARFF_BASE[] = "ARFF_BASE";
 static char __pyx_k_BinRanges[] = "BinRanges";
-static char __pyx_k_Generator[] = "Generator";
 static char __pyx_k_TypeError[] = "TypeError";
 static char __pyx_k_base_html[] = "base_html";
 static char __pyx_k_base_page[] = "base_page";
@@ -1519,7 +1519,6 @@ static PyObject *__pyx_kp_s_Found_unexpected_ratingSummaryBl;
 static PyObject *__pyx_kp_s_Game_experience_in_hours_played;
 static PyObject *__pyx_n_s_Games;
 static PyObject *__pyx_kp_s_Generated_on_This_ARFF_file_was;
-static PyObject *__pyx_n_s_Generator;
 static PyObject *__pyx_kp_s_Got_unexpected_value_for_the_fri;
 static PyObject *__pyx_kp_s_Got_unexpected_value_for_the_fri_2;
 static PyObject *__pyx_kp_s_Got_unexpected_value_for_the_gam;
@@ -1535,6 +1534,7 @@ static PyObject *__pyx_kp_s_Got_unexpected_value_for_the_pro_8;
 static PyObject *__pyx_n_s_Guides;
 static PyObject *__pyx_kp_s_Ignoring_passed_in_db_keyword_va;
 static PyObject *__pyx_n_s_IndexError;
+static PyObject *__pyx_n_s_Iterable;
 static PyObject *__pyx_n_s_LABELS_WITH_PCT_VALUES;
 static PyObject *__pyx_kp_s_LIMIT_0_reviews;
 static PyObject *__pyx_n_s_LangDetectException;
@@ -23919,7 +23919,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_kp_s_Game_experience_in_hours_played, __pyx_k_Game_experience_in_hours_played, sizeof(__pyx_k_Game_experience_in_hours_played), 0, 0, 1, 0},
   {&__pyx_n_s_Games, __pyx_k_Games, sizeof(__pyx_k_Games), 0, 0, 1, 1},
   {&__pyx_kp_s_Generated_on_This_ARFF_file_was, __pyx_k_Generated_on_This_ARFF_file_was, sizeof(__pyx_k_Generated_on_This_ARFF_file_was), 0, 0, 1, 0},
-  {&__pyx_n_s_Generator, __pyx_k_Generator, sizeof(__pyx_k_Generator), 0, 0, 1, 1},
   {&__pyx_kp_s_Got_unexpected_value_for_the_fri, __pyx_k_Got_unexpected_value_for_the_fri, sizeof(__pyx_k_Got_unexpected_value_for_the_fri), 0, 0, 1, 0},
   {&__pyx_kp_s_Got_unexpected_value_for_the_fri_2, __pyx_k_Got_unexpected_value_for_the_fri_2, sizeof(__pyx_k_Got_unexpected_value_for_the_fri_2), 0, 0, 1, 0},
   {&__pyx_kp_s_Got_unexpected_value_for_the_gam, __pyx_k_Got_unexpected_value_for_the_gam, sizeof(__pyx_k_Got_unexpected_value_for_the_gam), 0, 0, 1, 0},
@@ -23935,6 +23934,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_Guides, __pyx_k_Guides, sizeof(__pyx_k_Guides), 0, 0, 1, 1},
   {&__pyx_kp_s_Ignoring_passed_in_db_keyword_va, __pyx_k_Ignoring_passed_in_db_keyword_va, sizeof(__pyx_k_Ignoring_passed_in_db_keyword_va), 0, 0, 1, 0},
   {&__pyx_n_s_IndexError, __pyx_k_IndexError, sizeof(__pyx_k_IndexError), 0, 0, 1, 1},
+  {&__pyx_n_s_Iterable, __pyx_k_Iterable, sizeof(__pyx_k_Iterable), 0, 0, 1, 1},
   {&__pyx_n_s_LABELS_WITH_PCT_VALUES, __pyx_k_LABELS_WITH_PCT_VALUES, sizeof(__pyx_k_LABELS_WITH_PCT_VALUES), 0, 0, 1, 1},
   {&__pyx_kp_s_LIMIT_0_reviews, __pyx_k_LIMIT_0_reviews, sizeof(__pyx_k_LIMIT_0_reviews), 0, 0, 1, 0},
   {&__pyx_n_s_LangDetectException, __pyx_k_LangDetectException, sizeof(__pyx_k_LangDetectException), 0, 0, 1, 1},
@@ -25533,12 +25533,12 @@ PyMODINIT_FUNC PyInit_datasets(void)
   __Pyx_INCREF(__pyx_n_s_Union);
   __Pyx_GIVEREF(__pyx_n_s_Union);
   PyList_SET_ITEM(__pyx_t_2, 4, __pyx_n_s_Union);
+  __Pyx_INCREF(__pyx_n_s_Iterable);
+  __Pyx_GIVEREF(__pyx_n_s_Iterable);
+  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_s_Iterable);
   __Pyx_INCREF(__pyx_n_s_Optional);
   __Pyx_GIVEREF(__pyx_n_s_Optional);
-  PyList_SET_ITEM(__pyx_t_2, 5, __pyx_n_s_Optional);
-  __Pyx_INCREF(__pyx_n_s_Generator);
-  __Pyx_GIVEREF(__pyx_n_s_Generator);
-  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_s_Generator);
+  PyList_SET_ITEM(__pyx_t_2, 6, __pyx_n_s_Optional);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_typing, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -25562,19 +25562,19 @@ PyMODINIT_FUNC PyInit_datasets(void)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Union, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 29; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_GOTREF(__pyx_t_2);
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Iterable, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Optional); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Optional, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 30; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Generator); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 25; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Generator, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Optional, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 31; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/datasets.pyx":32
- *                     Optional,
- *                     Generator)
+ *                     Iterable,
+ *                     Optional)
  * from langdetect import detect             # <<<<<<<<<<<<<<
  * from bs4 import (BeautifulSoup,
  *                  UnicodeDammit)
@@ -25594,7 +25594,7 @@ PyMODINIT_FUNC PyInit_datasets(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/datasets.pyx":33
- *                     Generator)
+ *                     Optional)
  * from langdetect import detect
  * from bs4 import (BeautifulSoup,             # <<<<<<<<<<<<<<
  *                  UnicodeDammit)

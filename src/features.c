@@ -969,6 +969,7 @@ static char __pyx_k_updated[] = "updated";
 static char __pyx_k_warning[] = "warning";
 static char __pyx_k_weren_t[] = "weren't";
 static char __pyx_k_you_are[] = "you are";
+static char __pyx_k_Iterable[] = "Iterable";
 static char __pyx_k_ObjectId[] = "ObjectId";
 static char __pyx_k_aint_sub[] = "aint_sub";
 static char __pyx_k_barent_b[] = "\\barent\\b";
@@ -992,7 +993,6 @@ static char __pyx_k_qualname[] = "__qualname__";
 static char __pyx_k_spacy_en[] = "spacy.en";
 static char __pyx_k_wont_sub[] = "wont_sub";
 static char __pyx_k_you_have[] = "you have";
-static char __pyx_k_Generator[] = "Generator";
 static char __pyx_k_arent_sub[] = "arent_sub";
 static char __pyx_k_bhavent_b[] = "\\bhavent\\b";
 static char __pyx_k_btheyll_b[] = "\\btheyll\\b";
@@ -1116,7 +1116,6 @@ static PyObject *__pyx_n_s_DIDNT;
 static PyObject *__pyx_n_s_DONT;
 static PyObject *__pyx_n_s_Dict;
 static PyObject *__pyx_n_s_English;
-static PyObject *__pyx_n_s_Generator;
 static PyObject *__pyx_n_s_HAVENT;
 static PyObject *__pyx_n_s_IGNORECASE;
 static PyObject *__pyx_n_s_ILL;
@@ -1125,6 +1124,7 @@ static PyObject *__pyx_n_s_ISNT;
 static PyObject *__pyx_n_s_IVE;
 static PyObject *__pyx_kp_s_I_am;
 static PyObject *__pyx_kp_s_I_have;
+static PyObject *__pyx_n_s_Iterable;
 static PyObject *__pyx_n_s_Numeric;
 static PyObject *__pyx_n_s_ObjectId;
 static PyObject *__pyx_n_s_Review;
@@ -7032,7 +7032,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
  *                           use_binarized_nlp_feats: bool = True,
  *                           lowercase_text: bool = True,             # <<<<<<<<<<<<<<
  *                           lowercase_cngrams: bool = False) \
- *     -> Generator[Dict[str, Union[Dict[str, int], str]]]:
+ *     -> Iterable[Dict[str, Union[Dict[str, int], str]]]:
  */
     values[4] = ((PyObject *)Py_True);
 
@@ -7040,7 +7040,7 @@ static PyObject *__pyx_pw_3src_8features_9bulk_extract_features(PyObject *__pyx_
  *                           use_binarized_nlp_feats: bool = True,
  *                           lowercase_text: bool = True,
  *                           lowercase_cngrams: bool = False) \             # <<<<<<<<<<<<<<
- *     -> Generator[Dict[str, Union[Dict[str, int], str]]]:
+ *     -> Iterable[Dict[str, Union[Dict[str, int], str]]]:
  *     """
  */
     values[5] = ((PyObject *)Py_False);
@@ -8043,7 +8043,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_DONT, __pyx_k_DONT, sizeof(__pyx_k_DONT), 0, 0, 1, 1},
   {&__pyx_n_s_Dict, __pyx_k_Dict, sizeof(__pyx_k_Dict), 0, 0, 1, 1},
   {&__pyx_n_s_English, __pyx_k_English, sizeof(__pyx_k_English), 0, 0, 1, 1},
-  {&__pyx_n_s_Generator, __pyx_k_Generator, sizeof(__pyx_k_Generator), 0, 0, 1, 1},
   {&__pyx_n_s_HAVENT, __pyx_k_HAVENT, sizeof(__pyx_k_HAVENT), 0, 0, 1, 1},
   {&__pyx_n_s_IGNORECASE, __pyx_k_IGNORECASE, sizeof(__pyx_k_IGNORECASE), 0, 0, 1, 1},
   {&__pyx_n_s_ILL, __pyx_k_ILL, sizeof(__pyx_k_ILL), 0, 0, 1, 1},
@@ -8052,6 +8051,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_IVE, __pyx_k_IVE, sizeof(__pyx_k_IVE), 0, 0, 1, 1},
   {&__pyx_kp_s_I_am, __pyx_k_I_am, sizeof(__pyx_k_I_am), 0, 0, 1, 0},
   {&__pyx_kp_s_I_have, __pyx_k_I_have, sizeof(__pyx_k_I_have), 0, 0, 1, 0},
+  {&__pyx_n_s_Iterable, __pyx_k_Iterable, sizeof(__pyx_k_Iterable), 0, 0, 1, 1},
   {&__pyx_n_s_Numeric, __pyx_k_Numeric, sizeof(__pyx_k_Numeric), 0, 0, 1, 1},
   {&__pyx_n_s_ObjectId, __pyx_k_ObjectId, sizeof(__pyx_k_ObjectId), 0, 0, 1, 1},
   {&__pyx_n_s_Review, __pyx_k_Review, sizeof(__pyx_k_Review), 0, 0, 1, 1},
@@ -9035,7 +9035,7 @@ PyMODINIT_FUNC PyInit_features(void)
  * from bson import BSON
  * from typing import (Dict,             # <<<<<<<<<<<<<<
  *                     Union,
- *                     Generator)
+ *                     Iterable)
  */
   __pyx_t_2 = PyList_New(3); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
@@ -9045,9 +9045,9 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_INCREF(__pyx_n_s_Union);
   __Pyx_GIVEREF(__pyx_n_s_Union);
   PyList_SET_ITEM(__pyx_t_2, 1, __pyx_n_s_Union);
-  __Pyx_INCREF(__pyx_n_s_Generator);
-  __Pyx_GIVEREF(__pyx_n_s_Generator);
-  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_Generator);
+  __Pyx_INCREF(__pyx_n_s_Iterable);
+  __Pyx_GIVEREF(__pyx_n_s_Iterable);
+  PyList_SET_ITEM(__pyx_t_2, 2, __pyx_n_s_Iterable);
   __pyx_t_1 = __Pyx_Import(__pyx_n_s_typing, __pyx_t_2, -1); if (unlikely(!__pyx_t_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -9059,15 +9059,15 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_Union, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 19; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Generator); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  __pyx_t_2 = __Pyx_ImportFrom(__pyx_t_1, __pyx_n_s_Iterable); if (unlikely(!__pyx_t_2)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 18; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_GOTREF(__pyx_t_2);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Generator, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_Iterable, __pyx_t_2) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 20; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "src/features.pyx":21
  *                     Union,
- *                     Generator)
+ *                     Iterable)
  * from nltk.util import ngrams             # <<<<<<<<<<<<<<
  * from spacy.en import English
  * from pymongo.cursor import Cursor
@@ -9087,7 +9087,7 @@ PyMODINIT_FUNC PyInit_features(void)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "src/features.pyx":22
- *                     Generator)
+ *                     Iterable)
  * from nltk.util import ngrams
  * from spacy.en import English             # <<<<<<<<<<<<<<
  * from pymongo.cursor import Cursor

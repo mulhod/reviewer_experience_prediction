@@ -25,7 +25,7 @@ from typing import (Any,
                     List,
                     Union,
                     Optional,
-                    Generator)
+                    Iterable)
 from pymongo import ASCENDING
 from sklearn.metrics import make_scorer
 from schema import (Or,
@@ -510,10 +510,8 @@ class RunCVExperiments(object):
 
         return vec
 
-    def _generate_samples(self, ids: List[str],
-                          key: Optional[str] = None) -> Generator[Union[Dict[str, Any],
-                                                                        str,
-                                                                        Numeric]]:
+    def _generate_samples(self, ids: List[str], key: Optional[str] = None) \
+        -> Iterable[Union[Dict[str, Any], str, Numeric]]:
         """
         Generate feature dictionaries for the review samples in the
         given cursor.

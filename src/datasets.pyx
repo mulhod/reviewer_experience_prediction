@@ -27,8 +27,8 @@ from typing import (Any,
                     Dict,
                     Tuple,
                     Union,
-                    Optional,
-                    Generator)
+                    Iterable,
+                    Optional)
 from langdetect import detect
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
@@ -66,7 +66,7 @@ logwarn = logger.warning
 def get_review_data_for_game(appid: str,
                              time_out: float = 10.0,
                              limit: int = -1,
-                             wait: float = 10.0) -> Generator[Dict[str, Any]]:
+                             wait: float = 10.0) -> Iterable[Dict[str, Any]]:
     """
     Generate dictionaries for each review for a given game.
 
