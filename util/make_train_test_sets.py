@@ -120,7 +120,7 @@ def main():
     from os import listdir
     from pymongo import MongoClient
     from pymongo.errors import ConnectionFailure
-    from src.datasets import get_game_files
+    from src import get_game_files
     from src.mongodb import (connect_to_db,
                              insert_train_test_reviews)
 

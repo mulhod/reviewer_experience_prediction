@@ -114,9 +114,9 @@ def main():
     import os
     from re import sub
     import numpy as np
-    from src.mongodb import connect_to_db
-    from src.datasets import (get_game_files,
-                              get_bin_ranges,
+    from src.mongodb import (connect_to_db,
+                             get_game_files)
+    from src.datasets import (get_bin_ranges,
                               write_arff_file,
                               get_and_describe_dataset)
 

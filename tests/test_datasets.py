@@ -1,17 +1,12 @@
 """
 Test various functions in the `datasets` module.
 """
-from os.path import join
-from shutil import rmtree
-from tempfile import mkdtemp
-
 from nose2.compat import unittest
 from nose.tools import (assert_equal,
                         assert_raises)
 
 from src.datasets import (get_bin,
                           get_bin_ranges,
-                          get_game_files,
                           validate_bin_ranges)
 
 def test_get_bin():
@@ -108,99 +103,3 @@ class ValidateBinRangesTestCase(unittest.TestCase):
 
         bin_ranges_valid = [(0.0, 90.1), (90.2, 104.5), (104.6, 150.9)]
         assert_equal(validate_bin_ranges(bin_ranges_valid), None)
-
-
-class GetGameFilesTestCase(unittest.TestCase):
-    """
-    Test the `get_game_files` method.
-    """
-
-    @staticmethod
-    def test_get_game_files_empty_games_string():
-        """
-        Test the `get_game_files` function given an empty games string.
-        """
-
-        # Test with an empty string
-        assert_raises(ValueError, get_game_files, '')
-
-    @staticmethod
-    def test_get_game_files_sample_file_only():
-        """
-        Test the `get_game_files` function given a games string that
-        only includes the "sample" file.
-        """
-
-        # Test with an empty string
-        assert_raises(ValueError, get_game_files, 'sample.jsonlines')
-
-    @staticmethod
-    def test_get_game_files_invalid_directory():
-        """
-        Test the `get_game_files` function given an invalid directory.
-        """
-
-        # Make temporary_directory
-        path = mkdtemp()
-
-        # Test with an invalid directory
-        assert_raises(FileNotFoundError, get_game_files,
-                      'Dota_2,Counter_Strike',
-                      join(path, 'nonexistent_directory'))
-
-        # Remove the temporary directory
-        rmtree(path)
-
-    @staticmethod
-    def test_get_game_files_empty_directory():
-        """
-        Test the `get_game_files` function given an empty directory.
-        """
-
-        # Make temporary_directory
-        path = mkdtemp()
-
-        assert_raises(ValueError, get_game_files, 'all', path)
-
-        # Remove the temporary directory
-        rmtree(path)
-
-    @staticmethod
-    def test_get_game_files_unrecognized_games():
-        """
-        Test the `get_game_files` function given unrecognized games.
-        """
-
-        for games_str in ['Dota', 'Dota,Arma', 'Dota_2,Arma', 'Dota,Arma_3']:
-            assert_raises(FileNotFoundError, get_game_files, games_str)
-
-    @staticmethod
-    def test_get_game_files_valid_with_extension():
-        """
-        Test the `get_game_files` function given valid values with the
-        ".jsonlines" extension.
-        """
-
-        assert_equal(get_game_files('Arma_3.jsonlines,Dota_2.jsonlines'),
-                     ['Arma_3.jsonlines', 'Dota_2.jsonlines'])
-
-    @staticmethod
-    def test_get_game_files_valid_without_extension():
-        """
-        Test the `get_game_files` function given valid values without
-        the ".jsonlines" extension.
-        """
-
-        assert_equal(get_game_files('Arma_3,Dota_2'),
-                     ['Arma_3.jsonlines', 'Dota_2.jsonlines'])
-
-    @staticmethod
-    def test_get_game_files_valid_with_sample_file():
-        """
-        Test the `get_game_files` function given valid values including
-        the sample file.
-        """
-
-        for sample_file in ['sample', 'sample.jsonlines']:
-            assert_equal(get_game_files('Arma_3,Dota_2,{}'.format(sample_file)),
-                         ['Arma_3.jsonlines', 'Dota_2.jsonlines'])

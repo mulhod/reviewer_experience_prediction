@@ -93,10 +93,10 @@ def main():
     # Imports
     from pymongo.errors import (BulkWriteError,
                                 ConnectionFailure)
-    from src import log_format_string
+    from src import (get_game_files,
+                     log_format_string)
     from src.mongodb import (connect_to_db,
                              bulk_extract_features_and_update_db)
-    from src.datasets import get_game_files
 
     # Make local copies of arguments
     game_files = args.game_files

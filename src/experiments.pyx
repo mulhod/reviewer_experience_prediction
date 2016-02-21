@@ -34,12 +34,16 @@ from sklearn.metrics import (f1_score,
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from sklearn.linear_model import (Perceptron,
-                                  PassiveAggressiveRegressor)
+                                  SGDRegressor,
+                                  SGDClassifier,
+                                  PassiveAggressiveRegressor,
+                                  PassiveAggressiveClassifier)
 
 from data import APPID_DICT
 from src import (LABELS,
                  Learner,
                  Numeric,
+                 BinRanges,
                  Vectorizer,
                  VALID_GAMES,
                  ScoringFunction)
@@ -49,20 +53,21 @@ from src.datasets import (validate_bin_ranges,
 # Logging-related
 logger = logging.getLogger('src.experiments')
 
-NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
-                                       PassiveAggressiveRegressor})
+#NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
+#                                       PassiveAggressiveRegressor,
+#                                       PassiveAggressiveClassifier})
 
 
 def distributional_info(db: Collection,
                         label: str,
                         games: List[str],
                         partition: str = 'all',
-                        bin_ranges: Optional[List[Tuple[float, float]]] = None,
+                        bin_ranges: Optional[BinRanges] = None,
                         lognormal: bool = False,
                         power_transform: Optional[float] = None,
                         limit: int = 0,
-                        batch_size: int = 50) \
-    -> Dict[str, Union[Dict[str, Any], FreqDist]]:
+                        batch_size: int = 50) -> Dict[str, Union[Dict[str, Any],
+                                                                 FreqDist]]:
     """
     Generate some distributional information regarding the given label
     (or for the implicit/transformed labels given a list of label bin
@@ -231,7 +236,7 @@ def evenly_distribute_samples(db: Collection,
                               label: str,
                               games: List[str],
                               partition: str = 'test',
-                              bin_ranges: Optional[List[Tuple[float, float]]] = None,
+                              bin_ranges: Optional[BinRanges] = None,
                               lognormal: bool = False,
                               power_transform: Optional[float] = None) -> str:
     """
@@ -366,7 +371,7 @@ def get_data_point(review_doc: Dict[str, Any],
                    non_nlp_features: List[str] = [],
                    lognormal: bool = False,
                    power_transform: Optional[float] = None,
-                   bin_ranges: Optional[List[Tuple[float, float]]] = None) -> Dict[str, Any]:
+                   bin_ranges: Optional[BinRanges] = None) -> Dict[str, Any]:
     """
     Collect data from a MongoDB review document and return it in format
     needed for vectorization.
@@ -497,7 +502,7 @@ def rescale_preds_and_fit_in_scale(y_preds: np.ndarray,
     return dict(rescaled=y_preds_rescaled, fitted_only=y_preds_fitted_only)
 
 
-def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> tuple:
+def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> str:
     """
     Produce a printable confusion matrix to use in the evaluation
     report (and also return the confusion matrix multi-dimensional
@@ -509,7 +514,7 @@ def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> tuple
     :type classes: set
 
     :returns: a printable confusion matrix string
-    :rtype: tuple
+    :rtype: str
     """
 
     conf_mat = conf_mat.tolist()
@@ -524,12 +529,16 @@ def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> tuple
         row = tab_join([str(x) for x in [label] + row])
         res = row_format(res, row)
 
-    return conf_mat
+    return res
 
 
 def get_sorted_features_for_learner(learner: Union[Perceptron,
                                                    BernoulliNB,
-                                                   MultinomialNB],
+                                                   MultinomialNB,
+                                                   SGDRegressor,
+                                                   SGDClassifier,
+                                                   PassiveAggressiveRegressor,
+                                                   PassiveAggressiveClassifier],
                                     classes: np.ndarray,
                                     vectorizer: Vectorizer) \
     -> List[Dict[str, Union[str, float, int]]]:
@@ -541,7 +550,7 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     :param learner: learner instance (can not be of type
                     `MiniBatchKMeans` or `PassiveAggressiveRegressor`,
                     among others)
-    :type learner: Perceptron, BernoulliNB, or MultinomialNB
+    :type learner: Perceptron, BernoulliNB, MultinomialNB, etc.
     :param classes: array of class labels
     :type clases: np.ndarray
     :param vectorizer: DictVectorizer or FeatureHasher
@@ -557,9 +566,9 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     """
 
     # Raise exception if learner class is not supported
-    if any(issubclass(type(learner), cls) for cls in NO_INTROSPECTION_LEARNERS):
-        raise ValueError('Can not get feature weights for learners of type '
-                         '{0}'.format(type(learner)))
+    #if any(issubclass(type(learner), cls) for cls in NO_INTROSPECTION_LEARNERS):
+    #    raise ValueError('Can not get feature weights for learners of type '
+    #                     '{0}'.format(type(learner)))
 
     # Store feature coefficient tuples
     feature_coefs = []
@@ -914,9 +923,10 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                                              iteration_rounds: int,
                                              n_train_samples: int,
                                              n_test_samples: int,
-                                             bin_ranges: List[Tuple[float, float]],
                                              rescaled: bool,
-                                             transformation_string: str) -> pd.Series:
+                                             transformation_string: str,
+                                             bin_ranges: Optional[BinRanges] = None) \
+    -> pd.Series:
     """
     Evaluate predictions made by a learner during a round of a
     cross-validation experiment (e.g., in `src.learn.RunCVExperiments`)
@@ -953,6 +963,11 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
     :type n_train_samples: int
     :param n_test_samples: int
     :type n_test_samples: number of samples used for testing
+    :param rescaled: whether or not predicted values were rescaled based
+                     on the mean/standard deviation of the input data
+    :type rescaled: bool
+    :param transformation_string: string representation of transformation
+    :type transformation_string: str
     :param bin_ranges: list of ranges that define each bin, where each
                        bin should be represented as a tuple with the
                        first value, a float that is precise to one
@@ -970,11 +985,6 @@ def evaluate_predictions_from_learning_round(y_test: np.array,
                        values
     :type bin_ranges: list of tuples representing the minimum and
                       maximum values of a range of values (or None)
-    :param rescaled: whether or not predicted values were rescaled based
-                     on the mean/standard deviation of the input data
-    :type rescaled: bool
-    :param transformation_string: string representation of transformation
-    :type transformation_string: str
 
     :returns: a pandas Series of evaluation metrics and other data
               collected during the learning round
@@ -1102,8 +1112,8 @@ class ExperimentalData(object):
                  test_games: Optional[set] = None,
                  test_size: int = 0,
                  sampling: str = 'stratified',
-                 bin_ranges: Optional[List[Tuple[float, float]]] = None,
-                 test_bin_ranges: Optional[List[Tuple[float, float]]] = None,
+                 bin_ranges: Optional[BinRanges] = None,
+                 test_bin_ranges: Optional[BinRanges] = None,
                  lognormal: bool = False,
                  power_transform: Optional[float] = None,
                  batch_size: int = 50):
@@ -1272,8 +1282,9 @@ class ExperimentalData(object):
         # Construct the dataset
         self._construct_layered_dataset()
 
-    def _distributional_info(self, games: List[str]) -> \
-        Dict[str, Union[Dict[str, Any], FreqDist]]:
+    def _distributional_info(self, games: List[str]) -> Dict[str,
+                                                             Union[Dict[str, Any],
+                                                                   FreqDist]]:
         """
         Call `distributional_info` with the given set of games.
 
@@ -1307,12 +1318,12 @@ class ExperimentalData(object):
 
         return distribution_info
 
-    def _make_test_set(self) -> np.array:
+    def _make_test_set(self) -> np.ndarray:
         """
         Generate a list of `id_string`s for the test set.
 
-        :returns: None
-        :rtype: None
+        :returns: array of ID strings
+        :rtype: np.ndarray
         """
 
         # Make a dictionary mapping each label value to a list of sample
@@ -1438,9 +1449,10 @@ class ExperimentalData(object):
 
         return labels_id_strings
 
-    def _generate_training_fold(self, _fold_size: int,
+    def _generate_training_fold(self,
+                                _fold_size: int,
                                 n_folds_collected: int,
-                                n_folds_needed: int) -> np.array:
+                                n_folds_needed: int) -> np.ndarray:
         """
         Generate a fold for use in the training/grid search data-set.
 
@@ -1458,7 +1470,7 @@ class ExperimentalData(object):
                   returned array could possibly be 0 if there weren't
                   enough samples to produce a fold of at least 10% of
                   the desired size, etc.)
-        :rtype: list
+        :rtype: np.ndarray
         """
 
         # Fold set sample IDs
@@ -1563,7 +1575,7 @@ class ExperimentalData(object):
 
         return fold_set
 
-    def _generate_dataset(self, grid_search: bool = False) -> (np.array, int):
+    def _generate_dataset(self, grid_search: bool = False) -> List[np.ndarray]:
         """
         Generate partitioned dataset for training rounds (or for the
         grid search rounds, if `grid_search` is True).
@@ -1575,8 +1587,8 @@ class ExperimentalData(object):
         :type grid_search: bool
 
         :returns: list of arrays containing ID strings representing each
-                  folds and the number of folds collected
-        :rtype: (np.array, int)
+                  folds
+        :rtype: list
         """
 
         training_set = []
@@ -1600,13 +1612,23 @@ class ExperimentalData(object):
         # If the number of collected folds is not at least 75% of the
         # expected number, then raise an exception
         if folds_collected >= 0.75*folds:
-            return training_set, folds_collected
+
+            # Reset the number of folds to the actual number collected
+            if grid_search:
+                self.grid_search_folds = folds_collected
+            else:
+                self.folds = folds_collected
+            
+            return training_set
+        
+        # Otherwise, raise an exception
         else:
             raise ValueError('Could not generate a {0} data-set consisting of '
                              'at least 75% of the desired number of folds '
-                             '({1}).'.format('grid search' if grid_search
-                                             else 'training',
-                                             folds))
+                             '({1}). Only {2} folds could be collected.'
+                             .format('grid search' if grid_search else 'training',
+                                     folds,
+                                     folds_collected))
 
     def _construct_layered_dataset(self) -> None:
         """
@@ -1617,6 +1639,9 @@ class ExperimentalData(object):
         either the same games as the training/grid search set in
         addition to other games or a set of games that has no overlap
         with the training/grid search sets at all.
+
+        :returns: None
+        :rtype: None
         """
 
         # Generate a list of sample IDs for the test set, if applicable
@@ -1652,7 +1677,6 @@ class ExperimentalData(object):
         # (hopefully the same value, but could be less if less folds
         # were collected)
         if self.folds:
-            self.training_set, self.folds = self._generate_dataset()
+            self.training_set = self._generate_dataset()
         if self.grid_search_folds:
-            (self.grid_search_set,
-             self.grid_search_folds) = self._generate_dataset(grid_search=True)
+            self.grid_search_set = self._generate_dataset(grid_search=True)

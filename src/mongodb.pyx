@@ -32,6 +32,7 @@ from pymongo.errors import (BulkWriteError,
                             ConnectionFailure,
                             DuplicateKeyError)
 
+from src import BinRanges
 from data import APPID_DICT
 from src.features import bulk_extract_features
 from src.datasets import (get_bin,
@@ -313,7 +314,7 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
                                     game: str,
                                     appid: str,
                                     partition_id: str,
-                                    bins: Union[List[Tuple[float, float]], bool] = False):
+                                    bins: Union[BinRanges, bool] = False):
     """
     Add insert operations to a bulk writer.
 
@@ -332,8 +333,8 @@ cdef add_bulk_inserts_for_partition(bulk_writer: BulkOperationBuilder,
     :type partition_id: str
     :param bins: False (i.e., if a converted hours value should not
                  also be inserted) or a list of 2-tuples containing
-                 floating point numbers representing the beginning of a
-                 range and the end (default: False)
+                 floating point numbers representing the beginning and
+                 end of a range (default: False)
     :type bins: False or list
 
     :returns: None

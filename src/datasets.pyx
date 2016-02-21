@@ -9,7 +9,6 @@ convert raw hours played values to a scale of a given number of values,
 etc.
 """
 import logging
-from os import listdir
 from json import loads
 from time import (sleep,
                   strftime)
@@ -28,8 +27,8 @@ from typing import (Any,
                     Dict,
                     Tuple,
                     Union,
-                    Iterable,
-                    Optional)
+                    Optional,
+                    Generator)
 from langdetect import detect
 from bs4 import (BeautifulSoup,
                  UnicodeDammit)
@@ -42,6 +41,7 @@ from langdetect.lang_detect_exception import LangDetectException
 
 from data import APPID_DICT
 from src import (Numeric,
+                 BinRanges,
                  comma_sub,
                  space_sub,
                  breaks_sub,
@@ -54,7 +54,6 @@ from src import (Numeric,
                  LABELS_WITH_PCT_VALUES,
                  helpful_or_funny_search,
                  test_float_decimal_places,
-                 data_dir as default_data_dir,
                  date_end_with_year_string_search)
 
 logger = logging.getLogger('src.datasets')
@@ -63,72 +62,11 @@ logdebug = logger.debug
 logerr = logger.error
 logwarn = logger.warning
 
-def get_game_files(games_str: str,
-                   data_dir_path: str = default_data_dir) -> List[str]:
-    """
-    Get list of game files (file-names only).
-
-    :param games_str: comma-separated list of game files (that exist in
-                      the data directory) with or without a .jsonlines
-                      suffix (or "all" for all game files) (Note: if
-                      "sample"/"sample.jsonlines" is included it will be
-                      filtered out)
-    :type games_str: str
-    :param data_dir_path: path to data directory (defaults to
-                          `default_data_dir`)
-    :type data_dir_path: str
-
-    :returns: list of games
-    :rtype: list
-
-    :raises ValueError: no games were included in the list of games (or
-                        `games_str` only includes
-                        "sample"/"sample.jsonlines") or there are no
-                        .jsonlines files in the data directory passed in
-                        via `data_dir_path`
-    :raises FileNotFoundError: if file(s) corresponding to games in the
-                               input cannot be found
-    """
-
-    game_files = []
-    sample_file_inputs = ['sample', 'sample.jsonlines']
-    if not games_str or games_str in sample_file_inputs:
-        raise ValueError('No files passed in via --game_files argument were '
-                         'found: {}.'.format(', '.join(games_str.split(','))))
-    elif games_str == "all":
-        game_files.extend([f for f in listdir(data_dir_path)
-                           if f.endswith('.jsonlines')])
-
-        # Remove the sample game file from the list
-        del game_files[game_files.index('sample.jsonlines')]
-
-        if not game_files:
-            raise ValueError('No non-sample file .jsonlines files found in '
-                             '"data_dir_path".')
-    else:
-        for f in games_str.split(','):
-            if f in sample_file_inputs:
-                continue
-            f = f if f.endswith('.jsonlines') else '{0}.jsonlines'.format(f)
-            f_path = join(data_dir_path, f)
-            if not exists(f_path):
-                raise FileNotFoundError('{0} does not exist (input string: '
-                                        '{1}).'.format(f_path, games_str))
-            game_files.append(f)
-
-        # Raise exception if the only file that was included was
-        # "sample"/"sample.jsonlines"
-        if not game_files:
-            raise ValueError('No non-sample file .jsonlines file was '
-                             'included.')
-
-    return game_files
-
 
 def get_review_data_for_game(appid: str,
                              time_out: float = 10.0,
                              limit: int = -1,
-                             wait: float = 10.0) -> Iterable[Dict[str, Any]]:
+                             wait: float = 10.0) -> Generator[Dict[str, Any]]:
     """
     Generate dictionaries for each review for a given game.
 
@@ -900,10 +838,8 @@ def get_and_describe_dataset(file_path: str,
     return [r for r in reviews if type(r['total_game_hours']) in [float, int]]
 
 
-def get_bin_ranges(float _min,
-                   float _max,
-                   int nbins=5,
-                   float factor=1.0) -> List[Tuple[float]]:
+def get_bin_ranges(float _min, float _max, int nbins=5,
+                   float factor=1.0) -> BinRanges:
     """
     Return list of floating point number ranges (in increments of 0.1)
     that correspond to each bin in the distribution.
@@ -1011,8 +947,7 @@ def get_bin_ranges_helper(db: Collection,
                           int nbins,
                           float factor=1.0,
                           lognormal: Optional[bool] = False,
-                          power_transform: Optional[float] = None) \
-    -> List[Tuple[float, float]]:
+                          power_transform: Optional[float] = None) -> BinRanges:
     """
     Get bin ranges given a set of games, a label, the desired number of
     bins, and the factor by which the bin sizes will be multiplied as
@@ -1086,7 +1021,7 @@ def get_bin_ranges_helper(db: Collection,
     return bin_ranges
 
 
-def validate_bin_ranges(bin_ranges: List[Tuple[float, float]]) -> bool:
+def validate_bin_ranges(bin_ranges: BinRanges) -> bool:
     """
     Validate a list of tuples representing bins that make up a
     continuous range.
@@ -1169,7 +1104,7 @@ def validate_bin_ranges(bin_ranges: List[Tuple[float, float]]) -> bool:
                 raise ValueError(error_msg)
 
 
-def get_bin(bin_ranges: List[Tuple[float, float]], float val) -> int:
+def get_bin(bin_ranges: BinRanges, float val) -> int:
     """
     Return the index of the bin range in which the value falls.
 
@@ -1295,8 +1230,7 @@ def compute_label_value(value: Union[Numeric, str, bool],
                         label: str,
                         lognormal: bool = False,
                         power_transform: Optional[float] = None,
-                        bin_ranges: Optional[List[Tuple[float, float]]] = None) \
-    -> Optional[float]:
+                        bin_ranges: Optional[BinRanges] = None) -> Optional[float]:
     """
     Compute the value and apply any transformations specified via
     `lognormal` or `power_transform`.
@@ -1380,7 +1314,7 @@ def write_arff_file(dest_path: str,
                     reviews: Optional[List[Dict[str, Any]]] = None,
                     db: Optional[Collection] = None,
                     make_train_test: bool = False,
-                    bins=False) -> None:
+                    bins: Union[bool, BinRanges] = False) -> None:
     """
     Write .arff file either for a list of reviews read in from a file
     or list of files or for both the training and test partitions in

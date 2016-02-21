@@ -1,4 +1,5 @@
 import logging
+from os import listdir
 from os.path import (join,
                      dirname,
                      realpath)
@@ -8,6 +9,7 @@ from typing import (Any,
                     Dict,
                     List,
                     Union,
+                    Tuple,
                     TypeVar,
                     Callable,
                     Sequence,
@@ -18,7 +20,10 @@ from sklearn.naive_bayes import (BernoulliNB,
 from sklearn.feature_extraction import (FeatureHasher,
                                         DictVectorizer)
 from sklearn.linear_model import (Perceptron,
-                                  PassiveAggressiveRegressor)
+                                  SGDRegressor,
+                                  SGDClassifier,
+                                  PassiveAggressiveRegressor,
+                                  PassiveAggressiveClassifier)
 
 from data import APPID_DICT
 
@@ -29,12 +34,16 @@ reports_dir = join(project_dir, 'reports')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
 # Type aliases
+BinRanges = List[Tuple[float, float]]
 Learner = Union[Perceptron,
                 MiniBatchKMeans,
                 BernoulliNB,
                 MultinomialNB,
-                PassiveAggressiveRegressor]
-ParamGrid = Dict[Learner, Dict[str, List[Any]]]
+                SGDRegressor,
+                SGDClassifier,
+                PassiveAggressiveRegressor,
+                PassiveAggressiveClassifier]
+ParamGrid = List[Dict[str, List[Any]]]
 Vectorizer = Union[DictVectorizer, FeatureHasher]
 Numeric = Union[int, float]
 Generic = TypeVar('Generic')
@@ -48,28 +57,87 @@ SEED = 123456789
 
 # Define default parameter grids
 DEFAULT_PARAM_GRIDS = \
-    {MiniBatchKMeans: {'n_clusters': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
-                       'init' : ['k-means++', 'random'],
-                       'random_state': [SEED]},
-     BernoulliNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
-     MultinomialNB: {'alpha': [0.1, 0.25, 0.5, 0.75, 1.0]},
-     Perceptron: {'penalty': [None, 'l2', 'l1', 'elasticnet'],
-                  'alpha': [0.0001, 0.001, 0.01, 0.1],
-                  'n_iter': [5, 10],
-                  'random_state': [SEED]},
+    {MiniBatchKMeans: [{'n_clusters': [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+                        'init' : ['k-means++', 'random'],
+                        'random_state': [SEED]}],
+     BernoulliNB: [{'alpha': [0.1, 0.25, 0.5, 0.75, 1.0],
+                    'binarize': [None, 5, 10],
+                    'fit_prior': [True, False]}],
+     MultinomialNB: [{'alpha': [0.1, 0.25, 0.5, 0.75, 1.0],
+                      'fit_prior': [True, False]}],
+     Perceptron: [{'penalty': [None, 'l2', 'l1', 'elasticnet'],
+                   'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1],
+                   'fit_intercept': [True, False],
+                   'n_iter': [5, 10, 15],
+                   'n_jobs': [4],
+                   'eta0': [0.5, 1, 2, 5],
+                   'random_state': [SEED]}],
      PassiveAggressiveRegressor:
-         {'C': [0.01, 0.1, 1.0, 10.0, 100.0],
-          'n_iter': [5, 10],
-          'random_state': [SEED],
-          'loss': ['epsilon_insensitive',
-                   'squared_epsilon_insensitive']}}
+         [{'C': [0.01, 0.1, 1.0, 10.0, 100.0],
+           'fit_intercept': [True, False],
+           'n_iter': [5, 10, 15],
+           'n_jobs': [4],
+           'random_state': [SEED],
+           'loss': ['epsilon_insensitive', 'squared_epsilon_insensitive']}],
+     PassiveAggressiveClassifier:
+         [{'C': [0.01, 0.1, 1.0, 10.0, 100.0],
+           'fit_intercept': [True, False],
+           'n_iter': [5, 10, 15],
+           'n_jobs': [4],
+           'random_state': [SEED],
+           'loss': ['hinge', 'squared_hinge']}],
+     SGDRegressor: [{'loss': ['squared_loss', 'huber', 'epsilon_insensitive',
+                              'squared_epsilon_insensitive'],
+                     'penalty': ['none', 'l2', 'elasticnet'],
+                     'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1],
+                     'fit_intercept': [True, False],
+                     'n_iter': [5, 10, 15],
+                     'random_state': [SEED],
+                     'eta0': [0.001, 0.01, 0.1],
+                     'average': [True]},
+                    {'loss': ['squared_loss', 'huber', 'epsilon_insensitive',
+                              'squared_epsilon_insensitive'],
+                     'penalty': ['l1'],
+                     'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1],
+                     'l1_ratio': [0.05, 0.1, 0.15, 0.25],
+                     'fit_intercept': [True, False],
+                     'n_iter': [5, 10, 15],
+                     'random_state': [SEED],
+                     'eta0': [0.001, 0.01, 0.1],
+                     'average': [True]}],
+     SGDClassifier: [{'loss': ['hinge', 'log', 'modified_huber',
+                               'squared_hinge', 'perceptron', 'squared_loss',
+                               'huber', 'epsilon_insensitive',
+                               'squared_epsilon_insensitive'],
+                      'penalty': ['none', 'l2', 'elasticnet'],
+                      'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1],
+                      'fit_intercept': [True, False],
+                      'n_iter': [5, 10, 15],
+                      'random_state': [SEED],
+                      'eta0': [0.001, 0.01, 0.1],
+                      'average': [True]},
+                     {'loss': ['hinge', 'log', 'modified_huber',
+                               'squared_hinge', 'perceptron', 'squared_loss',
+                               'huber', 'epsilon_insensitive',
+                               'squared_epsilon_insensitive'],
+                      'penalty': ['l1'],
+                      'alpha': [0.00001, 0.0001, 0.001, 0.01, 0.1],
+                      'l1_ratio': [0.05, 0.1, 0.15, 0.25],
+                      'fit_intercept': [True, False],
+                      'n_iter': [5, 10, 15],
+                      'random_state': [SEED],
+                      'eta0': [0.001, 0.01, 0.1],
+                      'average': [True]}]}
 
 # Learners
 LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'bnb': 'BernoulliNB',
                       'mnb': 'MultinomialNB',
                       'perc': 'Perceptron',
-                      'pagr': 'PassiveAggressiveRegressor'}
+                      'pagr': 'PassiveAggressiveRegressor',
+                      'pagc': 'PassiveAggressiveClassifier',
+                      'sgdr': 'SGDRegressor',
+                      'sgdc': 'SGDClassifier'}
 LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
 LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}
 LEARNER_ABBRS_STRING = ', '.join(['"{0}" ({1})'.format(abbr, learner)
@@ -151,8 +219,70 @@ BACKSLASH = recompile(r'\\')
 backslash_sub = BACKSLASH.sub
 
 
+def get_game_files(games_str: str, data_dir_path: str = data_dir) -> List[str]:
+    """
+    Get list of game files (file-names only).
+
+    :param games_str: comma-separated list of game files (that exist in
+                      the data directory) with or without a .jsonlines
+                      suffix (or "all" for all game files) (Note: if
+                      "sample"/"sample.jsonlines" is included it will be
+                      filtered out)
+    :type games_str: str
+    :param data_dir_path: path to data directory (defaults to
+                          `src.data_dir`)
+    :type data_dir_path: str
+
+    :returns: list of games
+    :rtype: list
+
+    :raises ValueError: no games were included in the list of games (or
+                        `games_str` only includes
+                        "sample"/"sample.jsonlines") or there are no
+                        .jsonlines files in the data directory passed in
+                        via `data_dir_path`
+    :raises FileNotFoundError: if file(s) corresponding to games in the
+                               input cannot be found
+    """
+
+    game_files = []
+    sample_file_inputs = ['sample', 'sample.jsonlines']
+    if not games_str or games_str in sample_file_inputs:
+        raise ValueError('No files passed in via --game_files argument were '
+                         'found: {}.'.format(', '.join(games_str.split(','))))
+    elif games_str == "all":
+        game_files.extend([f for f in listdir(data_dir_path)
+                           if f.endswith('.jsonlines')])
+
+        # Remove the sample game file from the list
+        del game_files[game_files.index('sample.jsonlines')]
+
+        if not game_files:
+            raise ValueError('No non-sample file .jsonlines files found in '
+                             '"data_dir_path".')
+    else:
+        for f in games_str.split(','):
+            if f in sample_file_inputs:
+                continue
+            f = f if f.endswith('.jsonlines') else '{0}.jsonlines'.format(f)
+            f_path = join(data_dir_path, f)
+            if not exists(f_path):
+                raise FileNotFoundError('{0} does not exist (input string: '
+                                        '{1}).'.format(f_path, games_str))
+            game_files.append(f)
+
+        # Raise exception if the only file that was included was
+        # "sample"/"sample.jsonlines"
+        if not game_files:
+            raise ValueError('No non-sample file .jsonlines file was '
+                             'included.')
+
+    return game_files
+
+
 def find_default_param_grid(learner: str,
-                            param_grids_dict: ParamGrid = DEFAULT_PARAM_GRIDS) -> dict:
+                            param_grids_dict: Dict[str, ParamGrid]
+                                = DEFAULT_PARAM_GRIDS) -> ParamGrid:
     """
     Finds the default parameter grid for the specified learner.
 
@@ -168,9 +298,9 @@ def find_default_param_grid(learner: str,
     :raises ValueError: if an unrecognized learner abbreviation is used
     """
 
-    for key_cls, grid in param_grids_dict.items():
+    for key_cls, grids in param_grids_dict.items():
         if issubclass(LEARNER_DICT[learner], key_cls):
-            return grid
+            return grids
     raise ValueError('Unrecognized learner abbreviation: {0}'.format(learner))
 
 

@@ -16,7 +16,8 @@ from re import (IGNORECASE,
 import numpy as np
 from bson import BSON
 from typing import (Dict,
-                    Union)
+                    Union,
+                    Generator)
 from nltk.util import ngrams
 from spacy.en import English
 from pymongo.cursor import Cursor
@@ -347,7 +348,7 @@ def get_nlp_features_from_db(db: Collection, _id: ObjectId) -> Dict[str, int]:
     return bson_decode(nlp_feats_doc.get('nlp_features')) if nlp_feats_doc else {}
 
 
-def get_steam_features_from_db(get_feat) -> Dict[str, Union[Numeric, bool]]:
+def get_steam_features_from_db(get_feat) -> Dict[str, Union[Numeric, bool, str]]:
     """
     Get features collected from Steam (i.e., the non-NLP features).
 
@@ -406,7 +407,8 @@ def bulk_extract_features(db: Collection,
                           reuse_nlp_feats: bool = True,
                           use_binarized_nlp_feats: bool = True,
                           lowercase_text: bool = True,
-                          lowercase_cngrams: bool = False) -> Dict[str, int]:
+                          lowercase_cngrams: bool = False) \
+    -> Generator[Dict[str, Union[Dict[str, int], str]]]:
     """
     Extract NLP features from reviews in the MongoDB database for a
     particular game/data partition in bulk and generate the feature

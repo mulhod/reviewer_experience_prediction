@@ -24,8 +24,8 @@ from typing import (Any,
                     Dict,
                     List,
                     Union,
-                    Iterable,
-                    Optional)
+                    Optional,
+                    Generator)
 from pymongo import ASCENDING
 from sklearn.metrics import make_scorer
 from schema import (Or,
@@ -57,6 +57,7 @@ from src import (LABELS,
                  Scorer,
                  Learner,
                  Numeric,
+                 BinRanges,
                  ParamGrid,
                  formatter,
                  Vectorizer,
@@ -119,7 +120,7 @@ class CVConfig(object):
                  grid_search_folds: int = 5,
                  hashed_features: Optional[int] = None,
                  nlp_features: bool = True,
-                 bin_ranges: Optional[list] = None,
+                 bin_ranges: Optional[BinRanges] = None,
                  lognormal: bool = False,
                  power_transform: Optional[float] = None,
                  majority_baseline: bool = True,
@@ -135,9 +136,9 @@ class CVConfig(object):
                          the available learning algorithms (see
                          `src.LEARNER_ABBRS_DICT`, etc.)
         :type learners: list
-        :param param_grids: list of dictionaries of parameters mapped
-                            to lists of values (must be aligned with
-                            list of learners)
+        :param param_grids: list of lists of dictionaries of parameters
+                            mapped to lists of values (must be aligned
+                            with list of learners)
         :type param_grids: dict
         :param training_rounds: number of training rounds to do (in
                                 addition to the grid search round)
@@ -217,7 +218,7 @@ class CVConfig(object):
              'learners': And([str],
                              lambda learners: all(learner in LEARNER_DICT_KEYS
                                                   for learner in learners)),
-             'param_grids': [{str: list}],
+             'param_grids': [{str: [{str: list}]}],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),
              'grid_search_samples_per_fold': And(int, lambda x: x > 1),
@@ -298,8 +299,9 @@ class RunCVExperiments(object):
 
     # Constants
     default_cursor_batch_size_ = 50
-    no_introspection_learners_ = frozenset({'MiniBatchKMeans',
-                                            'PassiveAggressiveRegressor'})
+    #no_introspection_learners_ = frozenset({'MiniBatchKMeans',
+    #                                        'PassiveAggressiveRegressor',
+    #                                        'PassiveAggressiveClassifier'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
@@ -509,7 +511,7 @@ class RunCVExperiments(object):
         return vec
 
     def _generate_samples(self, ids: List[str], key: Optional[str] = None) \
-        -> Iterable[Union[Dict[str, Any], str, Numeric]]:
+        -> Generator[Union[Dict[str, Any], str, Numeric]]:
         """
         Generate feature dictionaries for the review samples in the
         given cursor.
@@ -581,14 +583,15 @@ class RunCVExperiments(object):
         loginfo('Doing a grid search cross-validation round with {0} folds.'
                 .format(self.data_.grid_search_folds))
         learner_gs_cv_dict = {}
-        for learner, learner_name, param_grid in zip(self.learners_,
-                                                     self.learner_names_,
-                                                     self.cfg_.param_grids):
+        for learner, learner_name, param_grids in zip(self.learners_,
+                                                      self.learner_names_,
+                                                      self.cfg_.param_grids):
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
             if learner_name == 'MiniBatchKMeans':
-                param_grid['batch_size'] = [len(y_train)]
+                for param_grid in param_grids:
+                    param_grid['batch_size'] = [len(y_train)]
 
             # Make `GridSearchCV` instance
             folds_diff = self.cfg_.grid_search_folds - self.data_.grid_search_folds
@@ -603,7 +606,7 @@ class RunCVExperiments(object):
                 logerr(msg)
                 raise ValueError(msg)
             gs_cv = GridSearchCV(learner(),
-                                 param_grid,
+                                 param_grids,
                                  cv=self.gs_cv_folds_,
                                  scoring=self._resolve_objective_function())
 
@@ -627,7 +630,8 @@ class RunCVExperiments(object):
 
         cfg = self.cfg_
 
-        # Get list of "best" estimators from the grid search round
+        # Get dictionary mapping learner names to the corresponding
+        # "best" estimator instances from the grid search round
         self.best_estimators_gs_cv_dict = \
             {learner_name: learner_gs_cv.best_estimator_
              for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
@@ -655,7 +659,7 @@ class RunCVExperiments(object):
         y_training_set_all = []
         for i, held_out_fold in enumerate(self.data_.training_set):
 
-            loginfo('Cross-validation sub-experiment #{} in progress'
+            loginfo('Cross-validation sub-experiment #{0} in progress'
                     .format(i + 1))
 
             # Use each training fold (except for the held-out set) to
@@ -732,9 +736,9 @@ class RunCVExperiments(object):
                              iteration_rounds=self.data_.folds,
                              n_train_samples=len(y_train_all),
                              n_test_samples=len(held_out_fold),
-                             bin_ranges=cfg.bin_ranges,
                              rescaled=cfg.rescale,
-                             transformation_string=self.transformation_string_)))
+                             transformation_string=self.transformation_string_,
+                             bin_ranges=cfg.bin_ranges)))
 
         # Update `self.y_all_` with all of the samples used during the
         # cross-validation
@@ -833,8 +837,8 @@ class RunCVExperiments(object):
         for learner_name in self.cv_learners_:
 
             # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
-            if learner_name in self.no_introspection_learners_:
-                continue
+            #if learner_name in self.no_introspection_learners_:
+            #    continue
 
             for i, estimator in enumerate(self.cv_learners_[learner_name]):
 
