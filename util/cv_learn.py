@@ -139,7 +139,7 @@ class CVConfig(object):
         :param param_grids: list of lists of dictionaries of parameters
                             mapped to lists of values (must be aligned
                             with list of learners)
-        :type param_grids: dict
+        :type param_grids: list
         :param training_rounds: number of training rounds to do (in
                                 addition to the grid search round)
         :type training_rounds: int
@@ -218,7 +218,7 @@ class CVConfig(object):
              'learners': And([str],
                              lambda learners: all(learner in LEARNER_DICT_KEYS
                                                   for learner in learners)),
-             'param_grids': [{str: [{str: list}]}],
+             'param_grids': [[{str: list}]],
              'training_rounds': And(int, lambda x: x > 1),
              'training_samples_per_round': And(int, lambda x: x > 0),
              'grid_search_samples_per_fold': And(int, lambda x: x > 1),

@@ -58,20 +58,20 @@ class MakeCursorTestCase(unittest.TestCase):
 
         # IDs to test
         self.ids = ['5690a60fe76db81bef5c46f8', '5690a60fe76db81bef5c275f',
-               '5690a60fe76db81bef5c49e9', '5690a60fe76db81bef5c3a67',
-               '5690a60fe76db81bef5c2d26', '5690a60fe76db81bef5c2756',
-               '5690a60fe76db81bef5c2bc9', '5690a60fe76db81bef5c3ab1',
-               '5690a60fe76db81bef5c3a71', '5690a60fe76db81bef5c2edf',
-               '5690a60fe76db81bef5c2f72', '5690a60fe76db81bef5c4305',
-               '5690a60fe76db81bef5c3ee9', '5690a60fe76db81bef5c4ab6',
-               '5690a60fe76db81bef5c43cf', '5690a60fe76db81bef5c47f1',
-               '5690a60fe76db81bef5c2b0b', '5690a60fe76db81bef5c4920',
-               '5690a60fe76db81bef5c49d9', '5690a60fe76db81bef5c3048',
-               '5690a60fe76db81bef5c4057', '5690a60fe76db81bef5c3902',
-               '5690a60fe76db81bef5c2702', '5690a60fe76db81bef5c461d',
-               '5690a60fe76db81bef5c4b2d', '5690a60fe76db81bef5c3176',
-               '5690a60fe76db81bef5c338a', '5690a60fe76db81bef5c2c01',
-               '5690a60fe76db81bef5c3836', '5690a60fe76db81bef5c3b07']
+                    '5690a60fe76db81bef5c49e9', '5690a60fe76db81bef5c3a67',
+                    '5690a60fe76db81bef5c2d26', '5690a60fe76db81bef5c2756',
+                    '5690a60fe76db81bef5c2bc9', '5690a60fe76db81bef5c3ab1',
+                    '5690a60fe76db81bef5c3a71', '5690a60fe76db81bef5c2edf',
+                    '5690a60fe76db81bef5c2f72', '5690a60fe76db81bef5c4305',
+                    '5690a60fe76db81bef5c3ee9', '5690a60fe76db81bef5c4ab6',
+                    '5690a60fe76db81bef5c43cf', '5690a60fe76db81bef5c47f1',
+                    '5690a60fe76db81bef5c2b0b', '5690a60fe76db81bef5c4920',
+                    '5690a60fe76db81bef5c49d9', '5690a60fe76db81bef5c3048',
+                    '5690a60fe76db81bef5c4057', '5690a60fe76db81bef5c3902',
+                    '5690a60fe76db81bef5c2702', '5690a60fe76db81bef5c461d',
+                    '5690a60fe76db81bef5c4b2d', '5690a60fe76db81bef5c3176',
+                    '5690a60fe76db81bef5c338a', '5690a60fe76db81bef5c2c01',
+                    '5690a60fe76db81bef5c3836', '5690a60fe76db81bef5c3b07']
 
     def test_valid_id_strings_input(self):
         """
@@ -421,7 +421,7 @@ class CVConfigTestCase(unittest.TestCase):
             dict(learners=[],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
             # Invalid parameter grids in `param_grids` parameter value
-            dict(param_grids=[dict(a=1, b=2), dict(c='g', d=True)],
+            dict(param_grids=[[dict(a=1, b=2), dict(c='g', d=True)]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'param_grids'}),
             # `learners`/`param_grids` unequal in length
             dict(learners=['perc', 'pagr'],
@@ -670,11 +670,18 @@ class CVConfigTestCase(unittest.TestCase):
 
             # `param_grids`
             assert (isinstance(cfg['param_grids'], list)
-                    and all(isinstance(pgrid, dict) for pgrid in cfg['param_grids'])
-                    and all(all(isinstance(param, str) for param in pgrid)
-                            for pgrid in cfg['param_grids'])
-                    and all(all(isinstance(pgrid[param], list) for param in pgrid)
-                            for pgrid in cfg['param_grids'])
+                    and all(isinstance(pgrids_list, list) for pgrids_list
+                            in cfg['param_grids'])
+                    and all(all(isinstance(pgrid, dict) for pgrid in pgrids_list)
+                            for pgrids_list in cfg['param_grids'])
+                    and all(all(all(isinstance(param, str)
+                                    for param in pgrid)
+                                for pgrid in pgrids_list)
+                            for pgrids_list in cfg['param_grids'])
+                    and all(all(all(isinstance(pgrid[param], str)
+                                    for param in pgrid)
+                                for pgrid in pgrids_list)
+                            for pgrids_list in cfg['param_grids'])
                     and len(cfg['param_grids']) > 0)
 
             # `training_rounds`, `training_samples_per_round`,
