@@ -510,8 +510,10 @@ class RunCVExperiments(object):
 
         return vec
 
-    def _generate_samples(self, ids: List[str], key: Optional[str] = None) \
-        -> Generator[Union[Dict[str, Any], str, Numeric]]:
+    def _generate_samples(self, ids: List[str],
+                          key: Optional[str] = None) -> Generator[Union[Dict[str, Any],
+                                                                        str,
+                                                                        Numeric]]:
         """
         Generate feature dictionaries for the review samples in the
         given cursor.
