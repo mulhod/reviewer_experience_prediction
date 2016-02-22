@@ -769,9 +769,9 @@ class RunCVExperiments(object):
         """
 
         cfg = self.cfg_
-        stats_dict = ext.compute_evaluation_metrics(self.y_all_,
-                                                    self._get_majority_baseline(),
-                                                    self.data_.classes)
+        stats_dict = ex.compute_evaluation_metrics(self.y_all_,
+                                                   self._get_majority_baseline(),
+                                                   self.data_.classes)
         stats_dict.update({'games' if len(cfg.games) > 1 else 'game':
                                self.games_string_
                                if VALID_GAMES.difference(cfg.games)
