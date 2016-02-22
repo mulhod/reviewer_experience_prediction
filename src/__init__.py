@@ -76,7 +76,6 @@ DEFAULT_PARAM_GRIDS = \
          [{'C': [0.01, 0.1, 1.0, 10.0, 100.0],
            'fit_intercept': [True, False],
            'n_iter': [5, 10, 15],
-           'n_jobs': [4],
            'random_state': [SEED],
            'loss': ['epsilon_insensitive', 'squared_epsilon_insensitive']}],
      PassiveAggressiveClassifier:
