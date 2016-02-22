@@ -580,12 +580,16 @@ class RunCVExperiments(object):
 
         # Iterate over the learners/parameter grids, executing the grid search
         # cross-validation for each
-        loginfo('Doing a grid search cross-validation round with {0} folds.'
+        loginfo('Doing a grid search cross-validation round with {0} folds for'
+                ' each learner and each corresponding parameter grid.'
                 .format(self.data_.grid_search_folds))
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grids in zip(self.learners_,
                                                       self.learner_names_,
                                                       self.cfg_.param_grids):
+
+            loginfo('Grid search cross-validation for {0}...'
+                    .format(learner_name))
 
             # If the learner is `MiniBatchKMeans`, set the `batch_size`
             # parameter to the number of training samples
