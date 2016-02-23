@@ -20,7 +20,6 @@ from sklearn.naive_bayes import (BernoulliNB,
 from sklearn.feature_extraction import (FeatureHasher,
                                         DictVectorizer)
 from sklearn.linear_model import (Perceptron,
-                                  SGDRegressor,
                                   SGDClassifier,
                                   PassiveAggressiveRegressor,
                                   PassiveAggressiveClassifier)
@@ -39,7 +38,6 @@ Learner = Union[Perceptron,
                 MiniBatchKMeans,
                 BernoulliNB,
                 MultinomialNB,
-                SGDRegressor,
                 SGDClassifier,
                 PassiveAggressiveRegressor,
                 PassiveAggressiveClassifier]
@@ -79,14 +77,6 @@ DEFAULT_PARAM_GRIDS = \
            'n_iter': [5, 10],
            'random_state': [SEED],
            'loss': ['hinge', 'squared_hinge']}],
-     SGDRegressor: [{'loss': ['squared_loss', 'huber', 'epsilon_insensitive',
-                              'squared_epsilon_insensitive'],
-                     'penalty': ['none', 'l1', 'l2', 'elasticnet'],
-                     'n_iter': [5, 10],
-                     'random_state': [SEED],
-                     'eta0': [0.001, 0.01, 0.1],
-                     'learning_rate': ['constant', 'optimal', 'invscaling'],
-                     'average': [True]}],
      SGDClassifier: [{'loss': ['hinge', 'log', 'modified_huber',
                                'squared_hinge', 'perceptron', 'squared_loss',
                                'huber', 'epsilon_insensitive',
@@ -105,7 +95,6 @@ LEARNER_ABBRS_DICT = {'mbkm': 'MiniBatchKMeans',
                       'perc': 'Perceptron',
                       'pagr': 'PassiveAggressiveRegressor',
                       'pagc': 'PassiveAggressiveClassifier',
-                      'sgdr': 'SGDRegressor',
                       'sgdc': 'SGDClassifier'}
 LEARNER_DICT_KEYS = frozenset(LEARNER_ABBRS_DICT.keys())
 LEARNER_DICT = {k: eval(LEARNER_ABBRS_DICT[k]) for k in LEARNER_DICT_KEYS}

@@ -27,6 +27,7 @@ from typing import (Any,
                     Optional,
                     Iterable)
 from pymongo import ASCENDING
+from sklearn.externals import joblib
 from sklearn.metrics import make_scorer
 from schema import (Or,
                     And,
@@ -322,18 +323,15 @@ class RunCVExperiments(object):
         self.games_string_ = ', '.join(cfg.games)
 
         # Output path and output file names/templates
-        self.stats_report_path_ = join(cfg.output_path,
-                                       '{0}_cv_stats.csv'.format(self.games_string_))
+        self.stats_report_path_ = join(cfg.output_path, 'cv_stats.csv')
         self.aggregated_stats_report_path_ = join(cfg.output_path,
-                                                  '{0}_cv_stats_aggregated.csv'
-                                                  .format(self.games_string_))
+                                                  'cv_stats_aggregated.csv')
         self.model_weights_path_template_ = join(cfg.output_path,
-                                                 '{0}_{1}_model_weights_{2}.csv'
-                                                 .format(self.games_string_, '{0}',
-                                                         '{1}'))
+                                                 '{0}_model_weights_{1}.csv')
+        self.model_path_template_ = join(cfg.output_path, '{0}_{1}.model')
         if cfg.majority_baseline:
-            self.majority_baseline_report_path_ = \
-                '{0}_maj_baseline_stats.csv'.format(self.games_string_)
+            self.majority_baseline_report_path_ = join(cfg.output_path,
+                                                       'maj_baseline_stats.csv')
         if cfg.lognormal or cfg.power_transform:
             self.transformation_string_ = ('ln' if cfg.lognormal
                                            else 'x**{0}'.format(cfg.power_transform))
@@ -793,9 +791,7 @@ class RunCVExperiments(object):
         :rtype: None
         """
 
-        (self._majority_baseline_stats
-         .to_csv(join(output_path,
-                      self.majority_baseline_report_path_)))
+        self._majority_baseline_stats.to_csv(self.majority_baseline_report_path_)
 
     def generate_learning_reports(self) -> None:
         """
@@ -819,15 +815,10 @@ class RunCVExperiments(object):
          .to_csv(self.aggregated_stats_report_path_,
                  index=False))
 
-    def store_sorted_features(self, model_weights_path: str) -> None:
+    def store_sorted_features(self) -> None:
         """
         Store files with sorted lists of features and their associated
-        coefficients from each model (for which introspection like this
-        can be done, at least).
-
-        :param model_weights_path: path to directory for model weights
-                                   files
-        :type model_weights_path: str
+        coefficients from each model.
 
         :returns: None
         :rtype: None
@@ -868,6 +859,23 @@ class RunCVExperiments(object):
                            'model_params_readme.json'), 'w'),
                  indent=4)
 
+    def store_models(self) -> None:
+        """
+        Save the learners to disk.
+
+        :returns: None
+        :rtype: None
+        """
+
+        # Iterate over the learner types (for which there will be
+        # separate instances for each sub-experiment of the
+        # cross-validation experiment)
+        for learner_name in self.cv_learners_:
+            loginfo('Saving {0} model files to disk...'.format(learner_name))
+            for i, estimator in enumerate(self.cv_learners_[learner_name]):
+                loginfo('Saving {0} model file #{1}'.format(learner_name, i + 1))
+                joblib.dump(estimator,
+                            self.model_path_template_.format(learner_name, i + 1))
 
 def main(argv=None):
     parser = ArgumentParser(description='Run incremental learning '
@@ -986,6 +994,10 @@ def main(argv=None):
                   'to files.',
              action='store_true',
              default=False)
+    _add_arg('--save_model_files',
+             help='Save model files to disk.',
+             action='store_true',
+             default=False)
     _add_arg('-dbhost', '--mongodb_host',
              help='Host that the MongoDB server is running on.',
              type=str,
@@ -1026,6 +1038,7 @@ def main(argv=None):
     objective = args.objective
     evaluate_maj_baseline = args.evaluate_maj_baseline
     save_best_features = args.save_best_features
+    save_model_files = args.save_model_files
 
     # Validate the input arguments
     if isfile(realpath(args.out_dir)):
@@ -1195,20 +1208,23 @@ def main(argv=None):
                'RunCVExperiments instance: {0}'.format(e))
         raise e
 
+    # Save the best-performing features
+    if save_best_features:
+        loginfo('Generating feature coefficient output files for each model '
+                '(after all learning rounds)...')
+        experiments.store_sorted_features()
+
+    # Save the model files
+    if save_model_files:
+        loginfo('Writing out model files for each model to disk...')
+        experiments.store_models()
+
     # Generate evaluation report for the majority baseline model, if
     # specified
     if evaluate_maj_baseline:
         loginfo('Generating report for the majority baseline model...')
         loginfo('Majority label: {0}'.format(experiments._majority_label))
         experiments.generate_majority_baseline_report()
-
-    # Save the best-performing features
-    if save_best_features:
-        loginfo('Generating feature coefficient output files for each model '
-                '(after all learning rounds)...')
-        model_weights_dir = join(output_path, 'model_weights')
-        makedirs(model_weights_dir, exist_ok=True)
-        experiments.store_sorted_features(model_weights_dir)
 
     loginfo('Complete.')
 
