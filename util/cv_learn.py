@@ -1199,7 +1199,7 @@ def main(argv=None):
     # specified
     if evaluate_maj_baseline:
         loginfo('Generating report for the majority baseline model...')
-        loginfo('Majority label: {0}'.format(experiments.majority_label))
+        loginfo('Majority label: {0}'.format(experiments._majority_label))
         experiments.generate_majority_baseline_report()
 
     # Save the best-performing features
