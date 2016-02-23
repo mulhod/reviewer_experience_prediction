@@ -849,8 +849,8 @@ class RunCVExperiments(object):
                     params_dict.setdefault(learner_name, {})
                     params_dict[learner_name][i] = estimator.get_params()
                 except ValueError:
-                    loggerr('Could not generate features/feature coefficients '
-                            'dataframe for {0}...'.format(learner_name))
+                    logerr('Could not generate features/feature coefficients '
+                           'dataframe for {0}...'.format(learner_name))
 
         # Save parameters file also
         if params_dict:
