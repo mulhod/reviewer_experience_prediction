@@ -300,9 +300,6 @@ class RunCVExperiments(object):
 
     # Constants
     default_cursor_batch_size_ = 50
-    #no_introspection_learners_ = frozenset({'MiniBatchKMeans',
-    #                                        'PassiveAggressiveRegressor',
-    #                                        'PassiveAggressiveClassifier'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
@@ -831,9 +828,11 @@ class RunCVExperiments(object):
         params_dict = {}
         for learner_name in self.cv_learners_:
 
-            # Skip MiniBatchKMeans/PassiveAggressiveRegressor models
-            #if learner_name in self.no_introspection_learners_:
-            #    continue
+            # Skip MiniBatchKMeans models
+            if learner_name == 'MiniBatchKMeans':
+                logdebug('Skipping MiniBatchKMeans learner instances since '
+                         'coefficients can not be extracted from them.')
+                continue
 
             for i, estimator in enumerate(self.cv_learners_[learner_name]):
 
@@ -1048,11 +1047,11 @@ def main(argv=None):
         output_path = realpath(args.out_dir)
         
     if save_best_features:
-        #if learners.issubset(RunCVExperiments.no_introspection_learners_):
-        #    loginfo('The specified set of learners do not work with the '
-        #            'current way of extracting features from models and, '
-        #            'thus, --save_best_features, will be ignored.')
-        #    save_best_features = False
+        if learners == ['mbkm']:
+            loginfo('The specified set of learners do not work with the '
+                    'current way of extracting features from models and, '
+                    'thus, --save_best_features, will be ignored.')
+            save_best_features = False
         if feature_hashing:
             raise ValueError('The --save_best_features option cannot be used '
                              'in conjunction with the --use_feature_hasher '

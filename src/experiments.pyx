@@ -53,10 +53,6 @@ from src.datasets import (validate_bin_ranges,
 # Logging-related
 logger = logging.getLogger('src.experiments')
 
-#NO_INTROSPECTION_LEARNERS = frozenset({MiniBatchKMeans,
-#                                       PassiveAggressiveRegressor,
-#                                       PassiveAggressiveClassifier})
-
 
 def distributional_info(db: Collection,
                         label: str,
@@ -535,21 +531,19 @@ def make_printable_confusion_matrix(conf_mat: np.ndarray, classes: set) -> str:
 def get_sorted_features_for_learner(learner: Union[Perceptron,
                                                    BernoulliNB,
                                                    MultinomialNB,
-                                                   SGDRegressor,
                                                    SGDClassifier,
                                                    PassiveAggressiveRegressor,
                                                    PassiveAggressiveClassifier],
                                     classes: np.ndarray,
                                     vectorizer: Vectorizer) \
-    -> List[Dict[str, Union[str, float, int]]]:
+    -> List[Dict[str, Union[Numeric, str]]]:
     """
     Get the best-performing features in a model (excluding
-    `MiniBatchKMeans` and `PassiveAggressiveRegressor` learners and
-    `FeatureHasher`-vectorized models).
+    `MiniBatchKMeans` and models generated with data vectorized with
+    `FeatureHasher`).
 
     :param learner: learner instance (can not be of type
-                    `MiniBatchKMeans` or `PassiveAggressiveRegressor`,
-                    among others)
+                    `MiniBatchKMeans`)
     :type learner: Perceptron, BernoulliNB, MultinomialNB, etc.
     :param classes: array of class labels
     :type clases: np.ndarray
@@ -557,8 +551,9 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     :type vectorizer: Vectorizer instance
 
     :returns: list of sorted features (in dictionaries)
-    :rtype: list of dictionaries containing the features, weights, and
-            labels
+    :rtype: list of dictionaries containing features and their
+            corresponding weights (and the corresponding labels, if
+            available)
 
     :raises ValueError: if the given learner is not of the type of one
                         of the supported learner types or features
@@ -566,9 +561,22 @@ def get_sorted_features_for_learner(learner: Union[Perceptron,
     """
 
     # Raise exception if learner class is not supported
-    #if any(issubclass(type(learner), cls) for cls in NO_INTROSPECTION_LEARNERS):
-    #    raise ValueError('Can not get feature weights for learners of type '
-    #                     '{0}'.format(type(learner)))
+    if issubclass(type(learner), MiniBatchKMeans):
+        raise ValueError('Can not get feature weights for MiniBatchKMeans '
+                         'estimators of type.')
+
+    # Get list of coefficients and corresponding features if the length
+    # of each coefficient array is 1 (i.e., there's only one coefficient
+    # per feature rather than one for every label per feature)
+    if len(learner.coef_.shape) == 1:
+        feature_coefs = [dict(feature=feat, weight=coef) for feat, coef
+                         in zip(vectorizer.get_feature_names(),
+                                learner.coef_)]
+        return sorted(feature_coefs, key=lambda x: abs(x['weight']), reverse=True)
+
+
+    # If executed, that means that there are coefficients for each
+    # label, which will need to be handled very differently
 
     # Store feature coefficient tuples
     feature_coefs = []
