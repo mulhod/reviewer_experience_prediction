@@ -917,7 +917,7 @@ def main(argv=None):
     _add_arg('--prediction_label',
              help='Label to predict.',
              choices=LABELS,
-             default='total_game_hours_bin')
+             default='total_game_hours')
     _add_arg('--non_nlp_features',
              help='Comma-separated list of non-NLP features to combine with '
                   'the NLP features in creating a model. Use "all" to use all'
