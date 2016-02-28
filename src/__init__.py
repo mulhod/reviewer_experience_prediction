@@ -1,6 +1,7 @@
 import logging
 from os import listdir
 from os.path import (join,
+                     exists,
                      dirname,
                      realpath)
 from re import compile as recompile
