@@ -559,7 +559,7 @@ class CVConfigTestCase(unittest.TestCase):
             dict(learners=[learners[0]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
             # `n_jobs` is not of type int
-            dict(n_jobs=True,
+            dict(n_jobs=5.0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'n_jobs'}),
             # `n_jobs` is less than 1
             dict(n_jobs=0,
@@ -667,10 +667,6 @@ class CVConfigTestCase(unittest.TestCase):
                     and all(all(isinstance(pgrid, dict) for pgrid in pgrids_list)
                             for pgrids_list in cfg['param_grids'])
                     and all(all(all(isinstance(param, str)
-                                    for param in pgrid)
-                                for pgrid in pgrids_list)
-                            for pgrids_list in cfg['param_grids'])
-                    and all(all(all(isinstance(pgrid[param], str)
                                     for param in pgrid)
                                 for pgrid in pgrids_list)
                             for pgrids_list in cfg['param_grids'])
