@@ -539,7 +539,10 @@ class RunCVExperiments(object):
                                        bin_ranges=cfg.bin_ranges)
 
             # Either yield the sample given the specified key or yield
-            # the whole sample
+            # the whole sample (or, if the sample is equal to None,
+            # continue)
+            if not sample:
+                continue
             yield sample.get(key, sample)
 
     def _do_grid_search_round(self) -> Dict[str, GridSearchCV]:
