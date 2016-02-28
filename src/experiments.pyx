@@ -34,7 +34,6 @@ from sklearn.metrics import (f1_score,
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
 from sklearn.linear_model import (Perceptron,
-                                  SGDRegressor,
                                   SGDClassifier,
                                   PassiveAggressiveRegressor,
                                   PassiveAggressiveClassifier)

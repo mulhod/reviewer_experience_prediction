@@ -125,7 +125,8 @@ class CVConfig(object):
                  lognormal: bool = False,
                  power_transform: Optional[float] = None,
                  majority_baseline: bool = True,
-                 rescale: bool = True) -> 'CVConfig':
+                 rescale: bool = True,
+                 n_jobs: int = 1) -> 'CVConfig':
         """
         Initialize object.
 
@@ -195,12 +196,15 @@ class CVConfig(object):
                         to True, but set to False if this is a
                         classification experiment)
         :type rescale: bool
+        :param njobs: value of `n_jobs` parameter, which is passed into
+                      the learners (where applicable)
+        :type n_jobs: int
 
         :returns: instance of `CVConfig` class
         :rtype: CVConfig
 
-        :raises ValueError: if the input parameters result in conflicts
-                            or are invalid
+        :raises SchemaError, ValueError: if the input parameters result
+                                         in conflicts or are invalid
         """
 
         # Get dicionary of parameters (but remove "self" since that
@@ -246,7 +250,8 @@ class CVConfig(object):
              Default('power_transform', default=None):
                 Or(None, And(float, lambda x: x != 0.0)),
              Default('majority_baseline', default=True): bool,
-             Default('rescale', default=True): bool
+             Default('rescale', default=True): bool,
+             Default('n_jobs', default=1): And(int, lambda x: x > 0)
              }
             )
 
@@ -555,6 +560,8 @@ class RunCVExperiments(object):
         :rtype: dict
         """
 
+        cfg = self.cfg_
+
         # Get the data to use, vectorizing the sample feature dictionaries
         grid_search_all_ids = list(chain(*self.data_.grid_search_set))
         y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
@@ -581,10 +588,12 @@ class RunCVExperiments(object):
         loginfo('Doing a grid search cross-validation round with {0} folds for'
                 ' each learner and each corresponding parameter grid.'
                 .format(self.data_.grid_search_folds))
+        n_jobs_learners = ['Perceptron', 'SGDClassifier',
+                           'PassiveAggressiveClassifier']
         learner_gs_cv_dict = {}
         for learner, learner_name, param_grids in zip(self.learners_,
                                                       self.learner_names_,
-                                                      self.cfg_.param_grids):
+                                                      cfg.param_grids):
 
             loginfo('Grid search cross-validation for {0}...'
                     .format(learner_name))
@@ -595,10 +604,20 @@ class RunCVExperiments(object):
                 for param_grid in param_grids:
                     param_grid['batch_size'] = [len(y_train)]
 
+            # If learner is of any of the learner types in
+            # `n_jobs_learners`, add in the `n_jobs` parameter specified
+            # in the config (but only do so if that `n_jobs` value is
+            # greater than 1 since it won't matter because 1 is the
+            # default, anyway)
+            if cfg.n_jobs > 1:
+                if learner_name in n_jobs_learners:
+                    for param_grid in param_grids:
+                        param_grid['n_jobs'] = cfg.n_jobs
+
             # Make `GridSearchCV` instance
-            folds_diff = self.cfg_.grid_search_folds - self.data_.grid_search_folds
+            folds_diff = cfg.grid_search_folds - self.data_.grid_search_folds
             if (self.data_.grid_search_folds < 2
-                or folds_diff/self.cfg_.grid_search_folds > 0.25):
+                or folds_diff/cfg.grid_search_folds > 0.25):
                 msg = ('Either there weren\'t enough folds after collecting '
                        'data (via `ExperimentalData`) to do the grid search '
                        'round or the number of folds had to be reduced to such'
@@ -987,6 +1006,13 @@ def main(argv=None):
                   ' of parameters resulted in the best performance.',
              choices=OBJ_FUNC_ABBRS_DICT.keys(),
              default='qwk')
+    _add_arg('--n_jobs',
+             help='Value of "n_jobs" parameter to pass in to learners whose '
+                  'tasks can be parallelized. Should be no more than the '
+                  'number of cores (or virtual cores) for the machine that '
+                  'this process is run on.',
+             type=int,
+             default=1)
     _add_arg('--evaluate_maj_baseline',
              help='Evaluate the majority baseline model.',
              action='store_true',
@@ -1038,6 +1064,7 @@ def main(argv=None):
     host = args.mongodb_host
     port = args.mongodb_port
     objective = args.objective
+    n_jobs = args.n_jobs
     evaluate_maj_baseline = args.evaluate_maj_baseline
     save_best_features = args.save_best_features
     save_model_files = args.save_model_files
@@ -1131,6 +1158,12 @@ def main(argv=None):
     loginfo('Learners: {0}'.format(', '.join([LEARNER_ABBRS_DICT[learner]
                                               for learner in learners])))
     loginfo('Using {0} as the objective function'.format(objective))
+    if n_jobs < 1:
+        msg = '--n_jobs must be greater than 0.'
+        logerr(msg)
+        raise ValueError(msg)
+    loginfo('Number of tasks to run in parallel during learner fitting (when '
+            'possible to run tasks in parallel): {0}'.format(n_jobs))
 
     # Connect to running Mongo server
     loginfo('MongoDB host: {0}'.format(host))
@@ -1153,13 +1186,23 @@ def main(argv=None):
         # Get ranges of prediction label distribution bins given the
         # number of bins and the factor by which they should be
         # multiplied as the index increases
-        bin_ranges = get_bin_ranges_helper(db,
-                                           games,
-                                           prediction_label,
-                                           nbins,
-                                           bin_factor,
-                                           lognormal=lognormal,
-                                           power_transform=power_transform)
+        try:
+            bin_ranges = get_bin_ranges_helper(db,
+                                               games,
+                                               prediction_label,
+                                               nbins,
+                                               bin_factor,
+                                               lognormal=lognormal,
+                                               power_transform=power_transform)
+        except ValueError as e:
+            msg = ('Encountered a ValueError while computing the bin ranges '
+                   'given {0} and {1} as the values for the number of bins and'
+                   ' the bin factor. This could be due to an unrecognized '
+                   'prediction label, which would cause no values to be found,'
+                   'which in turn would result in an empty array.'
+                   .format(nbins, bin_factor))
+            logerr(msg)
+            raise e
         if lognormal or power_transform:
             transformation = ('lognormal' if lognormal
                               else 'x**{0}'.format(power_transform))
@@ -1198,7 +1241,8 @@ def main(argv=None):
                   lognormal=lognormal,
                   power_transform=power_transform,
                   majority_baseline=evaluate_maj_baseline,
-                  rescale=rescale_predictions)
+                  rescale=rescale_predictions,
+                  n_jobs=n_jobs)
     except (SchemaError, ValueError) as e:
         logerr('Encountered an exception while instantiating the CVConfig '
                'instance: {0}'.format(e))

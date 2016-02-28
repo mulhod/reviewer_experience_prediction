@@ -403,7 +403,8 @@ class CVConfigTestCase(unittest.TestCase):
                             lognormal=False,
                             power_transform=None,
                             majority_baseline=True,
-                            rescale=True)
+                            rescale=True,
+                            n_jobs=1)
         
         # Combinations of parameters that should cause a `SchemaError`
         invalid_kwargs_list = [
@@ -556,7 +557,13 @@ class CVConfigTestCase(unittest.TestCase):
                  **{p: v for p, v in valid_kwargs.items() if p != 'rescale'}),
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
-                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'})
+                 **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # `n_jobs` is not of type int
+            dict(n_jobs=True,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'n_jobs'}),
+            # `n_jobs` is less than 1
+            dict(n_jobs=0,
+                 **{p: v for p, v in valid_kwargs.items() if p != 'n_jobs'})
             ]
         for kwargs in invalid_kwargs_list:
             assert_raises(SchemaError, CVConfig, **kwargs)
@@ -590,66 +597,51 @@ class CVConfigTestCase(unittest.TestCase):
                             lognormal=False,
                             power_transform=None,
                             majority_baseline=True,
-                            rescale=True)
+                            rescale=True,
+                            n_jobs=4)
+        default_params = set(['objective', 'data_sampling', 'grid_search_folds',
+                              'hashed_features', 'nlp_features', 'bin_ranges',
+                              'lognormal', 'power_transform', 'majority_baseline',
+                              'rescale', 'n_jobs'])
 
         # Combinations of parameters
         valid_kwargs_list = [
             # Only specify non-default parameters
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'bin_ranges',
-                        'lognormal', 'power_transform', 'majority_baseline',
-                        'rescale']}),
+                    in default_params}),
             # Only specify non-default parameters + `objective`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['data_sampling', 'grid_search_folds', 'hashed_features',
-                        'nlp_features', 'bin_ranges', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['objective'])}),
             # Only specify non-default parameters + `data_sampling`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'grid_search_folds', 'hashed_features',
-                        'nlp_features', 'bin_ranges', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['data_sampling'])}),
             # Only specify non-default parameters + `grid_search_folds`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'hashed_features',
-                        'nlp_features', 'bin_ranges', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['grid_search_folds'])}),
             # Only specify non-default parameters + `hashed_features`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'nlp_features', 'bin_ranges', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['hashed_features'])}),
             # Only specify non-default parameters + `nlp_features`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'bin_ranges', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['nlp_features'])}),
             # Only specify non-default parameters + `bin_ranges`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'lognormal',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['bin_ranges'])}),
             # Only specify non-default parameters + `lognormal`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'bin_ranges',
-                        'power_transform', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['lognormal'])}),
             # Only specify non-default parameters + `power_transform`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'bin_ranges',
-                        'lognormal', 'majority_baseline', 'rescale']}),
+                    in default_params.difference(['power_transform'])}),
             # Only specify non-default parameters + `majority_baseline`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'bin_ranges',
-                        'lognormal', 'power_transform', 'rescale']}),
+                    in default_params.difference(['majority_baseline'])}),
             # Only specify non-default parameters + `rescale`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in ['objective', 'data_sampling', 'grid_search_folds',
-                        'hashed_features', 'nlp_features', 'bin_ranges',
-                        'lognormal', 'power_transform']}),
+                    in default_params.difference(['rescale'])}),
+            # Only specify non-default parameters + `n_jobs`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in default_params.difference(['n_jobs'])})
             ]
         for kwargs in valid_kwargs_list:
 
@@ -778,3 +770,11 @@ class CVConfigTestCase(unittest.TestCase):
                 assert_equal(cfg['rescale'], kwargs['rescale'])
             else:
                 assert_equal(cfg['rescale'], True)
+
+            # `n_jobs`
+            if 'n_jobs' in kwargs:
+                assert 'n_jobs' in cfg
+                assert isinstance(cfg['n_jobs'], int)
+                assert_equal(cfg['n_jobs'], kwargs['n_jobs'])
+            else:
+                assert_equal(cfg['n_jobs'], 1)
