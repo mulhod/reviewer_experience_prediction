@@ -612,7 +612,7 @@ class RunCVExperiments(object):
             if cfg.n_jobs > 1:
                 if learner_name in n_jobs_learners:
                     for param_grid in param_grids:
-                        param_grid['n_jobs'] = cfg.n_jobs
+                        param_grid['n_jobs'] = [cfg.n_jobs]
 
             # Make `GridSearchCV` instance
             folds_diff = cfg.grid_search_folds - self.data_.grid_search_folds
