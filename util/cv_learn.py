@@ -601,6 +601,7 @@ class RunCVExperiments(object):
 
         # Store the training data in a compressed table and then remove
         # `y_train` and `X_train`
+        y_train = np.array(y_train)
         grid_search_compressed_file_path = join(self.temp_dir, "grid_search.h5")
         grid_search_compressed_file = \
             open_file(grid_search_compressed_file_path, mode="w")
@@ -766,6 +767,7 @@ class RunCVExperiments(object):
                 # collection
                 if exists(training_compressed_file_path):
                     unlink(training_compressed_file_path)
+                y_train = np.array(y_train)
                 training_compressed_file = \
                     open_file(training_compressed_file_path, mode="w")
                 X_train_carray = (training_compressed_file
