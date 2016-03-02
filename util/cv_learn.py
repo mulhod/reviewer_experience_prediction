@@ -600,7 +600,7 @@ class RunCVExperiments(object):
         self.y_all_.extend(y_train)
 
         # Store the training data in a compressed table and then remove
-        # `y_train` and `X_train`
+        # it (so that it is garbage-collected)
         y_train = np.array(y_train)
         grid_search_compressed_file_path = join(self.temp_dir, "grid_search.h5")
         grid_search_compressed_file = \
@@ -612,24 +612,14 @@ class RunCVExperiments(object):
                                          shape=X_train.shape,
                                          filters=self.filter))
         X_train_carray[:] = X_train.todense()
-        y_train_carray = (grid_search_compressed_file
-                          .create_carray(grid_search_compressed_file.root,
-                                         'y_train_carray',
-                                         Atom.from_dtype(y_train.dtype),
-                                         shape=y_train.shape,
-                                         filters=self.filter))
-        y_train_carray[:] = y_train.todense()
         grid_search_compressed_file.close()
-        del y_train
         del X_train
 
         # Read in the datasets from the compressed file using the
         # `H5FD_CORE` driver
-        grid_search_compressed_file = \
-            open_file(grid_search_compressed_file_path, mode='r',
-                      driver='H5FD_CORE')
+        grid_search_compressed_file = open_file(grid_search_compressed_file_path,
+                                                mode='r', driver='H5FD_CORE')
         X_train_carray = grid_search_compressed_file.root.X_train_carray
-        y_train_carray = grid_search_compressed_file.root.y_train_carray
 
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
@@ -638,7 +628,7 @@ class RunCVExperiments(object):
         # `RandomState` object, it should always happen in the exact
         # same way.
         prng = np.random.RandomState(12345)
-        self.gs_cv_folds_ = StratifiedKFold(y=y_train_carray,
+        self.gs_cv_folds_ = StratifiedKFold(y=y_train,
                                             n_folds=self.data_.grid_search_folds,
                                             shuffle=True,
                                             random_state=prng)
@@ -692,10 +682,11 @@ class RunCVExperiments(object):
                                  scoring=self._resolve_objective_function())
 
             # Do the grid search cross-validation
-            gs_cv.fit(X_train_carray, y_train_carray)
+            gs_cv.fit(X_train_carray, y_train)
             learner_gs_cv_dict[learner_name] = gs_cv
 
         # Close the compressed dataset file
+        del X_train_carray
         grid_search_compressed_file.close()
 
         return learner_gs_cv_dict
@@ -763,11 +754,10 @@ class RunCVExperiments(object):
                 y_train_all.extend(y_train)
 
                 # Store the data in compressed form on disk and delete
-                # `y_train`/`X_train` so that it is picked up by garbage
+                # `X_train` so that it is picked up by garbage
                 # collection
                 if exists(training_compressed_file_path):
                     unlink(training_compressed_file_path)
-                y_train = np.array(y_train)
                 training_compressed_file = \
                     open_file(training_compressed_file_path, mode="w")
                 X_train_carray = (training_compressed_file
@@ -777,33 +767,25 @@ class RunCVExperiments(object):
                                                  shape=X_train.shape,
                                                  filters=self.filter))
                 X_train_carray[:] = X_train.todense()
-                y_train_carray = (training_compressed_file
-                                  .create_carray(training_compressed_file.root,
-                                                 'y_train_carray',
-                                                 Atom.from_dtype(y_train.dtype),
-                                                 shape=y_train.shape,
-                                                 filters=self.filter))
-                y_train_carray[:] = y_train.todense()
                 training_compressed_file.close()
                 del X_train
-                del y_train
 
                 # Read in the datasets from the compressed file using the
                 # `H5FD_CORE` driver
-                training_compressed_file = \
-                    open_file(training_compressed_file_path, mode='r',
-                              driver='H5FD_CORE')
+                training_compressed_file = open_file(training_compressed_file_path,
+                                                     mode='r',
+                                                     driver='H5FD_CORE')
                 X_train_carray = training_compressed_file.root.X_train_carray
-                y_train_carray = training_compressed_file.root.y_train_carray
 
                 # Iterate over the learners
                 for learner_name in self.learner_names_:
 
                     # Partially fit each estimator with the new training data
                     self.cv_learners_[learner_name][i].partial_fit(X_train_carray,
-                                                                   y_train_carray)
+                                                                   y_train)
 
                 # Close `test_compressed_file`
+                del X_train_carray
                 training_compressed_file.close()
 
             # Get mean and standard deviation for actual values
@@ -835,8 +817,8 @@ class RunCVExperiments(object):
 
             # Read in the datasets from the compressed file using the
             # `H5FD_CORE` driver
-            test_compressed_file = \
-                open_file(test_compressed_file_path, mode='r', driver='H5FD_CORE')
+            test_compressed_file = open_file(test_compressed_file_path, mode='r',
+                                             driver='H5FD_CORE')
             X_test_carray = test_compressed_file.root.X_test_carray
 
             # Make predictions with the modified estimators
@@ -886,6 +868,7 @@ class RunCVExperiments(object):
                              bin_ranges=cfg.bin_ranges)))
 
             # Close `test_compressed_file`
+            del X_test_carray
             test_compressed_file.close()
 
         # Update `self.y_all_` with all of the sample labels used during
