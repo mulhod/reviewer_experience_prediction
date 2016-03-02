@@ -12,6 +12,7 @@ matplotlib
 nltk
 pandas
 pymongo==2.8
+tables
 requests
 seaborn
 spacy==0.70
