@@ -5,6 +5,7 @@ from os import (getcwd,
                 listdir)
 from shutil import copy
 from os.path import (join,
+                     isdir,
                      exists,
                      dirname,
                      realpath)
@@ -46,23 +47,21 @@ def reqs():
 
 def get_python_header_dir():
     # Hackish way of doing this. Find better way...
-    pkgs_dir = getoutput('conda info | grep "package cache :"'
-                         ' | awk \'{print $4}\'')
+    pkgs_dir = getoutput('conda info | grep "package cache :"').split()[-1]
     if not exists(pkgs_dir):
         raise ValueError('.pkgs folder could not be located via "conda info"')
-    pkgs_dir = join(pkgs_dir, '.pkgs')
-    python_dirs = [_dir for _dir in listdir(pkgs_dir) if _dir.startswith('python-3.')]
-    if len(python_dirs) == 1:
-        pkgs_dir = join(pkgs_dir, python_dirs[0], 'lib')
-    else:
-        raise ValueError('Multiple "python-3.*" directories found in {0}'
-                         .format(pkgs_dir))
-    python_dirs = [_dir for _dir in listdir(pkgs_dir) if _dir.startswith('python3')]
-    if len(python_dirs) == 1:
-        pkgs_dir = join(pkgs_dir, python_dirs[0])
-    else:
-        raise ValueError('Multiple "python3.*" directories found in {0}'
-                         .format(pkgs_dir))
+    try:
+        pkgs_dir = join(pkgs_dir,
+                        [_dir for _dir in listdir(pkgs_dir)
+                         if _dir.startswith('python-3.')
+                            and isdir(join(pkgs_dir, _dir))][0],
+                        'lib')
+        pkgs_dir = join(pkgs_dir,
+                        [_dir for _dir in listdir(pkgs_dir)
+                         if _dir.startswith('python3')][0])
+    except:
+        raise ValueError('Something bad happened in a very hacky function,'
+                         'get_python_header_dir.')
     return pkgs_dir
 
 
