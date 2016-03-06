@@ -1,0 +1,14 @@
+--- /home/research/mmulholland/envs/reviews/lib/python3.4/site-packages/sklearn/utils/__init__.py	2016-03-05 23:31:38.299745550 -0500
++++ /home/research/mmulholland/envs/reviews/lib/python3.4/site-packages/sklearn/utils/__init__.py2	2016-03-05 23:32:22.313745538 -0500
+@@ -156,7 +156,10 @@
+             # This is often substantially faster than X[indices]
+             return X.take(indices, axis=0)
+         else:
+-            return X[indices]
++            try:
++                return X[indices]
++            except ValueError:
++                return [X[idx] for idx in indices]
+     else:
+         return [X[idx] for idx in indices]
+ 

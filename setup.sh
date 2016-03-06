@@ -11,9 +11,8 @@ export PATH=$PATH:/opt/python/conda_default/bin
 export CONDA_OLD_PS1="something" # Hack to get around the CONDA_OLD_PS1
     # variable being set to an unbounded value, i.e., ":"
 
-ORIG_DIR=$(pwd)
-THIS_DIR=$(dirname $(readlink -f $0))
-cd ${THIS_DIR}
+THIS_DIR="$(dirname "$(readlink -f $0)")"
+cd "${THIS_DIR}"
 
 echo "Make sure that conda (miniconda) is installed before trying to set up" \
      "or else this script will fail..."
@@ -61,6 +60,14 @@ if [ $? -gt 0 ]; then
     echo ""
     exit 1
 fi
+
+# Patch scikit-learn library (small bug causing PyTables arrays to not work
+# during grid search cross-validation
+SITE_PACKAGES_DIR="$(python -c "import sys; print([path for path in sys.path if path.endswith('site-packages')][0])")"
+echo "Patching scikit-learn code, specifically the following file:" \
+     "${SITE_PACKAGES_DIR}/sklearn/utils/__init__.py"
+(cd ${SITE_PACKAGES_DIR}/sklearn/utils \
+ && patch __init__.py < ${THIS_DIR}/sklearn_utils___init__.py_patch.txt)
 
 # Download model data for spaCy (remove it if it exists already)
 echo "Downloading model data for spaCy package..."

@@ -46,16 +46,27 @@ def reqs():
 
 def get_python_header_dir():
     # Hackish way of doing this. Find better way...
-    root_env = getoutput('conda info | grep "package cache :"'
+    pkgs_dir = getoutput('conda info | grep "package cache :"'
                          ' | awk \'{print $4}\'')
-    # Try to guess the location of the conda installation
-    if not root_env:
-        root_env = '/home/{}/conda'.format(getuser())
-    return join(root_env, '.pkgs', 'python-3.4.3-0', 'include', 'python3.4m')
+    if not exists(pkgs_dir):
+        raise ValueError('.pkgs folder could not be located via "conda info"')
+    pkgs_dir = join(pkgs_dir, '.pkgs')
+    python_dirs = [_dir for _dir in listdir(pkgs_dir) if _dir.startswith('python-3.')]
+    if len(python_dirs) == 1:
+        pkgs_dir = join(pkgs_dir, python_dirs[0], 'lib')
+    else:
+        raise ValueError('Multiple "python-3.*" directories found in {0}'
+                         .format(pkgs_dir))
+    python_dirs = [_dir for _dir in listdir(pkgs_dir) if _dir.startswith('python3')]
+    if len(python_dirs) == 1:
+        pkgs_dir = join(pkgs_dir, python_dirs[0])
+    else:
+        raise ValueError('Multiple "python3.*" directories found in {0}'
+                         .format(pkgs_dir))
+    return pkgs_dir
 
 
 def get_ext_modules(use_cython=USE_CYTHON):
-    
     global cmdclass
     python_header_dir = get_python_header_dir()
 
