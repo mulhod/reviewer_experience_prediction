@@ -645,11 +645,12 @@ class RunCVExperiments(object):
         if batches:
             array = array_file.create_earray(array_file.root,
                                              array_name,
-                                             Atom.from_dtype(X_train.dtype),
-                                             shape=(0, X_train.shape[1]),
+                                             Atom.from_dtype(X.dtype),
+                                             shape=(0, X.shape[1]),
                                              filters=self.filter,
                                              expectedrows=len(ids))
             array[:] = X
+            del X
 
             # Iterate through the rest of the batches, appending to the
             # array incrementally
@@ -660,15 +661,15 @@ class RunCVExperiments(object):
         else:
             array = array_file.create_carray(array_file.root,
                                              array_name,
-                                             Atom.from_dtype(X_train.dtype),
-                                             shape=X_train.shape,
+                                             Atom.from_dtype(X.dtype),
+                                             shape=X.shape,
                                              filters=self.filter)
             array[:] = X
+            del X
 
         # Close file and remove data
         array_file.close()
         del array
-        del X
 
         # Read in the data from the compressed file using the
         # `H5FD_CORE` driver and return the array
