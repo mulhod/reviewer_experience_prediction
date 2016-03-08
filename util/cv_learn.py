@@ -649,7 +649,7 @@ class RunCVExperiments(object):
                                              shape=(0, X.shape[1]),
                                              filters=self.filter,
                                              expectedrows=len(ids))
-            array[:] = X
+            array.append(X)
             del X
 
             # Iterate through the rest of the batches, appending to the
