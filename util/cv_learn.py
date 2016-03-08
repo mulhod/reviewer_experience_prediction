@@ -633,7 +633,7 @@ class RunCVExperiments(object):
             X = self.vec_.transform(self._generate_samples(ids, 'x')).todense()
         else:
             batches = True
-            id_partitions = self._partition_ids(training_fold, batch_size)
+            id_partitions = self._partition_ids(ids, batch_size)
             X = (self.vec_
                  .transform(self._generate_samples(id_partitions[0], 'x'))
                  .todense())
@@ -840,12 +840,11 @@ class RunCVExperiments(object):
             for training_fold in training_folds:
 
                 # Get training data
-                if exists(training_compressed_file_path):
-                    unlink(training_compressed_file_path)
-                array_file, X_train = self._make_array(training_compressed_file_path,
-                                                       training_fold,
-                                                       'X_train_array',
-                                                       batch_size=batch_size)
+                array_file, X_train = \
+                    self._make_array(training_compressed_file_path,
+                                     training_fold,
+                                     'X_train_array',
+                                     batch_size=batch_size)
                 y_train = list(self._generate_samples(training_fold, 'y'))
 
                 # Store the actual input values so that rescaling can be
@@ -857,7 +856,8 @@ class RunCVExperiments(object):
 
                     # Partially fit each estimator with the new training
                     # data
-                    self.cv_learners_[learner_name][i].partial_fit(X_train, y_train)
+                    self.cv_learners_[learner_name][i].partial_fit(X_train,
+                                                                   y_train)
 
                 # Close the array file
                 array_file.close()
@@ -869,8 +869,6 @@ class RunCVExperiments(object):
             y_train_std = y_train_all.std()
 
             # Get test data
-            if exists(test_compressed_file_path):
-                unlink(test_compressed_file_path)
             array_file_test, X_test = self._make_array(test_compressed_file_path,
                                                        held_out_fold,
                                                        'X_test_array',
