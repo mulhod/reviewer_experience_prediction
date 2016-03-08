@@ -23,14 +23,18 @@ from os.path import (join,
 from warnings import filterwarnings
 
 from tables import (Atom,
+                    CArray,
+                    EArray,
                     Filters,
-                    open_file)
+                    open_file,
+                    File as tables_file)
 import numpy as np
 import pandas as pd
 from typing import (Any,
                     Dict,
                     List,
                     Union,
+                    Tuple,
                     Optional,
                     Iterable)
 from pymongo import ASCENDING
@@ -533,7 +537,13 @@ class RunCVExperiments(object):
         if not ids:
             raise ValueError('The "ids" parameter is empty.')
 
-        vec.fit(self._generate_samples(ids, 'x'))
+        # Fit the vectorizer using batches of data
+        batch_size = 25
+        if len(ids) < batch_size + 10:
+            vec.fit(self._generate_samples(ids, 'x'))
+        else:
+            for i in range(0, len(ids), batch_size):
+                vec.fit(self._generate_samples(ids[i:i + batch_size], 'x'))
 
         return vec
 
@@ -577,9 +587,104 @@ class RunCVExperiments(object):
                 continue
             yield sample.get(key, sample)
 
-    def _do_grid_search_round(self) -> Dict[str, GridSearchCV]:
+    def _partition_ids(self, ids: List[str], partition_size: int) -> List[List[str]]:
+        """
+        Partition a set of IDs.
+
+        :param ids: list of ID strings
+        :type ids: list
+        :param partition_size: number of ID strings to include in each
+                               partition
+        :type partition_size: int
+
+        :returns: list of sets of IDs
+        :rtype: list
+        """
+
+        return [ids[i:i + partition_size] for i
+                in range(0, len(ids), partition_size)]
+
+
+    def _make_array(self,
+                    array_file_path: str,
+                    ids: List[str],
+                    array_name: str,
+                    batch_size: int = 25) \
+        -> Tuple[tables_file, Union[CArray, EArray]]:
+        """
+        Generate a compressed array containing data and return it.
+
+        :param array_file_path: path to store h5 file
+        :type array_file_path: str
+        :param ids: list of ID strings
+        :type ids: list
+        :array_name: identifier to give to the array
+        :type array_name: str
+        :param batch_size: size of data batches to use (use 0 to not
+                           append data to the array in batches)
+        :type batch_size: int
+
+        :returns: `tables` file object and compressed array in a tuple
+        :rtype: (tables_file, EArray/CArray)
+        """
+
+        batches = False
+        if not batch_size or len(ids) < batch_size + 10:
+            X = self.vec_.transform(self._generate_samples(ids, 'x')).todense()
+        else:
+            batches = True
+            id_partitions = self._partition_ids(training_fold, batch_size)
+            X = (self.vec_
+                 .transform(self._generate_samples(id_partitions[0], 'x'))
+                 .todense())
+
+        # Store the data in compressed form on disk
+        if exists(array_file_path):
+            unlink(array_file_path)
+        array_file = open_file(array_file_path, mode="w")
+        if batches:
+            array = array_file.create_earray(array_file.root,
+                                             array_name,
+                                             Atom.from_dtype(X_train.dtype),
+                                             shape=(0, X_train.shape[1]),
+                                             filters=self.filter,
+                                             expectedrows=len(ids))
+            array[:] = X
+
+            # Iterate through the rest of the batches, appending to the
+            # array incrementally
+            for id_partition in id_partitions[1:]:
+                array.append(self.vec_
+                             .transform(self._generate_samples(id_partition, 'x'))
+                             .todense())
+        else:
+            array = array_file.create_carray(array_file.root,
+                                             array_name,
+                                             Atom.from_dtype(X_train.dtype),
+                                             shape=X_train.shape,
+                                             filters=self.filter)
+            array[:] = X
+
+        # Close file and remove data
+        array_file.close()
+        del array
+        del X
+
+        # Read in the data from the compressed file using the
+        # `H5FD_CORE` driver and return the array
+        array_file = open_file(array_file_path, mode='r', driver='H5FD_CORE')
+        return (array_file, array_file.get_node('/', array_name))
+
+    def _do_grid_search_round(self, batch_size: int = 25) -> Dict[str, GridSearchCV]:
         """
         Do grid search round.
+
+        :batch_size: number of data samples to extract at a time (in
+                     relation to the generation of the training data
+                     array, which can consume a lot of memory with a
+                     large batch size or a batch size of 0, i.e., no
+                     batching)
+        :type batch_size: int
 
         :returns: dictionary of learner names mapped to already-fitted
                   `GridSearchCV` instances, including attributes such as
@@ -589,37 +694,20 @@ class RunCVExperiments(object):
 
         cfg = self.cfg_
 
-        # Get the data to use, vectorizing the sample feature dictionaries
+        # Get the data IDs to use
         grid_search_all_ids = list(chain(*self.data_.grid_search_set))
-        y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
-        X_train = self.vec_.transform(self._generate_samples(grid_search_all_ids, 'x'))
 
-        # Update `self.y_all_` with all of the sample labels used during
-        # grid search cross-validation (for majority label
-        # identification)
-        self.y_all_.extend(y_train)
-
-        # Store the training data in a compressed table and then remove
-        # it (so that it is garbage-collected)
-        y_train = np.array(y_train)
+        # Extract data
         grid_search_compressed_file_path = join(self.temp_dir, "grid_search.h5")
-        grid_search_compressed_file = \
-            open_file(grid_search_compressed_file_path, mode="w")
-        X_train_carray = (grid_search_compressed_file
-                          .create_carray(grid_search_compressed_file.root,
-                                         'X_train_carray',
-                                         Atom.from_dtype(X_train.dtype),
-                                         shape=X_train.shape,
-                                         filters=self.filter))
-        X_train_carray[:] = X_train.todense()
-        grid_search_compressed_file.close()
-        del X_train
+        array_file, X_train = self._make_array(grid_search_compressed_file_path,
+                                               grid_search_all_ids,
+                                               'X_train_array',
+                                               batch_size=batch_size)
+        y_train = np.array(list(self._generate_samples(grid_search_all_ids, 'y')))
 
-        # Read in the datasets from the compressed file using the
-        # `H5FD_CORE` driver
-        grid_search_compressed_file = open_file(grid_search_compressed_file_path,
-                                                mode='r', driver='H5FD_CORE')
-        X_train_carray = grid_search_compressed_file.root.X_train_carray
+        # Save all of the sample labels used during grid search
+        # cross-validation (for later majority label identification)
+        self.y_all_.extend(y_train)
 
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
@@ -644,7 +732,6 @@ class RunCVExperiments(object):
         for learner, learner_name, param_grids in zip(self.learners_,
                                                       self.learner_names_,
                                                       cfg.param_grids):
-
             loginfo('Grid search cross-validation for {0}...'
                     .format(learner_name))
 
@@ -682,22 +769,28 @@ class RunCVExperiments(object):
                                  scoring=self._resolve_objective_function())
 
             # Do the grid search cross-validation
-            gs_cv.fit(X_train_carray, y_train)
+            gs_cv.fit(X_train, y_train)
             learner_gs_cv_dict[learner_name] = gs_cv
 
         # Close the compressed dataset file
-        del X_train_carray
-        grid_search_compressed_file.close()
+        array_file.close()
 
         return learner_gs_cv_dict
 
-    def _do_training_cross_validation(self) -> None:
+    def _do_training_cross_validation(self, batch_size: int = 25) -> None:
         """
         Do cross-validation with training data. Each train/test split will
         represent an individual incremental learning experiment, i.e., starting
         with the best estimator from the grid search round, learn little by
         little from batches of training samples and evaluate on the held-out
         partition of data.
+
+        :param batch_size: number of data samples to extract at a time
+                           (in relation to the generation of the
+                           training data array, which can consume a lot
+                           of memory with a large batch size or a batch
+                           size of 0, i.e., no batching)
+        :type batch_size: int
 
         :returns: None
         :rtype: None
@@ -741,52 +834,34 @@ class RunCVExperiments(object):
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
-            training_folds = self.data_.training_set[:i] + self.data_.training_set[i + 1:]
+            training_folds = (self.data_.training_set[:i]
+                              + self.data_.training_set[i + 1:])
             y_train_all = []
             for training_fold in training_folds:
 
-                # Get the training data
+                # Get training data
+                if exists(training_compressed_file_path):
+                    unlink(training_compressed_file_path)
+                array_file, X_train = self._make_array(training_compressed_file_path,
+                                                       training_fold,
+                                                       'X_train_array',
+                                                       batch_size=batch_size)
                 y_train = list(self._generate_samples(training_fold, 'y'))
-                X_train = self.vec_.transform(self._generate_samples(training_fold, 'x'))
 
                 # Store the actual input values so that rescaling can be
                 # done later
                 y_train_all.extend(y_train)
 
-                # Store the data in compressed form on disk and delete
-                # `X_train` so that it is picked up by garbage
-                # collection
-                if exists(training_compressed_file_path):
-                    unlink(training_compressed_file_path)
-                training_compressed_file = \
-                    open_file(training_compressed_file_path, mode="w")
-                X_train_carray = (training_compressed_file
-                                  .create_carray(training_compressed_file.root,
-                                                 'X_train_carray',
-                                                 Atom.from_dtype(X_train.dtype),
-                                                 shape=X_train.shape,
-                                                 filters=self.filter))
-                X_train_carray[:] = X_train.todense()
-                training_compressed_file.close()
-                del X_train
-
-                # Read in the datasets from the compressed file using the
-                # `H5FD_CORE` driver
-                training_compressed_file = open_file(training_compressed_file_path,
-                                                     mode='r',
-                                                     driver='H5FD_CORE')
-                X_train_carray = training_compressed_file.root.X_train_carray
-
                 # Iterate over the learners
                 for learner_name in self.learner_names_:
 
-                    # Partially fit each estimator with the new training data
-                    self.cv_learners_[learner_name][i].partial_fit(X_train_carray,
-                                                                   y_train)
+                    # Partially fit each estimator with the new training
+                    # data
+                    self.cv_learners_[learner_name][i].partial_fit(X_train, y_train)
 
-                # Close `test_compressed_file`
-                del X_train_carray
-                training_compressed_file.close()
+                # Close the array file
+                array_file.close()
+                del X_train
 
             # Get mean and standard deviation for actual values
             y_train_all = np.array(y_train_all)
@@ -794,32 +869,16 @@ class RunCVExperiments(object):
             y_train_std = y_train_all.std()
 
             # Get test data
+            if exists(test_compressed_file_path):
+                unlink(test_compressed_file_path)
+            array_file_test, X_test = self._make_array(test_compressed_file_path,
+                                                       held_out_fold,
+                                                       'X_test_array',
+                                                       batch_size=batch_size)
             y_test = list(self._generate_samples(held_out_fold, 'y'))
-            X_test = self.vec_.transform(self._generate_samples(held_out_fold, 'x'))
 
             # Add test labels to `y_training_set_all`
             y_training_set_all.extend(y_test)
-
-            # Store the test data in compressed form on disk and delete
-            # `X_test` so that it is picked up by garbage collection
-            if exists(test_compressed_file_path):
-                unlink(test_compressed_file_path)
-            test_compressed_file = open_file(test_compressed_file_path, mode="w")
-            X_test_carray = (test_compressed_file
-                             .create_carray(test_compressed_file.root,
-                                            'X_test_carray',
-                                            Atom.from_dtype(X_test.dtype),
-                                            shape=X_test.shape,
-                                            filters=self.filter))
-            X_test_carray[:] = X_test.todense()
-            test_compressed_file.close()
-            del X_test
-
-            # Read in the datasets from the compressed file using the
-            # `H5FD_CORE` driver
-            test_compressed_file = open_file(test_compressed_file_path, mode='r',
-                                             driver='H5FD_CORE')
-            X_test_carray = test_compressed_file.root.X_test_carray
 
             # Make predictions with the modified estimators
             for j, learner_name in enumerate(self.learner_names_):
@@ -827,7 +886,7 @@ class RunCVExperiments(object):
                 # Make predictions with the given estimator,rounding the
                 # predictions
                 y_test_preds = np.round(self.cv_learners_[learner_name][i]
-                                        .predict(X_test_carray))
+                                        .predict(X_test))
 
                 # Rescale the predicted values based on the
                 # mean/standard deviation of the actual values and
@@ -868,8 +927,8 @@ class RunCVExperiments(object):
                              bin_ranges=cfg.bin_ranges)))
 
             # Close `test_compressed_file`
-            del X_test_carray
-            test_compressed_file.close()
+            array_file_test.close()
+            del X_test
 
         # Update `self.y_all_` with all of the sample labels used during
         # cross-validation (for majority label identification)
