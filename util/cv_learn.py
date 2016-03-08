@@ -646,7 +646,7 @@ class RunCVExperiments(object):
             array = array_file.create_earray(array_file.root,
                                              array_name,
                                              Atom.from_dtype(X.dtype),
-                                             shape=(0,),
+                                             shape=(0, X.shape[1]),
                                              filters=self.filter,
                                              expectedrows=len(ids))
             array[:] = X
