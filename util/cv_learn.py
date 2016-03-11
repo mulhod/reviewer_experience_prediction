@@ -45,6 +45,8 @@ from skll.metrics import (kappa,
                           spearman,
                           kendall_tau,
                           f1_score_least_frequent)
+from sklearn.feature_selection import (chi2,
+                                       SelectKBest)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 from sklearn.cross_validation import StratifiedKFold
@@ -126,6 +128,7 @@ class CVConfig(object):
                  power_transform: Optional[float] = None,
                  majority_baseline: bool = True,
                  rescale: bool = True,
+                 k_best_feature_selection: float = 1.0,
                  n_jobs: int = 1) -> 'CVConfig':
         """
         Initialize object.
@@ -196,6 +199,13 @@ class CVConfig(object):
                         to True, but set to False if this is a
                         classification experiment)
         :type rescale: bool
+        :param k_best_feature_selection: use `chi2`-based `SelectKBest`
+                                         feature selection to retain the
+                                         given percentage of features,
+                                         i.e., a value in (0.0, 1.0]
+                                         (defaults to 1.0 to forego
+                                         feature selection altogether)
+        :type k_best_feature_selection: float
         :param njobs: value of `n_jobs` parameter, which is passed into
                       the learners (where applicable)
         :type n_jobs: int
@@ -251,6 +261,8 @@ class CVConfig(object):
                 Or(None, And(float, lambda x: x != 0.0)),
              Default('majority_baseline', default=True): bool,
              Default('rescale', default=True): bool,
+             Default('k_best_feature_selection', default=0.0):
+                 And(float, lambda x: x > 0.0 and x <= 1.0),
              Default('n_jobs', default=1): And(int, lambda x: x > 0)
              }
             )
@@ -994,6 +1006,12 @@ def main(argv=None):
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
              default=False)
+    _add_arg('--k_best_feature_selection',
+             help='Use `chi2`-based `SelectKBest` feature selection with the '
+                  'given percentage of features selected (where the percentage'
+                  'falls in the range (0.0, 1.0]).',
+             type=float,
+             default=1.0)
     _add_arg('--rescale_predictions',
              help='Rescale prediction values based on the mean/standard '
                   'deviation of the input values and fit all predictions into '
@@ -1058,6 +1076,7 @@ def main(argv=None):
     lognormal = args.lognormal
     power_transform = args.power_transform
     feature_hashing = args.use_feature_hasher
+    k_best_feature_selection = args.k_best_feature_selection
     rescale_predictions = args.rescale_predictions
     data_sampling = args.data_sampling
     learners = parse_learners_string(args.learners)
@@ -1152,6 +1171,15 @@ def main(argv=None):
                 .format(bin_factor))
     if feature_hashing:
         loginfo('Using feature hashing to increase memory efficiency')
+    if k_best_feature_selection == 1.0:
+        loginfo('Not doing feature selection.')
+    else:
+        if k_best_feature_selection <= 0.0 or k_best_feature_selection > 1.0:
+            raise ValueError('Value in range (0.0, 1.0] expected for the '
+                             '--k_best_feature_selection option.')
+        loginfo('Using chi2-based SelectKBest feature selection with the '
+                'following percentage of features selected for use: {0}'
+                .format(k_best_feature_selection))
     if rescale_predictions:
         loginfo('Rescaling predicted values based on the mean/standard '
                 'deviation of the input values.')
@@ -1242,6 +1270,7 @@ def main(argv=None):
                   power_transform=power_transform,
                   majority_baseline=evaluate_maj_baseline,
                   rescale=rescale_predictions,
+                  k_best_feature_selection=k_best_feature_selection,
                   n_jobs=n_jobs)
     except (SchemaError, ValueError) as e:
         logerr('Encountered an exception while instantiating the CVConfig '

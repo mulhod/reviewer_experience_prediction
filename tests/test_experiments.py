@@ -404,6 +404,7 @@ class CVConfigTestCase(unittest.TestCase):
                             power_transform=None,
                             majority_baseline=True,
                             rescale=True,
+                            k_best_feature_selection=1.0,
                             n_jobs=1)
         
         # Combinations of parameters that should cause a `SchemaError`
@@ -552,12 +553,21 @@ class CVConfigTestCase(unittest.TestCase):
             dict(majority_baseline=0,
                  **{p: v for p, v in valid_kwargs.items()
                     if p != 'majority_baseline'}),
-            # Invalid `rescale` parameter value (must be boolean or None)
+            # Invalid `rescale` parameter value (must be boolean or
+            # None)
             dict(rescale=0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'rescale'}),
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
+            # `k_best_feature_selection` is not greater than 0.0
+            dict(k_best_feature_selection=0.0,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'k_best_feature_selection'}),
+            # `k_best_feature_selection` is greater than 1.0
+            dict(k_best_feature_selection=1.1,
+                 **{p: v for p, v in valid_kwargs.items()
+                    if p != 'k_best_feature_selection'}),
             # `n_jobs` is not of type int
             dict(n_jobs=5.0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'n_jobs'}),
@@ -598,11 +608,12 @@ class CVConfigTestCase(unittest.TestCase):
                             power_transform=None,
                             majority_baseline=True,
                             rescale=True,
+                            k_best_feature_selection=0.8,
                             n_jobs=4)
         default_params = set(['objective', 'data_sampling', 'grid_search_folds',
                               'hashed_features', 'nlp_features', 'bin_ranges',
                               'lognormal', 'power_transform', 'majority_baseline',
-                              'rescale', 'n_jobs'])
+                              'rescale', 'k_best_feature_selection', 'n_jobs'])
 
         # Combinations of parameters
         valid_kwargs_list = [
@@ -639,6 +650,10 @@ class CVConfigTestCase(unittest.TestCase):
             # Only specify non-default parameters + `rescale`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
                     in default_params.difference(['rescale'])}),
+            # Only specify non-default parameters +
+            # `k_best_feature_selection`
+            dict(**{p: v for p, v in valid_kwargs.items() if not p
+                    in default_params.difference(['k_best_feature_selection'])}),
             # Only specify non-default parameters + `n_jobs`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
                     in default_params.difference(['n_jobs'])})
@@ -766,6 +781,15 @@ class CVConfigTestCase(unittest.TestCase):
                 assert_equal(cfg['rescale'], kwargs['rescale'])
             else:
                 assert_equal(cfg['rescale'], True)
+
+            # `k_best_feature_selection`
+            if 'k_best_feature_selection' in kwargs:
+                assert 'k_best_feature_selection' in cfg
+                assert isinstance(cfg['k_best_feature_selection'], float)
+                assert_equal(cfg['k_best_feature_selection'],
+                             kwargs['k_best_feature_selection'])
+            else:
+                assert_equal(cfg['k_best_feature_selection'], 1.0)
 
             # `n_jobs`
             if 'n_jobs' in kwargs:
