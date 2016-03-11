@@ -368,12 +368,14 @@ class RunCVExperiments(object):
             self.projection_['nlp_features'] = 0
         self.data_ = self._generate_experimental_data()
 
-        # Create and fit a vectorizer with all possible samples
+        # Create and fit vectorizers with all grid search samples and
+        # training samples
         train_ids = list(chain(*self.data_.training_set))
         grid_search_ids = list(chain(*self.data_.grid_search_set))
-        all_ids = train_ids + grid_search_ids
-        self.vec_ = self._make_vectorizer(all_ids,
-                                          hashed_features=cfg.hashed_features)
+        self.gs_vec_ = self._make_vectorizer(grid_search_ids,
+                                             hashed_features=cfg.hashed_features)
+        self.training_vec_ = self._make_vectorizer(train_ids,
+                                                   hashed_features=cfg.hashed_features)
 
         # Store all of the labels used for grid search and training
         self.y_all_ = []
@@ -382,11 +384,12 @@ class RunCVExperiments(object):
         self.learners_ = [LEARNER_DICT[learner] for learner in cfg.learners]
         self.learner_names_ = [LEARNER_ABBRS_DICT[learner] for learner
                                in cfg.learners]
+        self.cv_learners_ = {}
 
         # Do grid search round
         loginfo('Executing parameter grid search learning round...')
         self.gs_cv_folds_ = None
-        self.learner_gs_cv_dict_ = self._do_grid_search_round()
+        self.learner_gs_cv_params_ = self._do_grid_search_round()
 
         # Do incremental learning experiments
         loginfo('Incremental learning cross-validation experiments '
@@ -506,11 +509,14 @@ class RunCVExperiments(object):
         """
 
         if hashed_features:
-            if hashed_features < 1:
-                raise ValueError('The value of "hashed_features" should be a '
-                                 'positive integer, preferably a very large '
-                                 'integer.')
-            vec = FeatureHasher(n_features=hashed_features,
+            # Figure out how many unique features there are
+            n_features = len(set(chain(*[set(sample) for sample
+                                         in self._generate_samples(ids, 'x')])))
+            #if hashed_features < 1:
+            #    raise ValueError('The value of "hashed_features" should be a '
+            #                     'positive integer, preferably a very large '
+            #                     'integer.')
+            vec = FeatureHasher(n_features=n_features,
                                 non_negative=True)
         else:
             vec = DictVectorizer(sparse=True)
@@ -518,7 +524,13 @@ class RunCVExperiments(object):
         if not ids:
             raise ValueError('The "ids" parameter is empty.')
 
-        vec.fit(self._generate_samples(ids, 'x'))
+        # Fit the vectorizer in batches of data
+        batch_size = 20
+        while True:
+            batch = []
+            for sample in self._generate_samples(ids, 'x'):
+                batch.append(sample)
+            vec.fit(batch)
 
         return vec
 
@@ -562,13 +574,13 @@ class RunCVExperiments(object):
                 continue
             yield sample.get(key, sample)
 
-    def _do_grid_search_round(self) -> Dict[str, GridSearchCV]:
+    def _do_grid_search_round(self) -> Dict[str, Dict[str, Any]]:
         """
         Do grid search round.
 
-        :returns: dictionary of learner names mapped to already-fitted
-                  `GridSearchCV` instances, including attributes such as
-                  `best_estimator_`
+        :returns: dictionary of learner names mapped to dictionaries
+                  representing the `best_params_` resulting from each
+                  run with `GridSearchCV` with each learner type
         :rtype: dict
         """
 
@@ -577,7 +589,27 @@ class RunCVExperiments(object):
         # Get the data to use, vectorizing the sample feature dictionaries
         grid_search_all_ids = list(chain(*self.data_.grid_search_set))
         y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
-        X_train = self.vec_.transform(self._generate_samples(grid_search_all_ids, 'x'))
+
+        # Feature selection
+        if cfg.k_best_feature_selection != 1.0:
+            num_features = \
+                len(set(chain(*[set(sample) for sample
+                                in self._generate_samples(grid_search_all_ids,
+                                                          'x')])))
+            num_features_to_select = \
+                int(np.ceil(cfg.k_best_feature_selection*num_features))
+            loginfo('Removing {0} features ({1}) during grid search round...'
+                    .format(num_features - num_features_to_select,
+                            cfg.k_best_feature_selection))
+            X_train = \
+                (SelectKBest(chi2, k=num_features_to_select)
+                 .fit_transform(self.gs_vec_
+                                .transform(self._generate_samples(grid_search_all_ids,
+                                                                  'x')),
+                                y_train))
+        else:
+            X_train = (self.gs_vec_
+                       .transform(self._generate_samples(grid_search_all_ids, 'x')))
 
         # Update `self.y_all_` with all of the samples used during the
         # grid search round
@@ -645,17 +677,21 @@ class RunCVExperiments(object):
 
             # Do the grid search cross-validation
             gs_cv.fit(X_train, y_train)
-            learner_gs_cv_dict[learner_name] = gs_cv
+            learner_gs_cv_params_[learner_name] = dict(gs_cv.best_params_)
+            del gs_cv
+
+        del X_train
+        del y_train
 
         return learner_gs_cv_dict
 
     def _do_training_cross_validation(self) -> None:
         """
-        Do cross-validation with training data. Each train/test split will
-        represent an individual incremental learning experiment, i.e., starting
-        with the best estimator from the grid search round, learn little by
-        little from batches of training samples and evaluate on the held-out
-        partition of data.
+        Do cross-validation with training data. Each train/test split
+        will represent an individual incremental learning experiment,
+        i.e., starting with the best estimator from the grid search
+        round, learn little by little from batches of training samples
+        and evaluate on the held-out partition of data.
 
         :returns: None
         :rtype: None
@@ -663,29 +699,37 @@ class RunCVExperiments(object):
 
         cfg = self.cfg_
 
-        # Get dictionary mapping learner names to the corresponding
-        # "best" estimator instances from the grid search round
-        self.best_estimators_gs_cv_dict = \
-            {learner_name: learner_gs_cv.best_estimator_
-             for learner_name, learner_gs_cv in self.learner_gs_cv_dict_.items()}
+        # Initialize learner objects with the optimal set of parameters
+        # learned from the grid search round (one for each
+        # sub-experiment of the cross-validation round)
+        for learner_name in self.learner_names_:
 
-        # Make a dictionary mapping each learner name to a list of
-        # individual copies of the grid search cross-validation round's
-        # best estimator instances, with the length of the list equal to
-        # the number of folds in the training set since each of these
-        # estimator instances will be incrementally improved upon and
-        # evaluated
-        self.cv_learners_ = [[copy(self.best_estimators_gs_cv_dict[learner_name])
-                              for learner_name in self.learner_names_]
-                             for _ in range(self.data_.folds)]
-        self.cv_learners_ = dict(zip(self.learner_names_,
-                                     zip(*self.cv_learners_)))
-        self.cv_learners_ = {k: list(v) for k, v in self.cv_learners_.items()}
+            # Partially fit each estimator with the new training data
+            self.cv_learners_[learner_name] = \
+                [self.learners_[learner_name](**self.learner_gs_cv_params_)
+                 for i in range(len(self.data_.training_set))]
 
-        # Make a list of empty lists corresponding to each learner,
-        # which will be used to hold the performance stats for each
-        # cross-validation leave-one-fold-out sub-experiment
+        # Make a list of empty lists corresponding to each estimator
+        # instance for each learner, which will be used to store the
+        # performance metrics for each cross-validation
+        # leave-one-fold-out sub-experiment
         self.cv_learner_stats_ = [[] for _ in cfg.learners]
+
+        # Fit the `SelectKBest` feature selector (if applicable)
+        if cfg.k_best_feature_selection != 1.0:
+            num_features = \
+                len(set(chain(*[set(sample) for sample
+                                in self._generate_samples(training_fold, 'x')])))
+            num_features_to_select = \
+                int(np.ceil(cfg.k_best_feature_selection*num_features))
+            loginfo('Removing {0} features ({1}) during training round...'
+                    .format(num_features - num_features_to_select,
+                            cfg.k_best_feature_selection))
+            feature_selector = \
+                (SelectKBest(chi2, k=num_features_to_select)
+                 .fit(self.training_vec_
+                      .transform(self._generate_samples(grid_search_all_ids, 'x')),
+                      self._generate_samples(grid_search_all_ids, 'y')))
 
         # For each fold of the training set, train on all of the other
         # folds and evaluate on the one left out fold
@@ -697,13 +741,24 @@ class RunCVExperiments(object):
 
             # Use each training fold (except for the held-out set) to
             # incrementally build up the model
-            training_folds = self.data_.training_set[:i] + self.data_.training_set[i + 1:]
+            training_folds = (self.data_.training_set[:i]
+                              + self.data_.training_set[i + 1:])
             y_train_all = []
             for training_fold in training_folds:
 
                 # Get the training data
                 y_train = list(self._generate_samples(training_fold, 'y'))
-                X_train = self.vec_.transform(self._generate_samples(training_fold, 'x'))
+                if cfg.k_best_feature_selection != 1.0:
+                    X_train = \
+                        (feature_selector
+                         .transform(self.training_vec_
+                                    .transform(self._generate_samples(training_fold,
+                                                                      'x')),
+                                    y_train))
+                else:
+                    X_train = \
+                        (self.training_vec_
+                         .transform(self._generate_samples(training_fold, 'x')))
 
                 # Store the actual input values so that rescaling can be
                 # done later
@@ -712,7 +767,8 @@ class RunCVExperiments(object):
                 # Iterate over the learners
                 for learner_name in self.learner_names_:
 
-                    # Partially fit each estimator with the new training data
+                    # Partially fit each estimator with the new training
+                    # data
                     self.cv_learners_[learner_name][i].partial_fit(X_train, y_train)
 
             # Get mean and standard deviation for actual values
@@ -722,7 +778,15 @@ class RunCVExperiments(object):
 
             # Get test data
             y_test = list(self._generate_samples(held_out_fold, 'y'))
-            X_test = self.vec_.transform(self._generate_samples(held_out_fold, 'x'))
+            if cfg.k_best_feature_selection != 1.0:
+                X_test = (feature_selector
+                          .transform(self.training_vec_
+                                     .transform(self._generate_samples(held_out_fold,
+                                                                       'x')),
+                                     y_test))
+            else:
+                X_test = (self.training_vec_
+                      .transform(self._generate_samples(held_out_fold, 'x')))
 
             # Add test labels to `y_training_set_all`
             y_training_set_all.extend(y_test)
@@ -732,8 +796,8 @@ class RunCVExperiments(object):
 
                 # Make predictions with the given estimator,rounding the
                 # predictions
-                y_test_preds = np.round(self.cv_learners_[learner_name][i]
-                                        .predict(X_test))
+                y_test_preds = \
+                    np.round(self.cv_learners_[learner_name][i].predict(X_test))
 
                 # Rescale the predicted values based on the
                 # mean/standard deviation of the actual values and
