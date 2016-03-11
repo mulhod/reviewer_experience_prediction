@@ -78,15 +78,12 @@ DEFAULT_PARAM_GRIDS = \
            'n_iter': [5, 10],
            'random_state': [SEED],
            'loss': ['hinge', 'squared_hinge']}],
-     SGDClassifier: [{'loss': ['hinge', 'log', 'modified_huber',
-                               'squared_hinge', 'perceptron', 'squared_loss',
-                               'huber', 'epsilon_insensitive',
-                               'squared_epsilon_insensitive'],
-                      'penalty': ['none', 'l1', 'l2', 'elasticnet'],
+     SGDClassifier: [{'loss': ['hinge', 'huber', 'log', 'epsilon_insensitive'],
+                      'penalty': ['l1', 'l2', 'elasticnet'],
                       'n_iter': [5, 10],
                       'random_state': [SEED],
-                      'eta0': [0.001, 0.01, 0.1],
-                      'learning_rate': ['constant', 'optimal', 'invscaling'],
+                      'eta0': [0.0, 0.001, 0.01, 0.1],
+                      'alpha': [0.000001, 0.00001, 0.0001, 0.001],
                       'average': [True]}]}
 
 # Learners
