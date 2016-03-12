@@ -19,7 +19,9 @@ from os.path import (join,
 from warnings import filterwarnings
 
 import numpy as np
+import scipy as sp
 import pandas as pd
+from cytoolz import take
 from typing import (Any,
                     Dict,
                     List,
@@ -105,7 +107,7 @@ class CVConfig(object):
 
     # Default value to use for the `hashed_features` parameter if 0 is
     # passed in.
-    _n_features_feature_hashing = 2 ** 18
+    _n_features_feature_hashing = 2**18
 
     def __init__(self,
                  db: Collection,
@@ -177,7 +179,8 @@ class CVConfig(object):
                                 DictVectorizer and use the given number
                                 of features (must be positive number or
                                 0, which will set it to the default
-                                number of features for feature hashing)
+                                number of features for feature hashing,
+                                2^18)
         :type hashed_features: int
         :param nlp_features: include NLP features (default: True)
         :type nlp_features: bool
@@ -489,7 +492,8 @@ class RunCVExperiments(object):
                                    batch_size=self.batch_size_)
 
     def _make_vectorizer(self, ids: List[str],
-                         hashed_features: Optional[int] = None) -> Vectorizer:
+                         hashed_features: Optional[int] = None,
+                         batch_size: int = 20) -> Vectorizer:
         """
         Make a vectorizer.
 
@@ -498,8 +502,11 @@ class RunCVExperiments(object):
         :type ids: list
         :param hashed_features: if feature hasing is being used, provide
                                 the number of features to use;
-                                otherwise, the value should be False
-        :type hashed_features: bool or int
+                                otherwise, the value should be None
+        :type hashed_features: int or None
+        :param batch_size: value to use for each batch of data when
+                           fitting the vectorizer (default: 20)
+        :type batch_size: int
 
         :returns: a vectorizer, i.e., DictVectorizer or FeatureHasher
         :rtype: Vectorizer
@@ -508,28 +515,26 @@ class RunCVExperiments(object):
                             greater than zero or `ids` is empty
         """
 
-        if hashed_features:
-            # Figure out how many unique features there are
-            n_features = len(set(chain(*[set(sample) for sample
-                                         in self._generate_samples(ids, 'x')])))
-            #if hashed_features < 1:
-            #    raise ValueError('The value of "hashed_features" should be a '
-            #                     'positive integer, preferably a very large '
-            #                     'integer.')
-            vec = FeatureHasher(n_features=n_features,
+        if not ids:
+            raise ValueError('The "ids" parameter is empty.')
+
+        if hashed_features is not None:
+            if hashed_features < 1 or isinstance(hashed_features, float):
+                raise ValueError('The value of "hashed_features" should be a '
+                                 'positive integer, preferably a very large '
+                                 'integer.')
+            vec = FeatureHasher(n_features=hashed_features,
                                 non_negative=True)
         else:
             vec = DictVectorizer(sparse=True)
 
-        if not ids:
-            raise ValueError('The "ids" parameter is empty.')
-
-        # Fit the vectorizer in batches of data
+        # Incrementally fit the vectorizer with one batch of data at a
+        # time
         batch_size = 20
+        samples = self._generate_samples(ids, 'x')
         while True:
-            batch = []
-            for sample in self._generate_samples(ids, 'x'):
-                batch.append(sample)
+            batch = list(take(batch_size, samples))
+            if not batch: break
             vec.fit(batch)
 
         return vec
@@ -570,8 +575,7 @@ class RunCVExperiments(object):
             # Either yield the sample given the specified key or yield
             # the whole sample (or, if the sample is equal to None,
             # continue)
-            if not sample:
-                continue
+            if not sample: continue
             yield sample.get(key, sample)
 
     def _do_grid_search_round(self) -> Dict[str, Dict[str, Any]]:
@@ -592,24 +596,50 @@ class RunCVExperiments(object):
 
         # Feature selection
         if cfg.k_best_feature_selection != 1.0:
-            num_features = \
-                len(set(chain(*[set(sample) for sample
-                                in self._generate_samples(grid_search_all_ids,
-                                                          'x')])))
+            if isinstance(self.gs_vec_, DictVectorizer):
+                num_features = len(self.gs_vec_.vocabulary_)
+            else:
+                num_features = \
+                    len(set(chain(*[set(sample) for sample
+                                    in self._generate_samples(grid_search_all_ids,
+                                                              'x')])))
             num_features_to_select = \
                 int(np.ceil(cfg.k_best_feature_selection*num_features))
             loginfo('Removing {0} features ({1}) during grid search round...'
                     .format(num_features - num_features_to_select,
                             cfg.k_best_feature_selection))
-            X_train = \
-                (SelectKBest(chi2, k=num_features_to_select)
-                 .fit_transform(self.gs_vec_
-                                .transform(self._generate_samples(grid_search_all_ids,
-                                                                  'x')),
-                                y_train))
+            X_train = None
+            batch_size = 50
+            samples = self._generate_samples(grid_search_all_ids, 'x')
+            while True:
+                X_list = list(take(batch_size, samples))
+                if not X_list: break
+                X_ = self.gs_vec_.transform(X_list)
+                del X_list
+                if not X_train:
+                    X_train = X_
+                else:
+                    X_train = \
+                        sp.sparse.csr_matrix(np.vstack([X_train.todense(),
+                                                        X_.todense()]))
+            X_train = SelectKBest(chi2,
+                                  k=num_features_to_select).fit_transform(X_train,
+                                                                          y_train)
         else:
-            X_train = (self.gs_vec_
-                       .transform(self._generate_samples(grid_search_all_ids, 'x')))
+            X_train = None
+            batch_size = 50
+            samples = self._generate_samples(grid_search_all_ids, 'x')
+            while True:
+                X_list = list(take(batch_size, samples))
+                if not X_list: break
+                X_ = self.gs_vec_.transform(X_list)
+                del X_list
+                if not X_train:
+                    X_train = X_
+                else:
+                    X_train = \
+                        sp.sparse.csr_matrix(np.vstack([X_train.todense(),
+                                                        X_.todense()]))
 
         # Update `self.y_all_` with all of the samples used during the
         # grid search round

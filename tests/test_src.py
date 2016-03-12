@@ -6,11 +6,12 @@ from os.path import join
 from shutil import rmtree
 from tempfile import mkdtemp
 
+import numpy as np
 from typing import (List,
-                    Tuple)
+                    Tuple,
+                    Optional)
 from nose2.compat import unittest
-from nose.tools import (assert_equal,
-                        assert_raises)
+from nose.tools import assert_equal
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -21,6 +22,7 @@ from src import (Learner,
                  ParamGrid,
                  LEARNER_DICT,
                  get_game_files,
+                 LEARNER_DICT_KEYS,
                  parse_games_string,
                  DEFAULT_PARAM_GRIDS,
                  parse_learners_string,
@@ -174,3 +176,33 @@ class FindDefaultParamGridsTestCase(unittest.TestCase):
             yield (self.check_find_default_param_grid_defaults,
                    list(zip(learner_abbrevs, learners)),
                    param_grids)
+
+
+class ParseLearnersStringTestCase(unittest.TestCase):
+    """
+    Tests for the `parse_learners_string` function.
+    """
+
+    learners = list(LEARNER_DICT_KEYS)
+
+    def test_parse_learners_string_valid(self):
+        """
+        Use valid parameter values to tests `parse_learners_string`.
+        """
+
+        for i in range(1, len(self.learners) + 1):
+            assert_equal(sorted(list(parse_learners_string(','.join(self.learners[:i])))),
+                         sorted(self.learners[:i]))
+
+    def test_parse_learners_string_invalid(self):
+        """
+        Use invalid parameter values to test `parse_learners_string`.
+        """
+
+        fake_and_real_names = (self.learners
+                               + ['perceptron', 'multinomialnb', 'MNB', ''])
+        np.random.shuffle(fake_and_real_names)
+        for i in range(len(fake_and_real_names)):
+            if set(self.learners).issuperset(fake_and_real_names[:i]): continue
+            with self.assertRaises(ValueError):
+                parse_learners_string(','.join(fake_and_real_names[:i]))
