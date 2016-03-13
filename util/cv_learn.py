@@ -373,15 +373,12 @@ class RunCVExperiments(object):
 
         # Create and fit vectorizers with all grid search samples and
         # training samples
-        train_ids = list(chain(*self.data_.training_set))
-        grid_search_ids = list(chain(*self.data_.grid_search_set))
-        self.gs_vec_ = self._make_vectorizer(grid_search_ids,
+        self.train_ids_ = list(chain(*self.data_.training_set))
+        self.grid_search_ids_ = list(chain(*self.data_.grid_search_set))
+        self.gs_vec_ = self._make_vectorizer(self.grid_search_ids_,
                                              hashed_features=cfg.hashed_features)
-        self.training_vec_ = self._make_vectorizer(train_ids,
+        self.training_vec_ = self._make_vectorizer(self.train_ids_,
                                                    hashed_features=cfg.hashed_features)
-
-        # Store all of the labels used for grid search and training
-        self.y_all_ = []
 
         # Learner-related variables
         self.learners_ = [LEARNER_DICT[learner] for learner in cfg.learners]
@@ -578,6 +575,40 @@ class RunCVExperiments(object):
             if not sample: continue
             yield sample.get(key, sample)
 
+    def _vectorize_and_sparsify_data(self,
+                                     vec: Vectorizer,
+                                     ids: List[str],
+                                     batch_size: int = 50) \
+        -> sp.sparse.csr.csr_matrix:
+        """
+        Vectorize and sparsify sample data pointed to by the input
+        sample IDs in batches.
+
+        :param vec: vectorizer
+        :type vec: DictVectorizer/FeatureHasher
+        :param ids: list of IDs of the the samples to use
+        :type ids: list
+        :param batch_size: 
+        :type batch_size: int
+
+        :returns: sparse matrix
+        :rtype: sp.sparse.csr.csr_matrix
+        """
+
+        X = None
+        samples = self._generate_samples(ids, 'x')
+        while True:
+            X_list = list(take(batch_size, samples))
+            if not X_list: break
+            X_part = vec.transform(X_list)
+            del X_list
+            if not X:
+                X = X_part
+            else:
+                X = sp.sparse.csr_matrix(np.vstack([X.todense(), X_part.todense()]))
+
+        return X
+
     def _do_grid_search_round(self) -> Dict[str, Dict[str, Any]]:
         """
         Do grid search round.
@@ -591,8 +622,7 @@ class RunCVExperiments(object):
         cfg = self.cfg_
 
         # Get the data to use, vectorizing the sample feature dictionaries
-        grid_search_all_ids = list(chain(*self.data_.grid_search_set))
-        y_train = list(self._generate_samples(grid_search_all_ids, 'y'))
+        y_train = list(self._generate_samples(self.grid_search_ids_, 'y'))
 
         # Feature selection
         if cfg.k_best_feature_selection != 1.0:
@@ -601,49 +631,21 @@ class RunCVExperiments(object):
             else:
                 num_features = \
                     len(set(chain(*[set(sample) for sample
-                                    in self._generate_samples(grid_search_all_ids,
+                                    in self._generate_samples(self.grid_search_ids_,
                                                               'x')])))
             num_features_to_select = \
                 int(np.ceil(cfg.k_best_feature_selection*num_features))
             loginfo('Removing {0} features ({1}) during grid search round...'
                     .format(num_features - num_features_to_select,
                             cfg.k_best_feature_selection))
-            X_train = None
-            batch_size = 50
-            samples = self._generate_samples(grid_search_all_ids, 'x')
-            while True:
-                X_list = list(take(batch_size, samples))
-                if not X_list: break
-                X_ = self.gs_vec_.transform(X_list)
-                del X_list
-                if not X_train:
-                    X_train = X_
-                else:
-                    X_train = \
-                        sp.sparse.csr_matrix(np.vstack([X_train.todense(),
-                                                        X_.todense()]))
+            X_train = self._vectorize_and_sparsify_data(self.gs_vec_,
+                                                        self.grid_search_ids_)
             X_train = SelectKBest(chi2,
                                   k=num_features_to_select).fit_transform(X_train,
                                                                           y_train)
         else:
-            X_train = None
-            batch_size = 50
-            samples = self._generate_samples(grid_search_all_ids, 'x')
-            while True:
-                X_list = list(take(batch_size, samples))
-                if not X_list: break
-                X_ = self.gs_vec_.transform(X_list)
-                del X_list
-                if not X_train:
-                    X_train = X_
-                else:
-                    X_train = \
-                        sp.sparse.csr_matrix(np.vstack([X_train.todense(),
-                                                        X_.todense()]))
-
-        # Update `self.y_all_` with all of the samples used during the
-        # grid search round
-        self.y_all_.extend(y_train)
+            X_train = self._vectorize_and_sparsify_data(self.gs_vec_,
+                                                        self.grid_search_ids_)
 
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
@@ -729,12 +731,13 @@ class RunCVExperiments(object):
 
         cfg = self.cfg_
 
+        # Store all of the samples used during cross-validation
+        self.y_training_set_all_ = list(self._generate_samples(self.train_ids_, 'y'))
+
         # Initialize learner objects with the optimal set of parameters
         # learned from the grid search round (one for each
         # sub-experiment of the cross-validation round)
         for learner_name in self.learner_names_:
-
-            # Partially fit each estimator with the new training data
             self.cv_learners_[learner_name] = \
                 [self.learners_[learner_name](**self.learner_gs_cv_params_)
                  for i in range(len(self.data_.training_set))]
@@ -749,7 +752,7 @@ class RunCVExperiments(object):
         if cfg.k_best_feature_selection != 1.0:
             num_features = \
                 len(set(chain(*[set(sample) for sample
-                                in self._generate_samples(training_fold, 'x')])))
+                                in self._generate_samples(self.train_ids_, 'x')])))
             num_features_to_select = \
                 int(np.ceil(cfg.k_best_feature_selection*num_features))
             loginfo('Removing {0} features ({1}) during training round...'
@@ -757,13 +760,12 @@ class RunCVExperiments(object):
                             cfg.k_best_feature_selection))
             feature_selector = \
                 (SelectKBest(chi2, k=num_features_to_select)
-                 .fit(self.training_vec_
-                      .transform(self._generate_samples(grid_search_all_ids, 'x')),
-                      self._generate_samples(grid_search_all_ids, 'y')))
+                 .fit(self._vectorize_and_sparsify_data(self.training_vec_,
+                                                        self.train_ids_),
+                      self.y_training_set_all_))
 
         # For each fold of the training set, train on all of the other
         # folds and evaluate on the one left out fold
-        y_training_set_all = []
         for i, held_out_fold in enumerate(self.data_.training_set):
 
             loginfo('Cross-validation sub-experiment #{0} in progress'
@@ -778,21 +780,11 @@ class RunCVExperiments(object):
 
                 # Get the training data
                 y_train = list(self._generate_samples(training_fold, 'y'))
-                if cfg.k_best_feature_selection != 1.0:
-                    X_train = \
-                        (feature_selector
-                         .transform(self.training_vec_
-                                    .transform(self._generate_samples(training_fold,
-                                                                      'x')),
-                                    y_train))
-                else:
-                    X_train = \
-                        (self.training_vec_
-                         .transform(self._generate_samples(training_fold, 'x')))
-
-                # Store the actual input values so that rescaling can be
-                # done later
                 y_train_all.extend(y_train)
+                X_train = self.vectorize_and_sparsify_(self.training_vec_,
+                                                       training_fold)
+                if cfg.k_best_feature_selection != 1.0:
+                    X_train = feature_selector.transform(X_train)
 
                 # Iterate over the learners
                 for learner_name in self.learner_names_:
@@ -808,18 +800,9 @@ class RunCVExperiments(object):
 
             # Get test data
             y_test = list(self._generate_samples(held_out_fold, 'y'))
+            X_test = self.vectorize_and_sparsify_(self.training_vec_, held_out_fold)
             if cfg.k_best_feature_selection != 1.0:
-                X_test = (feature_selector
-                          .transform(self.training_vec_
-                                     .transform(self._generate_samples(held_out_fold,
-                                                                       'x')),
-                                     y_test))
-            else:
-                X_test = (self.training_vec_
-                      .transform(self._generate_samples(held_out_fold, 'x')))
-
-            # Add test labels to `y_training_set_all`
-            y_training_set_all.extend(y_test)
+                X_test = feature_selector.transform(X_test)
 
             # Make predictions with the modified estimators
             for j, learner_name in enumerate(self.learner_names_):
@@ -867,10 +850,6 @@ class RunCVExperiments(object):
                              transformation_string=self.transformation_string_,
                              bin_ranges=cfg.bin_ranges)))
 
-        # Update `self.y_all_` with all of the samples used during the
-        # cross-validation
-        self.y_all_.extend(y_training_set_all)
-
     def _get_majority_baseline(self) -> np.ndarray:
         """
         Generate a majority baseline array of prediction labels.
@@ -879,8 +858,9 @@ class RunCVExperiments(object):
         :rtype: np.ndarray
         """
 
-        self._majority_label = max(set(self.y_all_), key=self.y_all_.count)
-        return np.array([self._majority_label]*len(self.y_all_))
+        self._majority_label = max(set(self.y_training_set_all_),
+                                   key=self.y_training_set_all_.count)
+        return np.array([self._majority_label]*len(self.y_training_set_all_))
 
     def _evaluate_majority_baseline_model(self) -> pd.Series:
         """
@@ -892,7 +872,7 @@ class RunCVExperiments(object):
         """
 
         cfg = self.cfg_
-        stats_dict = ex.compute_evaluation_metrics(self.y_all_,
+        stats_dict = ex.compute_evaluation_metrics(self.y_training_set_all_,
                                                    self._get_majority_baseline(),
                                                    self.data_.classes)
         stats_dict.update({'games' if len(cfg.games) > 1 else 'game':
