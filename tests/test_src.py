@@ -7,6 +7,7 @@ from shutil import rmtree
 from tempfile import mkdtemp
 
 import numpy as np
+from itertools import chain
 from typing import (List,
                     Tuple,
                     Optional)
@@ -18,13 +19,18 @@ from sklearn.naive_bayes import (BernoulliNB,
 from sklearn.linear_model import (Perceptron,
                                   PassiveAggressiveRegressor)
 
-from src import (Learner,
+from src import (LABELS,
+                 Learner,
                  ParamGrid,
+                 TIME_LABELS,
                  LEARNER_DICT,
                  get_game_files,
+                 FRIENDS_LABELS,
+                 HELPFUL_LABELS,
                  LEARNER_DICT_KEYS,
                  parse_games_string,
                  DEFAULT_PARAM_GRIDS,
+                 ACHIEVEMENTS_LABELS,
                  parse_learners_string,
                  find_default_param_grid,
                  parse_non_nlp_features_string)
@@ -187,18 +193,23 @@ class ParseLearnersStringTestCase(unittest.TestCase):
 
     def test_parse_learners_string_valid(self):
         """
-        Use valid parameter values to tests `parse_learners_string`.
+        Use valid parameter values to test `parse_learners_string`.
         """
 
+        # Test some combinations of valid learner-types (not all
+        # combinations, though)
         for i in range(1, len(self.learners) + 1):
-            assert_equal(sorted(list(parse_learners_string(','.join(self.learners[:i])))),
-                         sorted(self.learners[:i]))
+            assert_equal(
+                sorted(parse_learners_string(','.join(self.learners[:i]))),
+                sorted(self.learners[:i]))
 
     def test_parse_learners_string_invalid(self):
         """
         Use invalid parameter values to test `parse_learners_string`.
         """
 
+        # Test some combinations of invalid (and possibly valid)
+        # learner-types
         fake_and_real_names = (self.learners
                                + ['perceptron', 'multinomialnb', 'MNB', ''])
         np.random.shuffle(fake_and_real_names)
@@ -206,3 +217,144 @@ class ParseLearnersStringTestCase(unittest.TestCase):
             if set(self.learners).issuperset(fake_and_real_names[:i]): continue
             with self.assertRaises(ValueError):
                 parse_learners_string(','.join(fake_and_real_names[:i]))
+
+
+class ParseNonNLPFeaturesStringTestCase(unittest.TestCase):
+    """
+    Tests for the `parse_non_nlp_features_string` function.
+    """
+
+    labels = set(LABELS)
+    label_groups = dict(TIME_LABELS=set(TIME_LABELS),
+                        FRIENDS_LABELS=set(FRIENDS_LABELS),
+                        HELPFUL_LABELS=set(HELPFUL_LABELS),
+                        ACHIEVEMENTS_LABELS=set(ACHIEVEMENTS_LABELS),
+                        OTHER=set([label for label in LABELS
+                                   if not label in chain(TIME_LABELS,
+                                                         FRIENDS_LABELS,
+                                                         HELPFUL_LABELS,
+                                                         ACHIEVEMENTS_LABELS)]))
+
+    def test_parse_non_nlp_features_string_valid(self):
+        """
+        Use valid parameter values to test `parse_non_nlp_features_string`.
+        """
+
+        # Test some valid combinations (not all) of non-NLP features
+        for label_group in self.label_groups:
+            
+            valid_prediction_labels = self.label_groups[label_group]
+
+            # Pick one random label to use as the prediction label from
+            # each group of labels
+            group_labels = list(valid_prediction_labels)
+            np.random.shuffle(group_labels)
+            prediction_label = group_labels[0]
+
+            if label_group != 'OTHER':
+                valid_labels = list(self.labels.difference(valid_prediction_labels))
+            else:
+                valid_labels = [label for label in self.labels
+                                if not label == prediction_label]
+
+            for i in range(1, len(valid_labels) + 1):
+                assert_equal(
+                    sorted(parse_non_nlp_features_string(','.join(valid_labels[:i]),
+                                                         prediction_label)),
+                    sorted(valid_labels[:i]))
+
+    def test_parse_non_nlp_features_string_unrecognized(self):
+        """
+        Use invalid parameter values to test `parse_non_nlp_features_string`.
+        """
+
+        # Use one of the time-related labels as the prediction label
+        # and exclude all time-related labels from the input string
+        label_group = 'TIME_LABELS'
+        prediction_label = list(self.label_groups[label_group])[0]
+        fake_and_real_features = \
+            self.labels.difference(self.label_groups[label_group])
+
+        # Add fake features to the set of input features and shuffle it
+        fake_and_real_features.update({'hours', 'achievements', 'friends',
+                                       'groups'})
+        fake_and_real_features = list(fake_and_real_features)
+        np.random.shuffle(fake_and_real_features)
+
+        # Iterate through features and discard any set that doesn't
+        # contain at least one unrecognized feature
+        for i in range(len(fake_and_real_features)):
+            if self.labels.issuperset(fake_and_real_features[:i]): continue
+            with self.assertRaises(ValueError):
+                parse_non_nlp_features_string(','.join(fake_and_real_features[:i]),
+                                              prediction_label)
+
+    def test_parse_non_nlp_features_string_group_conflict(self):
+        """
+        Use parameter values that represent a conflict to test whether
+        or not `parse_non_nlp_features_string` will catch it.
+        """
+
+        for label_group in self.label_groups:
+
+            # Skip 'OTHER' label group
+            if label_group == 'OTHER': continue
+
+            # Use one label from the label group as the prediction label
+            group_labels = list(self.label_groups[label_group])
+            prediction_label = group_labels[0]
+
+            # Get a small set of labels from other groups
+            other_group_labels = list(set(chain(*self.label_groups.values()))
+                                      .difference(group_labels))
+            np.random.shuffle(other_group_labels)
+            other_group_labels = other_group_labels[:5]
+
+            # Iterate through each group label that represents a
+            # conflict (including the prediction label itself)
+            for label in group_labels:
+                labels = [label_ for label_ in group_labels if label_ != label]
+                for i in range(len(labels)):
+                    labels_ = labels[:i] + [label]
+                    with self.assertRaises(ValueError):
+                        parse_non_nlp_features_string(','.join(labels_),
+                                                      prediction_label)
+                    labels_ = labels_ + other_group_labels
+                    np.random.shuffle(labels_)
+                    with self.assertRaises(ValueError):
+                        parse_non_nlp_features_string(','.join(labels_),
+                                                      prediction_label)
+
+    def test_parse_non_nlp_features_string_all(self):
+        """
+        Test `parse_non_nlp_features_string` when a value of "all" is
+        used instead of a comma-separated list of labels (which should
+        automatically remove any labels that conflict with the
+        prediction label).
+        """
+
+        # Use one label from the label group as the prediction label
+        label_group_name = list(self.label_groups)[0]
+        group_labels = self.label_groups[label_group_name]
+        prediction_label = list(group_labels)[0]
+        expected_labels = self.labels.difference(group_labels)
+
+        assert_equal(sorted(parse_non_nlp_features_string('all',
+                                                          prediction_label)),
+                     sorted(expected_labels))
+
+    def test_parse_non_nlp_features_string_none(self):
+        """
+        Test `parse_non_nlp_features_string` when a value of "none" is
+        used instead of a comma-separated list of labels (return a set
+        consisting of no labels).
+        """
+
+        # Use one label from the label group as the prediction label
+        label_group_name = list(self.label_groups)[0]
+        group_labels = self.label_groups[label_group_name]
+        prediction_label = list(group_labels)[0]
+        expected_labels = set()
+
+        assert_equal(parse_non_nlp_features_string('none', prediction_label),
+                     set())
