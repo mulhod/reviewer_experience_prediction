@@ -735,9 +735,9 @@ class RunCVExperiments(object):
         # Initialize learner objects with the optimal set of parameters
         # learned from the grid search round (one for each
         # sub-experiment of the cross-validation round)
-        for learner_name in self.learner_names_:
+        for learner, learner_name in zip(self.learners_, self.learner_names_):
             self.cv_learners_[learner_name] = \
-                [self.learners_[learner_name](**self.learner_gs_cv_params_)
+                [learner(**self.learner_gs_cv_params_)
                  for i in range(len(self.data_.training_set))]
 
         # Make a list of empty lists corresponding to each estimator
