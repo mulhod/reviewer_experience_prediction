@@ -388,7 +388,6 @@ class RunCVExperiments(object):
 
         # Do grid search round
         loginfo('Executing parameter grid search learning round...')
-        self.gs_cv_folds_ = None
         self.learner_gs_cv_params_ = self._do_grid_search_round()
 
         # Do incremental learning experiments
@@ -521,9 +520,10 @@ class RunCVExperiments(object):
                                  'positive integer, preferably a very large '
                                  'integer.')
             vec = FeatureHasher(n_features=hashed_features,
-                                non_negative=True)
+                                non_negative=True,
+                                dtype=np.float32)
         else:
-            vec = DictVectorizer(sparse=True)
+            vec = DictVectorizer(sparse=True, dtype=np.float32)
 
         # Incrementally fit the vectorizer with one batch of data at a
         # time
@@ -595,19 +595,17 @@ class RunCVExperiments(object):
         :rtype: sp.sparse.csr.csr_matrix
         """
 
-        X = None
+        X = []
         samples = self._generate_samples(ids, 'x')
         while True:
             X_list = list(take(batch_size, samples))
             if not X_list: break
             X_part = vec.transform(X_list)
             del X_list
-            if not X:
-                X = X_part
-            else:
-                X = sp.sparse.csr_matrix(np.vstack([X.todense(), X_part.todense()]))
+            X.append(X_part)
+            del X_part
 
-        return X
+        return sp.sparse.csr_matrix(np.vstack([x.todense() for x in X]))
 
     def _do_grid_search_round(self) -> Dict[str, Dict[str, Any]]:
         """
@@ -654,10 +652,10 @@ class RunCVExperiments(object):
         # `RandomState` object, it should always happen in the exact
         # same way.
         prng = np.random.RandomState(12345)
-        self.gs_cv_folds_ = StratifiedKFold(y=y_train,
-                                            n_folds=self.data_.grid_search_folds,
-                                            shuffle=True,
-                                            random_state=prng)
+        gs_cv_folds_ = StratifiedKFold(y=y_train,
+                                       n_folds=self.data_.grid_search_folds,
+                                       shuffle=True,
+                                       random_state=prng)
 
         # Iterate over the learners/parameter grids, executing the grid search
         # cross-validation for each
@@ -666,7 +664,7 @@ class RunCVExperiments(object):
                 .format(self.data_.grid_search_folds))
         n_jobs_learners = ['Perceptron', 'SGDClassifier',
                            'PassiveAggressiveClassifier']
-        learner_gs_cv_dict = {}
+        learner_gs_cv_params_ = {}
         for learner, learner_name, param_grids in zip(self.learners_,
                                                       self.learner_names_,
                                                       cfg.param_grids):
@@ -704,7 +702,7 @@ class RunCVExperiments(object):
                 raise ValueError(msg)
             gs_cv = GridSearchCV(learner(),
                                  param_grids,
-                                 cv=self.gs_cv_folds_,
+                                 cv=gs_cv_folds_,
                                  scoring=self._resolve_objective_function())
 
             # Do the grid search cross-validation
@@ -715,7 +713,7 @@ class RunCVExperiments(object):
         del X_train
         del y_train
 
-        return learner_gs_cv_dict
+        return learner_gs_cv_params_
 
     def _do_training_cross_validation(self) -> None:
         """
