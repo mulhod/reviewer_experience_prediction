@@ -779,8 +779,8 @@ class RunCVExperiments(object):
                 # Get the training data
                 y_train = list(self._generate_samples(training_fold, 'y'))
                 y_train_all.extend(y_train)
-                X_train = self.vectorize_and_sparsify_(self.training_vec_,
-                                                       training_fold)
+                X_train = self._vectorize_and_sparsify_data(self.training_vec_,
+                                                            training_fold)
                 if cfg.k_best_feature_selection != 1.0:
                     X_train = feature_selector.transform(X_train)
 
@@ -798,7 +798,8 @@ class RunCVExperiments(object):
 
             # Get test data
             y_test = list(self._generate_samples(held_out_fold, 'y'))
-            X_test = self.vectorize_and_sparsify_(self.training_vec_, held_out_fold)
+            X_test = self._vectorize_and_sparsify_data(self.training_vec_,
+                                                       held_out_fold)
             if cfg.k_best_feature_selection != 1.0:
                 X_test = feature_selector.transform(X_test)
 
