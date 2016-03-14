@@ -707,7 +707,7 @@ class RunCVExperiments(object):
 
             # Do the grid search cross-validation
             gs_cv.fit(X_train, y_train)
-            learner_gs_cv_params_[learner_name] = dict(gs_cv.best_params_)
+            learner_gs_cv_params_[learner_name] = gs_cv.best_params_
             del gs_cv
 
         del X_train
@@ -737,7 +737,7 @@ class RunCVExperiments(object):
         # sub-experiment of the cross-validation round)
         for learner, learner_name in zip(self.learners_, self.learner_names_):
             self.cv_learners_[learner_name] = \
-                [learner(**self.learner_gs_cv_params_)
+                [learner(**self.learner_gs_cv_params_[learner_name])
                  for i in range(len(self.data_.training_set))]
 
         # Make a list of empty lists corresponding to each estimator
