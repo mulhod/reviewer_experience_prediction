@@ -203,15 +203,19 @@ def get_game_files(games_str: str, data_dir_path: str = data_dir) -> List[str]:
 
     game_files = []
     sample_file_inputs = ['sample', 'sample.jsonlines']
-    if not games_str or games_str in sample_file_inputs:
-        raise ValueError('No files passed in via --game_files argument were '
-                         'found: {}.'.format(', '.join(games_str.split(','))))
+    if not games_str or all(game in sample_file_inputs for game
+                            in games_str.split(',')):
+        raise ValueError('Games string is empty or it includes only the sample'
+                         ' file (not intended for actual use): {}.'
+                         .format(', '.join(games_str.split(','))))
     elif games_str == "all":
-        game_files.extend([f for f in listdir(data_dir_path)
-                           if f.endswith('.jsonlines')])
+        game_files = [f for f in listdir(data_dir_path) if f.endswith('.jsonlines')]
 
-        # Remove the sample game file from the list
-        del game_files[game_files.index('sample.jsonlines')]
+        # Remove the sample game file from the list if it exists
+        if any(game in game_files for game in sample_file_inputs):
+            for game in sample_file_inputs:
+                if game in game_files:
+                    del game_files[game_files.index(game)]
 
         if not game_files:
             raise ValueError('No non-sample file .jsonlines files found in '
@@ -254,6 +258,14 @@ def find_default_param_grid(learner: str,
     :raises ValueError: if an unrecognized learner abbreviation is used
     """
 
+    if not learner:
+        raise ValueError('Learner string is empty.')
+    if not params_grids_dict:
+        raise ValueError('Default parameter grids dictionary is empty. It '
+                         'should consist of a dictionary mapping learner '
+                         'classes to lists of parameter grids, each of which '
+                         'is a list of dictionaries mapping parameters to '
+                         'lists of parameter values.')
     for key_cls, grids in param_grids_dict.items():
         if issubclass(LEARNER_DICT[learner], key_cls):
             return grids
@@ -277,7 +289,9 @@ def parse_learners_string(learners_string: str) -> set:
                         input
     """
 
-    if learners_string == 'all':
+    if not learners_string:
+        raise ValueError('Learners string is empty.')
+    elif learners_string == 'all':
         learners = set(LEARNER_DICT_KEYS)
     else:
         learners = set(learners_string.split(','))
@@ -316,7 +330,12 @@ def parse_non_nlp_features_string(features_string: str,
                         the prediction label
     """
 
-    if features_string == 'all':
+    if not features_string:
+        raise ValueError('Features string is empty.')
+    if not prediction_label or not prediction_label in LABELS:
+        raise ValueError('Prediction label is empty or is an unrecognized '
+                         'value.')
+    elif features_string == 'all':
         non_nlp_features = set(LABELS)
 
         # Remove time-related labels if the prediction label is also

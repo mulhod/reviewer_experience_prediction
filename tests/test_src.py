@@ -22,6 +22,7 @@ from sklearn.linear_model import (Perceptron,
 from src import (LABELS,
                  Learner,
                  ParamGrid,
+                 VALID_GAMES,
                  TIME_LABELS,
                  LEARNER_DICT,
                  get_game_files,
@@ -358,3 +359,55 @@ class ParseNonNLPFeaturesStringTestCase(unittest.TestCase):
 
         assert_equal(parse_non_nlp_features_string('none', prediction_label),
                      set())
+
+
+class ParseGamesStringTestCase(unittest.TestCase):
+    """
+    Tests for the `parse_games_string` function.
+    """
+
+    games = list(VALID_GAMES)
+
+    def test_parse_games_string_all(self):
+        """
+        Test `parse_games_string` using "all" as input.
+        """
+
+        assert_equal(sorted(parse_games_string("all")),
+                     sorted(self.games))
+
+    def test_parse_games_string_valid(self):
+        """
+        Test `parse_games_string` using inputs consisting of valid
+        games.
+        """
+
+        # Iterate through the list of valid games and try successively
+        # larger inputs
+        for i in range(1, len(self.games) + 1):
+            assert_equal(sorted(parse_games_string(','.join(self.games[:i]))),
+                         sorted(self.games[:i]))
+
+    def test_parse_games_string_unrecognized(self):
+        """
+        Test `parse_games_string` using input consisting of unrecognized
+        games (and possibly recognized games).
+        """
+
+        invalid_games = ["game1", "game2", "game3", "game4"]
+        games = self.games + invalid_games
+        np.random.shuffle(games)
+
+        # Iterate through the list of valid/unrecognized games and
+        # ensure that exceptions are raised in the cases where
+        # unrecognized games are included
+        for i in range(1, len(games) + 1):
+            for j in range(0, len(games), i):
+                if len(games[j:j + i]) != i: continue
+                if VALID_GAMES.issuperset(games[j:j + i]):
+                    assert_equal(
+                        sorted(parse_games_string(','.join(games[j:j + i]))),
+                        sorted(games[j:j + i]))
+                else:
+                    with self.assertRaises(ValueError):
+                        parse_games_string(','.join(games[j:j + i]))
