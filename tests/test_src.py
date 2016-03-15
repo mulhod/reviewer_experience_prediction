@@ -12,7 +12,8 @@ from typing import (List,
                     Tuple,
                     Optional)
 from nose2.compat import unittest
-from nose.tools import assert_equal
+from nose.tools import (assert_equal,
+                        assert_raises)
 from sklearn.cluster import MiniBatchKMeans
 from sklearn.naive_bayes import (BernoulliNB,
                                  MultinomialNB)
@@ -335,7 +336,7 @@ class ParseNonNLPFeaturesStringTestCase(unittest.TestCase):
         """
 
         # Use one label from the label group as the prediction label
-        label_group_name = list(self.label_groups)[0]
+        label_group_name = 'TIME_LABELS'
         group_labels = self.label_groups[label_group_name]
         prediction_label = list(group_labels)[0]
         expected_labels = self.labels.difference(group_labels)
