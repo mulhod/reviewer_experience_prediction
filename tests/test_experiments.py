@@ -815,7 +815,7 @@ class GetLabelInDocTestCase(unittest.TestCase):
                     "num_achievements_percentage": None,
                     },
                 "appid": "230410",
-                "binarized": true,
+                "binarized": True,
                 "date_posted": "Apr 20, 2015, 8:04PM",
                 "date_updated": None,
                 "found_helpful_percentage": 1,
@@ -852,16 +852,8 @@ class GetLabelInDocTestCase(unittest.TestCase):
         Use an invalid label as a parameter.
         """
 
-        with self.assert_raises(ValueError):
+        with self.assertRaises(ValueError):
             get_label_in_doc({}, 'invalid_label')
-
-    def test_get_label_in_doc_empty_doc(self):
-        """
-        Use an empty document as a parameter value.
-        """
-
-        with self.assert_raises(ValueError):
-            get_label_in_doc(self.test_doc, self.labels[0])
 
     def test_get_label_in_doc_valid_labels(self):
         """

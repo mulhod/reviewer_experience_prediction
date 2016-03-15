@@ -211,15 +211,11 @@ def get_label_in_doc(doc: Dict[str, Any],
     :returns: label value
     :rtype: int, float, str, or None
 
-    :raises ValueError: if the label is not a valid label or the
-                        document is empty
+    :raises ValueError: if the label is not a valid label
     """
 
     if not label in LABELS:
         raise ValueError('Unrecognized label: {0}'.format(label))
-
-    if not doc:
-        raise ValueError('Empty document.')
 
     if label in doc:
         return doc[label]
