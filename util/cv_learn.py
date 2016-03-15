@@ -322,6 +322,9 @@ class RunCVExperiments(object):
 
     # Constants
     default_cursor_batch_size_ = 50
+    learners_requiring_classes_kwarg_ = frozenset({'BernoulliNB',
+                                                   'MultinomialNB',
+                                                   'Perceptron'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
@@ -718,6 +721,7 @@ class RunCVExperiments(object):
         """
 
         cfg = self.cfg_
+        fit_kwargs = {'classes': list(self.data_.classes)}
 
         # Store all of the samples used during cross-validation
         self.y_training_set_all_ = list(self._generate_samples(self.train_ids_, 'y'))
@@ -759,7 +763,7 @@ class RunCVExperiments(object):
             training_folds = (self.data_.training_set[:i]
                               + self.data_.training_set[i + 1:])
             y_train_all = []
-            for training_fold in training_folds:
+            for j, training_fold in enumerate(training_folds):
 
                 # Get the training data
                 y_train = list(self._generate_samples(training_fold, 'y'))
@@ -773,15 +777,15 @@ class RunCVExperiments(object):
                 for learner_name in self.learner_names_:
 
                     # Partially fit each estimator with the new training
-                    # data
-                    if not i:
-                        (self.cv_learners_[learner_name][i]
-                         .partial_fit(X_train,
-                                      y_train,
-                                      classes=list(self.data_.classes)))
-                    else:
-                        (self.cv_learners_[learner_name][i]
-                         .partial_fit(X_train, y_train))
+                    # data (specifying the `classes` keyword argument if
+                    # this is the first go-round and it's a learner that
+                    # requires this to be specified initially)
+                    (self.cv_learners_[learner_name][i]
+                     .partial_fit(X_train,
+                                  y_train,
+                                  **fit_kwargs if j and learner_name
+                                      in self.learners_requiring_classes_kwarg_
+                                      else **{}))
 
             # Get mean and standard deviation for actual values
             y_train_all = np.array(y_train_all)
