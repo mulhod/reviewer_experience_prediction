@@ -808,7 +808,7 @@ class GetLabelInDocTestCase(unittest.TestCase):
     """
 
     labels = list(LABELS)
-    test_doc = {"_id": ObjectId("6340a5f65e76db82sdbefgbdd1u"),
+    test_doc = {"_id": ObjectId("5690a5f5e76db81bef5bdd1c"),
                 "achievement_progress": {
                     "num_achievements_attained": None,
                     "num_achievements_possible": None,
@@ -821,7 +821,7 @@ class GetLabelInDocTestCase(unittest.TestCase):
                 "found_helpful_percentage": 1,
                 "friend_player_level": 7,
                 "game": "Warframe",
-                "id_string": "6340a5f65e76db82sdbefgbdd1u",
+                "id_string": "5690a5f5e76db81bef5bdd1c",
                 "num_badges": 5,
                 "num_comments": 0,
                 "num_found_funny": 0,
