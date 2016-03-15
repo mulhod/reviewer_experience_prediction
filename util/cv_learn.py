@@ -629,10 +629,9 @@ class RunCVExperiments(object):
         # Feature selection
         if cfg.feature_selection_percentile != 1.0:
             loginfo('Removing {0}% of the features during grid search round...'
-                    .format(100*cfg.feature_selection_percentile))
+                    .format(100.0 - 100*cfg.feature_selection_percentile))
             X_train = \
                 (SelectPercentile(chi2,
-                                  100.0 -
                                   percentile=100*cfg.feature_selection_percentile)
                  .fit_transform(X_train, y_train))
 
