@@ -404,7 +404,7 @@ class CVConfigTestCase(unittest.TestCase):
                             power_transform=None,
                             majority_baseline=True,
                             rescale=True,
-                            k_best_feature_selection=1.0,
+                            feature_selection_percentile=1.0,
                             n_jobs=1)
         
         # Combinations of parameters that should cause a `SchemaError`
@@ -560,14 +560,14 @@ class CVConfigTestCase(unittest.TestCase):
             # `learners` and `param_grids` of unequal size
             dict(learners=[learners[0]],
                  **{p: v for p, v in valid_kwargs.items() if p != 'learners'}),
-            # `k_best_feature_selection` is not greater than 0.0
-            dict(k_best_feature_selection=0.0,
+            # `feature_selection_percentile` is not greater than 0.0
+            dict(feature_selection_percentile=0.0,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'k_best_feature_selection'}),
-            # `k_best_feature_selection` is greater than 1.0
-            dict(k_best_feature_selection=1.1,
+                    if p != 'feature_selection_percentile'}),
+            # `feature_selection_percentile` is greater than 1.0
+            dict(feature_selection_percentile=1.1,
                  **{p: v for p, v in valid_kwargs.items()
-                    if p != 'k_best_feature_selection'}),
+                    if p != 'feature_selection_percentile'}),
             # `n_jobs` is not of type int
             dict(n_jobs=5.0,
                  **{p: v for p, v in valid_kwargs.items() if p != 'n_jobs'}),
@@ -608,12 +608,12 @@ class CVConfigTestCase(unittest.TestCase):
                             power_transform=None,
                             majority_baseline=True,
                             rescale=True,
-                            k_best_feature_selection=0.8,
+                            feature_selection_percentile=0.8,
                             n_jobs=4)
         default_params = set(['objective', 'data_sampling', 'grid_search_folds',
                               'hashed_features', 'nlp_features', 'bin_ranges',
                               'lognormal', 'power_transform', 'majority_baseline',
-                              'rescale', 'k_best_feature_selection', 'n_jobs'])
+                              'rescale', 'feature_selection_percentile', 'n_jobs'])
 
         # Combinations of parameters
         valid_kwargs_list = [
@@ -651,9 +651,9 @@ class CVConfigTestCase(unittest.TestCase):
             dict(**{p: v for p, v in valid_kwargs.items() if not p
                     in default_params.difference(['rescale'])}),
             # Only specify non-default parameters +
-            # `k_best_feature_selection`
+            # `feature_selection_percentile`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
-                    in default_params.difference(['k_best_feature_selection'])}),
+                    in default_params.difference(['feature_selection_percentile'])}),
             # Only specify non-default parameters + `n_jobs`
             dict(**{p: v for p, v in valid_kwargs.items() if not p
                     in default_params.difference(['n_jobs'])})
@@ -782,14 +782,14 @@ class CVConfigTestCase(unittest.TestCase):
             else:
                 assert_equal(cfg['rescale'], True)
 
-            # `k_best_feature_selection`
-            if 'k_best_feature_selection' in kwargs:
-                assert 'k_best_feature_selection' in cfg
-                assert isinstance(cfg['k_best_feature_selection'], float)
-                assert_equal(cfg['k_best_feature_selection'],
-                             kwargs['k_best_feature_selection'])
+            # `feature_selection_percentile`
+            if 'feature_selection_percentile' in kwargs:
+                assert 'feature_selection_percentile' in cfg
+                assert isinstance(cfg['feature_selection_percentile'], float)
+                assert_equal(cfg['feature_selection_percentile'],
+                             kwargs['feature_selection_percentile'])
             else:
-                assert_equal(cfg['k_best_feature_selection'], 1.0)
+                assert_equal(cfg['feature_selection_percentile'], 1.0)
 
             # `n_jobs`
             if 'n_jobs' in kwargs:

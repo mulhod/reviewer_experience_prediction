@@ -48,7 +48,7 @@ from skll.metrics import (kappa,
                           kendall_tau,
                           f1_score_least_frequent)
 from sklearn.feature_selection import (chi2,
-                                       SelectKBest)
+                                       SelectPercentile)
 from argparse import (ArgumentParser,
                       ArgumentDefaultsHelpFormatter)
 from sklearn.cross_validation import StratifiedKFold
@@ -130,7 +130,7 @@ class CVConfig(object):
                  power_transform: Optional[float] = None,
                  majority_baseline: bool = True,
                  rescale: bool = True,
-                 k_best_feature_selection: float = 1.0,
+                 feature_selection_percentile: float = 1.0,
                  n_jobs: int = 1) -> 'CVConfig':
         """
         Initialize object.
@@ -202,13 +202,15 @@ class CVConfig(object):
                         to True, but set to False if this is a
                         classification experiment)
         :type rescale: bool
-        :param k_best_feature_selection: use `chi2`-based `SelectKBest`
-                                         feature selection to retain the
-                                         given percentage of features,
-                                         i.e., a value in (0.0, 1.0]
-                                         (defaults to 1.0 to forego
-                                         feature selection altogether)
-        :type k_best_feature_selection: float
+        :param feature_selection_percentile: use `chi2`-based
+                                             `SelectPercentile` feature
+                                             selection to retain the
+                                             given percentage of
+                                             features, i.e., a value in
+                                             (0.0, 1.0] (defaults to 1.0
+                                             to forego feature selection
+                                             altogether)
+        :type feature_selection_percentile: float
         :param njobs: value of `n_jobs` parameter, which is passed into
                       the learners (where applicable)
         :type n_jobs: int
@@ -264,7 +266,7 @@ class CVConfig(object):
                 Or(None, And(float, lambda x: x != 0.0)),
              Default('majority_baseline', default=True): bool,
              Default('rescale', default=True): bool,
-             Default('k_best_feature_selection', default=0.0):
+             Default('feature_selection_percentile', default=1.0):
                  And(float, lambda x: x > 0.0 and x <= 1.0),
              Default('n_jobs', default=1): And(int, lambda x: x > 0)
              }
@@ -621,29 +623,18 @@ class RunCVExperiments(object):
 
         # Get the data to use, vectorizing the sample feature dictionaries
         y_train = list(self._generate_samples(self.grid_search_ids_, 'y'))
+        X_train = self._vectorize_and_sparsify_data(self.gs_vec_,
+                                                    self.grid_search_ids_)
 
         # Feature selection
-        if cfg.k_best_feature_selection != 1.0:
-            if isinstance(self.gs_vec_, DictVectorizer):
-                num_features = len(self.gs_vec_.vocabulary_)
-            else:
-                num_features = \
-                    len(set(chain(*[set(sample) for sample
-                                    in self._generate_samples(self.grid_search_ids_,
-                                                              'x')])))
-            num_features_to_select = \
-                int(np.ceil(cfg.k_best_feature_selection*num_features))
-            loginfo('Removing {0} features ({1}) during grid search round...'
-                    .format(num_features - num_features_to_select,
-                            cfg.k_best_feature_selection))
-            X_train = self._vectorize_and_sparsify_data(self.gs_vec_,
-                                                        self.grid_search_ids_)
-            X_train = SelectKBest(chi2,
-                                  k=num_features_to_select).fit_transform(X_train,
-                                                                          y_train)
-        else:
-            X_train = self._vectorize_and_sparsify_data(self.gs_vec_,
-                                                        self.grid_search_ids_)
+        if cfg.feature_selection_percentile != 1.0:
+            loginfo('Removing {0}% of the features during grid search round...'
+                    .format(100*cfg.feature_selection_percentile))
+            X_train = \
+                (SelectPercentile(chi2,
+                                  100.0 -
+                                  percentile=100*cfg.feature_selection_percentile)
+                 .fit_transform(X_train, y_train))
 
         # Make a `StratifiedKFold` object using the list of labels
         # NOTE: This will effectively redistribute the samples in the
@@ -746,18 +737,12 @@ class RunCVExperiments(object):
         # leave-one-fold-out sub-experiment
         self.cv_learner_stats_ = [[] for _ in cfg.learners]
 
-        # Fit the `SelectKBest` feature selector (if applicable)
-        if cfg.k_best_feature_selection != 1.0:
-            num_features = \
-                len(set(chain(*[set(sample) for sample
-                                in self._generate_samples(self.train_ids_, 'x')])))
-            num_features_to_select = \
-                int(np.ceil(cfg.k_best_feature_selection*num_features))
-            loginfo('Removing {0} features ({1}) during training round...'
-                    .format(num_features - num_features_to_select,
-                            cfg.k_best_feature_selection))
+        # Fit the `SelectPercentile` feature selector (if applicable)
+        if cfg.feature_selection_percentile != 1.0:
+            loginfo('Removing {0}% of the features during training round...'
+                    .format(100.0 - 100*cfg.feature_selection_percentile))
             feature_selector = \
-                (SelectKBest(chi2, k=num_features_to_select)
+                (SelectKBest(chi2, percentile=100*feature_selection_percentile)
                  .fit(self._vectorize_and_sparsify_data(self.training_vec_,
                                                         self.train_ids_),
                       self.y_training_set_all_))
@@ -781,7 +766,7 @@ class RunCVExperiments(object):
                 y_train_all.extend(y_train)
                 X_train = self._vectorize_and_sparsify_data(self.training_vec_,
                                                             training_fold)
-                if cfg.k_best_feature_selection != 1.0:
+                if cfg.feature_selection_percentile != 1.0:
                     X_train = feature_selector.transform(X_train)
 
                 # Iterate over the learners
@@ -800,7 +785,7 @@ class RunCVExperiments(object):
             y_test = list(self._generate_samples(held_out_fold, 'y'))
             X_test = self._vectorize_and_sparsify_data(self.training_vec_,
                                                        held_out_fold)
-            if cfg.k_best_feature_selection != 1.0:
+            if cfg.feature_selection_percentile != 1.0:
                 X_test = feature_selector.transform(X_test)
 
             # Make predictions with the modified estimators
@@ -1079,10 +1064,10 @@ def main(argv=None):
              help='Use FeatureHasher to be more memory-efficient.',
              action='store_true',
              default=False)
-    _add_arg('--k_best_feature_selection',
-             help='Use `chi2`-based `SelectKBest` feature selection with the '
-                  'given percentage of features selected (where the percentage'
-                  'falls in the range (0.0, 1.0]).',
+    _add_arg('--feature_selection_percentile',
+             help='Use `chi2`-based `SelectPercentile` feature selection with '
+                  'the given percentage of features selected (where the '
+                  'percentage falls in the range (0.0, 1.0]).',
              type=float,
              default=1.0)
     _add_arg('--rescale_predictions',
@@ -1149,7 +1134,7 @@ def main(argv=None):
     lognormal = args.lognormal
     power_transform = args.power_transform
     feature_hashing = args.use_feature_hasher
-    k_best_feature_selection = args.k_best_feature_selection
+    feature_selection_percentile = args.feature_selection_percentile
     rescale_predictions = args.rescale_predictions
     data_sampling = args.data_sampling
     learners = parse_learners_string(args.learners)
@@ -1244,15 +1229,16 @@ def main(argv=None):
                 .format(bin_factor))
     if feature_hashing:
         loginfo('Using feature hashing to increase memory efficiency')
-    if k_best_feature_selection == 1.0:
+    if feature_selection_percentile == 1.0:
         loginfo('Not doing feature selection.')
     else:
-        if k_best_feature_selection <= 0.0 or k_best_feature_selection > 1.0:
+        if (feature_selection_percentile <= 0.0
+            or feature_selection_percentile > 1.0):
             raise ValueError('Value in range (0.0, 1.0] expected for the '
-                             '--k_best_feature_selection option.')
-        loginfo('Using chi2-based SelectKBest feature selection with the '
+                             '--feature_selection_percentile option.')
+        loginfo('Using chi2-based SelectPercentile feature selection with the '
                 'following percentage of features selected for use: {0}'
-                .format(k_best_feature_selection))
+                .format(100*feature_selection_percentile))
     if rescale_predictions:
         loginfo('Rescaling predicted values based on the mean/standard '
                 'deviation of the input values.')
@@ -1343,7 +1329,7 @@ def main(argv=None):
                   power_transform=power_transform,
                   majority_baseline=evaluate_maj_baseline,
                   rescale=rescale_predictions,
-                  k_best_feature_selection=k_best_feature_selection,
+                  feature_selection_percentile=feature_selection_percentile,
                   n_jobs=n_jobs)
     except (SchemaError, ValueError) as e:
         logerr('Encountered an exception while instantiating the CVConfig '
