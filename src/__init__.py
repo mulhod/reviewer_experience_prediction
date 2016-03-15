@@ -260,7 +260,7 @@ def find_default_param_grid(learner: str,
 
     if not learner:
         raise ValueError('Learner string is empty.')
-    if not params_grids_dict:
+    if not param_grids_dict:
         raise ValueError('Default parameter grids dictionary is empty. It '
                          'should consist of a dictionary mapping learner '
                          'classes to lists of parameter grids, each of which '
