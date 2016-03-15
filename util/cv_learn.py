@@ -322,9 +322,9 @@ class RunCVExperiments(object):
 
     # Constants
     default_cursor_batch_size_ = 50
-    learners_requiring_classes_kwarg_ = frozenset({'BernoulliNB',
-                                                   'MultinomialNB',
-                                                   'Perceptron'})
+    requires_classes_kwarg_ = frozenset({'BernoulliNB',
+                                         'MultinomialNB',
+                                         'Perceptron'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
@@ -783,8 +783,8 @@ class RunCVExperiments(object):
                     (self.cv_learners_[learner_name][i]
                      .partial_fit(X_train,
                                   y_train,
-                                  **fit_kwargs if j and learner_name
-                                      in self.learners_requiring_classes_kwarg_
+                                  **fit_kwargs if not j and learner_name
+                                      in self.requires_classes_kwarg_
                                       else {}))
 
             # Get mean and standard deviation for actual values
