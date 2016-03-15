@@ -785,7 +785,7 @@ class RunCVExperiments(object):
                                   y_train,
                                   **fit_kwargs if j and learner_name
                                       in self.learners_requiring_classes_kwarg_
-                                      else **{}))
+                                      else {}))
 
             # Get mean and standard deviation for actual values
             y_train_all = np.array(y_train_all)
