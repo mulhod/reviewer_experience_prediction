@@ -774,7 +774,14 @@ class RunCVExperiments(object):
 
                     # Partially fit each estimator with the new training
                     # data
-                    self.cv_learners_[learner_name][i].partial_fit(X_train, y_train)
+                    if not i:
+                        (self.cv_learners_[learner_name][i]
+                         .partial_fit(X_train,
+                                      y_train,
+                                      classes=list(self.data_.classes)))
+                    else:
+                        (self.cv_learners_[learner_name][i]
+                         .partial_fit(X_train, y_train))
 
             # Get mean and standard deviation for actual values
             y_train_all = np.array(y_train_all)
