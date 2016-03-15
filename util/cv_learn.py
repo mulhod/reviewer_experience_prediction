@@ -629,7 +629,7 @@ class RunCVExperiments(object):
         # Feature selection
         if cfg.feature_selection_percentile != 1.0:
             loginfo('Removing {0}% of the features during grid search round...'
-                    .format(100.0 - 100*cfg.feature_selection_percentile))
+                    .format(100 - 100*cfg.feature_selection_percentile))
             X_train = \
                 (SelectPercentile(chi2,
                                   percentile=100*cfg.feature_selection_percentile)
@@ -739,10 +739,10 @@ class RunCVExperiments(object):
         # Fit the `SelectPercentile` feature selector (if applicable)
         if cfg.feature_selection_percentile != 1.0:
             loginfo('Removing {0}% of the features during training round...'
-                    .format(100.0 - 100*cfg.feature_selection_percentile))
+                    .format(100 - 100*cfg.feature_selection_percentile))
             feature_selector = \
                 (SelectPercentile(chi2,
-                                  percentile=100*feature_selection_percentile)
+                                  percentile=100*cfg.feature_selection_percentile)
                  .fit(self._vectorize_and_sparsify_data(self.training_vec_,
                                                         self.train_ids_),
                       self.y_training_set_all_))
