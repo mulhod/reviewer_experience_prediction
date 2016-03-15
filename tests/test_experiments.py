@@ -7,6 +7,7 @@ on `localhost`.
 """
 from os import (unlink,
                 makedirs)
+from bson import ObjectId
 from shutil import rmtree
 from os.path import (join,
                      exists,
@@ -28,6 +29,7 @@ from util.cv_learn import CVConfig
 from src.mongodb import connect_to_db
 from src.datasets import validate_bin_ranges
 from src.experiments import (make_cursor,
+                             get_label_in_doc,
                              ExperimentalData)
 from src import (LABELS,
                  LEARNER_DICT,
@@ -798,3 +800,76 @@ class CVConfigTestCase(unittest.TestCase):
                 assert_equal(cfg['n_jobs'], kwargs['n_jobs'])
             else:
                 assert_equal(cfg['n_jobs'], 1)
+
+
+class GetLabelInDocTestCase(unittest.TestCase):
+    """
+    Tests for the `get_label_in_doc` function.
+    """
+
+    labels = list(LABELS)
+    test_doc = {"_id": ObjectId("6340a5f65e76db82sdbefgbdd1u"),
+                "achievement_progress": {
+                    "num_achievements_attained": None,
+                    "num_achievements_possible": None,
+                    "num_achievements_percentage": None,
+                    },
+                "appid": "230410",
+                "binarized": true,
+                "date_posted": "Apr 20, 2015, 8:04PM",
+                "date_updated": None,
+                "found_helpful_percentage": 1,
+                "friend_player_level": 7,
+                "game": "Warframe",
+                "id_string": "6340a5f65e76db82sdbefgbdd1u",
+                "num_badges": 5,
+                "num_comments": 0,
+                "num_found_funny": 0,
+                "num_found_helpful": 2,
+                "num_found_unhelpful": 0,
+                "num_friends": 89,
+                "num_games_owned": 13,
+                "num_groups": 5,
+                "num_guides": 0,
+                "num_reviews": 1,
+                "num_screenshots": 26,
+                "num_voted_helpfulness": 2,
+                "num_workshop_items": 0,
+                "orig_url": "http://steamcommunity.com/app/230410/very_long_url",
+                "partition": "training",
+                "profile_url": "http://steamcommunity.com/id/12345",
+                "rating": "Recommended",
+                "review": "This game is awesome",
+                "review_url": "http://steamcommunity.com/id/12345/recommended/230410/",
+                "steam_id_number": "12345",
+                "total_game_hours": 376.7,
+                "total_game_hours_last_two_weeks": 0,
+                "username": "sample_name_x56"
+                }
+
+    def test_get_label_in_doc_invalid_label(self):
+        """
+        Use an invalid label as a parameter.
+        """
+
+        with self.assert_raises(ValueError):
+            get_label_in_doc({}, 'invalid_label')
+
+    def test_get_label_in_doc_empty_doc(self):
+        """
+        Use an empty document as a parameter value.
+        """
+
+        with self.assert_raises(ValueError):
+            get_label_in_doc(self.test_doc, self.labels[0])
+
+    def test_get_label_in_doc_valid_labels(self):
+        """
+        Use valid labels and the valid test document.
+        """
+
+        for label in self.labels:
+            assert_equal(
+                get_label_in_doc(self.test_doc, label),
+                (self.test_doc
+                 .get(label, self.test_doc['achievement_progress'].get(label))))
