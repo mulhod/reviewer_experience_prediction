@@ -324,7 +324,9 @@ class RunCVExperiments(object):
     default_cursor_batch_size_ = 50
     requires_classes_kwarg_ = frozenset({'BernoulliNB',
                                          'MultinomialNB',
-                                         'Perceptron'})
+                                         'Perceptron',
+                                         'SGDClassifier',
+                                         'PassiveAggressiveClassifier'})
 
     def __init__(self, config: CVConfig) -> 'RunCVExperiments':
         """
