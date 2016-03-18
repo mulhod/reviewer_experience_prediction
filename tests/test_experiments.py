@@ -7,15 +7,17 @@ on `localhost`.
 """
 from os import (unlink,
                 makedirs)
-from bson import ObjectId
+from bson import (BSON,
+                  ObjectId)
 from shutil import rmtree
+from itertools import chain
 from os.path import (join,
                      exists,
                      dirname,
                      realpath)
-from itertools import chain
 from collections import Counter
 
+import pudb
 import numpy as np
 from schema import SchemaError
 from nose2.compat import unittest
@@ -29,6 +31,7 @@ from util.cv_learn import CVConfig
 from src.mongodb import connect_to_db
 from src.datasets import validate_bin_ranges
 from src.experiments import (make_cursor,
+                             get_all_features,
                              get_label_in_doc,
                              ExperimentalData)
 from src import (LABELS,
@@ -865,3 +868,128 @@ class GetLabelInDocTestCase(unittest.TestCase):
                 get_label_in_doc(self.test_doc, label),
                 (self.test_doc
                  .get(label, self.test_doc['achievement_progress'].get(label))))
+
+
+
+class GetAllFeaturesTestCase(unittest.TestCase):
+    """
+    Tests for the `get_all_features` function.
+    """
+
+    nan = float("NaN")
+    review_doc = \
+        {"_id": ObjectId("5690a5f5e76db81bef5bdd1c"),
+         "achievement_progress": {
+             "num_achievements_attained": 20,
+             "num_achievements_possible": 40,
+             "num_achievements_percentage": 0.5,
+             },
+         "appid": "230410",
+         "binarized": True,
+         "date_posted": "Apr 20, 2015, 8:04PM",
+         "date_updated": None,
+         "found_helpful_percentage": 1,
+         "friend_player_level": 7,
+         "game": "Warframe",
+         "id_string": "5690a5f5e76db81bef5bdd1c",
+         "num_badges": 5,
+         "num_comments": 0,
+         "num_found_funny": 0,
+         "num_found_helpful": 2,
+         "num_found_unhelpful": 0,
+         "num_friends": 89,
+         "num_games_owned": 13,
+         "num_groups": 5,
+         "num_guides": 0,
+         "num_reviews": 1,
+         "num_screenshots": 26,
+         "num_voted_helpfulness": 2,
+         "num_workshop_items": 0,
+         "orig_url": "http://steamcommunity.com/app/230410/very_long_url",
+         "partition": "training",
+         "profile_url": "http://steamcommunity.com/id/12345",
+         "rating": "Recommended",
+         "review": "This game is awesome",
+         "review_url": "http://steamcommunity.com/id/12345/recommended/230410/",
+         "steam_id_number": "12345",
+         "total_game_hours": 376.7,
+         "total_game_hours_last_two_weeks": 0,
+         "username": "sample_name_x56",
+         "nlp_features": BSON.encode({'no-where near': 1,
+                                      "add 's": 1,
+                                      'game we': 1,
+                                      'designator and': 1,
+                                      'cluster251': 1,
+                                      'dlc ?': 1,
+                                      'gem !': 1,
+                                      '2025 .': 1,
+                                      'everyone wants': 1,
+                                      'realistic shooters': 1,
+                                      'once me': 1,
+                                      '-spent': 1,
+                                      'chore .': 1,
+                                      'somme good': 1,
+                                      'ram )': 1,
+                                      'pvp you': 1,
+                                      'updating the': 1,
+                                      'behave:ROOT:(': 1,
+                                      'cluster3917': 1,
+                                      '9.8/10 tldr': 1})
+         }
+
+    def test_get_all_features_including_nlp(self):
+        """
+        Test `get_all_features` when NLP features should be included.
+        """
+
+        prediction_label = 'total_game_hours'
+        nlp_features = True
+        expected_features = {}
+        features_list = list(self.review_doc.keys())
+        for key in ['achievement_progress', 'nlp_features']:
+            del features_list[features_list.index(key)]
+            if key == 'nlp_features':
+                (expected_features
+                 .update(BSON.decode(self.review_doc['nlp_features'])))
+            else:
+                key_features = self.review_doc.get(key, {})
+                for feature in key_features:
+                    if (key_features[feature]
+                        and key_features[feature] != self.nan):
+                        expected_features[feature] = key_features[feature]
+        for key in features_list:
+            if not key in chain(LABELS, ['id_string']): continue
+            if (not self.review_doc[key]
+                or self.review_doc[key] == self.nan): continue
+            expected_features[key] = self.review_doc[key]
+
+        assert_equal(get_all_features(self.review_doc,
+                                      prediction_label,
+                                      nlp_features=nlp_features),
+                     expected_features)
+
+    def test_get_all_features_not_including_nlp(self):
+        """
+        Test `get_all_features` when NLP features should be excluded.
+        """
+
+        prediction_label = 'total_game_hours'
+        nlp_features = False
+        expected_features = {}
+        features_list = list(self.review_doc.keys())
+        del features_list[features_list.index('achievement_progress')]
+        achivement_features = self.review_doc.get('achievement_progress', {})
+        for feature in achivement_features:
+            if (achivement_features[feature]
+                and achivement_features[feature] != self.nan):
+                expected_features[feature] = achivement_features[feature]
+        for key in features_list:
+            if not key in chain(LABELS, ['id_string']): continue
+            if (not self.review_doc[key]
+                or self.review_doc[key] == self.nan): continue
+            expected_features[key] = self.review_doc[key]
+
+        assert_equal(get_all_features(self.review_doc,
+                                      prediction_label,
+                                      nlp_features=nlp_features),
+                     expected_features)
