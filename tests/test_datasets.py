@@ -108,7 +108,7 @@ class ComputeLabelValueTestCase(unittest.TestCase):
     Test the `compute_label_value` function.
     """
 
-    def test_compute_label_value_negative():
+    def test_compute_label_value_negative(self):
         """
         Test the `compute_label_value` function with a negative input
         value.
