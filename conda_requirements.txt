@@ -1,3 +1,4 @@
+cytoolz
 cython
 jupyter
 lxml
