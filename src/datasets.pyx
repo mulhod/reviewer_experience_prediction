@@ -1104,7 +1104,7 @@ def validate_bin_ranges(bin_ranges: BinRanges) -> bool:
                 raise ValueError(error_msg)
 
 
-def get_bin(bin_ranges: BinRanges, float val) -> int:
+def get_bin(bin_ranges: BinRanges, float val) -> Union[int, None]:
     """
     Return the index of the bin range in which the value falls.
 
@@ -1128,12 +1128,13 @@ def get_bin(bin_ranges: BinRanges, float val) -> int:
     :param val: value
     :type val: float
 
-    :returns: int (-1 if val not in any of the bin ranges)
+    :returns: int (or None if `val` not in any of the bin ranges)
     :rtype: int
     """
 
     cdef int i
     for i, bin_range in enumerate(bin_ranges):
+
         # Test if val is almost equal to the beginning or end of the
         # range
         try:
@@ -1151,7 +1152,7 @@ def get_bin(bin_ranges: BinRanges, float val) -> int:
             and (val < bin_range[1] or almost_equal_end)):
             return i + 1
 
-    return -1
+    return None
 
 
 def get_label_values(db: Collection,
@@ -1241,7 +1242,7 @@ def compute_label_value(value: Union[Numeric, str, bool],
     :type label: str
     :param lognormal: transform raw label values using `ln` (default:
                       False)
-    :type lognormal: bool
+    :type lognormal: bool (default: False)
     :param power_transform: power by which to transform raw label
                             values (default: None)
     :type power_transform: float or None
@@ -1268,7 +1269,9 @@ def compute_label_value(value: Union[Numeric, str, bool],
     :rtype: float or None
 
     :raises ValueError: if `value` is not positive or both `lognormal`
-                        and `power_transform` were specified
+                        and `power_transform` were specified or the
+                        value, after any conversions are applied, could
+                        not be found in the list of bin ranges
     """
 
     # Validate transformer parameters
@@ -1304,7 +1307,11 @@ def compute_label_value(value: Union[Numeric, str, bool],
 
     # Convert value to bin-transformed value
     if bin_ranges:
-        return get_bin(bin_ranges, value)
+        bin_value = get_bin(bin_ranges, value)
+        if bin_value is None:
+            raise ValueError("Value ({0}) does not correspond to any of the "
+                             "bin ranges ({1}).".format(value, bin_ranges))
+        return bin_value
     else:
         return value
 
@@ -1463,7 +1470,7 @@ def write_arff_file(dest_path: str,
             review = backslash_sub(r'', review)
             if bins:
                 hours = get_bin(bins, rd['total_game_hours'])
-                if hours < 0:
+                if hours is None:
                     raise ValueError('The given hours played value ({0}) was '
                                      'not found in the list of possible bin '
                                      'ranges ({1}).'

@@ -993,3 +993,19 @@ class GetAllFeaturesTestCase(unittest.TestCase):
                                       prediction_label,
                                       nlp_features=nlp_features),
                      expected_features)
+
+    def test_get_all_features_no_prediction_label(self):
+        """
+        Test `get_all_features` when the prediction label is not found
+        anywhere in the given document (i.e., and None should be
+        returned).
+        """
+
+        prediction_label = 'total_game_hours'
+        review_doc = dict(self.review_doc)
+        del review_doc[prediction_label]
+        for nlp_features in [True, False]:
+            assert_equal(get_all_features(review_doc,
+                                          prediction_label,
+                                          nlp_features=nlp_features),
+                         None)
