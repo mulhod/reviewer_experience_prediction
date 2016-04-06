@@ -211,6 +211,67 @@ The experiments described below will explore each situation: models trained on N
 \section{Experiments}
 \label{sec:experiments}
 
+%\begin{table*}[htbp]
+%\label{tab:gamehours}
+%\centering
+%\begin{tabular}{*{7}{l}}
+%\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
+%Arma 3 & majority label &  & 0.71 & 0.51 & n/a & n/a \\
+%Arma 3 & NLP + non-NLP & MultinomialNB & 0.53 & 0.66 & 0.13 & 0.38 \\
+%Arma 3 & NLP & Perceptron & 0.6 & 0.57 & -0.01 & -0.06 \\
+%Arma 3 & non-NLP & Perceptron & 0.52 & 0.56 & -0.02 & -0.08 \\
+%Counter Strike & majority label &  & 0.81 & 0.66 & n/a & n/a \\
+%Counter Strike & NLP + non-NLP & MiniBatchKMeans & 0.6 & 0.71 & 0.16 & 0.06 \\
+%Counter Strike & NLP & MultinomialNB & 0.82 & 0.69 & 0.16 & 0.28 \\
+%Dota 2 & majority label &  & 0.5 & 0.25 & n/a & n/a \\
+%Dota 2 & NLP + non-NLP & Perceptron & 0.53 & 0.49 & 0.08 & -0.15 \\
+%Dota 2 & NLP & PassiveAgressiveRegressor & 0.42 & 0.47 & 0.16 & 0.31 \\ \hline
+%\end{tabular}
+%\caption{A selection of game-hours experimental results.}
+%\end{table*}
+
+\begin{table*}[htbp]
+\label{tab:experiment_data}
+\centering
+\begin{tabular}{{l}*{12}{c}}
+\hline \bf Game & \multicolumn{2}{c}{\bf Number of Samples} & \multicolumn{2}{c}{\bf Number of CV Folds} & \\
+& \bf Grid Search & \bf Training & \bf Grid Search & \bf Training \\ \hline
+Arma 3 & 500 & 2,500 & 5 & 10 \\
+Counter Strike & 500 & 2,500 & 5 & 10 \\
+Counter Strike: Global Offensive & 500 & 2,500 & 5 & 10 \\
+Dota 2 & 500 & 2,500 & 5 & 10 \\
+Football Manager 2015 & 240 & 500 & 3 & 5 \\
+Garry's Mod & 500 & 2,500 & 5 & 10 \\
+Grand Theft Auto V & 1,250 & 5,000 & 5 & 10 \\
+Sid Meier's Civilization 5 & 500 & 2,500 & 5 & 10 \\
+Team Fortress 2 & 500 & 2,500 & 5 & 10 \\
+The Elder Scrolls V & 500 & 2,500 & 5 & 10 \\
+Warframe & 500 & 2,500 & 5 & 10 \\ \hline
+\end{tabular}
+\caption{Number of samples/data folds used in each experiment (and, in particular, within each grid search cross-validation learning experiment and each main cross-validation training experiment).}
+\end{table*}
+
+\begin{table*}[htbp]
+\label{tab:majority}
+\centering
+\begin{tabular}{*{12}{l}}
+\hline \bf Game & \bf Accuracy & \bf Precision & \bf F1 \\
+& & \bf (weighted) & \bf (weighted) \\ \hline
+Arma 3 & 0.537 & 0.288 & 0.375 \\
+Counter Strike & 0.623 & 0.388 & 0.478 \\
+Counter Strike: Global Offensive & 0.707 & 0.500 & 0.585 \\
+Dota 2 & 0.655 & 0.429 & 0.519 \\
+Football Manager 2015 & 0.544 & 0.296 & 0.384 \\
+Garry's Mod & 0.511 & 0.261 & 0.346 \\
+Grand Theft Auto V & 0.689 & 0.475 & 0.562 \\
+Sid Meier's Civilization 5 & 0.781 & 0.610 & 0.685 \\
+Team Fortress 2 & 0.620 & 0.385 & 0.475 \\
+The Elder Scrolls V & 0.598 & 0.357 & 0.447 \\
+Warframe & 0.521 & 0.271 & 0.356 \\ \hline
+\end{tabular}
+\caption{Aggregated majority label system experimental results. Values represent the mean across all three experimental conditions. Because of slight differences from condition to condition in the data used, the order in which the data is used, and for what purpose the data is used, slight variations resulted across conditions, usually in the third or fourth decimal places at the most.}
+\end{table*}
+
 \begin{table*}[htbp]
 \label{tab:gamehours}
 \centering
@@ -354,3 +415,4 @@ Song Feng, Ritwik Banerjee, and Yejin Choi
 %\end{thebibliography}
 
 \end{document}
+
