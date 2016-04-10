@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  6 APR 2016 01:10
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  10 APR 2016 02:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -157,84 +157,84 @@ Underfull \hbox (badness 1527) in paragraph at lines 167--168
  []
 
 [3] [4]
-Overfull \hbox (2.14256pt too wide) in paragraph at lines 278--291
+Overfull \hbox (2.14256pt too wide) in paragraph at lines 259--272
  [][] 
  []
 
 
-Underfull \hbox (badness 1400) in paragraph at lines 312--313
+Underfull \hbox (badness 1400) in paragraph at lines 293--294
 \OT1/ptm/m/n/10 the code repos-i-tory that was de-vel-oped for ev-ery
  []
 
 
-Underfull \hbox (badness 1735) in paragraph at lines 312--313
+Underfull \hbox (badness 1735) in paragraph at lines 293--294
 \OT1/ptm/m/n/10 low-ing URL: $\OT1/pcr/m/n/10 https : / / github . com / mulhod
  /
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 312--313
+Underfull \hbox (badness 1509) in paragraph at lines 293--294
 \OT1/ptm/m/n/10 ity was cre-ated called \OT1/pcr/m/n/10 learn\OT1/ptm/m/n/10 , 
 which is used to
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 314--315
+Underfull \hbox (badness 1377) in paragraph at lines 295--296
 \OT1/ptm/m/n/10 Any set of games can be used for train-ing (and
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 314--315
+Underfull \hbox (badness 10000) in paragraph at lines 295--296
 \OT1/pcr/m/n/10 MiniBatchKMeans\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 MultiNomialNB\
 OT1/ptm/m/n/10 , and
  []
 
 
-Underfull \hbox (badness 1237) in paragraph at lines 314--315
+Underfull \hbox (badness 1237) in paragraph at lines 295--296
 \OT1/ptm/m/n/10 to use ``fea-ture hash-ing'' (fur-ther re-duces mem-ory
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 314--315
+Underfull \hbox (badness 1142) in paragraph at lines 295--296
 \OT1/ptm/m/n/10 gen-er-ate the per-for-mance met-rics for a ``base-line''
  []
 
-./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:316: Missing $ inse
+./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:297: Missing $ inse
 rted.
 <inserted text> 
                 $
-l.316 ...following type of mapping: [0, 5,000] \to
+l.297 ...following type of mapping: [0, 5,000] \to
                                                    1, [5,001, 10,000] \to 2,...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:317: Missing $ inse
+./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:298: Missing $ inse
 rted.
 <inserted text> 
                 $
-l.317 
+l.298 
       
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Underfull \hbox (badness 7012) in paragraph at lines 318--319
+Underfull \hbox (badness 7012) in paragraph at lines 299--300
 []\OT1/ptm/m/n/10 Often, how-ever, the raw val-ues of the re-
  []
 
 [5] [6]
-Underfull \hbox (badness 10000) in paragraph at lines 327--328
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
 []\OT1/ptm/m/n/10 Five ma-chine learn-ing al-go-rithms were
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--328
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
 \OT1/ptm/m/n/10 used: \OT1/pcr/m/n/10 Perceptron\OT1/ptm/m/n/10 , \OT1/pcr/m/n/
 10 MiniBatchKMeans\OT1/ptm/m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 327--328
+Underfull \hbox (badness 10000) in paragraph at lines 308--309
 \OT1/pcr/m/n/10 PassiveAgressiveRegressor\OT1/ptm/m/n/10 ,
  []
 
