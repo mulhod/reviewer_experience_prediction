@@ -250,30 +250,74 @@ Team Fortress 2 & 0.620 & 0.385 & 0.475 \\
 The Elder Scrolls V & 0.598 & 0.357 & 0.447 \\
 Warframe & 0.521 & 0.271 & 0.356 \\ \hline
 \end{tabular}
-\caption{Aggregated majority label system experimental results. Values represent the mean across all three experimental conditions. Because of slight differences from condition to condition in the data used, the order in which the data is used, and for what purpose the data is used, slight variations resulted across conditions, usually in the third or fourth decimal places at the most.}
+\caption{Aggregated majority label system experimental results predicting the ``game hours'' label (a 3-point scale). Values represent the mean across all three experimental conditions. Because of slight differences from condition to condition in the data used, the order in which the data is used, and for what purpose the data is used, slight variations resulted across conditions, usually in the third or fourth decimal places at the most.}
 \end{table*}
 
 \begin{table*}[htbp]
-\label{tab:gamehours}
+\label{tab:gamehours_all_features}
 \centering
-\begin{tabular}{*{7}{l}}
-\hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
-Arma 3 & majority label &  & 0.71 & 0.51 & n/a & n/a \\
-Arma 3 & NLP + non-NLP & MultinomialNB & 0.53 & 0.66 & 0.13 & 0.38 \\
-Arma 3 & NLP & Perceptron & 0.6 & 0.57 & -0.01 & -0.06 \\
-Arma 3 & non-NLP & Perceptron & 0.52 & 0.56 & -0.02 & -0.08 \\
-Counter Strike & majority label &  & 0.81 & 0.66 & n/a & n/a \\
-Counter Strike & NLP + non-NLP & MiniBatchKMeans & 0.6 & 0.71 & 0.16 & 0.06 \\
-Counter Strike & NLP & MultinomialNB & 0.82 & 0.69 & 0.16 & 0.28 \\
-Dota 2 & majority label &  & 0.5 & 0.25 & n/a & n/a \\
-Dota 2 & NLP + non-NLP & Perceptron & 0.53 & 0.49 & 0.08 & -0.15 \\
-Dota 2 & NLP & PassiveAgressiveRegressor & 0.42 & 0.47 & 0.16 & 0.31 \\ \hline
+\begin{tabular}{*{12}{l}}
+\hline \bf Game & \bf Learner & \bf Accuracy & \bf Precision & \bf F1 & \bf QWK \\
+& & & \bf (weighted) & \bf (weighted) & \\ \hline
+Arma 3 & MultinomialNB & 0.501 & 0.426 & 0.444 & 0.080 \\
+Counter Strike & BernoulliNB & 0.525 & 0.628 & 0.515 & 0.214 \\
+Counter Strike: Global Offensive & Perceptron & 0.644 & 0.666 & 0.602 & 0.032 \\
+Dota 2 & PassiveAggressive & 0.589 & 0.509 & 0.544 & 0.169 \\
+Football Manager 2015 & Perceptron & 0.461 & 0.263 & 0.329 & 0.007 \\
+Garry's Mod & MultinomialNB & 0.476 & 0.284 & 0.355 & 0.168 \\
+Grand Theft Auto V & BernoulliNB & 0.415 & 0.617 & 0.418 & 0.108 \\
+Sid Meier's Civilization 5 & Perceptron & 0.680 & 0.663 & 0.670 & 0.007 \\
+Team Fortress 2 & MultinomialNB & 0.460 & 0.496 & 0.436 & 0.170 \\
+The Elder Scrolls V & MultinomialNB & 0.479 & 0.526 & 0.481 & 0.066 \\
+Warframe & PassiveAggressive & 0.519 & 0.496 & 0.493 & 0.091 \\ \hline
 \end{tabular}
-\caption{A selection of game-hours experimental results.}
+\caption{Average cross-validation performance metrics using the best-performing learning algorithm with all (NLP and non-NLP) features to predict the ``game hours'' label (a 3-point scale).}
 \end{table*}
 
 \begin{table*}[htbp]
-\label{tab:hours_experiment_results}
+\label{tab:gamehours_nlp_features}
+\centering
+\begin{tabular}{*{12}{l}}
+\hline \bf Game & \bf Learner & \bf Accuracy & \bf Precision & \bf F1 & \bf QWK \\
+& & & \bf (weighted) & \bf (weighted) & \\ \hline
+Arma 3 & & & & & & \\
+Counter Strike & & & & & \\
+Counter Strike: Global Offensive & & & & & \\
+Dota 2 & & & & & \\
+Football Manager 2015 & & & & & \\
+Garry's Mod & & & & & \\
+Grand Theft Auto V & & & & & \\
+Sid Meier's Civilization 5 & & & & & \\
+Team Fortress 2 & & & & & \\
+The Elder Scrolls V & & & & & \\
+Warframe & & & & & \\ \hline
+\end{tabular}
+\caption{Average cross-validation performance metrics using the best-performing learning algorithm with NLP features only to predict the ``game hours'' label (a 3-point scale).}
+\end{table*}
+
+\begin{table*}[htbp]
+\label{tab:gamehours_non_nlp_features}
+\centering
+\begin{tabular}{*{12}{l}}
+\hline \bf Game & \bf Learner & \bf Accuracy & \bf Precision & \bf F1 & \bf QWK \\
+& & & \bf (weighted) & \bf (weighted) & \\ \hline
+Arma 3 & & & & & \\
+Counter Strike & & & & & \\
+Counter Strike: Global Offensive & & & & & \\
+Dota 2 & & & & & \\
+Football Manager 2015 & & & & & \\
+Garry's Mod & & & & & \\
+Grand Theft Auto V & & & & & \\
+Sid Meier's Civilization 5 & & & & & \\
+Team Fortress 2 & & & & & \\
+The Elder Scrolls V & & & & & \\
+Warframe & & & & & \\ \hline
+\end{tabular}
+\caption{Average cross-validation performance metrics using the best-performing learning algorithm with non-NLP features only to predict the ``game hours'' label (a 3-point scale).}
+\end{table*}
+
+\begin{table*}[htbp]
+\label{tab:helpful}
 \centering
 \begin{tabular}{*{7}{l}}
 \hline \bf Game & \bf System & \bf Learner & \bf Accuracy & \bf Precision & \bf QWK & \bf QWK-1 \\ \hline
@@ -292,7 +336,7 @@ The aim of the experiments conducted as part of this exploratory work was to att
 
 As part of {\tt reviewer\_experience\_prediction}, the code repository that was developed for every phase of this work (which can be found at the following URL: \url{https://github.com/mulhod/reviewer_experience_prediction}), a utility was created called {\tt learn}, which is used to conduct iterative machine learning experiments using {\tt scikit-learn} under the hood. The motivation for making the experiments iterative was simply to try to reduce memory consumption: for each round of learning, only a small set of reviews, associated features, etc., must be stored in RAM at any given time. It is not unheard of for even a relatively small dataset of 1,000 reviews to require gigabytes worth of RAM after vectorization since the full feature set will reach into the hundreds of thousands. With the iterative learning algorithm used by {\tt learn}, the user specifies the number of rounds/number of samples to use per round and the machine learning model is updated incrementally.
 
-{\tt learn} is the main entry-point of the system in terms of conducting machine learning experiments. Any set of games can be used for training (and possibly two different sets of games can be used for training/testing, a line of research that I hope to follow up on in the future). Five machine learning algorithms from {\tt scikit-learn} are available, including {\tt Perceptron}, { \tt PassiveAgressiveRegressor}, {\tt MiniBatchKMeans}, {\tt MultiNomialNB}, and {\tt BernoulliNB}. The aim in making this exact set of learners available was not necessarily to provide a representative sampling of popular algorithms, but rather it was due to constraints placed on the set of {\tt scikit-learn} learners that could be used in an iterative fashion. Other aspects of the experiments that can be configured are the prediction label that is used (any of the reviewer/review attributes, e.g. number of game-hours played, number of times marked helpful, etc., see Subsection~\ref{ssec:data}), the types of features used in the model (NLP features and/or a set of the reviewer/review attributes that are not directly related to the prediction label), and much more, such as whether to use ``feature hashing'' (further reduces memory consumption, but does not allow for subsequent model introspection, i.e., if the user wants to see the various model features and their weights), whether or not to generate the performance metrics for a ``baseline'' majority label system to provide a basis on which to compare the results, etc.
+{\tt learn} is the main entry-point of the system in terms of conducting machine learning experiments. Any set of games can be used for training (and possibly two different sets of games can be used for training/testing, a line of research that I hope to follow up on in the future). Seven machine learning algorithms from {\tt scikit-learn} are available, including {\tt Perceptron}, { \tt PassiveAgressiveClassifier}, { \tt PassiveAgressiveRegressor}, {\tt SGDClassifier} {\tt MiniBatchKMeans}, {\tt MultiNomialNB}, and {\tt BernoulliNB}. The aim in making this exact set of learners available was not necessarily to provide a representative sampling of popular algorithms, but rather it was due to constraints placed on the set of {\tt scikit-learn} learners that could be used in an iterative fashion. Other aspects of the experiments that can be configured are the prediction label that is used (any of the reviewer/review attributes, e.g. number of game-hours played, number of times marked helpful, etc., see Subsection~\ref{ssec:data}), the types of features used in the model (NLP features and/or a set of the reviewer/review attributes that are not directly related to the prediction label), and much more, such as whether to use ``feature hashing'' (further reduces memory consumption, but does not allow for subsequent model introspection, i.e., if the user wants to see the various model features and their weights), whether or not to generate the performance metrics for a ``baseline'' majority label system to provide a basis on which to compare the results, etc.
 
 Reviewer/review attributes that are to be used as the prediction label must be manipulated before the learning process in order to allow for meaningful learning. For example, the values of the number of hours played attribute for any given game can range from 0 to upwards of 15,000 and, thus, it would not be a meaningful exercise to try to learn how the features map to this scale. {\tt learn} makes use of a method of breaking down a scale such as 0 to 15,000 into various ``bins'', possibly of equal size, but not necessarily so. If the ``bin'' factor is 1.0, then the scale will be divided up into roughly equal-sized partitions and each of those partitions will be mapped to a new value, i.e., the position of the bin, with numbering starting at 1. For example, if 0 to 15,000 is divided up into three bins and the factor is 1.0, then it will result in the following type of mapping: [0, 5,000] \to 1, [5,001, 10,000] \to 2, [10,001, 15,000] \to 3.
 
@@ -305,7 +349,7 @@ More information on the distribution of label values (for hours played, specific
 
 Machine learning experiments were conducted first with the number of game-hours played as the prediction label and then with the number of times a review was marked as helpful by users of Steam as the prediction label. Recall that the aim with these experiments was to model the amount of time a reviewer had spent playing a game using reviews and/or review/reviewer attributes. Each experiment involved ten rounds of iterative learning where a different set of 100 review samples were used in each successive round of learning. Additionally, a separate test set of 1,000 reviews was used to gauge the performance after each round of learning and at the end of the process.
 
-Five machine learning algorithms were used: {\tt Perceptron}, {\tt MiniBatchKMeans}, {\tt PassiveAgressiveRegressor}, {\tt MultinomialNB}, and {\tt BernoulliNB}. For each, a so-called ``parameter grid'' was used, which is a mapping between algorithm-specific hyperparameters and lists of hyperparameter values. In each learning round, every single combination of the hyperparameters was tried for each learning algorithm, the idea being to conduct the experiments with variously-tuned learners. Without diving into the subject too much, hyperparameters refers to tunings of a learner, such as the number of iterations, etc. The combination of machine learning algorithm and parameter grid that yielded the best performance metrics at the end of the process is reported in the results.
+Four of the available machine learning algorithms were used: {\tt Perceptron}, {\tt PassiveAggressiveClassifier}, {\tt MultinomialNB}, and {\tt BernoulliNB}. For each, a so-called ``parameter grid'' was used, which is a mapping between algorithm-specific hyperparameters and lists of hyperparameter values. In each learning round, every single combination of the hyperparameters was tried for each learning algorithm, the idea being to conduct the experiments with variously-tuned learners. Without diving into the subject too much, hyperparameters refers to tunings of a learner, such as the number of iterations, etc. The combination of machine learning algorithm and parameter grid that yielded the best performance metrics at the end of the process is reported in the results.
 
 A number of different feature set combinations were experimented with: using the NLP feature set alone, the NLP feature set + the non-NLP feature set, i.e., the review/reviewer attributes, such as the number of friends that the reviewer has on Steam, and the non-NLP feature set alone. The aim here was to determine the role that the NLP features play in the modelling, whether or not the prediction label could be effectively modelled using only the non-NLP feature set, and whether or not both sets of features could be used in combination to produce a model that was more effective than that for either of the feature sets alone.
 
