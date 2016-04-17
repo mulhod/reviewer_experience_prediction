@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  11 APR 2016 03:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  17 APR 2016 03:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -263,29 +263,26 @@ Underfull \hbox (badness 10000) in paragraph at lines 352--353
 \OT1/pcr/m/n/10 PassiveAggressiveClassifier\OT1/ptm/m/n/10 ,
  []
 
-[8] [9] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux)
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[8] [9] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
 Here is how much of TeX's memory you used:
  676 strings out of 493304
  8817 string characters out of 6139871
- 174535 words of memory out of 5000000
+ 175535 words of memory out of 5000000
  4166 multiletter control sequences out of 15000+600000
  18281 words of font info for 46 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  23i,9n,19p,1721b,258s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/ur
-w/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8
-a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+{/usr/sh
+are/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/
+ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
 Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (9 
-pages, 130112 bytes).
+pages, 130412 bytes).
 PDF statistics:
  67 PDF objects out of 1000 (max. 8388607)
  47 compressed objects within 1 object stream

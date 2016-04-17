@@ -280,15 +280,15 @@ Warframe & PassiveAggressive & 0.519 & 0.496 & 0.493 & 0.091 \\ \hline
 \begin{tabular}{*{12}{l}}
 \hline \bf Game & \bf Learner & \bf Accuracy & \bf Precision & \bf F1 & \bf QWK \\
 & & & \bf (weighted) & \bf (weighted) & \\ \hline
-Arma 3 & & & & & & \\
-Counter Strike & & & & & \\
-Counter Strike: Global Offensive & & & & & \\
-Dota 2 & & & & & \\
-Football Manager 2015 & & & & & \\
-Garry's Mod & & & & & \\
-Grand Theft Auto V & & & & & \\
+Arma 3 & BernoulliNB & 0.725 & 0.772 & 0.698 & 0.564 \\
+Counter Strike & BernoulliNB & 0.526 & 0.628 & 0.516 & 0.215 \\
+Counter Strike: Global Offensive & BernoulliNB & 0.423 & 0.610 & 0.542 & 0.101 \\
+Dota 2 & BernoulliNB & 0.616 & 0.559 & 0.557 & 0.094 \\
+Football Manager 2015 & MultinomialNB & 0.333 & 0.300 & 0.296 & 0.045 \\
+Garry's Mod & MultinomialNB & 0.701 & 0.732 & 0.670 & 0.441 \\
+Grand Theft Auto V & MultinomialNB & 0.650 & 0.813 & 0.663 & 0.393 \\
 Sid Meier's Civilization 5 & & & & & \\
-Team Fortress 2 & & & & & \\
+Team Fortress 2 & & & & &  \\
 The Elder Scrolls V & & & & & \\
 Warframe & & & & & \\ \hline
 \end{tabular}
@@ -301,13 +301,13 @@ Warframe & & & & & \\ \hline
 \begin{tabular}{*{12}{l}}
 \hline \bf Game & \bf Learner & \bf Accuracy & \bf Precision & \bf F1 & \bf QWK \\
 & & & \bf (weighted) & \bf (weighted) & \\ \hline
-Arma 3 & & & & & \\
-Counter Strike & & & & & \\
-Counter Strike: Global Offensive & & & & & \\
-Dota 2 & & & & & \\
-Football Manager 2015 & & & & & \\
-Garry's Mod & & & & & \\
-Grand Theft Auto V & & & & & \\
+Arma 3 & MultinomialNB & 0.484 & 0.432 & 0.443 & 0.130 & \\
+Counter Strike & MultinomialNB & 0.554 & 0.630 & 0.563 & 0.238 \\
+Counter Strike: Global Offensive & PassiveAggressive & 0.682 & 0.640 & 0.655 & 0.198 \\
+Dota 2 & Perceptron & 0.505 & 0.532 & 0.513 & 0.082 \\
+Football Manager 2015 & Perceptron & 0.501 & 0.404 & 0.397 & 0.012 \\
+Garry's Mod & PassiveAggressive & 0.580 & 0.558 & 0.565 & 0.267 \\
+Grand Theft Auto V & PassiveAggressive & 0.677 & 0.560 & 0.571 & 0.009 \\
 Sid Meier's Civilization 5 & & & & & \\
 Team Fortress 2 & & & & & \\
 The Elder Scrolls V & & & & & \\
