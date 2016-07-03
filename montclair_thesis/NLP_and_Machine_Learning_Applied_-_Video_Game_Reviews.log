@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  7 FEB 2016 02:44
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2016.1.12)  18 APR 2016 03:12
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -157,116 +157,135 @@ Underfull \hbox (badness 1527) in paragraph at lines 167--168
  []
 
 [3] [4]
-Overfull \hbox (2.14256pt too wide) in paragraph at lines 217--230
- [][] 
- []
-
-
-Underfull \hbox (badness 1400) in paragraph at lines 251--252
+Underfull \hbox (badness 1400) in paragraph at lines 337--338
 \OT1/ptm/m/n/10 the code repos-i-tory that was de-vel-oped for ev-ery
  []
 
 
-Underfull \hbox (badness 1735) in paragraph at lines 251--252
+Underfull \hbox (badness 1735) in paragraph at lines 337--338
 \OT1/ptm/m/n/10 low-ing URL: $\OT1/pcr/m/n/10 https : / / github . com / mulhod
  /
  []
 
 
-Underfull \hbox (badness 1509) in paragraph at lines 251--252
+Underfull \hbox (badness 1509) in paragraph at lines 337--338
 \OT1/ptm/m/n/10 ity was cre-ated called \OT1/pcr/m/n/10 learn\OT1/ptm/m/n/10 , 
 which is used to
  []
 
 
-Underfull \hbox (badness 1377) in paragraph at lines 253--254
-\OT1/ptm/m/n/10 Any set of games can be used for train-ing (and
+Underfull \hbox (badness 2310) in paragraph at lines 339--340
+[]\OT1/pcr/m/n/10 learn \OT1/ptm/m/n/10 is the main entry-point of the sys-tem
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 253--254
-\OT1/pcr/m/n/10 MiniBatchKMeans\OT1/ptm/m/n/10 , \OT1/pcr/m/n/10 MultiNomialNB\
-OT1/ptm/m/n/10 , and
+Underfull \hbox (badness 2547) in paragraph at lines 339--340
+\OT1/ptm/m/n/10 in terms of con-duct-ing ma-chine learn-ing ex-per-i-
  []
 
 
-Underfull \hbox (badness 1237) in paragraph at lines 253--254
-\OT1/ptm/m/n/10 to use ``fea-ture hash-ing'' (fur-ther re-duces mem-ory
+Underfull \hbox (badness 1107) in paragraph at lines 339--340
+\OT1/ptm/m/n/10 (and pos-si-bly two dif-fer-ent sets of games can be
  []
 
 
-Underfull \hbox (badness 1142) in paragraph at lines 253--254
-\OT1/ptm/m/n/10 gen-er-ate the per-for-mance met-rics for a ``base-line''
+Underfull \hbox (badness 3942) in paragraph at lines 339--340
+\OT1/ptm/m/n/10 chine learn-ing al-go-rithms from \OT1/pcr/m/n/10 scikit-learn
  []
 
-./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:255: Missing $ inse
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+\OT1/ptm/m/n/10 are avail-able, in-clud-ing \OT1/pcr/m/n/10 Perceptron\OT1/ptm/
+m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+\OT1/pcr/m/n/10 PassiveAgressiveClassifier\OT1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+\OT1/pcr/m/n/10 PassiveAgressiveRegressor\OT1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+\OT1/pcr/m/n/10 SGDClassifier MiniBatchKMeans\OT1/ptm/m/n/10 ,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 339--340
+\OT1/pcr/m/n/10 MultiNomialNB\OT1/ptm/m/n/10 , and \OT1/pcr/m/n/10 BernoulliNB\
+OT1/ptm/m/n/10 . The
+ []
+
+./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:341: Missing $ inse
 rted.
 <inserted text> 
                 $
-l.255 ...following type of mapping: [0, 5,000] \to
+l.341 ...following type of mapping: [0, 5,000] \to
                                                    1, [5,001, 10,000] \to 2,...
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
-./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:256: Missing $ inse
+./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.tex:342: Missing $ inse
 rted.
 <inserted text> 
                 $
-l.256 
+l.342 
       
 I've inserted a begin-math/end-math symbol since I think
 you left one out. Proceed, with fingers crossed.
 
 
-Underfull \hbox (badness 7012) in paragraph at lines 257--258
+Underfull \hbox (badness 7012) in paragraph at lines 343--344
 []\OT1/ptm/m/n/10 Often, how-ever, the raw val-ues of the re-
  []
 
-[5]
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
-[]\OT1/ptm/m/n/10 Five ma-chine learn-ing al-go-rithms were
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [5]
+[6] [7]
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+[]\OT1/ptm/m/n/10 Four of the avail-able ma-chine learn-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
-\OT1/ptm/m/n/10 used: \OT1/pcr/m/n/10 Perceptron\OT1/ptm/m/n/10 , \OT1/pcr/m/n/
-10 MiniBatchKMeans\OT1/ptm/m/n/10 ,
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+\OT1/ptm/m/n/10 ing al-go-rithms were used: \OT1/pcr/m/n/10 Perceptron\OT1/ptm/
+m/n/10 ,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 266--267
-\OT1/pcr/m/n/10 PassiveAgressiveRegressor\OT1/ptm/m/n/10 ,
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
+\OT1/pcr/m/n/10 PassiveAggressiveClassifier\OT1/ptm/m/n/10 ,
  []
 
-
-Underfull \vbox (badness 3291) has occurred while \output is active []
-
- [6]
-[7] [8
-
-] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
+[8] [9] (./NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.aux) ) 
 Here is how much of TeX's memory you used:
- 672 strings out of 493304
- 8726 string characters out of 6139871
- 160535 words of memory out of 5000000
- 4162 multiletter control sequences out of 15000+600000
+ 676 strings out of 493304
+ 8817 string characters out of 6139871
+ 175535 words of memory out of 5000000
+ 4166 multiletter control sequences out of 15000+600000
  18281 words of font info for 46 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  23i,9n,19p,1721b,258s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/te
-xlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/typ
-e1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publ
-ic/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf
--dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (8 
-pages, 127312 bytes).
+{/usr/sh
+are/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public
+/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/
+ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on NLP_and_Machine_Learning_Applied_-_Video_Game_Reviews.pdf (9 
+pages, 130526 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
- 45 compressed objects within 1 object stream
+ 67 PDF objects out of 1000 (max. 8388607)
+ 47 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
